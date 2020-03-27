@@ -1,3 +1,4 @@
+
 package srv.controllers.splash;
 
 import org.springframework.stereotype.Controller;
@@ -10,12 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author mahiggs
  *
  */
+
 @Controller
 public class SplashController {
 	
 	   @RequestMapping("/")
 	   @ResponseBody
 	   public String handleSplashRequest() {
-	      return "Hello Austin College";
+	      return "Hello Roo College";
 	   }
 }
+
