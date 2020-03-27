@@ -10,6 +10,6 @@ public class SplashController {
 	   @RequestMapping("/")
 	   @ResponseBody
 	   public String handleSplashRequest() {
-	      return "Hello Austin College";
+	      return "Hello Roo College";
 	   }
 }
