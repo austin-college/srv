@@ -113,3 +113,69 @@ i {
 	background-color: white;
 	color: #a41e34;
 }
+ul {list-style-type: none;}
+/* Month header */
+.month {
+  font-family: Roboto, sans-serif;
+  padding: 25px;
+  width: 86.5%;
+  background: #a41e34;
+  text-align: center;
+}
+
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 40px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.month .prev {
+  float: left;
+}
+
+.month .next {
+  float: right;
+}
+
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  background-color: #ddd;
+  font-size: 20px;
+}
+
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  color: black;
+  text-align: center;
+}
+
+.days {
+  font-size: 30px;
+  padding: 10px 0;
+  background-color: white;
+  margin: 0;
+}
+
+.days li {
+
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 20px;
+  color: black;
+}
+
+.days li .active {
+  padding: 5px;
+  background: #e9a911;
+  color: white !important
+}
