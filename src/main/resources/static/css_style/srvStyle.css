@@ -113,8 +113,12 @@ i {
 	background-color: white;
 	color: #a41e34;
 }
-ul {list-style-type: none;}
-/* Month header */
+
+ul {
+	list-style-type: none;
+}
+
+/* Style for month header */
 .month {
   font-family: Roboto, sans-serif;
   padding: 25px;
@@ -143,6 +147,7 @@ ul {list-style-type: none;}
   float: right;
 }
 
+/* Style for weekday header */
 .weekdays {
   margin: 0;
   padding: 10px 0;
@@ -157,6 +162,7 @@ ul {list-style-type: none;}
   text-align: center;
 }
 
+/* Style for days header */
 .days {
   font-size: 30px;
   padding: 10px 0;
