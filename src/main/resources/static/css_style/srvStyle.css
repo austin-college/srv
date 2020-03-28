@@ -29,3 +29,18 @@
 	background-color: #e9a911;
 	color: white;
 }
+
+/* Style for section titles */
+h1 {
+	font-family: Roboto, sans-serif;
+	font-weight: 700;
+	line-height: 1.2;
+	
+}
+
+/* Style for the horizontal rules below section titles */
+hr {
+	border: .5px solid #A9A9A9;
+	background-color: black;
+	margin-top: 0px;
+}
