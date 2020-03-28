@@ -44,23 +44,23 @@ hr {
 	margin-top: 0px;
 }
 
-/* Style for the container containing the announcments */
-#announcementContainer{
+/* Style for the container containing the announcements */
+#announcementContainer.container-fluid {
 	background-color: white;
-   	margin-top: 0px;
-   	margin-left: 155px;
-   	padding-bottom: 40px;
+   	width: 75%;
+   	padding-bottom: 100px;
 }
 
 /* Style for the announcement list */
-.list-group {
+#announceList {
 	font-size: 20px;
 	margin-top: 25px;
 }
 
 /* Change the color of links on hover */
-.list-group a:hover {
+#announceList a:hover {
 	background-color: #a41e34;
 	color: white;
 }
+
 

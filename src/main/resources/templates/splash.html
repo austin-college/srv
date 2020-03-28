@@ -29,17 +29,19 @@
 	</div>
 
 	<!-- A container that contains the announcement elements -->
-	<div id="announcementContainer" class="container">
+	<div id="announcementContainer" class="container-fluid">
 		<!-- The row below contains the announcement title-->
 	  	<div class="row"> 
 	  		<div class="col-sm" style="padding-left:50px">
 	  			<h1>Announcements</h1>
-	  			<hr class="col-sm-10" >
+	  			<hr class="col-sm-11">
 	  		</div>
 	  	</div>
-
+	  	<div class="row justify-content-between">
+	  	<!-- Contains list of announcements -->
 	  	<div class="col-sm-6" style="padding-left:50px">
-	  		<div class="list-group">
+	  		<div id="announceList" class="list-group">
+	  			<!-- Links -->
 	  			<a href="#" class="list-group-item">Habitat for Humanity Build Next Saturday</a>
 	  			<a href="#" class="list-group-item">Meals on Wheels Event - March 17th</a>
 	  			<a href="#" class="list-group-item">Lake Texoma Cleanup - March 28th</a>
@@ -47,11 +49,13 @@
 	  			<a href="#" class="list-group-item">Crisis Center Volunteers</a>
 	  		</div>
 	  		<div align="center">
-	  			<a id="seeAllLink" style="font-size:18px" href="#">See All</a>
+	  			<a id="seeAllLink" href="#" style="font-size:18px">See All</a>
 	  		</div>
 	  	</div>
-	
-	  </div>
-	
+	  	<div class="col text-center">
+	  		<img alt="Service Spotlight" src="https://www.wastatepta.org/wp-content/uploads/2016/11/Senior-volunteer-helping-African-American-man-register-for-marathon-000065245281_Medium.jpg" style="width:600px;height:450px">
+	  	</div>
+	  	</div>
+	</div>	
 </body>
 </html>
