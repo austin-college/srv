@@ -63,10 +63,53 @@ hr {
 	color: white;
 }
 
+/* Style for the spotlight description */
 #spotlightDesc {
 	font-family: Roboto, sans-serif;
 	font-size: 18px;
 	padding-top: 50px;
+	padding-left: 40px;
+	padding-right: 40px;
 	text-align: left;
 }
 
+/* Style for the spotlight image */
+#spotlightImg {
+	width: 600px;
+	height: 450px;
+	opacity: 0.95;
+}
+
+/* Style for opportunity icon circles */
+.dot {
+  height: 85px;
+  width: 85px;
+  background-color: #e9a911;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Change the color of icons on hover */
+.opIcons a:hover {
+	background-color: #a41e34;
+}
+
+/* Style for types of opportunities */
+i {
+	color:black;
+	margin: 15px 0px 0px 18px;
+	font-size:48px
+}
+
+/* Style for icon labels */
+.opLabel {
+	text-align: center;
+	font-size: 16px;
+	padding-top: 10px;
+}
+
+/* Change the color of icon labels on hover */
+.opLabel a:hover {
+	background-color: white;
+	color: #a41e34;
+}
