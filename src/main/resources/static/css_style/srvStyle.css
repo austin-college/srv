@@ -45,10 +45,10 @@ hr {
 }
 
 /* Style for the container containing the announcements */
-#announcementContainer.container-fluid {
+#announcementElements.container-fluid, #findOpElements.container-fluid {
 	background-color: white;
    	width: 75%;
-   	padding-bottom: 100px;
+   	padding-bottom: 50px;
 }
 
 /* Style for the announcement list */
@@ -63,4 +63,10 @@ hr {
 	color: white;
 }
 
+#spotlightDesc {
+	font-family: Roboto, sans-serif;
+	font-size: 18px;
+	padding-top: 50px;
+	text-align: left;
+}
 
