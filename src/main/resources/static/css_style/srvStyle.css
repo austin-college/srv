@@ -97,14 +97,14 @@ hr {
 /* Style for types of opportunities */
 i {
 	color:black;
-	margin: 15px 0px 0px 18px;
+	margin: 16px 0px 0px 16px;
 	font-size:48px
 }
 
 /* Style for icon labels */
 .opLabel {
 	text-align: center;
-	font-size: 16px;
+	font-size: 20px;
 	padding-top: 10px;
 }
 
