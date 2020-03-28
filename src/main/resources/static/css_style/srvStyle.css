@@ -10,7 +10,6 @@
 
 /* Add a black background color to the top navigation */
 .topnav {
-	overflow: hidden;
 	background-color: black;
 }
 
@@ -45,7 +44,23 @@ hr {
 	margin-top: 0px;
 }
 
+/* Style for the container containing the announcments */
+#announcementContainer{
+	background-color: white;
+   	margin-top: 0px;
+   	margin-left: 155px;
+   	padding-bottom: 40px;
+}
+
 /* Style for the announcement list */
 .list-group {
 	font-size: 20px;
+	margin-top: 25px;
 }
+
+/* Change the color of links on hover */
+.list-group a:hover {
+	background-color: #a41e34;
+	color: white;
+}
+
