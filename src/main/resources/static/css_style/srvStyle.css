@@ -44,3 +44,8 @@ hr {
 	background-color: black;
 	margin-top: 0px;
 }
+
+/* Style for the announcement list */
+.list-group {
+	font-size: 20px;
+}
