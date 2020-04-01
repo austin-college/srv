@@ -1,5 +1,5 @@
 
-package srv.controllers.splash;
+package srv.controllers.about;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @Controller
-public class SplashController {
+public class AboutController {
 	
 
 	   /**
@@ -30,12 +30,10 @@ public class SplashController {
 	    * 
 	    * @author lahouse
 	    */
-	   @GetMapping("/")
-	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
+	   @GetMapping("/about")
+	   public ModelAndView aboutAction(HttpServletRequest request, HttpServletResponse response) {
 		   
-		   ModelAndView mav = new ModelAndView("splash/splash");
-		   mav.addObject("name", "michael higgs");
-		   
+		   ModelAndView mav = new ModelAndView("about/aboutBase");
 		   
 		   
 		   return mav;
