@@ -88,7 +88,9 @@ public class AboutController {
 	@GetMapping("/about/Kevin")
 	public ModelAndView aboutKevinAction(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("/about/aboutKevin");
-
+		mav.addObject("name", "Kevin Miranda");
+		mav.addObject("class", "Senior");
+		mav.addObject("age", "21");
 		return mav;
 	}
 
