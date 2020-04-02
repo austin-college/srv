@@ -48,10 +48,10 @@ public class AboutController {
 		   return mav;
 	   }
 	   
-	   @GetMapping
+	   @GetMapping("/about/Nadia")
  public ModelAndView aboutNadia2(HttpServletRequest request, HttpServletResponse response) {
 		   
-		   ModelAndView mav = new ModelAndView("about/aboutNadia2");
+		   ModelAndView mav = new ModelAndView("about/aboutNadia2.html");
 		   
 		   return mav;
 	   }
