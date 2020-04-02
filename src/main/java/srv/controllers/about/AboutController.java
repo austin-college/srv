@@ -37,10 +37,10 @@ public class AboutController {
 		return mav;
 	}
 
-	@GetMapping("/about/aboutBase")
+	@GetMapping("/about/Segun")
 	public ModelAndView aboutSegun(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView mav = new ModelAndView("about/aboutBase/Segun");
+		ModelAndView mav = new ModelAndView("about/Segun");
 
 		return mav;
 	}
