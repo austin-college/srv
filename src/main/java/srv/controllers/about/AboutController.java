@@ -47,5 +47,20 @@ public class AboutController {
 		   
 		   return mav;
 	   }
+	   
+	   @GetMapping("/about/Lydia")
+	   public ModelAndView aboutLydiaAction(HttpServletRequest request, HttpServletResponse response) {
+		   
+		   ModelAndView mav = new ModelAndView("about/aboutLydia");
+		   
+		   /* freemarker variables */
+		   mav.addObject("name", "Lydia House");
+		   mav.addObject("major", "Computer Science");
+		   mav.addObject("minor", "Mathematics");
+		   mav.addObject("hobby", "Taekwondo");
+		   mav.addObject("workday", "Wednesday");    
+		   
+		   return mav;
+	   }
 }
 
