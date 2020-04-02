@@ -43,7 +43,7 @@ public class AboutController {
 	   public ModelAndView aboutSegun(HttpServletRequest request, HttpServletResponse response) {
 		   
 		   ModelAndView mav = new ModelAndView("about/aboutBase/Segun");
-		   
+		   ModelAndView mavNH = new ModelAndView("about/aboutNadia2");
 		   
 		   return mav;
 	   }
