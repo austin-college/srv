@@ -58,7 +58,17 @@ public class AboutController {
 		
 		ModelAndView mav = new ModelAndView("about/aboutSameeha");
 		
+		/* free-marker variables */
+		mav.addObject("name", "Sameeha Khaled");
+		mav.addObject("major", "Computer Science & Gender Studies");
+		mav.addObject("color", "Yellow");
+		mav.addObject("birthday", "12/30/2000");
+		mav.addObject("zodiac", "Capricorn");
+		
 		return mav;
+		
+
+		
 	}
 
 	@GetMapping("/about/Lydia")
