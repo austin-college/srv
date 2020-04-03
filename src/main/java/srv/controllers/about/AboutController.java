@@ -132,6 +132,21 @@ public class AboutController {
 		return mav;
 	}
 	
+	@GetMapping("/about/Min")
+	public ModelAndView aboutMinAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutMin");
+		
+		mav.addObject("name", "MinSeob Shim");
+		mav.addObject("country", "South Korea");
+		mav.addObject("major", "Computer Science & Business Administration");
+		mav.addObject("minor", "EALC: Japanese");
+		mav.addObject("hobby", "Basketball");
+		mav.addObject("music", "Clarinet and Piano");
+
+		return mav;
+	}
+	
 	@GetMapping("/about/Hunter")
 	public ModelAndView aboutHunterAction(HttpServletRequest request, HttpServletResponse response) {
 
