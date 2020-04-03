@@ -123,4 +123,12 @@ public class AboutController {
 		
 		return mav;
 	}
+	
+	@GetMapping("/about/Hunter")
+	public ModelAndView aboutHunterAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutHunter");
+
+		return mav;
+	}
 }
