@@ -60,14 +60,12 @@ public class AboutController {
 		
 		/* free-marker variables */
 		mav.addObject("name", "Sameeha Khaled");
+		mav.addObject("age", "19");
 		mav.addObject("major", "Computer Science & Gender Studies");
 		mav.addObject("color", "Yellow");
-		mav.addObject("birthday", "12/30/2000");
 		mav.addObject("zodiac", "Capricorn");
 		
 		return mav;
-		
-
 		
 	}
 
