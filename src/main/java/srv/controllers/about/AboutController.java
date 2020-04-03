@@ -52,6 +52,14 @@ public class AboutController {
 
 		return mav;
 	}
+	
+	@GetMapping("/about/Sameeha")
+	public ModelAndView aboutSameehaAction(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView("about/aboutSameeha");
+		
+		return mav;
+	}
 
 	@GetMapping("/about/Lydia")
 	public ModelAndView aboutLydiaAction(HttpServletRequest request, HttpServletResponse response) {
