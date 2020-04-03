@@ -36,6 +36,14 @@ public class AboutController {
 
 		return mav;
 	}
+	
+	@GetMapping("/about/MHiggs")
+	public ModelAndView aboutMhiggsAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutMHiggs");
+
+		return mav;
+	}
 
 	@GetMapping("/about/Segun")
 	public ModelAndView aboutSegun(HttpServletRequest request, HttpServletResponse response) {
@@ -48,9 +56,25 @@ public class AboutController {
 	@GetMapping("/about/Nadia")
 	public ModelAndView aboutNadia2(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView mav = new ModelAndView("about/aboutNadia2.html");
+		ModelAndView mav = new ModelAndView("about/aboutNadia2");
 
 		return mav;
+	}
+	
+	@GetMapping("/about/Sameeha")
+	public ModelAndView aboutSameehaAction(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView("about/aboutSameeha");
+		
+		/* free-marker variables */
+		mav.addObject("name", "Sameeha Khaled");
+		mav.addObject("age", "19");
+		mav.addObject("major", "Computer Science & Gender Studies");
+		mav.addObject("color", "Yellow");
+		mav.addObject("zodiac", "Capricorn");
+		
+		return mav;
+		
 	}
 
 	@GetMapping("/about/Lydia")
@@ -94,4 +118,25 @@ public class AboutController {
 		return mav;
 	}
 
+	@GetMapping("/about/AJ")
+	public ModelAndView aboutAJAction(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("/about/aboutAJ");
+		mav.addObject("name", "AJ Pritchard");
+		mav.addObject("class", "Senior");
+		mav.addObject("age", 20);
+		mav.addObject("state", "Washington");
+		mav.addObject("major", "Computer Science");
+		mav.addObject("minor", "Math");
+		mav.addObject("sports", "Baseball and Water Polo");
+		
+		return mav;
+	}
+	
+	@GetMapping("/about/Hunter")
+	public ModelAndView aboutHunterAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutHunter");
+
+		return mav;
+	}
 }

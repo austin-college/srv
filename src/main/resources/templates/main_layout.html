@@ -1,0 +1,76 @@
+<#macro stdpage title="Service Station Hours"  cssname="" jsname="">
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1" />
+			
+		<!-- The above 3 meta tags *must* come first in the head; any other head 
+			content must come *after* these tags -->
+		<meta name="description" content="Service Hours Tracking" />
+		<meta name="author" content="CS380 at Austin College" />
+
+		<title>${title}</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+			crossorigin="anonymous"></link>
+
+
+		<#if cssname?exists && cssname!="">
+		<link href="/css_style/${cssname}" rel="stylesheet"></link>
+		</#if>
+
+
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+			crossorigin="anonymous"></script>
+
+		
+		<#if jsname?exists && jsname!="">
+		<script src="/js/${jsname}"></script>
+		</#if>
+		
+	</head>
+
+	<body>
+
+		Every page will have this.
+
+		<div class="wb-page container fill">
+			<#nested/>
+			<br />
+			<br />
+		</div>
+
+		<nav class="navbar navbar-inverse navbar-fixed-bottom"
+			style="min-height:2.5em;">
+
+			<div class="container-fluid">
+				<div class="row" style="padding-left: 10px; padding-top: 5px">
+
+
+					<div class="col-sm-4"
+						style="color: gray;  text-align:left; border-left: #444 1px solid; border-right: #444 1px solid">
+
+					Footer stuff here.
+					
+					</div>
+
+				</div>
+			</div>
+
+
+		</nav>
+
+		<div id="flash-box"></div>
+	</body>	
+</html>
+
+</#macro>
