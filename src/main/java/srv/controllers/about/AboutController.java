@@ -93,5 +93,22 @@ public class AboutController {
 		mav.addObject("age", "21");
 		return mav;
 	}
+	
+	@GetMapping("/about/Catalina")
+	public ModelAndView aboutCatalinaAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutEmma");
+
+		/* freemarker variables */
+		mav.addObject("name", "Catalina Canizalez");
+		mav.addObject("class", "Sophomore");
+		mav.addObject("major", "Computer Science");
+		mav.addObject("minor", "Spanish");
+		mav.addObject("animal", "Capybara");
+		mav.addObject("color", "Green");
+
+		return mav;
+	}
+
 
 }
