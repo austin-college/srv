@@ -97,7 +97,7 @@ public class AboutController {
 	@GetMapping("/about/Catalina")
 	public ModelAndView aboutCatalinaAction(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView mav = new ModelAndView("about/aboutEmma");
+		ModelAndView mav = new ModelAndView("about/aboutCatalina");
 
 		/* freemarker variables */
 		mav.addObject("name", "Catalina Canizalez");
