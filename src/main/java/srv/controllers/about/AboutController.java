@@ -127,6 +127,17 @@ public class AboutController {
 		return mav;
 	}
 	
+	@GetMapping("/about/Conor")
+	public ModelAndView aboutConorAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutConor");
+		mav.addObject("name", "Conor Mackey");
+		mav.addObject("major", "Computer Science");
+		mav.addObject("minor", "Film");
+		
+		return mav;
+	}
+	
 	@GetMapping("/about/Catalina")
 	public ModelAndView aboutCatalinaAction(HttpServletRequest request, HttpServletResponse response) {
 
@@ -172,6 +183,8 @@ public class AboutController {
 
 		return mav;
 	}
+	
+	
 	
 	@GetMapping("/about/Hunter")
 	public ModelAndView aboutHunterAction(HttpServletRequest request, HttpServletResponse response) {
