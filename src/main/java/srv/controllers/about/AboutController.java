@@ -110,4 +110,17 @@ public class AboutController {
 		return mav;
 	}
 
+	@GetMapping("/about/AJ")
+	public ModelAndView aboutAJAction(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("/about/aboutAJ");
+		mav.addObject("name", "AJ Pritchard");
+		mav.addObject("class", "Senior");
+		mav.addObject("age", 20);
+		mav.addObject("state", "Washington");
+		mav.addObject("major", "Computer Science");
+		mav.addObject("minor", "Math");
+		mav.addObject("sports", "Baseball and Water Polo");
+		
+		return mav;
+	}
 }
