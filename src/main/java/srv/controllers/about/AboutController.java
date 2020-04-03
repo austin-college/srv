@@ -36,6 +36,14 @@ public class AboutController {
 
 		return mav;
 	}
+	
+	@GetMapping("/about/MHiggs")
+	public ModelAndView aboutMhiggsAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutMHiggs");
+
+		return mav;
+	}
 
 	@GetMapping("/about/Segun")
 	public ModelAndView aboutSegun(HttpServletRequest request, HttpServletResponse response) {
