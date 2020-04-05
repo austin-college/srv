@@ -46,7 +46,7 @@ public class AboutController {
 	}
 
 	@GetMapping("/about/Segun")
-	public ModelAndView aboutSegun(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView aboutSegunAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("about/aboutSegun");
 		
