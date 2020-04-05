@@ -49,7 +49,16 @@ public class AboutController {
 	public ModelAndView aboutSegun(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("about/aboutSegun");
+		
 
+		//free marker variables
+		mav.addObject("name", "Segun");
+		mav.addObject("class", "senior");
+		mav.addObject("major", "computer science");
+		mav.addObject("hobby", "video editing");
+		mav.addObject("minor", "media");
+		mav.addObject("home", "Houston, TX");
+		
 		return mav;
 	}
 
