@@ -194,7 +194,25 @@ public class AboutController {
 	}
 	
 	
+	@GetMapping("/about/Josyah")
+	public ModelAndView aboutJosyahAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("about/aboutJosyah");
+		
+
+		//free marker variables
+		mav.addObject("name", "Josyah");
+		mav.addObject("class", "junior");
+		mav.addObject("age","21");
+		mav.addObject("major", "double majoring in Computer Science and Business Admin");
+		mav.addObject("hobbies", "making music and creating comic books are my two main hobbies");
+		mav.addObject("home", "Dallas, TX");
+		
+		return mav;
+	}
+
 	
+		
 	@GetMapping("/about/Hunter")
 	public ModelAndView aboutHunterAction(HttpServletRequest request, HttpServletResponse response) {
 
