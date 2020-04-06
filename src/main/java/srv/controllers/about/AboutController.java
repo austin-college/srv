@@ -199,6 +199,8 @@ public class AboutController {
 	public ModelAndView aboutHunterAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("about/aboutHunter");
+		mav.addObject("name", "Hunter Couturier");
+		mav.addObject("major", "Computer Science");
 
 		return mav;
 	}
