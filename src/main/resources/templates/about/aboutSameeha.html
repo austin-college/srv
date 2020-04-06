@@ -1,14 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>About Sameeha Khaled</title>
-</head>
-<body>
-<p>
-<img src="/srv/images/about/sameeha.jpg" align="left" style="padding-right:50px; width:225px; height:250px;"/>
-My name is ${name} and I'm ${age}. I'm a student at Austin College, my majors are ${major}. <br> Apart from being a student, 
-I like to talk about astrology, take naps, and hang out with my friends. <br> My favorite color is ${color}, and my zodiac sign is ${zodiac}!<br>
-</p>
-</body>
-</html>
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage "About Sameeha Khaled" >
+
+<div class="container-fluid">
+
+<table>
+	<tbody>
+		<tr>
+			<td>
+			<img src="/srv/images/about/sameeha.jpg" align="left" style="padding: 10px;"/>
+			</td>
+		<td>
+			<p>
+			My name is ${name} and I'm an Austin College student majoring in ${major}. Apart from being a student, I like to talk about astrology, plants, and taking naps. My favorite color is ${color}, and my zodiac sign is ${zodiac}.
+			</p>
+		</td>
+		</tr>
+	</tbody>
+</table>
+
+</div>
+
+</@layout.stdpage>
