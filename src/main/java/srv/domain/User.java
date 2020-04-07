@@ -90,23 +90,49 @@ public class User {
 			return null;
 		}
 	}
-	public String getUserID() {
-		return userID;
+
+	/**
+	 * Takes a userID and a User ArrayList
+	 * will then search the list for the ID
+	 * 
+	 * @param userID
+	 * @param userList
+	 * @return null if not found;
+	 * a User if its found
+	 */
+	public static User findUser(String userID, ArrayList<User> userList ) {
+		if(userList.size() == 0) {
+			return null;
+		} else {
+			int i = 0;
+			while(i < userList.size()) {
+				if(userID == userList.get(i).getUserID()) {
+					return userList.get(i);
+				}
+				i++;
+			}
+		}
+		//if its not in the array
+		return null;
 	}
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public Double getTotalHoursServed() {
-		return totalHoursServed;
-	}
-	public void setTotalHoursServed(Double totalHoursServed) {
-		this.totalHoursServed = totalHoursServed;
-	}
+
+public String getUserID() {
+	return userID;
+}
+public void setUserID(String userID) {
+	this.userID = userID;
+}
+public String getPassword() {
+	return password;
+}
+public void setPassword(String password) {
+	this.password = password;
+}
+public Double getTotalHoursServed() {
+	return totalHoursServed;
+}
+public void setTotalHoursServed(Double totalHoursServed) {
+	this.totalHoursServed = totalHoursServed;
+}
 
 }
