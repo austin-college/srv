@@ -24,7 +24,8 @@ public class User {
 	 * @param password
 	 */
 	public User(String userID, String password) {
-
+		setUserID(userID);
+		setPassword(password);
 	}
 	/**
 	 * Takes an ArrayList, and from that list pulls
@@ -36,29 +37,31 @@ public class User {
 	 *
 	 */
 	public static User[] listAll(ArrayList<User> userList) {
-		User[] returnedArray = new  User[2];
+		User[] returnedArray = new  User[3];
 		//case if there is only one item in the array
 
 		if(userList.size() == 1) {
 			returnedArray[0] = userList.get(0);
 			returnedArray[1] = null;
 			returnedArray[2] = null;
-		}
-		//case if there are two items only
-		if(userList.size() == 2) {
+
+			return returnedArray;
+		} else if(userList.size() == 2) {
+			//case if there are two items only
 			returnedArray[0] = userList.get(0);
 			returnedArray[1] = userList.get(1);
 			returnedArray[2] = null;
-		}
-		//case if there are three items only
-		if(userList.size() == 3) {
+
+			return returnedArray;
+		} else if(userList.size() == 3) {
+			//case if there are three items only
 			returnedArray[0] = userList.get(0);
 			returnedArray[1] = userList.get(1);
 			returnedArray[2] = userList.get(2);
-		}
 
-		//case for any value about 3
-		if(userList.size() > 3) {
+			return returnedArray;
+		} else if(userList.size() > 3) {
+			//case for any value about 3
 			int used1 = -1;
 			int used2 = -1;
 			int used3 = -1;
@@ -71,19 +74,39 @@ public class User {
 			 */
 			used1 = (int)(Math.random()*userList.size()+1);
 			returnedArray[0] = userList.get(used1);
-			 
+
 			do {
-			used2 = (int)(Math.random()*userList.size()+1);
+				used2 = (int)(Math.random()*userList.size()+1);
 			} while(used1 == used2);
+
 			returnedArray[1] = userList.get(used2);
-			
+
 			do {
 				returnedArray[2] = userList.get(used3);
 			} while(used3 == used1 || used3 == used2);
+
 			return returnedArray;
+		} else {
+			return null;
 		}
-		
-		return null;
+	}
+	public String getUserID() {
+		return userID;
+	}
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Double getTotalHoursServed() {
+		return totalHoursServed;
+	}
+	public void setTotalHoursServed(Double totalHoursServed) {
+		this.totalHoursServed = totalHoursServed;
 	}
 
 }
