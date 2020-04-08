@@ -8,6 +8,9 @@ import java.util.ArrayList;
  *
  */
 public class User {
+	//private String email;TODO
+	//private String firstName;TODO
+	//private String lastName;TODO
 	private String userID;
 	private String password;
 	private Double totalHoursServed; // TODO Will this be the ServiceHours object or just its own thing?
