@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class User {
 	private String userID;
 	private String password;
-	private Double totalHoursServed;
+	private Double totalHoursServed; // TODO Will this be the ServiceHours object or just its own thing?
 
 	/**
 	 * generic user constructor
