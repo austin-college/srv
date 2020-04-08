@@ -35,6 +35,10 @@ public class Pet {
 	public String getName() {
 		return name;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
 
 	public List<Event> getEvents() {
 		return events;
