@@ -11,16 +11,13 @@ import java.util.ArrayList;
  *         phonenumber and more.
  */
 public class User {
-	// private String email;TODO
 	// private String firstName;TODO
 	// private String lastName;TODO
 	private String userID;
 	private String password;
 	private Double totalHoursServed;
-	private String email;
-	private String phoneNumber;
-	private String firstName;
-	private String lastName;
+	private Contact contactInfo; // TODO add this in
+	
 
 	/**
 	 * Constructs a user with a set userID and Password
