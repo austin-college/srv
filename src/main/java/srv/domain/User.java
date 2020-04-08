@@ -16,14 +16,11 @@ public class User {
 	// private String lastName;TODO
 	private String userID;
 	private String password;
-	private Double totalHoursServed; // TODO Will this be the ServiceHours object or just its own thing?
-
-	/**
-	 * generic user constructor
-	 */
-	public User() {
-
-	}
+	private Double totalHoursServed;
+	private String email;
+	private String phoneNumber;
+	private String firstName;
+	private String lastName;
 
 	/**
 	 * Constructs a user with a set userID and Password
