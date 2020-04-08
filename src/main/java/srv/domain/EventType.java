@@ -3,7 +3,7 @@ package srv.domain;
 /**
  * 
  * 
- * @author AJ Pritchard (For Now)
+ * @author 
  *
  *         We need to decide what to do here.
  *
@@ -13,8 +13,5 @@ package srv.domain;
  */
 public class EventType {
 
-	public String name;
-	public String description;
-	// private List<Event> EventsOfThisType // TODO not sure if this is what we want
-	// to do
+
 }

@@ -1,7 +1,7 @@
 package srv.domain;
 
 /**
- * @author AJ Pritchard (For now)
+ * @author 
  *
  *	TODO
  *
@@ -12,22 +12,5 @@ package srv.domain;
  */
 public class ServiceHours {
 
-	private int serviceHours; // TODO int or double? Hunter put double in User's serviceHours. 
-	//That needs to be fixed too
-	
-	public ServiceHours() {
-		serviceHours = 0;
-	}
-	
-	public ServiceHours(int initialHours) {
-		serviceHours = initialHours;
-	}
-	
-	public void addHours(int hours) {
-		serviceHours += hours;
-	}
-	
-	public int getHours() {
-		return serviceHours;
-	}
+
 }
