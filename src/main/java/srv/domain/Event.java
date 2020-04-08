@@ -19,6 +19,7 @@ public class Event {
 	private String date; // TODO Make this the appropriate object
 	private List<User> servants; // TODO Holds onto its servants
 	private Pet organziation;
+// private EventType type; //TODO Add this in after EventType has been created
 
 	public Event(String name, String description, String time, String date, Pet organization) {
 		this.name = name;
