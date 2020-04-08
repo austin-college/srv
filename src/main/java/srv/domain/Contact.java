@@ -15,10 +15,24 @@ public class Contact {
 	
 	private String phone_number;
 	private String name;
+	private String email;
 	// private BoardMember connection; TODO
 	
-	public Contact(String name, String phone_number) { // TODO import connection
+	public Contact(String name, String phone_number, String email) { // TODO import connection
 		this.name = name;
 		this.phone_number = phone_number;
+		this.email = email;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getPhoneNumber() {
+		return phone_number;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
