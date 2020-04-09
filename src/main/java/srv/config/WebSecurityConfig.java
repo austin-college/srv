@@ -22,9 +22,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-	}
+    public void configureGlobal(AuthenticationManagerBuilder auth) 
+      throws Exception {
+        auth.inMemoryAuthentication().withUser("user")
+          .password("password").roles("USER");
+    }
 
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -33,9 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		//http.authorizeRequests().antMatchers("/", "/home").access("hasRole('USER')").anyRequest().authenticated().and().httpBasic()
-			//	.authenticationEntryPoint(authenticationEntryPoint);
+		//http.authorizeRequests().antMatchers("/securityNone").permitAll().anyRequest().authenticated().and().httpBasic()
+		//		.authenticationEntryPoint(authenticationEntryPoint);
 
 		http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
 	}
