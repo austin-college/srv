@@ -12,8 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
- * @author aj_pr
- * http://localhost:8080/
+ * @author aj_pr http://localhost:8080/
  */
 @Configuration
 @EnableWebSecurity
@@ -24,8 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user1").password(passwordEncoder().encode("user1Pass"))
-				.authorities("ROLE_USER");
+		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 	}
 
 	@Autowired
@@ -35,8 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/securityNone").permitAll().anyRequest().authenticated().and().httpBasic()
-				.authenticationEntryPoint(authenticationEntryPoint);
+		
+		//http.authorizeRequests().antMatchers("/", "/home").access("hasRole('USER')").anyRequest().authenticated().and().httpBasic()
+			//	.authenticationEntryPoint(authenticationEntryPoint);
 
 		http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
 	}
