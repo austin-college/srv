@@ -28,13 +28,15 @@
 						<a href="#events">Events</a>
 						<a href="#login">Log In</a>
 					</div>
-				<div class="col">
-					<i class='fas fa-user-circle' style='font-size:48px'></i>
+				</div>
+				<div class="col-sm-2">
+					<a href="#userProfile" class="profileIcon">
+	  					<i class='fas fa-user-circle' style='font-size:48px; color:#2a2a2a'></i>
+	  				</a>
 				</div>
 				</div>
 			</div>
 		</div>	
-	</div>
 
 	<!-- Holds the main elements of the page which include the pet table and its title
 	     as well as the add buttons and dialogs. -->
@@ -50,7 +52,7 @@
 	  <div class="row" style="padding-left:30px; padding-bottom:20px">	
 	    <div id="addBtnContainer" class="col-sm-2 widget rounded">	
 		  <span class="glyphicon glyphicon-plus"></span>
-		  <input class="addBtn ui-button ui-widget addBtn" type="submit" value="Add Committee" />	
+		  <input class="addBtn ui-button ui-widget addBtn" type="submit" value="Add Pet" />	
 		</div>		
 	  </div>
 	  
@@ -64,6 +66,7 @@
 				  <th>ID</th>
 				  <th>Title</th>
 				  <th>Contact Name</th>
+				  <th>Category</th>
 				  <th colspan='2'>Actions</th>
 				</tr>
 			  </thead>
@@ -72,6 +75,43 @@
 				  <td name='comm_id'>0</td>
 	        	  <td name='comm_title'>Habitat for Humanity</td>
 	        	  <td name='comm_member_number'>Billy Bob</td>
+	        	  <td>Housing, Community</td>
+				  <td> 
+				    <button type="button" class="edit btn">
+					<span class="glyphicon glyphicon-pencil"></span> 
+					  Edit
+					</button>
+				  </td>
+				  <td>
+				    <button type="button" class="del btn">
+					<span class="glyphicon glyphicon-remove-sign"></span>  
+					  Delete 
+					</button>
+				 </td>
+				 </tr>
+				   <tr>
+				  <td name='comm_id'>1</td>
+	        	  <td name='comm_title'>Crisis Center</td>
+	        	  <td name='comm_member_number'>Jane Smith</td>
+	        	  <td>Women, Crisis Support</td>
+				  <td> 
+				    <button type="button" class="edit btn">
+					<span class="glyphicon glyphicon-pencil"></span> 
+					  Edit
+					</button>
+				  </td>
+				  <td>
+				    <button type="button" class="del btn">
+					<span class="glyphicon glyphicon-remove-sign"></span>  
+					  Delete 
+					</button>
+				 </td>
+				 </tr>
+				   <tr>
+				  <td name='comm_id'>2</td>
+	        	  <td name='comm_title'>Meals on Wheels</td>
+	        	  <td name='comm_member_number'>Rick Astley</td>
+	        	  <td>Seniors, community</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 

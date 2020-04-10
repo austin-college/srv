@@ -24,10 +24,11 @@
 }
 
 /* Change the color of links on hover */
-.topnav a:hover {
+.topnav  a:hover {
 	background-color: #e9a911;
 	color: white;
 }
+
 /* Style settings for the table. */
 .table{
 	text-align: center;
