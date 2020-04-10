@@ -23,7 +23,6 @@
 						<a href="#logHours">Log Service Hours</a>
 						<a href="#events">Events</a>
 						<a href="#login">Log In</a>
-						<a href="/srv/about">About</a>
 					</div>
 				</div>
 			</div>
@@ -188,12 +187,17 @@
 			<nav class="navbar navbar-inverse navbar-fixed-bottom"
 			style="min-height:2.5em;">
 
+
+						
 			<div class="container-fluid">
 				<div class="row" style="padding-left: 10px; padding-top: 5px">
 
 
 					<div class="col-sm-4"
 						style="color: gray;  text-align:left; border-left: #444 1px solid; border-right: #444 1px solid">
+						
+						<a href="/srv/about">About</a>
+												
 						<#if user?exists>
 						${user.name!""}
 						</#if>
