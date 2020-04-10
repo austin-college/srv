@@ -3,31 +3,37 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
-	<link rel="styleSheet" href="css_style/commStyle.css" type="text/css" media="screen"/>
+	<link rel="styleSheet" href="/srv/css_style/listStyle1.css" type="text/css" media="screen"/>
 	<title>Pet Manager</title>
 </head>
 <body>
-	<!-- Holds the header for the page which includes the title and AC logo. -->
-	<div class="jumbotron jumbotron-fluid">
-  	  <div class="container-fluid">
-  	    <div class="row">
-  		  <div class="col-3" style="padding-top:15px">
-  		    <img alt="Austin College Logo" src="https://www.austincollege.edu/wp-content/uploads/2017/12/ac-logo-black.jpg" >
-  		  </div>
-  		  <div class='col-auto'>
-  			<h1 class="display-4" style="font-size:45px">Pet Management for Service Station</h1>	 
-  		  </div>
-  	    </div> 
-      </div>
+	<!-- Header at the top of page that includes the AC logo and navigation links -->
+	<div id="topHeader" class="jumbotron jumbotron-fluid">
+		<div class="container-fluid">
+  	    	<div class="row">
+  		  		<div class="col-sm-3">
+  		   			 <img alt="Austin College Logo" src="https://www.austincollege.edu/wp-content/uploads/2017/12/ac-logo-black.jpg" >
+  		  		</div>
+  		  		<div class="col-sm" >
+  		  		<!-- Navigation bar -->
+					<div class="topnav">
+						<!-- Links -->
+						<a href="#logHours">Log Service Hours</a>
+						<a href="#events">Events</a>
+						<a href="#login">Log In</a>
+					</div>
+				<div class="col">
+					<i class='fas fa-user-circle' style='font-size:48px'></i>
+				</div>
+				</div>
+			</div>
+		</div>	
 	</div>
 
 	<!-- Holds the main elements of the page which include the pet table and its title
@@ -58,7 +64,6 @@
 				  <th>ID</th>
 				  <th>Title</th>
 				  <th>Contact Name</th>
-				  <th>Events</th>
 				  <th colspan='2'>Actions</th>
 				</tr>
 			  </thead>

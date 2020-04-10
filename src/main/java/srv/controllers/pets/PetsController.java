@@ -20,7 +20,7 @@ public class PetsController {
 	    * 
 	    * @author lahouse
 	    */
-	   @GetMapping("/list")
+	   @GetMapping("/style1/list")
 	   public ModelAndView listAction(HttpServletRequest request, HttpServletResponse response) {
 		   
 		   ModelAndView mav = new ModelAndView("pets/listPets");
