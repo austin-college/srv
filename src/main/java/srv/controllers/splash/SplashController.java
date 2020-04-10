@@ -36,7 +36,7 @@ public class SplashController {
 	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 		   
 		   ModelAndView mav = new ModelAndView("splash/splash");
-		   mav.addObject("name", "michael higgs");
+	
 		   
 		   
 		   

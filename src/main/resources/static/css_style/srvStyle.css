@@ -84,7 +84,7 @@ hr {
 .dot {
   height: 85px;
   width: 85px;
-  background-color: #e9a911;
+  background-color: white;
   border-radius: 50%;
   display: inline-block;
 }
@@ -185,3 +185,6 @@ ul {
   background: #e9a911;
   color: white !important
 }
+
+/* STYLE FOR PET LIST PAGE BELOW */
+

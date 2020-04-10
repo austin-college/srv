@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- The base/index/main page for managing a list of pets (CRUD) for SRV App. -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+ 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<link rel="styleSheet" href="/srv/css_style/listStyle1.css" type="text/css" media="screen"/>
+	<title>Pet Manager</title>
+</head>
+<body>
+	<!-- Header at the top of page that includes the AC logo and navigation links -->
+	<div id="topHeader" class="jumbotron jumbotron-fluid">
+		<div class="container-fluid">
+  	    	<div class="row">
+  		  		<div class="col-sm-3">
+  		   			 <img alt="Austin College Logo" src="https://www.austincollege.edu/wp-content/uploads/2017/12/ac-logo-black.jpg" >
+  		  		</div>
+  		  		<div class="col-sm" >
+  		  		<!-- Navigation bar -->
+					<div class="topnav">
+						<!-- Links -->
+						<a href="#logHours">Log Service Hours</a>
+						<a href="#events">Events</a>
+						<a href="#login">Log In</a>
+					</div>
+				</div>
+				<div class="col-sm-1">
+	  				<a id="profileIcon" href="#userProfile" class="dot">
+	  					<i class='fas fa-user-circle' style='font-size:48px; color:white'></i>
+	  				</a>
+	  			</div>
+				</div>
+			</div>
+		</div>	
+
+	<!-- Holds the main elements of the page which include the pet table and its title
+	     as well as the add buttons and dialogs. -->
+	<div id="mainContainer" class="container">
+	  <!-- The row below contains the table's title. -->
+	  <div class= "row">
+	    <div class="col">
+		  <h1>Pet List</h1>
+		</div>
+	  </div>
+	  
+	  <!-- The row below contains the button to add another committee to the table. -->
+	  <div class="row" style="padding-left:30px; padding-bottom:20px">	
+	    <div id="addBtnContainer" class="col-sm-2 widget rounded">	
+		  <span class="glyphicon glyphicon-plus"></span>
+		  <input class="addBtn ui-button ui-widget addBtn" type="submit" value="Add Pet" />	
+		</div>		
+	  </div>
+	  
+	  <!-- The row below contains the table of pets. -->
+ 	  <div class="row"> 
+	    <div class="col">
+		  <div class="container ui-widget table-responsive">
+		    <table id="comm_tbl" class="table ui-widget ui-widget-content table-striped table-bordered table-hover">
+			  <thead>
+			    <tr class = "ui-widget-header">
+				  <th>ID</th>
+				  <th>Title</th>
+				  <th>Contact Name</th>
+				  <th>Category</th>
+				  <th colspan='2'>Actions</th>
+				</tr>
+			  </thead>
+			  <tbody id="comm_tbl_body">
+			    <tr>
+				  <td name='comm_id'>0</td>
+	        	  <td name='comm_title'>Habitat for Humanity</td>
+	        	  <td name='comm_member_number'><a href="#">Billy Bob</a></td>
+	        	  <td>Housing, Community</td>
+				  <td> 
+				    <button type="button" class="edit btn">
+					<span class="glyphicon glyphicon-pencil"></span> 
+					  Edit
+					</button>
+				  </td>
+				  <td>
+				    <button type="button" class="del btn">
+					<span class="glyphicon glyphicon-remove-sign"></span>  
+					  Delete 
+					</button>
+				 </td>
+				 </tr>
+				   <tr>
+				  <td name='comm_id'>1</td>
+	        	  <td name='comm_title'>Crisis Center</td>
+	        	  <td name='comm_member_number'><a href="#">Jane Smith</a></td>
+	        	  <td>Women, Crisis Support</td>
+				  <td> 
+				    <button type="button" class="edit btn">
+					<span class="glyphicon glyphicon-pencil"></span> 
+					  Edit
+					</button>
+				  </td>
+				  <td>
+				    <button type="button" class="del btn">
+					<span class="glyphicon glyphicon-remove-sign"></span>  
+					  Delete 
+					</button>
+				 </td>
+				 </tr>
+				   <tr>
+				  <td name='comm_id'>2</td>
+	        	  <td name='comm_title'>Meals on Wheels</td>
+	        	   <td name='comm_member_number'><a href="#">Rick Astley</a></td>
+	        	  <td>Seniors, community</td>
+				  <td> 
+				    <button type="button" class="edit btn">
+					<span class="glyphicon glyphicon-pencil"></span> 
+					  Edit
+					</button>
+				  </td>
+				  <td>
+				    <button type="button" class="del btn">
+					<span class="glyphicon glyphicon-remove-sign"></span>  
+					  Delete 
+					</button>
+				 </td>
+				 </tr>
+			   </tbody>
+			 </table>
+		   </div>
+		 </div> 
+	   </div>
+	  
+	  <!-- The row below contains the button to add another pet to the table. -->
+	  <div class="row" style="padding-left:30px">	
+	    <div id="addBtnContainer" class="col-sm-2 widget rounded">
+		  <span class="glyphicon glyphicon-plus"></span>
+		  <input class="addBtn ui-button ui-corner-all ui-widget" type="submit" value="Add Pet" />
+		</div>
+	  </div>
+	  
+	  <!-- The div below contains whitespace as a footer for the page. -->
+	  <div class="row-8">
+	    <div class="footer" style=" height: 25px" >
+	      <p></p>
+	  	</div>
+	  </div>
+</div>
+</body>
+</html>
