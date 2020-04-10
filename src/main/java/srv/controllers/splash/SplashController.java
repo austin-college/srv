@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * This is the algorithm that prepares the response. 
@@ -30,7 +32,7 @@ public class SplashController {
 	    * 
 	    * @author lahouse
 	    */
-	   @GetMapping("/")
+	   @GetMapping("/splash")
 	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 		   
 		   ModelAndView mav = new ModelAndView("splash/splash");
@@ -40,5 +42,22 @@ public class SplashController {
 		   
 		   return mav;
 	   }
+	   
+
+	   /**
+	    * Provide the mapping if the user did not know to enter through the splash page.  In this
+	    * case, we send back a redirect to the requester.
+	    * 
+	    * @param attributes
+	    * @return
+	    */
+	    @GetMapping("/")
+	    public RedirectView redirectAll (
+	    		
+	      RedirectAttributes attributes) {
+	    	
+	      return new RedirectView("/srv/splash");
+	        
+	    }
 }
 
