@@ -8,63 +8,58 @@
 <link rel="styleSheet" href="css_style/hoursStyle.css" type="text/css">
 <title>Hours Served</title>
 </head>
-<!-- Header at the top of page that includes the AC logo and navigation links -->
-<div id="topHeader" class="jumbotron jumbotron-fluid">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-3">
-				<img alt="Austin College Logo"
-					src="https://www.austincollege.edu/wp-content/uploads/2017/12/ac-logo-black.jpg">
-			</div>
-			<div class="col-sm">
-				<!-- Navigation bar -->
-				<div class="topnav">
-					<!-- Links -->
-					<a href="#logHours">Log Service Hours</a> <a href="#events">Events</a>
-					<a href="#login">Log In</a>
-				</div>
-			</div>
-		</div>
+</body>
+<div class="container-statsBackground">
+	<div class="container-textHeading">Statistics</div>
+	<div class="container-Stats">
+		<p>Currently you have served 15 hours total
+		with 5 hours pending approval</p>
 	</div>
 </div>
-</body>
+<!-- a container for the table container
+	will be used for background colors eventually  -->
+<div class="container-tableBackground">
+	<div class="container-textHeading">Service Hours</div>
+	<!-- container thats creating a table that will hold our data-->
+	<div class="container-tables">
+		<div Id="table" class="row">
+			<table>
+				<tr>
+					<th>Pending Approval</th>
+					<th>Approved Hours</th>
+					<th>Rejected Hours</th>
+				</tr>
+				<tr>
+					<td>Spending time with Toys for tots</td>
+					<td>Food House</td>
+					<td>Picking up the trash</td>
+				</tr>
+				<tr>
+					<td>Teaching part time</td>
+					<td>Build house with Salvation aRmy</td>
+					<td>Show and Tell</td>
+				</tr>
+				<tr>
+					<td>Working with food house</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Volunteering at service station</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
 
-<p>
-<div class="container-text">Service Hours</div>
 
-<div class="container-a">
-	<div Id="table" class="row">
-		<table>
-			<tr>
-				<th>Pending Approval</th>
-				<th>Approved Hours</th>
-				<th>Rejected Hours</th>
-			</tr>
-			<tr>
-				<td>Spending time with Toys for tots</td>
-				<td>Food House</td>
-				<td>Picking up the trash</td>
-			</tr>
-			<tr>
-				<td>Teaching part time</td>
-				<td>Build house with Salvation aRmy</td>
-				<td>Show and Tell</td>
-			</tr>
-			<tr>
-				<td>Working with food house</td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>Volunteering at service station</td>
-				<td></td>
-				<td></td>
-			</tr>
-		</table>
 	</div>
+	<!-- Buttons that lead to pages -->
 
-	<button type="button">Click Me!</button>
-
+	<div class="container-buttonArea">
+		<button type="button">Enter Hours</button>
+		<button type="button">View Profile</button>
+	</div>
 </div>
 </html>
 </@layout.stdpage>

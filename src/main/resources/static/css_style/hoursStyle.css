@@ -1,61 +1,47 @@
 @charset "ISO-8859-1";
 
-/* credit to Lydia for the following blocks of code */
-/* Add a black background color and style the header at the top of the page */
-.jumbotron{
-	text-align: center;
-	background-color: black;
-    padding-top: 25px;
-    padding-bottom: 25px;
+/* Style for the container containing the stats info*/
+.container-statsBackground {
+ float: left;
+ background-color: white;
+ width: 25%;
+ height 100%;
+ border: 1px solid black;
 }
 
-/* Add a black background color to the top navigation */
-.topnav {
-	background-color: black;
+
+/* style for table background */
+.container-tableBackground {
+	float: right;
+	background-color: white;
+	height: 100%;
+	width: 75%
 }
 
-/* Style the links inside the navigation bar */
-.topnav a {
-	float: left;
-	color: #f2f2f2;
-	text-align: center;
-	padding: 12px;
-	font-size: 25px;	
-	width: 30%;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-	background-color: #e9a911;
-	color: white;
-}
-
-/* Style for section titles */
-h1 {
+/* style for section headings */
+.container-textHeading {
+	color: black;
 	font-family: Roboto, sans-serif;
 	font-weight: 700;
 	line-height: 1.2;
-	
 }
 
-/* End of credit, thanks Lydia!*/
 
-.container-a {
-  background-color: white;
+
+/* Styles for the table, include table, th, and td*/
+.container-tables {
+  background-color: grey;
   padding-left: 10px;
   .fill {object-fit: fill;}
-}
-
-.container-text {
-	font-weight: 700;
 }
 
 table {
   border: 1px solid black;
   	align-center;
-  width: 98%;
+  width: 94%;
   height: 50px;
   text-align: center;
+  background-color: grey;
 	
 }
 
@@ -63,8 +49,16 @@ th {
 border: 1px solid black;
   width: 100px;
   height: 50px;
+  background-color: grey;
 }
 
 td {
 border: 1px solid black;
+background-color: grey;
+}
+
+/* style for the area we'll put the buttons */
+.container-buttonArea {
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
