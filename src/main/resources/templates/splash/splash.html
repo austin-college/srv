@@ -191,11 +191,19 @@
 			style="min-height:2.5em;">
 
 
-						
-			<div class="container-fluid">
+			<!-- Contact Us link in footer -->
+			<div class="container-fluid ">
 				<div class="row" style="padding-left: 10px; padding-top: 5px">
-
-
+					<div class="col"
+						style="color: gray;  text-align:center; border-left: #444 1px solid; border-right: #444 1px solid">
+						
+						<a href="#">Contact Us</a>
+												
+						<#if user?exists>
+						${user.name!""}
+						</#if>
+					</div>
+					<!-- About link in footer -->
 					<div class="col-sm-4"
 						style="color: gray;  text-align:left; border-left: #444 1px solid; border-right: #444 1px solid">
 						
