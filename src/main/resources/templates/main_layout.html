@@ -28,6 +28,8 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 
+		<!-- Main layout css style for the header and footer -->
+		<link href="/srv/css_style/mainStyle.css" rel="stylesheet"></link>
 		<#if cssname?exists && cssname!="">
 		<link href="/srv/css_style/${cssname}" rel="stylesheet"></link>
 		</#if>
@@ -40,8 +42,26 @@
 	</head>
 
 	<body>
-
-		
+	
+	<!-- Header at the top of page that includes the AC logo and navigation links -->
+	<div id="topHeader" class="jumbotron jumbotron-fluid">
+		<div class="container-fluid">
+  	    	<div class="row">
+  		  		<div class="col-sm-3">
+  		   			 <img alt="Austin College Logo" src="https://www.austincollege.edu/wp-content/uploads/2017/12/ac-logo-black.jpg" >
+  		  		</div>
+  		  		<div class="col-sm" >
+  		  		<!-- Navigation bar -->
+					<div class="topnav">
+						<!-- Links -->
+						<a href="#logHours">Log Service Hours</a>
+						<a href="#events">Events</a>
+						<a href="#login">Log In</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>		
 
 		<div class="wb-page container fill">
 			<#nested/>
