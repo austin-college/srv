@@ -37,4 +37,20 @@ public class HoursController {
 		   return mav;
 	   }
 	   
+	   /**
+	    * Action to display add hours page. See addHours.html 
+	    * 
+	    * @param request
+	    * @param response
+	    * @return
+	    * 
+	    * @author Sameeha Khaled
+	    */
+	   @GetMapping("/addHours") 
+	   public ModelAndView addHoursAction(HttpServletRequest request, HttpServletResponse response) {
+		   
+		   ModelAndView mav = new ModelAndView("hours/addHours");
+		   
+		   return mav;
+	   }
 }
