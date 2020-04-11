@@ -40,22 +40,48 @@ h1 {
 
 /* End of credit, thanks Lydia!*/
 
-.container-a {
-  background-color: white;
-  padding-left: 10px;
-  .fill {object-fit: fill;}
+/* Style for the container containing the stats info*/
+.container-statsBackground {
+ float: left;
+ background-color: white;
+ width: 25%;
+ height 100%;
+ border: 1px solid black;
 }
 
-.container-text {
+
+/* style for table background */
+.container-tableBackground {
+	float: right;
+	background-color: white;
+	height: 100%;
+	width: 75%
+}
+
+/* style for section headings */
+.container-textHeading {
+	color: black;
+	font-family: Roboto, sans-serif;
 	font-weight: 700;
+	line-height: 1.2;
+}
+
+
+
+/* Styles for the table, include table, th, and td*/
+.container-tables {
+  background-color: grey;
+  padding-left: 10px;
+  .fill {object-fit: fill;}
 }
 
 table {
   border: 1px solid black;
   	align-center;
-  width: 98%;
+  width: 94%;
   height: 50px;
   text-align: center;
+  background-color: grey;
 	
 }
 
@@ -63,8 +89,16 @@ th {
 border: 1px solid black;
   width: 100px;
   height: 50px;
+  background-color: grey;
 }
 
 td {
 border: 1px solid black;
+background-color: grey;
+}
+
+/* style for the area we'll put the buttons */
+.container-buttonArea {
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
