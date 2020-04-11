@@ -69,8 +69,8 @@ hr {
 	margin-top: 0px;
 }
 
-/* Style for the container containing the announcements */
-#announcementElements.container-fluid, #findOpElements.container-fluid {
+/* Style for the containers */
+#announcementElements.container-fluid, #findOpElements.container-fluid{
 	background-color: white;
    	width: 75%;
    	padding-bottom: 50px;
@@ -139,15 +139,22 @@ i {
 	color: #a41e34;
 }
 
+/* Adds space at the bottom of the page */
+#bottomSpacer {
+	height:60px
+}
 ul {
 	list-style-type: none;
+}
+
+#calendar.container-fluid {
+	width: 76.6%;
 }
 
 /* Style for month header */
 .month {
   font-family: Roboto, sans-serif;
   padding: 25px;
-  width: 86.5%;
   background: #a41e34;
   text-align: center;
 }
