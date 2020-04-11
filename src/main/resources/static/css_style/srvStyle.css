@@ -29,6 +29,31 @@
 	color: white;
 }
 
+/* Makes background AC blue */
+body { 
+	background-color: #427dc6
+}
+
+/* Style for the announcement title */
+#announceTitle {
+	padding-left:50px; 
+	padding-top:20p
+}
+
+/* Style for the column containing the list of announcements and find opportunity*/
+#annListCol, #findOpTitle {
+	padding-left:50px
+}
+
+/* Style for the See All link */
+#seeAllLink {
+	font-size:18px
+}
+
+/* Style for the columns containing the spotlight elements and opportunity icons*/
+#spotlightCol, #rowIcons {
+	padding-top:25px
+}
 /* Style for section titles */
 h1 {
 	font-family: Roboto, sans-serif;
@@ -84,7 +109,7 @@ hr {
 .dot {
   height: 85px;
   width: 85px;
-  background-color: white;
+  background-color: #e9a911;
   border-radius: 50%;
   display: inline-block;
 }
