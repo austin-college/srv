@@ -40,9 +40,20 @@ h1 {
 
 /* End of credit, thanks Lydia!*/
 
+.container-a {
+  background-color: white;
+  padding-left: 10px;
+  .fill {object-fit: fill;}
+}
+
+.container-text {
+	font-weight: 700;
+}
+
 table {
   border: 1px solid black;
-  width: 500px;
+  	align-center;
+  width: 98%;
   height: 50px;
   text-align: center;
 	
@@ -51,7 +62,7 @@ table {
 th {
 border: 1px solid black;
   width: 100px;
-height: 50px;
+  height: 50px;
 }
 
 td {
