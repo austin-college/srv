@@ -1,0 +1,40 @@
+@charset "ISO-8859-1";
+
+/* credit to Lydia for the following blocks of code */
+/* Add a black background color and style the header at the top of the page */
+.jumbotron{
+	text-align: center;
+	background-color: black;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+	background-color: black;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 12px;
+	font-size: 25px;	
+	width: 30%;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+	background-color: #e9a911;
+	color: white;
+}
+
+/* Style for section titles */
+h1 {
+	font-family: Roboto, sans-serif;
+	font-weight: 700;
+	line-height: 1.2;
+	
+}
+/* End of credit, thanks Lydia!*/
