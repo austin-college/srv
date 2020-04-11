@@ -37,4 +37,23 @@ h1 {
 	line-height: 1.2;
 	
 }
+
 /* End of credit, thanks Lydia!*/
+
+table {
+  border: 1px solid black;
+  width: 500px;
+  height: 50px;
+  text-align: center;
+	
+}
+
+th {
+border: 1px solid black;
+  width: 100px;
+height: 50px;
+}
+
+td {
+border: 1px solid black;
+}
