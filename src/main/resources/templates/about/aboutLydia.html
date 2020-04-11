@@ -1,15 +1,33 @@
 <#import "/main_layout.html" as layout />
 
-<@layout.stdpage "About Lydia House" >
+<@layout.stdpage "About Lydia House" "about/aboutLydiaStyle.css" >
 
 <!-- Page Content -->
 <div class="container-fluid">
-
+<!-- Header at the top of page that includes the AC logo and navigation links -->
+	<div id="topHeader" class="jumbotron jumbotron-fluid">
+		<div class="container-fluid">
+  	    	<div class="row">
+  		  		<div class="col-sm-3">
+  		   			 <img alt="Austin College Logo" src="https://www.austincollege.edu/wp-content/uploads/2017/12/ac-logo-black.jpg" >
+  		  		</div>
+  		  		<div class="col-sm" >
+  		  		<!-- Navigation bar -->
+					<div class="topnav">
+						<!-- Links -->
+						<a href="#logHours">Log Service Hours</a>
+						<a href="#events">Events</a>
+						<a href="#login">Log In</a>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
 <table>
 	<tbody>
 		<tr>
 			<td>
-				<img src="/srv/images/about/lydiaHS.png" align="left" style="padding-right:15px; width:225px; height:250px"/>
+				<img src="/srv/images/about/lydiaHS.jpg" align="left" style="padding-right:15px; width:225px; height:250px"/>
 			</td>
 			<td>
 			 	<p>
