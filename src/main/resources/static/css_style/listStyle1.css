@@ -94,3 +94,13 @@ thead th {
 	color: white;
 	text-align: center;
 }
+
+/* Style settings for the delete organization dialog */
+#delDlg{
+	text-align: center;
+	font-weight: bold;
+}
+
+
+
+
