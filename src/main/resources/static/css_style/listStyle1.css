@@ -94,11 +94,50 @@ thead th {
 	color: white;
 	text-align: center;
 }
-
 /* Style settings for the delete organization dialog */
 #delDlg{
 	text-align: center;
 	font-weight: bold;
+}
+
+
+
+
+/* Style settings for the dialogs. */
+#addDlg, #editDlg{
+	overflow: hidden;
+}
+/* Close button icon for dialog close buttons. */
+.ui-button .ui-icon{ 
+	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_white_256x240.png);
+}
+/* Style setting for the edit and add dialog headers. */
+.ui-dialog-titlebar{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}
+/* Style settings for the close button on the edit and add dialog headers. */
+ .ui-dialog-titlebar > .ui-button {
+   border: 0 none;
+   background-color: #a41e34;
+   margin-top: -11px;
+ }
+
+/* Style settings for the add and update buttons in the add and edit dialogs. */
+.addBtnClass, .editBtnClass{
+	background-color: #db9401;
+	color: white;
+	text-align: center;
+}
+.cancelBtnClass .delBtnClass{
+	background-color: #db9401;
+	color: white;
+	text-align: center;
+}
+.cancelBtnClass:hover{
+	color: white;
+  	background-color: #dc3545;
 }
 
 

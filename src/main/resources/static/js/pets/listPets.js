@@ -45,6 +45,45 @@ $(document).ready(function() {
         	  }
           }]
    });
+	 
+	 
+
+		//Register and hide the add dialog div until an add button is clicked on.
+		 $("#addDlg").dialog({	
+		    autoOpen: false,
+		    width: 350,
+		    modal: true,
+		    show: 'slide',
+		    hide: 'blind',
+		    open: function(event, ui){
+		    	
+		    	/*
+		    	 * Resets all the fields of the add dialog to empty.
+		    	 */
+		    	$("#addDlg_commID").val("");
+		    	$("#addDlg_commTitle").val("");
+		    	$("#addDlg_commNumber").val("");
+		    	$("#addDlg_commMember").val("");
+
+		    	
+		     },
+		    buttons: [
+		      {
+		    	  text: "Create New Committee",
+		    	  "class": 'addBtnClass',
+		    	   click: function() {
+		    		   $("#addDlg").dialog("close");	
+		    		  
+		    	  }
+		      },
+		      {
+		        	text: "Cancel",
+		        	"class": 'cancelBtnClass',
+		        	click: function() { 	
+		        		$("#addDlg").dialog("close");	
+		        	}
+		      }]
+		 });	 
 
   
     /* 
@@ -54,5 +93,11 @@ $(document).ready(function() {
     	$("#delDlg").dialog("open");
     });
     
+ 	/* 
+  	 * Opens add committee dialog when user clicks an add button.
+  	 */
+  	$(".addBtn").on("click", function() {
+  		$("#addDlg").dialog("open");
+  	});
  
 });
