@@ -134,6 +134,10 @@ thead th {
   	background-color: #dc3545;
 }
 
+td a:hover {
+	background-color: #ffffff;
+	
+}
 
 
 
