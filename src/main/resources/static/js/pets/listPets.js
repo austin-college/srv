@@ -92,7 +92,7 @@ $(document).ready(function() {
 		},
 		buttons: [
 		{
-			text: "Update Committee",
+			text: "Update Pet",
 		    	  "class": "editBtnClass",
 		    click: function() {
 		    	$("#editDlg").dialog("close"); 	    			
