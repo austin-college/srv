@@ -12,19 +12,20 @@ import java.util.List;
 public class Pet {
 
 	private String petName; // the name of the pet
-	private String personOfContact; // name of pet representative or person of contact
-	private String contactNumber; // contact phone number for pet
-	private String email; // contact email for pet
+	/*
+	 * private String personOfContact; // name of pet representative or person of
+	 * contact private String contactNumber; // contact phone number for pet private
+	 * String email; // contact email for pet
+	 */
+	private Contact contact; // contact for pet
 	private int servantsReq; // amount of personel needed for an event
 	private String eventLoc; // location of an event
 	private String eventDescrp; // description of an event
 	
-	public Pet(String petName, String personOfContact, String contactNumber, String email, int servantsReq, String eventLoc, String eventDescrp) {
+	public Pet(String petName, Contact contact, int servantsReq, String eventLoc, String eventDescrp) {
 		super();
 		this.petName = petName;
-		this.personOfContact = personOfContact;
-		this.contactNumber = contactNumber;
-		this.email = email;
+		this.contact = contact;
 		this.servantsReq = servantsReq;
 		this.eventLoc = eventLoc;
 		this.eventDescrp = eventDescrp;
@@ -38,29 +39,16 @@ public class Pet {
 		this.petName = petName;
 	}
 
-	public String getPersonOfContact() {
-		return personOfContact;
+	
+
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setPersonOfContact(String personOfContact) {
-		this.personOfContact = personOfContact;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
-
-	public String getContactNumber() {
-		return contactNumber;
-	}
-
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	
 
 	public int getServantsReq() {
 		return servantsReq;

@@ -9,6 +9,8 @@
  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<link rel="styleSheet" href="/srv/css_style/listStyle1.css" type="text/css" media="screen"/>
 	<title>Pet Manager</title>
 </head>
@@ -48,7 +50,7 @@
 		</div>
 	  </div>
 	  
-	  <!-- The row below contains the button to add another committee to the table. -->
+	  <!-- The row below contains the button to add another organization to the table. -->
 	  <div class="row" style="padding-left:30px; padding-bottom:20px">	
 	    <div id="addBtnContainer" class="col-sm-2 widget rounded">	
 		  <span class="glyphicon glyphicon-plus"></span>
@@ -70,12 +72,12 @@
 				  <th colspan='2'>Actions</th>
 				</tr>
 			  </thead>
-			  <tbody id="comm_tbl_body">
+			  <tbody id="pet_tbl_body">
 			    <tr>
-				  <td name='comm_id'>0</td>
-	        	  <td name='comm_title'>Habitat for Humanity</td>
-	        	  <td name='comm_member_number'><a href="#">Billy Bob</a></td>
-	        	  <td>Housing, Community</td>
+				  <td name='pet_id'>0</td>
+	        	  <td name='pet_title'>Habitat for Humanity</td>
+	        	  <td name='pet_contact_name'><a href="#">Billy Bob</a></td>
+	        	  <td name='pet_category'>Housing, Community</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 
@@ -90,10 +92,10 @@
 				 </td>
 				 </tr>
 				   <tr>
-				  <td name='comm_id'>1</td>
-	        	  <td name='comm_title'>Crisis Center</td>
-	        	  <td name='comm_member_number'><a href="#">Jane Smith</a></td>
-	        	  <td>Women, Crisis Support</td>
+				  <td name='pet_id'>1</td>
+	        	  <td name='pet_title'>Crisis Center</td>
+	        	  <td name='pet_contact_name'><a href="#">Jane Smith</a></td>
+	        	  <td name='pet_category'>Women, Crisis Support</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 
@@ -108,10 +110,10 @@
 				 </td>
 				 </tr>
 				   <tr>
-				  <td name='comm_id'>2</td>
-	        	  <td name='comm_title'>Meals on Wheels</td>
-	        	   <td name='comm_member_number'><a href="#">Rick Astley</a></td>
-	        	  <td>Seniors, community</td>
+				  <td name='pet_id'>2</td>
+	        	  <td name='pet_title'>Meals on Wheels</td>
+	        	  <td name='pet_contact_name'><a href="#">Rick Astley</a></td>
+	        	  <td name='pet_category'>Seniors, community</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 
@@ -138,6 +140,77 @@
 		  <input class="addBtn ui-button ui-corner-all ui-widget" type="submit" value="Add Pet" />
 		</div>
 	  </div>
+	 	  
+	  	  <!-- The div below defines the delete dialog for deleting an organization which is hidden by JS and exposed by JQ. -->
+	  <div id="delDlg" title="DELETE SELECTED ORGANIZATION" class="ui-widget delWid">
+	  	<p id= "del_confirm">
+	  	    <br><br>
+	  	  <span id="delMsg1"></span>
+			<br><br>
+		  <span id="delMsg2"></span>
+	    </p>
+	  </div>
+	  
+	   <!--  The div below defines the add dialog for adding an organization which is hidden by JS and exposed by JQ. -->
+	  <div id="addDlg" title="ADD NEW PET" class="ui-widget">
+	    <div class="container">
+		  <div class="row">
+		    <div class="form-group">
+			  <label class="form-label" for="addDlg_petID">ID: </label>
+			  <input id="addDlg_petID" class="form-control" type="text" placeholder="ID" autocomplete="off"/>
+			</div>
+		  </div>
+		  <div class="row">
+		    <div class="form-group">
+			  <label class="form-label" for="addDlg_petTitle">Title</label>
+			  <input id="addDlg_petTitle" class="form-control" type="text" placeholder="Title" autocomplete="off"/>
+			</div>
+		  </div>
+		  <div class="row">
+		    <div class="form-group">
+			  <label class="form-label" for="addDlg_petContact">Contact Name</label>
+			  <input id="addDlg_petContact" class="form-control" type="text" placeholder="Contact Name" autocomplete="off"/>
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="form-group">
+			  <label class="form-label" for="addDlg_petCategory">Category</label>
+			  <input id="addDlg_petCategory" class="form-control" type="text" placeholder="Category" autocomplete = "off"/>
+			</div>
+		  </div>
+	    </div>
+	  </div>
+	  
+	   <!-- The div below defines the edit dialog for editing/updating an organization which is hidden by JS and exposed by JQ.
+	    	Note: Can not change the ID of the organization. -->
+	    <div id="editDlg" title="EDIT SELECTED PET" class="ui-widget">
+	      <p>All form fields are required.</p>
+	      <div class="container">
+		    <div class="row">
+			  <div class="form-group">
+			    <label id="editID_lbl" class="form-label"  placeholder="0"></label>
+			  </div>
+		    </div>
+		    <div class="row">
+			  <div class="form-group">
+			    <label class="form-label" for="editDlg_petTitle">Title</label>
+				<input id="editDlg_petTitle" class="form-control" type="text" autocomplete="off"/>
+			  </div>
+		    </div>
+		    <div class="row">
+			  <div class="form-group">
+				<label class="form-label" for="editDlg_petContact">Contact Name</label>
+				<input id="editDlg_petContact" class="form-control" type="text" autocomplete="off"/>
+			  </div>
+		    </div>
+		    <div class="row">
+			  <div class="form-group">
+				<label class="form-label" for="editDlg_petCategory">Category</label>
+				<input id="editDlg_petCategory" class="form-control" type="text" autocomplete="off"/>
+			  </div>
+		    </div>
+		  </div>
+		</div>
 	  
 	  <!-- The div below contains whitespace as a footer for the page. -->
 	  <div class="row-8">
@@ -145,6 +218,41 @@
 	      <p></p>
 	  	</div>
 	  </div>
+	  
+	  <!-- "FOOTER" links (about, contact us) will get replace with macro -->
+	  <nav class="navbar navbar-inverse navbar-fixed-bottom"
+			style="min-height:2.5em;">
+
+
+			<!-- Contact Us link in footer -->
+			<div class="container-fluid ">
+				<div class="row" style="padding-left: 10px; padding-top: 5px">
+					<div class="col"
+						style="color: gray;  text-align:center; border-left: #444 1px solid; border-right: #444 1px solid">
+						
+						<a href="#">Contact Us</a>
+												
+						<#if user?exists>
+						${user.name!""}
+						</#if>
+					</div>
+					<!-- About link in footer -->
+					<div class="col-sm-4"
+						style="color: gray;  text-align:left; border-left: #444 1px solid; border-right: #444 1px solid">
+						
+						<a href="/srv/about">About</a>
+												
+						<#if user?exists>
+						${user.name!""}
+						</#if>
+					</div>
+
+				</div>
+			</div>
+
+
+		</nav>
 </div>
+ <script src="/srv/js/pets/listPets.js"></script>
 </body>
 </html>
