@@ -100,10 +100,7 @@ thead th {
 	font-weight: bold;
 }
 
-
-
-
-/* Style settings for the dialogs. */
+/* Style settings for the add and edit dialogs. */
 #addDlg, #editDlg{
 	overflow: hidden;
 }
@@ -130,11 +127,8 @@ thead th {
 	color: white;
 	text-align: center;
 }
-.cancelBtnClass .delBtnClass{
-	background-color: #db9401;
-	color: white;
-	text-align: center;
-}
+
+/* Change the color of the cancel button in dialogs on hover */
 .cancelBtnClass:hover{
 	color: white;
   	background-color: #dc3545;

@@ -50,7 +50,7 @@
 		</div>
 	  </div>
 	  
-	  <!-- The row below contains the button to add another committee to the table. -->
+	  <!-- The row below contains the button to add another organization to the table. -->
 	  <div class="row" style="padding-left:30px; padding-bottom:20px">	
 	    <div id="addBtnContainer" class="col-sm-2 widget rounded">	
 		  <span class="glyphicon glyphicon-plus"></span>
@@ -72,12 +72,12 @@
 				  <th colspan='2'>Actions</th>
 				</tr>
 			  </thead>
-			  <tbody id="comm_tbl_body">
+			  <tbody id="pet_tbl_body">
 			    <tr>
-				  <td name='comm_id'>0</td>
-	        	  <td name='comm_title'>Habitat for Humanity</td>
-	        	  <td name='comm_member_number'><a href="#">Billy Bob</a></td>
-	        	  <td>Housing, Community</td>
+				  <td name='pet_id'>0</td>
+	        	  <td name='pet_title'>Habitat for Humanity</td>
+	        	  <td name='pet_contact_name'><a href="#">Billy Bob</a></td>
+	        	  <td name='pet_category'>Housing, Community</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 
@@ -92,10 +92,10 @@
 				 </td>
 				 </tr>
 				   <tr>
-				  <td name='comm_id'>1</td>
-	        	  <td name='comm_title'>Crisis Center</td>
-	        	  <td name='comm_member_number'><a href="#">Jane Smith</a></td>
-	        	  <td>Women, Crisis Support</td>
+				  <td name='pet_id'>1</td>
+	        	  <td name='pet_title'>Crisis Center</td>
+	        	  <td name='pet_contact_name'><a href="#">Jane Smith</a></td>
+	        	  <td name='pet_category'>Women, Crisis Support</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 
@@ -110,10 +110,10 @@
 				 </td>
 				 </tr>
 				   <tr>
-				  <td name='comm_id'>2</td>
-	        	  <td name='comm_title'>Meals on Wheels</td>
-	        	   <td name='comm_member_number'><a href="#">Rick Astley</a></td>
-	        	  <td>Seniors, community</td>
+				  <td name='pet_id'>2</td>
+	        	  <td name='pet_title'>Meals on Wheels</td>
+	        	  <td name='pet_contact_name'><a href="#">Rick Astley</a></td>
+	        	  <td name='pet_category'>Seniors, community</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 
@@ -140,15 +140,8 @@
 		  <input class="addBtn ui-button ui-corner-all ui-widget" type="submit" value="Add Pet" />
 		</div>
 	  </div>
-	  
-	  <!-- The div below contains whitespace as a footer for the page. -->
-	  <div class="row-8">
-	    <div class="footer" style=" height: 25px" >
-	      <p></p>
-	  	</div>
-	  </div>
-	  
-	  	  <!-- The div below defines the delete dialog for deleting a committee which is hidden by JS and exposed by JQ. -->
+	 	  
+	  	  <!-- The div below defines the delete dialog for deleting an organization which is hidden by JS and exposed by JQ. -->
 	  <div id="delDlg" title="DELETE SELECTED ORGANIZATION" class="ui-widget delWid">
 	  	<p id= "del_confirm">
 	  	    <br><br>
@@ -158,38 +151,39 @@
 	    </p>
 	  </div>
 	  
-	   <!--  The div below defines the add dialog for adding a committee which is hidden by JS and exposed by JQ. -->
-	  <div id="addDlg" title="ADD NEW ORGANIZATION" class="ui-widget">
+	   <!--  The div below defines the add dialog for adding an organization which is hidden by JS and exposed by JQ. -->
+	  <div id="addDlg" title="ADD NEW PET" class="ui-widget">
 	    <div class="container">
 		  <div class="row">
 		    <div class="form-group">
-			  <label class="form-label" for="addDlg_commID">ID: </label>
-			  <input id="addDlg_commID" class="form-control" type="text" placeholder="ID" autocomplete="off"/>
+			  <label class="form-label" for="addDlg_petID">ID: </label>
+			  <input id="addDlg_petID" class="form-control" type="text" placeholder="ID" autocomplete="off"/>
 			</div>
 		  </div>
 		  <div class="row">
 		    <div class="form-group">
-			  <label class="form-label" for="addDlg_commTitle">Title</label>
-			  <input id="addDlg_commTitle" class="form-control" type="text" placeholder="Title" autocomplete="off"/>
+			  <label class="form-label" for="addDlg_petTitle">Title</label>
+			  <input id="addDlg_petTitle" class="form-control" type="text" placeholder="Title" autocomplete="off"/>
 			</div>
 		  </div>
 		  <div class="row">
 		    <div class="form-group">
-			  <label class="form-label" for="addDlg_commNumber">Contact Name</label>
-			  <input id="addDlg_commNumber" class="form-control" type="text" placeholder="Contact Name" autocomplete="off"/>
+			  <label class="form-label" for="addDlg_petContact">Contact Name</label>
+			  <input id="addDlg_petContact" class="form-control" type="text" placeholder="Contact Name" autocomplete="off"/>
 			</div>
 		  </div>
 		  <div class="row">
 			<div class="form-group">
-			  <label class="form-label" for="addDlg_commMember">Category</label>
-			  <input id="addDlg_commMember" class="form-control" type="text" placeholder="Category" autocomplete = "off"/>
+			  <label class="form-label" for="addDlg_petCategory">Category</label>
+			  <input id="addDlg_petCategory" class="form-control" type="text" placeholder="Category" autocomplete = "off"/>
 			</div>
 		  </div>
 	    </div>
 	  </div>
-	   <!-- The div below defines the edit dialog for editing/updating a committee which is hidden by JS and exposed by JQ.
-	    	 Note: Can not change the ID of the committee. -->
-	    <div id="editDlg" title="EDIT SELECTED COMMITTEE" class="ui-widget">
+	  
+	   <!-- The div below defines the edit dialog for editing/updating an organization which is hidden by JS and exposed by JQ.
+	    	Note: Can not change the ID of the organization. -->
+	    <div id="editDlg" title="EDIT SELECTED PET" class="ui-widget">
 	      <p>All form fields are required.</p>
 	      <div class="container">
 		    <div class="row">
@@ -199,24 +193,31 @@
 		    </div>
 		    <div class="row">
 			  <div class="form-group">
-			    <label class="form-label" for="editDlg_commTitle">Title</label>
-				<input id="editDlg_commTitle" class="form-control" type="text"  placeholder="Habitat for Humanity" autocomplete="off"/>
+			    <label class="form-label" for="editDlg_petTitle">Title</label>
+				<input id="editDlg_petTitle" class="form-control" type="text" autocomplete="off"/>
 			  </div>
 		    </div>
 		    <div class="row">
 			  <div class="form-group">
-				<label class="form-label" for="editDlg_commNumber">Contact Name</label>
-				<input id="editDlg_commNumber" class="form-control" type="text"  placeholder="Billy Bob" autocomplete="off"/>
+				<label class="form-label" for="editDlg_petContact">Contact Name</label>
+				<input id="editDlg_petContact" class="form-control" type="text" autocomplete="off"/>
 			  </div>
 		    </div>
 		    <div class="row">
 			  <div class="form-group">
-				<label class="form-label" for="editDlg_commMember">Category</label>
-				<input id="editDlg_commMember" class="form-control" type="text"  placeholder="Housing, Community" autocomplete="off"/>
+				<label class="form-label" for="editDlg_petCategory">Category</label>
+				<input id="editDlg_petCategory" class="form-control" type="text" autocomplete="off"/>
 			  </div>
 		    </div>
 		  </div>
 		</div>
+	  
+	  <!-- The div below contains whitespace as a footer for the page. -->
+	  <div class="row-8">
+	    <div class="footer" style=" height: 25px" >
+	      <p></p>
+	  	</div>
+	  </div>
 	  
 	  <!-- "FOOTER" links (about, contact us) will get replace with macro -->
 	  <nav class="navbar navbar-inverse navbar-fixed-bottom"
