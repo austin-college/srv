@@ -1,7 +1,34 @@
 @charset "ISO-8859-1";
 
-.jumbotron {
+.container {
+
+   padding: 25px 50px;
+   border-style: solid; 
    
-   background-color: black;
-   color: white
-   }
+}
+
+#submit {
+
+  margin-top: 15px;
+  
+  }
+
+ 
+#example, #ex {
+
+  color: rgb(120, 120, 120);
+ 
+ }
+  
+#topnav {
+ 
+   font-weight: bold;
+   
+ }
+  
+#fname {
+
+  font-weight: bold;
+
+  }
+ 
