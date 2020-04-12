@@ -83,7 +83,43 @@ $(document).ready(function() {
 		        		$("#addDlg").dialog("close");	
 		        	}
 		      }]
-		 });	 
+		 });	
+		//Register and hide the edit dialog div until an edit button is clicked on.
+		  $("#editDlg").dialog({
+		      autoOpen: false,
+		      width: 350,
+		      show: 'slide',
+			  hide: 'blind',
+		      modal: true,
+		      open: function(event, ui) {  
+		    	  
+  		    	  
+		    	  // Sets the dialog's fields to the selected committee's old values upon opening.
+		    	  $("#editID_lbl").html("ID: 0");
+		    	  $("#editDlg_commTitle").val("Habitat for Humanity");
+		          $("#editDlg_commNumber").val("Billy Bob");
+		          $("#editDlg_commMember").val("Housing, Community");
+		      },
+		      buttons: [
+		    	  {
+		    		  text: "Update Committee",
+		    		  "class": "editBtnClass",
+		    		  click: function() {
+		    			  $("#editDlg").dialog("close"); 
+		    			
+		    			
+		    			
+		    		    }
+		    		  },
+		    		  {
+		    			  text: "Cancel",
+		    			  "class": "cancelBtnClass",
+		    			  click: function() {	
+		    				  $("#editDlg").dialog("close");  
+		    			  }
+		    		   }
+		    	]
+		    });
 
   
     /* 
@@ -99,5 +135,12 @@ $(document).ready(function() {
   	$(".addBtn").on("click", function() {
   		$("#addDlg").dialog("open");
   	});
- 
+  	
+  	 /* 
+     * Opens edit committee dialog and passes in the selected edit button's committee id
+     * when user clicks an edit button.
+     */    
+     $(".edit").on("click", function() {
+    	 $("#editDlg").dialog("open");
+     });   
 });

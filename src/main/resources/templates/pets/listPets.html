@@ -187,8 +187,36 @@
 		  </div>
 	    </div>
 	  </div>
-	  
-	  
+	   <!-- The div below defines the edit dialog for editing/updating a committee which is hidden by JS and exposed by JQ.
+	    	 Note: Can not change the ID of the committee. -->
+	    <div id="editDlg" title="EDIT SELECTED COMMITTEE" class="ui-widget">
+	      <p>All form fields are required.</p>
+	      <div class="container">
+		    <div class="row">
+			  <div class="form-group">
+			    <label id="editID_lbl" class="form-label"  placeholder="0"></label>
+			  </div>
+		    </div>
+		    <div class="row">
+			  <div class="form-group">
+			    <label class="form-label" for="editDlg_commTitle">Title</label>
+				<input id="editDlg_commTitle" class="form-control" type="text"  placeholder="Habitat for Humanity" autocomplete="off"/>
+			  </div>
+		    </div>
+		    <div class="row">
+			  <div class="form-group">
+				<label class="form-label" for="editDlg_commNumber">Contact Name</label>
+				<input id="editDlg_commNumber" class="form-control" type="text"  placeholder="Billy Bob" autocomplete="off"/>
+			  </div>
+		    </div>
+		    <div class="row">
+			  <div class="form-group">
+				<label class="form-label" for="editDlg_commMember">Category</label>
+				<input id="editDlg_commMember" class="form-control" type="text"  placeholder="Housing, Community" autocomplete="off"/>
+			  </div>
+		    </div>
+		  </div>
+		</div>
 	  
 	  <!-- "FOOTER" links (about, contact us) will get replace with macro -->
 	  <nav class="navbar navbar-inverse navbar-fixed-bottom"
