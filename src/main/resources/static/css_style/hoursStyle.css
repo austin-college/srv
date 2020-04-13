@@ -1,0 +1,80 @@
+@charset "ISO-8859-1";
+
+/* Style for the container containing the stats info*/
+.container-statsBackground {
+ float: left;
+ background-color: white;
+ width: 25%;
+ height 100%;
+}
+
+/* style for Stats heading Text*/
+.container-statsHeadTextBackground {
+	color: Black;
+	font-family: Roboto, sans-serif;
+	font-weight: 700;
+	line-height: 1.2;
+}
+/* style for Stats text area*/
+.container-Stats {
+	color: Black;
+	border: 1px solid black;
+
+}
+
+
+/* style for table background */
+.container-tableBackground {
+	float: right;
+	background-color: white;
+	height: 100%;
+	width: 75%
+}
+
+/* style for section headings */
+.container-textHeading {
+	  padding-left: 28px;
+	color: black;
+	font-family: Roboto, sans-serif;
+	font-weight: 700;
+	line-height: 1.2;	
+}
+
+
+
+/* Styles for the table, include table, th, and td*/
+.container-tables {
+  background-color: white;
+  padding-left: 40px;
+  .fill {object-fit: fill;}
+}
+
+table {
+  border: 1px solid black;
+  	align-center;
+  width: 94%;
+  height: 50px;
+  text-align: center;
+  background-color: white;
+	
+}
+
+th {
+border: 1px solid black;
+  width: 100px;
+  height: 50px;
+  background-color: grey;
+}
+
+td {
+border: 1px solid black;
+background-color: white;
+}
+
+/* style for the area we'll put the buttons */
+.container-buttonArea {
+    padding-top:2px;
+	padding-right:2px;
+	width: 100%
+}
+

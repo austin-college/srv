@@ -5,12 +5,144 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="styleSheet" href="css_style/hoursStyle.css" type="text/css">
 <title>Hours Served</title>
 </head>
-<body>
-	<p>
-		this is the initial page; will be replaced shortly
-	</p>
 </body>
+<!--  this container holds onto all information regarding Stats
+and has the button as well located at the bottom -->
+<div class="container-statsBackground">
+	<div class="container-statsHeadTextBackground">Statistics</div>
+
+	<div class="container-Stats">
+		<p>Currently you have served 15 hours total with 5 hours pending
+			approval</p>
+	</div>
+
+	<!-- Buttons that will either lead to the user profile,
+	or ask the to enter their service hours -->
+
+	<div class="container-buttonArea">
+		<button type="button" class="btn btn-lg btn-dark">View
+			Profile</button>
+
+		<!-- Button to open edit hours dialog  -->
+		<button type="button" class="btn btn-lg btn-dark" data-toggle="modal"
+			data-target="#srvEditHrs">Add hours</button>
+
+	</div>
+
+</div>
+
+<!-- TODO We must add ServiceEventObjects with Jquery and fill the table that way along with an edit button next to each. -->
+
+<!-- a container for the table container
+	will be used for background colors eventually  -->
+<div class="container-tableBackground">
+	<div class="container-textHeading">Service Hours</div>
+	<!-- container thats creating a table that will hold our data-->
+	<div class="container-tables">
+		<div Id="table" class="row">
+			<table>
+				<tr>
+					<th>Pending Approval</th>
+					<th>Approved Hours</th>
+					<th>Rejected Hours</th>
+				</tr>
+				<tr>
+					<td>Spending time with Toys for tots 
+						<!-- Buttons to open edit/delete hours dialog  -->
+						<button type="button" class="btn btn-sm btn-warning rounded-0"data-toggle="modal" data-target="#srvEditHrs">Edit</button>
+						<button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="modal" data-target="#srvAreYouSureHrs" title="Delete">X</button>
+					</td>
+					<td>Food House</td>
+					<td>Picking up the trash</td>
+				</tr>
+				<tr>
+					<td>Teaching part time</td>
+					<td>Build house with Salvation Army</td>
+					<td>Show and Tell</td>
+				</tr>
+				<tr>
+					<td>Working with food house</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Volunteering at service station</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+
+
+	</div>
+</div>
+<!-- TODO Pre-Populate text fields with event info so that user may edit and submit form -->
+<div>
+	<!-- Modal Dialog to edit hours-->
+	<div id="srvEditHrs" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- addHoursForm -->
+			<div class="modal-content">
+				<form id="srvEditHours" method="post">
+					<h4 class="modal-title">Record of Servant Hours</h4>
+					<!-- Exit button -->
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<div class="modal-body">
+						<!-- Servant information fields -->
+						<div class="form-group">
+							<label for="srvName">Name: </label> <input type="text"
+								class="form-control" id="srvName"> <label for="srvPhone">Phone
+								#: </label> <input type="text" class="form-control" id="srvPhone">
+							<label for="srvEmail">E-Mail: </label> <input type="text"
+								class="form-control" id="srvEmail"> <label
+								for="srvStuId">Student ID: </label> <input type="text"
+								class="form-control" id="srvStuId">
+						</div>
+						<!-- Service information fields -->
+						<div class="form-group">
+							<label for="srvDate">Date: </label> <input type="text"
+								class="form-control" id="srvDate"> <label for="srvHours">Hours
+								Served: </label> <input type="text" class="form-control" id="srvHours">
+							<label for="srvLocation">Project Location: </label> <input
+								type="text" class="form-control" id="srvLocation"> <label
+								for="srvDescription">Description: </label> <input type="text"
+								class="form-control" id="srvName"> <label
+								for="srvContactName">Contact Name: </label> <input type="text"
+								class="form-control" id="srvContactName"> <label
+								for="srvContactPhone">Description: </label> <input type="text"
+								class="form-control" id="srvContactPhone"> <label
+								for="srvCampusOrg">Campus Organization: </label> <input
+								type="text" class="form-control" id="srvName">
+						</div>
+					</div>
+					<!-- Modal Footer -->
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div>
+<!-- Modal Dialog to edit hours-->
+	<div id="srvAreYouSureHrs" class="modal fade" role="dialog">
+		<div class = modal-dialog>
+			<div class="modal-content">
+				<h4 class="modal-title">Are you sure?</h4>
+				<!-- Exit button -->
+				<button type="button" class="close modal-title" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+	
+	</div>
+</div>
 </html>
 </@layout.stdpage>
