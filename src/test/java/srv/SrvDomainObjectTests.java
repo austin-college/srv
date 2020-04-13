@@ -9,6 +9,9 @@ import javax.validation.constraints.AssertTrue;
 import org.junit.jupiter.api.Test;
 
 import srv.domain.User;
+import srv.domain.Pet;
+import srv.domain.Event;
+import srv.domain.EventType;
 
 class SrvDomainObjectTests {
 
@@ -115,5 +118,17 @@ class SrvDomainObjectTests {
 		
 		User examinedUser = User.findUser("hunter", arrayListHolder);
 		assertEquals(null, examinedUser);
+	}
+	
+	@Test
+	void EventConstructorTest() {
+		Pet testPet = null;
+		EventType testType = null;
+		Event testEvent = new Event("11-09-2020",testPet,testType);
+
+		assertTrue(testEvent != null);
+		assertEquals("11-09-2020", testEvent.getDate());
+		assertEquals(testPet, testEvent.getEventPet());
+		assertEquals(testType, testEvent.getType());
 	}
 }

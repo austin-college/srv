@@ -183,16 +183,16 @@ public class AboutController {
 
 		ModelAndView mav = new ModelAndView("about/aboutMin");
 		
+		/* freemarker variables */
 		mav.addObject("name", "MinSeob Shim");
 		mav.addObject("country", "South Korea");
 		mav.addObject("major", "Computer Science & Business Administration");
 		mav.addObject("minor", "EALC: Japanese");
 		mav.addObject("hobby", "Basketball");
-		mav.addObject("music", "Clarinet and Piano");
+		mav.addObject("instruments", "Clarinet and Piano");
 
 		return mav;
 	}
-	
 	
 	
 	@GetMapping("/about/Hunter")
