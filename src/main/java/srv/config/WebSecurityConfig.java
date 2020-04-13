@@ -102,9 +102,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .password("$2b$10$TOwIs32GeV.OZNdQBW5XpOCj1fsfGydm5ytY5YhVeuUj88djiXp0e")  // "user"
           .roles("USER");
         
+        auth.inMemoryAuthentication().withUser("boardmember")
+        .password("$2b$10$GHta1zEr.cZjTUIj7DGw.un./Uc.Ni/R3DVcUUJX5h9PHSLT4k3Hi")  // "boardmember"
+        .roles("USER", "BOARDMEMBER");
+        
         auth.inMemoryAuthentication().withUser("admin")
         .password("$2b$10$21ITM86vZOBISgzdP9KgjuKuuURsa4OlqH7GbrMVjJ07r867Fn91m")  // "admin"
-        .roles("USER","ADMIN");
+        .roles("USER", "BOARDMEMBER", "ADMIN");
 
 
     }
