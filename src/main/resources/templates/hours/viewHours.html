@@ -34,6 +34,7 @@ and has the button as well located at the bottom -->
 
 </div>
 
+<!-- TODO We must add ServiceEventObjects with Jquery and fill the table that way along with an edit button next to each. -->
 
 <!-- a container for the table container
 	will be used for background colors eventually  -->
@@ -49,7 +50,11 @@ and has the button as well located at the bottom -->
 					<th>Rejected Hours</th>
 				</tr>
 				<tr>
-					<td>Spending time with Toys for tots</td>
+					<td>Spending time with Toys for tots
+						<!-- Button to open edit hours dialog  -->
+						<button type="button" class="btn btn-sm btn-warning" data-toggle="modal"
+						data-target="#srvEditHrs">Edit hours</button>
+					</td>
 					<td>Food House</td>
 					<td>Picking up the trash</td>
 				</tr>
@@ -74,14 +79,14 @@ and has the button as well located at the bottom -->
 
 	</div>
 </div>
-
+<!-- TODO Pre-Populate text fields with event info so that user may edit and submit form -->
 <div>
 	<!-- Modal Dialog to edit hours-->
-	<div id="srvAddHrs" class="modal fade" role="dialog">
+	<div id="srvEditHrs" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<!-- addHoursForm -->
 			<div class="modal-content">
-				<form id="srvAddHours" method="post">
+				<form id="srvEditHours" method="post">
 					<h4 class="modal-title">Record of Servant Hours</h4>
 					<!-- Exit button -->
 					<button type="button" class="close" data-dismiss="modal"
@@ -119,9 +124,11 @@ and has the button as well located at the bottom -->
 					<!-- Modal Footer -->
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-success">Submit</button>
+					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+</div>
 </html>
 </@layout.stdpage>
