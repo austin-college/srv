@@ -26,4 +26,4 @@ target/
 build/
 ### VS Code ###
 .vscode/
-srv.vpp.bak_000f
+srv.vpp.bak*
