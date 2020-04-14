@@ -8,7 +8,7 @@
 	<link rel="styleSheet" href="css_style/srvStyle.css" type="text/css" media="screen">
 	<title>Service Station App</title>
 </head>
-<body style="background-color: #427dc6;">
+<body>
 	<!-- Header at the top of page that includes the AC logo and navigation links -->
 	<div id="topHeader" class="jumbotron jumbotron-fluid">
 		<div class="container-fluid">
@@ -32,18 +32,18 @@
 	<!-- A container that contains the announcement elements -->
 	<div id="announcementElements" class="container-fluid">
 	
-		${name}
+
 		
 		<!-- The row below contains the announcement title-->
 	  	<div class="row"> 
-	  		<div class="col-sm" style="padding-left:50px; padding-top:20px">
+	  		<div id="announceTitle" class="col-sm">
 	  			<h1>Announcements</h1>
 	  			<hr class="col-sm-11">
 	  		</div>
 	  	</div>
 	  	<div class="row justify-content-between">
 	  	<!-- Contains list of announcements -->
-	  	<div class="col-sm-6" style="padding-left:50px">
+	  	<div id="annListCol" class="col-sm">
 	  		<div id="announceList" class="list-group">
 	  			<!-- Links -->
 	  			<a href="#" class="list-group-item">Habitat for Humanity Build Next Saturday</a>
@@ -53,10 +53,10 @@
 	  			<a href="#" class="list-group-item">Crisis Center Volunteers</a>
 	  		</div>
 	  		<div align="center">
-	  			<a id="seeAllLink" href="#" style="font-size:18px">See All</a>
+	  			<a id="seeAllLink" href="#">See All</a>
 	  		</div>
 	  	</div>
-	  	<div class="col text-center" style="padding-top:25px">
+	  	<div id="spotlightCol" class="col text-center">
 	  		<img id="spotlightImg" alt="Service Spotlight" src="https://www.wastatepta.org/wp-content/uploads/2016/11/Senior-volunteer-helping-African-American-man-register-for-marathon-000065245281_Medium.jpg" class="rounded">
 	  		<p id="spotlightDesc">Last weekend Morgan Freeman and Billy Bob Thornton helped the Meals on Wheels program deliver 20 meals to senior citizens.</p>
 	  	</div>
@@ -67,13 +67,13 @@
 	<div id="findOpElements" class="container-fluid">
 		<!-- The row below contains the announcement title-->
 	  	<div class="row"> 
-	  		<div class="col-sm" style="padding-left:50px">
+	  		<div id="findOpTitle" class="col-sm">
 	  			<h1>Find Service Opportunity</h1>
 	  			<hr class="col-sm-11">
 	  		</div>
 	  	</div>	
 	  	<!-- Row containing the types of service opportunities -->
-	  	<div class="row opIcons justify-content-between" style="padding-top:25px">
+	  	<div id="rowIcons" class="row opIcons justify-content-between">
 			<!-- Animal icon -->
 	  		<div class="col-sm-1">
 	  			<a href="#" class="dot">
@@ -123,9 +123,9 @@
 	</div>
 	
 	<!-- Temporary calendar -->
-	<div id="calendar"  class="container-fluid">
-		<div class="row" style="padding-left:223px">
-			<div class="col">
+	<div id="calendar"  class="container-fluid justify-center">
+		<div class="row">
+			<div class="col-sm">
 				<div class="month">
   					<ul>
     					<li class="prev">&#10094;</li>
@@ -133,7 +133,10 @@
     					<li>March<br></li>
   					</ul>
 				</div>
-				  <div class="col" style="padding-left:0px; padding-right: 222px">
+				</div>
+			</div>
+			<div class="row">
+				  <div class="col-sm">
 					<ul class="weekdays">
   						<li>Sun</li>	
   						<li>Mon</li>
@@ -179,9 +182,42 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	
 	
 	<!-- Spacing for bottom of page -->
-	<div class="row" style="height:60px"></div>
+	<div id="bottomSpacer" class="row"></div>
+	
+			<nav class="navbar navbar-inverse navbar-fixed-bottom"
+			style="min-height:2.5em;">
+
+
+			<!-- Contact Us link in footer -->
+			<div class="container-fluid ">
+				<div class="row" style="padding-left: 10px; padding-top: 5px">
+					<div class="col"
+						style="color: gray;  text-align:center; border-left: #444 1px solid; border-right: #444 1px solid">
+						
+						<a href="#">Contact Us</a>
+												
+						<#if user?exists>
+						${user.name!""}
+						</#if>
+					</div>
+					<!-- About link in footer -->
+					<div class="col-sm-4"
+						style="color: gray;  text-align:left; border-left: #444 1px solid; border-right: #444 1px solid">
+						
+						<a href="/srv/about">About</a>
+												
+						<#if user?exists>
+						${user.name!""}
+						</#if>
+					</div>
+
+				</div>
+			</div>
+
+
+		</nav>
 </body>
 </html>

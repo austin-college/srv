@@ -29,6 +29,31 @@
 	color: white;
 }
 
+/* Makes background AC blue */
+body { 
+	background-color: #427dc6
+}
+
+/* Style for the announcement title */
+#announceTitle {
+	padding-left:50px; 
+	padding-top:20p
+}
+
+/* Style for the column containing the list of announcements and find opportunity*/
+#annListCol, #findOpTitle {
+	padding-left:50px
+}
+
+/* Style for the See All link */
+#seeAllLink {
+	font-size:18px
+}
+
+/* Style for the columns containing the spotlight elements and opportunity icons*/
+#spotlightCol, #rowIcons {
+	padding-top:25px
+}
 /* Style for section titles */
 h1 {
 	font-family: Roboto, sans-serif;
@@ -44,8 +69,8 @@ hr {
 	margin-top: 0px;
 }
 
-/* Style for the container containing the announcements */
-#announcementElements.container-fluid, #findOpElements.container-fluid {
+/* Style for the containers */
+#announcementElements.container-fluid, #findOpElements.container-fluid{
 	background-color: white;
    	width: 75%;
    	padding-bottom: 50px;
@@ -114,15 +139,22 @@ i {
 	color: #a41e34;
 }
 
+/* Adds space at the bottom of the page */
+#bottomSpacer {
+	height:60px
+}
 ul {
 	list-style-type: none;
+}
+
+#calendar.container-fluid {
+	width: 76.6%;
 }
 
 /* Style for month header */
 .month {
   font-family: Roboto, sans-serif;
   padding: 25px;
-  width: 86.5%;
   background: #a41e34;
   text-align: center;
 }
@@ -185,3 +217,6 @@ ul {
   background: #e9a911;
   color: white !important
 }
+
+/* STYLE FOR PET LIST PAGE BELOW */
+

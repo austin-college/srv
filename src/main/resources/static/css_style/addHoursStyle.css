@@ -1,0 +1,42 @@
+@charset "ISO-8859-1";
+
+.container {
+
+   padding: 25px 50px;
+   border-style: solid; 
+   
+}
+
+.form-group {
+
+   padding: 5px
+   
+}
+
+
+#submit {
+
+  margin-top: 5px;
+  border-style: solid;
+  
+  }
+
+ 
+#example, #ex {
+
+  color: rgb(120, 120, 120);
+ 
+ }
+  
+#topnav {
+ 
+   font-weight: bold;
+   
+ }
+  
+#fname {
+
+  font-weight: bold;
+
+  }
+ 

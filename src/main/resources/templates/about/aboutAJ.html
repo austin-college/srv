@@ -1,18 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>About AJ Pritchard</title>
-</head>
-<body>
-<p>
-<img src="/srv/images/about/AJProfessionalPhoto.jpg" align="left" style="padding-right:50px; width:200px; height:300px"/>
-</p>
-<p>	
-My name is ${name} and I am a ${sports} playing athlete at Austin College. 
-I am a ${class} graduating from Austin College at ${age} years old. 
-I am majoring in ${major} and minoring in ${minor} and I love the tools I can make with programming. 
-I am from ${state} state and I enjoy watching sports, playing games and learning new things.
-</p>
-</body>
-</html>
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage "About AJ Pritchard" >
+
+
+<!-- Page Content -->
+<div class="container-fluid">
+	<table>
+		<tbody>
+			<tr>
+				<td><img src="/srv/images/about/AJProfessionalPhoto.jpg"
+					align="left"
+					style="padding-right: 15px; width: 225px; height: 250px" /></td>
+				<td>
+					<p>My name is ${name} and I am a ${sports} playing athlete at
+						Austin College. I am a ${class} graduating from Austin College at
+						${age} years old. I am majoring in ${major} and minoring in
+						${minor} and I love the tools I can make with programming. I am
+						from ${state} state and I enjoy watching sports, playing games and
+						learning new things.</p>
+
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</@layout.stdpage>

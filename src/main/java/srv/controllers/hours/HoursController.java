@@ -1,5 +1,4 @@
-
-package srv.controllers.splash;
+package srv.controllers.hours;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * This is the algorithm that prepares the response. 
@@ -20,7 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 
 @Controller
-public class SplashController {
+public class HoursController {
 	
 
 	   /**
@@ -30,34 +27,30 @@ public class SplashController {
 	    * @param response
 	    * @return
 	    * 
-	    * @author lahouse
+	    * @author Hunter Couturier
 	    */
-	   @GetMapping("/splash")
+	   @GetMapping("/viewHours")
 	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 		   
-		   ModelAndView mav = new ModelAndView("splash/splash");
-	
-		   
-		   
+		   ModelAndView mav = new ModelAndView("hours/viewHours");
 		   
 		   return mav;
 	   }
 	   
-
 	   /**
-	    * Provide the mapping if the user did not know to enter through the splash page.  In this
-	    * case, we send back a redirect to the requester.
+	    * Action to display add hours page. See addHours.html 
 	    * 
-	    * @param attributes
+	    * @param request
+	    * @param response
 	    * @return
+	    * 
+	    * @author Sameeha Khaled
 	    */
-	    @GetMapping("/")
-	    public RedirectView redirectAll (
-	    		
-	      RedirectAttributes attributes) {
-	    	
-	      return new RedirectView("/srv/splash");
-	        
-	    }
+	   @GetMapping("/addHours") 
+	   public ModelAndView addHoursAction(HttpServletRequest request, HttpServletResponse response) {
+		   
+		   ModelAndView mav = new ModelAndView("hours/addHours");
+		   
+		   return mav;
+	   }
 }
-

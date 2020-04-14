@@ -1,0 +1,38 @@
+@charset "ISO-8859-1";
+
+/* Style for the About title */
+.display-1 {
+	font-weight:400;
+	font-family: Roboto, sans-serif;
+	margin-top: 20px;
+}
+/* Style for the sub headings */
+h4 {
+	font-weight: 790;
+	font-family: Roboto, sans-serif;
+}
+/* Style for paragraphs */
+p {
+	font-size: 20px;
+	font-family: arial;
+}
+/* Makes the background AC blue */
+body {
+	background-color: #427dc6;
+}
+
+/* Makes the container containing my bio white */
+.container {
+	background-color: white;
+}
+
+/* Formats my picture to inside the container */
+#headshot {
+	width: 375px;
+	height: 600px;
+}
+
+/* Shrink height so no white space below image */
+.wb-page  {
+	height:794px;
+}
