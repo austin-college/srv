@@ -20,7 +20,7 @@ public class ServantUser extends User {
 	public ServantUser(String userID, String password, char classification) {
 		super(userID, password);
 		this.classification = classification;
-		totalHoursServed = 0;
+		totalHoursServed = 0.0;
 	}
 	
 	/**
@@ -35,8 +35,26 @@ public class ServantUser extends User {
 		
 		return submittedHours;
 	}
-	
-	
-	
+
+	public char getClassification() {
+		return classification;
+	}
+
+	public ServiceGroup getAffiliation() {
+		return affiliation;
+	}
+
+	public void setClassification(char classification) {
+		this.classification = classification;
+	}
+
+	public void setAffiliation(ServiceGroup affiliation) {
+		this.affiliation = affiliation;
+	}
+
+	public void setTotalHoursServed(double totalHoursServed) {
+		this.totalHoursServed = totalHoursServed;
+	}
+		
 
 }
