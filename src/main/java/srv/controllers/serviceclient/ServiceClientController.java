@@ -1,5 +1,5 @@
 
-package srv.controllers.serviceClient;
+package srv.controllers.serviceclient;
 
 import java.util.List;
 
@@ -10,10 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import srv.domain.reason.JdbcReasonDao;
-import srv.domain.reason.JdbcTemplateReasonDao;
-import srv.domain.reason.Reason;
-import srv.domain.reason.ReasonDao;
+import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
 
 
 /**
@@ -29,16 +28,16 @@ public class ServiceClientController {
 	   @GetMapping("/test/sc")
 	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 		   
-		   ModelAndView mav = new ModelAndView("test/reasonTestView");
+		   ModelAndView mav = new ModelAndView("test/serviceClientTestView");
    
-		   ReasonDao doa = new JdbcTemplateReasonDao();
+		   ServiceClientDao doa = new JdbcTemplateServiceClientDao();
 		   
 		   
 		   try {
 			   
-			List<Reason> myReasons = doa.listAll();
+			List<ServiceClient> myClients = doa.listAll();
 			
-			mav.addObject("reasons", myReasons );
+			mav.addObject("serviceClients", myClients);
 			
 			} catch (Exception e) {
 				
