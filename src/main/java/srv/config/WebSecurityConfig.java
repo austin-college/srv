@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		.antMatchers("/", "/splash",  "/login",  "/logout", "/css_style/**", "/js/**", "/images/**", "**/favicon.ico" ).permitAll()
     		.antMatchers("/**").hasRole("USER");
     		
-    	http.authorizeRequests().and().formLogin();
+    	http.authorizeRequests().and().formLogin();   // .defaultSuccessUrl("/home");  // after home pages added.
     	
      
 // examples we can use eventually....
