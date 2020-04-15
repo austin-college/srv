@@ -1,0 +1,27 @@
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage title="Reason Test" cssname="" >
+
+<!-- Page Content -->
+<div class="container-fluid">
+	<p>
+	This is just a test for our Reason data access object. This is only a test.
+	</p>
+	<div >
+	<#if reasons?? >
+			<ul>
+			<#list reasons as r>
+				<li id="rid-${r.rid}" >${r.reason!"UNKNOWN"}</li>
+			</#list>
+			</ul>
+	<#else>
+	<div class="warning">
+		We have no reasons!
+	</div>
+	</#if>
+
+
+	</div>
+</div>
+
+</@layout.stdpage>
