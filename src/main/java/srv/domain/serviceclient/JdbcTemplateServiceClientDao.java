@@ -13,11 +13,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import srv.domain.reason.Reason;
-import srv.domain.reason.JdbcTemplateReasonDao.ReasonRowMapper;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 
-public class JdbcTemplateServiceClientDao {
+public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceClientDao.class);
 
@@ -56,31 +56,31 @@ public class JdbcTemplateServiceClientDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public JdbcTemplateReasonDao() {
+	public JdbcTemplateServiceClientDao() {
 		super();
 	}
 
 	@Override
-	public List<Reason> listAll() throws Exception {
+	public List<ServiceClient> listAll() throws Exception {
 		
-		List<Reason> results = getJdbcTemplate().query("select rid,reason from reasons", new ReasonRowMapper());
+		List<ServiceClient> results = getJdbcTemplate().query("select scid,title from serviceClients", new ServiceClientRowMapper());
 		 
 	   return results;
 		
 	}
 
 	@Override
-	public Reason create(String r) throws Exception {
+	public ServiceClient create(String sc) throws Exception {
 		
-			int rc = jdbcTemplate.update("INSERT INTO Reasons (reason) VALUES(?)", new Object[] { r });
+			int rc = jdbcTemplate.update("INSERT INTO serviceClients (title) VALUES(?)", new Object[] { sc });
 
 			if (rc != 1) {
-				String msg = String.format("unable to insert new reason [%s]", r);
+				String msg = String.format("unable to insert new title [%s]", sc);
 				log.warn(msg);
-				throw new Exception("Unable insert new unique reason. Maybe a duplicate?");
+				throw new Exception("Unable insert new unique title. Maybe a duplicate?");
 			}
 
-		   Reason results = getJdbcTemplate().queryForObject(String.format("select rid, reason from reasons where reason = '%s'",r), new ReasonRowMapper());
+			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select scid, title from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
 	   
 	   return results;
 	}
@@ -88,11 +88,11 @@ public class JdbcTemplateServiceClientDao {
 	
 
 	@Override
-	public void delete(int rid) throws Exception {
-		int rc = getJdbcTemplate().update("DELETE from Reasons where rid= ?", new Object[] { rid });
+	public void delete(int scid) throws Exception {
+		int rc = getJdbcTemplate().update("DELETE from serviceClients where scid= ?", new Object[] { scid });
 		
 		if (rc != 1) {
-			String msg = String.format("unable to delete reason [%s]",rid);
+			String msg = String.format("unable to delete title [%s]", scid);
 			log.warn(msg);
 			throw new Exception(msg);
 		}
@@ -100,40 +100,40 @@ public class JdbcTemplateServiceClientDao {
 	
 
 	@Override
-	public void update(int rid, String newVal) throws Exception {
-		int rc = getJdbcTemplate().update("update reasons set reason = ? where rid = ?", new Object[] { newVal, rid });
+	public void update(int scid, String newVal) throws Exception {
+		int rc = getJdbcTemplate().update("update serviceClients set title = ? where scid = ?", new Object[] { newVal, scid });
 
 		if (rc < 1) {
-			log.error("unable to update reason [{}]",rid);
+			log.error("unable to update title [{}]",scid);
 		}
 
 	}
 
 	@Override
-	public Reason getReasonById(int rid) throws Exception {
+	public ServiceClient fetchClientId(int scid) throws Exception {
 		
-		String sqlStr = String.format("select rid,reason from reasons where rid = %d",rid);
+		String sqlStr = String.format("select scid,title from serviceClients where scid = %d",scid);
 		log.debug(sqlStr);
 		
-		List<Reason> results = getJdbcTemplate().query(sqlStr, new ReasonRowMapper());
+		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
 		
 		if (results.size() != 1) {
-			log.error("unable to fetch reason [{}]",rid);
+			log.error("unable to fetch reason [{}]",scid);
 		}
 		return results.get(0);
 	}
 
 	
 	
-	private class ReasonRowMapper implements RowMapper < Reason > {
+	class ServiceClientRowMapper implements RowMapper < ServiceClient > {
 	    @Override
-	    public Reason mapRow(ResultSet rs, int rowNum) throws SQLException {
+	    public ServiceClient mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-	        Reason reason = new Reason()
-	        		.setReason(rs.getString("reason"))
-	        		.setRid(rs.getInt("rid"));
+	    	ServiceClient sc = new ServiceClient()
+	        		.setTitle(rs.getString("title"))
+	        		.setScid(rs.getInt("scid"));
 	        
-	        return reason;
+	        return sc;
 	    }
 	}
 }
