@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //http.csrf().disable();
  
     	http.authorizeRequests()
-    		.antMatchers("/", "/splash",  "/login",  "/logout", "/css_style/**", "/js/**", "/images/**", "**/favicon.ico" ).permitAll()
+    		.antMatchers("/", "/splash",  "/login", "/test", "/logout", "/css_style/**", "/js/**", "/images/**", "**/favicon.ico" ).permitAll()
     		.antMatchers("/**").hasRole("USER");
     		
     	http.authorizeRequests().and().formLogin();   // .defaultSuccessUrl("/home");  // after home pages added.

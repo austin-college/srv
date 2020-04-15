@@ -15,14 +15,14 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import srv.config.H2JpaConfig;
 
-//JdbcDaoSupport
+
 
 public class JdbcReasonDao  implements ReasonDao {
 	
 	private static Logger log = LoggerFactory.getLogger(JdbcReasonDao.class);
 	
 
-    private Connection getConnection() throws Exception {
+    Connection getConnection() throws Exception {
     	return  DriverManager.getConnection("jdbc:h2:mem:testdb","sa","");
     }
     
@@ -44,7 +44,7 @@ public class JdbcReasonDao  implements ReasonDao {
 			ResultSet rs = s.executeQuery(selectSql);
 					
 			if (rs.next()) {
-				r = new Reason().setRid(rs.getInt(1)).setReason(rs.getString(2));
+				r = new Reason().setRid(rs.getInt("rid")).setReason(rs.getString(2));
 			}
 			
 			rs.close();
@@ -52,7 +52,8 @@ public class JdbcReasonDao  implements ReasonDao {
 			
 		} 
 		finally {
-			conn.close();
+			if (conn != null)
+				conn.close();
 		}
 		
 		return r;
@@ -101,6 +102,7 @@ public class JdbcReasonDao  implements ReasonDao {
 			try (Connection connection = getConnection();
 					PreparedStatement statement = connection.prepareStatement(insertSql,
 							Statement.RETURN_GENERATED_KEYS);) {
+				
 				statement.setString(1, r);
 	
 				int affectedRows = statement.executeUpdate();

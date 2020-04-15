@@ -1,0 +1,21 @@
+@charset "ISO-8859-1";
+
+#headshot {
+	
+	align: left;
+	width: 250px;
+	height: 200px;
+	transform: rotate(90deg);
+	padding-left: 20px;
+}
+
+
+.p {
+	
+	text-align: right;
+	margin: auto; 
+	font-size: 20px;
+	font-family: Roboto, sans-serif;
+	width: 200px;
+	border: hidden;
+}
