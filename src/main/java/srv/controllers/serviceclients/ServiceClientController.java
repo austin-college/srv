@@ -31,10 +31,28 @@ public class ServiceClientController {
 		   
 		   ModelAndView mav = new ModelAndView("serviceclients/listClients");
 		   
+		   ServiceClientDao doa = new JdbcTemplateServiceClientDao();
+		   
+		   
+		   try {
+			   
+			List<ServiceClient> myClients = doa.listAll();
+			
+			mav.addObject("clients", myClients);
+			
+			} catch (Exception e) {
+				
+				System.err.println("\n\n ERROR ");
+				System.err.println(e.getMessage());
+				
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		   
 		   
 		   return mav;
 	   }
+	   
 	   
 	   @GetMapping("/test/sc")
 	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {

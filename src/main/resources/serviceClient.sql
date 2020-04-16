@@ -9,4 +9,6 @@ CREATE TABLE serviceClients (
 	primary key (scid)
 	);
 
-insert into serviceClients (title, contact, boardMem, category) values ('Meals on Wheels', 'Tom Hanks', 'Billy Bob', 'Housing, Community');
+insert into serviceClients (title, contact, boardMem, category) values ('Habitat for Humanity', 'Tom Hanks', 'Billy Bob', 'Housing, Community');
+insert into serviceClients (title, contact, boardMem, category) values ('Crisis Center', 'Jane Smith', 'Lois Lane', 'Women, Crisis Support');
+insert into serviceClients (title, contact, boardMem, category) values ('Meals on Wheels', 'Rick Astley', 'Morgan Freeman', 'Senior, Community');

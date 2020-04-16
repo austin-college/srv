@@ -67,16 +67,19 @@
 				  <th>ID</th>
 				  <th>Title</th>
 				  <th>Contact Name</th>
+				  <th>Board Member</th>
 				  <th>Category</th>
 				  <th colspan='2'>Actions</th>
 				</tr>
 			  </thead>
 			  <tbody id="pet_tbl_body">
-			    <tr>
+			  	<#list clients as sc>
+			    <tr id="scid-${sc.scid}">
 				  <td name='pet_id'>0</td>
-	        	  <td name='pet_title'>Habitat for Humanity</td>
-	        	  <td name='pet_contact_name'><a href="#">Billy Bob</a></td>
-	        	  <td name='pet_category'>Housing, Community</td>
+	        	  <td name='pet_title'>${sc.name!"UNKNOWN"}</td>
+	        	  <td name='pet_contact_name'><a href="#"> ${sc.contactName!"UNKNOWN"}</a></td>
+	        	  <td name='pet_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
+	        	  <td name='pet_category'>${sc.category!"UNKNOWN"}</td>
 				  <td> 
 				    <button type="button" class="edit btn">
 					<span class="glyphicon glyphicon-pencil"></span> 
@@ -90,42 +93,7 @@
 					</button>
 				 </td>
 				 </tr>
-				   <tr>
-				  <td name='pet_id'>1</td>
-	        	  <td name='pet_title'>Crisis Center</td>
-	        	  <td name='pet_contact_name'><a href="#">Jane Smith</a></td>
-	        	  <td name='pet_category'>Women, Crisis Support</td>
-				  <td> 
-				    <button type="button" class="edit btn">
-					<span class="glyphicon glyphicon-pencil"></span> 
-					  Edit
-					</button>
-				  </td>
-				  <td>
-				    <button type="button" class="del btn">
-					<span class="glyphicon glyphicon-remove-sign"></span>  
-					  Delete 
-					</button>
-				 </td>
-				 </tr>
-				   <tr>
-				  <td name='pet_id'>2</td>
-	        	  <td name='pet_title'>Meals on Wheels</td>
-	        	  <td name='pet_contact_name'><a href="#">Rick Astley</a></td>
-	        	  <td name='pet_category'>Seniors, community</td>
-				  <td> 
-				    <button type="button" class="edit btn">
-					<span class="glyphicon glyphicon-pencil"></span> 
-					  Edit
-					</button>
-				  </td>
-				  <td>
-				    <button type="button" class="del btn">
-					<span class="glyphicon glyphicon-remove-sign"></span>  
-					  Delete 
-					</button>
-				 </td>
-				 </tr>
+				 </#list>
 			   </tbody>
 			 </table>
 		   </div>
