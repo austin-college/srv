@@ -15,7 +15,7 @@ CREATE TABLE contacts (
 	);
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
-	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-121', '400-232-121', '626 E Main Street', 'Sherman', 'TX', '75090');
+	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
-	('Lois', 'Lane', 'llane86@gmail.com', '803-423-125', '800-232-121', '118 NW Crawford Street', 'Sherman', 'TX', '75090');
+	('Lois', 'Lane', 'llane86@gmail.com', '803-423-1257', '800-232-1211', '118 NW Crawford Street', 'Sherman', 'TX', '75090');
