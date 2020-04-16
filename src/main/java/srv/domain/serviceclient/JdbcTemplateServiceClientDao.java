@@ -40,7 +40,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("data.sql")//script to create person table
+                .addScript("serviceClient.sql")//script to create person table
                 .build();
     }
 	
@@ -63,7 +63,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public List<ServiceClient> listAll() throws Exception {
 		
-		List<ServiceClient> results = getJdbcTemplate().query("select scid,title from serviceClients", new ServiceClientRowMapper());
+		List<ServiceClient> results = getJdbcTemplate().query("select scid, title, contact, boardMem, category from serviceClients", new ServiceClientRowMapper());
 		 
 	   return results;
 		
@@ -80,7 +80,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 				throw new Exception("Unable insert new unique title. Maybe a duplicate?");
 			}
 
-			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select scid, title from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
+			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select scid, title, contact, boardMem, category from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
 	   
 	   return results;
 	}
@@ -112,7 +112,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public ServiceClient fetchClientId(int scid) throws Exception {
 		
-		String sqlStr = String.format("select scid,title from serviceClients where scid = %d",scid);
+		String sqlStr = String.format("select scid, title, contact, boardMem, category from serviceClients where scid = %d",scid);
 		log.debug(sqlStr);
 		
 		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
@@ -130,8 +130,11 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    public ServiceClient mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 	    	ServiceClient sc = new ServiceClient()
+	    			.setScid(rs.getInt("scid"))
 	        		.setTitle(rs.getString("title"))
-	        		.setScid(rs.getInt("scid"));
+	        		.setContact(rs.getString("contact"))
+	        		.setBoardMember(rs.getString("boardMem"))
+	    			.setCategory(rs.getString("category"));
 	        
 	        return sc;
 	    }

@@ -9,7 +9,4 @@ CREATE TABLE serviceClients (
 	primary key (scid)
 	);
 
-insert into serviceClients (title) values ('Work pl0x');
-insert into serviceClients (contact) values ('Tom Hanks');
-insert into serviceClients (boardMem) values ('Wilson');
-insert into serviceClients (category) values ('Community, Housing');
+insert into serviceClients (title, contact, boardMem, category) values ('Meals on Wheels', 'Tom Hanks', 'Billy Bob', 'Housing, Community');
