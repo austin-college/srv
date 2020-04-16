@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
-import srv.domain.serviceclient.ServiceClient;
-import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.ServiceClientDao;
+import srv.domain.JdbcTemplateServiceClientDao;
+import srv.domain.ServiceClient;
 
 
 /**

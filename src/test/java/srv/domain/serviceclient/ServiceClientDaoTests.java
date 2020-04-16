@@ -7,11 +7,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import srv.domain.ServiceClientDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.reason.Reason;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceclient.ServiceClient;
-import srv.domain.serviceclient.ServiceClientDao;
 
 public class ServiceClientDaoTests {
 

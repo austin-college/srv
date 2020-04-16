@@ -1,0 +1,25 @@
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage title="Service Client Test" cssname="" >
+
+<!-- Page Content -->
+<div class="container-fluid">
+
+	<div >
+	<#if clients?? >
+			<ul>
+			<#list clients as sc>
+				<li id="scid-${sc.scid}" >${sc.title!"UNKNOWN"}, ${sc.contact!"UNKNOWN"}, ${sc.boardMember!"UNKNOWN"}, ${sc.category!"UNKNOWN"} </li>
+			</#list>
+			</ul>
+	<#else>
+	<div class="warning">
+		We have no reasons!
+	</div>
+	</#if>
+
+
+	</div>
+</div>
+
+</@layout.stdpage>

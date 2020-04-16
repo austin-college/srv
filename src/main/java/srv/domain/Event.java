@@ -21,7 +21,7 @@ public class Event {
 	private EventType type;
 	private boolean continous;
 	private int volunteersNumber;
-	private Pet eventPet;
+	private ServiceClient eventPet;
 	private ArrayList<User> servantList;
 	
 	
@@ -30,7 +30,7 @@ public class Event {
 	
 	}
 	
-	public Event(String date, Pet eventPet, EventType type) {
+	public Event(String date, ServiceClient eventPet, EventType type) {
 		super();
 		this.date = date;
 		this.eventPet = eventPet;
@@ -62,10 +62,10 @@ public class Event {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public Pet getEventPet() {
+	public ServiceClient getEventPet() {
 		return eventPet;
 	}
-	public void setEventPet(Pet eventPet) {
+	public void setEventPet(ServiceClient eventPet) {
 		this.eventPet = eventPet;
 	}
 	public EventType getType() {
