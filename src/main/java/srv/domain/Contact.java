@@ -13,7 +13,8 @@ import java.io.Serializable;
  *
  */
 public class Contact implements Serializable {
-
+	
+	private Integer cid; // Unique id for contact
 	private String firstName; // name of contact
 	private String lastName;
 	private String email; // email
@@ -25,9 +26,10 @@ public class Contact implements Serializable {
 	private String state;
 	private String zipcode;
 
-	public Contact(String firstName, String lastName, String email, String phoneNumWork, String phoneNumMobile,
+	public Contact(Integer new_id, String firstName, String lastName, String email, String phoneNumWork, String phoneNumMobile,
 			String street, String city, String state, String zipcode) {
 		super();
+		this.cid = new_id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -43,6 +45,16 @@ public class Contact implements Serializable {
 	public Contact() {
 		super();
 	}
+	
+	public Integer getContactId() {
+		return cid;
+	}
+	
+	public Contact setContactId(Integer new_id) {
+		this.cid = new_id;
+		return this;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -83,7 +95,7 @@ public class Contact implements Serializable {
 		return phoneNumMobile;
 	}
 
-	public Contact setPhoneNumwork(String phoneNumMobile) {
+	public Contact setPhoneNumMobile(String phoneNumMobile) {
 		this.phoneNumMobile = phoneNumMobile;
 		return this;
 	}
