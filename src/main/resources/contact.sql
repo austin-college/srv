@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS contacts;
 
-CREATE TABLE contact (
+CREATE TABLE contacts (
 	cid INTEGER AUTO_INCREMENT,
 	firstName VARCHAR(255),
 	lastName VARCHAR(255),
@@ -14,7 +14,7 @@ CREATE TABLE contact (
 	PRIMARY KEY (cid)
 	);
 	
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-121', '400-232-121', '626 E Main Street', 'Sherman', 'TX', '75090');
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES

@@ -13,9 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import srv.domain.reason.Reason;
-import srv.domain.reason.JdbcTemplateReasonDao.ReasonRowMapper;
-
 public class JdbcTemplateContactDao implements ContactDao {
 	
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateContactDao.class);
@@ -127,10 +124,10 @@ public class JdbcTemplateContactDao implements ContactDao {
 	 * if the contact is unable to be fetched (does not exist).
 	 */
 	@Override
-	public Contact fetchContactbyId(int cid) throws Exception {
+	public Contact fetchContactById(int cid) throws Exception {
 		
-		String sqlStr = String.format("SELECT cid, firstName, lastName, email, workPhone, mobilePhone, str,"
-				+ "city, st, zipFROM contacts WHERE cid = %d", cid);
+		String sqlStr = String.format("SELECT cid, firstName, lastName, email, workPhone, mobilePhone, "
+				+ "str, city, st, zip FROM contacts WHERE cid = %d", cid);
 		log.debug(sqlStr);
 		
 		List<Contact> results = getJdbcTemplate().query(sqlStr, new ContactRowMapper());

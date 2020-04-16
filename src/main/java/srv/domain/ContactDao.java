@@ -19,6 +19,6 @@ public interface ContactDao {
 	
 	public void update(int cid, String newVal) throws Exception;
 
-	public Contact fetchContactbyId(int cid) throws Exception;
+	public Contact fetchContactById(int cid) throws Exception;
 
 }
