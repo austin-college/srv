@@ -45,7 +45,7 @@ public class JdbcTemplateReasonDao implements  ReasonDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("data.sql")//script to create person table
+                .addScript("serviceClient.sql")//script to create person table
                 .build();
     }
 	
@@ -77,7 +77,7 @@ public class JdbcTemplateReasonDao implements  ReasonDao {
 	@Override
 	public Reason create(String r) throws Exception {
 		
-			int rc = jdbcTemplate.update("INSERT INTO Reasons (reason) VALUES(?)", new Object[] { r });
+			int rc = jdbcTemplate.update("INSERT INTO reasons (reason) VALUES(?)", new Object[] { r });
 
 			if (rc != 1) {
 				String msg = String.format("unable to insert new reason [%s]", r);

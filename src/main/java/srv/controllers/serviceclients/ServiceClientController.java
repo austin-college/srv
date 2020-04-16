@@ -1,5 +1,4 @@
-
-package srv.controllers.serviceclient;
+package srv.controllers.serviceclients;
 
 import java.util.List;
 
@@ -8,23 +7,35 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import srv.domain.ServiceClientDao;
 import srv.domain.JdbcTemplateServiceClientDao;
 import srv.domain.ServiceClient;
+import srv.domain.ServiceClientDao;
 
-
-/**
- * Attempting to add a database support for service client
- * 
- * @author lahouse
- *
- */
 @Controller
 public class ServiceClientController {
-	
-
+	 /**
+	    * List action displays the list of service clients (pets) page. See listClients.html template
+	    * 
+	    * @param request
+	    * @param response
+	    * @return
+	    * 
+	    * @author lahouse
+	    */
+	   @GetMapping("/list")
+	   public ModelAndView listAction(HttpServletRequest request, HttpServletResponse response) {
+		   
+		   ModelAndView mav = new ModelAndView("serviceclients/listClients");
+		   
+		   
+		   
+		   return mav;
+	   }
+	   
 	   @GetMapping("/test/sc")
 	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 		   
@@ -51,5 +62,7 @@ public class ServiceClientController {
 		   
 		   return mav;
 	   }
-	   
 }
+
+
+	  
