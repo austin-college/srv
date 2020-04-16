@@ -1,5 +1,7 @@
 package srv.domain;
 
+import java.io.Serializable;
+
 /**
  * @author Emma Driscoll
  * 
@@ -10,7 +12,7 @@ package srv.domain;
  *         state, zipcode)
  *
  */
-public class Contact {
+public class Contact implements Serializable {
 
 	private String firstName; // name of contact
 	private String lastName;
@@ -37,71 +39,82 @@ public class Contact {
 		this.state = state;
 		this.zipcode = zipcode;
 	}
-
+	
+	public Contact() {
+		super();
+	}
 	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	public Contact setFirstName(String firstName) {
 		this.firstName = firstName;
+		return this;
 	}
 
 	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public Contact setLastName(String lastName) {
 		this.lastName = lastName;
+		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public Contact setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 
 	public String getPhoneNumWork() {
 		return phoneNumWork;
 	}
 
-	public void setPhoneNumWork(String phoneNumWork) {
+	public Contact setPhoneNumWork(String phoneNumWork) {
 		this.phoneNumWork = phoneNumWork;
+		return this;
 	}
 
 	public String getPhoneNumMobile() {
 		return phoneNumMobile;
 	}
 
-	public void setPhoneNumwork(String phoneNumMobile) {
+	public Contact setPhoneNumwork(String phoneNumMobile) {
 		this.phoneNumMobile = phoneNumMobile;
+		return this;
 	}
 
 	public String getAddress() { // returns full address
 		return address;
 	}
 
-	public void setAddress() {
+	public Contact setAddress() {
 		this.address = street + ", " + city + ", " + state + " " + zipcode;
+		return this;
 	}
 
 	public String getStreet() {
 		return street;
 	}
 
-	public void setStreet(String street) {
+	public Contact setStreet(String street) {
 		this.street = street;
 		this.setAddress(); //update address
+		return this;
 	}
 
 	public String getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
+	public Contact setCity(String city) {
 		this.city = city;
 		this.setAddress();
+		return this;
 	}
 
 	public String getState() {
@@ -109,18 +122,20 @@ public class Contact {
 
 	}
 
-	public void setState(String state) {
+	public Contact setState(String state) {
 		this.state = state;
 		this.setAddress();
+		return this;
 	}
 
 	public String getZipcode() {
 		return zipcode;
 	}
 
-	public void setZipcode(String zipcode) {
+	public Contact setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 		this.setAddress();
+		return this;
 	}
 
 	/**
