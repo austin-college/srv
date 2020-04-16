@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import srv.domain.serviceclient.ServiceClient;
+import srv.domain.ServiceClient;
 import srv.domain.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
 import srv.domain.JdbcTemplateServiceClientDao;
 
@@ -130,8 +130,8 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 
 	    	ServiceClient sc = new ServiceClient()
 	    			.setScid(rs.getInt("scid"))
-	        		.setTitle(rs.getString("title"))
-	        		.setContact(rs.getString("contact"))
+	        		.setName(rs.getString("title"))
+	        		.setContactName(rs.getString("contact"))
 	        		.setBoardMember(rs.getString("boardMem"))
 	    			.setCategory(rs.getString("category"));
 	        

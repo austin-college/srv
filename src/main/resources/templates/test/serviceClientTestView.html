@@ -9,7 +9,7 @@
 	<#if clients?? >
 			<ul>
 			<#list clients as sc>
-				<li id="scid-${sc.scid}" >${sc.title!"UNKNOWN"}, ${sc.contact!"UNKNOWN"}, ${sc.boardMember!"UNKNOWN"}, ${sc.category!"UNKNOWN"} </li>
+				<li id="scid-${sc.scid}" >${sc.name!"UNKNOWN"}, ${sc.contactName!"UNKNOWN"}, ${sc.boardMember!"UNKNOWN"}, ${sc.category!"UNKNOWN"} </li>
 			</#list>
 			</ul>
 	<#else>

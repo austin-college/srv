@@ -1,17 +1,12 @@
-package srv.domain.serviceclient;
-
+package srv;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import srv.domain.ServiceClientDao;
-import srv.domain.reason.JdbcTemplateReasonDao;
-import srv.domain.reason.Reason;
-import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
-import srv.domain.serviceclient.ServiceClient;
+import srv.domain.JdbcTemplateServiceClientDao;
+import srv.domain.ServiceClient;
+
 
 public class ServiceClientDaoTests {
 
@@ -27,8 +22,8 @@ public class ServiceClientDaoTests {
 		
 		assertEquals(1, r1.getScid());
 
-		assertEquals("Meals on Wheels", r1.getTitle());
-		assertEquals("Tom Hanks", r1.getContact());
+		assertEquals("Meals on Wheels", r1.getName());
+		assertEquals("Tom Hanks", r1.getContactName());
 		assertEquals("Billy Bob", r1.getBoardMember());
 		assertEquals("Housing, Community", r1.getCategory());
 

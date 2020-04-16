@@ -1,5 +1,6 @@
 package srv.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  *         The ServiceClient class is supposed to represent the information we are holding
  *         for a pet, or a service organization
  */
-public class ServiceClient {
+public class ServiceClient implements Serializable {
 	private Integer scid; // unique id for each client
 	private String name; // the name of the pet
 	
@@ -29,15 +30,18 @@ public class ServiceClient {
 	private int servantsReq; // amount of personel needed for an event
 	
 	
-	public ServiceClient(Integer scid, String name, Contact contact, String bm, String cat) { //int servantsReq, String eventLoc, String eventDescrp) {
+	// temp cause idk how to java - lydia
+	private String contactName;
+	
+	public ServiceClient(Integer scid, String new_name, String contact, String bm, String cat) { //int servantsReq, String eventLoc, String eventDescrp) {
 		super();
 		this.scid = scid;
-		this.name = name;
-		this.contact = contact;
+		this.name = new_name;
+		this.contactName = contact;
 		this.boardMember = bm;
 		this.category = cat;		
 		
-		/* setting these aside for database support
+		/* setting these aside for database support - lydia
 		this.servantsReq = servantsReq;
 		this.eventLoc = eventLoc;
 		this.eventDescrp = eventDescrp;
@@ -61,8 +65,9 @@ public class ServiceClient {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public ServiceClient setName(String new_name) {
+		this.name = new_name;
+		return this;
 	}
 	public String getBoardMember() {
 		return boardMember;
@@ -86,17 +91,27 @@ public class ServiceClient {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public ServiceClient setContact(Contact contact) {
 		this.contact = contact;
+		return this;
 	}
 	
+	public String getContactName() {
+		return contactName;
+	}
+
+	public ServiceClient setContactName(String contact) {
+		this.contactName = contact;
+		return this;
+	}
 
 	public int getServantsReq() {
 		return servantsReq;
 	}
 
-	public void setServantsReq(int servantsReq) {
+	public ServiceClient setServantsReq(int servantsReq) {
 		this.servantsReq = servantsReq;
+		return this;
 	}
 	
 }
