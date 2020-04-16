@@ -9,7 +9,7 @@ import javax.validation.constraints.AssertTrue;
 import org.junit.jupiter.api.Test;
 
 import srv.domain.User;
-import srv.domain.Pet;
+import srv.domain.ServiceClient;
 import srv.domain.Event;
 import srv.domain.EventType;
 
@@ -122,7 +122,7 @@ class SrvDomainObjectTests {
 	
 	@Test
 	void EventConstructorTest() {
-		Pet testPet = null;
+		ServiceClient testPet = null;
 		EventType testType = null;
 		Event testEvent = new Event("11-09-2020",testPet,testType);
 

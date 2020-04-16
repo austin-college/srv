@@ -12,7 +12,7 @@ package srv.domain;
  */
 public class ServiceHours {
 
-	private Pet servedPet; // Associated Pet
+	private ServiceClient servedPet; // Associated Pet
 	private User servant; // Servant worked for Pet
 	private Event eventName; // Event held for service
 	private double hours;	// Hours served
@@ -25,7 +25,7 @@ public class ServiceHours {
 	 * @param event
 	 * @param hours
 	 */
-	public ServiceHours(Pet servedPet, User servant, Event eventName, double hours) {
+	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours) {
 		super();
 		this.servedPet = servedPet;
 		this.servant = servant;
@@ -34,12 +34,12 @@ public class ServiceHours {
 	}
 
 
-	public Pet getServedPet() {
+	public ServiceClient getServedPet() {
 		return servedPet;
 	}
 
 
-	public void setServedPet(Pet servedPet) {
+	public void setServedPet(ServiceClient servedPet) {
 		this.servedPet = servedPet;
 	}
 
