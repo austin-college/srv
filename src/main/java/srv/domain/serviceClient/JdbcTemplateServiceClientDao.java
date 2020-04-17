@@ -1,4 +1,4 @@
-package srv.domain;
+package srv.domain.serviceClient;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,9 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import srv.domain.ServiceClient;
-import srv.domain.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
-import srv.domain.JdbcTemplateServiceClientDao;
+import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceClient.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
 
 public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	

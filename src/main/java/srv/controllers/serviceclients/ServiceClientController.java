@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import srv.domain.JdbcTemplateServiceClientDao;
-import srv.domain.ServiceClient;
-import srv.domain.ServiceClientDao;
+import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceClient.ServiceClientDao;
 
 @Controller
 public class ServiceClientController {

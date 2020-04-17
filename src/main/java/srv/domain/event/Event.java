@@ -1,7 +1,11 @@
-package srv.domain;
+package srv.domain.event;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import srv.domain.contact.Contact;
+import srv.domain.serviceClient.ServiceClient;
+import srv.domain.user.User;
 
 /**
  * @author Segun Adekunle 

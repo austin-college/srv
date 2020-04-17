@@ -3,8 +3,10 @@ package srv;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import srv.domain.Contact;
-import srv.domain.JdbcTemplateContactDao;
+
+import srv.domain.contact.Contact;
+import srv.domain.contact.JdbcTemplateContactDao;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
 

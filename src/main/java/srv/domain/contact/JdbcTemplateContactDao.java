@@ -1,4 +1,4 @@
-package srv.domain;
+package srv.domain.contact;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
