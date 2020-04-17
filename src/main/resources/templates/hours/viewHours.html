@@ -14,13 +14,15 @@
 
 
 <div class="container-mainContainer">
-	<div class="row" style="padding-left:30px; padding-bottom:20px">
+	<div class="row" style="padding-left:20px; padding-bottom:20px">
 	
 		<div class="col">
 		<!--  this container holds onto all information regarding Stats
 		and has the button as well located at the bottom -->
 			<div class="container-statsBackground">
-				<div class="container-statsHeadTextBackground">Statistics</div>
+				<div>
+					<h1>Statistics</h1>
+				</div>
 
 				<div class="container-Stats">
 					<p>Currently you have served 15 hours total with 5 hours pending
@@ -30,12 +32,12 @@
 				<!-- Buttons that will either lead to the user profile,
 				or ask the to enter their service hours -->
 	
-				<div class="container-buttonArea">
-					<button type="button" class="btn btn-md btn-dark">View
+				<div id="addBtnContainer" style="padding-top:10px">
+					<button type="button" class="btn btn-md btn-dark addBtn">View
 					Profile</button>
 	
 					<!-- Button that takes you to add hours page -->
-					<a href="addHours" class = "btn btn-md btn-dark">Add hours</a>
+					<a href="addHours" class = "btn btn-md btn-dark addBtn">Add hours</a>
 	
 				</div>
 
@@ -52,11 +54,13 @@
 			<!-- a container for the table container
 				will be used for background colors eventually  -->
 			<div class="container-tableBackground">
-				<div class="container-textHeading">Service Hours</div>
+				<div>
+					<h1>Service Hours</h1>
+				</div>
 				<!-- container thats creating a table that will hold our data-->
 				<div class="container ui-widget table-responsive">
 					<div Id="table" class="row">
-						<table class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+						<table id="comm_tbl" class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 							<thead>
 								<tr class = "ui-widget-header">
 									<th>Service Event</th>
