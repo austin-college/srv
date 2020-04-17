@@ -49,21 +49,21 @@
   .fill {object-fit: fill;}
 }
 
-table {
-  border: 1px solid black;
-  	align-center;
-  width: 94%;
-  height: 50px;
+.table {
+
   text-align: center;
-  background-color: white;
+	vertical-align: middle;
+}
+
+.table > thead > tr > th {
 	
 }
 
 th {
-border: 1px solid black;
-  width: 100px;
-  height: 50px;
-  background-color: grey;
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+	
 }
 
 td {
