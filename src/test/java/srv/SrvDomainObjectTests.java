@@ -8,10 +8,10 @@ import javax.validation.constraints.AssertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import srv.domain.User;
-import srv.domain.ServiceClient;
-import srv.domain.Event;
-import srv.domain.EventType;
+import srv.domain.event.Event;
+import srv.domain.event.EventType;
+import srv.domain.serviceClient.ServiceClient;
+import srv.domain.user.User;
 
 class SrvDomainObjectTests {
 

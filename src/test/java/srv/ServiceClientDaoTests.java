@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import srv.domain.JdbcTemplateServiceClientDao;
-import srv.domain.ServiceClient;
+import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceClient.ServiceClient;
 
 
 public class ServiceClientDaoTests {

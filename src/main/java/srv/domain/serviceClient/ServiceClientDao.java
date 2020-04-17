@@ -1,8 +1,6 @@
-package srv.domain;
+package srv.domain.serviceClient;
 
 import java.util.List;
-
-import srv.domain.ServiceClient;
 
 public interface ServiceClientDao {
 	public List<ServiceClient> listAll() throws Exception;

@@ -1,5 +1,7 @@
 package srv.domain;
 
+import srv.domain.contact.Contact;
+
 /**
  * @author Emma Driscoll
  * This class is a data holder for Service groups(organizations on campus) info. 

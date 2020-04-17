@@ -1,5 +1,9 @@
 package srv.domain;
 
+import srv.domain.event.Event;
+import srv.domain.serviceClient.ServiceClient;
+import srv.domain.user.User;
+
 /**
  * @author Min Shim
  *

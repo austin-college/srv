@@ -1,6 +1,8 @@
-package srv.domain;
+package srv.domain.user;
 
 import java.util.ArrayList;
+
+import srv.domain.contact.Contact;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package srv.domain;
+package srv.domain.event;
 
 /**
  * 

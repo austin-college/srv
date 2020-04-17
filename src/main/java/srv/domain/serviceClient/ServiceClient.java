@@ -1,8 +1,10 @@
-package srv.domain;
+package srv.domain.serviceClient;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import srv.domain.contact.Contact;
 
 /**
  * @author 
