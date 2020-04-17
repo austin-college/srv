@@ -1,4 +1,4 @@
-package srv.domain;
+package srv.domain.user;
 
 public class BoardMemberUser extends ServantUser {
 
