@@ -79,6 +79,14 @@ public class BoardMemberUser extends ServantUser {
 	public String writeSummary(Event writtenEven) {
 		return null;
 	}
+
+	public ArrayList<ServiceClient> getManagedGroups() {
+		return managedGroups;
+	}
+
+	public void setManagedGroups(ArrayList<ServiceClient> managedGroups) {
+		this.managedGroups = managedGroups;
+	}
 	
 	
 
