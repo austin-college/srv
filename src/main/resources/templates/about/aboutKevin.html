@@ -1,17 +1,38 @@
 <#import "/main_layout.html" as layout />
+<#import "/main_layout.html" as layout />
 
-<@layout.stdpage "About Kevin Miranda" "about/aboutLydiaStyle.css" >
+<@layout.stdpage "About Lydia House" "about/aboutLydiaStyle.css" >
 
-<body>
-<div>
-<p>
-<img src="/srv/images/about/KevinMHSTemp.jpg" align="left" style="padding-right:50px; width:250px; height:300px"/>
-</p>
+<!-- Page Content -->
+<div class="container-fluid">
+
+<div id="bio" class="container">
+	<div class="row">
+		<div class="col">
+			<h2 class="display-1">About</h2>
+		</div>
+	</div>
 </div>
-<p>	
-My name is ${name} and I'm a ${class} graduating from Austin College (hopefully) this May. I'm ${age} years old 
-and ready to join the workforce in any way shape or form. I'm most interested in full stack web development but cyber 
-security has always interested me. I'm a fan of both the indoors and outdoors and enjoy playing video games, fishing, hiking, and cooking.
-</p>
-</body>
+  
+<hr class="col">
+<hr class="col">
+
+<div class="container">
+	<div class="row ">
+		<div class="col-8">
+		<p>	
+			My name is ${name} and I'm a ${class} graduating from Austin College (hopefully) this May. I'm ${age} years old 
+			and ready to join the workforce in any way shape or form. I'm most interested in full stack web development but cyber 
+			security has always interested me. I'm a fan of both the indoors and outdoors and enjoy playing video games, fishing, hiking, and cooking.
+		</p>	
+		</div>
+		<div class="col-1">
+			<img id = "headshot" src="/srv/images/about/KevinMHSTemp.jpg" align="left" style="padding-right:50px; width:250px; height:300px"/>
+		</div>
+	</div>
+</div>
+			 	
+
+</div>
+
 </@layout.stdpage>
