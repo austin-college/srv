@@ -1,5 +1,4 @@
 package srv.domain.user;
-
 import srv.domain.ServiceHours;
 import srv.domain.serviceClient.ServiceClient;
 
