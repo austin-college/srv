@@ -14,6 +14,8 @@ import srv.domain.contact.Contact;
  */
 public class User {
 
+	private Integer uid; // unique id for each client
+
 	private String userID;
 	private String password;
 	private Double totalHoursServed;
