@@ -13,12 +13,11 @@ import srv.domain.contact.Contact;
  *         phonenumber and more.
  */
 public class User {
-	// private String firstName;TODO
-	// private String lastName;TODO
+
 	private String userID;
 	private String password;
 	private Double totalHoursServed;
-	private Contact contactInfo; // TODO add this in
+	private Contact contactInfo; 
 	
 
 	/**
