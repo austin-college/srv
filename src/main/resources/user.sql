@@ -9,6 +9,6 @@ CREATE TABLE users (
 	cid int FOREIGN KEY REFERENCES contacts(cid)
 	);
 
-insert into serviceClients (title, contact, boardMem, category) values ('Habitat for Humanity', 'Tom Hanks', 'Billy Bob', 'Housing, Community');
-insert into serviceClients (title, contact, boardMem, category) values ('Crisis Center', 'Jane Smith', 'Lois Lane', 'Women, Crisis Support');
-insert into serviceClients (title, contact, boardMem, category) values ('Meals on Wheels', 'Rick Astley', 'Morgan Freeman', 'Senior, Community');
+insert into users (userID, password, totalHoursServed) values ('apritchard', '1234', 0);
+insert into users (userID, password, totalHoursServed) values ('hCouturier', '5678', 0);
+insert into users (userID, password, totalHoursServed) values ('eDriscoll', '1234', 0);
