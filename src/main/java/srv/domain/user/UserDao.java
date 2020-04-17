@@ -38,4 +38,11 @@ public interface UserDao {
 	 * @throws Exception
 	 */
 	public User fetchUserById(int uid) throws Exception;
+	
+	/**
+	 * @param cid users contact id
+	 * @return
+	 * @throws Exception
+	 */
+	public Contact fetchUserContactById(int cid) throws Exception;
 }
