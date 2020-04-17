@@ -25,7 +25,7 @@ public class JdbcTemplateContactDao implements ContactDao {
     	
 		return dataSource;
 	}
-
+    
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
@@ -44,6 +44,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 		
 		return jdbcTemplate;
 	}
+
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -70,19 +71,20 @@ public class JdbcTemplateContactDao implements ContactDao {
 	 * if the new contact is a duplicate. 
 	 */
 	@Override
-	public Contact create(String c) throws Exception {
+	public Contact create(String fn, String ln, String email, String work, String mobile, String str, String city, String st, String zip) throws Exception {
 		
-		int rc = jdbcTemplate.update("INSERT INTO contacts (cid, firstName, lastName, email,"
-				+ " workPhone, mobilePhone, str, city, st, zip) VALUES(?)", new Object[] { c });
+		int rc = jdbcTemplate.update("INSERT INTO contacts (firstName, lastName, email,	workPhone,"
+				+ " mobilePhone, str, city, st, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", new Object[] {fn, ln, email, work, mobile, str, city, st, zip});
 
 		if (rc != 1) {
-			String msg = String.format("Unable to insert new contact [%s]", c);
+			String msg = String.format("Unable to insert new contact [%s]", fn, ln, email, work, mobile, str, city, st, zip);
 			log.warn(msg);
 			throw new Exception("Unable to insert new unique contact.");
 		}
-		
+	
 		//TODO check this
-	   Contact results = getJdbcTemplate().queryForObject(String.format("SELECT cid, firstName, lastName, email, workPhone, mobilePhone, str, city, st, zipFROM contacts where firstName = '%s'", c), new ContactRowMapper());
+	   Contact results = getJdbcTemplate().queryForObject(String.format("SELECT cid, firstName, lastName, email, workPhone, "
+	   		+ "mobilePhone, str, city, st, zip FROM contacts WHERE firstName = '%s'", fn), new ContactRowMapper());
 	   
 	   return results;
 	}
@@ -135,6 +137,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 		if (results.size() != 1) {
 			log.error("Unable to fetch contact [{}]", cid);
 		}
+		
 		return results.get(0);
 	}
 	
