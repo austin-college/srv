@@ -6,7 +6,7 @@ import srv.domain.contact.Contact;
 
 public interface UserDao {
 
-	public List<Contact> listAll() throws Exception;
+	public List<User> listAll() throws Exception;
 	
 	
 	/**
@@ -17,7 +17,7 @@ public interface UserDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public Contact create(String userID, String password, double totalHoursServed, int cid) throws Exception; 
+	public User create(String userID, String password, double totalHoursServed, int cid) throws Exception; 
 
 	/**
 	 * @param uid unique user ID
