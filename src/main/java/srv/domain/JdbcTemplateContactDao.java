@@ -106,7 +106,8 @@ public class JdbcTemplateContactDao implements ContactDao {
 		
 	}
 
-	/*
+	/* TODO confused on if it should be 1 item or multiple or what
+	 * 
 	 * Updates the desired Contact (by id) in the Contact.sql database with the new 
 	 * specified content. An exception is thrown if the contact is unable to be updates (does not exist).
 	 */
