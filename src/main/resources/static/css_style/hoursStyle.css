@@ -78,3 +78,45 @@ background-color: white;
 	width: 100%
 }
 
+/* Credit to Lydia from listStyle1 */
+/* Style settings for the delete icon on the delete buttons.*/
+.glyphicon-remove-sign{
+	padding-top:2px;
+	padding-right:2px;
+}
+/* Style settings for the edit icon on the edit buttons.*/
+.glyphicon-pencil{
+	padding-top:2px;
+	padding-right:5px;
+}
+/* Style settings for the add buttons.*/
+#addBtnContainer{
+	background-color: #db9401;
+	color: white;
+	text-align: center;
+}
+/* Hover effect for the add buttons.*/
+#addBtnContainer:hover{
+     background-color: #db9401;
+     opacity: 0.5;
+}
+.addBtn:hover{
+	background-color:#db9401;
+}
+.addBtn:focus{
+	background-color:#db9401;
+}
+/* Style settings for the edit and add buttons.*/
+.edit, .addBtn{
+	background-color: #db9401;
+	border-color: #db9401;
+	color: white;
+	text-align: center;
+}
+/* Style settings for the delete buttons.*/
+.del{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}
+/* End credit to lydia, thanks lydia */

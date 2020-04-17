@@ -38,61 +38,89 @@
 	<div class="row">
 		
 			<!-- TODO We must add ServiceEventObjects with Jquery and fill the table that way along with an edit button next to each. -->
-			
+			<!-- BIG credit to Lydia for the most of the elements in this table, and for making the style -->
 			<!-- a container for the table container
 				will be used for background colors eventually  -->
 			<div class="container-tableBackground">
 				<div class="container-textHeading">Service Hours</div>
 				<!-- container thats creating a table that will hold our data-->
-				<div class="container-tables">
+				<div class="container ui-widget table-responsive">
 					<div Id="table" class="row">
 						<table id="comm_tbl" class="table ui-widget ui-widget-content table-striped table-bordered table-hover">
-							<tr class = "ui-widget-header">
-								<th>Service Event</th>
-								<th>Hours Served</th>
-								<th>Status</th>
-								<th>Edit/Delete</th>
-							</tr>
-							<tr>
-								<td>Spending time with Toys for tots </td>
-								<td>6</td>
-								<td>Accepted</td>
-								<td>
-									<!-- Buttons to open edit/delete hours dialog  -->
-									<button type="button" class="btn btn-sm btn-warning rounded-0"data-toggle="modal" data-target="#srvEditHrs">Edit</button>
-									<button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="modal" data-target="#srvAreYouSureHrs" title="Delete">X</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Teaching part time</td>
-								<td>2</td>
-								<td>Pending</td>
-								<td>
-									<!-- Buttons to open edit/delete hours dialog  -->
-									<button type="button" class="btn btn-sm btn-warning rounded-0"data-toggle="modal" data-target="#srvEditHrs">Edit</button>
-									<button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="modal" data-target="#srvAreYouSureHrs" title="Delete">X</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Working with food house</td>
-								<td>4</td>
-								<td>Rejected</td>
-								<td>
-									<!-- Buttons to open edit/delete hours dialog  -->
-									<button type="button" class="btn btn-sm btn-warning rounded-0"data-toggle="modal" data-target="#srvEditHrs">Edit</button>
-									<button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="modal" data-target="#srvAreYouSureHrs" title="Delete">X</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Volunteering at service station</td>
-								<td>2</td>
-								<td>Pending</td>
-								<td>
-									<!-- Buttons to open edit/delete hours dialog  -->
-									<button type="button" class="btn btn-sm btn-warning rounded-0"data-toggle="modal" data-target="#srvEditHrs">Edit</button>
-									<button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="modal" data-target="#srvAreYouSureHrs" title="Delete">X</button>
-								</td>
-							</tr>
+							<thead>
+								<tr class = "ui-widget-header">
+									<th>Service Event</th>
+									<th>Hours Served</th>
+									<th>Status</th>
+									<th colspan='2'>Edit/Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Spending time with Toys for tots </td>
+									<td>6</td>
+									<td>Accepted</td>
+									<td>
+										<!-- Buttons to open edit/delete hours dialog  -->
+										<button type="button" class="edit btn">
+											<span class="glyphicon glyphicon-pencil"></span>Edit
+										</button>
+									</td>
+									<td>
+				   						<button type="button" class="del btn">
+										<span class="glyphicon glyphicon-remove-sign"></span>Delete 
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>Teaching part time</td>
+									<td>2</td>
+									<td>Pending</td>
+									<td>
+										<!-- Buttons to open edit/delete hours dialog  -->
+										<button type="button" class="edit btn">
+											<span class="glyphicon glyphicon-pencil"></span>Edit
+										</button>
+									</td>
+									<td>
+				   						<button type="button" class="del btn">
+										<span class="glyphicon glyphicon-remove-sign"></span>Delete 
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>Working with food house</td>
+									<td>4</td>
+									<td>Rejected</td>
+									<td>
+										<!-- Buttons to open edit/delete hours dialog  -->
+										<button type="button" class="edit btn">
+											<span class="glyphicon glyphicon-pencil"></span>Edit
+										</button>
+									</td>
+									<td>
+				   						<button type="button" class="del btn">
+										<span class="glyphicon glyphicon-remove-sign"></span>Delete 
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td>Volunteering at service station</td>
+									<td>2</td>
+									<td>Pending</td>
+									<td>
+										<!-- Buttons to open edit/delete hours dialog  -->
+										<button type="button" class="edit btn">
+											<span class="glyphicon glyphicon-pencil"></span>Edit
+										</button>
+									</td>
+									<td>
+				   						<button type="button" class="del btn">
+										<span class="glyphicon glyphicon-remove-sign"></span>Delete 
+										</button>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 					</div>
 			
