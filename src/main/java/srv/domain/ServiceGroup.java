@@ -3,33 +3,55 @@ package srv.domain;
 import srv.domain.contact.Contact;
 
 /**
- * @author Emma Driscoll
- * This class is a data holder for Service groups(organizations on campus) info. 
+ * @author Emma Driscoll This class is a data holder for Service
+ *         groups(organizations/clubs on campus) info.
  *
  */
 public class ServiceGroup {
-	
-	private String name; // name of group
-	private Contact contact; // contact for head of group
-	
-	public ServiceGroup(String name, Contact contact) {
+
+	private Integer sgid; // unique id for each group
+	private String shortName; // nickname/acronym for group i.e. APO
+	private String title; // full name for group i.e Alpha Phi Omega
+	private Contact contactInfo; // contact for head of group
+
+	public ServiceGroup(Integer sgid, String shortName, String title, Contact contactInfo) {
 		super();
-		this.name = name;
-		this.contact = contact;
+		this.sgid = sgid;
+		this.shortName = shortName;
+		this.title = title;
+		this.contactInfo = contactInfo;
 	}
-	public Contact getContact() {
-		return contact;
+
+	public Integer getSgid() {
+		return sgid;
 	}
-	public void setContact(Contact contact) {
-		this.contact = contact;
+
+	public void setSgid(Integer sgid) {
+		this.sgid = sgid;
 	}
-	public String getName() {
-		return name;
+
+	public String getShortName() {
+		return shortName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
-	
-	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Contact getContactInfo() {
+		return contactInfo;
+	}
+
+	public void setContactInfo(Contact contactInfo) {
+		this.contactInfo = contactInfo;
+	}
 
 }
