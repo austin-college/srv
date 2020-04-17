@@ -41,14 +41,6 @@
 }
 
 
-
-/* Styles for the table, include table, th, and td*/
-.container-tables {
-  background-color: white;
-  padding-left: 28px;
-  .fill {object-fit: fill;}
-}
-
 .table {
 
   text-align: center;
@@ -56,7 +48,13 @@
 }
 
 .table > thead > tr > th {
-	
+	vertical-align: middle;
+}
+
+thead th {
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
 }
 
 th {
@@ -66,10 +64,7 @@ th {
 	
 }
 
-td {
-border: 1px solid black;
-background-color: white;
-}
+
 
 /* style for the area we'll put the buttons */
 .container-buttonArea {
@@ -89,17 +84,7 @@ background-color: white;
 	padding-top:2px;
 	padding-right:5px;
 }
-/* Style settings for the add buttons.*/
-#addBtnContainer{
-	background-color: #db9401;
-	color: white;
-	text-align: center;
-}
-/* Hover effect for the add buttons.*/
-#addBtnContainer:hover{
-     background-color: #db9401;
-     opacity: 0.5;
-}
+
 .addBtn:hover{
 	background-color:#db9401;
 }

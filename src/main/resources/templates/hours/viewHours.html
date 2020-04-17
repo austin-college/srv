@@ -2,9 +2,19 @@
 
 <@layout.stdpage "Hours Served" "hoursStyle.css">
 
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	
+</head>
+
 
 <div class="container-mainContainer">
-	<div class="row">
+	<div class="row" style="padding-left:30px; padding-bottom:20px">
 	
 		<div class="col">
 		<!--  this container holds onto all information regarding Stats
@@ -35,7 +45,7 @@
      
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" style="padding-left:30px; padding-bottom:20px">
 		
 			<!-- TODO We must add ServiceEventObjects with Jquery and fill the table that way along with an edit button next to each. -->
 			<!-- BIG credit to Lydia for the most of the elements in this table, and for making the style -->
@@ -46,7 +56,7 @@
 				<!-- container thats creating a table that will hold our data-->
 				<div class="container ui-widget table-responsive">
 					<div Id="table" class="row">
-						<table id="comm_tbl" class="table ui-widget ui-widget-content table-striped table-bordered table-hover">
+						<table class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 							<thead>
 								<tr class = "ui-widget-header">
 									<th>Service Event</th>
