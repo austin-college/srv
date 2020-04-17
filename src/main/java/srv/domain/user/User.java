@@ -19,8 +19,8 @@ public class User {
 	private String userID;
 	private String password;
 	private Double totalHoursServed;
-	private Contact contactInfo; 
-	
+	private Contact contactInfo;
+	private Integer cid; // unique ID for contact
 
 	/**
 	 * Constructs a user with a set userID and Password
@@ -31,6 +31,18 @@ public class User {
 	public User(String userID, String password) {
 		setUserID(userID);
 		setPassword(password);
+	}
+
+	public User(Integer uid, String userID, String password, Double totalHoursServed, Contact contactInfo) {
+		this.uid = uid;
+		this.userID = userID;
+		this.password = password;
+		this.totalHoursServed = totalHoursServed;
+		this.contactInfo = contactInfo;
+	}
+
+	public User() {
+
 	}
 
 	/**
@@ -122,24 +134,45 @@ public class User {
 		return userID;
 	}
 
-	public void setUserID(String userID) {
+	public User setUserID(String userID) {
 		this.userID = userID;
+		return this;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public User setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
 	public Double getTotalHoursServed() {
 		return totalHoursServed;
 	}
 
-	public void setTotalHoursServed(Double totalHoursServed) {
+	public User setTotalHoursServed(Double totalHoursServed) {
 		this.totalHoursServed = totalHoursServed;
+		return this;
+	}
+
+	public Integer getUid() {
+		return uid;
+	}
+
+	public User setUid(Integer uid) {
+		this.uid = uid;
+		return this;
+	}
+
+	public Integer getCid() {
+		return cid;
+	}
+
+	public User setCid(Integer cid) {
+		this.cid = cid;
+		return this;
 	}
 
 }
