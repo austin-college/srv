@@ -58,14 +58,19 @@ public class ContactDaoTests {
 		
 		List<Contact> contacts = dao.listAll();
 		
-		assertEquals(2, contacts.size());
+		assertEquals(4, contacts.size());
 		
 		Contact c1 = contacts.get(0);
 		Contact c2 = contacts.get(1);
+		Contact c3 = contacts.get(2);
+		Contact c4 = contacts.get(3);
 		
 		assertEquals(1, c1.getContactId());
 		assertEquals(2, c2.getContactId());
+		assertEquals(3, c3.getContactId());
+		assertEquals(4, c4.getContactId());
 		
+		// Verifying contents of first Contact
 		assertEquals("Tom", c1.getFirstName());
 		assertEquals("Hanks", c1.getLastName());
 		assertEquals("thanks@gmail.com", c1.getEmail());
@@ -76,6 +81,7 @@ public class ContactDaoTests {
 		assertEquals("TX", c1.getState());
 		assertEquals("75090", c1.getZipcode());
 		
+		// Verifying contents of second Contact
 		assertEquals("Lois", c2.getFirstName());
 		assertEquals("Lane", c2.getLastName());
 		assertEquals("llane86@gmail.com", c2.getEmail());
@@ -85,6 +91,30 @@ public class ContactDaoTests {
 		assertEquals("Sherman", c2.getCity());
 		assertEquals("TX", c2.getState());
 		assertEquals("75090", c2.getZipcode());
+		
+		// Verifying contents of third Contact
+		assertEquals(3, c3.getContactId());
+		assertEquals("Joe", c3.getFirstName());
+		assertEquals("Smith", c3.getLastName());
+		assertEquals("jsmith12@gmail.com", c3.getEmail());
+		assertEquals("903-444-4440", c3.getPhoneNumWork());
+		assertEquals("401-322-1201", c3.getPhoneNumMobile());
+		assertEquals("25 Frieda Drive", c3.getStreet());
+		assertEquals("Gunter", c3.getCity());
+		assertEquals("TX", c3.getState());
+		assertEquals("75058", c3.getZipcode());	
+		
+		// Verifying contents of fourth contact
+		assertEquals(4, c4.getContactId());
+		assertEquals("Susan", c4.getFirstName());
+		assertEquals("Atkins", c4.getLastName());
+		assertEquals("satkins67@gmail.com", c4.getEmail());
+		assertEquals("803-426-1527", c4.getPhoneNumWork());
+		assertEquals("800-191-9412", c4.getPhoneNumMobile());
+		assertEquals("23 First Street", c4.getStreet());
+		assertEquals("Denison", c4.getCity());
+		assertEquals("TX", c4.getState());
+		assertEquals("75021", c4.getZipcode());	
 	}
 	
 	/* Testing the create(), should create a new Contact query in the 
@@ -100,22 +130,22 @@ public class ContactDaoTests {
 		
 		Contact c = dao.create("Morgan", "Freeman", "mfreeman@msn.com", "902-412-6121", "392-121-5252", "626 Hayes Rd", "Sherman", "TX", "75090");
 
-		Contact c3 = dao.fetchContactById(3);
+		Contact c5 = dao.fetchContactById(5);
 		
 		// Verifying that the Contact was stored in the database
-		assertEquals(3, c3.getContactId());
-		assertEquals("Morgan", c3.getFirstName());
-		assertEquals("Freeman", c3.getLastName());
-		assertEquals("mfreeman@msn.com", c3.getEmail());
-		assertEquals("902-412-6121", c3.getPhoneNumWork());
-		assertEquals("392-121-5252", c3.getPhoneNumMobile());
-		assertEquals("626 Hayes Rd", c3.getStreet());
-		assertEquals("Sherman", c3.getCity());
-		assertEquals("TX", c3.getState());
-		assertEquals("75090", c3.getZipcode());
+		assertEquals(5, c5.getContactId());
+		assertEquals("Morgan", c5.getFirstName());
+		assertEquals("Freeman", c5.getLastName());
+		assertEquals("mfreeman@msn.com", c5.getEmail());
+		assertEquals("902-412-6121", c5.getPhoneNumWork());
+		assertEquals("392-121-5252", c5.getPhoneNumMobile());
+		assertEquals("626 Hayes Rd", c5.getStreet());
+		assertEquals("Sherman", c5.getCity());
+		assertEquals("TX", c5.getState());
+		assertEquals("75090", c5.getZipcode());
 		
 		// Testing Contact returned from create
-		assertEquals(3, c.getContactId());
+		assertEquals(5, c.getContactId());
 		assertEquals("Morgan", c.getFirstName());
 		assertEquals("Freeman", c.getLastName());
 		assertEquals("mfreeman@msn.com", c.getEmail());
@@ -140,12 +170,17 @@ public class ContactDaoTests {
 		
 		List<Contact> contacts = dao.listAll();
 		
-		assertEquals(1, contacts.size());
+		assertEquals(3, contacts.size());
 		
 		Contact c1 = contacts.get(0);
+		Contact c2 = contacts.get(1);
+		Contact c3 = contacts.get(2);
 		
 		assertEquals(2, c1.getContactId());
+		assertEquals(3, c2.getContactId());
+		assertEquals(4, c3.getContactId());
 		
+		// Verifying contents of first Contact
 		assertEquals("Lois", c1.getFirstName());
 		assertEquals("Lane", c1.getLastName());
 		assertEquals("llane86@gmail.com", c1.getEmail());
@@ -156,6 +191,29 @@ public class ContactDaoTests {
 		assertEquals("TX", c1.getState());
 		assertEquals("75090", c1.getZipcode());
 		
+		// Verifying contents of second Contact
+		assertEquals(3, c2.getContactId());
+		assertEquals("Joe", c2.getFirstName());
+		assertEquals("Smith", c2.getLastName());
+		assertEquals("jsmith12@gmail.com", c2.getEmail());
+		assertEquals("903-444-4440", c2.getPhoneNumWork());
+		assertEquals("401-322-1201", c2.getPhoneNumMobile());
+		assertEquals("25 Frieda Drive", c2.getStreet());
+		assertEquals("Gunter", c2.getCity());
+		assertEquals("TX", c2.getState());
+		assertEquals("75058", c2.getZipcode());	
+
+		// Verifying contents of third contact
+		assertEquals(4, c3.getContactId());
+		assertEquals("Susan", c3.getFirstName());
+		assertEquals("Atkins", c3.getLastName());
+		assertEquals("satkins67@gmail.com", c3.getEmail());
+		assertEquals("803-426-1527", c3.getPhoneNumWork());
+		assertEquals("800-191-9412", c3.getPhoneNumMobile());
+		assertEquals("23 First Street", c3.getStreet());
+		assertEquals("Denison", c3.getCity());
+		assertEquals("TX", c3.getState());
+		assertEquals("75021", c3.getZipcode());	
 	}
 	
 	/*

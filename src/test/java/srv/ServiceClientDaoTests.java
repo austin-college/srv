@@ -144,7 +144,7 @@ public class ServiceClientDaoTests {
 		
 		ServiceClient sc = dao.create("Meals on Wheels", 2, 1, "Donald Duck", "Seniors, Community");
 			
-		
+		// TODO this line causes an out of bounds error
 		//ServiceClient sc3 = dao.fetchClientId(3);	
 		
 /*		assertEquals(3, sc3.getClientId());
