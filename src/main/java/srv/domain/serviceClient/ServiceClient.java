@@ -39,11 +39,11 @@ public class ServiceClient implements Serializable {
 		*/
 	}
 	
-	public Integer getScid() {
+	public Integer getClientId() {
 		return scid;
 	}
 
-	public ServiceClient setScid(Integer scid) {
+	public ServiceClient getClientId(Integer scid) {
 		this.scid = scid;
 		return this;
 	}

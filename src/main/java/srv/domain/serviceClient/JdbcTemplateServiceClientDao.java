@@ -165,7 +165,8 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    	
 	    	try {
 				Contact con = dao.fetchContactById(rs.getInt("contactId"));
-				sc.setScid(rs.getInt("serviceClientId"))
+				
+				sc.getClientId(rs.getInt("serviceClientId"))
 		        	.setName(rs.getString("title"))
 		        	.setContact(con)
 		        	.setBoardMember(rs.getString("boardMem"))

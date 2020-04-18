@@ -53,7 +53,7 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 	('Lois', 'Lane', 'llane86@gmail.com', '803-423-1257', '800-232-1211', '118 NW Crawford Street', 'Sherman', 'TX', '75090');
 
 INSERT INTO serviceClients (title, contactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 'Billy Bob', 'Housing, Community');
-INSERT INTO serviceClients (title, contactId, boardMem, category) VALUES ('Crisis Center', 2, 'Lois Lane', 'Women, Crisis Support');
+INSERT INTO serviceClients (title, contactId, boardMem, category) VALUES ('Crisis Center', 2, 'Rick Astley', 'Women, Crisis Support');
 
 insert into users (username, password, totalHoursServed) values ('apritchard', '1234', 0);
 insert into users (username, password, totalHoursServed) values ('hCouturier', '5678', 0);

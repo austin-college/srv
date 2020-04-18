@@ -52,7 +52,7 @@ public class ContactDaoTests {
 	
 	/*
 	 * Testing listAll(), should return the current 2 contact entries that are in the 
-	 * Contact.sql database.
+	 * data.sql database.
 	 */
 	@Test
 	void testListAll_whenUsingJdbcTemplate() throws Exception { 
@@ -91,7 +91,7 @@ public class ContactDaoTests {
 	}
 	
 	/* Testing the create(), should create a new query in the 
-	 * Contact.sql database.
+	 * data.sql database.
 	 */
 	@Test
 	void testCreate_whenUsingJdbcTemplate() throws Exception {
