@@ -25,17 +25,29 @@ public class ServiceClientDaoTests {
 		assertEquals("Billy Bob", sc1.getBoardMember());
 		assertEquals("Housing, Community", sc1.getCategory());
 
-		// Testing Contact info
-		assertEquals(1, sc1.getContact().getContactId());
-		assertEquals("Tom", sc1.getContact().getFirstName());
-		assertEquals("Hanks", sc1.getContact().getLastName());
-		assertEquals("thanks@gmail.com", sc1.getContact().getEmail());
-		assertEquals("903-420-1212", sc1.getContact().getPhoneNumWork());
-		assertEquals("400-232-1211", sc1.getContact().getPhoneNumMobile());
-		assertEquals("626 E Main Street", sc1.getContact().getStreet());
-		assertEquals("Sherman", sc1.getContact().getCity());
-		assertEquals("TX", sc1.getContact().getState());
-		assertEquals("75090", sc1.getContact().getZipcode());	
+		// Testing primary Contact info
+		assertEquals(1, sc1.getMainContact().getContactId());
+		assertEquals("Tom", sc1.getMainContact().getFirstName());
+		assertEquals("Hanks", sc1.getMainContact().getLastName());
+		assertEquals("thanks@gmail.com", sc1.getMainContact().getEmail());
+		assertEquals("903-420-1212", sc1.getMainContact().getPhoneNumWork());
+		assertEquals("400-232-1211", sc1.getMainContact().getPhoneNumMobile());
+		assertEquals("626 E Main Street", sc1.getMainContact().getStreet());
+		assertEquals("Sherman", sc1.getMainContact().getCity());
+		assertEquals("TX", sc1.getMainContact().getState());
+		assertEquals("75090", sc1.getMainContact().getZipcode());	
+		
+		// Testing secondary Contact info
+		assertEquals(4, sc1.getOtherContact().getContactId());
+		assertEquals("Susan", sc1.getOtherContact().getFirstName());
+		assertEquals("Atkins", sc1.getOtherContact().getLastName());
+		assertEquals("satkins67@gmail.com", sc1.getOtherContact().getEmail());
+		assertEquals("803-426-1527", sc1.getOtherContact().getPhoneNumWork());
+		assertEquals("800-191-9412", sc1.getOtherContact().getPhoneNumMobile());
+		assertEquals("23 First Street", sc1.getOtherContact().getStreet());
+		assertEquals("Denison", sc1.getOtherContact().getCity());
+		assertEquals("TX", sc1.getOtherContact().getState());
+		assertEquals("75021", sc1.getOtherContact().getZipcode());
 	}
 	
 	/*
@@ -62,34 +74,58 @@ public class ServiceClientDaoTests {
 		assertEquals("Billy Bob", sc1.getBoardMember());
 		assertEquals("Housing, Community", sc1.getCategory());
 
-		// Testing Contact info for service client id 1
-		assertEquals(1, sc1.getContact().getContactId());
-		assertEquals("Tom", sc1.getContact().getFirstName());
-		assertEquals("Hanks", sc1.getContact().getLastName());
-		assertEquals("thanks@gmail.com", sc1.getContact().getEmail());
-		assertEquals("903-420-1212", sc1.getContact().getPhoneNumWork());
-		assertEquals("400-232-1211", sc1.getContact().getPhoneNumMobile());
-		assertEquals("626 E Main Street", sc1.getContact().getStreet());
-		assertEquals("Sherman", sc1.getContact().getCity());
-		assertEquals("TX", sc1.getContact().getState());
-		assertEquals("75090", sc1.getContact().getZipcode());	
-		
+		// Testing primary Contact info for service client 1
+		assertEquals(1, sc1.getMainContact().getContactId());
+		assertEquals("Tom", sc1.getMainContact().getFirstName());
+		assertEquals("Hanks", sc1.getMainContact().getLastName());
+		assertEquals("thanks@gmail.com", sc1.getMainContact().getEmail());
+		assertEquals("903-420-1212", sc1.getMainContact().getPhoneNumWork());
+		assertEquals("400-232-1211", sc1.getMainContact().getPhoneNumMobile());
+		assertEquals("626 E Main Street", sc1.getMainContact().getStreet());
+		assertEquals("Sherman", sc1.getMainContact().getCity());
+		assertEquals("TX", sc1.getMainContact().getState());
+		assertEquals("75090", sc1.getMainContact().getZipcode());	
+
+		// Testing secondary Contact info for service client 1
+		assertEquals(4, sc1.getOtherContact().getContactId());
+		assertEquals("Susan", sc1.getOtherContact().getFirstName());
+		assertEquals("Atkins", sc1.getOtherContact().getLastName());
+		assertEquals("satkins67@gmail.com", sc1.getOtherContact().getEmail());
+		assertEquals("803-426-1527", sc1.getOtherContact().getPhoneNumWork());
+		assertEquals("800-191-9412", sc1.getOtherContact().getPhoneNumMobile());
+		assertEquals("23 First Street", sc1.getOtherContact().getStreet());
+		assertEquals("Denison", sc1.getOtherContact().getCity());
+		assertEquals("TX", sc1.getOtherContact().getState());
+		assertEquals("75021", sc1.getOtherContact().getZipcode());	
+
 		// Service Client info for client id 2
 		assertEquals("Crisis Center", sc2.getName());
 		assertEquals("Rick Astley", sc2.getBoardMember());
 		assertEquals("Women, Crisis Support", sc2.getCategory());
 		
 		// Testing Contact info for service client id 2
-		assertEquals(2, sc2.getContact().getContactId());
-		assertEquals("Lois", sc2.getContact().getFirstName());
-		assertEquals("Lane", sc2.getContact().getLastName());
-		assertEquals("llane86@gmail.com", sc2.getContact().getEmail());
-		assertEquals("803-423-1257", sc2.getContact().getPhoneNumWork());
-		assertEquals("800-232-1211", sc2.getContact().getPhoneNumMobile());
-		assertEquals("118 NW Crawford Street", sc2.getContact().getStreet());
-		assertEquals("Sherman", sc2.getContact().getCity());
-		assertEquals("TX", sc2.getContact().getState());
-		assertEquals("75090", sc2.getContact().getZipcode());
+		assertEquals(2, sc2.getMainContact().getContactId());
+		assertEquals("Lois", sc2.getMainContact().getFirstName());
+		assertEquals("Lane", sc2.getMainContact().getLastName());
+		assertEquals("llane86@gmail.com", sc2.getMainContact().getEmail());
+		assertEquals("803-423-1257", sc2.getMainContact().getPhoneNumWork());
+		assertEquals("800-232-1211", sc2.getMainContact().getPhoneNumMobile());
+		assertEquals("118 NW Crawford Street", sc2.getMainContact().getStreet());
+		assertEquals("Sherman", sc2.getMainContact().getCity());
+		assertEquals("TX", sc2.getMainContact().getState());
+		assertEquals("75090", sc2.getMainContact().getZipcode());
+		
+		// Testing secondary Contact info for service client 1
+		assertEquals(3, sc2.getOtherContact().getContactId());
+		assertEquals("Joe", sc2.getOtherContact().getFirstName());
+		assertEquals("Smith", sc2.getOtherContact().getLastName());
+		assertEquals("jsmith12@gmail.com", sc2.getOtherContact().getEmail());
+		assertEquals("903-444-4440", sc2.getOtherContact().getPhoneNumWork());
+		assertEquals("401-322-1201", sc2.getOtherContact().getPhoneNumMobile());
+		assertEquals("25 Frieda Drive", sc2.getOtherContact().getStreet());
+		assertEquals("Gunter", sc2.getOtherContact().getCity());
+		assertEquals("TX", sc2.getOtherContact().getState());
+		assertEquals("75058", sc2.getOtherContact().getZipcode());	
 	}
 	
 	/* TODO BROKEN :c
@@ -106,7 +142,7 @@ public class ServiceClientDaoTests {
 		// if this isn't here i get a null pointer exception so i have no idea whats up
 		ServiceClient sc1 = dao.fetchClientId(1);
 		
-		ServiceClient sc = dao.create("Meals on Wheels", 2, "Donald Duck", "Seniors, Community");
+		ServiceClient sc = dao.create("Meals on Wheels", 2, 1, "Donald Duck", "Seniors, Community");
 			
 		
 		//ServiceClient sc3 = dao.fetchClientId(3);	
@@ -123,17 +159,29 @@ public class ServiceClientDaoTests {
 		assertEquals("Donald Duck", sc.getBoardMember());
 		assertEquals("Seniors, Community", sc.getCategory());
 		
-		// Testing Contact info for service client returned from create
-		assertEquals(2, sc.getContact().getContactId());
-		assertEquals("Lois", sc.getContact().getFirstName());
-		assertEquals("Lane", sc.getContact().getLastName());
-		assertEquals("llane86@gmail.com", sc.getContact().getEmail());
-		assertEquals("803-423-1257", sc.getContact().getPhoneNumWork());
-		assertEquals("800-232-1211", sc.getContact().getPhoneNumMobile());
-		assertEquals("118 NW Crawford Street", sc.getContact().getStreet());
-		assertEquals("Sherman", sc.getContact().getCity());
-		assertEquals("TX", sc.getContact().getState());
-		assertEquals("75090", sc.getContact().getZipcode());
+		// Testing primary Contact info for service client returned from create
+		assertEquals(2, sc.getMainContact().getContactId());
+		assertEquals("Lois", sc.getMainContact().getFirstName());
+		assertEquals("Lane", sc.getMainContact().getLastName());
+		assertEquals("llane86@gmail.com", sc.getMainContact().getEmail());
+		assertEquals("803-423-1257", sc.getMainContact().getPhoneNumWork());
+		assertEquals("800-232-1211", sc.getMainContact().getPhoneNumMobile());
+		assertEquals("118 NW Crawford Street", sc.getMainContact().getStreet());
+		assertEquals("Sherman", sc.getMainContact().getCity());
+		assertEquals("TX", sc.getMainContact().getState());
+		assertEquals("75090", sc.getMainContact().getZipcode());
+		
+		// Testing secondary Contact info for service client returned from create
+		assertEquals(1, sc.getOtherContact().getContactId());
+		assertEquals("Tom", sc.getOtherContact().getFirstName());
+		assertEquals("Hanks", sc.getOtherContact().getLastName());
+		assertEquals("thanks@gmail.com", sc.getOtherContact().getEmail());
+		assertEquals("903-420-1212", sc.getOtherContact().getPhoneNumWork());
+		assertEquals("400-232-1211", sc.getOtherContact().getPhoneNumMobile());
+		assertEquals("626 E Main Street", sc.getOtherContact().getStreet());
+		assertEquals("Sherman", sc.getOtherContact().getCity());
+		assertEquals("TX", sc.getOtherContact().getState());
+		assertEquals("75090", sc.getOtherContact().getZipcode());	
 	}
 	
 	/*
@@ -157,23 +205,35 @@ public class ServiceClientDaoTests {
 		assertEquals("Crisis Center", sc1.getName());
 		assertEquals("Rick Astley", sc1.getBoardMember());
 		assertEquals("Women, Crisis Support", sc1.getCategory());
-
+		
 		// Testing Contact info for service client id 2
-		assertEquals(2, sc1.getContact().getContactId());
-		assertEquals("Lois", sc1.getContact().getFirstName());
-		assertEquals("Lane", sc1.getContact().getLastName());
-		assertEquals("llane86@gmail.com", sc1.getContact().getEmail());
-		assertEquals("803-423-1257", sc1.getContact().getPhoneNumWork());
-		assertEquals("800-232-1211", sc1.getContact().getPhoneNumMobile());
-		assertEquals("118 NW Crawford Street", sc1.getContact().getStreet());
-		assertEquals("Sherman", sc1.getContact().getCity());
-		assertEquals("TX", sc1.getContact().getState());
-		assertEquals("75090", sc1.getContact().getZipcode());	
+		assertEquals(2, sc1.getMainContact().getContactId());
+		assertEquals("Lois", sc1.getMainContact().getFirstName());
+		assertEquals("Lane", sc1.getMainContact().getLastName());
+		assertEquals("llane86@gmail.com", sc1.getMainContact().getEmail());
+		assertEquals("803-423-1257", sc1.getMainContact().getPhoneNumWork());
+		assertEquals("800-232-1211", sc1.getMainContact().getPhoneNumMobile());
+		assertEquals("118 NW Crawford Street", sc1.getMainContact().getStreet());
+		assertEquals("Sherman", sc1.getMainContact().getCity());
+		assertEquals("TX", sc1.getMainContact().getState());
+		assertEquals("75090", sc1.getMainContact().getZipcode());
+
+		// Testing secondary Contact info for service client 1
+		assertEquals(3, sc1.getOtherContact().getContactId());
+		assertEquals("Joe", sc1.getOtherContact().getFirstName());
+		assertEquals("Smith", sc1.getOtherContact().getLastName());
+		assertEquals("jsmith12@gmail.com", sc1.getOtherContact().getEmail());
+		assertEquals("903-444-4440", sc1.getOtherContact().getPhoneNumWork());
+		assertEquals("401-322-1201", sc1.getOtherContact().getPhoneNumMobile());
+		assertEquals("25 Frieda Drive", sc1.getOtherContact().getStreet());
+		assertEquals("Gunter", sc1.getOtherContact().getCity());
+		assertEquals("TX", sc1.getOtherContact().getState());
+		assertEquals("75058", sc1.getOtherContact().getZipcode());	
 	}
 	
 	/*
 	 * Testing the update(), should update the query with the specified ID. 
-	 * Switched the contact id to point to the first entry in the contacts table 
+	 * Switched the primary contact id to point to the first entry in the contacts table 
 	 * rather than the second entry.
 	 */
 	@Test
@@ -181,7 +241,7 @@ public class ServiceClientDaoTests {
 		
 		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
 		
-		dao.update(2, "Meals on Wheels", 1, "Rick Astley", "Seniors, Community");
+		dao.update(2, "Meals on Wheels", 1, 2, "Rick Astley", "Seniors, Community");
 		
 		ServiceClient sc2 = dao.fetchClientId(2);
 
@@ -190,17 +250,29 @@ public class ServiceClientDaoTests {
 		assertEquals("Rick Astley", sc2.getBoardMember());
 		assertEquals("Seniors, Community", sc2.getCategory());
 		
-		// Testing Contact info for service client id 2
-		assertEquals(1, sc2.getContact().getContactId());
-		assertEquals("Tom", sc2.getContact().getFirstName());
-		assertEquals("Hanks", sc2.getContact().getLastName());
-		assertEquals("thanks@gmail.com", sc2.getContact().getEmail());
-		assertEquals("903-420-1212", sc2.getContact().getPhoneNumWork());
-		assertEquals("400-232-1211", sc2.getContact().getPhoneNumMobile());
-		assertEquals("626 E Main Street", sc2.getContact().getStreet());
-		assertEquals("Sherman", sc2.getContact().getCity());
-		assertEquals("TX", sc2.getContact().getState());
-		assertEquals("75090", sc2.getContact().getZipcode());	
+		// Testing primary Contact info for service client 1
+		assertEquals(1, sc2.getMainContact().getContactId());
+		assertEquals("Tom", sc2.getMainContact().getFirstName());
+		assertEquals("Hanks", sc2.getMainContact().getLastName());
+		assertEquals("thanks@gmail.com", sc2.getMainContact().getEmail());
+		assertEquals("903-420-1212", sc2.getMainContact().getPhoneNumWork());
+		assertEquals("400-232-1211", sc2.getMainContact().getPhoneNumMobile());
+		assertEquals("626 E Main Street", sc2.getMainContact().getStreet());
+		assertEquals("Sherman", sc2.getMainContact().getCity());
+		assertEquals("TX", sc2.getMainContact().getState());
+		assertEquals("75090", sc2.getMainContact().getZipcode());		
+		
+		// Testing secondary Contact info for service client id 2
+		assertEquals(2, sc2.getOtherContact().getContactId());
+		assertEquals("Lois", sc2.getOtherContact().getFirstName());
+		assertEquals("Lane", sc2.getOtherContact().getLastName());
+		assertEquals("llane86@gmail.com", sc2.getOtherContact().getEmail());
+		assertEquals("803-423-1257", sc2.getOtherContact().getPhoneNumWork());
+		assertEquals("800-232-1211", sc2.getOtherContact().getPhoneNumMobile());
+		assertEquals("118 NW Crawford Street", sc2.getOtherContact().getStreet());
+		assertEquals("Sherman", sc2.getOtherContact().getCity());
+		assertEquals("TX", sc2.getOtherContact().getState());
+		assertEquals("75090", sc2.getOtherContact().getZipcode());
 	}
 
 

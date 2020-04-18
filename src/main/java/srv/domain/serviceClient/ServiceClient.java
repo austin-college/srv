@@ -14,7 +14,8 @@ public class ServiceClient implements Serializable {
 	
 	private Integer scid; // unique id for each service client
 	private String name; // the name of the service client
-	private Contact contact; // contact for service client
+	private Contact mainContact; // the primary contact for service client
+	private Contact otherContact; // the secondary contact for service client
 	private String boardMember; // current board member responsible for the service client
 	private String category; // type of work client does ex: animals
 	
@@ -24,11 +25,12 @@ public class ServiceClient implements Serializable {
 	private int servantsReq; // amount of personel needed for an event
 	
 
-	public ServiceClient(Integer scid, String new_name, Contact con, String bm, String cat) { //int servantsReq, String eventLoc, String eventDescrp) {
+	public ServiceClient(Integer scid, String new_name, Contact con1, Contact con2, String bm, String cat) { //int servantsReq, String eventLoc, String eventDescrp) {
 		super();
 		this.scid = scid;
 		this.name = new_name;
-		this.contact = con;
+		this.mainContact = con1;
+		this.otherContact = con2;
 		this.boardMember = bm;
 		this.category = cat;		
 		
@@ -78,12 +80,21 @@ public class ServiceClient implements Serializable {
 		return this;
 	}	
 
-	public Contact getContact() {
-		return contact;
+	public Contact getMainContact() {
+		return mainContact;
 	}
 
-	public ServiceClient setContact(Contact contact) {
-		this.contact = contact;
+	public ServiceClient setMainContact(Contact con) {
+		this.mainContact = con;
+		return this;
+	}
+	
+	public Contact getOtherContact() {
+		return otherContact;
+	}
+	
+	public ServiceClient setOtherContact(Contact con) {
+		this.otherContact = con;
 		return this;
 	}
 	

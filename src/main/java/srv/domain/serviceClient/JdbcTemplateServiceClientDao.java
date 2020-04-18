@@ -75,7 +75,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public List<ServiceClient> listAll() throws Exception {
 		
-		List<ServiceClient> results = getJdbcTemplate().query("select serviceClientId, title, contactId, "
+		List<ServiceClient> results = getJdbcTemplate().query("select serviceClientId, title, primaryContactId, secondContactId, "
 				+ "boardMem, category from serviceClients", new ServiceClientRowMapper());
 		 
 	   return results;
@@ -87,10 +87,10 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	 * if the new service client is a duplicate. 
 	 */
 	@Override
-	public ServiceClient create(String name, Integer cid, String bm, String cat) throws Exception {
+	public ServiceClient create(String name, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
 		
-			int rc = jdbcTemplate.update("INSERT INTO serviceClients (title, contactId, boardMem, category) "
-					+ "VALUES(?, ?, ?, ?)", new Object[] {name, cid, bm, cat});
+			int rc = jdbcTemplate.update("INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) "
+					+ "VALUES(?, ?, ?, ?, ?)", new Object[] {name, cid1, cid2, bm, cat});
 			
 			if (rc != 1) {
 				String msg = String.format("unable to insert new title [%s]", name);
@@ -98,8 +98,8 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 				throw new Exception("Unable insert new unique title. Maybe a duplicate?");
 			}
 
-			ServiceClient results = getJdbcTemplate().queryForObject(String.format("SELECT serviceClientId, title, contactId, boardMem, "
-					+ "category FROM serviceClients WHERE title = '%s'", name), new ServiceClientRowMapper());
+			ServiceClient results = getJdbcTemplate().queryForObject(String.format("SELECT serviceClientId, title, primaryContactId, "
+					+ "secondContactId, boardMem, category FROM serviceClients WHERE title = '%s'", name), new ServiceClientRowMapper());
 	   
 	   return results;
 	}
@@ -125,9 +125,9 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	 * specified content. An exception is thrown if the service client is unable to be updates (does not exist).
 	 */
 	@Override
-	public void update(int scid, String name, Integer cid, String bm, String cat) throws Exception {
-		int rc = getJdbcTemplate().update("UPDATE serviceClients SET title = ?, contactId = ?, "
-				+ "boardMem = ?, category = ? WHERE serviceClientId = ?", new Object[] { name, cid, bm, cat, scid});
+	public void update(int scid, String name, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
+		int rc = getJdbcTemplate().update("UPDATE serviceClients SET title = ?, primaryContactId = ?, "
+				+ "secondContactId = ?, boardMem = ?, category = ? WHERE serviceClientId = ?", new Object[] {name, cid1, cid2, bm, cat, scid});
 
 		if (rc < 1) {
 			log.error("unable to update title [{}]",scid);
@@ -142,7 +142,8 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public ServiceClient fetchClientId(int scid) throws Exception {
 		
-		String sqlStr = String.format("SELECT serviceClientId, title, contactId, boardMem, category FROM serviceClients WHERE serviceClientId = %d",scid);
+		String sqlStr = String.format("SELECT serviceClientId, title, primaryContactId, secondContactId, boardMem,"
+				+ " category FROM serviceClients WHERE serviceClientId = %d",scid);
 		log.debug(sqlStr);
 		
 		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
@@ -170,7 +171,8 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 		
 	    		sc.getClientId(rs.getInt("serviceClientId"))
 		        	.setName(rs.getString("title"))
-		        	.setContact(dao.fetchContactById(rs.getInt("contactId")))
+		        	.setMainContact(dao.fetchContactById(rs.getInt("primaryContactId")))
+		        	.setOtherContact(dao.fetchContactById(rs.getInt("secondContactId")))
 		        	.setBoardMember(rs.getString("boardMem"))
 		    		.setCategory(rs.getString("category"));
 		  

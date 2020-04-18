@@ -20,12 +20,16 @@ CREATE TABLE contacts (
 CREATE TABLE serviceClients (
 	serviceClientId INTEGER AUTO_INCREMENT,
 	title VARCHAR(255),
-	contactId INT,
+	primaryContactId INT,
+	secondContactId INT,
 	boardMem VARCHAR(255),
 	category VARCHAR(255),
 	PRIMARY KEY (serviceClientId),
-	FOREIGN KEY (contactId) 
+	FOREIGN KEY (primaryContactId) 
 		REFERENCES contacts(contactId) 
+		ON DELETE SET NULL,
+	FOREIGN KEY (secondContactId)
+		REFERENCES contacts(contactId)
 		ON DELETE SET NULL
 	);
 
@@ -52,8 +56,14 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Lois', 'Lane', 'llane86@gmail.com', '803-423-1257', '800-232-1211', '118 NW Crawford Street', 'Sherman', 'TX', '75090');
 
-INSERT INTO serviceClients (title, contactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 'Billy Bob', 'Housing, Community');
-INSERT INTO serviceClients (title, contactId, boardMem, category) VALUES ('Crisis Center', 2, 'Rick Astley', 'Women, Crisis Support');
+INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
+	('Joe', 'Smith', 'jsmith12@gmail.com', '903-444-4440', '401-322-1201', '25 Frieda Drive', 'Gunter', 'TX', '75058');
+	
+INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+	('Susan', 'Atkins', 'satkins67@gmail.com', '803-426-1527', '800-191-9412', '23 First Street', 'Denison', 'TX', '75021');
+
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Housing, Community');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Women, Crisis Support');
 
 insert into users (username, password, totalHoursServed) values ('apritchard', '1234', 0);
 insert into users (username, password, totalHoursServed) values ('hCouturier', '5678', 0);
