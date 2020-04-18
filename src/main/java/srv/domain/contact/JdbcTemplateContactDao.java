@@ -119,6 +119,9 @@ public class JdbcTemplateContactDao implements ContactDao {
 	/* 
 	 * Updates the desired Contact (by id) in the Contact.sql database with the new 
 	 * specified content. An exception is thrown if the contact is unable to be updates (does not exist).
+	 * 
+	 * NOTE: in data.sql we are setting references that have contact as a foreign key, to be null when a 
+	 * contact is removed.
 	 */
 	@Override
 	public void update(int cid,  String newFn, String newLn, String newEmail, String newWork, String newMobile, String newStr, String newCity, String newSt, String newZip) throws Exception {

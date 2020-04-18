@@ -14,7 +14,7 @@ public class ContactDaoTests {
 	
 	/*
 	 * Testing fetchContactById() should return the first
-	 * contact infoin the list.
+	 * contact info in the list.
 	 */
 	@Test
 	void testFetchById_whenUsingJdbcTemplate() throws Exception {
@@ -24,7 +24,6 @@ public class ContactDaoTests {
 		Contact c1 = dao.fetchContactById(1);
 		
 		assertEquals(1, c1.getContactId());
-		
 		assertEquals("Tom", c1.getFirstName());
 		assertEquals("Hanks", c1.getLastName());
 		assertEquals("thanks@gmail.com", c1.getEmail());
@@ -129,13 +128,15 @@ public class ContactDaoTests {
 		assertEquals("75090", c.getZipcode());
 	}
 	
+	/*
+	 *  Testing the delete(), should remove the query with the specified ID (first one in this case). Should
+	 *  still be one query left in the database.
+	 */
 	@Test
 	void testDelete_whenUsingJdbcTemplate() throws Exception {
 		
 		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
-		
-		//Contact c1 = dao.fetchContactById(1);
-		
+			
 		dao.delete(1);
 		
 		List<Contact> contacts = dao.listAll();
@@ -156,6 +157,30 @@ public class ContactDaoTests {
 		assertEquals("TX", c1.getState());
 		assertEquals("75090", c1.getZipcode());
 		
+	}
+	
+	/*
+	 * Testing the update(), should update the query with the specified ID.
+	 */
+	@Test
+	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+		
+		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
+		
+		dao.update(1, "Tom", "Cruise", "tcruise@msn.com", "901-121-1211", "800-522-5291", "626 E Main Street", "Sherman", "TX", "75090");
+		
+		Contact c1 = dao.fetchContactById(1);
+		
+		assertEquals(1, c1.getContactId());
+		assertEquals("Tom", c1.getFirstName());
+		assertEquals("Cruise", c1.getLastName());
+		assertEquals("tcruise@msn.com", c1.getEmail());
+		assertEquals("901-121-1211", c1.getPhoneNumWork());
+		assertEquals("800-522-5291", c1.getPhoneNumMobile());
+		assertEquals("626 E Main Street", c1.getStreet());
+		assertEquals("Sherman", c1.getCity());
+		assertEquals("TX", c1.getState());
+		assertEquals("75090", c1.getZipcode());
 	}
 	
 	

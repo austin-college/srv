@@ -24,7 +24,9 @@ CREATE TABLE serviceClients (
 	boardMem VARCHAR(255),
 	category VARCHAR(255),
 	PRIMARY KEY (serviceClientId),
-	FOREIGN KEY (contactId) REFERENCES contacts(contactId)
+	FOREIGN KEY (contactId) 
+		REFERENCES contacts(contactId) 
+		ON DELETE SET NULL
 	);
 
 
