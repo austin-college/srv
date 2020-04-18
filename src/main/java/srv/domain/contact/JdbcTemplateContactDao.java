@@ -96,7 +96,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	@Override
 	public void delete(int cid) throws Exception {
 		
-		int rc = getJdbcTemplate().update("DELETE FROM contacts WHERE cid= ?", new Object[] { cid });
+		int rc = getJdbcTemplate().update("DELETE FROM contacts WHERE contactId= ?", new Object[] { cid });
 		
 		if (rc != 1) {
 			String msg = String.format("Unable to delete contact [%s]",cid);
@@ -114,7 +114,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	@Override
 	public void update(int cid, String newVal) throws Exception {
 		//TODO come check this
-		int rc = getJdbcTemplate().update("UPDATE contacts SET firstName = ? WHERE cid = ?", new Object[] { newVal, cid });
+		int rc = getJdbcTemplate().update("UPDATE contacts SET firstName = ? WHERE contactId = ?", new Object[] { newVal, cid });
 
 		if (rc < 1) {
 			log.error("Unable to update contact [{}]",cid);
@@ -130,7 +130,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	public Contact fetchContactById(int cid) throws Exception {
 		
 		String sqlStr = String.format("SELECT contactId, firstName, lastName, email, workPhone, mobilePhone, "
-				+ "str, city, st, zip FROM contacts WHERE cid = %d", cid);
+				+ "str, city, st, zip FROM contacts WHERE contactId = %d", cid);
 		log.debug(sqlStr);
 		
 		List<Contact> results = getJdbcTemplate().query(sqlStr, new ContactRowMapper());

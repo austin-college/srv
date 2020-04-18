@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS contacts;
+
 DROP TABLE IF EXISTS serviceClients;
 drop table if exists users;
 drop table if exists reasons;
-
+DROP TABLE IF EXISTS contacts;
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
 	firstName VARCHAR(255),
@@ -53,9 +53,9 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO serviceClients (title, contactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 'Billy Bob', 'Housing, Community');
 INSERT INTO serviceClients (title, contactId, boardMem, category) VALUES ('Crisis Center', 2, 'Lois Lane', 'Women, Crisis Support');
 
-insert into users (userID, password, totalHoursServed) values ('apritchard', '1234', 0);
-insert into users (userID, password, totalHoursServed) values ('hCouturier', '5678', 0);
-insert into users (userID, password, totalHoursServed) values ('eDriscoll', '1234', 0);
+insert into users (username, password, totalHoursServed) values ('apritchard', '1234', 0);
+insert into users (username, password, totalHoursServed) values ('hCouturier', '5678', 0);
+insert into users (username, password, totalHoursServed) values ('eDriscoll', '1234', 0);
 
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');
