@@ -126,8 +126,9 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	 * specified content. An exception is thrown if the service client is unable to be updates (does not exist).
 	 */
 	@Override
-	public void update(int scid, String newVal) throws Exception {
-		int rc = getJdbcTemplate().update("update serviceClients set title = ? where serviceClientId = ?", new Object[] { newVal, scid });
+	public void update(int scid, String name, Integer cid, String bm, String cat) throws Exception {
+		int rc = getJdbcTemplate().update("UPDATE serviceClients SET title = ?, contactId = ?, "
+				+ "boardMem = ?, category = ? WHERE serviceClientId = ?", new Object[] { name, cid, bm, cat, scid});
 
 		if (rc < 1) {
 			log.error("unable to update title [{}]",scid);

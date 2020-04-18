@@ -165,8 +165,39 @@ public class ServiceClientDaoTests {
 		assertEquals("118 NW Crawford Street", sc1.getContact().getStreet());
 		assertEquals("Sherman", sc1.getContact().getCity());
 		assertEquals("TX", sc1.getContact().getState());
-		assertEquals("75090", sc1.getContact().getZipcode());
+		assertEquals("75090", sc1.getContact().getZipcode());	
+	}
+	
+	/*
+	 * Testing the update(), should update the query with the specified ID. 
+	 * Switched the contact id to point to the first entry in the contacts table 
+	 * rather than the second entry.
+	 */
+	@Test
+	void testUpdate_whenUsingJdbcTemplate() throws Exception {
 		
+		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
+		
+		dao.update(2, "Meals on Wheels", 1, "Rick Astley", "Seniors, Community");
+		
+		ServiceClient sc2 = dao.fetchClientId(2);
+
+		// Service Client info for client id 2
+		assertEquals("Meals on Wheels", sc2.getName());
+		assertEquals("Rick Astley", sc2.getBoardMember());
+		assertEquals("Seniors, Community", sc2.getCategory());
+		
+		// Testing Contact info for service client id 2
+		assertEquals(1, sc2.getContact().getContactId());
+		assertEquals("Tom", sc2.getContact().getFirstName());
+		assertEquals("Hanks", sc2.getContact().getLastName());
+		assertEquals("thanks@gmail.com", sc2.getContact().getEmail());
+		assertEquals("903-420-1212", sc2.getContact().getPhoneNumWork());
+		assertEquals("400-232-1211", sc2.getContact().getPhoneNumMobile());
+		assertEquals("626 E Main Street", sc2.getContact().getStreet());
+		assertEquals("Sherman", sc2.getContact().getCity());
+		assertEquals("TX", sc2.getContact().getState());
+		assertEquals("75090", sc2.getContact().getZipcode());	
 	}
 
 
