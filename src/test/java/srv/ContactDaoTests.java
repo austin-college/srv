@@ -90,7 +90,7 @@ public class ContactDaoTests {
 		assertEquals("75090", c2.getZipcode());
 	}
 	
-	/* Testing the create(), should create a new query in the 
+	/* Testing the create(), should create a new Contact query in the 
 	 * data.sql database.
 	 */
 	@Test

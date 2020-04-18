@@ -87,12 +87,11 @@ public class JdbcTemplateContactDao implements ContactDao {
 				+ " mobilePhone, str, city, st, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", new Object[] {fn, ln, email, work, mobile, str, city, st, zip});
 
 		if (rc != 1) {
-			String msg = String.format("Unable to insert new contact [%s]", fn, ln, email, work, mobile, str, city, st, zip);
+			String msg = String.format("Unable to insert new contact [%s]", fn);
 			log.warn(msg);
 			throw new Exception("Unable to insert new unique contact.");
 		}
 	
-		//TODO check this
 	   Contact results = getJdbcTemplate().queryForObject(String.format("SELECT contactId, firstName, lastName, email, workPhone, "
 	   		+ "mobilePhone, str, city, st, zip FROM contacts WHERE firstName = '%s'", fn), new ContactRowMapper());
 	   

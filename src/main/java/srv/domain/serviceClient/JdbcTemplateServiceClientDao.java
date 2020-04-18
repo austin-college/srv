@@ -76,7 +76,8 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public List<ServiceClient> listAll() throws Exception {
 		
-		List<ServiceClient> results = getJdbcTemplate().query("select serviceClientId, title, contactId, boardMem, category from serviceClients", new ServiceClientRowMapper());
+		List<ServiceClient> results = getJdbcTemplate().query("select serviceClientId, title, contactId, "
+				+ "boardMem, category from serviceClients", new ServiceClientRowMapper());
 		 
 	   return results;
 		
@@ -87,17 +88,19 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	 * if the new service client is a duplicate. 
 	 */
 	@Override
-	public ServiceClient create(String sc) throws Exception {
+	public ServiceClient create(String name, Integer cid, String bm, String cat) throws Exception {
 		
-			int rc = jdbcTemplate.update("INSERT INTO serviceClients (title) VALUES(?)", new Object[] { sc });
+			int rc = jdbcTemplate.update("INSERT INTO serviceClients (title, contactId, boardMem, category) "
+					+ "VALUES(?, ?, ?, ?)", new Object[] {name, cid, bm, cat});
 
 			if (rc != 1) {
-				String msg = String.format("unable to insert new title [%s]", sc);
+				String msg = String.format("unable to insert new title [%s]", name);
 				log.warn(msg);
 				throw new Exception("Unable insert new unique title. Maybe a duplicate?");
 			}
 
-			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select serviceClientId, title, contactId, boardMem, category from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
+			ServiceClient results = getJdbcTemplate().queryForObject(String.format("SELECT serviceClientId, title, contactId, boardMem, "
+					+ "category FROM serviceClients WHERE title = '%s'", name), new ServiceClientRowMapper());
 	   
 	   return results;
 	}
@@ -139,13 +142,13 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public ServiceClient fetchClientId(int scid) throws Exception {
 		
-		String sqlStr = String.format("select serviceClientId, title, contactId, boardMem, category from serviceClients where serviceClientId = %d",scid);
+		String sqlStr = String.format("SELECT serviceClientId, title, contactId, boardMem, category FROM serviceClients WHERE serviceClientId = %d",scid);
 		log.debug(sqlStr);
 		
 		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
 		
 		if (results.size() != 1) {
-			log.error("unable to fetch reason [{}]",scid);
+			log.error("unable to fetch servant client id [{}]",scid);
 		}
 		return results.get(0);
 	}
@@ -163,24 +166,19 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    	JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
 	    	ServiceClient sc = new ServiceClient();
 	    	
-	    	try {
-				Contact con = dao.fetchContactById(rs.getInt("contactId"));
-				
-				sc.getClientId(rs.getInt("serviceClientId"))
+	    	try {				
+		
+	    		sc.getClientId(rs.getInt("serviceClientId"))
 		        	.setName(rs.getString("title"))
-		        	.setContact(con)
+		        	.setContact(dao.fetchContactById(rs.getInt("contactId")))
 		        	.setBoardMember(rs.getString("boardMem"))
 		    		.setCategory(rs.getString("category"));
-				
-				  
+		  
 			} catch (Exception e) {
 				
 				e.printStackTrace();
 			}
-	    			
-	    	return sc;
-	        
-	      
+	    	return sc;	      
 	    }
 	}
 }

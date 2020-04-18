@@ -12,7 +12,7 @@ import java.util.List;
 public interface ServiceClientDao {
 	public List<ServiceClient> listAll() throws Exception;
 
-	public ServiceClient create(String sc) throws Exception; 
+	public ServiceClient create(String name, Integer cid, String bm, String cat) throws Exception; 
 
 	public void delete(int scid) throws Exception;
 

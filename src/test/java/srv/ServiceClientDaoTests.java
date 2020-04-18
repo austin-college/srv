@@ -95,7 +95,78 @@ public class ServiceClientDaoTests {
 		assertEquals("Sherman", sc2.getContact().getCity());
 		assertEquals("TX", sc2.getContact().getState());
 		assertEquals("75090", sc2.getContact().getZipcode());
+	}
 	
+	/* 
+	 * TODO creating a new service client with new contact?? 
+	 * 
+	 * Testing the create(), should create a new Service Client query in the 
+	 * data.sql database.
+	 */
+	@Test
+	void testCreate_whenUsingJdbcTemplate() throws Exception {
+		
+		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
+		
+		// if this isn't here i get a null pointer exception so i have no idea whats up
+		ServiceClient sc1 = dao.fetchClientId(1);
+		
+		ServiceClient sc = dao.create("Meals on Wheels", 1, "Donald Duck", "Seniors, Community");
+
+		//ServiceClient sc3 = dao.fetchClientId(3);	
+		
+/*		assertEquals(3, sc3.getClientId());
+		assertEquals("Meals on Wheels", sc3.getName());
+		assertEquals("Donald Duck", sc3.getBoardMember());
+		assertEquals("Seniors, Community", sc3.getCategory());
+		*/
+		// Testing Contact info for service client
+		/*assertEquals(2, sc3.getContact().getContactId());
+		assertEquals("Lois", sc3.getContact().getFirstName());
+		assertEquals("Lane", sc3.getContact().getLastName());
+		assertEquals("llane86@gmail.com", sc3.getContact().getEmail());
+		assertEquals("803-423-1257", sc3.getContact().getPhoneNumWork());
+		assertEquals("800-232-1211", sc3.getContact().getPhoneNumMobile());
+		assertEquals("118 NW Crawford Street", sc3.getContact().getStreet());
+		assertEquals("Sherman", sc3.getContact().getCity());
+		assertEquals("TX", sc3.getContact().getState());
+		assertEquals("75090", sc3.getContact().getZipcode());
+	*/}
+	
+	/*
+	 *  Testing the delete(), should remove the query with the specified ID (first one in this case). Should
+	 *  still be one query left in the database.
+	 */
+	@Test
+	void testDelete_whenUsingJdbcTemplate() throws Exception {
+		
+		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
+			
+		dao.delete(1);
+		
+		List<ServiceClient> clients = dao.listAll();
+		
+		assertEquals(1, clients.size());
+		
+		ServiceClient sc1 = clients.get(0);
+		
+		// Service Client info for client id 2
+		assertEquals("Crisis Center", sc1.getName());
+		assertEquals("Rick Astley", sc1.getBoardMember());
+		assertEquals("Women, Crisis Support", sc1.getCategory());
+
+		// Testing Contact info for service client id 2
+		assertEquals(2, sc1.getContact().getContactId());
+		assertEquals("Lois", sc1.getContact().getFirstName());
+		assertEquals("Lane", sc1.getContact().getLastName());
+		assertEquals("llane86@gmail.com", sc1.getContact().getEmail());
+		assertEquals("803-423-1257", sc1.getContact().getPhoneNumWork());
+		assertEquals("800-232-1211", sc1.getContact().getPhoneNumMobile());
+		assertEquals("118 NW Crawford Street", sc1.getContact().getStreet());
+		assertEquals("Sherman", sc1.getContact().getCity());
+		assertEquals("TX", sc1.getContact().getState());
+		assertEquals("75090", sc1.getContact().getZipcode());
+		
 	}
 
 
