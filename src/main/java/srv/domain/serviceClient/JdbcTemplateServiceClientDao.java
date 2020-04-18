@@ -17,6 +17,16 @@ import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
 
+/**
+ * The JDBC Template that implements the ServiceClient DAO (data access object) interface.
+ * An instance of this class is responsible to get data from the serviceClients table in the data.sql
+ * database. The methods this class implements are creating a new service client query, updating an
+ * existing service client query, deleting a service client query, and fetching a service client query by its unique
+ * primary id (serviceClientId). 
+ * 
+ * @author Lydia House
+ *
+ */
 public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceClientDao.class);
@@ -60,6 +70,9 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 		super();
 	}
 
+	/*
+	 * Lists all the current service clients that are in the data.sql database.
+	 */
 	@Override
 	public List<ServiceClient> listAll() throws Exception {
 		
@@ -68,7 +81,11 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	   return results;
 		
 	}
-
+	
+	/*
+	 * Creates a new ServiceClient query in the data.sql database. An exception is thrown
+	 * if the new service client is a duplicate. 
+	 */
 	@Override
 	public ServiceClient create(String sc) throws Exception {
 		
@@ -86,7 +103,10 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	}
 	
 	
-
+	/*
+	 * Removes the desired Service Client (by id) from the data.sql database. An
+	 * exception is thrown if the service client is unable to be removed (does not exist).
+	 */
 	@Override
 	public void delete(int scid) throws Exception {
 		int rc = getJdbcTemplate().update("DELETE from serviceClients where serviceClientId= ?", new Object[] { scid });
@@ -98,7 +118,10 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 		}
 	}
 	
-
+	/* 
+	 * Updates the desired ServiceClient (by id) in the data.sql database with the new 
+	 * specified content. An exception is thrown if the service client is unable to be updates (does not exist).
+	 */
 	@Override
 	public void update(int scid, String newVal) throws Exception {
 		int rc = getJdbcTemplate().update("update serviceClients set title = ? where serviceClientId = ?", new Object[] { newVal, scid });
@@ -109,6 +132,10 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 
 	}
 
+	/*
+	 * Finds the corresponding ServiceClient given the specified id. An exception is thrown
+	 * if the service client is unable to be fetched (does not exist).
+	 */
 	@Override
 	public ServiceClient fetchClientId(int scid) throws Exception {
 		
@@ -129,6 +156,10 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    @Override
 	    public ServiceClient mapRow(ResultSet rs, int rowNum) throws SQLException {
 	    	
+	    	/*
+	    	 * We use the ContactDao in order to access the contacts table in the data.sql 
+	    	 * database, so that the service client has a handle on that contact.
+	    	 */
 	    	JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
 	    	ServiceClient sc = new ServiceClient();
 	    	
@@ -142,7 +173,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 				
 				  
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 	    			

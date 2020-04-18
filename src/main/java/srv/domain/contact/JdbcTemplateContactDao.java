@@ -65,7 +65,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	}
 
 	/*
-	 * Lists all the current contacts that are in the Contact.sql database.
+	 * Lists all the current contacts that are in the data.sql database.
 	 */
 	@Override
 	public List<Contact> listAll() throws Exception {
@@ -77,7 +77,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	}
 	
 	/*
-	 * Creates a new Contact in the Contact.sql database. An exception is thrown
+	 * Creates a new Contact in the data.sql database. An exception is thrown
 	 * if the new contact is a duplicate. 
 	 */
 	@Override
@@ -100,7 +100,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	}
 
 	/*
-	 * Removes the desired Contact (by id) from the Contact.sql database. An
+	 * Removes the desired Contact (by id) from the data.sql database. An
 	 * exception is thrown if the contact is unable to be removed (does not exist).
 	 */
 	@Override
@@ -117,7 +117,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	}
 
 	/* 
-	 * Updates the desired Contact (by id) in the Contact.sql database with the new 
+	 * Updates the desired Contact (by id) in the data.sql database with the new 
 	 * specified content. An exception is thrown if the contact is unable to be updates (does not exist).
 	 * 
 	 * NOTE: in data.sql we are setting references that have contact as a foreign key, to be null when a 
