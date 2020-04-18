@@ -17,7 +17,7 @@ public interface ContactDao {
 
 	public void delete(int cid) throws Exception;
 	
-	public void update(int cid, String newVal) throws Exception;
+	public void update(int cid, String newFn, String newLn, String newEmail, String newWork, String newMobile, String newStr, String newCity, String newSt, String newZip) throws Exception;
 
 	public Contact fetchContactById(int cid) throws Exception;
 

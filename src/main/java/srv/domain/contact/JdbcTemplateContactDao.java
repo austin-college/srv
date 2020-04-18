@@ -13,6 +13,16 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+/**
+ * The JDBC Template that implements the Contact DAO (data access object) interface.
+ * An instance of this class is responsible to get data from the CONTACTS table in the data.sql
+ * database. The methods this class implements are creating a new contact query, updating an
+ * existing contact query, deleting a contact query, and fetching a contact query by its unique
+ * primary id (contactId). 
+ * 
+ * @author Lydia House
+ *
+ */
 public class JdbcTemplateContactDao implements ContactDao {
 	
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateContactDao.class);
@@ -106,15 +116,16 @@ public class JdbcTemplateContactDao implements ContactDao {
 		
 	}
 
-	/* TODO confused on if it should be 1 item or multiple or what
-	 * 
+	/* 
 	 * Updates the desired Contact (by id) in the Contact.sql database with the new 
 	 * specified content. An exception is thrown if the contact is unable to be updates (does not exist).
 	 */
 	@Override
-	public void update(int cid, String newVal) throws Exception {
-		//TODO come check this
-		int rc = getJdbcTemplate().update("UPDATE contacts SET firstName = ? WHERE contactId = ?", new Object[] { newVal, cid });
+	public void update(int cid,  String newFn, String newLn, String newEmail, String newWork, String newMobile, String newStr, String newCity, String newSt, String newZip) throws Exception {
+		
+		int rc = getJdbcTemplate().update("UPDATE contacts SET firstName = ?, lastName = ?, email = ?, workPhone = ?,"
+				+ "mobilePhone = ?, str = ?, city = ?, st = ?, zip = ? WHERE contactId = ?", 
+				new Object[] {newFn, newLn, newEmail, newWork, newMobile, newStr, newCity, newSt, newZip, cid});
 
 		if (rc < 1) {
 			log.error("Unable to update contact [{}]",cid);
