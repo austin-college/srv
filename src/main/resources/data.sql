@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS serviceClients;
 DROP TABLE IF EXISTS contacts;
+DROP TABLE IF EXISTS serviceClients;
 drop table if exists users;
 drop table if exists reasons;
 

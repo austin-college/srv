@@ -40,7 +40,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("serviceClient.sql")
+                .addScript("data.sql")
                 .build();
     }
 	
@@ -63,7 +63,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public List<ServiceClient> listAll() throws Exception {
 		
-		List<ServiceClient> results = getJdbcTemplate().query("select scid, title, cid, boardMem, category from serviceClients", new ServiceClientRowMapper());
+		List<ServiceClient> results = getJdbcTemplate().query("select serviceClientId, title, contactId, boardMem, category from serviceClients", new ServiceClientRowMapper());
 		 
 	   return results;
 		
@@ -80,7 +80,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 				throw new Exception("Unable insert new unique title. Maybe a duplicate?");
 			}
 
-			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select scid, title, cid, boardMem, category from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
+			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select serviceClientId, title, contactId, boardMem, category from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
 	   
 	   return results;
 	}
@@ -89,7 +89,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 
 	@Override
 	public void delete(int scid) throws Exception {
-		int rc = getJdbcTemplate().update("DELETE from serviceClients where scid= ?", new Object[] { scid });
+		int rc = getJdbcTemplate().update("DELETE from serviceClients where serviceClientId= ?", new Object[] { scid });
 		
 		if (rc != 1) {
 			String msg = String.format("unable to delete title [%s]", scid);
@@ -101,7 +101,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 
 	@Override
 	public void update(int scid, String newVal) throws Exception {
-		int rc = getJdbcTemplate().update("update serviceClients set title = ? where scid = ?", new Object[] { newVal, scid });
+		int rc = getJdbcTemplate().update("update serviceClients set title = ? where serviceClientId = ?", new Object[] { newVal, scid });
 
 		if (rc < 1) {
 			log.error("unable to update title [{}]",scid);
@@ -112,7 +112,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public ServiceClient fetchClientId(int scid) throws Exception {
 		
-		String sqlStr = String.format("select scid, title, cid, boardMem, category from serviceClients where scid = %d",scid);
+		String sqlStr = String.format("select serviceClientId, title, contactId, boardMem, category from serviceClients where serviceClientId = %d",scid);
 		log.debug(sqlStr);
 		
 		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
@@ -133,8 +133,8 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    	ServiceClient sc = new ServiceClient();
 	    	
 	    	try {
-				Contact con = dao.fetchContactById(rs.getInt("cid"));
-				sc.setScid(rs.getInt("scid"))
+				Contact con = dao.fetchContactById(rs.getInt("contactId"));
+				sc.setScid(rs.getInt("serviceClientId"))
 		        	.setName(rs.getString("title"))
 		        	.setContact(con)
 		        	.setBoardMember(rs.getString("boardMem"))

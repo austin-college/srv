@@ -13,7 +13,17 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import srv.domain.contact.Contact;
-
+/**
+ * AJ !!!! 
+ * I MADE CHANGES TO NAMING CONVENTIONS SO LIKE
+ * BEFORE YOU HAD uid and userID AND I CHANGED IT TO 
+ * userId and username, respectively. I ALSO CHANGED cid TO contactId.
+ * I JUST THINK THE NAMING CONVENTION WILL BE MORE UNDERSTANDABLE FOR EVERYONE
+ * BUT IF YOU DON'T LIKE, FEEL FREE TO CHANGE IT AND I APOLOGIZE
+ * 
+ * @author Lydia House
+ *
+ */
 public class JdbcTemplateUserDao implements UserDao {
 
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateUserDao.class);
@@ -37,7 +47,7 @@ public class JdbcTemplateUserDao implements UserDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("user.sql")//script to create person table
+                .addScript("data.sql")//script to create person table
                 .build();
     }
 	
@@ -58,30 +68,30 @@ public class JdbcTemplateUserDao implements UserDao {
 	
 	@Override
 	public List<User> listAll() throws Exception {
-		List<User> results = getJdbcTemplate().query("select uid, userID, password, totalHoursServed, cid", new UserRowMapper());
+		List<User> results = getJdbcTemplate().query("select userId, username, password, totalHoursServed, contactId", new UserRowMapper());
 		 
 		return results;
 	}
 
 	@Override
-	public User create(String userID, String password, double totalHoursServed, int cid) throws Exception {
-		int rc = jdbcTemplate.update("INSERT INTO users (userID, password, totalHoursServed, cid)", new Object[] {userID, password, totalHoursServed, cid});
+	public User create(String username, String password, double totalHoursServed, int cid) throws Exception {
+		int rc = jdbcTemplate.update("INSERT INTO users (username, password, totalHoursServed, contactId)", new Object[] {username, password, totalHoursServed, cid});
 
 		if (rc != 1) {
-			String msg = String.format("Unable to insert new user [%s]", userID, password, totalHoursServed, cid);
+			String msg = String.format("Unable to insert new user [%s]", username, password, totalHoursServed, cid);
 			log.warn(msg);
 			throw new Exception("Unable to insert new unique user.");
 		}
 	
 		//TODO check this
-	   User results = getJdbcTemplate().queryForObject(String.format("SELECT uid, userID, password, totalHoursServed, cid FROM users WHERE userID = '%s'", userID), new UserRowMapper());
+	   User results = getJdbcTemplate().queryForObject(String.format("SELECT userId, username, password, totalHoursServed, contactId FROM users WHERE username = '%s'", username), new UserRowMapper());
 	   
 	   return results;
 	}
 
 	@Override
 	public void delete(int uid) throws Exception {
-		int rc = getJdbcTemplate().update("DELETE from users where uid= ?", new Object[] { uid });
+		int rc = getJdbcTemplate().update("DELETE from users where userId= ?", new Object[] { uid });
 		
 		if (rc != 1) {
 			String msg = String.format("unable to delete user [%s]", uid);
@@ -95,7 +105,7 @@ public class JdbcTemplateUserDao implements UserDao {
 	 */
 	@Override
 	public void update(int uid, String newPassword) throws Exception {
-		int rc = getJdbcTemplate().update("update users set password = ? where uid = ?", new Object[] { newPassword, uid });
+		int rc = getJdbcTemplate().update("update users set password = ? where userId = ?", new Object[] { newPassword, uid });
 
 		if (rc < 1) {
 			log.error("unable to update passord [{}]",uid);
@@ -105,7 +115,7 @@ public class JdbcTemplateUserDao implements UserDao {
 
 	@Override
 	public User fetchUserById(int uid) throws Exception {
-		String sqlStr = String.format("select uid, userID, password, totalHoursServed, cid from users where uid = %d",uid);
+		String sqlStr = String.format("select userId, username, password, totalHoursServed, contactId from users where userId = %d",uid);
 		log.debug(sqlStr);
 		
 		List<User> results = getJdbcTemplate().query(sqlStr, new UserRowMapper());
@@ -128,11 +138,11 @@ public class JdbcTemplateUserDao implements UserDao {
 	    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 	    	User us = new User()
-	    			.setUid(rs.getInt("uid"))
-	        		.setUserID(rs.getString("userID"))
+	    			.setUid(rs.getInt("userId"))
+	        		.setUserID(rs.getString("username"))
 	        		.setPassword(rs.getString("password"))
 	        		.setTotalHoursServed(rs.getDouble("totalHours"))
-	    			.setCid(rs.getInt("cid"));
+	    			.setCid(rs.getInt("contactId"));
 	        
 	        return us;
 	    }

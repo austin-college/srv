@@ -34,7 +34,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("serviceClient.sql")
+                .addScript("data.sql")
                 .build();
     }
 	
@@ -60,7 +60,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	@Override
 	public List<Contact> listAll() throws Exception {
 		
-		List<Contact> results = getJdbcTemplate().query("SELECT cid, firstName, lastName, email, workPhone, mobilePhone, "
+		List<Contact> results = getJdbcTemplate().query("SELECT contactId, firstName, lastName, email, workPhone, mobilePhone, "
 				+ "str, city, st, zip FROM contacts", new ContactRowMapper());
 		 
 		return results;
@@ -83,7 +83,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 		}
 	
 		//TODO check this
-	   Contact results = getJdbcTemplate().queryForObject(String.format("SELECT cid, firstName, lastName, email, workPhone, "
+	   Contact results = getJdbcTemplate().queryForObject(String.format("SELECT contactId, firstName, lastName, email, workPhone, "
 	   		+ "mobilePhone, str, city, st, zip FROM contacts WHERE firstName = '%s'", fn), new ContactRowMapper());
 	   
 	   return results;
@@ -129,7 +129,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	@Override
 	public Contact fetchContactById(int cid) throws Exception {
 		
-		String sqlStr = String.format("SELECT cid, firstName, lastName, email, workPhone, mobilePhone, "
+		String sqlStr = String.format("SELECT contactId, firstName, lastName, email, workPhone, mobilePhone, "
 				+ "str, city, st, zip FROM contacts WHERE cid = %d", cid);
 		log.debug(sqlStr);
 		
@@ -147,7 +147,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	    public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 	        Contact con = new Contact()
-	        		.setContactId(rs.getInt("cid"))
+	        		.setContactId(rs.getInt("contactId"))
 	        		.setFirstName(rs.getString("firstName"))
 	        		.setLastName(rs.getString("lastName"))
 	        		.setEmail(rs.getString("email"))
