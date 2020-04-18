@@ -106,27 +106,35 @@ public class ServiceClientDaoTests {
 		// if this isn't here i get a null pointer exception so i have no idea whats up
 		ServiceClient sc1 = dao.fetchClientId(1);
 		
-		ServiceClient sc = dao.create("Meals on Wheels", 1, "Donald Duck", "Seniors, Community");
-
-		ServiceClient sc3 = dao.fetchClientId(3);	
+		ServiceClient sc = dao.create("Meals on Wheels", 2, "Donald Duck", "Seniors, Community");
+			
+		
+		//ServiceClient sc3 = dao.fetchClientId(3);	
 		
 /*		assertEquals(3, sc3.getClientId());
 		assertEquals("Meals on Wheels", sc3.getName());
 		assertEquals("Donald Duck", sc3.getBoardMember());
 		assertEquals("Seniors, Community", sc3.getCategory());
 		*/
-		// Testing Contact info for service client
-		/*assertEquals(2, sc3.getContact().getContactId());
-		assertEquals("Lois", sc3.getContact().getFirstName());
-		assertEquals("Lane", sc3.getContact().getLastName());
-		assertEquals("llane86@gmail.com", sc3.getContact().getEmail());
-		assertEquals("803-423-1257", sc3.getContact().getPhoneNumWork());
-		assertEquals("800-232-1211", sc3.getContact().getPhoneNumMobile());
-		assertEquals("118 NW Crawford Street", sc3.getContact().getStreet());
-		assertEquals("Sherman", sc3.getContact().getCity());
-		assertEquals("TX", sc3.getContact().getState());
-		assertEquals("75090", sc3.getContact().getZipcode());
-	*/}
+		
+		// Testing Service Client returned from create
+		assertEquals(3, sc.getClientId());
+		assertEquals("Meals on Wheels", sc.getName());
+		assertEquals("Donald Duck", sc.getBoardMember());
+		assertEquals("Seniors, Community", sc.getCategory());
+		
+		// Testing Contact info for service client returned from create
+		assertEquals(2, sc.getContact().getContactId());
+		assertEquals("Lois", sc.getContact().getFirstName());
+		assertEquals("Lane", sc.getContact().getLastName());
+		assertEquals("llane86@gmail.com", sc.getContact().getEmail());
+		assertEquals("803-423-1257", sc.getContact().getPhoneNumWork());
+		assertEquals("800-232-1211", sc.getContact().getPhoneNumMobile());
+		assertEquals("118 NW Crawford Street", sc.getContact().getStreet());
+		assertEquals("Sherman", sc.getContact().getCity());
+		assertEquals("TX", sc.getContact().getState());
+		assertEquals("75090", sc.getContact().getZipcode());
+	}
 	
 	/*
 	 *  Testing the delete(), should remove the query with the specified ID (first one in this case). Should

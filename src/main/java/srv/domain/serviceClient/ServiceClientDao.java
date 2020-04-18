@@ -19,6 +19,4 @@ public interface ServiceClientDao {
 	public void update(int scid, String name, Integer cid, String bm, String cat) throws Exception;
 
 	public ServiceClient fetchClientId(int scid) throws Exception;
-
-
 }

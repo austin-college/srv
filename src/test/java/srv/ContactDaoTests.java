@@ -102,6 +102,7 @@ public class ContactDaoTests {
 
 		Contact c3 = dao.fetchContactById(3);
 		
+		// Verifying that the Contact was stored in the database
 		assertEquals(3, c3.getContactId());
 		assertEquals("Morgan", c3.getFirstName());
 		assertEquals("Freeman", c3.getLastName());
@@ -113,6 +114,7 @@ public class ContactDaoTests {
 		assertEquals("TX", c3.getState());
 		assertEquals("75090", c3.getZipcode());
 		
+		// Testing Contact returned from create
 		assertEquals(3, c.getContactId());
 		assertEquals("Morgan", c.getFirstName());
 		assertEquals("Freeman", c.getLastName());
