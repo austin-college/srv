@@ -22,8 +22,8 @@ public class ServiceClientDaoTests {
 		
 		assertEquals(1, r1.getScid());
 
-		assertEquals("Meals on Wheels", r1.getName());
-		assertEquals("Tom Hanks", r1.getContactName());
+		assertEquals("Habitat for Humanity", r1.getName());
+		assertEquals("Tom", r1.getContact().getFirstName());
 		assertEquals("Billy Bob", r1.getBoardMember());
 		assertEquals("Housing, Community", r1.getCategory());
 

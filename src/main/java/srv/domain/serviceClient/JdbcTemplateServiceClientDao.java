@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import srv.domain.contact.Contact;
+import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
 
@@ -38,7 +40,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("serviceClient.sql")//script to create person table
+                .addScript("serviceClient.sql")
                 .build();
     }
 	
@@ -61,7 +63,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public List<ServiceClient> listAll() throws Exception {
 		
-		List<ServiceClient> results = getJdbcTemplate().query("select scid, title, contact, boardMem, category from serviceClients", new ServiceClientRowMapper());
+		List<ServiceClient> results = getJdbcTemplate().query("select scid, title, cid, boardMem, category from serviceClients", new ServiceClientRowMapper());
 		 
 	   return results;
 		
@@ -78,7 +80,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 				throw new Exception("Unable insert new unique title. Maybe a duplicate?");
 			}
 
-			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select scid, title, contact, boardMem, category from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
+			ServiceClient results = getJdbcTemplate().queryForObject(String.format("select scid, title, cid, boardMem, category from serviceClients where title = '%s'",sc), new ServiceClientRowMapper());
 	   
 	   return results;
 	}
@@ -110,7 +112,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	@Override
 	public ServiceClient fetchClientId(int scid) throws Exception {
 		
-		String sqlStr = String.format("select scid, title, contact, boardMem, category from serviceClients where scid = %d",scid);
+		String sqlStr = String.format("select scid, title, cid, boardMem, category from serviceClients where scid = %d",scid);
 		log.debug(sqlStr);
 		
 		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
@@ -123,18 +125,30 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 
 	
 	
-	class ServiceClientRowMapper implements RowMapper < ServiceClient > {
+	class ServiceClientRowMapper implements RowMapper <ServiceClient> {
 	    @Override
 	    public ServiceClient mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-	    	ServiceClient sc = new ServiceClient()
-	    			.setScid(rs.getInt("scid"))
-	        		.setName(rs.getString("title"))
-	        		.setContactName(rs.getString("contact"))
-	        		.setBoardMember(rs.getString("boardMem"))
-	    			.setCategory(rs.getString("category"));
+	    	
+	    	JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
+	    	ServiceClient sc = new ServiceClient();
+	    	
+	    	try {
+				Contact con = dao.fetchContactById(rs.getInt("cid"));
+				sc.setScid(rs.getInt("scid"))
+		        	.setName(rs.getString("title"))
+		        	.setContact(con)
+		        	.setBoardMember(rs.getString("boardMem"))
+		    		.setCategory(rs.getString("category"));
+				
+				  
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    			
+	    	return sc;
 	        
-	        return sc;
+	      
 	    }
 	}
 }

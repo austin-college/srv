@@ -31,15 +31,12 @@ public class ServiceClient implements Serializable {
 	private String eventDescrp; // description of an event
 	private int servantsReq; // amount of personel needed for an event
 	
-	
-	// temp cause idk how to java - lydia
-	private String contactName;
-	
-	public ServiceClient(Integer scid, String new_name, String contact, String bm, String cat) { //int servantsReq, String eventLoc, String eventDescrp) {
+
+	public ServiceClient(Integer scid, String new_name, Contact con, String bm, String cat) { //int servantsReq, String eventLoc, String eventDescrp) {
 		super();
 		this.scid = scid;
 		this.name = new_name;
-		this.contactName = contact;
+		this.contact = con;
 		this.boardMember = bm;
 		this.category = cat;		
 		
@@ -98,15 +95,6 @@ public class ServiceClient implements Serializable {
 		return this;
 	}
 	
-	public String getContactName() {
-		return contactName;
-	}
-
-	public ServiceClient setContactName(String contact) {
-		this.contactName = contact;
-		return this;
-	}
-
 	public int getServantsReq() {
 		return servantsReq;
 	}

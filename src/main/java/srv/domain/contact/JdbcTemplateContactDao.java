@@ -34,7 +34,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("contact.sql")
+                .addScript("serviceClient.sql")
                 .build();
     }
 	
