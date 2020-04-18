@@ -7,9 +7,6 @@ import org.junit.jupiter.api.Test;
 import srv.domain.contact.Contact;
 import srv.domain.contact.JdbcTemplateContactDao;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-
-
 public class ContactDaoTests {
 	
 	/*

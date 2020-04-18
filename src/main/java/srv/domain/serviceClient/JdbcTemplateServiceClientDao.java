@@ -14,8 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import srv.domain.contact.Contact;
 import srv.domain.contact.JdbcTemplateContactDao;
-import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
-import srv.domain.serviceClient.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
+
 
 /**
  * The JDBC Template that implements the ServiceClient DAO (data access object) interface.
@@ -92,7 +91,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 		
 			int rc = jdbcTemplate.update("INSERT INTO serviceClients (title, contactId, boardMem, category) "
 					+ "VALUES(?, ?, ?, ?)", new Object[] {name, cid, bm, cat});
-
+			
 			if (rc != 1) {
 				String msg = String.format("unable to insert new title [%s]", name);
 				log.warn(msg);
@@ -156,7 +155,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 
 	
 	
-	class ServiceClientRowMapper implements RowMapper <ServiceClient> {
+	private class ServiceClientRowMapper implements RowMapper <ServiceClient> {
 	    @Override
 	    public ServiceClient mapRow(ResultSet rs, int rowNum) throws SQLException {
 	    	

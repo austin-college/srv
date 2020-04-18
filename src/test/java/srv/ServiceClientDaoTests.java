@@ -2,12 +2,7 @@ package srv;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import srv.domain.contact.Contact;
-import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceClient.ServiceClient;
 
@@ -97,7 +92,7 @@ public class ServiceClientDaoTests {
 		assertEquals("75090", sc2.getContact().getZipcode());
 	}
 	
-	/* 
+	/* TODO BROKEN :c
 	 * TODO creating a new service client with new contact?? 
 	 * 
 	 * Testing the create(), should create a new Service Client query in the 
@@ -113,7 +108,7 @@ public class ServiceClientDaoTests {
 		
 		ServiceClient sc = dao.create("Meals on Wheels", 1, "Donald Duck", "Seniors, Community");
 
-		//ServiceClient sc3 = dao.fetchClientId(3);	
+		ServiceClient sc3 = dao.fetchClientId(3);	
 		
 /*		assertEquals(3, sc3.getClientId());
 		assertEquals("Meals on Wheels", sc3.getName());
