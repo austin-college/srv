@@ -91,7 +91,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 		
 			int rc = jdbcTemplate.update("INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) "
 					+ "VALUES(?, ?, ?, ?, ?)", new Object[] {name, cid1, cid2, bm, cat});
-			System.out.println("HEREEEEEE" + rc);
+			
 			if (rc != 1) {
 				String msg = String.format("unable to insert new title [%s]", name);
 				log.warn(msg);
