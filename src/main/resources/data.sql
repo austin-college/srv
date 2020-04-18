@@ -1,8 +1,8 @@
-
 DROP TABLE IF EXISTS serviceClients;
 drop table if exists users;
 drop table if exists reasons;
 DROP TABLE IF EXISTS contacts;
+
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
 	firstName VARCHAR(255),

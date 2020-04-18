@@ -1,8 +1,6 @@
 package srv.domain.serviceClient;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import srv.domain.contact.Contact;
 
@@ -13,18 +11,12 @@ import srv.domain.contact.Contact;
  *         for a pet, or a service organization
  */
 public class ServiceClient implements Serializable {
-	private Integer scid; // unique id for each client
-	private String name; // the name of the pet
 	
-	/*
-	 * private String personOfContact; // name of pet representative or person of
-	 * contact private String contactNumber; // contact phone number for pet private
-	 * String email; // contact email for pet
-	 */
-	private Contact contact; // contact for pet
+	private Integer scid; // unique id for each service client
+	private String name; // the name of the service client
+	private Contact contact; // contact for service client
 	private String boardMember; // current board member responsible for the service client
 	private String category; // type of work client does ex: animals
-	
 	
 	// putting these to the side for now - lhouse
 	private String eventLoc; // location of an event
