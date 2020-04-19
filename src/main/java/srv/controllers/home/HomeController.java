@@ -11,8 +11,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
+ * this algorithm prepares the response 
+ * 	- Michael Higgs
  * 
  * @author Conor Mackey
+ * 
+ * [Conor's comments] Not sure how to make these show up after the user logs in as either a 
+ * board member or an admin, but I thought this would be helpful to have for when someone
+ * smarter than me takes over. 
+ * 
  *
  */
 
