@@ -1,10 +1,9 @@
 package srv.domain.contact;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.util.List;
 
-import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +25,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 public class JdbcTemplateContactDao implements ContactDao {
 	
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateContactDao.class);
+	
 	private DataSource dataSource;    
 	private JdbcTemplate jdbcTemplate; 
 	
@@ -54,7 +54,6 @@ public class JdbcTemplateContactDao implements ContactDao {
 		
 		return jdbcTemplate;
 	}
-
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
