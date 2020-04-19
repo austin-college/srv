@@ -5,42 +5,48 @@ import java.io.Serializable;
 import srv.domain.contact.Contact;
 
 /**
- * @author 
+ * @author
  *
- *         The ServiceClient class is supposed to represent the information we are holding
- *         for a pet, or a service organization
+ *         The ServiceClient class is supposed to represent the information we
+ *         are holding for a pet, or a service organization
  */
 public class ServiceClient implements Serializable {
-	
+
 	private Integer scid; // unique id for each service client
 	private String name; // the name of the service client
-	private Contact mainContact; // the primary contact for service client
-	private Contact otherContact; // the secondary contact for service client
+	// private Contact mainContact; // the primary contact for service client
+	private int mainContact;
+	private int otherContact;
+	// private Contact otherContact; // the secondary contact for service client
 	private String boardMember; // current board member responsible for the service client
 	private String category; // type of work client does ex: animals
-	
+
 	// putting these to the side for now - lhouse
 	private String eventLoc; // location of an event
 	private String eventDescrp; // description of an event
 	private int servantsReq; // amount of personel needed for an event
-	
 
-	public ServiceClient(Integer scid, String new_name, Contact con1, Contact con2, String bm, String cat) { //int servantsReq, String eventLoc, String eventDescrp) {
+	public ServiceClient(Integer scid, String new_name, int con1, int con2, String bm, String cat) { // int
+																										// servantsReq,
+																										// String
+																										// eventLoc,
+																										// String
+																										// eventDescrp)
+																										// {
 		super();
 		this.scid = scid;
 		this.name = new_name;
 		this.mainContact = con1;
 		this.otherContact = con2;
 		this.boardMember = bm;
-		this.category = cat;		
-		
-		/* setting these aside for database support - lydia
-		this.servantsReq = servantsReq;
-		this.eventLoc = eventLoc;
-		this.eventDescrp = eventDescrp;
-		*/
+		this.category = cat;
+
+		/*
+		 * setting these aside for database support - lydia this.servantsReq =
+		 * servantsReq; this.eventLoc = eventLoc; this.eventDescrp = eventDescrp;
+		 */
 	}
-	
+
 	public Integer getClientId() {
 		return scid;
 	}
@@ -49,7 +55,7 @@ public class ServiceClient implements Serializable {
 		this.scid = scid;
 		return this;
 	}
-	
+
 	public ServiceClient() {
 		super();
 	}
@@ -62,42 +68,43 @@ public class ServiceClient implements Serializable {
 		this.name = new_name;
 		return this;
 	}
+
 	public String getBoardMember() {
 		return boardMember;
 	}
-	
+
 	public ServiceClient setBoardMember(String bm) {
 		this.boardMember = bm;
 		return this;
 	}
-	
+
 	public String getCategory() {
 		return category;
 	}
-	
+
 	public ServiceClient setCategory(String cat) {
 		this.category = cat;
 		return this;
-	}	
+	}
 
-	public Contact getMainContact() {
+	public int getMainContact() {
 		return mainContact;
 	}
 
-	public ServiceClient setMainContact(Contact con) {
+	public ServiceClient setMainContact(int con) {
 		this.mainContact = con;
 		return this;
 	}
-	
-	public Contact getOtherContact() {
+
+	public int getOtherContact() {
 		return otherContact;
 	}
-	
-	public ServiceClient setOtherContact(Contact con) {
+
+	public ServiceClient setOtherContact(int con) {
 		this.otherContact = con;
 		return this;
 	}
-	
+
 	public int getServantsReq() {
 		return servantsReq;
 	}
@@ -106,5 +113,5 @@ public class ServiceClient implements Serializable {
 		this.servantsReq = servantsReq;
 		return this;
 	}
-	
+
 }
