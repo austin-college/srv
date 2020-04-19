@@ -26,4 +26,12 @@ public class HomeController {
 
 		return mav;
 	}
+	
+	@GetMapping("/home/admin")
+	public ModelAndView adminAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("home/admin");
+
+		return mav;
+	}
 }
