@@ -14,14 +14,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import srv.domain.contact.Contact;
 /**
- * AJ !!!! 
- * I MADE CHANGES TO NAMING CONVENTIONS SO LIKE
- * BEFORE YOU HAD uid and userID AND I CHANGED IT TO 
- * userId and username, respectively. I ALSO CHANGED cid TO contactId.
- * I JUST THINK THE NAMING CONVENTION WILL BE MORE UNDERSTANDABLE FOR EVERYONE
- * BUT IF YOU DON'T LIKE, FEEL FREE TO CHANGE IT AND I APOLOGIZE
  * 
- * @author Lydia House
+ * @author AJ Pritchard
  *
  */
 public class JdbcTemplateUserDao implements UserDao {
@@ -141,7 +135,7 @@ public class JdbcTemplateUserDao implements UserDao {
 	    			.setUid(rs.getInt("userId"))
 	        		.setUserID(rs.getString("username"))
 	        		.setPassword(rs.getString("password"))
-	        		.setTotalHoursServed(rs.getDouble("totalHours"))
+	        		.setTotalHoursServed(rs.getDouble("totalHoursServed"))
 	    			.setCid(rs.getInt("contactId"));
 	        
 	        return us;
