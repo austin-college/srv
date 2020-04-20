@@ -3,6 +3,8 @@ package srv.domain.event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+
 import srv.domain.contact.Contact;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.user.User;
@@ -17,74 +19,122 @@ import srv.domain.user.User;
  */
 public class Event {
 
-	// private String title; //I'm not sure each event will have title
-	private String addr; //address of location
-	private Contact contact; // contact info
-	private String date; //date of event
-	private EventType type; // event type
+	private int eid;
+	private String title; // I'm not sure each event will have title
+	private String address; // address of location
+	private int contactId; // contact info
+	private String date; // date of event
+	private String type; // eventType TODO
 	private boolean continous;// if event repeats??
-	private int volunteersNumber; // 3 of volunteers needed
-	private ServiceClient pet; // pet associated with event
-	private ArrayList<User> servantList; //list of servants signed up for the event
+	private int volunteersNeeded; // 3 of volunteers needed
+	private int serviceClientId; // pet associated with event
+	private int participantsListId;
 
 	public Event() {
 		super();
 
 	}
 
-	public Event(String date, ServiceClient eventPet, EventType type) {
+	public Event(String date, int serviceClientId, String type) {
 		super();
 		this.date = date;
-		this.pet = eventPet;
+		this.serviceClientId = serviceClientId;
 		this.type = type;
 	}
 
-	public String getAddr() {
-		return addr;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAddr(String addr) {
-		this.addr = addr;
+	public Event setAddress(String address) {
+		this.address = address;
+		return this;
 	}
 
-	public Contact getContact() {
-		return contact;
+	public int getContactId() {
+		return contactId;
 	}
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public Event setContactId(int contactId) {
+		this.contactId = contactId;
+		return this;
+
 	}
 
 	public String getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public Event setDate(String date) {
 		this.date = date;
+		return this;
+
 	}
 
-	public ServiceClient getEventPet() {
-		return pet;
+	public int getServiceClientId() {
+		return serviceClientId;
 	}
 
-	public void setEventPet(ServiceClient eventPet) {
-		this.pet = eventPet;
+	public Event setSetServiceClientId(int serviceClientId) {
+		this.serviceClientId = serviceClientId;
+		return this;
+
 	}
 
-	public EventType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(EventType type) {
+	public Event setType(String type) {
 		this.type = type;
+		return this;
+
 	}
 
-	public ArrayList<User> getServantList() {
-		return servantList;
+	public int getParticipantsListId() {
+		return participantsListId;
 	}
 
-	public void setServantList(ArrayList<User> servantList) {
-		this.servantList = servantList;
+	public Event setParticipantsListId(int participantsListId) {
+		this.participantsListId = participantsListId;
+		return this;
+
+	}
+
+	public int getEid() {
+		return eid;
+	}
+
+	public Event setEid(int eid) {
+		this.eid = eid;
+		return this;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public Event setTitle(String title) {
+		this.title = title;
+		return this;
+	}
+
+	public boolean isContinous() {
+		return continous;
+	}
+
+	public Event setContinuous(boolean continous) {
+		this.continous = continous;
+		return this;
+	}
+
+	public int getVolunteersNeeded() {
+		return volunteersNeeded;
+	}
+
+	public Event setVolunteersNeeded(int volunteersNeeded) {
+		this.volunteersNeeded = volunteersNeeded;
+		return this;
 	}
 
 }

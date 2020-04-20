@@ -52,6 +52,23 @@ CREATE TABLE reasons (
 	primary key (rid)
 	);
 	
+CREATE TABLE events (
+	eventId integer auto_increment,
+	title VARCHAR(255),
+	address VARCHAR(255),
+	contactId int,
+	dateOf VARCHAR(255),
+	eventType VARCHAR(255),
+	continuous boolean,
+	volunteersNeeded int,
+	organizationId int,
+	participantsListId int,
+	primary key (eventId),
+	foreign key (contactId)
+		references contacts(contactId)
+		on delete set NULL
+);
+	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 	
