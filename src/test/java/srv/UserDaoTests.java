@@ -137,6 +137,7 @@ class UserDaoTests {
 
 		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
 
+		// checks to see that user with id 1 exists then
 		User u1 = dao.fetchUserById(1);
 
 		assertEquals(1, u1.getUid());
@@ -148,10 +149,30 @@ class UserDaoTests {
 
 		assertEquals(3, dao.listAll().size());
 
+		// deletes user with id 1
 		dao.delete(1);
 
+		// verifies its been deleted
 		assertEquals(null, dao.fetchUserById(1));
 		assertEquals(2, dao.listAll().size());
+		
+		// checks user with id 2 exists
+		u1 = dao.fetchUserById(2);
 
+		assertEquals(2, u1.getUid());
+
+		assertEquals("hCouturier", u1.getUserID());
+		assertEquals("5678", u1.getPassword());
+		assertEquals(0.0, u1.getTotalHoursServed());
+		assertEquals(5, u1.getCid());
+
+		assertEquals(2, dao.listAll().size());
+
+		// deletes user with id 2
+		dao.delete(2);
+
+		// verifies its been deleted
+		assertEquals(null, dao.fetchUserById(2));
+		assertEquals(1, dao.listAll().size());
 	}
 }
