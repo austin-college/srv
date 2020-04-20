@@ -12,7 +12,8 @@ import srv.domain.user.User;
 class UserDaoTests {
 
 	/*
-	 * Testing fetchUserById(int i) should return the user info for the user with id i.
+	 * Testing fetchUserById(int i) should return the user info for the user with id
+	 * i.
 	 */
 	@Test
 	void testFetchById_whenUsingJdbcTemplate() throws Exception {
@@ -26,7 +27,6 @@ class UserDaoTests {
 		assertEquals(id1, u1.getUid());
 
 		assertEquals("apritchard", u1.getUserID());
-		assertEquals("1234", u1.getPassword());
 		assertEquals(0.0, u1.getTotalHoursServed());
 		assertEquals(4, u1.getCid());
 
@@ -37,7 +37,6 @@ class UserDaoTests {
 		assertEquals(id2, u2.getUid());
 
 		assertEquals("hCouturier", u2.getUserID());
-		assertEquals("5678", u2.getPassword());
 		assertEquals(0.0, u2.getTotalHoursServed());
 		assertEquals(5, u2.getCid());
 
@@ -48,7 +47,6 @@ class UserDaoTests {
 		assertEquals(id3, u3.getUid());
 
 		assertEquals("eDriscoll", u3.getUserID());
-		assertEquals("1234", u3.getPassword());
 		assertEquals(0.0, u3.getTotalHoursServed());
 		assertEquals(6, u3.getCid());
 	}
@@ -63,21 +61,18 @@ class UserDaoTests {
 		assertEquals(1, users.get(0).getUid());
 
 		assertEquals("apritchard", users.get(0).getUserID());
-		assertEquals("1234", users.get(0).getPassword());
 		assertEquals(0.0, users.get(0).getTotalHoursServed());
 		assertEquals(4, users.get(0).getCid());
 
 		assertEquals(2, users.get(1).getUid());
 
 		assertEquals("hCouturier", users.get(1).getUserID());
-		assertEquals("5678", users.get(1).getPassword());
 		assertEquals(0.0, users.get(1).getTotalHoursServed());
 		assertEquals(5, users.get(1).getCid());
 
 		assertEquals(3, users.get(2).getUid());
 
 		assertEquals("eDriscoll", users.get(2).getUserID());
-		assertEquals("1234", users.get(2).getPassword());
 		assertEquals(0.0, users.get(2).getTotalHoursServed());
 		assertEquals(6, users.get(2).getCid());
 	}
@@ -88,26 +83,24 @@ class UserDaoTests {
 		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
 
 		// if this isn't here i get a null pointer exception so i have no idea whats up
-		User u = dao.fetchUserById(1);
+		// User u = dao.fetchUserById(1);
 
 		// System.err.println("Size of list before create is " + dao.listAll().size());
 
-		User u1 = dao.create("lHouse", "5678", 0, 4);
-		User u3 = dao.create("mHiggs", "1234", 0, 5);
+		User u1 = dao.create("lHouse", 0, 4);
+		User u3 = dao.create("mHiggs", 0, 5);
 
-		User u2 = dao.fetchUserById(4);
+		User u2 = dao.fetchUserById(u1.getUid());
 
-		assertEquals("lHouse", u2.getUserID());
-		assertEquals("5678", u2.getPassword());
-		assertEquals(0.0, u2.getTotalHoursServed());
-		assertEquals(4, u2.getCid());
+		assertEquals(u1.getUserID(), u2.getUserID());
+		assertEquals(u1.getTotalHoursServed(), u2.getTotalHoursServed());
+		assertEquals(u1.getCid(), u2.getCid());
 
-		User u4 = dao.fetchUserById(5);
+		User u4 = dao.fetchUserById(u3.getUid());
 
-		assertEquals("mHiggs", u4.getUserID());
-		assertEquals("1234", u4.getPassword());
-		assertEquals(0.0, u4.getTotalHoursServed());
-		assertEquals(5, u4.getCid());
+		assertEquals(u3.getUserID(), u4.getUserID());
+		assertEquals(u3.getTotalHoursServed(), u4.getTotalHoursServed());
+		assertEquals(u3.getCid(), u4.getCid());
 	}
 
 	@Test
@@ -122,13 +115,12 @@ class UserDaoTests {
 
 		// verifies that user works
 		assertEquals("apritchard", u1.getUserID());
-		assertEquals("1234", u1.getPassword());
 		assertEquals(0.0, u1.getTotalHoursServed());
 		assertEquals(4, u1.getCid());
 
 		Contact c1 = dao.fetchUserContactById(u1.getUid());
 
-		//System.err.println("C1 WORKS : " + (c1 != null));
+		// System.err.println("C1 WORKS : " + (c1 != null));
 
 		// tests that you can get the contact
 		assertEquals(u1.getCid(), c1.getContactId());
@@ -145,7 +137,6 @@ class UserDaoTests {
 		assertEquals(1, u1.getUid());
 
 		assertEquals("apritchard", u1.getUserID());
-		assertEquals("1234", u1.getPassword());
 		assertEquals(0.0, u1.getTotalHoursServed());
 		assertEquals(4, u1.getCid());
 
@@ -164,7 +155,6 @@ class UserDaoTests {
 		assertEquals(2, u1.getUid());
 
 		assertEquals("hCouturier", u1.getUserID());
-		assertEquals("5678", u1.getPassword());
 		assertEquals(0.0, u1.getTotalHoursServed());
 		assertEquals(5, u1.getCid());
 
@@ -185,7 +175,7 @@ class UserDaoTests {
 
 		int originalSizeOfUserArray = dao.listAll().size();
 
-		User u = dao.create("NewPerson", "password", 0, 4);
+		User u = dao.create("NewPerson", 0, 4);
 
 		// checks to see that user with id 1 exists then
 		User u1 = dao.fetchUserById(u.getUid());
@@ -193,7 +183,6 @@ class UserDaoTests {
 		assertEquals(u.getUid(), u1.getUid());
 
 		assertEquals(u.getUserID(), u1.getUserID());
-		assertEquals(u.getPassword(), u1.getPassword());
 		assertEquals(u.getTotalHoursServed(), u1.getTotalHoursServed());
 		assertEquals(u.getCid(), u1.getCid());
 
@@ -208,30 +197,6 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testChangePassword_whenUsingJdbcTemplate() throws Exception {
-
-		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
-
-		int id = 1;
-		User u1 = dao.fetchUserById(id);
-
-		assertEquals(id, u1.getUid());
-
-		assertEquals("apritchard", u1.getUserID());
-		assertEquals("1234", u1.getPassword());
-		assertEquals(0.0, u1.getTotalHoursServed());
-		assertEquals(4, u1.getCid());
-
-		// change password
-		String newPassword = "new password";
-		dao.changePassword(id, newPassword);
-
-		u1 = dao.fetchUserById(id);
-
-		assertEquals(newPassword, u1.getPassword());
-	}
-
-	@Test
 	void testUpdate_whenUsingJdbcTemplate() throws Exception {
 
 		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
@@ -242,22 +207,19 @@ class UserDaoTests {
 		assertEquals(id, u1.getUid());
 
 		assertEquals("apritchard", u1.getUserID());
-		assertEquals("1234", u1.getPassword());
 		assertEquals(0.0, u1.getTotalHoursServed());
 		assertEquals(4, u1.getCid());
 
 		String newUsername = "new username";
-		String newPassword = "new password";
 		double newHours = 1;
 		int newContact = 5;
 
 		// update each item
-		dao.Update(id, newUsername, newPassword, newHours, newContact);
+		dao.Update(id, newUsername, newHours, newContact);
 
 		u1 = dao.fetchUserById(id);
 
 		assertEquals(newUsername, u1.getUserID());
-		assertEquals(newPassword, u1.getPassword());
 		assertEquals(newHours, u1.getTotalHoursServed());
 		assertEquals(newContact, u1.getCid());
 	}

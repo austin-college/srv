@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.junit.jupiter.api.Test;
 
 import srv.domain.event.Event;
@@ -17,17 +15,16 @@ class SrvDomainObjectTests {
 
 	@Test
 	void UserConstructionTest() {
-		User testUser = new User("hunter", "generic passowrd 1");
+		User testUser = new User("hunter");
 
 		assertTrue(testUser != null);
 		assertEquals("hunter", testUser.getUserID());
-		assertEquals("generic passowrd 1", testUser.getPassword());
 	}
 
 	@Test
 	void UserListAllOneItemTest() {
 		ArrayList<User> arrayListHolder = new ArrayList<User>();
-		User testUser = new User("hunter", "generic passowrd 1");
+		User testUser = new User("hunter");
 		arrayListHolder.add(testUser);
 		User[] tested = User.listAll(arrayListHolder);
 		assertEquals(null, tested[1]);
@@ -37,8 +34,8 @@ class SrvDomainObjectTests {
 	@Test
 	void UserListAllTwoItemTest() {
 		ArrayList<User> arrayListHolder = new ArrayList<User>();
-		User testUser = new User("hunter", "generic passowrd 1");
-		User testUser2 = new User("Larry", "THELarry");
+		User testUser = new User("hunter");
+		User testUser2 = new User("Larry");
 		arrayListHolder.add(testUser);
 		arrayListHolder.add(testUser2);
 		User[] tested = User.listAll(arrayListHolder);
@@ -49,9 +46,9 @@ class SrvDomainObjectTests {
 	@Test
 	void UserListAllThreeItemTest() {
 		ArrayList<User> arrayListHolder = new ArrayList<User>();
-		User testUser = new User("hunter", "generic passowrd 1");
-		User testUser2 = new User("Larry", "THELarry");
-		User testUser3 = new User("Leroy", "Jenkins");
+		User testUser = new User("hunter");
+		User testUser2 = new User("Larry");
+		User testUser3 = new User("Leroy");
 		arrayListHolder.add(testUser);
 		arrayListHolder.add(testUser2);
 		arrayListHolder.add(testUser3);
@@ -62,12 +59,12 @@ class SrvDomainObjectTests {
 
 	void UserListAllLotsOfItemsTest() {
 		ArrayList<User> arrayListHolder = new ArrayList<User>();
-		User testUser = new User("hunter", "generic passowrd 1");
-		User testUser2 = new User("Larry", "THELarry");
-		User testUser3 = new User("Leroy", "Jenkins");
-		User testUser4 = new User("Vic", "gc1");
-		User testUser5 = new User("Lowd", "lzdw");
-		User testUser6 = new User("mcFunk", "gawd");
+		User testUser = new User("hunter");
+		User testUser2 = new User("Larry");
+		User testUser3 = new User("Leroy");
+		User testUser4 = new User("Vic");
+		User testUser5 = new User("Lowd");
+		User testUser6 = new User("mcFunk");
 		arrayListHolder.add(testUser);
 		arrayListHolder.add(testUser2);
 		arrayListHolder.add(testUser3);
@@ -82,7 +79,7 @@ class SrvDomainObjectTests {
 	@Test
 	void UserFindUserTestWithOne() {
 		ArrayList<User> arrayListHolder = new ArrayList<User>();
-		User testUser = new User("hunter", "generic passowrd 1");
+		User testUser = new User("hunter");
 		arrayListHolder.add(testUser);
 
 		
@@ -95,12 +92,12 @@ class SrvDomainObjectTests {
 	@Test
 	void UserFindUserTestWithLots() {
 		ArrayList<User> arrayListHolder = new ArrayList<User>();
-		User testUser = new User("hunter", "generic passowrd 1");
-		User testUser2 = new User("Larry", "THELarry");
-		User testUser3 = new User("Leroy", "Jenkins");
-		User testUser4 = new User("Vic", "gc1");
-		User testUser5 = new User("Lowd", "lzdw");
-		User testUser6 = new User("mcFunk", "gawd");
+		User testUser = new User("hunter");
+		User testUser2 = new User("Larry");
+		User testUser3 = new User("Leroy");
+		User testUser4 = new User("Vic");
+		User testUser5 = new User("Lowd");
+		User testUser6 = new User("mcFunk");
 		arrayListHolder.add(testUser);
 		arrayListHolder.add(testUser2);
 		arrayListHolder.add(testUser3);
@@ -124,11 +121,11 @@ class SrvDomainObjectTests {
 	void EventConstructorTest() {
 		ServiceClient testPet = null;
 		EventType testType = null;
-		Event testEvent = new Event("11-09-2020",testPet,testType);
+		Event testEvent = new Event();
 
 		assertTrue(testEvent != null);
 		assertEquals("11-09-2020", testEvent.getDate());
-		assertEquals(testPet, testEvent.getEventPet());
+		assertEquals(testPet, testEvent.getServiceClientId());
 		assertEquals(testType, testEvent.getType());
 	}
 }

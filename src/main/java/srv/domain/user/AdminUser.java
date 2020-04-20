@@ -12,8 +12,8 @@ import srv.domain.serviceClient.ServiceClient;
  */
 public class AdminUser extends User {
 
-	public AdminUser(String userID, String password) {
-		super(userID, password);
+	public AdminUser(String userID) {
+		super(userID);
 		// TODO Auto-generated constructor stub
 	}
 	
