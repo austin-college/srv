@@ -174,5 +174,4 @@ public class User {
 		this.cid = cid;
 		return this;
 	}
-
 }

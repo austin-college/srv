@@ -17,7 +17,6 @@ import srv.domain.contact.Contact;
 import srv.domain.contact.JdbcTemplateContactDao;
 
 /**
- * 
  * @author AJ Pritchard
  *
  */
@@ -62,6 +61,9 @@ public class JdbcTemplateUserDao implements UserDao {
 		super();
 	}
 
+	/**
+	 * Returns a list of all users
+	 */
 	@Override
 	public List<User> listAll() throws Exception {
 		List<User> results = getJdbcTemplate().query(
@@ -70,6 +72,9 @@ public class JdbcTemplateUserDao implements UserDao {
 		return results;
 	}
 
+	/**
+	 * Creates a new User and adds it to the database
+	 */
 	@Override
 	public User create(String username, String password, double totalHoursServed, int cid) throws Exception {
 
@@ -92,6 +97,9 @@ public class JdbcTemplateUserDao implements UserDao {
 		return results;
 	}
 
+	/**
+	 * Deletes the given uid
+	 */
 	@Override
 	public void delete(int uid) throws Exception {
 		int rc = getJdbcTemplate().update("DELETE from users where userId= ?", new Object[] { uid });
@@ -115,6 +123,9 @@ public class JdbcTemplateUserDao implements UserDao {
 		}
 	}
 
+	/**
+	 * Asks for a new version of every variable to update
+	 */
 	@Override
 	public void Update(int uid, String newUsername, String newPassword, double newHoursServed, int newContact)
 			throws Exception {
@@ -128,6 +139,9 @@ public class JdbcTemplateUserDao implements UserDao {
 		}
 	}
 
+	/**
+	 * Gets the user with the userId uid
+	 */
 	@Override
 	public User fetchUserById(int uid) throws Exception {
 		String sqlStr = String.format(
@@ -144,6 +158,9 @@ public class JdbcTemplateUserDao implements UserDao {
 		return results.get(0);
 	}
 
+	/**
+	 * Asks for an amount of hours served and then adds that to the current amount
+	 */
 	@Override
 	public void AddHoursServed(int uid, double amount) throws Exception {
 
@@ -161,6 +178,9 @@ public class JdbcTemplateUserDao implements UserDao {
 
 	}
 
+	/**
+	 * Changes the username
+	 */
 	@Override
 	public void changeUserName(int uid, String newUsername) throws Exception {
 		int rc = getJdbcTemplate().update("update users set username = ? where userId = ?",
@@ -172,6 +192,9 @@ public class JdbcTemplateUserDao implements UserDao {
 
 	}
 
+	/**
+	 * Fetches the contact with the contactId that the UserId given holds
+	 */
 	@Override
 	public Contact fetchUserContactById(int uid) throws Exception {
 
@@ -197,6 +220,9 @@ public class JdbcTemplateUserDao implements UserDao {
 	}
 
 	class UserRowMapper implements RowMapper<User> {
+		/**
+		 * Returns the User in the given row
+		 */
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 

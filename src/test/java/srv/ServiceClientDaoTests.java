@@ -140,7 +140,7 @@ public class ServiceClientDaoTests {
 		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
 
 		// if this isn't here i get a null pointer exception so i have no idea whats up
-		ServiceClient sc1 = dao.fetchClientId(1);
+		//ServiceClient sc1 = dao.fetchClientId(1);
 
 		System.err.println("Size of list before create is " + dao.listAll().size());
 

@@ -1,57 +1,56 @@
 package srv;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
 import srv.domain.contact.Contact;
-import srv.domain.contact.JdbcTemplateContactDao;
-import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
-import srv.domain.serviceClient.ServiceClient;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;
 
 class UserDaoTests {
 
 	/*
-	 * Testing fetchUserById() should return the first user info in the list.
+	 * Testing fetchUserById(int i) should return the user info for the user with id i.
 	 */
 	@Test
 	void testFetchById_whenUsingJdbcTemplate() throws Exception {
 
 		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
 
-		User u1 = dao.fetchUserById(1);
+		// test that u1 can be fetched
+		int id1 = 1;
+		User u1 = dao.fetchUserById(id1);
 
-		assertEquals(1, u1.getUid());
+		assertEquals(id1, u1.getUid());
 
 		assertEquals("apritchard", u1.getUserID());
 		assertEquals("1234", u1.getPassword());
 		assertEquals(0.0, u1.getTotalHoursServed());
 		assertEquals(4, u1.getCid());
 
-		User u2 = dao.fetchUserById(2);
+		// test that u2 can be fetched
+		int id2 = 2;
+		User u2 = dao.fetchUserById(id2);
 
-		assertEquals(2, u2.getUid());
+		assertEquals(id2, u2.getUid());
 
 		assertEquals("hCouturier", u2.getUserID());
 		assertEquals("5678", u2.getPassword());
 		assertEquals(0.0, u2.getTotalHoursServed());
 		assertEquals(5, u2.getCid());
 
-		User u3 = dao.fetchUserById(3);
+		// test that u3 can be fetched
+		int id3 = 3;
+		User u3 = dao.fetchUserById(id3);
 
-		assertEquals(3, u3.getUid());
+		assertEquals(id3, u3.getUid());
 
 		assertEquals("eDriscoll", u3.getUserID());
 		assertEquals("1234", u3.getPassword());
 		assertEquals(0.0, u3.getTotalHoursServed());
 		assertEquals(6, u3.getCid());
-
-		// TODO Get contact info
-
 	}
 
 	@Test
@@ -116,10 +115,12 @@ class UserDaoTests {
 
 		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
 
-		User u1 = dao.fetchUserById(1);
+		int id = 1;
+		User u1 = dao.fetchUserById(id);
 
-		assertEquals(1, u1.getUid());
+		assertEquals(id, u1.getUid());
 
+		// verifies that user works
 		assertEquals("apritchard", u1.getUserID());
 		assertEquals("1234", u1.getPassword());
 		assertEquals(0.0, u1.getTotalHoursServed());
@@ -127,8 +128,9 @@ class UserDaoTests {
 
 		Contact c1 = dao.fetchUserContactById(u1.getUid());
 
-		System.err.println("C1 WORKS : " + (c1 != null));
+		//System.err.println("C1 WORKS : " + (c1 != null));
 
+		// tests that you can get the contact
 		assertEquals(u1.getCid(), c1.getContactId());
 	}
 
@@ -220,6 +222,7 @@ class UserDaoTests {
 		assertEquals(0.0, u1.getTotalHoursServed());
 		assertEquals(4, u1.getCid());
 
+		// change password
 		String newPassword = "new password";
 		dao.changePassword(id, newPassword);
 
@@ -248,6 +251,7 @@ class UserDaoTests {
 		double newHours = 1;
 		int newContact = 5;
 
+		// update each item
 		dao.Update(id, newUsername, newPassword, newHours, newContact);
 
 		u1 = dao.fetchUserById(id);
