@@ -9,7 +9,7 @@ import srv.domain.contact.Contact;
  * @author hunter Couturier
  *
  *         User Class holds all information for the User object. This includes
- *         username, password and will include email, firstname, lastname,
+ *         username, and will include email, firstname, lastname,
  *         phonenumber and more.
  */
 public class User {
@@ -18,26 +18,22 @@ public class User {
 	private String name; // user's name
 	private String role; // the role of the user, we can take it via a string and figure out what role they are fairly easily
 	private String userID; // the user's identification info to log in
-	private String password; // the user's password to log in
 	private Double totalHoursServed; // the total amount of hours served by the user
 	private Contact contactInfo; // Contact information for the user
 	private Integer cid; // unique ID for contact
 
 	/**
-	 * Constructs a user with a set userID and Password
+	 * Constructs a user with a set userID a
 	 * 
 	 * @param userID
-	 * @param password
 	 */
-	public User(String userID, String password) {
+	public User(String userID) {
 		setUserID(userID);
-		setPassword(password);
 	}
 
-	public User(Integer uid, String userID, String password, Double totalHoursServed, Contact contactInfo) {
+	public User(Integer uid, String userID, Double totalHoursServed, Contact contactInfo) {
 		this.uid = uid;
 		this.userID = userID;
-		this.password = password;
 		this.totalHoursServed = totalHoursServed;
 		this.contactInfo = contactInfo;
 	}
@@ -137,15 +133,6 @@ public class User {
 
 	public User setUserID(String userID) {
 		this.userID = userID;
-		return this;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public User setPassword(String password) {
-		this.password = password;
 		return this;
 	}
 

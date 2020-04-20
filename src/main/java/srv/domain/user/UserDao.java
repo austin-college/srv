@@ -11,26 +11,18 @@ public interface UserDao {
 	
 	/**
 	 * @param userID Username
-	 * @param password password
 	 * @param totalHoursServed sum of hours served
 	 * @param cid contactID
 	 * @return
 	 * @throws Exception
 	 */
-	public User create(String userID, String password, double totalHoursServed, int cid) throws Exception; 
+	public User create(String userID, double totalHoursServed, int cid) throws Exception; 
 
 	/**
 	 * @param uid unique user ID
 	 * @throws Exception
 	 */
 	public void delete(int uid) throws Exception;
-	
-	/**
-	 * @param uid unique user ID
-	 * @param newVal
-	 * @throws Exception
-	 */
-	public void changePassword(int uid, String newPassword) throws Exception;
 
 	/**
 	 * @param uid unique user ID
@@ -46,7 +38,7 @@ public interface UserDao {
 	 */
 	public Contact fetchUserContactById(int cid) throws Exception;
 	
-	public void Update(int uid, String newUsername, String newPassword, double newHoursServed, int newContact) throws Exception;
+	public void Update(int uid, String newUsername, double newHoursServed, int newContact) throws Exception;
 
 	public void AddHoursServed(int uid, double amount) throws Exception;
 	

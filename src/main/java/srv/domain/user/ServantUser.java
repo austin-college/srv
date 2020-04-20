@@ -20,8 +20,8 @@ public class ServantUser extends User {
 	private double totalHoursServed; // the total amount of hours they have served
 	//TODO private EventType favoriteTypes; this is on the data model but I'm not sure if its supposed to be an event type
 
-	public ServantUser(String userID, String password, char classification) {
-		super(userID, password);
+	public ServantUser(String userID, char classification) {
+		super(userID);
 		this.classification = classification;
 		totalHoursServed = 0.0;
 	}
