@@ -23,10 +23,29 @@ public class ServiceHours {
 	private String date; // Date Served
 	private String reflection; // Thoughts on the event
 	private String descritpion; // Description of the event
-
+	/**
+	 * Constructor for ServiceHours
+	 * @param servedPet
+	 * @param servant
+	 * @param event
+	 * @param hours
+	 * @param reflection
+	 * @param description
+	 */
+	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours) {
+		super();
+		this.servedPet = servedPet;
+		this.servant = servant;
+		this.eventName = eventName;
+		this.hours = hours;
+	}
 	
 	/**
 	 * Constructor for ServiceHours
+	 * This constructor includes a reflection, date and description of the event
+	 * <p> 
+	 * we have two constructors as of now, to avoid any conflicting problems with me adding
+	 * these three items into the class.
 	 * @param servedPet
 	 * @param servant
 	 * @param event
