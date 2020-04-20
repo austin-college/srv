@@ -204,4 +204,57 @@ class UserDaoTests {
 		assertEquals(null, dao.fetchUserById(u.getUid()));
 		assertEquals(originalSizeOfUserArray, dao.listAll().size());
 	}
+
+	@Test
+	void testChangePassword_whenUsingJdbcTemplate() throws Exception {
+
+		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
+
+		int id = 1;
+		User u1 = dao.fetchUserById(id);
+
+		assertEquals(id, u1.getUid());
+
+		assertEquals("apritchard", u1.getUserID());
+		assertEquals("1234", u1.getPassword());
+		assertEquals(0.0, u1.getTotalHoursServed());
+		assertEquals(4, u1.getCid());
+
+		String newPassword = "new password";
+		dao.changePassword(id, newPassword);
+
+		u1 = dao.fetchUserById(id);
+
+		assertEquals(newPassword, u1.getPassword());
+	}
+
+	@Test
+	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+
+		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
+
+		int id = 1;
+		User u1 = dao.fetchUserById(id);
+
+		assertEquals(id, u1.getUid());
+
+		assertEquals("apritchard", u1.getUserID());
+		assertEquals("1234", u1.getPassword());
+		assertEquals(0.0, u1.getTotalHoursServed());
+		assertEquals(4, u1.getCid());
+
+		String newUsername = "new username";
+		String newPassword = "new password";
+		double newHours = 1;
+		int newContact = 5;
+
+		dao.Update(id, newUsername, newPassword, newHours, newContact);
+
+		u1 = dao.fetchUserById(id);
+
+		assertEquals(newUsername, u1.getUserID());
+		assertEquals(newPassword, u1.getPassword());
+		assertEquals(newHours, u1.getTotalHoursServed());
+		assertEquals(newContact, u1.getCid());
+	}
 }

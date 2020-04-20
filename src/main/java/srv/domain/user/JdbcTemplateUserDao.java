@@ -85,7 +85,6 @@ public class JdbcTemplateUserDao implements UserDao {
 			throw new Exception("Unable to insert new unique user.");
 		}
 
-		// TODO check this
 		User results = getJdbcTemplate().queryForObject(String.format(
 				"SELECT userId, username, password, totalHoursServed, contactId FROM users WHERE username = '%s'",
 				username), new UserRowMapper());
@@ -107,15 +106,26 @@ public class JdbcTemplateUserDao implements UserDao {
 	/**
 	 * Change Password method
 	 */
-	@Override
-	public void update(int uid, String newPassword) throws Exception {
+	public void changePassword(int uid, String newPassword) throws Exception {
 		int rc = getJdbcTemplate().update("update users set password = ? where userId = ?",
 				new Object[] { newPassword, uid });
 
 		if (rc < 1) {
 			log.error("unable to update passord [{}]", uid);
 		}
+	}
 
+	@Override
+	public void Update(int uid, String newUsername, String newPassword, double newHoursServed, int newContact)
+			throws Exception {
+
+		int rc = getJdbcTemplate().update(
+				"update users set username = ?, password = ?, totalHoursServed = ?, contactId = ? where userId = ?",
+				new Object[] { newUsername, newPassword, newHoursServed, newContact, uid });
+
+		if (rc < 1) {
+			log.error("unable to update [{}]", uid);
+		}
 	}
 
 	@Override
@@ -130,8 +140,36 @@ public class JdbcTemplateUserDao implements UserDao {
 			log.error("unable to fetch reason [{}]", uid);
 			return null;
 		}
-		
+
 		return results.get(0);
+	}
+
+	@Override
+	public void AddHoursServed(int uid, double amount) throws Exception {
+
+		List<User> uidUser = getJdbcTemplate().query(
+				"select userId, username, password, totalHoursServed, contactId from users where userId = " + uid,
+				new UserRowMapper());
+
+		if (uidUser.size() != 1) {
+			log.error("unable to update hoursServed [{}]", uid);
+			return;
+		}
+
+		int rc = getJdbcTemplate().update("update users set username = ? where userId = ?",
+				new Object[] { amount + uidUser.get(0).getTotalHoursServed(), uid });
+
+	}
+
+	@Override
+	public void changeUserName(int uid, String newUsername) throws Exception {
+		int rc = getJdbcTemplate().update("update users set username = ? where userId = ?",
+				new Object[] { newUsername, uid });
+
+		if (rc < 1) {
+			log.error("unable to update username [{}]", uid);
+		}
+
 	}
 
 	@Override
@@ -152,6 +190,12 @@ public class JdbcTemplateUserDao implements UserDao {
 		return result;
 	}
 
+	public int size() {
+		return getJdbcTemplate()
+				.query("select userId, username, password, totalHoursServed, contactId from users", new UserRowMapper())
+				.size();
+	}
+
 	class UserRowMapper implements RowMapper<User> {
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -163,4 +207,5 @@ public class JdbcTemplateUserDao implements UserDao {
 			return us;
 		}
 	}
+
 }

@@ -30,7 +30,7 @@ public interface UserDao {
 	 * @param newVal
 	 * @throws Exception
 	 */
-	public void update(int uid, String newVal) throws Exception;
+	public void changePassword(int uid, String newPassword) throws Exception;
 
 	/**
 	 * @param uid unique user ID
@@ -45,4 +45,10 @@ public interface UserDao {
 	 * @throws Exception
 	 */
 	public Contact fetchUserContactById(int cid) throws Exception;
+	
+	public void Update(int uid, String newUsername, String newPassword, double newHoursServed, int newContact) throws Exception;
+
+	public void AddHoursServed(int uid, double amount) throws Exception;
+	
+	public void changeUserName(int uid, String newUsername) throws Exception;
 }
