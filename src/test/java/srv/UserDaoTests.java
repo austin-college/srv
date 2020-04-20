@@ -112,7 +112,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testGetUse_whenUsingJdbcTemplate() throws Exception {
+	void testGetUsersContact_whenUsingJdbcTemplate() throws Exception {
 
 		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
 
@@ -130,5 +130,28 @@ class UserDaoTests {
 		System.err.println("C1 WORKS : " + (c1 != null));
 
 		assertEquals(u1.getCid(), c1.getContactId());
+	}
+
+	@Test
+	void testDelete_whenUsingJdbcTemplate() throws Exception {
+
+		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
+
+		User u1 = dao.fetchUserById(1);
+
+		assertEquals(1, u1.getUid());
+
+		assertEquals("apritchard", u1.getUserID());
+		assertEquals("1234", u1.getPassword());
+		assertEquals(0.0, u1.getTotalHoursServed());
+		assertEquals(4, u1.getCid());
+
+		assertEquals(3, dao.listAll().size());
+
+		dao.delete(1);
+
+		assertEquals(null, dao.fetchUserById(1));
+		assertEquals(2, dao.listAll().size());
+
 	}
 }

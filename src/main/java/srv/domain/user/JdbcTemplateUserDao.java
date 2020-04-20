@@ -128,7 +128,9 @@ public class JdbcTemplateUserDao implements UserDao {
 
 		if (results.size() != 1) {
 			log.error("unable to fetch reason [{}]", uid);
+			return null;
 		}
+		
 		return results.get(0);
 	}
 
