@@ -155,7 +155,7 @@ class UserDaoTests {
 		// verifies its been deleted
 		assertEquals(null, dao.fetchUserById(1));
 		assertEquals(2, dao.listAll().size());
-		
+
 		// checks user with id 2 exists
 		u1 = dao.fetchUserById(2);
 
@@ -174,5 +174,34 @@ class UserDaoTests {
 		// verifies its been deleted
 		assertEquals(null, dao.fetchUserById(2));
 		assertEquals(1, dao.listAll().size());
+	}
+
+	@Test
+	void testDeleteNewlyCreated_whenUsingJdbcTemplate() throws Exception {
+
+		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
+
+		int originalSizeOfUserArray = dao.listAll().size();
+
+		User u = dao.create("NewPerson", "password", 0, 4);
+
+		// checks to see that user with id 1 exists then
+		User u1 = dao.fetchUserById(u.getUid());
+
+		assertEquals(u.getUid(), u1.getUid());
+
+		assertEquals(u.getUserID(), u1.getUserID());
+		assertEquals(u.getPassword(), u1.getPassword());
+		assertEquals(u.getTotalHoursServed(), u1.getTotalHoursServed());
+		assertEquals(u.getCid(), u1.getCid());
+
+		assertEquals(originalSizeOfUserArray + 1, dao.listAll().size());
+
+		// deletes user with id 1
+		dao.delete(u.getUid());
+
+		// verifies its been deleted
+		assertEquals(null, dao.fetchUserById(u.getUid()));
+		assertEquals(originalSizeOfUserArray, dao.listAll().size());
 	}
 }
