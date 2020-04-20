@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import srv.domain.contact.Contact;
+import srv.domain.contact.JdbcTemplateContactDao;
 
 /**
  * 
@@ -133,8 +134,20 @@ public class JdbcTemplateUserDao implements UserDao {
 
 	@Override
 	public Contact fetchUserContactById(int uid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		JdbcTemplateContactDao contactDao = new JdbcTemplateContactDao();
+
+		List<User> uidUser = getJdbcTemplate().query(
+				"select userId, username, password, totalHoursServed, contactId from users where userId = " + uid,
+				new UserRowMapper());
+
+		if (uidUser.size() < 1) {
+			return null;
+		}
+
+		Contact result = contactDao.fetchContactById(uidUser.get(0).getCid());
+
+		return result;
 	}
 
 	class UserRowMapper implements RowMapper<User> {

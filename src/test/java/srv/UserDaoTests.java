@@ -68,7 +68,6 @@ class UserDaoTests {
 		assertEquals(0.0, users.get(0).getTotalHoursServed());
 		assertEquals(4, users.get(0).getCid());
 
-
 		assertEquals(2, users.get(1).getUid());
 
 		assertEquals("hCouturier", users.get(1).getUserID());
@@ -91,24 +90,45 @@ class UserDaoTests {
 
 		// if this isn't here i get a null pointer exception so i have no idea whats up
 		User u = dao.fetchUserById(1);
-		
-		//System.err.println("Size of list before create is " + dao.listAll().size());
+
+		// System.err.println("Size of list before create is " + dao.listAll().size());
 
 		User u1 = dao.create("lHouse", "5678", 0, 4);
 		User u3 = dao.create("mHiggs", "1234", 0, 5);
-		
+
 		User u2 = dao.fetchUserById(4);
-		
+
 		assertEquals("lHouse", u2.getUserID());
 		assertEquals("5678", u2.getPassword());
 		assertEquals(0.0, u2.getTotalHoursServed());
 		assertEquals(4, u2.getCid());
-		
+
 		User u4 = dao.fetchUserById(5);
-		
+
 		assertEquals("mHiggs", u4.getUserID());
 		assertEquals("1234", u4.getPassword());
 		assertEquals(0.0, u4.getTotalHoursServed());
 		assertEquals(5, u4.getCid());
+	}
+
+	@Test
+	void testGetUse_whenUsingJdbcTemplate() throws Exception {
+
+		JdbcTemplateUserDao dao = new JdbcTemplateUserDao();
+
+		User u1 = dao.fetchUserById(1);
+
+		assertEquals(1, u1.getUid());
+
+		assertEquals("apritchard", u1.getUserID());
+		assertEquals("1234", u1.getPassword());
+		assertEquals(0.0, u1.getTotalHoursServed());
+		assertEquals(4, u1.getCid());
+
+		Contact c1 = dao.fetchUserContactById(u1.getUid());
+
+		System.err.println("C1 WORKS : " + (c1 != null));
+
+		assertEquals(u1.getCid(), c1.getContactId());
 	}
 }
