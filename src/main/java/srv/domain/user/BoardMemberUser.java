@@ -12,7 +12,7 @@ import srv.domain.serviceClient.ServiceClient;
  */
 public class BoardMemberUser extends ServantUser {
 	
-	private ArrayList<ServiceClient> managedGroups;
+	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
 
 	public BoardMemberUser(String userID, String password, char classification) {
 		super(userID, password, classification);

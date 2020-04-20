@@ -20,14 +20,17 @@ public class ServiceHours {
 	private User servant; // Servant worked for Pet
 	private Event eventName; // Event held for service
 	private double hours;	// Hours served
-
-	
+	private String date; // Date Served
+	private String reflection; // Thoughts on the event
+	private String descritpion; // Description of the event
 	/**
 	 * Constructor for ServiceHours
 	 * @param servedPet
 	 * @param servant
 	 * @param event
 	 * @param hours
+	 * @param reflection
+	 * @param description
 	 */
 	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours) {
 		super();
@@ -35,6 +38,30 @@ public class ServiceHours {
 		this.servant = servant;
 		this.eventName = eventName;
 		this.hours = hours;
+	}
+	
+	/**
+	 * Constructor for ServiceHours
+	 * This constructor includes a reflection, date and description of the event
+	 * <p> 
+	 * we have two constructors as of now, to avoid any conflicting problems with me adding
+	 * these three items into the class.
+	 * @param servedPet
+	 * @param servant
+	 * @param event
+	 * @param hours
+	 * @param reflection
+	 * @param description
+	 */
+	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours, String reflection, String description) {
+		super();
+		this.servedPet = servedPet;
+		this.servant = servant;
+		this.eventName = eventName;
+		this.hours = hours;
+		this.date = eventName.getDate();
+		this.reflection = reflection;
+		this.descritpion = description;
 	}
 
 
@@ -75,6 +102,36 @@ public class ServiceHours {
 
 	public void setHours(double hours) {
 		this.hours = hours;
+	}
+
+
+	public String getDate() {
+		return date;
+	}
+
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+	public String getReflection() {
+		return reflection;
+	}
+
+
+	public void setReflection(String reflection) {
+		this.reflection = reflection;
+	}
+
+
+	public String getDescritpion() {
+		return descritpion;
+	}
+
+
+	public void setDescritpion(String descritpion) {
+		this.descritpion = descritpion;
 	}
 	
 	
