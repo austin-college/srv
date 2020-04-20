@@ -15,9 +15,9 @@ import srv.domain.ServiceHours;
  */
 public class ServantUser extends User {
 	
-	private char classification;
-	private ServiceGroup affiliation;
-	private double totalHoursServed;
+	private char classification; // The year in school they are
+	private ServiceGroup affiliation; // a group that they serve with
+	private double totalHoursServed; // the total amount of hours they have served
 	//TODO private EventType favoriteTypes; this is on the data model but I'm not sure if its supposed to be an event type
 
 	public ServantUser(String userID, String password, char classification) {
@@ -35,7 +35,6 @@ public class ServantUser extends User {
 	 * @return
 	 */
 	public ServiceHours logHours(ServiceHours submittedHours) {
-		
 		return submittedHours;
 	}
 

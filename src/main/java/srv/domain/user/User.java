@@ -15,11 +15,12 @@ import srv.domain.contact.Contact;
 public class User {
 
 	private Integer uid; // unique id for each client
-
-	private String userID;
-	private String password;
-	private Double totalHoursServed;
-	private Contact contactInfo;
+	private String name; // user's name
+	private String role; // the role of the user, we can take it via a string and figure out what role they are fairly easily
+	private String userID; // the user's identification info to log in
+	private String password; // the user's password to log in
+	private Double totalHoursServed; // the total amount of hours served by the user
+	private Contact contactInfo; // Contact information for the user
 	private Integer cid; // unique ID for contact
 
 	/**
@@ -173,5 +174,29 @@ public class User {
 	public User setCid(Integer cid) {
 		this.cid = cid;
 		return this;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Contact getContactInfo() {
+		return contactInfo;
+	}
+
+	public void setContactInfo(Contact contactInfo) {
+		this.contactInfo = contactInfo;
 	}
 }
