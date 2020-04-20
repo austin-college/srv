@@ -124,11 +124,11 @@ class SrvDomainObjectTests {
 	void EventConstructorTest() {
 		ServiceClient testPet = null;
 		EventType testType = null;
-		Event testEvent = new Event("11-09-2020",testPet,testType);
+		Event testEvent = new Event();
 
 		assertTrue(testEvent != null);
 		assertEquals("11-09-2020", testEvent.getDate());
-		assertEquals(testPet, testEvent.getEventPet());
+		assertEquals(testPet, testEvent.getServiceClientId());
 		assertEquals(testType, testEvent.getType());
 	}
 }
