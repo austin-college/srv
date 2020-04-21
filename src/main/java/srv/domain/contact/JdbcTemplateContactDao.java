@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import srv.domain.JdbcTemplateAbstractDao;
+
 /**
  * The JDBC Template that implements the Contact DAO (data access object) interface.
  * An instance of this class is responsible to get data from the CONTACTS table in the data.sql
@@ -22,43 +24,10 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  * @author Lydia House
  *
  */
-public class JdbcTemplateContactDao implements ContactDao {
+public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements ContactDao  {
 	
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateContactDao.class);
 	
-	private DataSource dataSource;    
-	private JdbcTemplate jdbcTemplate; 
-	
-    public DataSource getDataSource() {
-    	if (dataSource == null)
-    		dataSource = h2DataSource();
-    	
-		return dataSource;
-	}
-    
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
-
-	public DataSource h2DataSource() {
-	    
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("data.sql")
-                .build();
-    }
-	
-	public JdbcTemplate getJdbcTemplate() {
-		if (jdbcTemplate == null)
-			jdbcTemplate = new JdbcTemplate(getDataSource());
-		
-		return jdbcTemplate;
-	}
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-
 	public JdbcTemplateContactDao() {
 		super();
 	}
@@ -82,7 +51,7 @@ public class JdbcTemplateContactDao implements ContactDao {
 	@Override
 	public Contact create(String fn, String ln, String email, String work, String mobile, String str, String city, String st, String zip) throws Exception {
 		
-		int rc = jdbcTemplate.update("INSERT INTO contacts (firstName, lastName, email,	workPhone,"
+		int rc =  getJdbcTemplate().update("INSERT INTO contacts (firstName, lastName, email,	workPhone,"
 				+ " mobilePhone, str, city, st, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", new Object[] {fn, ln, email, work, mobile, str, city, st, zip});
 
 		if (rc != 1) {
