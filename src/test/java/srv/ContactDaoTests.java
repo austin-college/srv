@@ -32,21 +32,7 @@ public class ContactDaoTests {
 		assertEquals("75090", c1.getZipcode());
 	}
 	
-	/* TODO how does one tests exceptions - think need to properly set up exception thingy in template
-	 * 
-	 * Testing fetchContactById() when the specified contact isn't in the list,
-	 * should throw an exception.
-	 */
-	@Test
-	void testFetchByIdExceptionThrown_whenUsingJdbcTemplate() throws Exception {
 		
-		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
-		
-	//	Contact c1 = dao.fetchContactById(3);
-		
-	//	assertEquals(1, c1.getContactId());
-	}
-	
 	/*
 	 * Testing listAll(), should return the current 2 contact entries that are in the 
 	 * data.sql database.
@@ -58,7 +44,7 @@ public class ContactDaoTests {
 		
 		List<Contact> contacts = dao.listAll();
 		
-		assertEquals(4, contacts.size());
+		assertEquals(7, contacts.size());
 		
 		Contact c1 = contacts.get(0);
 		Contact c2 = contacts.get(1);
@@ -125,27 +111,24 @@ public class ContactDaoTests {
 		
 		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
 		
-		// if this isn't here i get a null pointer exception so i have no idea whats up
-		Contact c1 = dao.fetchContactById(1);
-		
 		Contact c = dao.create("Morgan", "Freeman", "mfreeman@msn.com", "902-412-6121", "392-121-5252", "626 Hayes Rd", "Sherman", "TX", "75090");
 
-		Contact c5 = dao.fetchContactById(5);
+		Contact c8 = dao.fetchContactById(8);
 		
 		// Verifying that the Contact was stored in the database
-		assertEquals(5, c5.getContactId());
-		assertEquals("Morgan", c5.getFirstName());
-		assertEquals("Freeman", c5.getLastName());
-		assertEquals("mfreeman@msn.com", c5.getEmail());
-		assertEquals("902-412-6121", c5.getPhoneNumWork());
-		assertEquals("392-121-5252", c5.getPhoneNumMobile());
-		assertEquals("626 Hayes Rd", c5.getStreet());
-		assertEquals("Sherman", c5.getCity());
-		assertEquals("TX", c5.getState());
-		assertEquals("75090", c5.getZipcode());
+		assertEquals(8, c8.getContactId());
+		assertEquals("Morgan", c8.getFirstName());
+		assertEquals("Freeman", c8.getLastName());
+		assertEquals("mfreeman@msn.com", c8.getEmail());
+		assertEquals("902-412-6121", c8.getPhoneNumWork());
+		assertEquals("392-121-5252", c8.getPhoneNumMobile());
+		assertEquals("626 Hayes Rd", c8.getStreet());
+		assertEquals("Sherman", c8.getCity());
+		assertEquals("TX", c8.getState());
+		assertEquals("75090", c8.getZipcode());
 		
 		// Testing Contact returned from create
-		assertEquals(5, c.getContactId());
+		assertEquals(8, c.getContactId());
 		assertEquals("Morgan", c.getFirstName());
 		assertEquals("Freeman", c.getLastName());
 		assertEquals("mfreeman@msn.com", c.getEmail());
@@ -170,7 +153,7 @@ public class ContactDaoTests {
 		
 		List<Contact> contacts = dao.listAll();
 		
-		assertEquals(3, contacts.size());
+		assertEquals(6, contacts.size());
 		
 		Contact c1 = contacts.get(0);
 		Contact c2 = contacts.get(1);
