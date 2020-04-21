@@ -45,7 +45,7 @@ public class JdbcTemplateReasonDao implements  ReasonDao {
 	    
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("serviceClient.sql")//script to create person table
+                .addScript("data.sql")//script to create person table
                 .build();
     }
 	
