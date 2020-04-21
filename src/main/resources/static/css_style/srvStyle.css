@@ -72,7 +72,7 @@ hr {
 /* Style for the containers */
 #announcementElements.container-fluid, #findOpElements.container-fluid{
 	background-color: white;
-   	width: 75%;
+   	width: 100%;
    	padding-bottom: 50px;
 }
 
