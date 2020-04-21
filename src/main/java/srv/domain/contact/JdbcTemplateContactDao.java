@@ -1,4 +1,5 @@
 package srv.domain.contact;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
@@ -8,9 +9,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
 
@@ -51,19 +55,49 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	@Override
 	public Contact create(String fn, String ln, String email, String work, String mobile, String str, String city, String st, String zip) throws Exception {
 		
-		int rc =  getJdbcTemplate().update("INSERT INTO contacts (firstName, lastName, email,	workPhone,"
-				+ " mobilePhone, str, city, st, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", new Object[] {fn, ln, email, work, mobile, str, city, st, zip});
+		  final String sql = "INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		  final KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		if (rc != 1) {
+		  /* 
+		   * in the following code we are using java8's closure (lambda expression) feature .  It's like an anonymous inline 
+		   * class definition of a listener.  JdbcTemplate update allows us to pass a snippet of code, given an 
+		   * untyped parameter (connection).   Inside our code snippet, we can refer to the parameter by name. 
+		   * Our snippet returns a prepared statement (which is what the JdbcTemplate.update method requires as 
+		   * the first parameter.   The second parameter of the update method is a keyholder object that we can ask 
+		   * for the database assigned auto number key value (a number).
+		   * 
+		   * Note: The preparedStatement's string array names the columns that are auto-number keys.   For the
+		   * contact table, the auto number key is contactId.
+		   * 
+		   */
+	      getJdbcTemplate().update(
+	              connection -> {
+	                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"contactId"});
+	                  ps.setString(1, fn);
+	                  ps.setString(2, ln);
+	                  ps.setString(3, email);
+	                  ps.setString(4, work);
+	                  ps.setString(5, mobile);
+	                  ps.setString(6, str);
+	                  ps.setString(7, city);
+	                  ps.setString(8, st);
+	                  ps.setString(9, zip);
+	                  return ps;
+	              }, keyHolder);
+		
+	     Number num = keyHolder.getKey();
+	     
+		if (num == null ) {
 			String msg = String.format("Unable to insert new contact [%s]", fn);
 			log.warn(msg);
 			throw new Exception("Unable to insert new unique contact.");
 		}
-	
-	   Contact results = getJdbcTemplate().queryForObject(String.format("SELECT contactId, firstName, lastName, email, workPhone, "
-	   		+ "mobilePhone, str, city, st, zip FROM contacts WHERE firstName = '%s'", fn), new ContactRowMapper());
 	   
-	   return results;
+	   log.debug("generated id is {}", num);
+		
+	   return this.fetchContactById((int)num);
+	   
 	}
 
 	/*

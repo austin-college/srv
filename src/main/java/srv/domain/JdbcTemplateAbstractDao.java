@@ -7,6 +7,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 public abstract class JdbcTemplateAbstractDao {
+	
+	
 	private DataSource dataSource;    
 	private JdbcTemplate jdbcTemplate; 
 	
