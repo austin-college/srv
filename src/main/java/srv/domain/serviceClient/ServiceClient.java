@@ -14,26 +14,17 @@ public class ServiceClient implements Serializable {
 
 	private Integer scid; // unique id for each service client
 	private String name; // the name of the service client
-	// private Contact mainContact; // the primary contact for service client
-	private int mainContact;
-	private int otherContact;
-	// private Contact otherContact; // the secondary contact for service client
+	private Contact mainContact; // the primary contact for service client
+	private Contact otherContact; // the secondary contact for service client
 	private String boardMember; // current board member responsible for the service client
 	private String category; // type of work client does ex: animals
 
-	// putting these to the side for now - lhouse
+	// putting these to the side for now due to database - lhouse
 	private String eventLoc; // location of an event
 	private String eventDescrp; // description of an event
 	private int servantsReq; // amount of personel needed for an event
 
-	public ServiceClient(Integer scid, String new_name, int con1, int con2, String bm, String cat) { // int
-																										// servantsReq,
-																										// String
-																										// eventLoc,
-																										// String
-																										// eventDescrp)
-																										// {
-		super();
+	public ServiceClient(Integer scid, String new_name, Contact con1, Contact con2, String bm, String cat) { 
 		this.scid = scid;
 		this.name = new_name;
 		this.mainContact = con1;
@@ -41,24 +32,21 @@ public class ServiceClient implements Serializable {
 		this.boardMember = bm;
 		this.category = cat;
 
-		/*
-		 * setting these aside for database support - lydia this.servantsReq =
-		 * servantsReq; this.eventLoc = eventLoc; this.eventDescrp = eventDescrp;
-		 */
+	}
+	
+	public ServiceClient() {
+		super();
 	}
 
 	public Integer getClientId() {
 		return scid;
 	}
 
-	public ServiceClient getClientId(Integer scid) {
-		this.scid = scid;
+	public ServiceClient setClientId(Integer new_id) { 
+		this.scid = new_id;
 		return this;
 	}
-
-	public ServiceClient() {
-		super();
-	}
+	
 
 	public String getName() {
 		return name;
@@ -87,20 +75,20 @@ public class ServiceClient implements Serializable {
 		return this;
 	}
 
-	public int getMainContact() {
+	public Contact getMainContact() {
 		return mainContact;
 	}
 
-	public ServiceClient setMainContact(int con) {
+	public ServiceClient setMainContact(Contact con) {
 		this.mainContact = con;
 		return this;
 	}
 
-	public int getOtherContact() {
+	public Contact getOtherContact() {
 		return otherContact;
 	}
 
-	public ServiceClient setOtherContact(int con) {
+	public ServiceClient setOtherContact(Contact con) {
 		this.otherContact = con;
 		return this;
 	}
