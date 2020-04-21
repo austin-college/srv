@@ -1,7 +1,10 @@
 package srv.domain.serviceClient;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -11,7 +14,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import srv.domain.JdbcTemplateAbstractDao;
+import srv.domain.contact.Contact;
 import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.user.User;
 
@@ -26,40 +33,11 @@ import srv.domain.user.User;
  * @author Lydia House
  *
  */
-public class JdbcTemplateServiceClientDao implements ServiceClientDao {
+public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao implements ServiceClientDao {
 
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceClientDao.class);
 
-	private DataSource dataSource;
-	private JdbcTemplate jdbcTemplate;
-
-	public DataSource getDataSource() {
-		if (dataSource == null)
-			dataSource = h2DataSource();
-
-		return dataSource;
-	}
-
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
-
-	public DataSource h2DataSource() {
-
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScript("data.sql").build();
-	}
-
-	public JdbcTemplate getJdbcTemplate() {
-		if (jdbcTemplate == null)
-			jdbcTemplate = new JdbcTemplate(getDataSource());
-
-		return jdbcTemplate;
-	}
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
-
+	
 	public JdbcTemplateServiceClientDao() {
 		super();
 	}
@@ -83,32 +61,19 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 	 * thrown if the new service client is a duplicate.
 	 */
 	@Override
-	public ServiceClient create(String title, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
+	public void create(String title, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
+		
+	// inserts a new serviceClient into the database
+	int rc = getJdbcTemplate().update("INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) "
+			+ "VALUES(?, ?, ?, ?, ?)", new Object[] {title, cid1, cid2, bm, cat});
 
-		// update executes the sql script that is in its paramaters. The sequel script
-		// inserts a new serviceClient into the database
-		int rc = jdbcTemplate.update(
-				"insert into serviceClients (title, primaryContactId, secondContactId, boardMem, category) values ('"
-						+ title + "', (select contactId from contacts where contactId = " + cid1
-						+ "), (select contactId from contacts where contactId = " + cid2 + "), '" + bm + "', '" + cat
-						+ "')");
-
-		if (rc != 1) {
-			String msg = String.format("Unable to insert new serviceClient [%s]", title, cid1, cid2, bm, cat);
-			log.warn(msg);
-			throw new Exception("Unable to insert new unique serviceClient.");
-		}
-
-		// TODO check this
-		ServiceClient results = getJdbcTemplate().queryForObject(String.format(
-				"SELECT serviceClientId, title, primaryContactId, secondContactId, boardMem, category FROM serviceClients WHERE title = '%s'",
-				title), new ServiceClientRowMapper());
-
-		System.err.println("RESULTS WORKS : " + (results != null));
-		System.err.println("RESULTS SERVICECLIENTID IS : " + results.getClientId());
-
-		return results;
+	if (rc != 1) {
+		String msg = String.format("Unable to insert new serviceClient [%s]", title, cid1, cid2, bm, cat);
+		log.warn(msg);
+		throw new Exception("Unable to insert new unique serviceClient.");
 	}
+}
+
 
 	/*
 	 * Removes the desired Service Client (by id) from the data.sql database. An
@@ -156,7 +121,7 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 		log.debug(sqlStr);
 
 		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
-
+		//ServiceClient client = getJdbcTemplate().queryForObject(sqlStr, new ServiceClientRowMapper());
 		if (results.size() < 1) {
 			log.error("unable to fetch servant client id [{}]", scid);
 			return null;
@@ -176,23 +141,18 @@ public class JdbcTemplateServiceClientDao implements ServiceClientDao {
 			JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
 			ServiceClient sc = new ServiceClient();
 
-//			try {
-//
-//				sc.getClientId(rs.getInt("serviceClientId")).setName(rs.getString("title"))
-//						.setMainContact(dao.fetchContactById(rs.getInt("primaryContactId")))
-//						.setOtherContact(dao.fetchContactById(rs.getInt("secondContactId")))
-//						.setBoardMember(rs.getString("boardMem")).setCategory(rs.getString("category"));
-//
-//			} catch (Exception e) {
-//
-//				e.printStackTrace();
-//			}
-			
-			sc.getClientId(rs.getInt("serviceClientId")).setName(rs.getString("title"))
-			.setMainContact(rs.getInt("primaryContactId"))
-			.setOtherContact(rs.getInt("secondContactId"))
-			.setBoardMember(rs.getString("boardMem")).setCategory(rs.getString("category"));
+			try {
 
+				sc.setClientId(rs.getInt("serviceClientId")).setName(rs.getString("title"))
+						.setMainContact(dao.fetchContactById(rs.getInt("primaryContactId")))
+						.setOtherContact(dao.fetchContactById(rs.getInt("secondContactId")))
+						.setBoardMember(rs.getString("boardMem")).setCategory(rs.getString("category"));
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			
 			return sc;
 		}
 	}
