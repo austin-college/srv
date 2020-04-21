@@ -18,7 +18,7 @@ public class ServantUser extends User {
 	private char classification; // The year in school they are
 	private ServiceGroup affiliation; // a group that they serve with
 	private double totalHoursServed; // the total amount of hours they have served
-	//TODO private EventType favoriteTypes; this is on the data model but I'm not sure if its supposed to be an event type
+	//TODO Add favorite categories for events
 
 	public ServantUser(String userID, char classification) {
 		super(userID);

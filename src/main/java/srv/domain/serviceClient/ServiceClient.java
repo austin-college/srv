@@ -19,9 +19,10 @@ public class ServiceClient implements Serializable {
 	private String boardMember; // current board member responsible for the service client
 	private String category; // type of work client does ex: animals
 
+
 	// putting these to the side for now due to database - lhouse
-	private String eventLoc; // location of an event
-	private String eventDescrp; // description of an event
+	private String eventLoc; // location of an event - We get rid of this
+	private String eventDescrp; // description of an event - we might rename this to ServiceClientDesc
 	private int servantsReq; // amount of personel needed for an event
 
 	public ServiceClient(Integer scid, String new_name, Contact con1, Contact con2, String bm, String cat) { 

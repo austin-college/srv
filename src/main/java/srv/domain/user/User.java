@@ -16,9 +16,9 @@ public class User {
 
 	private Integer uid; // unique id for each client
 	private String name; // user's name
-	private String role; // the role of the user, we can take it via a string and figure out what role they are fairly easily
+	private String role; // the role of the user, we can take it via a string and figure out what role they are fairly easily - might remove
 	private String userID; // the user's identification info to log in
-	private Double totalHoursServed; // the total amount of hours served by the user
+	private Double totalHoursServed; // the total amount of hours served by the user - we might remove this
 	private Contact contactInfo; // Contact information for the user
 	private Integer cid; // unique ID for contact
 
