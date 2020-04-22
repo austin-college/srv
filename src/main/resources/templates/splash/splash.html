@@ -2,22 +2,36 @@
 <#import "/main_layout.html" as layout />
 <@layout.stdpage "Welcome" "srvStyle.css">
 
-	<!-- Welcome title -->
+	<!-- Container with title, image, and about section -->
 	
-	<!-- A container that contains the announcement elements -->
-	<div id="announcementElements" class="container-fluid">	
-
-		
-		<!-- The row below contains the announcement title-->
-	  	<div class="row align-items-start"> 
-	  		<div id="announceTitle" class=".col-sm-1-auto">
+	<div id="welcomeElements" class="container-fluid">
+		<div class="row">
+		<!-- A column for the heading and text which stacks on screens less than 576px -->
+			<div class="col-sm" id="welcome-text">
+			<!-- Service Station heading -->
+			  <h1> Service Station </h1>
+			  <!-- Row for text -->
+		      <div class="row">
+	  			<div id="spotlightCol" class="col-sm text-center">
+	  				<img id="spotlightImg" alt="Service Spotlight" src="https://www.wastatepta.org/wp-content/uploads/2016/11/Senior-volunteer-helping-African-American-man-register-for-marathon-000065245281_Medium.jpg" class="rounded">
+	  				<p id="spotlightDesc">Welcome to the Austin College Service Station! We help you help others. </p>
+	  			</div>
+	  		  </div>  
+			</div>
+			<!-- Column for announcement elements; will stack on screens less than 576px -->
+			<div class="col-sm" id="announcements-col">
+				<!-- A container that contains the announcement elements -->
+				<div id="announcementElements" class="container-fluid">	
+				<!-- The row below contains the announcement title, aligned at start-->
+	  			<div class="row align-items-start"> 
+	  				<div id="announceTitle" class="col-sm">
 	  			<h1>Announcements</h1>
 	  			<hr class=".col-md-11-auto">
 	  		</div>
 	  	</div>
 	  		
 	  		<!-- Contains list of announcements -->
-	  		<div id="annListCol" class=".col-sm-1-auto">
+	  		<div id="annListCol" class="col-sm">
 	  			<div id="announceList" class="list-group">
 	  				<!-- Links -->
 	  			<a href="#" class="list-group-item">Habitat for Humanity Build Next Saturday</a>
@@ -26,20 +40,19 @@
 	  			<a href="#" class="list-group-item">Sherman Animal Shelter Volunteers</a>
 	  			<a href="#" class="list-group-item">Crisis Center Volunteers</a>
 	  		</div>
-	  		<div id="seeAllCol" class=".col-sm-1">
+	  		<div id="seeAllCol" class="col-sm">
 	  			<a id="seeAllLink" href="#">See All</a>
 	  		</div>
 	  		</div>
 	  		
 	  	</div>
-	  	
-	  	<div class="row justify-content-center">
-	  		<div id="spotlightCol" class=".col-sm text-center">
-	  			<img id="spotlightImg" alt="Service Spotlight" src="https://www.wastatepta.org/wp-content/uploads/2016/11/Senior-volunteer-helping-African-American-man-register-for-marathon-000065245281_Medium.jpg" class="rounded">
-	  			<p id="spotlightDesc">Last weekend Morgan Freeman and Billy Bob Thornton helped the Meals on Wheels program deliver 20 meals to senior citizens.</p>
-	  		</div>
-	  	</div>
-    </div>
+			
+			
+		</div>
+		</div>
+	</div>
+	
+	
 	
 	<!-- A container that contains the find service opportunity elements -->
 	<div id="findOpElements" class="container-fluid">

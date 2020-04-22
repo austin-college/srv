@@ -9,8 +9,7 @@
 		</div>
 	</div>
 	
-	<!-- Layout of BM content must be decided -->
-	
+	<!-- Layout of BM actions must be decided -->
 	<!-- table title. -->
 	<div class= "row" style="padding-left:20px; padding-bottom:20px">
 		<div class="col">
@@ -18,9 +17,32 @@
 		</div>
 	</div>
 	
-	<!-- how will the list of assigned pets be displayed? in a table? -->
-	<div id="assignedPetList" class="container-fluid">
-		<p><i>*list of assigned pets*</i></p>
+	<!-- how will the list of assigned pets be displayed? in a table? What fields should it have? -->
+	<div class= "row" style="padding-left:20px; padding-bottom:20px">
+		<div id="assignedPetList" class="container-fluid">
+			<div class="container ui-widget table-responsive">
+				<div Id="table" class="row">
+					<table id="comm_tbl" class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+						<thead>
+							<tr class = "ui-widget-header">
+								<th>Pet</th>
+								<th>Events</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Habitat for Humanity</td>
+								<td>3</td>
+							</tr>
+							<tr>
+								<td>Meals on Wheels</td>
+								<td>2</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 </div>
