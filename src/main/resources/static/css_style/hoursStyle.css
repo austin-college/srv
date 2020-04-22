@@ -71,17 +71,6 @@ th {
 }
 
 /* Credit to Lydia from listStyle1 */
-/* Style settings for the delete icon on the delete buttons.*/
-.glyphicon-remove-sign{
-	padding-top:2px;
-	padding-right:2px;
-}
-/* Style settings for the edit icon on the edit buttons.*/
-.glyphicon-pencil{
-	padding-top:2px;
-	padding-right:5px;
-}
-
 .addBtn:hover{
 	background-color:#db9401;
 }
