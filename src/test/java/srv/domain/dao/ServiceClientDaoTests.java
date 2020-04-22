@@ -1,14 +1,29 @@
-package srv;
+package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceClient.ServiceClientDao;
 
-public class ServiceClientDaoTests {
-
+@RunWith(SpringRunner.class)
+@JdbcTest
+@ComponentScan("srv.config")
+class ServiceClientDaoTests {
+	
+	@Autowired
+	ServiceClientDao dao; 
+	
 	/*
 	 * Testing fetchClientById() should return the first service client info in the
 	 * list.
@@ -16,9 +31,9 @@ public class ServiceClientDaoTests {
 	@Test
 	void testGetById_whenUsingJdbcTemplate() throws Exception {
 
-		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
+		
 
-		ServiceClient sc1 = dao.fetchClientId(1);
+		ServiceClient sc1 = dao.fetchClientById(1);
 
 		assertEquals(1, sc1.getClientId());
 		assertEquals("Habitat for Humanity", sc1.getName());
@@ -57,7 +72,6 @@ public class ServiceClientDaoTests {
 	@Test
 	void testListAll_whenUsingJdbcTemplate() throws Exception {
 
-		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
 
 		List<ServiceClient> clients = dao.listAll();
 
@@ -130,30 +144,47 @@ public class ServiceClientDaoTests {
 
 
 	/*
-	 *    Testing the create(), should create a new Service Client query in the
-	  data.sql database.
-	 *
+	 * Testing the create(), should create a new Service Client query in the
+	 * 
+	 * WARNING:  Smelly code alert;  This test depends on listAll method working.
+	 * 
 	 */
 	@Test
 	void testCreate_whenUsingJdbcTemplate() throws Exception {
 
-		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
+		List<ServiceClient> clientsBefore = dao.listAll(); 
+		int numBeforeInsert = clientsBefore.size();
+		System.err.println("\n\nBefore Insert " + numBeforeInsert);
+		for (ServiceClient sc : clientsBefore) {
+			System.err.println(sc.getName());
+		}
+		
+		
+		
+		ServiceClient nsc = dao.create("Meals on Wheels", 2, 1, "Donald Duck", "Seniors, Community");
+		
+		assertNotNull(nsc);
+		
+		List<ServiceClient> clientsAfter = dao.listAll(); 
+		int numAfterInsert = clientsAfter.size();
+		
+		System.err.println("\n\nAfter Insert " + numAfterInsert);
+		for (ServiceClient sc : clientsBefore) {
+			System.err.println(sc.getName());
+		}
 
-		dao.create("Meals on Wheels", 2, 1, "Donald Duck", "Seniors, Community");
+		
+		
+		/*
+		 * The next assigned id on successful insert should be numBeforeInsert + 1.
+		 */
+		assertEquals(numBeforeInsert+1, nsc.getClientId());
 
-
-
-
-
-		List<ServiceClient> clients = dao.listAll();
-
-		System.out.println("HEREEEE " + clients.size());
-
-
-		assertEquals(3, clients.size());
-
-
-		ServiceClient sc3 = clients.get(2);
+		
+		/*
+		 * Now we will examine the newly inserted record.
+		 */
+		ServiceClient sc3 = nsc;
 
 		assertEquals(3, sc3.getClientId());
 		assertEquals("Meals on Wheels", sc3.getName());
@@ -196,7 +227,6 @@ public class ServiceClientDaoTests {
 	@Test
 	void testDelete_whenUsingJdbcTemplate() throws Exception {
 
-		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
 
 		dao.delete(1);
 
@@ -244,11 +274,9 @@ public class ServiceClientDaoTests {
 	@Test
 	void testUpdate_whenUsingJdbcTemplate() throws Exception {
 
-		JdbcTemplateServiceClientDao dao = new JdbcTemplateServiceClientDao();
-
 		dao.update(2, "Meals on Wheels", 1, 2, "Rick Astley", "Seniors, Community");
 
-		ServiceClient sc2 = dao.fetchClientId(2);
+		ServiceClient sc2 = dao.fetchClientById(2);
 
 		// Service Client info for client id 2
 		assertEquals("Meals on Wheels", sc2.getName());

@@ -2,43 +2,22 @@ package srv.domain;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@ComponentScan("srv.config")
 public abstract class JdbcTemplateAbstractDao {
 	
 	
-	private DataSource dataSource;    
-	private JdbcTemplate jdbcTemplate; 
-	
-    public DataSource getDataSource() {
-    	if (dataSource == null)
-    		dataSource = h2DataSource();
-    	
-		return dataSource;
-	}
-    
-    /** 
-     * This is the method to be used to initialize
-     * database resources ie. connection.
-     */
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-	public DataSource h2DataSource() {
-	    
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript("data.sql")
-                .build();
-    }
 	
 	public JdbcTemplate getJdbcTemplate() {
-		if (jdbcTemplate == null)
-			jdbcTemplate = new JdbcTemplate(getDataSource());
-		
 		return jdbcTemplate;
 	}
 

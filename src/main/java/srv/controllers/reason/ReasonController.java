@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,14 +27,20 @@ import srv.domain.reason.ReasonDao;
 public class ReasonController {
 	
 
+		@Autowired
+		ReasonDao doa;
+		
+	
+	   /** 
+	    * This request handle renders an entire page useful for testing only.   This
+	    * is not part of our actual site.
+	    */
 	   @GetMapping("/test/reason")
-	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
+	   public ModelAndView handleReasonRequest(HttpServletRequest request, HttpServletResponse response) {
 		   
 		   ModelAndView mav = new ModelAndView("test/reasonTestView");
    
-		   ReasonDao doa = new JdbcTemplateReasonDao();
-		   
-		   
+
 		   try {
 			   
 			List<Reason> myReasons = doa.listAll();

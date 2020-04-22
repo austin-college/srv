@@ -1,13 +1,33 @@
-package srv;
+package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import srv.domain.contact.Contact;
+import srv.domain.contact.ContactDao;
 import srv.domain.contact.JdbcTemplateContactDao;
 
+@RunWith(SpringRunner.class)
+@JdbcTest
+@ComponentScan("srv.config")
 public class ContactDaoTests {
+	
+	private static Logger log = LoggerFactory.getLogger(ContactDaoTests.class);
+	
+	@Autowired
+	ContactDao dao;
+	
 	
 	/*
 	 * Testing fetchContactById() should return the first
@@ -16,7 +36,9 @@ public class ContactDaoTests {
 	@Test
 	void testFetchById_whenUsingJdbcTemplate() throws Exception {
 		
-		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
+		log.warn("\n\n\n");
+		
+		
 		
 		Contact c1 = dao.fetchContactById(1);
 		
@@ -40,7 +62,6 @@ public class ContactDaoTests {
 	@Test
 	void testListAll_whenUsingJdbcTemplate() throws Exception { 
 		
-		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
 		
 		List<Contact> contacts = dao.listAll();
 		
@@ -109,7 +130,7 @@ public class ContactDaoTests {
 	@Test
 	void testCreate_whenUsingJdbcTemplate() throws Exception {
 		
-		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
+		log.warn("\n\n\n");
 		
 		Contact c = dao.create("Morgan", "Freeman", "mfreeman@msn.com", "902-412-6121", "392-121-5252", "626 Hayes Rd", "Sherman", "TX", "75090");
 
@@ -147,7 +168,7 @@ public class ContactDaoTests {
 	@Test
 	void testDelete_whenUsingJdbcTemplate() throws Exception {
 		
-		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
+		log.warn("\n\n\n");
 			
 		dao.delete(1);
 		
@@ -205,7 +226,7 @@ public class ContactDaoTests {
 	@Test
 	void testUpdate_whenUsingJdbcTemplate() throws Exception {
 		
-		JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
+		log.warn("\n\n\n");
 		
 		dao.update(1, "Tom", "Cruise", "tcruise@msn.com", "901-121-1211", "800-522-5291", "626 E Main Street", "Sherman", "TX", "75090");
 		
@@ -221,6 +242,7 @@ public class ContactDaoTests {
 		assertEquals("Sherman", c1.getCity());
 		assertEquals("TX", c1.getState());
 		assertEquals("75090", c1.getZipcode());
+		
 	}
 	
 	

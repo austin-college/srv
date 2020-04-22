@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -33,17 +35,24 @@ import srv.domain.user.User;
  * @author Lydia House
  *
  */
+
+@ComponentScan("srv.config")
 public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao implements ServiceClientDao {
 
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceClientDao.class);
 
+	@Autowired
+	private JdbcTemplateContactDao dao;
 	
+	/**
+	 * Default constructor.
+	 */
 	public JdbcTemplateServiceClientDao() {
 		super();
 	}
 
-	/*
-	 * Lists all the current service clients that are in the data.sql database.
+	/**
+	 * Lists all the current service clients that are in the database.
 	 */
 	@Override
 	public List<ServiceClient> listAll() throws Exception {
@@ -56,27 +65,44 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 
 	}
 
-	/*
-	 * Creates a new ServiceClient query in the data.sql database. An exception is
+	/**
+	 * Creates a new ServiceClient query in the database. An exception is
 	 * thrown if the new service client is a duplicate.
 	 */
 	@Override
-	public void create(String title, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
+	public ServiceClient create(String title, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
+
+		  final String sql = "INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES(?, ?, ?, ?, ?)";
+			
+		  final KeyHolder keyHolder = new GeneratedKeyHolder();
+
+	      getJdbcTemplate().update(
+	              connection -> {
+	                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"serviceClientId"});
+	                  ps.setString(1, title);
+	                  ps.setInt(2, cid1);
+	                  ps.setInt(3, cid2);
+	                  ps.setString(4, bm);
+	                  ps.setString(5, cat);
+	                  return ps;
+	              }, keyHolder);
 		
-	// inserts a new serviceClient into the database
-	int rc = getJdbcTemplate().update("INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) "
-			+ "VALUES(?, ?, ?, ?, ?)", new Object[] {title, cid1, cid2, bm, cat});
-
-	if (rc != 1) {
-		String msg = String.format("Unable to insert new serviceClient [%s]", title, cid1, cid2, bm, cat);
-		log.warn(msg);
-		throw new Exception("Unable to insert new unique serviceClient.");
+	     Number num = keyHolder.getKey();
+	     
+		if (num == null ) {
+			String msg = String.format("Unable to insert new service client [%s]", title);
+			log.warn(msg);
+			throw new Exception(msg);
+		}
+	   
+	   log.debug("generated service client id is {}", num);
+		
+	   return this.fetchClientById((int)num);
 	}
-}
 
 
-	/*
-	 * Removes the desired Service Client (by id) from the data.sql database. An
+	/**
+	 * Removes the desired Service Client (by id) from the database. An
 	 * exception is thrown if the service client is unable to be removed (does not
 	 * exist).
 	 */
@@ -91,7 +117,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 		}
 	}
 
-	/*
+	/**
 	 * Updates the desired ServiceClient (by id) in the data.sql database with the
 	 * new specified content. An exception is thrown if the service client is unable
 	 * to be updates (does not exist).
@@ -104,17 +130,19 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 				new Object[] { name, cid1, cid2, bm, cat, scid });
 
 		if (rc < 1) {
-			log.error("unable to update title [{}]", scid);
+			String msg = String.format("unable to update service client [%]", scid); 
+			log.error(msg);
+			throw new Exception(msg);
 		}
 
 	}
 
-	/*
+	/**
 	 * Finds the corresponding ServiceClient given the specified id. An exception is
 	 * thrown if the service client is unable to be fetched (does not exist).
 	 */
 	@Override
-	public ServiceClient fetchClientId(int scid) throws Exception {
+	public ServiceClient fetchClientById(int scid) throws Exception {
 
 		String sqlStr = String.format("SELECT serviceClientId, title, primaryContactId, secondContactId, boardMem,"
 				+ " category FROM serviceClients WHERE serviceClientId = %d", scid);
@@ -138,7 +166,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 			 * We use the ContactDao in order to access the contacts table in the data.sql
 			 * database, so that the service client has a handle on that contact.
 			 */
-			JdbcTemplateContactDao dao = new JdbcTemplateContactDao();
+
 			ServiceClient sc = new ServiceClient();
 
 			try {
@@ -146,7 +174,8 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 				sc.setClientId(rs.getInt("serviceClientId")).setName(rs.getString("title"))
 						.setMainContact(dao.fetchContactById(rs.getInt("primaryContactId")))
 						.setOtherContact(dao.fetchContactById(rs.getInt("secondContactId")))
-						.setBoardMember(rs.getString("boardMem")).setCategory(rs.getString("category"));
+						.setBoardMember(rs.getString("boardMem"))
+						.setCategory(rs.getString("category"));
 
 			} catch (Exception e) {
 

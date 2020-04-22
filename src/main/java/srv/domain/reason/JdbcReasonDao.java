@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import srv.config.H2JpaConfig;
+import srv.config.H2DatabaseConfig;
 
 
 
@@ -22,6 +22,7 @@ public class JdbcReasonDao  implements ReasonDao {
 	private static Logger log = LoggerFactory.getLogger(JdbcReasonDao.class);
 	
 
+	
     Connection getConnection() throws Exception {
     	return  DriverManager.getConnection("jdbc:h2:mem:testdb","sa","");
     }
