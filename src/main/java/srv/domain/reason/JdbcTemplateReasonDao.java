@@ -28,22 +28,10 @@ import srv.domain.JdbcTemplateAbstractDao;
 @Primary
 @Repository
 @ComponentScan("srv.config")
-public class JdbcTemplateReasonDao implements  ReasonDao {
+public class JdbcTemplateReasonDao extends JdbcTemplateAbstractDao implements  ReasonDao {
 
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateReasonDao.class);
 	
-	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-
-	
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 	
 
 	public JdbcTemplateReasonDao() {
