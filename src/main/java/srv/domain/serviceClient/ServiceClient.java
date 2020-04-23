@@ -39,7 +39,7 @@ public class ServiceClient implements Serializable {
 		super();
 	}
 
-	public Integer getClientId() {
+	public Integer getScid() {
 		return scid;
 	}
 

@@ -35,7 +35,7 @@ class ServiceClientDaoTests {
 
 		ServiceClient sc1 = dao.fetchClientById(1);
 
-		assertEquals(1, sc1.getClientId());
+		assertEquals(1, sc1.getScid());
 		assertEquals("Habitat for Humanity", sc1.getName());
 		assertEquals("Billy Bob", sc1.getBoardMember());
 		assertEquals("Housing, Community", sc1.getCategory());
@@ -80,8 +80,8 @@ class ServiceClientDaoTests {
 		ServiceClient sc1 = clients.get(0);
 		ServiceClient sc2 = clients.get(1);
 
-		assertEquals(1, sc1.getClientId());
-		assertEquals(2, sc2.getClientId());
+		assertEquals(1, sc1.getScid());
+		assertEquals(2, sc2.getScid());
 
 		// Service Client info for client id 1
 		assertEquals("Habitat for Humanity", sc1.getName());
@@ -178,7 +178,7 @@ class ServiceClientDaoTests {
 		/*
 		 * The next assigned id on successful insert should be numBeforeInsert + 1.
 		 */
-		assertEquals(numBeforeInsert+1, nsc.getClientId());
+		assertEquals(numBeforeInsert+1, nsc.getScid());
 
 		
 		/*
@@ -186,7 +186,7 @@ class ServiceClientDaoTests {
 		 */
 		ServiceClient sc3 = nsc;
 
-		assertEquals(3, sc3.getClientId());
+		assertEquals(3, sc3.getScid());
 		assertEquals("Meals on Wheels", sc3.getName());
 		assertEquals("Donald Duck", sc3.getBoardMember());
 		assertEquals("Seniors, Community", sc3.getCategory());

@@ -67,7 +67,7 @@ public class ServiceClientController {
 		   try {
 			   
 			List<ServiceClient> myClients = doa.listAll();
-			
+
 			mav.addObject("clients", myClients);
 			
 			} catch (Exception e) {

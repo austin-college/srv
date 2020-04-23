@@ -47,80 +47,90 @@ public class Event {
 		return eid;
 	}
 
-	public void setEid(int eid) {
+	public Event  setEid(int eid) {
 		this.eid = eid;
+		return this;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public Event setTitle(String title) {
 		this.title = title;
+		return this;
 	}
 
 	public String getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public Event setAddress(String address) {
 		this.address = address;
+		return this;
 	}
 
 	public Contact getContact() {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public Event setContact(Contact contact) {
 		this.contact = contact;
+		return this;
 	}
 
 	public String getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public Event setDate(String date) {
 		this.date = date;
+		return this;
 	}
 
 	public EventType getType() {
 		return type;
 	}
 
-	public void setType(EventType type) {
+	public Event  setType(EventType type) {
 		this.type = type;
+		return this;
 	}
 
 	public boolean isContinous() {
 		return continous;
 	}
 
-	public void setContinous(boolean continous) {
+	public Event  setContinous(boolean continous) {
 		this.continous = continous;
+		return this;
 	}
 
 	public int getVolunteersNeeded() {
 		return volunteersNeeded;
 	}
 
-	public void setVolunteersNeeded(int volunteersNeeded) {
+	public Event  setVolunteersNeeded(int volunteersNeeded) {
 		this.volunteersNeeded = volunteersNeeded;
+		return this;
 	}
 
 	public ServiceClient getServiceClient() {
 		return serviceClient;
 	}
 
-	public void setServiceClient(ServiceClient serviceClient) {
+	public Event  setServiceClient(ServiceClient serviceClient) {
 		this.serviceClient = serviceClient;
+		return this;
 	}
 
 	public ArrayList<ServantUser> getParticipantsList() {
 		return participantsList;
 	}
 
-	public void setParticipantsList(ArrayList<ServantUser> participantsList) {
+	public Event  setParticipantsList(ArrayList<ServantUser> participantsList) {
 		this.participantsList = participantsList;
+		return this;
 	}
 
 
