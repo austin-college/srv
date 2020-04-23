@@ -7,6 +7,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 
 import srv.domain.contact.Contact;
 import srv.domain.serviceClient.ServiceClient;
+import srv.domain.user.ServantUser;
 import srv.domain.user.User;
 
 /**
@@ -22,119 +23,105 @@ public class Event {
 	private int eid;
 	private String title; // I'm not sure each event will have title
 	private String address; // address of location
-	private int contactId; // contact info
+	private Contact contact; // contact info
 	private String date; // date of event
-	private String type; // eventType TODO
+	private EventType type; // eventType TODO
 	private boolean continous;// if event repeats??
 	private int volunteersNeeded; // 3 of volunteers needed
-	private int serviceClientId; // pet associated with event
-	private int participantsListId;
+	private ServiceClient serviceClient; // pet associated with event
+	private ArrayList<ServantUser> participantsList;// list of all ServantUsers signed up for the event
 
 	public Event() {
 		super();
 
 	}
 
-	public Event(String date, int serviceClientId, String type) {
+	public Event(String date, ServiceClient serviceClient, EventType type) {
 		super();
 		this.date = date;
-		this.serviceClientId = serviceClientId;
+		this.serviceClient = serviceClient;
 		this.type = type;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public Event setAddress(String address) {
-		this.address = address;
-		return this;
-	}
-
-	public int getContactId() {
-		return contactId;
-	}
-
-	public Event setContactId(int contactId) {
-		this.contactId = contactId;
-		return this;
-
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public Event setDate(String date) {
-		this.date = date;
-		return this;
-
-	}
-
-	public int getServiceClientId() {
-		return serviceClientId;
-	}
-
-	public Event setSetServiceClientId(int serviceClientId) {
-		this.serviceClientId = serviceClientId;
-		return this;
-
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public Event setType(String type) {
-		this.type = type;
-		return this;
-
-	}
-
-	public int getParticipantsListId() {
-		return participantsListId;
-	}
-
-	public Event setParticipantsListId(int participantsListId) {
-		this.participantsListId = participantsListId;
-		return this;
-
 	}
 
 	public int getEid() {
 		return eid;
 	}
 
-	public Event setEid(int eid) {
+	public void setEid(int eid) {
 		this.eid = eid;
-		return this;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public Event setTitle(String title) {
+	public void setTitle(String title) {
 		this.title = title;
-		return this;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public EventType getType() {
+		return type;
+	}
+
+	public void setType(EventType type) {
+		this.type = type;
 	}
 
 	public boolean isContinous() {
 		return continous;
 	}
 
-	public Event setContinuous(boolean continous) {
+	public void setContinous(boolean continous) {
 		this.continous = continous;
-		return this;
 	}
 
 	public int getVolunteersNeeded() {
 		return volunteersNeeded;
 	}
 
-	public Event setVolunteersNeeded(int volunteersNeeded) {
+	public void setVolunteersNeeded(int volunteersNeeded) {
 		this.volunteersNeeded = volunteersNeeded;
-		return this;
 	}
+
+	public ServiceClient getServiceClient() {
+		return serviceClient;
+	}
+
+	public void setServiceClient(ServiceClient serviceClient) {
+		this.serviceClient = serviceClient;
+	}
+
+	public ArrayList<ServantUser> getParticipantsList() {
+		return participantsList;
+	}
+
+	public void setParticipantsList(ArrayList<ServantUser> participantsList) {
+		this.participantsList = participantsList;
+	}
+
 
 }
