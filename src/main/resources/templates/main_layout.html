@@ -19,7 +19,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 		
 		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
 		
 		<!-- Popper JS -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -54,8 +54,8 @@
   		  		<!-- Navigation bar -->
 					<div class="topnav">
 						<!-- Links -->
-						<a href="splash">Home</a>
-						<a href="viewHours">Log Service Hours</a>
+						<a href="/srv/splash">Home</a>
+						<a href="/srv/viewHours">Log Service Hours</a>
 						<a href="#events">Events</a>
 						<!-- When the user is logged in, displays a profile icon, other displays 'Log In' -->
 						<#if user?exists>
@@ -80,7 +80,8 @@
 		</div>
 		
         <!-- Footer -->
-		<nav class="navbar navbar-inverse navbar-fixed-bottom">
+        
+		<nav class="navbar navbar-inverse fixed-bottom">
 
             <!-- Contact Us link in footer -->
 			<div class="container-fluid justify-content-center">

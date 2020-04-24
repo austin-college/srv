@@ -114,10 +114,6 @@ i {
 	color: #a41e34;
 }
 
-/* Adds space at the bottom of the page */
-#bottomSpacer {
-	height:60px
-}
 ul {
 	list-style-type: none;
 }
