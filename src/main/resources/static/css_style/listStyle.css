@@ -1,46 +1,4 @@
 @charset "ISO-8859-1";
-/* Style settings for the top header of the page. */
-/* Add a black background color and style the header at the top of the page */
-.jumbotron{
-	text-align: center;
-	background-color: black;
-    padding-top: 25px;
-    padding-bottom: 25px;
-}
-
-/* Add a black background color to the top navigation */
-.topnav {
-	background-color: black;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-	float: left;
-	color: #f2f2f2;
-	text-align: center;
-	padding: 12px;
-	font-size: 25px;	
-	width: 50%;
-}
-
-/* Change the color of links on hover */
-.topnav  a:hover {
-	background-color: #e9a911;
-	color: white;
-}
-/* Style for opportunity icon circles */
-.dot {
-  height: 43px;
-  width: 43px;
-  border-radius: 80%;
-  background-color: black;
-  display: inline-block;
-}
-
-/* Change the color of links on hover */
-a:hover {
-	background-color: #427dc6;
-}
 
 /* Style settings for the table. */
 .table{

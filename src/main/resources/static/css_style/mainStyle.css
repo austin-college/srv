@@ -1,4 +1,5 @@
 @charset "ISO-8859-1";
+@import "all.css"; /* Importing the css file that contains the style for the fontawesome.js*/
 
 /* Add a black background color and style the header at the top of the page */
 .jumbotron{
@@ -20,7 +21,7 @@
 	text-align: center;
 	padding: 12px;
 	font-size: 25px;	
-	width: 30%;
+	width: 25%;
 }
 
 /* Change the color of links on hover */
@@ -28,3 +29,22 @@
 	background-color: #e9a911;
 	color: white;
 }
+
+/* Style for profile icon makes the guy in the icon black*/
+#profileIcon{
+ 	height: 50px;
+  	width: 50px;
+  	border-radius: 60%;
+  	background-color: black;
+  	margin-left:20px;
+}
+
+/* Makes the icon white */
+.fa-user-circle {
+	font-size:48px; 
+	color:white
+}
+
+#profileIcon:hover .fa-user-circle {
+	color:#e9a911;
+} 
