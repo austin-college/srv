@@ -1,4 +1,4 @@
-package srv.controllers.reason;
+package srv.services.reason;
 
 import static org.junit.Assert.*;
 

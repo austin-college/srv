@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import srv.AppConstants;
+
 /**
  * @author aj_pr http://localhost:8080/
  */
@@ -18,14 +20,17 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      
-    @Override
+
+
+
+	@Override
     protected void configure(HttpSecurity http) throws Exception {
  
         //http.csrf().disable();
  
     	http.authorizeRequests()
     		.antMatchers("/", "/splash",  "/login", "/test/**", "/logout", "/css_style/**", "/js/**", "/images/**", "**/favicon.ico" ).permitAll()
-    		.antMatchers("/**").hasRole("USER");
+    		.antMatchers("/**").hasRole(AppConstants.ROLE_SERVANT);
     		
     	http.authorizeRequests().and().formLogin();   // .defaultSuccessUrl("/home");  // after home pages added.
     	
@@ -100,15 +105,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
         auth.inMemoryAuthentication().withUser("user")
           .password("$2b$10$TOwIs32GeV.OZNdQBW5XpOCj1fsfGydm5ytY5YhVeuUj88djiXp0e")  // "user"
-          .roles("USER");
+          .roles(AppConstants.ROLE_SERVANT);
         
         auth.inMemoryAuthentication().withUser("boardmember")
         .password("$2b$10$GHta1zEr.cZjTUIj7DGw.un./Uc.Ni/R3DVcUUJX5h9PHSLT4k3Hi")  // "boardmember"
-        .roles("USER", "BOARDMEMBER");
+        .roles(AppConstants.ROLE_SERVANT, AppConstants.ROLE_BOARDMEMBER);
         
         auth.inMemoryAuthentication().withUser("admin")
         .password("$2b$10$21ITM86vZOBISgzdP9KgjuKuuURsa4OlqH7GbrMVjJ07r867Fn91m")  // "admin"
-        .roles("USER", "BOARDMEMBER", "ADMIN");
+        .roles(AppConstants.ROLE_SERVANT, AppConstants.ROLE_BOARDMEMBER, AppConstants.ROLE_ADMIN);
 
 
     }
