@@ -1,3 +1,5 @@
+
+
 /**
  * When the DOM is completed loaded and ready, hide the dialogs and
  * create the functionality of the buttons.
@@ -17,14 +19,14 @@ $(document).ready(function() {
 		},
 		open: function(event, ui) {
 			/*
-			 * Prompt on the delete organization dialog, verifying if they want to delete the selected committee.
+			 * Prompt on the delete service client dialog, verifying if they want to delete the selected service client.
 			*/ 
-			$("#delMsg1").html("The following organization will be permanently deleted and cannot be recovered.");
+			$("#delMsg1").html("The following service client will be permanently deleted and cannot be recovered.");
 			$("#delMsg2").html("Are you sure you want to delete?");
 		},							
 		buttons: [
 		{
-			text: "DELETE PET", 
+			text: "DELETE SERVICE CLIENT", 
     			  "class": 'delBtnClass',
     		click: function() {
     			$("#delDlg").dialog("close");
@@ -54,14 +56,14 @@ $(document).ready(function() {
 			/*
 			 * Resets all the fields of the add dialog to empty.
 		    */
-		    $("#addDlg_petID").val("");
-		    $("#addDlg_petTitle").val("");
-		    $("#addDlg_petContact").val("");
-		    $("#addDlg_petCategory").val("");		    	
+		    $("#addDlg_scID").val("");
+		    $("#addDlg_scTitle").val("");
+		    $("#addDlg_scContact").val("");
+		    $("#addDlg_scCategory").val("");		    	
 		},
 		buttons: [
 		{
-			text: "Create New Pet",
+			text: "Create New Service Client",
 		    	  "class": 'addBtnClass',
 		    click: function() {
 		    	$("#addDlg").dialog("close");	 
@@ -84,15 +86,15 @@ $(document).ready(function() {
 		hide: 'blind',
 		modal: true,
 		open: function(event, ui) {     	  
-			// Sets the dialog's fields to the selected committee's old values upon opening.
+			// Sets the dialog's fields to the selected service client's old values upon opening.
 		    $("#editID_lbl").html("ID: 0");
-		    $("#editDlg_petTitle").val("Habitat for Humanity");
-		    $("#editDlg_petContact").val("Billy Bob");
-		    $("#editDlg_petCategory").val("Housing, Community");
+		    $("#editDlg_scTitle").val("Habitat for Humanity");
+		    $("#editDlg_scContact").val("Billy Bob");
+		    $("#editDlg_scCategory").val("Housing, Community");
 		},
 		buttons: [
 		{
-			text: "Update Pet",
+			text: "Update Service Client",
 		    	  "class": "editBtnClass",
 		    click: function() {
 		    	$("#editDlg").dialog("close"); 	    			
@@ -108,21 +110,21 @@ $(document).ready(function() {
 	});
   
     /* 
-     * Opens delete organization dialog when a delete button is clicked on.
+     * Opens delete service client dialog when a delete button is clicked on.
      */
     $(".del").on("click", function() {
     	$("#delDlg").dialog("open");
     });
     
  	/* 
-  	 * Opens add pet dialog when user clicks an add button.
+  	 * Opens add service client dialog when user clicks an add button.
   	 */
   	$(".addBtn").on("click", function() {
   		$("#addDlg").dialog("open");
   	});
   	
   	 /* 
-     * Opens edit pet dialog when user clicks an edit button.
+     * Opens edit service client dialog when user clicks an edit button.
      */    
      $(".edit").on("click", function() {
     	 $("#editDlg").dialog("open");

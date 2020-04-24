@@ -8,7 +8,7 @@ import srv.domain.contact.Contact;
  * @author
  *
  *         The ServiceClient class is supposed to represent the information we
- *         are holding for a pet, or a service organization
+ *         are holding for a service client, or a service organization
  */
 public class ServiceClient implements Serializable {
 

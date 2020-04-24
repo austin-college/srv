@@ -1,5 +1,5 @@
 @charset "ISO-8859-1";
-
+@import url("//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
 /* Style settings for the table. */
 .table{
 	text-align: center;
@@ -12,16 +12,7 @@ thead th {
 	color: white;
 	text-align: center;
 }
-/* Style settings for the delete icon on the delete buttons.*/
-.glyphicon-remove-sign{
-	padding-top:2px;
-	padding-right:2px;
-}
-/* Style settings for the edit icon on the edit buttons.*/
-.glyphicon-pencil{
-	padding-top:2px;
-	padding-right:5px;
-}
+
 /* Style settings for the add buttons.*/
 #addBtnContainer{
 	background-color: #db9401;

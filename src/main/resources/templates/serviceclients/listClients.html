@@ -1,27 +1,28 @@
 <#import "/main_layout.html" as layout />
+<!-- CSS style for jquery widgets -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <@layout.stdpage "Service Client Manager" "listStyle.css" "serviceclients/listClients.js">
 
-
-	<!-- Holds the main elements of the page which include the pet table and its title
+	<!-- Holds the main elements of the page which include the service client table and its title
 	     as well as the add buttons and dialogs. -->
 	<div id="mainContainer" class="container">
 	  <!-- The row below contains the table's title. -->
 	  <div class= "row">
 	    <div class="col">
-		  <h1>Pet List</h1>
+		  <h1>Service Client List</h1>
 		</div>
 	  </div>
 	  
 	  <!-- The row below contains the button to add another organization to the table. -->
 	  <div class="row" style="padding-left:30px; padding-bottom:20px">	
-	    <div id="addBtnContainer" class="col-sm-2 widget rounded">	
-		  <span class="glyphicon glyphicon-plus"></span>
-		  <input class="addBtn ui-button ui-widget addBtn" type="submit" value="Add Pet" />	
+	    <div id="addBtnContainer" class="col-sm-3 widget rounded">	
+		  <span class="	fas fa-plus-circle"></span>
+		  <input class="addBtn ui-button ui-widget" type="submit" value="Add Service Client" />	
 		</div>		
 	  </div>
 	  
-	  <!-- The row below contains the table of pets. -->
+	  <!-- The row below contains the table of service clients. -->
  	  <div class="row"> 
 	    <div class="col">
 		  <div class="container ui-widget table-responsive">
@@ -36,23 +37,23 @@
 				  <th colspan='2'>Actions</th>
 				</tr>
 			  </thead>
-			  <tbody id="pet_tbl_body">
+			  <tbody id="sc_tbl_body">
 			  	<#list clients as sc>
 			    <tr id="scid-${sc.scid}">
-				  <td name='pet_id'>0</td>
-	        	  <td name='pet_title'>${sc.name!"UNKNOWN"}</td>
-	        	  <td name='pet_contact_name'><a href="#"> ${sc.contactName!"UNKNOWN"}</a></td>
-	        	  <td name='pet_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
-	        	  <td name='pet_category'>${sc.category!"UNKNOWN"}</td>
+				  <td name='sc_id'>${sc.scid!"UNKNOWN"}</td>
+	        	  <td name='sc_title'>${sc.name!"UNKNOWN"}</td>
+	        	  <td name='sc_contact_name'><a href="#"> ${sc.mainContact.firstName!"UNKNOWN"} ${sc.mainContact.lastName!"UNKNOWN"}</a></td>
+	        	  <td name='sc_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
+	        	  <td name='sc_category'>${sc.category!"UNKNOWN"}</td>
 				  <td> 
 				    <button type="button" class="edit btn">
-					<span class="glyphicon glyphicon-pencil"></span> 
+					<span class="fas fa-pencil-alt"></span> 
 					  Edit
 					</button>
 				  </td>
 				  <td>
 				    <button type="button" class="del btn">
-					<span class="glyphicon glyphicon-remove-sign"></span>  
+					<span class="fas fa-trash-alt"></span>  
 					  Delete 
 					</button>
 				 </td>
@@ -64,15 +65,15 @@
 		 </div> 
 	   </div>
 	  
-	  <!-- The row below contains the button to add another pet to the table. -->
+	  <!-- The row below contains the button to add another service client to the table. -->
 	  <div class="row" style="padding-left:30px">	
-	    <div id="addBtnContainer" class="col-sm-2 widget rounded">
-		  <span class="glyphicon glyphicon-plus"></span>
-		  <input class="addBtn ui-button ui-corner-all ui-widget" type="submit" value="Add Pet" />
+	    <div id="addBtnContainer" class="col-sm-3 widget rounded">
+		  <span class="	fas fa-plus-circle"></span>
+		  <input class="addBtn ui-button ui-corner-all ui-widget" type="submit" value="Add Service Client" />
 		</div>
 	  </div>
 	 	  
-	  	  <!-- The div below defines the delete dialog for deleting an organization which is hidden by JS and exposed by JQ. -->
+	  	  <!-- The div below defines the delete dialog for deleting an service client which is hidden by JS and exposed by JQ. -->
 	  <div id="delDlg" title="DELETE SELECTED ORGANIZATION" class="ui-widget delWid">
 	  	<p id= "del_confirm">
 	  	    <br><br>
@@ -82,39 +83,39 @@
 	    </p>
 	  </div>
 	  
-	   <!--  The div below defines the add dialog for adding an organization which is hidden by JS and exposed by JQ. -->
+	   <!--  The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
 	  <div id="addDlg" title="ADD NEW PET" class="ui-widget">
 	    <div class="container">
 		  <div class="row">
 		    <div class="form-group">
-			  <label class="form-label" for="addDlg_petID">ID: </label>
-			  <input id="addDlg_petID" class="form-control" type="text" placeholder="ID" autocomplete="off"/>
+			  <label class="form-label" for="addDlg_scID">ID: </label>
+			  <input id="addDlg_scID" class="form-control" type="text" placeholder="ID" autocomplete="off"/>
 			</div>
 		  </div>
 		  <div class="row">
 		    <div class="form-group">
-			  <label class="form-label" for="addDlg_petTitle">Title</label>
-			  <input id="addDlg_petTitle" class="form-control" type="text" placeholder="Title" autocomplete="off"/>
+			  <label class="form-label" for="addDlg_scTitle">Title</label>
+			  <input id="addDlg_scTitle" class="form-control" type="text" placeholder="Title" autocomplete="off"/>
 			</div>
 		  </div>
 		  <div class="row">
 		    <div class="form-group">
-			  <label class="form-label" for="addDlg_petContact">Contact Name</label>
-			  <input id="addDlg_petContact" class="form-control" type="text" placeholder="Contact Name" autocomplete="off"/>
+			  <label class="form-label" for="addDlg_scContact">Contact Name</label>
+			  <input id="addDlg_scContact" class="form-control" type="text" placeholder="Contact Name" autocomplete="off"/>
 			</div>
 		  </div>
 		  <div class="row">
 			<div class="form-group">
-			  <label class="form-label" for="addDlg_petCategory">Category</label>
-			  <input id="addDlg_petCategory" class="form-control" type="text" placeholder="Category" autocomplete = "off"/>
+			  <label class="form-label" for="addDlg_scCategory">Category</label>
+			  <input id="addDlg_scCategory" class="form-control" type="text" placeholder="Category" autocomplete = "off"/>
 			</div>
 		  </div>
 	    </div>
 	  </div>
 	  
-	   <!-- The div below defines the edit dialog for editing/updating an organization which is hidden by JS and exposed by JQ.
+	   <!-- The div below defines the edit dialog for editing/updating an service client which is hidden by JS and exposed by JQ.
 	    	Note: Can not change the ID of the organization. -->
-	    <div id="editDlg" title="EDIT SELECTED PET" class="ui-widget">
+	    <div id="editDlg" title="EDIT SELECTED SERVICE CLIENT" class="ui-widget">
 	      <p>All form fields are required.</p>
 	      <div class="container">
 		    <div class="row">
@@ -124,24 +125,27 @@
 		    </div>
 		    <div class="row">
 			  <div class="form-group">
-			    <label class="form-label" for="editDlg_petTitle">Title</label>
-				<input id="editDlg_petTitle" class="form-control" type="text" autocomplete="off"/>
+			    <label class="form-label" for="editDlg_scTitle">Title</label>
+				<input id="editDlg_scTitle" class="form-control" type="text" autocomplete="off"/>
 			  </div>
 		    </div>
 		    <div class="row">
 			  <div class="form-group">
-				<label class="form-label" for="editDlg_petContact">Contact Name</label>
-				<input id="editDlg_petContact" class="form-control" type="text" autocomplete="off"/>
-			  </div>
+				<label class="form-label" for="editDlg_scContact">Contact Name</label>
+				<input id="editDlg_scContact" class="form-control" type="text" autocomplete="off"/>
+			  </div>"src/main/resources/templates/main_layout.html"
 		    </div>
 		    <div class="row">
 			  <div class="form-group">
-				<label class="form-label" for="editDlg_petCategory">Category</label>
-				<input id="editDlg_petCategory" class="form-control" type="text" autocomplete="off"/>
+				<label class="form-label" for="editDlg_scCategory">Category</label>
+				<input id="editDlg_scCategory" class="form-control" type="text" autocomplete="off"/>
 			  </div>
 		    </div>
 		  </div>
 		</div>
 		</div>
+
+<!-- JavaScript file that will allow us to use jquery widgets -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 </@layout.stdpage>
