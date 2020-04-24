@@ -45,6 +45,28 @@
 	color:white
 }
 
+/* Changes the color of the profile icon on hover */
 #profileIcon:hover .fa-user-circle {
 	color:#e9a911;
 } 
+
+/* Style for footer */
+.navbar-inverse {
+	min-height:2.5em;
+	background-color: #222;
+	text-align:center;
+}
+
+/* Adds a border between the activity links in the footer */
+.footer-links {
+	border-right: #444 1px solid;	
+	padding-right: 30px;
+	padding-left: 20px;
+}
+
+/* Color for the activity links in the footer */
+.footer-links a{
+	color:#81d2f7
+}
+
+
