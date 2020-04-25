@@ -1,7 +1,9 @@
 $(document).ready(function () {
+	
 $('#dtDynamicVerticalScroll').DataTable({
 "scrollY": "50vh",
-"scrollCollapse": true,
+"scrollCollapse": true
 });
 $('.dataTables_length').addClass('bs-select');
+
 });
