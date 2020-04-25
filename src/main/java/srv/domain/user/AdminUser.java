@@ -1,6 +1,6 @@
 package srv.domain.user;
-import srv.domain.ServiceHours;
 import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceHours.ServiceHours;
 
 /**
  * An instance of this class represents our Admins for the system,

@@ -3,22 +3,25 @@ package srv.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import srv.domain.event.Event;
-
-import srv.domain.serviceClient.ServiceClient;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import srv.domain.serviceHours.ServiceHours;
-
+import srv.domain.event.Event;
+import srv.domain.user.UserDao;
 
 /**
  * The methods in this class are just a temporary stand in until the ServiceHourDao is completed.
- * @author Lydia House
  *
  */
-public class ServiceHoursService {
+public class BoardMemberHoursListService {
+
+	@Autowired 
+	UserDao dao;
+	
 	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
 	
-	public ServiceHoursService() {
+	
+	public BoardMemberHoursListService() {
 		initialize();
 	}
 	
@@ -28,6 +31,7 @@ public class ServiceHoursService {
 				.setEventName(new Event().setTitle("Spending Time with Toys for Tots"))
 				.setHours(6.0)
 				.setStatus("Approved");
+		
 		ServiceHours b = new ServiceHours()
 				.setShid(2)
 				.setEventName(new Event().setTitle("Teaching Part Time"))
@@ -50,40 +54,5 @@ public class ServiceHoursService {
 		hrs.add(d);
 	}
 	
-	public List<ServiceHours> listHours(){	return hrs;}
 	
-	public void removeServiceHour(int id)  {
-
-	
-		for(ServiceHours h : hrs) { 
-			if(h.getShid() == id) { 
-			
-				hrs.remove(h);
-				break;
-			 } 
-		  }
-	}
-	
-	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, String date, String desc)   {
-
-		int index = 0;
-		for(ServiceHours h : hrs) {
-			
-			if(h.getShid() == id) {
-				
-				h.setEventName(new Event().setTitle(eName));
-				h.setServedPet(new ServiceClient().setName(org));
-				h.setHours(hrsServed);
-				h.setDate(date);
-				h.setDescritpion(desc);
-			
-				break;
-			}
-			
-			index++;
-		}
-		
-		return hrs.get(index);
 }
-	
-}	

@@ -1,5 +1,7 @@
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Board Member Home" "home.css" "BoardMember/boardmemberhome.js">
+<@layout.stdpage "Board Member Home" "home.css"
+"BoardMember/boardmemberhome.js">
+
 
 <div id="mainContainer" class="container">
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
@@ -7,9 +9,20 @@
 			<h1>Welcome, Board Member</h1>
 			<p>Please select the action you would like to take.</p>
 		</div>
-		<!-- Future navigation buttons for easy access to ApproveHours -->
 	</div>
-
+	<div> <!-- Navigation buttons //TODO Add all use cases with respective pages -->
+		<div class="col-md" style="padding-left: 20px; padding-bottom: 20px">
+			<span>
+				<a href="boardMember"><i class="fa fa-clipboard-list fa-3x"></i> </a>
+				<p>Approve Hours</p>
+			</span>
+			<span>
+				<a href="sc/list"><i class="fa fa-address-book fa-3x"></i> </a>
+				<p>Manage Pets</p>
+			</span>
+		</div>
+		
+	</div>
 	<!-- Layout of BM actions must be decided -->
 	<!-- table title. -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
@@ -17,9 +30,12 @@
 			<h2>Hours To Be Approved</h2>
 		</div>
 	</div>
+	
 
 	<!-- A  (TODO/MAKE LIVE) list (data-table) of all to-be-approved serviceEvents, includes buttons to view full info, approve, and reject servant event forms -->
-	<table id="dtDynamicVerticalScroll" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+	<table id="dtDynamicVerticalScroll"
+		class="table table-striped table-bordered table-sm" cellspacing="0"
+		width="100%">
 		<thead>
 			<tr>
 				<th class="th-sm">Servant Name</th>
@@ -33,10 +49,10 @@
 		<tbody>
 			<tr>
 				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
+				<td>Dog Park Build</td>
+				<td>4</td>
+				<td>Wolfie Man</td>
+				<td>wolfMan@gmail.com</td>
 				<!--Approve, reject and full view buttons-->
 				<td><a class="btn edit" href="#">
 				<i class="icon-check-sign icon-large"></i> Approve
@@ -51,117 +67,50 @@
 				
 			</tr>
 			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
+				<td>Anita Lyfe</td>
+				<td>Habitat Build</td>
+				<td>6</td>
+				<td>Jinx Main</td>
+				<td>iBuildHouses@gmail.com</td>
+				<!--Approve, reject and full view buttons-->
+				<td><a class="btn edit" href="#">
+				<i class="icon-check-sign icon-large"></i> Approve
+				</a>
+				<a class="btn btn-danger del" href="#">
+				<i class="icon-trash icon-large"></i> Reject
+				</a>
+				<a class="btn edit" href="#">
+				<i class="icon-trash icon-large"></i> View
+				</a>
+				</td>
+				
 			</tr>
 			<tr>
-				<td>Ashton Cox</td>
-				<td>Junior Technical Author</td>
-				<td>San Francisco</td>
-				<td>66</td>
-				<td>2009/01/12</td>
-				<td>$86,000</td>
-			</tr>
-				<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-			<tr>
-				<td>Ashton Cox</td>
-				<td>Junior Technical Author</td>
-				<td>San Francisco</td>
-				<td>66</td>
-				<td>2009/01/12</td>
-				<td>$86,000</td>
-			</tr>	<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-			<tr>
-				<td>Ashton Cox</td>
-				<td>Junior Technical Author</td>
-				<td>San Francisco</td>
-				<td>66</td>
-				<td>2009/01/12</td>
-				<td>$86,000</td>
-			</tr>	<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-			<tr>
-				<td>Ashton Cox</td>
-				<td>Junior Technical Author</td>
-				<td>San Francisco</td>
-				<td>66</td>
-				<td>2009/01/12</td>
-				<td>$86,000</td>
-			</tr>	<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-			<tr>
-				<td>Ashton Cox</td>
-				<td>Junior Technical Author</td>
-				<td>San Francisco</td>
-				<td>66</td>
-				<td>2009/01/12</td>
-				<td>$86,000</td>
-			</tr>	<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-			<tr>
-				<td>Ashton Cox</td>
-				<td>Junior Technical Author</td>
-				<td>San Francisco</td>
-				<td>66</td>
-				<td>2009/01/12</td>
-				<td>$86,000</td>
-			</tr>	<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-			<tr>
-				<td>Ashton Cox</td>
-				<td>Junior Technical Author</td>
-				<td>San Francisco</td>
-				<td>66</td>
-				<td>2009/01/12</td>
-				<td>$86,000</td>
+				<td>AyAyron Bridges</td>
+				<td>Texas Ramp Project</td>
+				<td>2</td>
+				<td>Mike Rampman</td>
+				<td>TexasRampProject@gmail.com</td>
+				<!--Approve, reject and full view buttons-->
+				<td><a class="btn edit" href="#">
+				<i class="icon-check-sign icon-large"></i> Approve
+				</a>
+				<a class="btn btn-danger del" href="#">
+				<i class="icon-trash icon-large"></i> Reject
+				</a>
+				<a class="btn edit" href="#">
+				<i class="icon-trash icon-large"></i> View
+				</a>
+				</td>
+				
 			</tr>
 		</tbody>
 		<tfoot>
 		</tfoot>
 	</table>
-
+	
+	
+	
 </div>
-  <script src="/srv/js/datatables.min.js"></script>
+	<script src="/srv/js/datatables.min.js"></script>
 </@layout.stdpage>
