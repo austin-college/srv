@@ -90,4 +90,15 @@ th {
 	color: white;
 	text-align: center;
 }
+
+/* Style for the rows in the dialog box when a service hour is selected in the table */
+#hrInfoDlg .row {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+/* Style for the description of the event text field box located in the service hour information dialog */
+#hrInfoDlg_desc {
+	line-height: 75px;
+}
 /* End credit to lydia, thanks lydia */

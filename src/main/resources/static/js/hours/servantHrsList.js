@@ -34,6 +34,23 @@ function delHr(hours_id){
  */
 $(document).ready(function() {	
 	 
+	$("#hrInfoDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 1100,
+		modal: true,
+		open: function(event, ui) {
+			
+			// Harvests the selected service hour's values from the table.
+			var selected_shid = $("#hrInfoDlg").data('selectedHoursID');
+			var set_eventName =  $("#row" + selected_shid + " td[name = 'hrs_eventName']").text();
+			var set_hrs = $("#row" + selected_shid + " td[name = 'hrs_hrsServed']").text();
+			
+			$("#hrInfoDlg_eventName").val(set_eventName);
+			$("#hrInfoDlg_hrsServed").val(set_hrs);
+		}
+		
+	});
 	//Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen: false,
@@ -54,7 +71,7 @@ $(document).ready(function() {
 		},							
 		buttons: [
 		{
-			text: "DELETE SERVICE HOUR", 
+			text: "DELETE", 
     			  "class": 'delBtnClass',
     		click: function() {
     			delHr($("#delDlg").data('selectedHoursID'));
@@ -81,5 +98,10 @@ $(document).ready(function() {
     $(".del").on("click", function() {
     	var selected_shid = $(this).attr('onDelClick');
     	$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
+    });
+    
+    $(".hrRow").on("click", function() {
+    	var selected_shid = $(this).attr('onRowClick');
+    	$("#hrInfoDlg").data("selectedHoursID", selected_shid).dialog("open");
     });
 });

@@ -7,6 +7,7 @@
 	  <div class="container-fluid">
 	   <div class="row">
 	    <div class="col-lg-4">
+	    <form action="/srv/viewHours.html">
 	     <div class="form-group">
 	       <label for="name">Name of Event: </label><br>
 	       <input type="text" class="form-control" value="EX: JanServe"><br>
@@ -20,7 +21,7 @@
 		   </select><br>
 		   <label for="hours">Hours Served: </label><br>
 		   <input type="text" class="form-control" value="EX: 3.5"><br>
-		   <input type="submit" value="Submit" id="submit">
+		 
 	     </div>
 	    </div>
 	    <div class="col-lg-4">
@@ -45,9 +46,11 @@
 		   <input type="email" id="contact-email" class="form-control" name="contact-email" value="email@example.com"><br>
 		   <label for="description">Description of Event: </label><br>
 		   <textarea class="form-control" rows="4" id="description"></textarea><br>
+		     <button type="submit" class="btn btn-primary" id="submit">Submit</button>
 		  </div>
 		</div>
 	  </div>
+	  </form>
 	 </div>
 
 

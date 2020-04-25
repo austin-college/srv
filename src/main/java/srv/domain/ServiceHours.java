@@ -27,6 +27,7 @@ public class ServiceHours implements Serializable{
 	private String reflection; // Thoughts on the event
 	private String descritpion; // Description of the event
 	private String status; // Tells if the hours are pending, approved or rejected.
+	
 	/**
 	 * Constructor for ServiceHours
 	 * @param id

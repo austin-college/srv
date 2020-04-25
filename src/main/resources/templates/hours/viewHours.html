@@ -60,10 +60,10 @@
 						<tbody id ="hrs_tbl_body">
 							<#list hours as hrs>
 								<tr id="row${hrs.shid?c}">
-								<td name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
-								<td name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
-								<td name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
-								<td name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
 								<td>
 									<!-- Buttons to open edit/delete hours dialog  -->
 									<button type="button" class="edit btn">
@@ -87,7 +87,7 @@
 	</div>
 </div>
 
- <!-- The div below defines the delete dialog for deleting a served hour which is hidden by JS and exposed by JQ. -->
+      <!-- The div below defines the delete dialog for deleting a served hour which is hidden by JS and exposed by JQ. -->
 	  <div id="delDlg" title="DELETE SELECTED HOURS" class="ui-widget delWid">
 	  	<p id= "del_confirm">
 	  	    <br><br>
@@ -97,8 +97,113 @@
 	    </p>
 	  </div>
 	  
-
-
+	  <!--  The div below shows a modal view of the service hour information (contact, date, etc) when the row was selected -->
+	  <div id="hrInfoDlg" title="Service Hour Information" class="ui-widget">
+	  	<div class="container">
+	  		<div class="row">
+	  		<div class='form-group'>
+	  		
+	  			<div class='row'>
+	  				<div class='col'>
+	  					<h5><b>Event Information</b></h5>
+  						<hr class=".col-md-11-auto">
+	  				</div>
+	  			</div>
+	  			<div class="row">
+	  				<div class='col'>
+	  				<label for="hrInfoDlg_eventName"><b>Name of Event:</b></label>
+  						<input type="text" id="hrInfoDlg_eventName" value=${eventName!"UNKNOWN"} readonly size="30">
+	  				</div>
+	  				<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+	  					<label for="hrInfoDlg_date"><b>Date of Event (mm/dd/yy):</b></label>
+  							<input type='text' id="hrInfoDlg_date" value="03/12/20" readonly size='10'>
+  					</div>
+  				</div>
+				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  				<div class="row">
+					<div class='col'>
+  						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_org"><b>Organization:</b></label>
+							<input type='text' id='hrInfoDlg_org' value='Meals on Wheels' readonly size='30'>
+	  				</div>
+  					<div class='col'>
+  						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  						<label for='hrInfoDlg_hrsServed'><b>Hours Served:</b></label>
+  							<input type='text' id="hrInfoDlg_hrsServed" value=${hrsServed!"UNKNOWN"} readonly size='10'>
+  				
+	  				</div>
+	  			</div>
+	  			<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+	  			<div class='row'>
+	  				<div class='col'>
+			  			<label for="hrInfoDlg_desc"><b>Description of Event:</b></label>
+			  				<input type='text' id="hrInfoDlg_desc" value="Did miscellaneous tasks." readonly size='80'>
+			  		</div>
+	  			</div>
+	  	
+			
+  				<div class='row'>
+	  				<div class='col'>
+	  					<h5><b>Address Information</b></h5>
+  						<hr class=".col-md-11-auto">
+	  				</div>
+	  			</div>
+  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  				<div class='row'>
+  					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  						<label for="hrInfoDlg_address"><b>Address:</b></label>
+  							<input type="text" id="hrInfoDlg_address" value="118 Main Street" readonly size='15'>
+					</div>
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_city"><b>City:</b></label>
+							<input type="text" id="hrInfoDlg_city" value="Sherman" readonly size='15'>
+  					</div>
+  					<div class='col'>
+		  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+		  				<label for="hrInfoDlg_zip"><b>Zip Code:</b></label>
+  							<input type="text" id="hrInfoDlg_zip" value="75090" readonly size='5'>
+  					</div>
+  					<div class='col'>
+  						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+		  				<label for="hrInfoDlg_state"><b>State:</b></label>
+  							<input type="text" id="hrInfoDlg_state" value="TX" readonly size='5'>
+  					</div>
+  				</div>
+  				
+  				<div class='row'>
+	  				<div class='col'>
+	  					<h5><b>Contact Information</b></h5>
+  						<hr class=".col-md-11-auto">
+	  				</div>
+	  			</div>
+  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  				<div class='row'>
+  					<div class='col'>
+		  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  							<label for="hrInfoDlg_contactName"><b>Contact's Name:</b></label>
+  								<input type="text" id="hrInfoDlg_contactName" value="Joe Smith" readonly>
+  					</div>
+  					<div class='col'>
+		  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_contactNumber"><b>Contact's Phone Number:</b></label>
+							<input type="text" id="hrInfoDlg_contactNumber" value="903-331-1241" readonly size='15'>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_contactEmail"><b>Contact's Email:</b></label>
+ 							<input type="text" id="hrInfoDlg_contactEmail" value="randomEmail@gmail.com" readonly>
+ 					</div>
+ 				</div>
+				
+	  		</div>
+	  		</div>
+		</div>
+	 </div>
 
 <!-- JavaScript file that will allow us to use jquery widgets -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

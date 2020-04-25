@@ -6,6 +6,11 @@ import java.util.List;
 import srv.domain.ServiceHours;
 import srv.domain.event.Event;
 
+/**
+ * The methods in this class are just a temporary stand in until the ServiceHourDao is completed.
+ * @author Lydia House
+ *
+ */
 public class ServiceHoursService {
 	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
 	
