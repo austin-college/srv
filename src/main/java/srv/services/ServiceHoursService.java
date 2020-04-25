@@ -3,8 +3,8 @@ package srv.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import srv.domain.ServiceHours;
 import srv.domain.event.Event;
+import srv.domain.serviceHours.ServiceHours;
 
 /**
  * The methods in this class are just a temporary stand in until the ServiceHourDao is completed.
