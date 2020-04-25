@@ -5,6 +5,7 @@ import java.util.List;
 
 import srv.domain.ServiceHours;
 import srv.domain.event.Event;
+import srv.domain.serviceClient.ServiceClient;
 
 /**
  * The methods in this class are just a temporary stand in until the ServiceHourDao is completed.
@@ -59,4 +60,27 @@ public class ServiceHoursService {
 			 } 
 		  }
 	}
+	
+	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, String date, String desc)   {
+
+		int index = 0;
+		for(ServiceHours h : hrs) {
+			
+			if(h.getShid() == id) {
+				
+				h.setEventName(new Event().setTitle(eName));
+				h.setServedPet(new ServiceClient().setName(org));
+				h.setHours(hrsServed);
+				h.setDate(date);
+				h.setDescritpion(desc);
+			
+				break;
+			}
+			
+			index++;
+		}
+		
+		return hrs.get(index);
+}
+	
 }	

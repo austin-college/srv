@@ -1,0 +1,19 @@
+<tr id="row${hrs.shid?c}">
+	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
+	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
+	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
+	<td>
+		<!-- Buttons to open edit/delete hours dialog  -->
+		<button type="button" class="edit btn" onEditClick="${hrs.shid?c}">
+			<span class="fas fa-pencil-alt"></span> 
+			Edit
+		</button>
+	</td>
+	<td>
+		 <button type="button" class="del btn" onDelClick="${hrs.shid?c}">
+			<span class="fas fa-trash-alt"></span>  
+			Delete 
+		</button>
+	</td>
+</tr>

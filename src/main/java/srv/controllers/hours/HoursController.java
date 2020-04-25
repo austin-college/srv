@@ -79,6 +79,46 @@ public class HoursController {
 		return mav;
 			
 	}
+	
+	/**
+	 * Ajax renders a new page updating the selected service hour from the table.
+	 * 
+	 * @param request
+	 * @param response
+	 * @return MAV of the updated service hour row to the table
+	 */
+	@PostMapping("/ajax/editHour")
+	public ModelAndView ajaxServiceHourUpdate(HttpServletRequest request, HttpServletResponse response) {
+			
+		response.setContentType("text/html"); 
+		
+		// Getting the data from function call in the javascript file so we can pass it to the update method in the service class
+		int id = Integer.parseInt(request.getParameter("ID")); 
+		String eventName = request.getParameter("eventName"); 
+		double hrs = Double.parseDouble(request.getParameter("hrsServed"));
+		String orgName = request.getParameter("org");
+		String date = request.getParameter("hrDate");
+		String description = request.getParameter("desc");
+
+		
+	
+		// Delegates to the Committee Service object for help on updating a committee.
+		ServiceHours updatedHour = hrSvc.updateHour(id, eventName, orgName, hrs, date, description);
+	
+			
+		/*
+		 * Prepare and render the response of the template's model for the HTTP response
+		 */
+		ModelAndView mav = new ModelAndView("/hours/ajax_singleHourRow");
+
+		mav.addObject("shid", updatedHour.getShid() );
+		mav.addObject("title", updatedHour.getEventName().getTitle());
+		mav.addObject("hours", updatedHour.getHours());
+
+	
+		return mav;
+		
+	}
 
 	/**
 	 * Action to display add hours page. See addHours.html

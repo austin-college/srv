@@ -101,4 +101,13 @@ th {
 #hrInfoDlg_desc {
 	line-height: 75px;
 }
+
+/* Following style are similar to the ones above except this time it is for an edit service hours dialog */
+#editDlg .row {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+#editDlg_desc {
+	line-height: 75px;
+}
 /* End credit to lydia, thanks lydia */
