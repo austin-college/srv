@@ -1,33 +1,75 @@
-<#import "/main_layout.html" as layout/>
+<#import "/main_layout.html" as layout />
 <@layout.stdpage "Board Member Home" "home.css">
 
 <div id="mainContainer" class="container">
-	<div class="row" style="padding-left:20px; padding-bottom:20px">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col-md">
 			<h1>Welcome, Board Member</h1>
 			<p>Please select the action you would like to take.</p>
 		</div>
+		<!-- Future navigation buttons for easy access to ApproveHours -->
 	</div>
-	
+
 	<!-- Layout of BM actions must be decided -->
 	<!-- table title. -->
-	<div class= "row" style="padding-left:20px; padding-bottom:20px">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col">
-			<h2>Assigned Pets</h2>
+			<h2>Hours To Be Approved</h2>
 		</div>
 	</div>
-	
-	<!-- Jira says this will hold a list of assigned pets, but the site map says it links to a 
-	"my pets" page and a "hours" page. I'm following the site map for now. -->
-	<div class= "row" style="padding-left:20px; padding-bottom:20px">
-		<div class="col">
-			<p>
-				<i><a href>My Pets</a></i>
-				<br>
-				<i><a href>Hours</a></i>
-			</p>
-		</div>
-	</div>
-	
+
+	<!-- A  (TODO/MAKE LIVE) list (data-table) of all to-be-approved serviceEvents, includes buttons to view full info, approve, and reject servant event forms -->
+	<table id="dtDynamicVerticalScroll" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th class="th-sm">Servant Name</th>
+				<th class="th-sm">Event</th>
+				<th class="th-sm">Hours Served</th>
+				<th class="th-sm">Contact Name</th>
+				<th class="th-sm">Contact E-Mail</th>
+				<th class="th-sm">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Tiger Nixon</td>
+				<td>System Architect</td>
+				<td>Edinburgh</td>
+				<td>61</td>
+				<td>2011/04/25</td>
+				<!--Approve, reject and full view buttons-->
+				<td><a class="btn edit" href="#">
+				<i class="icon-check-sign icon-large"></i> Approve
+				</a>
+				<a class="btn btn-danger del" href="#">
+				<i class="icon-trash icon-large"></i> Reject
+				</a>
+				<a class="btn edit" href="#">
+				<i class="icon-trash icon-large"></i> View
+				</a>
+				</td>
+				
+			</tr>
+			<tr>
+				<td>Garrett Winters</td>
+				<td>Accountant</td>
+				<td>Tokyo</td>
+				<td>63</td>
+				<td>2011/07/25</td>
+				<td>$170,750</td>
+			</tr>
+			<tr>
+				<td>Ashton Cox</td>
+				<td>Junior Technical Author</td>
+				<td>San Francisco</td>
+				<td>66</td>
+				<td>2009/01/12</td>
+				<td>$86,000</td>
+			</tr>
+		</tbody>
+		<tfoot>
+		</tfoot>
+	</table>
+
 </div>
 </@layout.stdpage>
