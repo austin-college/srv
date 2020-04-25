@@ -1,5 +1,6 @@
 package srv.domain.event;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import srv.domain.user.User;
  * 
  *         Importantly Event also holds and controls a list of servants
  */
-public class Event {
+public class Event implements Serializable{
 
 	private int eid;
 	private String title; // I'm not sure each event will have title

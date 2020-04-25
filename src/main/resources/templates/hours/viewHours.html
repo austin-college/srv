@@ -1,5 +1,8 @@
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Hours Served" "hoursStyle.css">
+<!-- CSS style for jquery widgets -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<@layout.stdpage "Hours Served" "hoursStyle.css" "hours/servantHrsList.js">
 
 <div class="container-mainContainer">
 	<div class="row" style="padding-left:20px; padding-bottom:20px">
@@ -23,7 +26,10 @@
 						View Profile
 					</button>
 					<!-- Button that takes you to add hours page -->
-					<a href="addHours" class = "btn btn-md btn-dark addBtn">Add hours</a>
+					<a href="addHours" class = "btn btn-md btn-dark addBtn">
+						<span class="	fas fa-plus-circle"></span>
+						Add hours
+					</a>
 				</div>
 			</div>
 		</div>
@@ -41,80 +47,38 @@
 			<!-- container thats creating a table that will hold our data-->
 			<div class="container ui-widget table-responsive">
 				<div Id="table" class="row">
-					<table id="comm_tbl" class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+					<table id="hrs_tbl" class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 						<thead>
 							<tr class = "ui-widget-header">
+								<th>ID</th>
 								<th>Service Event</th>
 								<th>Hours Served</th>
 								<th>Status</th>
 								<th colspan='2'>Edit/Delete</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>Spending time with Toys for tots </td>
-								<td>6</td>
-								<td>Accepted</td>
+						<tbody id ="hrs_tbl_body">
+							<#list hours as hrs>
+								<tr id="row${hrs.shid?c}">
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
 								<td>
 									<!-- Buttons to open edit/delete hours dialog  -->
 									<button type="button" class="edit btn">
-										<span class="glyphicon glyphicon-pencil"></span>Edit
+										<span class="fas fa-pencil-alt"></span> 
+					  					Edit
 									</button>
 								</td>
 								<td>
-			   						<button type="button" class="del btn">
-									<span class="glyphicon glyphicon-remove-sign"></span>Delete 
+			   						 <button type="button" class="del btn" onDelClick="${hrs.shid?c}">
+										<span class="fas fa-trash-alt"></span>  
+					  					Delete 
 									</button>
 								</td>
 							</tr>
-							<tr>
-								<td>Teaching part time</td>
-								<td>2</td>
-								<td>Pending</td>
-								<td>
-									<!-- Buttons to open edit/delete hours dialog  -->
-									<button type="button" class="edit btn">
-										<span class="glyphicon glyphicon-pencil"></span>Edit
-									</button>
-								</td>
-								<td>
-			   						<button type="button" class="del btn">
-									<span class="glyphicon glyphicon-remove-sign"></span>Delete 
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Working with food house</td>
-								<td>4</td>
-								<td>Rejected</td>
-								<td>
-									<!-- Buttons to open edit/delete hours dialog  -->
-									<button type="button" class="edit btn">
-										<span class="glyphicon glyphicon-pencil"></span>Edit
-									</button>
-								</td>
-								<td>
-			   						<button type="button" class="del btn">
-									<span class="glyphicon glyphicon-remove-sign"></span>Delete 
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>Volunteering at service station</td>
-								<td>2</td>
-								<td>Pending</td>
-								<td>
-									<!-- Buttons to open edit/delete hours dialog  -->
-									<button type="button" class="edit btn">
-										<span class="glyphicon glyphicon-pencil"></span>Edit
-									</button>
-								</td>
-								<td>
-			   						<button type="button" class="del btn">
-									<span class="glyphicon glyphicon-remove-sign"></span>Delete 
-									</button>
-								</td>
-							</tr>
+							</#list>
 						</tbody>
 					</table>
 				</div>
@@ -123,71 +87,124 @@
 	</div>
 </div>
 
+      <!-- The div below defines the delete dialog for deleting a served hour which is hidden by JS and exposed by JQ. -->
+	  <div id="delDlg" title="DELETE SELECTED HOURS" class="ui-widget delWid">
+	  	<p id= "del_confirm">
+	  	    <br><br>
+	  	  <span id="delMsg1"></span>
+			<br><br>
+		  <span id="delMsg2"></span>
+	    </p>
+	  </div>
+	  
+	  <!--  The div below shows a modal view of the service hour information (contact, date, etc) when the row was selected -->
+	  <div id="hrInfoDlg" title="Service Hour Information" class="ui-widget">
+	  	<div class="container">
+	  		<div class="row">
+	  		<div class='form-group'>
+	  		
+	  			<div class='row'>
+	  				<div class='col'>
+	  					<h5><b>Event Information</b></h5>
+  						<hr class=".col-md-11-auto">
+	  				</div>
+	  			</div>
+	  			<div class="row">
+	  				<div class='col'>
+	  				<label for="hrInfoDlg_eventName"><b>Name of Event:</b></label>
+  						<input type="text" id="hrInfoDlg_eventName" value=${eventName!"UNKNOWN"} readonly size="30">
+	  				</div>
+	  				<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+	  					<label for="hrInfoDlg_date"><b>Date of Event (mm/dd/yy):</b></label>
+  							<input type='text' id="hrInfoDlg_date" value="03/12/20" readonly size='10'>
+  					</div>
+  				</div>
+				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  				<div class="row">
+					<div class='col'>
+  						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_org"><b>Organization:</b></label>
+							<input type='text' id='hrInfoDlg_org' value='Meals on Wheels' readonly size='30'>
+	  				</div>
+  					<div class='col'>
+  						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  						<label for='hrInfoDlg_hrsServed'><b>Hours Served:</b></label>
+  							<input type='text' id="hrInfoDlg_hrsServed" value=${hrsServed!"UNKNOWN"} readonly size='10'>
+  				
+	  				</div>
+	  			</div>
+	  			<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+	  			<div class='row'>
+	  				<div class='col'>
+			  			<label for="hrInfoDlg_desc"><b>Description of Event:</b></label>
+			  				<input type='text' id="hrInfoDlg_desc" value="Did miscellaneous tasks." readonly size='80'>
+			  		</div>
+	  			</div>
+	  	
+			
+  				<div class='row'>
+	  				<div class='col'>
+	  					<h5><b>Address Information</b></h5>
+  						<hr class=".col-md-11-auto">
+	  				</div>
+	  			</div>
+  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  				<div class='row'>
+  					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  						<label for="hrInfoDlg_address"><b>Address:</b></label>
+  							<input type="text" id="hrInfoDlg_address" value="118 Main Street" readonly size='15'>
+					</div>
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_city"><b>City:</b></label>
+							<input type="text" id="hrInfoDlg_city" value="Sherman" readonly size='15'>
+  					</div>
+  					<div class='col'>
+		  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+		  				<label for="hrInfoDlg_zip"><b>Zip Code:</b></label>
+  							<input type="text" id="hrInfoDlg_zip" value="75090" readonly size='5'>
+  					</div>
+  					<div class='col'>
+  						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+		  				<label for="hrInfoDlg_state"><b>State:</b></label>
+  							<input type="text" id="hrInfoDlg_state" value="TX" readonly size='5'>
+  					</div>
+  				</div>
+  				
+  				<div class='row'>
+	  				<div class='col'>
+	  					<h5><b>Contact Information</b></h5>
+  						<hr class=".col-md-11-auto">
+	  				</div>
+	  			</div>
+  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  				<div class='row'>
+  					<div class='col'>
+		  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+  							<label for="hrInfoDlg_contactName"><b>Contact's Name:</b></label>
+  								<input type="text" id="hrInfoDlg_contactName" value="Joe Smith" readonly>
+  					</div>
+  					<div class='col'>
+		  				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_contactNumber"><b>Contact's Phone Number:</b></label>
+							<input type="text" id="hrInfoDlg_contactNumber" value="903-331-1241" readonly size='15'>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<label for="hrInfoDlg_contactEmail"><b>Contact's Email:</b></label>
+ 							<input type="text" id="hrInfoDlg_contactEmail" value="randomEmail@gmail.com" readonly>
+ 					</div>
+ 				</div>
+				
+	  		</div>
+	  		</div>
+		</div>
+	 </div>
 
-<!-- TODO Pre-Populate text fields with event info so that user may edit and submit form -->
-<div>
-	<!-- Modal Dialog to edit hours-->
-	<div id="srvEditHrs" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-			<!-- addHoursForm -->
-			<div class="modal-content">
-				<form id="srvEditHours" method="post">
-					<h4 class="modal-title">Record of Servant Hours</h4>
-					<!-- Exit button -->
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<div class="modal-body">
-						<!-- Servant information fields -->
-						<div class="form-group">
-							<label for="srvName">Name: </label> <input type="text"
-								class="form-control" id="srvName"> <label for="srvPhone">Phone
-								#: </label> <input type="text" class="form-control" id="srvPhone">
-							<label for="srvEmail">E-Mail: </label> <input type="text"
-								class="form-control" id="srvEmail"> <label
-								for="srvStuId">Student ID: </label> <input type="text"
-								class="form-control" id="srvStuId">
-						</div>
-						<!-- Service information fields -->
-						<div class="form-group">
-							<label for="srvDate">Date: </label> <input type="text"
-								class="form-control" id="srvDate"> <label for="srvHours">Hours
-								Served: </label> <input type="text" class="form-control" id="srvHours">
-							<label for="srvLocation">Project Location: </label> <input
-								type="text" class="form-control" id="srvLocation"> <label
-								for="srvDescription">Description: </label> <input type="text"
-								class="form-control" id="srvName"> <label
-								for="srvContactName">Contact Name: </label> <input type="text"
-								class="form-control" id="srvContactName"> <label
-								for="srvContactPhone">Description: </label> <input type="text"
-								class="form-control" id="srvContactPhone"> <label
-								for="srvCampusOrg">Campus Organization: </label> <input
-								type="text" class="form-control" id="srvName">
-						</div>
-					</div>
-					<!-- Modal Footer -->
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Submit</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-<div>
-<!-- TODO Fill in modal content with warnings and footer with big red DELETE button -->
-<!-- Modal Dialog to edit hours-->
-	<div id="srvAreYouSureHrs" class="modal fade" role="dialog">
-		<div class = modal-dialog>
-			<div class="modal-content">
-				<h4 class="modal-title">Are you sure?</h4>
-				<!-- Exit button -->
-				<button type="button" class="close modal-title" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
+<!-- JavaScript file that will allow us to use jquery widgets -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </@layout.stdpage>

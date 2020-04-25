@@ -26,8 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
  
-        //http.csrf().disable();
- 
+        http.csrf().disable(); // uncommented this for ajax requests
+      
     	http.authorizeRequests()
     		.antMatchers("/", "/splash",  "/login", "/test/**", "/logout", "/css_style/**", "/js/**", "/images/**", "**/favicon.ico" ).permitAll()
     		.antMatchers("/**").hasRole(AppConstants.ROLE_SERVANT);
