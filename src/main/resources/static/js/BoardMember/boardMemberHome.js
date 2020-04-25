@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	
+//Vertical Scroll table
 $('#dtDynamicVerticalScroll').DataTable({
 	"paging": false,
 	"searching": false,"info": false,
