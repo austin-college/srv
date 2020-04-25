@@ -1,5 +1,7 @@
 package srv.domain;
 
+import java.io.Serializable;
+
 import srv.domain.event.Event;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.user.User;
@@ -14,17 +16,20 @@ import srv.domain.user.User;
  *	Initially this class is keeping track of single event, 
  *	but later it can be turned into a class tracking of all service opportunities (I need to hear more opinions about this) 
  */
-public class ServiceHours {
+public class ServiceHours implements Serializable{
 
+	private Integer shid; // Unique id for each hour
 	private ServiceClient servedPet; // Associated Pet
 	private User servant; // Servant worked for Pet
 	private Event eventName; // Event held for service
-	private double hours;	// Hours served
+	private Double hours;	// Hours served
 	private String date; // Date Served
 	private String reflection; // Thoughts on the event
 	private String descritpion; // Description of the event
+	private String status; // Tells if the hours are pending, approved or rejected.
 	/**
 	 * Constructor for ServiceHours
+	 * @param id
 	 * @param servedPet
 	 * @param servant
 	 * @param event
@@ -32,12 +37,15 @@ public class ServiceHours {
 	 * @param reflection
 	 * @param description
 	 */
-	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours) {
+	public ServiceHours(Integer id, ServiceClient servedPet, User servant, Event eventName, Double hours, 
+			String stat) {
 		super();
+		this.shid = id;
 		this.servedPet = servedPet;
 		this.servant = servant;
 		this.eventName = eventName;
 		this.hours = hours;
+		this.status = stat;
 	}
 	
 	/**
@@ -64,14 +72,26 @@ public class ServiceHours {
 		this.descritpion = description;
 	}
 
+	public ServiceHours() {
+		super();
+	}
 
+	public Integer getShid() {
+		return this.shid;
+	}
+	
+	public ServiceHours setShid(Integer id) {
+		this.shid = id;
+		return this;
+	}
 	public ServiceClient getServedPet() {
 		return servedPet;
 	}
 
 
-	public void setServedPet(ServiceClient servedPet) {
+	public ServiceHours setServedPet(ServiceClient servedPet) {
 		this.servedPet = servedPet;
+		return this;
 	}
 
 
@@ -80,8 +100,9 @@ public class ServiceHours {
 	}
 
 
-	public void setServant(User servant) {
+	public ServiceHours setServant(User servant) {
 		this.servant = servant;
+		return this;
 	}
 
 
@@ -90,8 +111,9 @@ public class ServiceHours {
 	}
 
 
-	public void setEventName(Event eventName) {
+	public ServiceHours setEventName(Event eventName) {
 		this.eventName = eventName;
+		return this;
 	}
 
 
@@ -100,8 +122,9 @@ public class ServiceHours {
 	}
 
 
-	public void setHours(double hours) {
+	public ServiceHours setHours(double hours) {
 		this.hours = hours;
+		return this;
 	}
 
 
@@ -110,8 +133,9 @@ public class ServiceHours {
 	}
 
 
-	public void setDate(String date) {
+	public ServiceHours setDate(String date) {
 		this.date = date;
+		return this;
 	}
 
 
@@ -120,8 +144,9 @@ public class ServiceHours {
 	}
 
 
-	public void setReflection(String reflection) {
+	public ServiceHours setReflection(String reflection) {
 		this.reflection = reflection;
+		return this;
 	}
 
 
@@ -130,8 +155,18 @@ public class ServiceHours {
 	}
 
 
-	public void setDescritpion(String descritpion) {
+	public ServiceHours setDescritpion(String descritpion) {
 		this.descritpion = descritpion;
+		return this;
+	}
+	
+	public String getStatus() {
+		return this.status;
+	}
+	
+	public ServiceHours setStatus(String stat) {
+		this.status = stat;
+		return this;
 	}
 	
 	

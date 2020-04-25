@@ -1,5 +1,6 @@
 package srv.controllers.hours;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,9 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import srv.domain.ServiceHours;
+import srv.domain.event.Event;
+import srv.services.ServiceHoursService;
 
 /**
  * This is the algorithm that prepares the response.
@@ -22,6 +28,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class HoursController {
 
 	private static Logger log = LoggerFactory.getLogger(HoursController.class);
+	
+	private ServiceHoursService hrSvc = new ServiceHoursService();
+	
 
 	/**
 	 * Splash action displays the splash page. See splash.html template
@@ -36,8 +45,39 @@ public class HoursController {
 	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
+		
+		
+		
 
+		mav.addObject("hours", hrSvc.listHours());
 		return mav;
+	}
+	
+	/**
+	 * Ajax renders a new page removing the selected service hour from the table.
+	 * 
+	 * @param request
+	 * @param response
+	 * @return MAV of the deleted service hour row to the table
+	 */
+	@PostMapping("/ajax/delHour")
+	public ModelAndView ajaxServiceHourDelete(HttpServletRequest request, HttpServletResponse response)	{
+		
+		response.setContentType("text/html");  // Ajax responses will be html snippets.
+		
+		int id = Integer.parseInt(request.getParameter("ID")); // Holds the service hour's ID parameter
+		
+		hrSvc.removeServiceHour(id);
+		
+		System.out.println(hrSvc.listHours().size());
+		/*
+		 * Prepare and render the response of the template's model for the HTTP response
+		 */
+		ModelAndView mav = new ModelAndView("/hours/ajax_delServiceHr");
+		mav.addObject("shid", id);
+	
+		return mav;
+			
 	}
 
 	/**
