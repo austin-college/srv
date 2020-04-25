@@ -1,4 +1,4 @@
-package srv.controllers.hours;
+package srv.controllers.boardMember;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
