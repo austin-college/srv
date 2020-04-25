@@ -1,4 +1,4 @@
-package srv.domain;
+package srv.domain.serviceHours;
 
 import java.io.Serializable;
 

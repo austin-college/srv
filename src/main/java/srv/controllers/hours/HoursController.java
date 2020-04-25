@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import srv.domain.ServiceHours;
 import srv.domain.event.Event;
+import srv.domain.serviceHours.ServiceHours;
 import srv.services.ServiceHoursService;
 
 /**
