@@ -1,8 +1,34 @@
-.my-custom-scrollbar {
-position: relative;
-height: 200px;
-overflow: auto;
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
 }
-.table-wrapper-scroll-y {
-display: block;
+
+/* Credit to Lydia from listStyle1 */
+.addBtn:hover{
+	background-color:#db9401;
 }
+.addBtn:focus{
+	background-color:#db9401;
+}
+/* Style settings for the edit and add buttons.*/
+.edit, .addBtn{
+	background-color: #db9401;
+	border-color: #db9401;
+	color: white;
+	text-align: center;
+}
+/* Style settings for the delete buttons.*/
+.del{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}
+/* End credit to lydia, thanks lydia */
