@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import srv.domain.ServiceHours;
+import srv.domain.serviceHours.ServiceHours;
 import srv.domain.event.Event;
 import srv.domain.user.UserDao;
 
