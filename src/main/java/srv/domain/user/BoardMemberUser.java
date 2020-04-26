@@ -2,6 +2,7 @@ package srv.domain.user;
 
 import java.util.ArrayList;
 
+import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.serviceClient.ServiceClient;
 
@@ -16,9 +17,8 @@ import srv.domain.serviceClient.ServiceClient;
 public class BoardMemberUser extends ServantUser {
 
 	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
-
-	public BoardMemberUser(String userID, char classification) {
-		super(userID, classification);
+	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, char classification) {
+		super(uid, userID, contactInfo, classification);
 		// TODO Auto-generated constructor stub
 	}
 
