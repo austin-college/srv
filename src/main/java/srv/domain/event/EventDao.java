@@ -7,7 +7,7 @@ import srv.domain.user.User;
 
 public interface EventDao {
 
-	public List<User> listAll() throws Exception;
+	public List<Event> listAll() throws Exception;
 
 	/**
 	 * @param eventID
@@ -21,7 +21,7 @@ public interface EventDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public Event create(String title, String addr, String date, int cid, String eventType, boolean continuous,
+	public Event create(String title, String addr, int cid, String date, String eventType, boolean continuous,
 			int volunteersNeeded, int organizationId) throws Exception;
 
 	/**
@@ -30,12 +30,8 @@ public interface EventDao {
 	 */
 	public void delete(int eid) throws Exception;
 
-	/**
-	 * @param eid    unique event ID
-	 * @param newVal
-	 * @throws Exception
-	 */
-	public void changePassword(int eid, String newPassword) throws Exception;
+	public void update(int eid, String title, String addr, int cid, String date, String eventType, boolean continuous,
+			int volunteersNeeded, int organizationId) throws Exception;
 
 	/**
 	 * @param eid unique event ID
@@ -43,18 +39,4 @@ public interface EventDao {
 	 * @throws Exception
 	 */
 	public Event fetchEventById(int eid) throws Exception;
-
-	/**
-	 * @param cid users contact id
-	 * @return
-	 * @throws Exception
-	 */
-	public Contact fetchEventContactById(int cid) throws Exception;
-
-	/**
-	 * @param uid
-	 * @return
-	 * @throws Exception
-	 */
-	public User fetchFromParticipantsList(int uid) throws Exception;
 }

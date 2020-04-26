@@ -1,6 +1,7 @@
 package srv.domain.user;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 import srv.domain.contact.Contact;
 
@@ -12,7 +13,7 @@ import srv.domain.contact.Contact;
  *         username, and will include email, firstname, lastname,
  *         phonenumber and more.
  */
-public class User {
+public class User implements Serializable{
 
 	private Integer uid; // unique id for each client for database
 	private String username; // the user's identification info to log in example AJ Pritchard, apritchard18

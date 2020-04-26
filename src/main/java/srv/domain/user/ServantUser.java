@@ -1,6 +1,7 @@
 package srv.domain.user;
 
 import srv.domain.ServiceGroup;
+import srv.domain.contact.Contact;
 
 /**
  * This is class is an extension of the User class, and represents
@@ -19,8 +20,8 @@ public class ServantUser extends User {
 	private double totalHoursServed; // the total amount of hours they have served
 	//TODO Add favorite categories for events
 
-	public ServantUser(String userID, char classification) {
-		super(userID);
+	public ServantUser(Integer uid, String userID,Contact contactInfo, char classification) {
+		super(uid, userID, contactInfo);
 		this.classification = classification;
 		totalHoursServed = 0.0;
 	}

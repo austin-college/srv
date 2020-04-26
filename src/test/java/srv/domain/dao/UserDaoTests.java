@@ -20,6 +20,7 @@ class UserDaoTests {
 	
 	@Autowired
 	UserDao dao; 
+	
 	/*
 	 * Testing fetchUserById(int i) should return the user info for the user with id
 	 * i.

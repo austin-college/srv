@@ -2,14 +2,11 @@ package srv.domain.event;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 
 import srv.domain.contact.Contact;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.user.ServantUser;
-import srv.domain.user.User;
 
 /**
  * @author Segun Adekunle
