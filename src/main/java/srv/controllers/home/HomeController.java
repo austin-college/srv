@@ -80,6 +80,14 @@ public class HomeController {
 		return mav;
 	}
 	
+	@GetMapping("/home/admin/editBM")
+	public ModelAndView adminEditBMAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("home/editBM");
+
+		return mav;
+	}
+	
 	@GetMapping("/home/admin")
 	public ModelAndView adminAction(HttpServletRequest request, HttpServletResponse response) {
 
