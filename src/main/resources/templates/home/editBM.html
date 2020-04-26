@@ -1,4 +1,81 @@
 <#import "/main_layout.html" as layout />
 <@layout.stdpage "Edit Board Members" "home.css">
-
+<div id="mainContainer" class="container">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col-md">
+			<h1>Manage Board Members and Co-Chairs</h1>
+			<p>Please select the action you would like to take.</p>
+		</div>
+	</div>
+	
+	<!-- A  (TODO/MAKE LIVE) list (data-table) of all board members and co-chairs -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<!-- table title. -->
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<div class="col">
+				<h2>
+					Board Members
+				</h2>
+			</div>
+		</div>
+	
+	
+		<!-- board member table -->
+		<table id="dtDynamicVerticalScroll"
+			class="table table-striped table-bordered table-sm" cellspacing="0"
+			width="100%">
+			<thead>
+				<tr>
+					<th class="th-sm">Name</th>
+					<th class="th-sm">Contact Phone #</th>
+					<th class="th-sm">Contact E-Mail</th>
+					<th class="th-sm">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Sandra Bullock</td>
+					<td>(123)456-7890</td>
+					<td>sbullock@gmail.com</td>
+	
+					<!--edit button-->
+	
+					<td><a class="btn edit" href="#"> <i
+							class="icon-check-sign icon-large"></i>Edit
+	
+					</a></td>
+				</tr>
+				<tr>
+					<td>Oprah Winfrey</td>
+					<td>(836)928-1678</td>
+					<td>owinfrey@gmail.com</td>
+					<!--edit button-->
+	
+					<td><a class="btn edit" href="#"> <i
+							class="icon-check-sign icon-large"></i>Edit
+	
+					</a></td>
+				</tr>
+				<tr>
+	
+				</tr>
+				<tr>
+					<td>Channing Tatum</td>
+					<td>(389)378-2939</td>
+					<td>ctatum@gmail.com</td>
+					<!--edit button-->
+	
+					<td><a class="btn edit" href="#"> <i
+							class="icon-check-sign icon-large"></i>Edit
+	
+					</a></td>
+	
+				</tr>
+			</tbody>
+			<tfoot>
+			</tfoot>
+		</table>
+	</div>
+	
+</div>
 </@layout.stdpage>
