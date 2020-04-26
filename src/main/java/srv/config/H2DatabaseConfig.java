@@ -10,6 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.user.JdbcTemplateUserDao;
 
 /**
  * This class is the home for runtime configuration for our database.
@@ -41,6 +42,11 @@ public class H2DatabaseConfig {
     @Bean
     public JdbcTemplateContactDao contactDao() {
     	return new JdbcTemplateContactDao();
+    }
+    
+    @Bean
+    public JdbcTemplateUserDao UserDao() {
+    	return new JdbcTemplateUserDao();
     }
     
 //    @Bean

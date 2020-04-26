@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import srv.domain.event.Event;
-import srv.domain.serviceHours.ServiceHours;
-import srv.services.ServiceHoursService;
 
 /**
  * This is the algorithm that prepares the response.
@@ -29,7 +26,7 @@ public class HoursController {
 
 	private static Logger log = LoggerFactory.getLogger(HoursController.class);
 	
-	private ServiceHoursService hrSvc = new ServiceHoursService();
+	//private ServiceHoursService hrSvc = new ServiceHoursService();
 	
 
 	/**
@@ -49,7 +46,7 @@ public class HoursController {
 		
 		
 
-		mav.addObject("hours", hrSvc.listHours());
+	//	mav.addObject("hours", hrSvc.listHours());
 		return mav;
 	}
 	
@@ -67,9 +64,9 @@ public class HoursController {
 		
 		int id = Integer.parseInt(request.getParameter("ID")); // Holds the service hour's ID parameter
 		
-		hrSvc.removeServiceHour(id);
+		//hrSvc.removeServiceHour(id);
 		
-		System.out.println(hrSvc.listHours().size());
+		//System.out.println(hrSvc.listHours().size());
 		/*
 		 * Prepare and render the response of the template's model for the HTTP response
 		 */
@@ -103,7 +100,7 @@ public class HoursController {
 		
 	
 		// Delegates to the Committee Service object for help on updating a committee.
-		ServiceHours updatedHour = hrSvc.updateHour(id, eventName, orgName, hrs, date, description);
+	//	ServiceHours updatedHour = hrSvc.updateHour(id, eventName, orgName, hrs, date, description);
 	
 			
 		/*
@@ -111,9 +108,9 @@ public class HoursController {
 		 */
 		ModelAndView mav = new ModelAndView("/hours/ajax_singleHourRow");
 
-		mav.addObject("shid", updatedHour.getShid() );
-		mav.addObject("title", updatedHour.getEventName().getTitle());
-		mav.addObject("hours", updatedHour.getHours());
+//		mav.addObject("shid", updatedHour.getShid() );
+//		mav.addObject("title", updatedHour.getEventName().getTitle());
+//		mav.addObject("hours", updatedHour.getHours());
 
 	
 		return mav;

@@ -2,8 +2,6 @@ package srv.domain.user;
 
 import java.util.List;
 
-import srv.domain.contact.Contact;
-
 public interface UserDao {
 
 	public List<User> listAll() throws Exception;
@@ -16,7 +14,7 @@ public interface UserDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public User create(String userID, double totalHoursServed, int cid) throws Exception; 
+	public User create(String userID, int cid) throws Exception; 
 
 	/**
 	 * @param uid unique user ID
@@ -31,16 +29,7 @@ public interface UserDao {
 	 */
 	public User fetchUserById(int uid) throws Exception;
 	
-	/**
-	 * @param cid users contact id
-	 * @return
-	 * @throws Exception
-	 */
-	public Contact fetchUserContactById(int cid) throws Exception;
-	
-	public void Update(int uid, String newUsername, double newHoursServed, int newContact) throws Exception;
-
-	public void AddHoursServed(int uid, double amount) throws Exception;
+	public void Update(int uid, String newUsername, int newContact) throws Exception;
 	
 	public void changeUserName(int uid, String newUsername) throws Exception;
 }

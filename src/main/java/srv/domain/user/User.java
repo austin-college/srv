@@ -14,27 +14,22 @@ import srv.domain.contact.Contact;
  */
 public class User {
 
-	private Integer uid; // unique id for each client
-	private String name; // user's name
-	private String role; // the role of the user, we can take it via a string and figure out what role they are fairly easily - might remove
-	private String userID; // the user's identification info to log in
-	private Double totalHoursServed; // the total amount of hours served by the user - we might remove this
+	private Integer uid; // unique id for each client for database
+	private String username; // the user's identification info to log in example AJ Pritchard, apritchard18
 	private Contact contactInfo; // Contact information for the user
-	private Integer cid; // unique ID for contact
 
 	/**
 	 * Constructs a user with a set userID a
 	 * 
 	 * @param userID
 	 */
-	public User(String userID) {
-		setUserID(userID);
+	public User(String username) {
+		setUsername(username);
 	}
 
-	public User(Integer uid, String userID, Double totalHoursServed, Contact contactInfo) {
+	public User(Integer uid, String userID, Contact contactInfo) {
 		this.uid = uid;
-		this.userID = userID;
-		this.totalHoursServed = totalHoursServed;
+		this.username = userID;
 		this.contactInfo = contactInfo;
 	}
 
@@ -105,19 +100,42 @@ public class User {
 	}
 
 	/**
-	 * Takes a userID and a User ArrayList will then search the list for the ID
+	 * Takes a username and a User ArrayList will then search the list for the ID
 	 * 
-	 * @param userID
+	 * @param username
 	 * @param userList
 	 * @return null if not found; a User if its found
 	 */
-	public static User findUser(String userID, ArrayList<User> userList) {
+	public static User findUser(String username, ArrayList<User> userList) {
 		if (userList.size() == 0) {
 			return null;
 		} else {
 			int i = 0;
 			while (i < userList.size()) {
-				if (userID == userList.get(i).getUserID()) {
+				if (username == userList.get(i).getUsername()) {
+					return userList.get(i);
+				}
+				i++;
+			}
+		}
+		// if its not in the array
+		return null;
+	}
+	
+	/**
+	 * Same as above but for the unique database id instead
+	 * 
+	 * @param uid
+	 * @param userList
+	 * @return
+	 */
+	public static User findUser(int uid, ArrayList<User> userList) {
+		if (userList.size() == 0) {
+			return null;
+		} else {
+			int i = 0;
+			while (i < userList.size()) {
+				if (uid == userList.get(i).getUid()) {
 					return userList.get(i);
 				}
 				i++;
@@ -127,21 +145,12 @@ public class User {
 		return null;
 	}
 
-	public String getUserID() {
-		return userID;
+	public String getUsername() {
+		return username;
 	}
 
-	public User setUserID(String userID) {
-		this.userID = userID;
-		return this;
-	}
-
-	public Double getTotalHoursServed() {
-		return totalHoursServed;
-	}
-
-	public User setTotalHoursServed(Double totalHoursServed) {
-		this.totalHoursServed = totalHoursServed;
+	public User setUsername(String username) {
+		this.username = username;
 		return this;
 	}
 
@@ -153,37 +162,13 @@ public class User {
 		this.uid = uid;
 		return this;
 	}
-
-	public Integer getCid() {
-		return cid;
-	}
-
-	public User setCid(Integer cid) {
-		this.cid = cid;
-		return this;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
+	
 	public Contact getContactInfo() {
 		return contactInfo;
 	}
 
-	public void setContactInfo(Contact contactInfo) {
+	public User setContactInfo(Contact contactInfo) {
 		this.contactInfo = contactInfo;
+		return this;
 	}
 }

@@ -18,7 +18,7 @@ class SrvDomainObjectTests {
 		User testUser = new User("hunter");
 
 		assertTrue(testUser != null);
-		assertEquals("hunter", testUser.getUserID());
+		assertEquals("hunter", testUser.getUsername());
 	}
 
 	@Test

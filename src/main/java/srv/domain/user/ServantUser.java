@@ -1,7 +1,6 @@
 package srv.domain.user;
 
 import srv.domain.ServiceGroup;
-import srv.domain.serviceHours.ServiceHours;
 
 /**
  * This is class is an extension of the User class, and represents
@@ -34,9 +33,9 @@ public class ServantUser extends User {
 	 * @param submittedHours
 	 * @return
 	 */
-	public ServiceHours logHours(ServiceHours submittedHours) {
-		return submittedHours;
-	}
+//	public ServiceHours logHours(ServiceHours submittedHours) {
+//		return submittedHours;
+//	}
 
 	public char getClassification() {
 		return classification;

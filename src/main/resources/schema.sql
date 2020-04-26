@@ -38,7 +38,6 @@ CREATE TABLE serviceClients (
 CREATE TABLE users (
 	userId integer auto_increment,
 	username VARCHAR(255),
-	totalHoursServed double,
 	contactId int,
 	primary key (userId),
 	foreign key (contactId) 
@@ -99,9 +98,9 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Housing, Community');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Women, Crisis Support');
 
-insert into users (username, totalHoursServed, contactId) values ('apritchard', 0, 4);
-insert into users (username, totalHoursServed, contactId) values ('hCouturier', 0, 5);
-insert into users (username, totalHoursServed, contactId) values ('eDriscoll', 0, 6);
+insert into users (username, contactId) values ('apritchard', 4);
+insert into users (username, contactId) values ('hCouturier', 5);
+insert into users (username, contactId) values ('eDriscoll', 6);
 
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');

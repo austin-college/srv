@@ -36,10 +36,10 @@ public class BoardMemberHoursListService {
 		Contact blankContact = new Contact();
 		Contact clientContact = new Contact();
 		clientContact.setEmail("fakeEmail@temp.net");
-		User srv1 = new User(1,"602232", 6.0, blankContact);
-		User srv2 = new User(2,"618826",77.0,blankContact);
-		User srv3 = new User(3,"652286", 99.0,blankContact);
-		User srv4 = new User(4,"696632", 3.0, blankContact);
+		User srv1 = new User(1,"602232", blankContact);
+		User srv2 = new User(2,"618826",blankContact);
+		User srv3 = new User(3,"652286",blankContact);
+		User srv4 = new User(4,"696632", blankContact);
 		/*HardCoded pets to be replaced*/
 		ServiceClient cl1 = new ServiceClient(1,"Billy Bob Thornton",clientContact,blankContact,"Sameeha","CatRescue");
 		ServiceClient cl2 = new ServiceClient(1,"Neena Simone",clientContact,blankContact,"Sameeha","CatRescue");

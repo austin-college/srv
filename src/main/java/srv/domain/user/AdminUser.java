@@ -1,6 +1,5 @@
 package srv.domain.user;
 import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceHours.ServiceHours;
 
 /**
  * An instance of this class represents our Admins for the system,
@@ -71,9 +70,9 @@ public class AdminUser extends User {
 	 * @param hoursToApprove
 	 * @return
 	 */
-	public ServiceHours approveHours(ServiceHours hoursToApprove) {
-		return hoursToApprove;
-	}
+//	public ServiceHours approveHours(ServiceHours hoursToApprove) {
+//		return hoursToApprove;
+//	}
 	
 	
 
