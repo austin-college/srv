@@ -10,9 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import srv.domain.contact.Contact;
-import srv.domain.serviceClient.ServiceClientDao;
-import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 
