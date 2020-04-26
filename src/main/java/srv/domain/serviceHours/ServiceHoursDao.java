@@ -10,7 +10,7 @@ import java.util.List;
  * @author fancynine9
  *
  */
-public interface ServiceHourDao {
+public interface ServiceHoursDao {
 
 	public List<ServiceHours> listAll() throws Exception;
 	
