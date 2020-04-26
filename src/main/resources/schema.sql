@@ -60,18 +60,27 @@ CREATE TABLE events (
 	eventType VARCHAR(255),
 	continuous boolean,
 	volunteersNeeded int,
-	organizationId int,
-	participantsListId int,
+	serviceClientId int,
 	primary key (eventId),
 	foreign key (contactId)
 		references contacts(contactId)
+		on delete set NULL,
+	foreign key (serviceClientId)
+		references serviceClients(serviceClientId)
 		on delete set NULL
 );
 
 CREATE TABLE eventParticipants (
-	
+	eventParticipantsId integer auto_increment,
 	eventId integer,
-	userId integer
+	userId integer,
+	primary key (eventParticipantsId),
+	foreign key (eventId)
+		references events(eventId)
+		on delete set NULL,
+	foreign key (userId)
+		references users(userId)
+		on delete set NULL
 );
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
