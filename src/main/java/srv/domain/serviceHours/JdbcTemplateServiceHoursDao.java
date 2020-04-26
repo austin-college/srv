@@ -2,6 +2,8 @@ package srv.domain.serviceHours;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
 
 import srv.domain.JdbcTemplateAbstractDao;
@@ -20,6 +22,8 @@ import srv.domain.JdbcTemplateAbstractDao;
  */
 @ComponentScan("srv.config")
 public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao implements ServiceHoursDao {
+
+	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceHoursDao.class);
 
 	@Override
 	public List<ServiceHours> listAll() throws Exception {
