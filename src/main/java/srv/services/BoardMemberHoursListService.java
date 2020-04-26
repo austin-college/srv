@@ -33,14 +33,15 @@ public class BoardMemberHoursListService {
 	}
 //TODO Make Live with finished ServiceHoursdao
 	public void initialize() {
+		//	public ServantUser(Integer uid, String userID,Contact contactInfo, char classification) {
 		/*HardCoded users to be replaced*/
 		Contact blankContact = new Contact();
 		Contact clientContact = new Contact();
 		clientContact.setEmail("fakeEmail@temp.net");
-		ServantUser srv1 = new ServantUser(1,"602232", blankContact);
-		ServantUser srv2 = new ServantUser(2,"618826",blankContact);
-		ServantUser srv3 = new ServantUser(3,"652286",blankContact);
-		ServantUser srv4 = new ServantUser(4,"696632", blankContact);
+		ServantUser srv1 = new ServantUser(1,"602232", blankContact, 's');
+		ServantUser srv2 = new ServantUser(2,"618826",blankContact, 's');
+		ServantUser srv3 = new ServantUser(3,"652286",blankContact, 's');
+		ServantUser srv4 = new ServantUser(4,"696632", blankContact, 's');
 		/*HardCoded pets to be replaced*/
 		ServiceClient cl1 = new ServiceClient(1,"Billy Bob Thornton",clientContact,blankContact,"Sameeha","CatRescue");
 		ServiceClient cl2 = new ServiceClient(1,"Neena Simone",clientContact,blankContact,"Sameeha","CatRescue");
