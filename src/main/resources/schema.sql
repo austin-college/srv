@@ -60,18 +60,27 @@ CREATE TABLE events (
 	eventType VARCHAR(255),
 	continuous boolean,
 	volunteersNeeded int,
-	organizationId int,
-	participantsListId int,
+	serviceClientId int,
 	primary key (eventId),
 	foreign key (contactId)
 		references contacts(contactId)
+		on delete set NULL,
+	foreign key (serviceClientId)
+		references serviceClients(serviceClientId)
 		on delete set NULL
 );
 
 CREATE TABLE eventParticipants (
-	
+	eventParticipantsId integer auto_increment,
 	eventId integer,
-	userId integer
+	userId integer,
+	primary key (eventParticipantsId),
+	foreign key (eventId)
+		references events(eventId)
+		on delete set NULL,
+	foreign key (userId)
+		references users(userId)
+		on delete set NULL
 );
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
@@ -105,4 +114,6 @@ insert into users (username, contactId) values ('eDriscoll', 6);
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');
 
-
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 1', 'Dummy Address 1', 1, 'EVENT TYPE', '/0/0/0000', false, 5, 1);
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 2', 'Dummy Address 2', 2, 'EVENT TYPE', '/0/0/0000', false, 10, 2);
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 3', 'Dummy Address 3', 3, 'EVENT TYPE', '/0/0/0000', false, 15, 1);
