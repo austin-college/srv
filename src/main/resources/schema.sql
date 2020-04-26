@@ -117,3 +117,9 @@ insert into reasons (reason) values ('Piece Part Drawing');
 insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 1', 'Dummy Address 1', 1, 'EVENT TYPE', '/0/0/0000', false, 5, 1);
 insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 2', 'Dummy Address 2', 2, 'EVENT TYPE', '/0/0/0000', false, 10, 2);
 insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 3', 'Dummy Address 3', 3, 'EVENT TYPE', '/0/0/0000', false, 15, 1);
+
+insert into eventParticipants(eventId, userId) values (1, 2);
+insert into eventParticipants(eventId, userId) values (2, 2);
+insert into eventParticipants(eventId, userId) values (3, 2);
+insert into eventParticipants(eventId, userId) values (1, 1);
+insert into eventParticipants(eventId, userId) values (3, 1);

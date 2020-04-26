@@ -3,7 +3,6 @@ package srv.domain.event;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
 import srv.domain.contact.Contact;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.user.ServantUser;
@@ -15,8 +14,10 @@ import srv.domain.user.ServantUser;
  *         its pet and should also hold its pet.
  * 
  *         Importantly Event also holds and controls a list of servants
+ *         
+ *         Also holds onto the EventParticipants class
  */
-public class Event implements Serializable{
+public class Event implements Serializable {
 
 	private int eid;
 	private String title; // I'm not sure each event will have title
@@ -31,7 +32,6 @@ public class Event implements Serializable{
 
 	public Event() {
 		super();
-
 	}
 
 	public Event(String date, ServiceClient serviceClient, EventType type) {
@@ -45,7 +45,7 @@ public class Event implements Serializable{
 		return eid;
 	}
 
-	public Event  setEid(int eid) {
+	public Event setEid(int eid) {
 		this.eid = eid;
 		return this;
 	}
@@ -90,7 +90,7 @@ public class Event implements Serializable{
 		return type;
 	}
 
-	public Event  setType(EventType type) {
+	public Event setType(EventType type) {
 		this.type = type;
 		return this;
 	}
@@ -99,7 +99,7 @@ public class Event implements Serializable{
 		return continous;
 	}
 
-	public Event  setContinous(boolean continous) {
+	public Event setContinous(boolean continous) {
 		this.continous = continous;
 		return this;
 	}
@@ -108,7 +108,7 @@ public class Event implements Serializable{
 		return volunteersNeeded;
 	}
 
-	public Event  setVolunteersNeeded(int volunteersNeeded) {
+	public Event setVolunteersNeeded(int volunteersNeeded) {
 		this.volunteersNeeded = volunteersNeeded;
 		return this;
 	}
@@ -117,7 +117,7 @@ public class Event implements Serializable{
 		return serviceClient;
 	}
 
-	public Event  setServiceClient(ServiceClient serviceClient) {
+	public Event setServiceClient(ServiceClient serviceClient) {
 		this.serviceClient = serviceClient;
 		return this;
 	}
@@ -126,10 +126,12 @@ public class Event implements Serializable{
 		return participantsList;
 	}
 
-	public Event  setParticipantsList(ArrayList<ServantUser> participantsList) {
+	public Event setParticipantsList(ArrayList<ServantUser> participantsList) {
 		this.participantsList = participantsList;
 		return this;
 	}
 
-
+	public class EventParticipants {
+		
+	}
 }

@@ -28,6 +28,13 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	@Autowired
 	private JdbcTemplateServiceClientDao serviceClientDao;
+	
+	/*
+	 * TODO
+	 * We need an eventParticipantsDao if we want to pull a list of participants
+	 */
+//	@Autowired
+//	private JdbcTemplateEventsParticipantsDao eventParticipantsDao;
 
 	public JdbcTemplateEventDao() {
 		super();
