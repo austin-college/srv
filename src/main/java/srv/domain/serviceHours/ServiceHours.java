@@ -25,7 +25,7 @@ public class ServiceHours implements Serializable{
 	private Double hours;	// Hours served
 	private String date; // Date Served
 	private String reflection; // Thoughts on the event
-	private String descritpion; // Description of the event
+	private String description; // Description of the event
 	private String status; // Tells if the hours are pending, approved or rejected.
 	
 	/**
@@ -70,7 +70,7 @@ public class ServiceHours implements Serializable{
 		this.hours = hours;
 		this.date = eventName.getDate();
 		this.reflection = reflection;
-		this.descritpion = description;
+		this.description = description;
 	}
 
 	public ServiceHours() {
@@ -152,12 +152,12 @@ public class ServiceHours implements Serializable{
 
 
 	public String getDescritpion() {
-		return descritpion;
+		return description;
 	}
 
 
 	public ServiceHours setDescritpion(String descritpion) {
-		this.descritpion = descritpion;
+		this.description = descritpion;
 		return this;
 	}
 	

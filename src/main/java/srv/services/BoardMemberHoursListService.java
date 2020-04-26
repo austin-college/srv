@@ -11,7 +11,6 @@ import srv.domain.user.UserDao;
 
 /**
  * The methods in this class are just a temporary stand in until the ServiceHourDao is completed.
- *
  */
 public class BoardMemberHoursListService {
 
