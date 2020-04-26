@@ -4,7 +4,7 @@
 
 /* Makes background AC blue */
 body { 
-	background-color: #427dc6
+	background-color: white;
 }
 
 /* Style for the announcement title */
@@ -80,13 +80,16 @@ hr {
 
 /* Style for opportunity icon circles */
 .dot {
-  height: 85px;
-  width: 85px;
-  background-color: #e9a911;
-  border-radius: 50%;
+  color:black;
   display: inline-block;
+  line-height: 80px;
+  background-color: #e9a911;
+  border-radius:50%;
+  height: 90px;
+  width: 90px;
+  vertical-align:bottom;
   text-align: center;
-  
+  text-decoration: none;
 }
 
 
@@ -94,6 +97,7 @@ hr {
 /* Change the color of icons on hover */
 .opIcons a:hover {
 	background-color: #a41e34;
+	color:white;
 }
 
 /* Style for types of opportunities */
