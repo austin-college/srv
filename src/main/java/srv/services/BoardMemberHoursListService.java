@@ -35,18 +35,27 @@ public class BoardMemberHoursListService {
 	public void initialize() {
 		//	public ServantUser(Integer uid, String userID,Contact contactInfo, char classification) {
 		/*HardCoded users to be replaced*/
-		Contact blankContact = new Contact();
+		Contact srv1Con = new Contact();
+		srv1Con.setFirstName("Kevin");
+		Contact srv2Con = new Contact();
+		srv2Con.setFirstName("AJ");
+		Contact srv3Con = new Contact();
+		srv3Con.setFirstName("Anyta");
+		Contact srv4Con = new Contact();
+		srv4Con.setFirstName("Lyfe");
+		/*HardCoded blank contacts*/
 		Contact clientContact = new Contact();
+		Contact clientContact2 = new Contact();
 		clientContact.setEmail("fakeEmail@temp.net");
-		ServantUser srv1 = new ServantUser(1,"602232", blankContact, 's');
-		ServantUser srv2 = new ServantUser(2,"618826",blankContact, 's');
-		ServantUser srv3 = new ServantUser(3,"652286",blankContact, 's');
-		ServantUser srv4 = new ServantUser(4,"696632", blankContact, 's');
+		ServantUser srv1 = new ServantUser(1,"602232", srv1Con, 's');
+		ServantUser srv2 = new ServantUser(2,"618826",srv2Con, 's');
+		ServantUser srv3 = new ServantUser(3,"652286",srv3Con, 's');
+		ServantUser srv4 = new ServantUser(4,"696632", srv4Con, 's');
 		/*HardCoded pets to be replaced*/
-		ServiceClient cl1 = new ServiceClient(1,"Billy Bob Thornton",clientContact,blankContact,"Sameeha","CatRescue");
-		ServiceClient cl2 = new ServiceClient(1,"Neena Simone",clientContact,blankContact,"Sameeha","CatRescue");
-		ServiceClient cl3 = new ServiceClient(1,"Johnny Cash",clientContact,blankContact,"Sameeha","CatRescue");
-		ServiceClient cl4 = new ServiceClient(1,"Denzel Curry",clientContact,blankContact,"Sameeha","CatRescue");
+		ServiceClient cl1 = new ServiceClient(1,"Billy Bob Thornton",clientContact,clientContact2,"Sameeha","CatRescue");
+		ServiceClient cl2 = new ServiceClient(1,"Neena Simone",clientContact,clientContact2,"Sameeha","CatRescue");
+		ServiceClient cl3 = new ServiceClient(1,"Johnny Cash",clientContact,clientContact2,"Sameeha","CatRescue");
+		ServiceClient cl4 = new ServiceClient(1,"Denzel Curry",clientContact,clientContact2,"Sameeha","CatRescue");
 		
 		
 		/*Hard Coded serviceHour objects to be replaced*/
