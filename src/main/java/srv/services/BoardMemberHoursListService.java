@@ -11,6 +11,7 @@ import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceClient.ServiceClientDao;
+import srv.domain.user.ServantUser;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 /*Need to check above imports and make sure they are all useful or removed. (Previously HardCoded)*/
@@ -36,10 +37,10 @@ public class BoardMemberHoursListService {
 		Contact blankContact = new Contact();
 		Contact clientContact = new Contact();
 		clientContact.setEmail("fakeEmail@temp.net");
-		User srv1 = new User(1,"602232", 6.0, blankContact);
-		User srv2 = new User(2,"618826",77.0,blankContact);
-		User srv3 = new User(3,"652286", 99.0,blankContact);
-		User srv4 = new User(4,"696632", 3.0, blankContact);
+		ServantUser srv1 = new ServantUser(1,"602232", 6.0, blankContact);
+		ServantUser srv2 = new ServantUser(2,"618826",77.0,blankContact);
+		ServantUser srv3 = new ServantUser(3,"652286", 99.0,blankContact);
+		ServantUser srv4 = new ServantUser(4,"696632", 3.0, blankContact);
 		/*HardCoded pets to be replaced*/
 		ServiceClient cl1 = new ServiceClient(1,"Billy Bob Thornton",clientContact,blankContact,"Sameeha","CatRescue");
 		ServiceClient cl2 = new ServiceClient(1,"Neena Simone",clientContact,blankContact,"Sameeha","CatRescue");
