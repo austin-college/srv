@@ -36,7 +36,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public List<Event> listAll() throws Exception {
 		List<Event> results = getJdbcTemplate().query(
-				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, organizationId, participantsListId",
+				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId from events",
 				new EventRowMapper());
 
 		return results;
@@ -47,7 +47,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			int volunteersNeeded, int organizationId) throws Exception {
 
 		// SQL statement that is to be executed
-		final String sql = "insert into events (title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, organizationId) values(?, ?, ?, ?, ?, ?, ?, ?)";
+		final String sql = "insert into events (title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values(?, ?, ?, ?, ?, ?, ?, ?)";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -94,7 +94,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	public void update(int eid, String title, String addr, int cid, String date, String eventType, boolean continuous,
 			int volunteersNeeded, int organizationId) throws Exception {
 		// SQL statement that is to be executed
-		final String sql = "update events title = ?, address = ?, contactId = ?, dateOf = ?, eventType = ?, continuous = ?, volunteersNeeded = ?, organizationId = ? where eventId = ?";
+		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventType = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ? where eventId = ?";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -109,6 +109,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setBoolean(6, continuous);
 			ps.setInt(7, volunteersNeeded);
 			ps.setInt(8, organizationId);
+			ps.setInt(9, eid);
 			return ps;
 		}, keyHolder);
 
@@ -122,7 +123,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public Event fetchEventById(int eid) throws Exception {
 		String sqlStr = String.format(
-				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, organizationId from events where eventd = %d",
+				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId from events where eventId = %d",
 				eid);
 		log.debug(sqlStr);
 
