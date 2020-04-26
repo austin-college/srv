@@ -10,27 +10,76 @@
 			<p>Please select the action you would like to take.</p>
 		</div>
 	</div>
-	<div> <!-- Navigation buttons //TODO Add all use cases with respective pages -->
+	<div>
+		<!-- Navigation buttons //TODO Add all use cases with respective pages -->
 		<div class="col-md" style="padding-left: 20px; padding-bottom: 20px">
-			<span>
-				<a href="boardMember"><i class="fa fa-clipboard-list fa-3x"></i> </a>
+			<button type="button" class="btn btn-white"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="fa fa-clipboard-list fa-3x"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
 				<p>Approve Hours</p>
-			</span>
-			<span>
-				<a href="sc/list"><i class="fa fa-address-book fa-3x"></i> </a>
-				<p>Manage Pets</p>
-			</span>
+			</button>
+			
+			<button type="button" class="btn btn-White"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="fa fa-clock"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
+				<p>Correct Student hours</p>
+			</button>
+			
+			<button type="button" class="btn btn-White"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="fa fa-file-alt"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
+				<p>Summarize Event</p>
+			</button>
+			
+			<button type="button" class="btn btn-White"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="fa fa-address-card"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
+				<p>Handle Pet Request</p>
+			</button>
+			
+			<button type="button" class="btn btn-White"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="far fa-file-alt"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
+				<p>Manage an Event Summary</p>
+			</button>
+			
+			<button type="button" class="btn btn-White"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="far fa-calendar-alt"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
+				<p>Manage Service Announcement</p>
+			</button>
+			
+			<button type="button" class="btn btn-White"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="fa fa-envelope-open-text"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
+				<p>View/Print Report</p>
+			</button>
+			
+			<button type="button" class="btn btn-White"
+				style="width: 30%; border-color: white;">
+				<a href="boardMember"><i class="fa fa-file-import"
+					style="padding-right: 15px; font-size: 36px"></i> </a>
+				<p>Import Hours</p>
+			</button>
+			
 		</div>
-		
+
 	</div>
 	<!-- Layout of BM actions must be decided -->
 	<!-- table title. -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col">
-			<h2>Hours To Be Approved</h2>
+			<h2>My Pets   <i class="fa fa-cat" style="padding-right: 15px; font-size: 36px"></i></h2>
 		</div>
 	</div>
-	
+
 
 	<!-- A  (TODO/MAKE LIVE) list (data-table) of all to-be-approved serviceEvents, includes buttons to view full info, approve, and reject servant event forms -->
 	<table id="dtDynamicVerticalScroll"
@@ -38,79 +87,52 @@
 		width="100%">
 		<thead>
 			<tr>
-				<th class="th-sm">Servant Name</th>
-				<th class="th-sm">Event</th>
-				<th class="th-sm">Hours Served</th>
-				<th class="th-sm">Contact Name</th>
-				<th class="th-sm">Contact E-Mail</th>
-				<th class="th-sm">Actions</th>
+				<th class="th-sm">Organization Name</th>
+				<th class="th-sm">Contact name</th>
+				<th class="th-sm">Contact Phone#</th>
+				<th class="th-sm">Contact Email</th>
+				<th class="th-sm">  </th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td>Tiger Nixon</td>
-				<td>Dog Park Build</td>
-				<td>4</td>
-				<td>Wolfie Man</td>
-				<td>wolfMan@gmail.com</td>
-				<!--Approve, reject and full view buttons-->
-				<td><a class="btn edit" href="#">
-				<i class="icon-check-sign icon-large"></i> Approve
-				</a>
-				<a class="btn btn-danger del" href="#">
-				<i class="icon-trash icon-large"></i> Reject
-				</a>
-				<a class="btn edit" href="#">
-				<i class="icon-trash icon-large"></i> View
-				</a>
-				</td>
-				
+				<td>Habitat for Humanity</td>
+				<td>Sandra Bullock</td>
+				<td>(123)456-7890</td>
+				<td>sbullock@gmail.com</td>
+			
+				<!--edit button-->
+				<td><a class="btn edit" href="#"> <i
+						class="icon-check-sign icon-large"></i> Edit</td>
+
 			</tr>
 			<tr>
-				<td>Anita Lyfe</td>
-				<td>Habitat Build</td>
-				<td>6</td>
-				<td>Jinx Main</td>
-				<td>iBuildHouses@gmail.com</td>
-				<!--Approve, reject and full view buttons-->
-				<td><a class="btn edit" href="#">
-				<i class="icon-check-sign icon-large"></i> Approve
-				</a>
-				<a class="btn btn-danger del" href="#">
-				<i class="icon-trash icon-large"></i> Reject
-				</a>
-				<a class="btn edit" href="#">
-				<i class="icon-trash icon-large"></i> View
-				</a>
-				</td>
-				
+				<td>Food Bank</td>
+				<td>Channing Tatum</td>
+				<td>(389)378-2939</td>
+				<td>ctatum@gmail.com</td>
+				<!--edit button-->
+				<td><a class="btn edit" href="#"> <i
+						class="icon-check-sign icon-large"></i> Edit</td>
+
 			</tr>
 			<tr>
-				<td>AyAyron Bridges</td>
-				<td>Texas Ramp Project</td>
-				<td>2</td>
-				<td>Mike Rampman</td>
-				<td>TexasRampProject@gmail.com</td>
-				<!--Approve, reject and full view buttons-->
-				<td><a class="btn edit" href="#">
-				<i class="icon-check-sign icon-large"></i> Approve
-				</a>
-				<a class="btn btn-danger del" href="#">
-				<i class="icon-trash icon-large"></i> Reject
-				</a>
-				<a class="btn edit" href="#">
-				<i class="icon-trash icon-large"></i> View
-				</a>
-				</td>
-				
+				<td>Meals on Wheels</td>
+				<td>Oprah Winfrey</td>
+				<td>(836)928-1678</td>
+				<td>owinfrey@gmail.com</td>
+				<!--edit button-->
+				<td><a class="btn edit" href="#"> <i
+						class="icon-check-sign icon-large"></i> Edit</td>
+
 			</tr>
 		</tbody>
 		<tfoot>
 		</tfoot>
 	</table>
-	
-	
-	
+
+
+
 </div>
-	<script src="/srv/js/datatables.min.js"></script>
+<script src="/srv/js/datatables.min.js"></script>
 </@layout.stdpage>
