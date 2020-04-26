@@ -1,5 +1,7 @@
 <tr id="row${hrs.shid?c}">
 	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_srvName'>${hrs.servantname!"UNKOWN"}</td>
+	
 	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
 	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
 	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
