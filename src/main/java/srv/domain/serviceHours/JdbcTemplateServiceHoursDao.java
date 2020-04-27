@@ -1,5 +1,6 @@
 package srv.domain.serviceHours;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.event.JdbcTemplateEventDao;
@@ -55,11 +58,55 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		return results;
 	}
 
+	/**
+	 * Credit to AJ
+	 * 
+	 * Creates a new contact in the data.sql database. An exception is thrown if the new contact
+	 * is a duplicate. 
+	 */
 	@Override
-	public ServiceHours create(Integer scid, Integer uid, Integer eid, Double hours, String stat)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ServiceHours create(Integer scid, Integer uid, Integer eid, Double hours, String stat) throws Exception {
+		
+		  final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, stat) VALUES(?, ?, ?, ?, ?)";
+			
+		  final KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		  /* 
+		   * in the following code we are using java8's closure (lambda expression) feature .  It's like an anonymous inline 
+		   * class definition of a listener.  JdbcTemplate update allows us to pass a snippet of code, given an 
+		   * untyped parameter (connection).   Inside our code snippet, we can refer to the parameter by name. 
+		   * Our snippet returns a prepared statement (which is what the JdbcTemplate.update method requires as 
+		   * the first parameter.   The second parameter of the update method is a keyholder object that we can ask 
+		   * for the database assigned auto number key value (a number).
+		   * 
+		   * Note: The preparedStatement's string array names the columns that are auto-number keys.   For the
+		   * serviceHours table, the auto number key is serviceHourId.
+		   * 
+		   */
+	      getJdbcTemplate().update(
+	              connection -> {
+	                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"serviceHourId"});
+	                  ps.setInt(1, scid);
+	                  ps.setInt(2, uid);
+	                  ps.setInt(3, eid);
+	                  ps.setDouble(4, hours);
+	                  ps.setString(5, stat);
+	                  
+	                  return ps;
+	              }, keyHolder);
+		
+	     Number num = keyHolder.getKey();
+	     
+		if (num == null ) {
+			String msg = String.format("Unable to insert new service hour for [%s]", scid);
+			log.warn(msg);
+			throw new Exception("Unable to insert new service hour.");
+		}
+	   
+	   log.debug("generated id is {}", num);
+		
+	   return this.fetchHoursById((int)num);
+		
 	}
 
 	@Override
