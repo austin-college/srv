@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import srv.domain.event.Event;
+import srv.services.ServiceHoursService;
 
 /**
  * This is the algorithm that prepares the response.
@@ -26,7 +27,7 @@ public class HoursController {
 
 	private static Logger log = LoggerFactory.getLogger(HoursController.class);
 	
-	//private ServiceHoursService hrSvc = new ServiceHoursService();
+	private ServiceHoursService hrSvc = new ServiceHoursService();
 	
 
 	/**
@@ -46,7 +47,7 @@ public class HoursController {
 		
 		
 
-	//	mav.addObject("hours", hrSvc.listHours());
+		mav.addObject("hours", hrSvc.listHours());
 		return mav;
 	}
 	
