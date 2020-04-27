@@ -21,7 +21,7 @@ public class ServiceHours implements Serializable{
 	private Integer shid; // Unique id for each hour
 	private ServiceClient servedPet; // Associated Pet
 	private User servant; // Servant worked for Pet
-	private Event eventName; // Event held for service
+	private Event event; // Event held for service
 	private Double hours;	// Hours served
 	private String date; // Date Served
 	private String reflection; // Thoughts on the event
@@ -44,7 +44,7 @@ public class ServiceHours implements Serializable{
 		this.shid = id;
 		this.servedPet = servedPet;
 		this.servant = servant;
-		this.eventName = eventName;
+		this.event = eventName;
 		this.hours = hours;
 		this.status = stat;
 	}
@@ -66,7 +66,7 @@ public class ServiceHours implements Serializable{
 		super();
 		this.servedPet = servedPet;
 		this.servant = servant;
-		this.eventName = eventName;
+		this.event = eventName;
 		this.hours = hours;
 		this.date = eventName.getDate();
 		this.reflection = reflection;
@@ -107,13 +107,13 @@ public class ServiceHours implements Serializable{
 	}
 
 
-	public Event getEventName() {
-		return eventName;
+	public Event getEvent() {
+		return event;
 	}
 
 
-	public ServiceHours setEventName(Event eventName) {
-		this.eventName = eventName;
+	public ServiceHours setEvent(Event eventName) {
+		this.event = eventName;
 		return this;
 	}
 

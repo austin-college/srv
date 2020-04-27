@@ -148,7 +148,7 @@ insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
 
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status) VALUES (1, 2, 1, '3', 'Approved');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status) VALUES (1, 1, 1, '3', 'Approved');
 INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (2, 2, 2, '2', 'Pending');
-INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (1, 1, 3, '3', 'Approved');
-INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (3, 1, 2, '2', 'Approved');  
+INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (1, 3, 3, '3', 'Approved');
+INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (3, 4, 2, '2', 'Approved');  
