@@ -37,8 +37,8 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * TODO We need an eventParticipantsDao if we want to pull a list of
 	 * participants
 	 */
-	@Autowired
-	private JdbcTemplateEventParticipantDao eventParticipantsDao;
+	//@Autowired
+	//private JdbcTemplateEventParticipantDao eventParticipantsDao;
 
 	public JdbcTemplateEventDao() {
 		super();
@@ -203,17 +203,17 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			 * data.sql database, so that the event has a handle on that service client.
 			 */
 
-			try {
-				if (eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")) == null) {
-					System.err.println("ERROR: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
-				}
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				System.err.println("ERROR2: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
-			}
-
-			System.err.println("ALERTALERTALERTALERT");
+//			try {
+//				if (eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")) == null) {
+//					System.err.println("ERROR: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
+//				}
+//			} catch (Exception e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//				System.err.println("ERROR2: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
+//			}
+//
+//			System.err.println("ALERTALERTALERTALERT");
 
 			try {
 
@@ -221,9 +221,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
 						.setType(null).setContinous(rs.getBoolean("continuous"))
 						.setVolunteersNeeded(rs.getInt("volunteersNeeded"))
-						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))
-						.setParticipantsList(
-								eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")));
+						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")));
+				
+//						.setParticipantsList(
+//								eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")));
 
 			} catch (Exception e) {
 
