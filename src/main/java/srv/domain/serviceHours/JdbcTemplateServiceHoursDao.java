@@ -13,6 +13,8 @@ import org.springframework.jdbc.core.RowMapper;
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.event.JdbcTemplateEventDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceClient.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
 import srv.domain.user.JdbcTemplateUserDao;
 
 /** 
@@ -75,12 +77,33 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		
 	}
 
+	/**
+	 * An instance of this method fetched the ServiceHour by its id
+	 */
 	@Override
 	public ServiceHours fetchHoursById(int shid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String sqlStr = String.format("SELECT serviceHourId, serviceClientId, userId, eventId, hours,"
+				+ " status FROM serviceHours WHERE serviceClientId = %d", shid);
+		log.debug(sqlStr);
+
+		List<ServiceHours> results = getJdbcTemplate().query(sqlStr, new ServiceHourRowMapper());
+		
+		if (results.size() < 1) {
+			log.error("unable to fetch servant client id [{}]", shid);
+			return null;
+		}
+
+		return results.get(0);
 	}
 	
+	/**
+	 * Private helper class that allows the ServiceHoursDao to be mapped to the ServiceClientDao,
+	 * the UserDao, and the EventDao.
+	 * 
+	 * @author fancynine9
+	 *
+	 */
 	private class ServiceHourRowMapper implements RowMapper<ServiceHours> {
 
 		@Override
