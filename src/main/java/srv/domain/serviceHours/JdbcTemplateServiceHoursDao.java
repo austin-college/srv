@@ -56,7 +56,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 
 	@Override
-	public ServiceHours create(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat)
+	public ServiceHours create(Integer scid, Integer uid, Integer eid, Double hours, String stat)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -69,7 +69,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 
 	@Override
-	public void update(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat)
+	public void update(Integer scid, Integer uid, Integer eid, Double hours, String stat)
 			throws Exception {
 		// TODO Auto-generated method stub
 		

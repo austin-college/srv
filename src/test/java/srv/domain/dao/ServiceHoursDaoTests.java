@@ -14,6 +14,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import srv.domain.contact.Contact;
 import srv.domain.serviceHours.ServiceHours;
 import srv.domain.serviceHours.ServiceHoursDao;
 
@@ -21,6 +22,8 @@ import srv.domain.serviceHours.ServiceHoursDao;
 //check serviceClient controller
 
 /**
+ * Credit to AJ and Lydia 
+ * 
  * Tests the ServiceHoursDao.
  * 
  * @author fancynine9
@@ -96,6 +99,34 @@ class ServiceHoursDaoTests {
 		assertEquals(2, sHour4.getHours());
 		assertEquals("Approved", sHour4.getStatus());
 		
+		
+	}
+	
+	@Test
+	void testCreate_whenUsingJdbcTemplate() throws Exception {
+		
+		log.warn("\n\n\n");
+		
+		ServiceHours s = dao.create(2, 3, 2, 2.0, "Approved");
+		
+		ServiceHours sh5 = dao.fetchHoursById(5);
+		
+		//Verifying that contact was stored in database
+		assertEquals(5, sh5.getShid());
+		assertEquals(2, sh5.getServedPet());
+		assertEquals(3, sh5.getServant());
+		assertEquals(2, sh5.getEvent());
+		assertEquals(2, sh5.getHours());
+		assertEquals("Approved", sh5.getStatus());
+		
+		//Testing ServiceHour returned from create
+		
+		assertEquals(5, s.getShid());
+		assertEquals(2, s.getServedPet());
+		assertEquals(3, s.getServant());
+		assertEquals(2, s.getEvent());
+		assertEquals(2, s.getHours());
+		assertEquals("Approved", s.getStatus());
 		
 	}
 	
