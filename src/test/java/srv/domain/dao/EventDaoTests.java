@@ -171,8 +171,8 @@ class EventDaoTests {
 
 		assertEquals("Dummy Event 1", e1.getTitle());
 
-		assertFalse(e1.getParticipantsList() == null);
-//		System.err.println("User List Size: " + usersOfEvent1.size());
+		// assertFalse(e1.getParticipantsList() == null);
+		System.err.println("User List Size: " + e1.getParticipantsList().size());
 		// assertEquals("apritchard", usersOfEvent1.get(0).getUsername());
 	}
 }
