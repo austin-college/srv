@@ -13,8 +13,6 @@ import org.springframework.jdbc.core.RowMapper;
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.event.JdbcTemplateEventDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceClient.JdbcTemplateServiceClientDao.ServiceClientRowMapper;
 import srv.domain.user.JdbcTemplateUserDao;
 
 /** 
