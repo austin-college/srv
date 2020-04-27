@@ -178,6 +178,25 @@ class ServiceHoursDaoTests {
 		assertEquals("Approved", sh3.getStatus());
 	}
 	
+	/**
+	 * Tests the update method, should update the query with specified id. 
+	 */
+	@Test
+	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+		
+		log.warn("\n\n\n");
+		
+		dao.update(1, 1, 3, 2.0, "Pending");
+		
+		ServiceHours sh1 = dao.fetchHoursById(1);
+		
+		assertEquals(1, sh1.getShid());
+		assertEquals(1, sh1.getServedPet());
+		assertEquals(1, sh1.getServant());
+		assertEquals(3, sh1.getEvent());
+		assertEquals(2, sh1.getHours());
+		assertEquals("Pending", sh1.getStatus());
+	}
 	
 }
 
