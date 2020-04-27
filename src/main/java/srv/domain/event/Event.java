@@ -14,7 +14,7 @@ import srv.domain.user.ServantUser;
  *         its pet and should also hold its pet.
  * 
  *         Importantly Event also holds and controls a list of servants
- *         
+ * 
  *         Also holds onto the EventParticipants class
  */
 public class Event implements Serializable {

@@ -10,10 +10,10 @@ import srv.domain.contact.Contact;
  * @author hunter Couturier
  *
  *         User Class holds all information for the User object. This includes
- *         username, and will include email, firstname, lastname,
- *         phonenumber and more.
+ *         username, and will include email, firstname, lastname, phonenumber
+ *         and more.
  */
-public class User implements Serializable{
+public class User implements Serializable {
 
 	private Integer uid; // unique id for each client for database
 	private String username; // the user's identification info to log in example AJ Pritchard, apritchard18
@@ -122,7 +122,7 @@ public class User implements Serializable{
 		// if its not in the array
 		return null;
 	}
-	
+
 	/**
 	 * Same as above but for the unique database id instead
 	 * 
@@ -163,7 +163,7 @@ public class User implements Serializable{
 		this.uid = uid;
 		return this;
 	}
-	
+
 	public Contact getContactInfo() {
 		return contactInfo;
 	}

@@ -116,7 +116,7 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 	@Override
 	public EventParticipant fetchEventParticipantById(int eid) throws Exception {
 		String sqlStr = String.format(
-				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId from eventParticipants where eventId = %d",
+				"select eventParticipantId, eventId, userId from eventParticipants where eventParticipantId = %d",
 				eid);
 		log.debug(sqlStr);
 
