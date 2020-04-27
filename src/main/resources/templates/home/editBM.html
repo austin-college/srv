@@ -1,5 +1,5 @@
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Edit Board Members" "home.css">
+<@layout.stdpage "Manage Board Members/Co-Chairs" "home.css">
 <div id="mainContainer" class="container">
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col-md">
@@ -19,6 +19,14 @@
 			</div>
 		</div>
 	
+		<div class="row" style="padding-left:20px; padding-bottom:20px">
+			<div class="col">
+				<a href="addHours" class = "btn btn-md btn-dark addBtn">
+					<span class="	fas fa-plus-circle"></span>
+					Create/Activate
+				</a>
+			</div>
+		</div>
 	
 		<!-- board member table -->
 		<table id="dtDynamicVerticalScroll"
@@ -43,7 +51,7 @@
 					<td><a class="btn edit" href="#"> <i
 							class="icon-check-sign icon-large"></i>Edit
 	
-					</a> <a class="btn btn-danger edit" href="#"> <i class="icon-trash icon-large"></i>
+					</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
 						View
 					</a> </td>
 				</tr>
@@ -56,7 +64,7 @@
 					<td><a class="btn edit" href="#"> <i
 							class="icon-check-sign icon-large"></i>Edit
 	
-					</a> <a class="btn btn-danger edit" href="#"> <i class="icon-trash icon-large"></i>
+					</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
 						View
 					</a> </td>
 				</tr>
@@ -72,7 +80,7 @@
 					<td><a class="btn edit" href="#"> <i
 							class="icon-check-sign icon-large"></i>Edit
 	
-					</a> <a class="btn btn-danger edit" href="#"> <i class="icon-trash icon-large"></i>
+					</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
 						View
 					</a> </td>
 	
@@ -93,7 +101,15 @@
 				</h2>
 			</div>
 		</div>
-	
+		
+		<div class="row" style="padding-left:20px; padding-bottom:20px">
+			<div class="col">
+				<a href="addHours" class = "btn btn-md btn-dark addBtn">
+					<span class="	fas fa-plus-circle"></span>
+					Create/Activate
+				</a>
+			</div>
+		</div>
 	
 		<!-- Co-Chair table -->
 				<table id="dtDynamicVerticalScroll"
@@ -118,7 +134,7 @@
 					<td><a class="btn edit" href="#"> <i
 							class="icon-check-sign icon-large"></i>Edit
 	
-					</a> <a class="btn btn-danger edit" href="#"> <i class="icon-trash icon-large"></i>
+					</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
 						View
 					</a> </td>
 				</tr>
@@ -131,7 +147,7 @@
 					<td><a class="btn edit" href="#"> <i
 							class="icon-check-sign icon-large"></i>Edit
 	
-					</a> <a class="btn btn-danger edit" href="#"> <i class="icon-trash icon-large"></i>
+					</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
 						View
 					</a> </td>
 				</tr>
@@ -147,7 +163,7 @@
 					<td><a class="btn edit" href="#"> <i
 							class="icon-check-sign icon-large"></i>Edit
 	
-					</a> <a class="btn btn-danger edit" href="#"> <i class="icon-trash icon-large"></i>
+					</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
 						View
 					</a> </td>
 	
@@ -156,6 +172,13 @@
 			<tfoot>
 			</tfoot>
 		</table>
+	</div>
+	
+	<!-- back button -->
+	<div class="row" style="padding-left:20px; padding-bottom:20px">
+		<a class="btn edit" href="http://localhost:8080/srv/home/admin"> <i class="icon-trash icon-large"></i>
+			Back
+		</a>
 	</div>
 	
 </div>

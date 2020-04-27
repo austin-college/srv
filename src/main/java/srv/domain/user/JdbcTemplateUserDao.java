@@ -178,5 +178,4 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 			return sc;
 		}
 	}
-
 }
