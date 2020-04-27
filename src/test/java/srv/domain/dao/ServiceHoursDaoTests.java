@@ -130,6 +130,54 @@ class ServiceHoursDaoTests {
 		
 	}
 	
+	/**
+	 * Tests the delete method. Should remove the query with the Specific ID, in this case 1.
+	 * 
+	 */
+	@Test
+	void testDelete_whenUsingJdbcTemplate() throws Exception {
+		
+		log.warn("\n\n\n");
+		
+		dao.delete(1);
+		
+		List<ServiceHours> serviceHours = dao.listAll();
+		
+		assertEquals(3, serviceHours.size());
+		
+		ServiceHours sh1 = serviceHours.get(0);
+		ServiceHours sh2 = serviceHours.get(1);
+		ServiceHours sh3 = serviceHours.get(2);
+		
+		assertEquals(2, sh1.getShid());
+		assertEquals(3, sh2.getShid());
+		assertEquals(4, sh3.getShid());
+		
+		//Verifying first service hour info 
+		
+		assertEquals(2, sh1.getServedPet());
+		assertEquals(2, sh1.getServant());
+		assertEquals(2, sh1.getEvent());
+		assertEquals(2, sh1.getHours());
+		assertEquals("Pending", sh1.getStatus());
+		
+		//Verifying second service hour info
+		
+		assertEquals(1, sh2.getServedPet());
+		assertEquals(3, sh2.getServant());
+		assertEquals(3, sh2.getEvent());
+		assertEquals(3, sh2.getHours());
+		assertEquals("Approved", sh2.getStatus());
+		
+		//Verifying third service hour info 
+		
+		assertEquals(3, sh3.getServedPet());
+		assertEquals(4, sh3.getServant());
+		assertEquals(2, sh3.getEvent());
+		assertEquals(2, sh3.getHours());
+		assertEquals("Approved", sh3.getStatus());
+	}
+	
 	
 }
 

@@ -109,9 +109,20 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		
 	}
 
+	/**
+	 * Removes the desired Service Hour (by id) from the data.sql database. An exception is thrown if 
+	 * a service hour doesn't exist. 
+	 */
 	@Override
 	public void delete(int shid) throws Exception {
-		// TODO Auto-generated method stub
+		
+		int rc = getJdbcTemplate().update("DELETE FROM serviceHours WHERE serviceHourId= ?", new Object[] { shid });
+		
+		if (rc != 1) {
+			String msg = String.format("Unable to delete Service Hour [%s]", shid);
+			log.warn(msg);
+			throw new Exception(msg);
+		}
 		
 	}
 
