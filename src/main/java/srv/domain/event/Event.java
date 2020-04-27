@@ -29,7 +29,8 @@ public class Event implements Serializable {
 	private boolean continous;// if event repeats??
 	private int volunteersNeeded; // 3 of volunteers needed
 	private ServiceClient serviceClient; // pet associated with event
-	private List<EventParticipant> participantsList;// list of all ServantUsers signed up for the event
+	
+//	private List<EventParticipant> participantsList;// list of all ServantUsers signed up for the event
 
 	public Event() {
 		super();
@@ -123,12 +124,12 @@ public class Event implements Serializable {
 		return this;
 	}
 
-	public List<EventParticipant> getParticipantsList() {
-		return participantsList;
-	}
-
-	public Event setParticipantsList(List<EventParticipant> list) {
-		this.participantsList = list;
-		return this;
-	}
+//	public List<EventParticipant> getParticipantsList() {
+//		return participantsList;
+//	}
+//
+//	public Event setParticipantsList(List<EventParticipant> list) {
+//		this.participantsList = list;
+//		return this;
+//	}
 }
