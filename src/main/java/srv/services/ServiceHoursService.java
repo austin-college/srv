@@ -3,6 +3,8 @@ package srv.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import srv.domain.event.Event;
 
 import srv.domain.serviceClient.ServiceClient;
@@ -16,6 +18,7 @@ import srv.domain.serviceHours.ServiceHours;
  *
  */
 public class ServiceHoursService {
+	
 	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
 	
 	public ServiceHoursService() {
