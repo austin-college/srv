@@ -44,7 +44,7 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 	}
 
 	@Override
-	public EventParticipant create(int eid, int uid) throws Exception {
+	public EventParticipant create(int eventId, int userId) throws Exception {
 
 		// SQL statement that is to be executed
 		final String sql = "insert into eventParticipants (eventId, userId) values(?, ?)";
@@ -54,15 +54,15 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		// fills in the SQL statements ?'s
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "eventParticipantId" });
-			ps.setInt(1, eid);
-			ps.setInt(2, uid);
+			ps.setInt(1, eventId);
+			ps.setInt(2, userId);
 			return ps;
 		}, keyHolder);
 
 		Number num = keyHolder.getKey();
 
 		if (num == null) {
-			String msg = String.format("Unable to insert new EventParticipant [%s]", eid, uid);
+			String msg = String.format("Unable to insert new EventParticipant [%s]", eventId, userId);
 			log.warn(msg);
 			throw new Exception(msg);
 		}
@@ -74,19 +74,19 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 	}
 
 	@Override
-	public void delete(int epid) throws Exception {
+	public void delete(int eventParticipantId) throws Exception {
 		int rc = getJdbcTemplate().update("DELETE from eventParticipants where eventParticipantId= ?",
-				new Object[] { epid });
+				new Object[] { eventParticipantId });
 
 		if (rc != 1) {
-			String msg = String.format("unable to delete EventParticipant titled [%s]", epid);
+			String msg = String.format("unable to delete EventParticipant titled [%s]", eventParticipantId);
 			log.warn(msg);
 			throw new Exception(msg);
 		}
 	}
 
 	@Override
-	public void update(int epid, int eid, int uid) throws Exception {
+	public void update(int eventParticipantId, int eventId, int userId) throws Exception {
 		// SQL statement that is to be executed
 		final String sql = "update eventParticipants set eventId = ?, userId = ? where eventParticipantId = ?";
 
@@ -95,30 +95,30 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		// fills in the SQL statements ?'s
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "eventParticipantId" });
-			ps.setInt(1, eid);
-			ps.setInt(2, uid);
-			ps.setInt(3, epid);
+			ps.setInt(1, eventId);
+			ps.setInt(2, userId);
+			ps.setInt(3, eventParticipantId);
 			return ps;
 		}, keyHolder);
 
 		Number num = keyHolder.getKey();
 
 		if (num == null) {
-			log.error("unable to update [{}]", eid);
+			log.error("unable to update [{}]", eventId);
 		}
 	}
 
 	@Override
-	public EventParticipant fetchEventParticipantById(int epid) throws Exception {
+	public EventParticipant fetchEventParticipantById(int eventParticipantId) throws Exception {
 		String sqlStr = String.format(
 				"select eventParticipantId, eventId, userId from eventParticipants where eventParticipantId = %d",
-				epid);
+				eventParticipantId);
 		log.debug(sqlStr);
 
 		List<EventParticipant> results = getJdbcTemplate().query(sqlStr, new EventParticipantRowMapper());
 
 		if (results.size() != 1) {
-			log.error("unable to fetch EventParticipant reason [{}]", epid);
+			log.error("unable to fetch EventParticipant reason [{}]", eventParticipantId);
 			return null;
 		}
 
@@ -126,10 +126,10 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 	}
 
 	@Override
-	public List<EventParticipant> fetchAllEventParticipantsByEventId(int eid) throws Exception {
+	public List<EventParticipant> fetchAllEventParticipantsByEventId(int eventId) throws Exception {
 
 		String sqlStr = String
-				.format("select eventParticipantId, eventId, userId from eventParticipants where eventId = %d", eid);
+				.format("select eventParticipantId, eventId, userId from eventParticipants where eventId = %d", eventId);
 
 		List<EventParticipant> results = getJdbcTemplate().query(sqlStr, new EventParticipantRowMapper());
 
