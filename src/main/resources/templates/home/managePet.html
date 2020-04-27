@@ -1,0 +1,78 @@
+<#import "/main_layout.html" as layout/>
+<!-- TODO Surround in form(post), and add submit button -->
+<@layout.stdpage "Manage Pet" "boardMemberHome.css">
+
+	    <h1>Manage Pet</h1>
+
+	  <div class="container-fluid">
+	   <div class="row">
+	    <div class="col-lg-4">
+	    <form action="/srv/home/boardMember.html">
+	     <div class="form-group">
+	       <label for="name">Service Client: </label><br>
+	       <input type="text" class="form-control" value="EX: Habitat for Humanity"><br>
+		   
+		<table id="dtDynamicVerticalScroll"
+		class="table table-striped table-bordered table-sm" cellspacing="0"
+		width="100%">
+		<thead>
+			<tr>
+				<th class="th-sm">Organization Name</th>
+				<th class="th-sm">Contact Name</th>
+				<th class="th-sm">Contact Phone #</th>
+				<th class="th-sm">Contact E-Mail</th>
+				<th class="th-sm"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Habitat for Humanity</td>
+				<td>Sandra Bullock</td>
+				<td>(123)456-7890</td>
+				<td>sbullock@gmail.com</td>
+
+				<!--edit button-->
+
+				<td><a class="btn edit" href="updatePet"> <i
+						class="icon-check-sign icon-large"></i>Edit
+
+				</a></td>
+			</tr>
+			<tr>
+				<td>Meals on Wheels</td>
+				<td>Oprah Winfrey</td>
+				<td>(836)928-1678</td>
+				<td>owinfrey@gmail.com</td>
+				<!--edit button-->
+
+				<td><a class="btn edit" href="updatePet"> <i
+						class="icon-check-sign icon-large"></i>Edit
+
+				</a></td>
+			</tr>
+			<tr>
+
+			</tr>
+			<tr>
+				<td>Food Bank</td>
+				<td>Channing Tatum</td>
+				<td>(389)378-2939</td>
+				<td>ctatum@gmail.com</td>
+				<!--edit button-->
+
+				<td><a class="btn edit" href="updatePet"> <i
+						class="icon-check-sign icon-large"></i>Edit
+
+				</a></td>
+
+			</tr>
+		</tbody>
+		<tfoot>
+		</tfoot>
+	</table>
+	  </div>
+	  </form>
+	 </div>
+
+
+</@layout.stdpage>

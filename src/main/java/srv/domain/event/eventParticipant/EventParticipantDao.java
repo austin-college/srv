@@ -37,4 +37,6 @@ public interface EventParticipantDao {
 	 * @throws Exception
 	 */
 	public EventParticipant fetchEventParticipantById(int epid) throws Exception;
+	
+	public List<EventParticipant> fetchAllEventParticipantsByEventId(int eid) throws Exception;
 }

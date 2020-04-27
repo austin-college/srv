@@ -1,6 +1,8 @@
 package srv.domain.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.domain.event.Event;
 import srv.domain.event.EventDao;
+import srv.domain.event.eventParticipant.EventParticipant;
 
 @RunWith(SpringRunner.class)
 @JdbcTest
@@ -145,8 +148,8 @@ class EventDaoTests {
 
 		// update each item
 
-		dao.update(id, newEventname, e1.getAddress(), newContact, e1.getDate(), "",
-				e1.isContinous(), e1.getVolunteersNeeded(), (int) e1.getServiceClient().getScid());
+		dao.update(id, newEventname, e1.getAddress(), newContact, e1.getDate(), "", e1.isContinous(),
+				e1.getVolunteersNeeded(), (int) e1.getServiceClient().getScid());
 
 		e1 = dao.fetchEventById(id);
 
@@ -154,4 +157,22 @@ class EventDaoTests {
 
 	}
 
+//	/*
+//	 * Tests getParticipants()
+//	 */
+//	@Test
+//	void testGetParticipants_whenUsingJdbcTemplate() throws Exception {
+//
+//		// test that e1 can be fetched
+//		int id1 = 1;
+//		Event e1 = dao.fetchEventById(id1);
+//
+//		assertEquals(id1, e1.getEid());
+//
+//		assertEquals("Dummy Event 1", e1.getTitle());
+//
+//		assertFalse(e1.getParticipantsList() == null);
+////		System.err.println("User List Size: " + usersOfEvent1.size());
+//		// assertEquals("apritchard", usersOfEvent1.get(0).getUsername());
+//	}
 }

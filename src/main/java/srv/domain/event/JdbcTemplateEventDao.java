@@ -3,6 +3,7 @@ package srv.domain.event;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,8 +16,11 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
+import srv.domain.event.eventParticipant.EventParticipant;
+import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.domain.user.User;
 
 @ComponentScan("srv.config")
 public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements EventDao {
@@ -33,8 +37,8 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * TODO We need an eventParticipantsDao if we want to pull a list of
 	 * participants
 	 */
-//	@Autowired
-//	private JdbcTemplateEventsParticipantsDao eventParticipantsDao;
+	//@Autowired
+	//private JdbcTemplateEventParticipantDao eventParticipantsDao;
 
 	public JdbcTemplateEventDao() {
 		super();
@@ -191,21 +195,36 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 			/*
 			 * We use the ContactDao in order to access the contacts table in the data.sql
-			 * database, so that the service client has a handle on that contact.
+			 * database, so that the event has a handle on that contact.
 			 */
 
 			/*
-			 * We use the serviceClientDao in order to access the contacts table in the
-			 * data.sql database, so that the service client has a handle on that contact.
+			 * We use the serviceClientDao in order to access the serviceClient table in the
+			 * data.sql database, so that the event has a handle on that service client.
 			 */
+
+//			try {
+//				if (eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")) == null) {
+//					System.err.println("ERROR: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
+//				}
+//			} catch (Exception e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//				System.err.println("ERROR2: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
+//			}
+//
+//			System.err.println("ALERTALERTALERTALERT");
 
 			try {
 
-				ev.setEid(rs.getInt("eventParticipantsId")).setTitle(rs.getString("title"))
+				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title"))
 						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
-						.setType(null)// rs.getString("boardMem"))
-						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))
+						.setType(null).setContinous(rs.getBoolean("continuous"))
+						.setVolunteersNeeded(rs.getInt("volunteersNeeded"))
 						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")));
+				
+//						.setParticipantsList(
+//								eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")));
 
 			} catch (Exception e) {
 
@@ -215,5 +234,4 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			return ev;
 		}
 	}
-
 }

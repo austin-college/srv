@@ -15,6 +15,7 @@ import srv.domain.reason.JdbcReasonDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.reason.Reason;
 import srv.domain.reason.ReasonDao;
+import srv.services.reason.ReasonService;
 
 
 /**
@@ -30,6 +31,8 @@ public class ReasonController {
 		@Autowired
 		ReasonDao doa;
 		
+		@Autowired
+		ReasonService service;
 	
 	   /** 
 	    * This request handle renders an entire page useful for testing only.   This
@@ -43,6 +46,10 @@ public class ReasonController {
 
 		   try {
 			   
+			int cnt = service.reasonCount();
+			
+			mav.addObject("count",cnt);
+			
 			List<Reason> myReasons = doa.listAll();
 			
 			mav.addObject("reasons", myReasons );
