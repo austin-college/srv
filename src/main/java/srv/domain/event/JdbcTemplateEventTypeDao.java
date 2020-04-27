@@ -29,7 +29,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	public List<EventType> listAll() throws Exception {
 		
 		List<EventType> results = getJdbcTemplate().query(
-				"SELECT event type id, event id,  ", new EventTypeRowMapper());
+				"SELECT event type id, name, descritpion FROM eventTypes", new EventTypeRowMapper());
 		 
 		return results;
 	}
@@ -109,8 +109,8 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	@Override
 	public EventType fetchEventTypeById(int etid) throws Exception {
 		
-		String sqlStr = String.format("SELECT contactId, firstName, lastName, email, workPhone, mobilePhone, "
-				+ "str, city, st, zip FROM contacts WHERE contactId = %d", etid);
+		String sqlStr = String.format("SELECT etId, name, description"
+				+ "FROM contacts WHERE etId = %d", etid);
 		log.debug(sqlStr);
 		
 		List<EventType> results = getJdbcTemplate().query(sqlStr, new EventTypeRowMapper());

@@ -19,13 +19,13 @@ import java.io.Serializable;
  */
 public class EventType implements Serializable {
 	
-	private Integer etid;
+	private Integer etId;
 	private String name;
 	private String description;
 
 	public EventType(Integer etid, String name, String description) {
 		super();
-		this.etid = etid;
+		this.etId = etid;
 		this.name = name;
 		this.description = description;
 	}
@@ -35,11 +35,11 @@ public class EventType implements Serializable {
 	}
 	
 	public Integer getEtid() {
-		return etid;
+		return etId;
 	}
 
 	public EventType setEtid(Integer etid) {
-		this.etid = etid;
+		this.etId = etid;
 		return this;
 	}
 
