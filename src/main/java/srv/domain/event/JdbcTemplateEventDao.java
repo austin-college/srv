@@ -28,10 +28,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	@Autowired
 	private JdbcTemplateServiceClientDao serviceClientDao;
-	
+
 	/*
-	 * TODO
-	 * We need an eventParticipantsDao if we want to pull a list of participants
+	 * TODO We need an eventParticipantsDao if we want to pull a list of
+	 * participants
 	 */
 //	@Autowired
 //	private JdbcTemplateEventsParticipantsDao eventParticipantsDao;
@@ -166,6 +166,42 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			try {
 
 				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title"))
+						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
+						.setType(null)// rs.getString("boardMem"))
+						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))
+						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")));
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return ev;
+		}
+	}
+
+	class EventParticipantsRowMapper implements RowMapper<Event> {
+		/**
+		 * Returns the User in the given row
+		 */
+		@Override
+		public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+			Event ev = new Event();
+
+			/*
+			 * We use the ContactDao in order to access the contacts table in the data.sql
+			 * database, so that the service client has a handle on that contact.
+			 */
+
+			/*
+			 * We use the serviceClientDao in order to access the contacts table in the
+			 * data.sql database, so that the service client has a handle on that contact.
+			 */
+
+			try {
+
+				ev.setEid(rs.getInt("eventParticipantsId")).setTitle(rs.getString("title"))
 						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
 						.setType(null)// rs.getString("boardMem"))
 						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))

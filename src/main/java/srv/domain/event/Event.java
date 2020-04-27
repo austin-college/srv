@@ -130,8 +130,4 @@ public class Event implements Serializable {
 		this.participantsList = participantsList;
 		return this;
 	}
-
-	public class EventParticipants {
-		
-	}
 }
