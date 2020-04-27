@@ -3,6 +3,7 @@ drop table if exists users;
 drop table if exists reasons;
 drop table if exists events;
 drop table if exists eventParticipants;
+drop table if exists eventType;
 DROP TABLE IF EXISTS contacts;
 
 CREATE TABLE contacts (
@@ -82,6 +83,16 @@ CREATE TABLE eventParticipants (
 		references users(userId)
 		on delete set NULL
 );
+
+CREATE TABLE contacts (
+	eventTypeId INTEGER AUTO_INCREMENT,
+	name VARCHAR(255),
+	description VARCHAR(255),
+	primary key (eventTypeId),
+	foreign key (contactId)
+		references contacts(contactId)
+		on delete set NULL
+	);
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
@@ -123,3 +134,7 @@ insert into eventParticipants(eventId, userId) values (2, 2);
 insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
+
+INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service')
+INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve')
+INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound')
