@@ -4,6 +4,7 @@ drop table if exists reasons;
 drop table if exists events;
 drop table if exists eventParticipants;
 DROP TABLE IF EXISTS contacts;
+DROP TABLE IF EXISTS serviceHours; 
 
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
@@ -82,6 +83,29 @@ CREATE TABLE eventParticipants (
 		references users(userId)
 		on delete set NULL
 );
+
+CREATE TABLE serviceHours ( 
+
+	serviceHourId integer auto_increment, 
+	serviceClientId int,
+	userId int, 
+	eventId int
+	hours varchar(255), 
+	status varchar(225), 
+	primary key (serviceHourId), 
+	foreign key (serviceClientId)
+		references serviceClients(serviceClientId)
+		on delete set NULL
+	foreign key (userId)
+		references users(userId)
+		on delete set NULL
+	foreign key (eventId)
+		references events(eventId)
+		on delete set NULL
+	
+);
+	
+	
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
