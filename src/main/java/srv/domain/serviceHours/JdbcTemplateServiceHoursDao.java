@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
 import srv.domain.JdbcTemplateAbstractDao;
+import srv.domain.event.JdbcTemplateEventDao;
+import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.user.JdbcTemplateUserDao;
 
 /** 
  * Credit to Lydia House for this code
@@ -24,7 +28,20 @@ import srv.domain.JdbcTemplateAbstractDao;
 public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao implements ServiceHoursDao {
 
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceHoursDao.class);
-
+ 
+	@Autowired
+	private JdbcTemplateServiceClientDao serviceClientDao;
+	private JdbcTemplateUserDao userDao;
+	private JdbcTemplateEventDao eventDao;
+	
+	/**
+	 * Default constructor. 
+	 */
+	public JdbcTemplateServiceHoursDao() {
+		
+		super();
+	}
+	
 	@Override
 	public List<ServiceHours> listAll() throws Exception {
 		// TODO Auto-generated method stub
