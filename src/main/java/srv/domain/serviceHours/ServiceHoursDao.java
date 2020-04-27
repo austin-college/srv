@@ -18,7 +18,7 @@ public interface ServiceHoursDao {
 
 	public void delete(int shid) throws Exception;
 	
-	public void update(Integer scid, Integer uid, Integer eid, Double hours, String stat) throws Exception;
+	public void update(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat) throws Exception;
 	
 	public ServiceHours fetchHoursById(int shid) throws Exception;
 	

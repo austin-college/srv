@@ -126,11 +126,23 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		
 	}
 
+	/**
+	 * Updates the desired ServiceHour (by unique id) in the data.sql database with the 
+	 * new specified content. An exception is thrown if the contact is unable to update (doesn't exist).
+	 * 
+	 * NOTE: in data.sql we are setting references that have contact as a foreign key, to be null when a 
+	 * contact is removed. 
+	 */
 	@Override
-	public void update(Integer scid, Integer uid, Integer eid, Double hours, String stat)
-			throws Exception {
-		// TODO Auto-generated method stub
+	public void update(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat) throws Exception {
 		
+		int rc = getJdbcTemplate().update("UPDATE serviceHours SET serviceClientId = ?, userId = ?, eventId = ?, hours = ?,"
+				+ "status = ? WHERE serviceHourId = ?", 
+				new Object[] {scid, uid, eid, hours, stat, shid});
+
+		if (rc < 1) {
+			log.error("Unable to update service hour [{}]", shid);
+		}
 	}
 
 	/**
