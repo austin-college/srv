@@ -29,12 +29,32 @@ import srv.domain.serviceHours.ServiceHoursDao;
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ComponentScan("srv.config")
-public class ServiceHoursDaoTests {
+class ServiceHoursDaoTests {
 
 	private static Logger log = LoggerFactory.getLogger(ServiceHoursDaoTests.class);
 	
 	@Autowired
 	ServiceHoursDao dao;
+	
+	/**
+	 * Tests the FetchById method in ServiceHoursDao, should return 
+	 * the information for the first serviceHour entered.
+	 * @throws Exception
+	 */
+	@Test
+	void testFetchById_whenUsingJdbcTemplate() throws Exception {
+		
+		log.warn("\n\n\n");
+		
+		ServiceHours sh1 = dao.fetchHoursById(1);
+		
+		assertEquals(1, sh1.getShid());
+		assertEquals(1, sh1.getServedPet());
+		assertEquals(1, sh1.getServant());
+		assertEquals(1, sh1.getEvent());
+		assertEquals(3, sh1.getHours());
+		assertEquals("Approved", sh1.getStatus());
+	}
 	
 	/**
 	 * Tests the listAll method in the ServiceHoursDao. 
