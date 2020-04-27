@@ -1,11 +1,12 @@
 package srv.domain.event;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 import srv.domain.contact.Contact;
+import srv.domain.event.eventParticipant.EventParticipant;
 import srv.domain.serviceClient.ServiceClient;
-import srv.domain.user.ServantUser;
+import srv.domain.user.User;
 
 /**
  * @author Segun Adekunle
@@ -28,7 +29,7 @@ public class Event implements Serializable {
 	private boolean continous;// if event repeats??
 	private int volunteersNeeded; // 3 of volunteers needed
 	private ServiceClient serviceClient; // pet associated with event
-	private ArrayList<ServantUser> participantsList;// list of all ServantUsers signed up for the event
+	private List<EventParticipant> participantsList;// list of all ServantUsers signed up for the event
 
 	public Event() {
 		super();
@@ -122,12 +123,12 @@ public class Event implements Serializable {
 		return this;
 	}
 
-	public ArrayList<ServantUser> getParticipantsList() {
+	public List<EventParticipant> getParticipantsList() {
 		return participantsList;
 	}
 
-	public Event setParticipantsList(ArrayList<ServantUser> participantsList) {
-		this.participantsList = participantsList;
+	public Event setParticipantsList(List<EventParticipant> list) {
+		this.participantsList = list;
 		return this;
 	}
 }

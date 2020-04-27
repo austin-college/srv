@@ -18,6 +18,7 @@ import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.event.JdbcTemplateEventDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.domain.user.User;
 
 @ComponentScan("srv.config")
 public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao implements EventParticipantDao {
@@ -29,13 +30,6 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 
 	@Autowired
 	private JdbcTemplateEventDao eventDao;
-
-	/*
-	 * TODO We need an eventParticipantsDao if we want to pull a list of
-	 * participants
-	 */
-//	@Autowired
-//	private JdbcTemplateEventsParticipantsDao eventParticipantsDao;
 
 	public JdbcTemplateEventParticipantDao() {
 		super();
@@ -81,7 +75,8 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 
 	@Override
 	public void delete(int epid) throws Exception {
-		int rc = getJdbcTemplate().update("DELETE from eventParticipants where eventParticipantId= ?", new Object[] { epid });
+		int rc = getJdbcTemplate().update("DELETE from eventParticipants where eventParticipantId= ?",
+				new Object[] { epid });
 
 		if (rc != 1) {
 			String msg = String.format("unable to delete EventParticipant titled [%s]", epid);
@@ -114,20 +109,31 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 	}
 
 	@Override
-	public EventParticipant fetchEventParticipantById(int eid) throws Exception {
+	public EventParticipant fetchEventParticipantById(int epid) throws Exception {
 		String sqlStr = String.format(
 				"select eventParticipantId, eventId, userId from eventParticipants where eventParticipantId = %d",
-				eid);
+				epid);
 		log.debug(sqlStr);
 
 		List<EventParticipant> results = getJdbcTemplate().query(sqlStr, new EventParticipantRowMapper());
 
 		if (results.size() != 1) {
-			log.error("unable to fetch EventParticipant reason [{}]", eid);
+			log.error("unable to fetch EventParticipant reason [{}]", epid);
 			return null;
 		}
 
 		return results.get(0);
+	}
+
+	@Override
+	public List<EventParticipant> fetchAllEventParticipantsByEventId(int eid) throws Exception {
+
+		String sqlStr = String
+				.format("select eventParticipantId, eventId, userId from eventParticipants where eventId = %d", eid);
+
+		List<EventParticipant> results = getJdbcTemplate().query(sqlStr, new EventParticipantRowMapper());
+
+		return results;
 	}
 
 	class EventParticipantRowMapper implements RowMapper<EventParticipant> {

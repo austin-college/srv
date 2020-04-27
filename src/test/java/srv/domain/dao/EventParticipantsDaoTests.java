@@ -108,4 +108,12 @@ class EventParticipantsDaoTests {
 		assertEquals(null, dao.fetchEventParticipantById(2));
 		assertEquals(size - 2, dao.listAll().size());
 	}
+	
+	@Test
+	void testFetchByEventID_whenUsingJdbcTemplate() throws Exception {
+
+		List<EventParticipant> events = dao.fetchAllEventParticipantsByEventId(1);
+
+		assertEquals(1, events.get(0).getEvent().getEid());
+	}
 }
