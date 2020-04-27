@@ -1,11 +1,14 @@
 package srv.domain.serviceHours;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jdbc.core.RowMapper;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.event.JdbcTemplateEventDao;
@@ -45,7 +48,11 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	@Override
 	public List<ServiceHours> listAll() throws Exception {
 		
-		return null;
+		List<ServiceHours> results = getJdbcTemplate()
+				.query("select serviceHourId, serviceClientId, userId, eventId, hours, "
+						+ "status from serviceHours", new ServiceHourRowMapper());
+		
+		return results;
 	}
 
 	@Override
@@ -72,6 +79,37 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	public ServiceHours fetchHoursById(int shid) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private class ServiceHourRowMapper implements RowMapper<ServiceHours> {
+
+		@Override
+		public ServiceHours mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			/*
+			 * We use the daos for each seperate entity
+			 */
+			 ServiceHours sh = new ServiceHours();
+			 
+			try {
+				
+				sh.setShid(rs.getInt("serviceHourId"))
+				.setServedPet(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))
+				.setServant(userDao.fetchUserById(rs.getInt("userId")))
+				.setEvent(eventDao.fetchEventById(rs.getInt("eventId")))
+				.setHours(rs.getDouble("hours"))
+				.setStatus(rs.getString("status"));
+				
+				
+			}	catch (Exception e) {
+				
+				e.printStackTrace();
+			}
+			
+			return sh; 
+		}
+		
+		
 	}
 
 	
