@@ -44,7 +44,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	
 	@Override
 	public List<ServiceHours> listAll() throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
