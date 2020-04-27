@@ -82,6 +82,22 @@ public class ServiceClientController {
 		   
 		   return mav;
 	   }
+	   
+	   @GetMapping("/boardMember")
+		public ModelAndView managePetAction(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView mav = new ModelAndView("home/managePet");
+
+			return mav;
+		}
+	   
+	   @GetMapping("/updatePet")
+		public ModelAndView updatePetAction(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView mav = new ModelAndView("home/updatePet");
+
+			return mav;
+		}
 }
 
 

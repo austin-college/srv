@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS serviceClients;
 drop table if exists users;
 drop table if exists reasons;
-drop table if exists events;
 drop table if exists eventParticipants;
+drop table if exists events;
 DROP TABLE IF EXISTS contacts;
 DROP TABLE IF EXISTS serviceHours; 
 
@@ -72,10 +72,10 @@ CREATE TABLE events (
 );
 
 CREATE TABLE eventParticipants (
-	eventParticipantsId integer auto_increment,
+	eventParticipantId integer auto_increment,
 	eventId integer,
 	userId integer,
-	primary key (eventParticipantsId),
+	primary key (eventParticipantId),
 	foreign key (eventId)
 		references events(eventId)
 		on delete set NULL,

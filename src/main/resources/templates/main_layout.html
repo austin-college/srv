@@ -59,13 +59,14 @@
 						<a href="#events">Events</a>
 						<!-- When the user is logged in, displays a profile icon, other displays 'Log In' -->
 						<#if user?exists>
-						<a id="profileIcon" href="#userProfile">
-	  						<i class='fas fa-user-circle'></i>
-	  					</a>
+	  					<a href="/srv/logout">Log out</a>
+						<a id="profileIcon" class="float-right"  href="#userProfile">
+							  <i class='fas fa-user-circle'></i>
+							  </a>
 						<!--  DON'T KNOW WHY LINE BELOW IS THERE -->
 						<!-- ${user.name!""} -->
 						<#else>
-							<a href="#login">Log In</a>
+							<a class="float-right" href="/srv/home">Log In</a>
 						</#if>
 					</div>
 				</div>

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.event.JdbcTemplateEventDao;
+import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
@@ -48,6 +49,11 @@ public class H2DatabaseConfig {
 	@Bean
 	public JdbcTemplateEventDao EventDao() {
 		return new JdbcTemplateEventDao();
+	}
+	
+	@Bean
+	public JdbcTemplateEventParticipantDao EventParticipantDao() {
+		return new JdbcTemplateEventParticipantDao();
 	}
 
 //    @Bean
