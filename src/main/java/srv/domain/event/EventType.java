@@ -1,5 +1,7 @@
 package srv.domain.event;
 
+import java.io.Serializable;
+
 /**
  * 
  * 
@@ -15,31 +17,48 @@ package srv.domain.event;
  *         that returns True if the event is AC and False if the event is non AC
  *         event.
  */
-public class EventType {
-
+public class EventType implements Serializable {
+	
+	private Integer etid;
 	private String name;
 	private String description;
 
-	public EventType(String name, String description) {
+	public EventType(Integer etid, String name, String description) {
 		super();
+		this.etid = etid;
 		this.name = name;
 		this.description = description;
+	}
+	
+	public EventType() {
+		super();
+	}
+	
+	public Integer getEtid() {
+		return etid;
+	}
+
+	public EventType setEtid(Integer etid) {
+		this.etid = etid;
+		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public EventType setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public EventType setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 
 }
