@@ -1,5 +1,5 @@
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Edit Board Members" "home.css">
+<@layout.stdpage "Manage Board Members/Co-Chairs" "home.css">
 <div id="mainContainer" class="container">
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col-md">
@@ -19,6 +19,14 @@
 			</div>
 		</div>
 	
+		<div class="row" style="padding-left:20px; padding-bottom:20px">
+			<div class="col">
+				<a href="addHours" class = "btn btn-md btn-dark addBtn">
+					<span class="	fas fa-plus-circle"></span>
+					Create/Activate
+				</a>
+			</div>
+		</div>
 	
 		<!-- board member table -->
 		<table id="dtDynamicVerticalScroll"
@@ -93,7 +101,15 @@
 				</h2>
 			</div>
 		</div>
-	
+		
+		<div class="row" style="padding-left:20px; padding-bottom:20px">
+			<div class="col">
+				<a href="addHours" class = "btn btn-md btn-dark addBtn">
+					<span class="	fas fa-plus-circle"></span>
+					Create/Activate
+				</a>
+			</div>
+		</div>
 	
 		<!-- Co-Chair table -->
 				<table id="dtDynamicVerticalScroll"
