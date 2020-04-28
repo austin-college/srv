@@ -7,7 +7,7 @@
 function delClient(client_id) {
 	// The ID of the selected service hour to be deleted is harvested from the table
 	var idStr = client_id;
-	
+
 	$.ajax({
 		method: "POST",
 		url: "/srv/ajax/delServiceClient",
@@ -32,7 +32,7 @@ function delClient(client_id) {
  * create the functionality of the buttons.
  */
 $(document).ready(function() {	
-	 
+
 	//Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen: false,
@@ -47,41 +47,74 @@ $(document).ready(function() {
 		open: function(event, ui) {
 			/*
 			 * Prompt on the delete service client dialog, verifying if they want to delete the selected service client.
-			*/ 
+			 */ 
 			$("#delMsg1").html("The following service client will be permanently deleted and cannot be recovered.");
 			$("#delMsg2").html("Are you sure you want to delete?");
 		},							
 		buttons: [
-		{
-			text: "DELETE SERVICE CLIENT", 
-    			  "class": 'delBtnClass',
-    		click: function() {
-    			delClient($("#delDlg").data('selectedClientID'));
-    			$("#delDlg").dialog("close");
-    			$("#delMsg1").empty();
-    			$("#delMsg2").empty();   			
-    		}
-		},
-        {	
-			text: "CANCEL",
-        	      "class": 'cancBtnClass',
-        	click: function() {
-        		$("#delDlg").dialog("close");
-        		$("#delMsg1").empty();
-        		$("#delMsg2").empty();
-        	}
-        }]
-	});	 
-
+			{
+				text: "DELETE SERVICE CLIENT", 
+				"class": 'delBtnClass',
+				click: function() {
+					delClient($("#delDlg").data('selectedClientID'));
+					$("#delDlg").dialog("close");
+					$("#delMsg1").empty();
+					$("#delMsg2").empty();   			
+				}
+			},
+			{	
+				text: "CANCEL",
+				"class": 'cancBtnClass',
+				click: function() {
+					$("#delDlg").dialog("close");
+					$("#delMsg1").empty();
+					$("#delMsg2").empty();
+				}
+			}]
+	});
 	
-    /* 
-     * Opens delete service client dialog and passes in the selected delete button's 
-     * service client's id when a delete button is clicked on
-     */
-    $(".del").on("click", function() {
-    	var selected_scid = $(this).attr('onDelClick');
-    	$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
-    });
-    
- 
-});
+	//Register and hide the add dialog div until an add button is clicked on.
+	$("#addDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 800,
+		modal: true,
+		dialogClass: "addDlgClass",
+	})
+	
+	//Register and hide the add dialog div until an add button is clicked on.
+	$("#editDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 800,
+		modal: true,
+		dialogClass: "editDlgClass",
+	})
+
+
+
+		/* 
+		 * Opens delete service client dialog and passes in the selected delete button's 
+		 * service client's id when a delete button is clicked on
+		 */
+		$(".del").on("click", function() {
+			var selected_scid = $(this).attr('onDelClick');
+			$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
+		});
+
+		/* 
+		 * Opens add service client dialog
+		 */
+		$(".addBtnContainer").on("click", function() {
+			$("#addDlg").dialog("open");
+		});
+		
+		/* 
+		 * Opens add service client dialog
+		 */
+		$(".edit btn").on("click", function() {
+			$("#editDlg").dialog("open");
+		});
+
+
+	});

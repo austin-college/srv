@@ -1,90 +1,373 @@
 <#import "/main_layout.html" as layout />
 <!-- CSS style for jquery widgets -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<@layout.stdpage "Service Client Manager" "listStyle.css" "serviceclients/listClients.js">
+<@layout.stdpage "Service Client Manager" "listStyle.css"
+"serviceclients/listClients.js">
 
-	<!-- Holds the main elements of the page which include the service client table and its title
+<!-- Holds the main elements of the page which include the service client table and its title
 	     as well as the add buttons and dialogs. -->
-	<div id="mainContainer" class="container">
-	  <!-- The row below contains the table's title. -->
-	  <div class= "row">
-	    <div class="col">
-		  <h1>Service Client List</h1>
+<div id="mainContainer" class="container">
+	<!-- The row below contains the table's title. -->
+	<div class="row">
+		<div class="col">
+			<h1>Service Client List</h1>
 		</div>
-	  </div>
-	  
-	  <!-- The row below contains the button to add another organization to the table. -->
-	  <div class="row" style="padding-left:30px; padding-bottom:20px">	
-	    <div id="addBtnContainer" class="col-sm-3 widget rounded">	
-		  <span class="	fas fa-plus-circle"></span>
-		  <input class="addBtn ui-button ui-widget" type="submit" value="Add Service Client" />	
-		</div>		
-	  </div>
-	  
-	  <!-- The row below contains the table of service clients. -->
- 	  <div class="row"> 
-	    <div class="col">
-		  <div class="container ui-widget table-responsive">
-		    <table id="comm_tbl" class="table ui-widget ui-widget-content table-striped table-bordered table-hover">
-			  <thead>
-			    <tr class = "ui-widget-header">
-				  <th>ID</th>
-				  <th>Title</th>
-				  <th>Contact Name</th>
-				  <th>Board Member</th>
-				  <th>Category</th>
-				  <th colspan='2'>Actions</th>
-				</tr>
-			  </thead>
-			  <tbody id="sc_tbl_body">
-			  	<#list clients as sc>
-			    <tr id="scid-${sc.scid}">
-				  <td name='sc_id'>${sc.scid!"UNKNOWN"}</td>
-	        	  <td name='sc_title'>${sc.name!"UNKNOWN"}</td>
-	        	  <td name='sc_contact_name'><a href="#"> ${sc.mainContact.firstName!"UNKNOWN"} ${sc.mainContact.lastName!"UNKNOWN"}</a></td>
-	        	  <td name='sc_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
-	        	  <td name='sc_category'>${sc.category!"UNKNOWN"}</td>
-				  <td> 
-				    <button type="button" class="edit btn">
-					<span class="fas fa-pencil-alt"></span> 
-					  Edit
-					</button>
-				  </td>
-				  <td>
-				    <button type="button" class="del btn" onDelClick="${sc.scid?c}">
-					<span class="fas fa-trash-alt"></span>  
-					  Delete 
-					</button>
-				 </td>
-				 </tr>
-				 </#list>
-			   </tbody>
-			 </table>
-		   </div>
-		 </div> 
-	   </div>
-	  
-	  <!-- The row below contains the button to add another service client to the table. -->
-	  <div class="row" style="padding-left:30px">	
-	    <div id="addBtnContainer" class="col-sm-3 widget rounded">
-		  <span class="	fas fa-plus-circle"></span>
-		  <input class="addBtn ui-button ui-corner-all ui-widget" type="submit" value="Add Service Client" />
-		</div>
-	  </div>
-	 	  
-	  	  <!-- The div below defines the delete dialog for deleting an service client which is hidden by JS and exposed by JQ. -->
-	  <div id="delDlg" title="DELETE SELECTED ORGANIZATION" class="ui-widget delWid">
-	  	<p id= "del_confirm">
-	  	    <br><br>
-	  	  <span id="delMsg1"></span>
-			<br><br>
-		  <span id="delMsg2"></span>
-	    </p>
-	  </div>
-	  
-	  
-<!-- JavaScript file that will allow us to use jquery widgets -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</div>
 
-</@layout.stdpage>
+	<!-- The row below contains the button to add another organization to the table. -->
+	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
+		<div id="addBtnContainer" class="col-sm-3 widget rounded">
+			<span class="	fas fa-plus-circle"></span> <input
+				class="addBtn ui-button ui-widget" type="submit"
+				value="Add Service Client" />
+		</div>
+	</div>
+
+	<!-- The row below contains the table of service clients. -->
+	<div class="row">
+		<div class="col">
+			<div class="container ui-widget table-responsive">
+				<table id="comm_tbl"
+					class="table ui-widget ui-widget-content table-striped table-bordered table-hover">
+					<thead>
+						<tr class="ui-widget-header">
+							<th>ID</th>
+							<th>Title</th>
+							<th>Contact Name</th>
+							<th>Board Member</th>
+							<th>Category</th>
+							<th colspan='2'>Actions</th>
+						</tr>
+					</thead>
+					<tbody id="sc_tbl_body">
+						<#list clients as sc>
+						<tr id="scid-${sc.scid}">
+							<td name='sc_id'>${sc.scid!"UNKNOWN"}</td>
+							<td name='sc_title'>${sc.name!"UNKNOWN"}</td>
+							<td name='sc_contact_name'><a href="#">
+									${sc.mainContact.firstName!"UNKNOWN"}
+									${sc.mainContact.lastName!"UNKNOWN"}</a></td>
+							<td name='sc_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
+							<td name='sc_category'>${sc.category!"UNKNOWN"}</td>
+							<td>
+								<button type="button" class="edit btn">
+									<span class="fas fa-pencil-alt"></span> Edit
+								</button>
+							</td>
+							<td>
+								<button type="button" class="del btn" onDelClick="${sc.scid?c}">
+									<span class="fas fa-trash-alt"></span> Delete
+								</button>
+							</td>
+						</tr>
+						</#list>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- The row below contains the button to add another service client to the table. -->
+	<div class="row" style="padding-left: 30px">
+		<div id="addBtnContainer" class="col-sm-3 widget rounded">
+			<span class="	fas fa-plus-circle"></span> <input
+				class="addBtn ui-button ui-corner-all ui-widget" type="submit"
+				value="Add Service Client" />
+		</div>
+	</div>
+
+	<!-- The div below defines the delete dialog for deleting an service client which is hidden by JS and exposed by JQ. -->
+	<div id="delDlg" title="DELETE SELECTED ORGANIZATION"
+		class="ui-widget delWid">
+		<p id="del_confirm">
+			<br>
+			<br> <span id="delMsg1"></span> <br>
+			<br> <span id="delMsg2"></span>
+		</p>
+	</div>
+
+	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
+	<!--  Credit to be given to who ever made the viewHours HTML, I bases most of this off what your work did -->
+	<div id="addDlg" title="Add Service Organization"
+	style= overflow-y:auto;
+		class="ui-widget delWid">
+		<div class="container">
+			<div class="row">
+				<div class='form-group'>
+
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Client Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class="row">
+						<div class='col'>
+							<label for="addDlg_clientName"><b>Client Name:</b></label> <input>
+						</div>
+
+					</div>
+					
+					<div class="row">
+						<div class='col'>
+						<label for="addDlg_selcCat"><b>Select Category:</b></label> <input>
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<label for="addDlg_descOfClient"><b>Description of The Client:</b></label> <input>
+						</div>
+					</div>
+
+
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Address Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_address"><b>Address:</b></label> <input
+								type="text" id="editDlg_address" value=${address! "118 Main
+								Street"} size='15'>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_city"><b>City:</b></label> <input type="text"
+								id="editDlg_city" " value=${city! "Sherman"} size='15'>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_zip"><b>Zip Code:</b></label> <input
+								type="text" id="editDlg_zip" value=${zip! "75090"} size='5'>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_state"><b>State:</b></label> <input
+								type="text" id="editDlg_state" value=${state! "TX"} size='5'>
+						</div>
+					</div>
+
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Main Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactName"><b>Contact's Name:</b></label> <input
+								type="text" id="editDlg_contactName" value=${conName!"Joe_Smith"}>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactNumber"><b>Contact's Phone
+									Number:</b></label> <input type="text" id="editDlg_contactNumber"
+								" value=${conNumber! "903-331-1241"} size='15'>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
+							<input type="text" id="editDlg_contactEmail" value=${conEmail!
+								"randomEmail@gmail.com"}>
+						</div>
+					</div>
+
+				</div>
+				
+				<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Secondary Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactName"><b>Contact's Name:</b></label> <input
+								type="text" id="editDlg_contactName" value=${conName!"Leroy_Jenks"}>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactNumber"><b>Contact's Phone
+									Number:</b></label> <input type="text" id="editDlg_contactNumber"
+								" value=${conNumber! "903-623-2311"} size='15'>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
+							<input type="text" id="editDlg_contactEmail" value=${conEmail!
+								"leroyJenks@gmail.com"}>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
+	<!--  Credit to be given to who ever made the viewHours HTML, I bases most of this off what your work did -->
+	<div id="editDlg" title="Edit Service Organization"
+	style= overflow-y:auto;
+		class="ui-widget delWid">
+		<div class="container">
+			<div class="row">
+				<div class='form-group'>
+
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Client Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class="row">
+						<div class='col'>
+							<label for="addDlg_clientName"><b>Client Name:</b></label> <input>
+						</div>
+
+					</div>
+					
+					<div class="row">
+						<div class='col'>
+						<label for="addDlg_selcCat"><b>Select Category:</b></label> <input>
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<label for="addDlg_descOfClient"><b>Description of The Client:</b></label> <input>
+						</div>
+					</div>
+
+
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Address Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_address"><b>Address:</b></label> <input
+								type="text" id="editDlg_address" value=${address! "118 Main
+								Street"} size='15'>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_city"><b>City:</b></label> <input type="text"
+								id="editDlg_city" " value=${city! "Sherman"} size='15'>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_zip"><b>Zip Code:</b></label> <input
+								type="text" id="editDlg_zip" value=${zip! "75090"} size='5'>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_state"><b>State:</b></label> <input
+								type="text" id="editDlg_state" value=${state! "TX"} size='5'>
+						</div>
+					</div>
+
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Main Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactName"><b>Contact's Name:</b></label> <input
+								type="text" id="editDlg_contactName" value=${conName!"Joe_Smith"}>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactNumber"><b>Contact's Phone
+									Number:</b></label> <input type="text" id="editDlg_contactNumber"
+								" value=${conNumber! "903-331-1241"} size='15'>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
+							<input type="text" id="editDlg_contactEmail" value=${conEmail!
+								"randomEmail@gmail.com"}>
+						</div>
+					</div>
+
+				</div>
+				
+				<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Secondary Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactName"><b>Contact's Name:</b></label> <input
+								type="text" id="editDlg_contactName" value=${conName!"Leroy_Jenks"}>
+						</div>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactNumber"><b>Contact's Phone
+									Number:</b></label> <input type="text" id="editDlg_contactNumber"
+								" value=${conNumber! "903-623-2311"} size='15'>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
+							<input type="text" id="editDlg_contactEmail" value=${conEmail!
+								"leroyJenks@gmail.com"}>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- JavaScript file that will allow us to use jquery widgets -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	</@layout.stdpage>
