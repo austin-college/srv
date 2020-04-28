@@ -105,14 +105,14 @@ $(document).ready(function() {
 		/* 
 		 * Opens add service client dialog
 		 */
-		$(".addBtnContainer").on("click", function() {
+		$(".addBtn").on("click", function() {
 			$("#addDlg").dialog("open");
 		});
 		
 		/* 
 		 * Opens add service client dialog
 		 */
-		$(".edit btn").on("click", function() {
+		$(".edit ").on("click", function() {
 			$("#editDlg").dialog("open");
 		});
 
