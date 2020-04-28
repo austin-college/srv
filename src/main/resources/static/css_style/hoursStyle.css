@@ -2,7 +2,6 @@
 
 /* Style for the container containing the stats info*/
 .container-statsBackground {
- float: left;
  background-color: white;
  width: 25%;
  height 100%;
@@ -25,7 +24,6 @@
 
 /* style for table background */
 .container-tableBackground {
-	float: right;
 	background-color: white;
 	height: 100%;
 	width: 75%
@@ -53,6 +51,12 @@
 thead th {
 	background-color: #a41e34;
 	color: white;
+	text-align: center;
+}
+
+.wtTh{
+	background-color: white;
+	color: black;
 	text-align: center;
 }
 

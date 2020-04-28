@@ -6,47 +6,45 @@
 <@layout.stdpage "Hours Served" "hoursStyle.css"
 "hours/servantHrsList.js">
 
-<div class="container-mainContainer">
-	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
-		<div class="col">
+<div>
+	<div class="row" style="padding-left: 30px; padding-bottom: 30px">
 			<!--  this container holds onto all information regarding Stats
 		and has the button as well located at the bottom -->
-			<div class="container-statsBackground">
+			<div>
 				<div>
-					<h1>Service Stats</h1>
+				<!-- TODO To be replaced with live servant Name -->
+					<h1>Welcome, Servant</h1>
+					<h2>Service Stats</h2>
 				</div>
-				<div class="container-Stats">
 					<div class="container-tableBackground">
-						<div>
-							<h1>Service Hours</h1>
-						</div>
 						<!-- container thats creating a table that will hold our data-->
-						<div class="container ui-widget table-responsive">
+						<div class="container ui-widget">
 							<div Id="table" class="row">
 								<table
 									class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 									<thead>
+										<tr class="ui-widget-header">
+											<th>Hours Served</th>
+											<th class="wtTh">15</th>
+											<th>Organizations Helped</th>
+											<th class="wtTh">2</th>
+											
+										</tr>
 
 									</thead>
 								</table>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- Buttons that will either lead to the user profile,
-				or ask the to enter their service hours -->
-
+				<!-- Button that prompts the user to enter their service hours -->
 				<div id="addBtnContainer" style="padding-top: 10px">
-					<button type="button" class="btn btn-md btn-dark addBtn">
-						View Profile</button>
 					<!-- Button that takes you to add hours page -->
 					<a href="addHours" class="btn btn-md btn-dark addBtn"> <span
 						class="	fas fa-plus-circle"></span> Add hours
 					</a>
 				</div>
 			</div>
-		</div>
 	</div>
 	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
 		<!-- BIG credit to Lydia for the most of the elements in this table, and for making the style -->
