@@ -110,7 +110,7 @@ CREATE TABLE serviceHours (
 	foreign key (eventId)
 		references events(eventId)
 		on delete set NULL
-);
+	);
 	
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
