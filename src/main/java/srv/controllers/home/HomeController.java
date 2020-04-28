@@ -95,4 +95,12 @@ public class HomeController {
 
 		return mav;
 	}
+	
+	@GetMapping("/home/admin/listClients")
+	public ModelAndView adminEditClients(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("home/admin/listClients");
+
+		return mav;
+	}
 }
