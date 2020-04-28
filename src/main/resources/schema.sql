@@ -2,9 +2,9 @@ DROP TABLE IF EXISTS serviceClients;
 drop table if exists users;
 drop table if exists reasons;
 drop table if exists eventParticipants;
+drop table if exists eventType;
 drop table if exists events;
 DROP TABLE IF EXISTS contacts;
-DROP TABLE IF EXISTS serviceHours; 
 
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
@@ -84,28 +84,12 @@ CREATE TABLE eventParticipants (
 		on delete set NULL
 );
 
-CREATE TABLE serviceHours ( 
-
-	serviceHourId integer auto_increment, 
-	serviceClientId int,
-	userId int, 
-	eventId int
-	hours varchar(255), 
-	status varchar(225), 
-	primary key (serviceHourId), 
-	foreign key (serviceClientId)
-		references serviceClients(serviceClientId)
-		on delete set NULL
-	foreign key (userId)
-		references users(userId)
-		on delete set NULL
-	foreign key (eventId)
-		references events(eventId)
-		on delete set NULL
-	
-);
-	
-	
+CREATE TABLE eventTypes (
+	eventTypeId INTEGER AUTO_INCREMENT,
+	name VARCHAR(255),
+	description VARCHAR(255),
+	primary key (eventTypeId)
+	);
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
@@ -148,7 +132,6 @@ insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
 
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status) VALUES (1, 1, 1, '3', 'Approved');
-INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (2, 2, 2, '2', 'Pending');
-INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (1, 3, 3, '3', 'Approved');
-INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status) VALUES (3, 4, 2, '2', 'Approved');  
+INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service');
+INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
+INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');

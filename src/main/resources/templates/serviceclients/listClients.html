@@ -52,7 +52,7 @@
 					</button>
 				  </td>
 				  <td>
-				    <button type="button" class="del btn">
+				    <button type="button" class="del btn" onDelClick="${sc.scid?c}">
 					<span class="fas fa-trash-alt"></span>  
 					  Delete 
 					</button>
@@ -83,68 +83,7 @@
 	    </p>
 	  </div>
 	  
-	   <!--  The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
-	  <div id="addDlg" title="ADD NEW PET" class="ui-widget">
-	    <div class="container">
-		  <div class="row">
-		    <div class="form-group">
-			  <label class="form-label" for="addDlg_scID">ID: </label>
-			  <input id="addDlg_scID" class="form-control" type="text" placeholder="ID" autocomplete="off"/>
-			</div>
-		  </div>
-		  <div class="row">
-		    <div class="form-group">
-			  <label class="form-label" for="addDlg_scTitle">Title</label>
-			  <input id="addDlg_scTitle" class="form-control" type="text" placeholder="Title" autocomplete="off"/>
-			</div>
-		  </div>
-		  <div class="row">
-		    <div class="form-group">
-			  <label class="form-label" for="addDlg_scContact">Contact Name</label>
-			  <input id="addDlg_scContact" class="form-control" type="text" placeholder="Contact Name" autocomplete="off"/>
-			</div>
-		  </div>
-		  <div class="row">
-			<div class="form-group">
-			  <label class="form-label" for="addDlg_scCategory">Category</label>
-			  <input id="addDlg_scCategory" class="form-control" type="text" placeholder="Category" autocomplete = "off"/>
-			</div>
-		  </div>
-	    </div>
-	  </div>
 	  
-	   <!-- The div below defines the edit dialog for editing/updating an service client which is hidden by JS and exposed by JQ.
-	    	Note: Can not change the ID of the organization. -->
-	    <div id="editDlg" title="EDIT SELECTED SERVICE CLIENT" class="ui-widget">
-	      <p>All form fields are required.</p>
-	      <div class="container">
-		    <div class="row">
-			  <div class="form-group">
-			    <label id="editID_lbl" class="form-label"  placeholder="0"></label>
-			  </div>
-		    </div>
-		    <div class="row">
-			  <div class="form-group">
-			    <label class="form-label" for="editDlg_scTitle">Title</label>
-				<input id="editDlg_scTitle" class="form-control" type="text" autocomplete="off"/>
-			  </div>
-		    </div>
-		    <div class="row">
-			  <div class="form-group">
-				<label class="form-label" for="editDlg_scContact">Contact Name</label>
-				<input id="editDlg_scContact" class="form-control" type="text" autocomplete="off"/>
-			  </div>"src/main/resources/templates/main_layout.html"
-		    </div>
-		    <div class="row">
-			  <div class="form-group">
-				<label class="form-label" for="editDlg_scCategory">Category</label>
-				<input id="editDlg_scCategory" class="form-control" type="text" autocomplete="off"/>
-			  </div>
-		    </div>
-		  </div>
-		</div>
-		</div>
-
 <!-- JavaScript file that will allow us to use jquery widgets -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
