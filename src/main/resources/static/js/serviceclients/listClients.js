@@ -75,11 +75,20 @@ $(document).ready(function() {
 	
 	//Register and hide the add dialog div until an add button is clicked on.
 	$("#addDlg").dialog({
-		autoOpen: true,
-		height: 350,
-		width: 400,
+		autoOpen: false,
+		height: 500,
+		width: 800,
 		modal: true,
 		dialogClass: "addDlgClass",
+	})
+	
+	//Register and hide the add dialog div until an add button is clicked on.
+	$("#editDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 800,
+		modal: true,
+		dialogClass: "editDlgClass",
 	})
 
 
@@ -98,6 +107,13 @@ $(document).ready(function() {
 		 */
 		$(".addBtnContainer").on("click", function() {
 			$("#addDlg").dialog("open");
+		});
+		
+		/* 
+		 * Opens add service client dialog
+		 */
+		$(".edit btn").on("click", function() {
+			$("#editDlg").dialog("open");
 		});
 
 
