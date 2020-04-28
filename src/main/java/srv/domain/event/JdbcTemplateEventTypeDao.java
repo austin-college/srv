@@ -18,6 +18,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateEventTypeDao.class);
 	
+	// Default Constructor
 	public JdbcTemplateEventTypeDao() {
 		super();
 	}
@@ -28,8 +29,8 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	@Override
 	public List<EventType> listAll() throws Exception {
 		
-		List<EventType> results = getJdbcTemplate().query(
-				"SELECT event type id, name, descritpion FROM eventTypes", new EventTypeRowMapper());
+		List<EventType> results = getJdbcTemplate()
+				.query("select eventTypeId, name, description from eventTypes", new EventTypeRowMapper());
 		 
 		return results;
 	}
@@ -60,10 +61,10 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 		if (num == null ) {
 			String msg = String.format("Unable to insert new eventType [%s]", name);
 			log.warn(msg);
-			throw new Exception("Unable to insert new unique contact.");
+			throw new Exception("Unable to insert new unique eventType.");
 		}
 	   
-	   log.debug("generated id is {}", num);
+	   log.debug("generated event type id is {}", num);
 		
 	   return this.fetchEventTypeById((int)num);
 	   
@@ -76,10 +77,10 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	@Override
 	public void delete(int etid) throws Exception {
 		
-		int rc = getJdbcTemplate().update("DELETE FROM eventType WHERE eventTypeId= ?", new Object[] { etid });
+		int rc = getJdbcTemplate().update("DELETE FROM eventTypes WHERE eventTypeId= ?", new Object[] { etid });
 		
 		if (rc != 1) {
-			String msg = String.format("Unable to delete event type [%s]",etid);
+			String msg = String.format("Unable to delete eventType [%s]",etid);
 			log.warn(msg);
 			throw new Exception(msg);
 		}
@@ -93,11 +94,14 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	@Override
 	public void update(int etid,  String name, String description) throws Exception {
 		
-		int rc = getJdbcTemplate().update("UPDATE eventType SET name = ?, dscription = ?", 
-				new Object[] {name, description});
+		int rc = getJdbcTemplate().update(
+				"UPDATE eventTypes SET name = ?, description = ? WHERE eventTypeId = ?", 
+				new Object[] {name, description, etid});
 
 		if (rc < 1) {
-			log.error("Unable to update event type [{}]",etid);
+			String msg = String.format("Unable to update event type [%]", etid);
+			log.error(msg);
+			throw new Exception(msg);
 		}
 		
 	}
@@ -109,29 +113,34 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	@Override
 	public EventType fetchEventTypeById(int etid) throws Exception {
 		
-		String sqlStr = String.format("SELECT etId, name, description"
-				+ "FROM contacts WHERE etId = %d", etid);
+		String sqlStr = String.format("SELECT eventTypeId, name, description"
+				+ " FROM eventTypes WHERE eventTypeId = %d", etid);
 		log.debug(sqlStr);
 		
 		List<EventType> results = getJdbcTemplate().query(sqlStr, new EventTypeRowMapper());
 		
-		if (results.size() != 1) {
-			log.error("Unable to fetch contact [{}]", etid);
+		if (results.size() < 1) {
+			log.error("Unable to fetch event type id [{}]", etid);
+			return null;
 		}
 		
 		return results.get(0);
 	}
 
-	private class EventTypeRowMapper implements RowMapper <EventType> {
+	private class EventTypeRowMapper implements RowMapper<EventType> {
 	    @Override
 	    public EventType mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-	    	EventType et = new EventType()
-	    			.setEtid(rs.getInt("eventTypeId"))
+	    	EventType et = new EventType();
+	    	
+	    	try {
+	    			et.setEtid(rs.getInt("eventTypeId"))
 	    			.setName(rs.getString("name"))
 	    			.setDescription(rs.getString("description"));
-	        
-	        return et;
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	return et;
 	    }
 	}
 

@@ -84,14 +84,11 @@ CREATE TABLE eventParticipants (
 		on delete set NULL
 );
 
-CREATE TABLE contacts (
+CREATE TABLE eventTypes (
 	eventTypeId INTEGER AUTO_INCREMENT,
 	name VARCHAR(255),
 	description VARCHAR(255),
-	primary key (eventTypeId),
-	foreign key (contactId)
-		references contacts(contactId)
-		on delete set NULL
+	primary key (eventTypeId)
 	);
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
@@ -135,6 +132,6 @@ insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
 
-INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service')
-INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve')
-INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound')
+INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service');
+INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
+INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');
