@@ -157,22 +157,22 @@ class EventDaoTests {
 
 	}
 
-	/*
-	 * Tests getParticipants()
-	 */
-	@Test
-	void testGetParticipants_whenUsingJdbcTemplate() throws Exception {
-
-		// test that e1 can be fetched
-		int id1 = 1;
-		Event e1 = dao.fetchEventById(id1);
-
-		assertEquals(id1, e1.getEid());
-
-		assertEquals("Dummy Event 1", e1.getTitle());
-
-		// assertFalse(e1.getParticipantsList() == null);
-		System.err.println("User List Size: " + e1.getParticipantsList().size());
-		// assertEquals("apritchard", usersOfEvent1.get(0).getUsername());
-	}
+//	/*
+//	 * Tests getParticipants()
+//	 */
+//	@Test
+//	void testGetParticipants_whenUsingJdbcTemplate() throws Exception {
+//
+//		// test that e1 can be fetched
+//		int id1 = 1;
+//		Event e1 = dao.fetchEventById(id1);
+//
+//		assertEquals(id1, e1.getEid());
+//
+//		assertEquals("Dummy Event 1", e1.getTitle());
+//
+//		assertFalse(e1.getParticipantsList() == null);
+////		System.err.println("User List Size: " + usersOfEvent1.size());
+//		// assertEquals("apritchard", usersOfEvent1.get(0).getUsername());
+//	}
 }

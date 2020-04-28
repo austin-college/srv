@@ -1,0 +1,49 @@
+<#import "/main_layout.html" as layout/>
+<!-- TODO Surround in form(post), and add submit button -->
+<@layout.stdpage "Update Pet" "boardMemberHome.css">
+
+	    <h1>Update Pet</h1>
+
+	  <div class="container-fluid">
+	   <div class="row">
+	    <div class="col-lg-4">
+	    <form action="/srv/home/boardMember.html">
+	     <div class="form-group">
+	       <label for="name">Service Client: </label><br>
+	       <input type="text" class="form-control" value="EX: Habitat for Humanity"><br>
+		   
+		 
+	     </div>
+	    </div>
+	    <div class="col-lg-4">
+	     <div class="form-group">
+		   <label for="location">Address: </label><br>
+		   <input type="text" class="form-control" value="123 Ln"><br>
+		   <label for="zip">Zip Code: </label><br>
+		   <input type="text" class="form-control" value="23456"><br>
+		   <label for="city">City: </label><br>
+		   <input type="text" class="form-control" value="Sherman"><br>
+		   <label for="state">State: </label><br>
+		   <input type="text" class="form-control" value="TX"><br>
+		 </div>
+		</div>
+		<div class="col-lg-4">
+		  <div class="form-group">
+		   <label for="contact-name">Contact Name: </label><br>
+		   <input type="text" class="form-control" value="John Smith"><br>
+		   <label for="contact-phone">Contact Phone Number Mobile: </label><br>
+		   <input type="tel" class="form-control" id="contact-phone name="phone" pattern:"[0-9]{3} - [0-9]{2} - [0-9]{3}"><br>
+		   <label for="contact-phone">Contact Phone Number Work: </label><br>
+		   <input type="tel" class="form-control" id="contact-phone name="phone" pattern:"[0-9]{3} - [0-9]{2} - [0-9]{3}"><br>
+		   <label for="email">Contact Email: </label><br>
+		   <input type="email" id="contact-email" class="form-control" name="contact-email" value="email@example.com"><br>
+		  
+		     <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+		  </div>
+		</div>
+	  </div>
+	  </form>
+	 </div>
+
+
+</@layout.stdpage>
