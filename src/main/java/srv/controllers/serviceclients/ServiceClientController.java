@@ -62,6 +62,10 @@ public class ServiceClientController {
 	   /**
 	    *  Ajax action that renders a new page removing the selected service client from the table.
 	    * 
+	    * TODO this should return a string where if successful (found the id) returns "okay" and
+	    * if unsuccessful returns "error" with error message explaining why. The corresponding jquery callback
+	    * method in listClients.js in the delClient function should handle when an exception is thrown. It is not returning
+	    * a string as of now because upon trying to delete I get a 404 not found error.
 	    * 
 	    * @param request
 	    * @param response
@@ -71,6 +75,7 @@ public class ServiceClientController {
 	   public ModelAndView ajaxServiceClientDelete(HttpServletRequest request, HttpServletResponse response) {
 
 		   response.setContentType("text/html");
+		   //response.setContentType("text/text"); will tell the js that we are expecting text back
 
 		   int id = Integer.parseInt(request.getParameter("ID")); 
 		   
@@ -82,17 +87,19 @@ public class ServiceClientController {
 		   try {
 			   
 			   doa.delete(id);   
-			   //return id;
 			   mav.addObject("scid", id);
+			   
+			 //  return "Okay";	
 			   
 		   } catch (Exception e) {
 			   System.err.println("\n\n ERROR ");
 			   System.err.println(e.getMessage());
 			   
-		//	   return -1;
+		//	   return "Error" + e.getMessage();
 		   }
 		   
-		   return mav;		   
+		  return mav;
+		  	   
 	   }
 	   
 	   

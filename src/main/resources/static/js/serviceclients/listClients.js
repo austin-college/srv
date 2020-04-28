@@ -2,6 +2,9 @@
  * The delete client function makes an AJAX call to remove the selected
  * service client from the table
  * 
+ * TODO
+ * handle when an exception is thrown
+ * 
  * @param client_id - the service client ID to be deleted
  */
 function delClient(client_id) {
@@ -12,20 +15,25 @@ function delClient(client_id) {
 		method: "POST",
 		url: "/srv/ajax/delServiceClient",
 		cache: false,
-		data: {ID: idStr}
-	})
-	/*
-	 * If successful, then remove the selected service client from the table.
-	 */
-	.done(function(data){
-		$(client_id).remove();
-	}) 
-	/*
-	 * If unsuccessful (invalid data values), display error message and reasoning.
-	 */
-	.fail(function(jqXHR, textStatus) {
-		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		data: {ID: idStr},
+		//dataType: "text",
+		/*
+		 * If successful, then remove the selected service client from the table.
+		 */
+		success: function(data) {
+			console.log("done");
+			
+			$("#scid-"+ client_id).remove();
+		},
+		/*
+		 * If unsuccessful (invalid data values), display error message and reasoning.
+		 */
+		error: function(jqXHR, textStatus) {
+			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		}
+		
 	});
+	
 }
 /**
  * When the DOM is completed loaded and ready, hide the dialogs and
