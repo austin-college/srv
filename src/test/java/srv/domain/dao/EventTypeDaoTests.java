@@ -1,6 +1,8 @@
 package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.util.List;
 
@@ -29,27 +31,25 @@ class EventTypeDaoTests {
 	 */
 	@Test
 	void testFetchEventTypeById_whenUsingJdbcTemplate() throws Exception {
+		
+		// Check existing event type in sql 1~3
+		EventType et01 = dao.fetchEventTypeById(1);
 
-		// test that et1 can be fetched
-		int id1 = 1;
-		EventType et01 = dao.fetchEventTypeById(id1);
+		assertEquals(1, et01.getEtid());
+		assertEquals("gds", et01.getName());
+		assertEquals("Great Day of Service", et01.getDescription());
 
-		assertEquals(id1, et01.getEtid());
-		assertEquals("Dummy Event Type 1", et01.getName());
+		EventType et02 = dao.fetchEventTypeById(2);
 
-		// test that et2 can be fetched
-		int id2 = 2;
-		EventType et02 = dao.fetchEventTypeById(id2);
+		assertEquals(2, et02.getEtid());
+		assertEquals("fws", et02.getName());
+		assertEquals("First We Serve", et02.getDescription());
 
-		assertEquals(id2, et02.getEtid());
-		assertEquals("Dummy Event Type 2", et02.getName());
+		EventType et03 = dao.fetchEventTypeById(3);
 
-		// test that et3 can be fetched
-		int id3 = 3;
-		EventType et03 = dao.fetchEventTypeById(id3);
-
-		assertEquals(id3, et03.getEtid());
-		assertEquals("Dummy Event Type 3", et03.getName());
+		assertEquals(3, et03.getEtid());
+		assertEquals("rbd", et03.getName());
+		assertEquals("Roo Bound", et03.getDescription());
 
 	}
 	
@@ -63,13 +63,13 @@ class EventTypeDaoTests {
 		List<EventType> events = dao.listAll();
 
 		assertEquals(1, events.get(0).getEtid());
-		assertEquals("Dummy Event Type 1", events.get(0).getName());
+		assertEquals("gds", events.get(0).getName());
 
 		assertEquals(2, events.get(1).getEtid());
-		assertEquals("Dummy Event Type 2", events.get(1).getName());
+		assertEquals("fws", events.get(1).getName());
 
 		assertEquals(3, events.get(2).getEtid());
-		assertEquals("Dummy Event Type 3", events.get(2).getName());
+		assertEquals("rbd", events.get(2).getName());
 
 	}
 	
@@ -79,14 +79,35 @@ class EventTypeDaoTests {
 	 */
 	@Test
 	void testCreate_whenUsingJdbcTemplate() throws Exception{
-		EventType et1 = dao.create("Dummy Event 4", "Dummy Event 4 Description");
-		EventType et2 = dao.create("Dummy Event 5", "Dummy Event 5 Description");
 		
-		EventType et3 = dao.fetchEventTypeById(et1.getEtid());
-		assertEquals(et1.getName(), et2.getName());
+		List<EventType> preCreate = dao.listAll();
+		int numBeforeInsert = preCreate.size();
+		System.err.println("\n\nBefore Insert " + numBeforeInsert);
+		for(EventType et : preCreate) {
+			System.err.println(et.getName());
+		}
 		
-		EventType et4 = dao.fetchEventTypeById(et2.getEtid());
-		assertEquals(et3.getName(), et4.getName());
+		EventType newET = dao.create("et04", "Event Type 4 Description");
+		
+		assertNotNull(newET);
+		
+		List<EventType> postCreate = dao.listAll();
+		int numAfterInsert = postCreate.size();
+		
+		System.err.println("\n\nAfter Insert " + numAfterInsert);
+		for(EventType et : postCreate) {
+			System.err.println(et.getName());
+		}
+		
+		// The next assigned id on successful insert should be numBeforeInsert + 1.
+		assertEquals(numBeforeInsert+1, newET.getEtid());
+		
+		// Checking the newly inserted record.
+		EventType et4 = newET;
+		
+		assertEquals(4, et4.getEtid());
+		assertEquals("et04", et4.getName());
+		assertEquals("Event Type 4 Description", et4.getDescription());
 	}
 	
 	/*
@@ -96,35 +117,18 @@ class EventTypeDaoTests {
 	@Test
 	void testDelete_whenUsingJdbcTemplate() throws Exception{
 		
-		// checks to see that event type with id 1 exists 
-		EventType et1 = dao.fetchEventTypeById(1);
-		
-		int size = dao.listAll().size();
-		
-		assertEquals(1, et1.getEtid());
-		assertEquals("Dummy Event 1", et1.getName());
-		assertEquals(size,dao.listAll().size());
-		
-		// deletes event type with id 1
 		dao.delete(1);
 		
-		// check if event type is deleted
-		assertEquals(null,dao.fetchEventTypeById(1));
-		assertEquals(2,dao.listAll().size());
+		List<EventType> ets = dao.listAll();
 		
-		// checks event type with id 2 exists
-		et1 = dao.fetchEventTypeById(2);
+		// Original Size, 3, minus 1 since we deleted = 2
+		assertEquals(2, ets.size());
 		
-		assertEquals(2, et1.getEtid());
-		assertEquals("Dummy Event 2", et1.getName());
-		assertEquals(size - 1, dao.listAll().size());
+		EventType et1 = ets.get(0);
 		
-		// delete event type with id 2
-		dao.delete(2);
-		
-		// check if event type is deleted
-		assertEquals(null, dao.fetchEventTypeById(2));
-		assertEquals(size - 2, dao.listAll().size());
+		// SQL input for Event Type id 2
+		assertEquals("fws", et1.getName());
+		assertEquals("First We Serve", et1.getDescription());
 	}
 	
 	/*
@@ -133,20 +137,12 @@ class EventTypeDaoTests {
 	@Test
 	void testUpdate_whenUsingJdbcTemplate() throws Exception{
 		
-		int id = 1;
-		EventType et1 = dao.fetchEventTypeById(id);
+		dao.update(1, "GreatDayOfService", "Austin College Hosted Event");
 		
-		assertEquals(id, et1.getEtid());
-		assertEquals("Dummy Event 1", et1.getName());
+		EventType et1 = dao.fetchEventTypeById(1);
 		
-		String newEventType = "New EventType";
-		String newContent = "New Content";
-		
-		dao.update(id, newEventType, newContent);
-		
-		et1 = dao.fetchEventTypeById(id);
-		
-		assertEquals(newEventType, et1.getName());
+		assertEquals("GreatDayOfService", et1.getName());
+		assertEquals("Austin College Hosted Event", et1.getDescription());
 	}
 	
 	
