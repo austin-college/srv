@@ -48,26 +48,22 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		super();
 	}
 	
+	
 	@Override
 	public List<ServiceHours> listAll() throws Exception {
 		
 		List<ServiceHours> results = getJdbcTemplate()
 				.query("select serviceHourId, serviceClientId, userId, eventId, hours, "
-						+ "status from serviceHours", new ServiceHourRowMapper());
+						+ "status, reflection, description from serviceHours", new ServiceHourRowMapper());
 		
 		return results;
 	}
 
-	/**
-	 * Credit to AJ
-	 * 
-	 * Creates a new contact in the data.sql database. An exception is thrown if the new contact
-	 * is a duplicate. 
-	 */
 	@Override
-	public ServiceHours create(Integer scid, Integer uid, Integer eid, Double hours, String stat) throws Exception {
+	public ServiceHours create(Integer scid, Integer uid, Integer eid, double hours, String stat, String reflection,
+			String description) throws Exception {
 		
-		  final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, stat) VALUES(?, ?, ?, ?, ?)";
+		 final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			
 		  final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -91,6 +87,8 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	                  ps.setInt(3, eid);
 	                  ps.setDouble(4, hours);
 	                  ps.setString(5, stat);
+	                  ps.setString(6, reflection);
+	                  ps.setString(7,  description);
 	                  
 	                  return ps;
 	              }, keyHolder);
@@ -107,8 +105,23 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		
 	   return this.fetchHoursById((int)num);
 		
+		
 	}
 
+
+	@Override
+	public void update(Integer shid, Integer scid, Integer uid, Integer eid, double hours, String stat,
+			String reflection, String description) throws Exception {
+	
+		int rc = getJdbcTemplate().update("UPDATE serviceHours SET serviceClientId = ?, userId = ?, eventId = ?, hours = ?,"
+				+ "status = ?, reflection = ?, description = ? WHERE serviceHourId = ?", 
+				new Object[] {shid, scid, uid, eid, hours, stat, reflection, description});
+
+		if (rc < 1) {
+			log.error("Unable to update service hour [{}]", shid);
+		}
+		
+	}
 	/**
 	 * Removes the desired Service Hour (by id) from the data.sql database. An exception is thrown if 
 	 * a service hour doesn't exist. 
@@ -126,24 +139,6 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		
 	}
 
-	/**
-	 * Updates the desired ServiceHour (by unique id) in the data.sql database with the 
-	 * new specified content. An exception is thrown if the contact is unable to update (doesn't exist).
-	 * 
-	 * NOTE: in data.sql we are setting references that have contact as a foreign key, to be null when a 
-	 * contact is removed. 
-	 */
-	@Override
-	public void update(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat) throws Exception {
-		
-		int rc = getJdbcTemplate().update("UPDATE serviceHours SET serviceClientId = ?, userId = ?, eventId = ?, hours = ?,"
-				+ "status = ? WHERE serviceHourId = ?", 
-				new Object[] {scid, uid, eid, hours, stat, shid});
-
-		if (rc < 1) {
-			log.error("Unable to update service hour [{}]", shid);
-		}
-	}
 
 	/**
 	 * An instance of this method fetched the ServiceHour by its id
@@ -189,7 +184,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 				.setServant(userDao.fetchUserById(rs.getInt("userId")))
 				.setEvent(eventDao.fetchEventById(rs.getInt("eventId")))
 				.setHours(rs.getDouble("hours"))
-				.setStatus(rs.getString("status"));
+				.setStatus(rs.getString("status"))
+				.setReflection(rs.getString("reflection"))
+				.setDescription(rs.getString("description"));
 				
 				
 			}	catch (Exception e) {
@@ -202,6 +199,8 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		
 		
 	}
+
+	
 
 	
 }

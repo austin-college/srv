@@ -97,9 +97,9 @@ CREATE TABLE serviceHours (
 	userId int, 
 	eventId int, 
 	hours VARCHAR(255), 
+	status VARCHAR(255),
 	reflection VARCHAR(255), 
 	description VARCHAR(255), 
-	status VARCHAR(255), 
 	primary key (serviceHourId), 
 	foreign key (serviceClientId)
 		references serviceClients(serviceClientId)
