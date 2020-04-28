@@ -91,6 +91,28 @@ CREATE TABLE eventTypes (
 	primary key (eventTypeId)
 	);
 	
+CREATE TABLE serviceHours (
+	serviceHourId INTEGER AUTO_INCREMENT, 
+	serviceClientId int, 
+	userId int, 
+	eventId int, 
+	hours VARCHAR(255), 
+	reflection VARCHAR(255), 
+	description VARCHAR(255), 
+	status VARCHAR(255), 
+	primary key (serviceHourId), 
+	foreign key (serviceClientId)
+		references serviceClients(serviceClientId)
+		on delete set NULL, 
+	foreign key (userId)
+		references users(userId)
+		on delete set NULL	
+	foreign key (eventId)
+		references events(eventId)
+		on delete set NULL
+);
+	
+	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 	

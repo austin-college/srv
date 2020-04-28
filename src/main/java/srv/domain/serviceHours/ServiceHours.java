@@ -62,7 +62,7 @@ public class ServiceHours implements Serializable{
 	 * @param reflection
 	 * @param description
 	 */
-	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours, String reflection, String description) {
+	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours, String reflection, String description, String stat) {
 		super();
 		this.servedPet = servedPet;
 		this.servant = servant;
@@ -71,6 +71,7 @@ public class ServiceHours implements Serializable{
 		this.date = eventName.getDate();
 		this.reflection = reflection;
 		this.description = description;
+		this.status = stat; 
 	}
 
 	public ServiceHours() {
