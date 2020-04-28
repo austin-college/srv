@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import srv.domain.event.Event;
 
 import srv.domain.serviceClient.ServiceClient;
-
+import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
 import srv.domain.serviceHours.ServiceHours;
 
 
@@ -20,6 +20,11 @@ import srv.domain.serviceHours.ServiceHours;
 public class ServiceHoursService {
 	
 	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
+	
+	//autowire
+	@Autowired
+	JdbcTemplateServiceHoursDao serviceHoursDao; 
+	
 	
 	public ServiceHoursService() {
 		initialize();

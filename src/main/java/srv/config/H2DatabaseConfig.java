@@ -9,7 +9,9 @@ import srv.domain.event.JdbcTemplateEventTypeDao;
 import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.ServiceHoursService;
 
 /**
  * This class is the home for runtime configuration for our database. It creates
@@ -60,6 +62,24 @@ public class H2DatabaseConfig {
 	@Bean
 	public JdbcTemplateEventTypeDao EventTypeDao() {
 		return new JdbcTemplateEventTypeDao();
+	}
+	
+	/*
+	 * Added ServiceHourDao bean for autowired dependency 
+	 */
+	@Bean
+	public JdbcTemplateServiceHoursDao ServiceHoursDao() {
+		
+		return new JdbcTemplateServiceHoursDao();
+	}
+	
+	/*
+	 * Added ServiceHoursService Bean for autowired dependency in HoursController
+	 */
+	@Bean
+	public ServiceHoursService serviceHoursService() {
+		
+		return new ServiceHoursService();
 	}
 
 //    @Bean

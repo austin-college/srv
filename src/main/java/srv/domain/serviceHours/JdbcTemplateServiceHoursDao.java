@@ -36,9 +36,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceHoursDao.class);
  
 	@Autowired
-	private JdbcTemplateServiceClientDao serviceClientDao;
-	private JdbcTemplateUserDao userDao;
-	private JdbcTemplateEventDao eventDao;
+	JdbcTemplateServiceClientDao serviceClientDao;
+	JdbcTemplateUserDao userDao;
+	JdbcTemplateEventDao eventDao;
 	
 	/**
 	 * Default constructor. 
