@@ -1,4 +1,6 @@
-package srv.domain;
+package srv.domain.serviceGroup;
+
+import java.io.Serializable;
 
 import srv.domain.contact.Contact;
 
@@ -7,7 +9,7 @@ import srv.domain.contact.Contact;
  *         groups(organizations/clubs on campus) info.
  *
  */
-public class ServiceGroup {
+public class ServiceGroup implements Serializable{
 
 	private Integer sgid; // unique id for each group
 	private String shortName; // nickname/acronym for group i.e. APO
@@ -21,37 +23,45 @@ public class ServiceGroup {
 		this.title = title;
 		this.contactInfo = contactInfo;
 	}
+	
+	public ServiceGroup() {
+		super();
+	}
 
 	public Integer getSgid() {
 		return sgid;
 	}
 
-	public void setSgid(Integer sgid) {
+	public ServiceGroup setSgid(Integer sgid) {
 		this.sgid = sgid;
+		return this;
 	}
 
 	public String getShortName() {
 		return shortName;
 	}
 
-	public void setShortName(String shortName) {
+	public ServiceGroup setShortName(String shortName) {
 		this.shortName = shortName;
+		return this;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public ServiceGroup setTitle(String title) {
 		this.title = title;
+		return this;
 	}
 
 	public Contact getContactInfo() {
 		return contactInfo;
 	}
 
-	public void setContactInfo(Contact contactInfo) {
+	public ServiceGroup setContactInfo(Contact contactInfo) {
 		this.contactInfo = contactInfo;
+		return this;
 	}
 
 }
