@@ -196,9 +196,4 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		}
 	}
 
-	@Override
-	public User fetchUserByUserName(String uName) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
