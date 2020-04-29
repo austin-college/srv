@@ -37,7 +37,7 @@ class ServiceClientDaoTests {
 		assertEquals(1, sc1.getScid());
 		assertEquals("Habitat for Humanity", sc1.getName());
 		assertEquals("Billy Bob", sc1.getBoardMember());
-		assertEquals("Housing, Community", sc1.getCategory());
+		assertEquals("Community", sc1.getCategory());
 
 		// Testing primary Contact info
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -85,7 +85,7 @@ class ServiceClientDaoTests {
 		// Service Client info for client id 1
 		assertEquals("Habitat for Humanity", sc1.getName());
 		assertEquals("Billy Bob", sc1.getBoardMember());
-		assertEquals("Housing, Community", sc1.getCategory());
+		assertEquals("Community", sc1.getCategory());
 
 		// Testing primary Contact info for service client 1
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -114,7 +114,7 @@ class ServiceClientDaoTests {
 		// Service Client info for client id 2
 		assertEquals("Crisis Center", sc2.getName());
 		assertEquals("Rick Astley", sc2.getBoardMember());
-		assertEquals("Women, Crisis Support", sc2.getCategory());
+		assertEquals("Crisis Support", sc2.getCategory());
 
 		// Testing Contact info for service client id 2
 		assertEquals(2, sc2.getMainContact().getContactId());
@@ -160,7 +160,7 @@ class ServiceClientDaoTests {
 		
 		
 		
-		ServiceClient nsc = dao.create("Meals on Wheels", 2, 1, "Donald Duck", "Seniors, Community");
+		ServiceClient nsc = dao.create("Meals on Wheels", 2, 1, "Donald Duck", "Seniors");
 		
 		assertNotNull(nsc);
 		
@@ -188,7 +188,7 @@ class ServiceClientDaoTests {
 		assertEquals(3, sc3.getScid());
 		assertEquals("Meals on Wheels", sc3.getName());
 		assertEquals("Donald Duck", sc3.getBoardMember());
-		assertEquals("Seniors, Community", sc3.getCategory());
+		assertEquals("Seniors", sc3.getCategory());
 
 
 
@@ -238,7 +238,7 @@ class ServiceClientDaoTests {
 		// Service Client info for client id 2
 		assertEquals("Crisis Center", sc1.getName());
 		assertEquals("Rick Astley", sc1.getBoardMember());
-		assertEquals("Women, Crisis Support", sc1.getCategory());
+		assertEquals("Crisis Support", sc1.getCategory());
 
 		// Testing Contact info for service client id 2
 		assertEquals(2, sc1.getMainContact().getContactId());
@@ -273,14 +273,14 @@ class ServiceClientDaoTests {
 	@Test
 	void testUpdate_whenUsingJdbcTemplate() throws Exception {
 
-		dao.update(2, "Meals on Wheels", 1, 2, "Rick Astley", "Seniors, Community");
+		dao.update(2, "Meals on Wheels", 1, 2, "Rick Astley", "Seniors");
 
 		ServiceClient sc2 = dao.fetchClientById(2);
 
 		// Service Client info for client id 2
 		assertEquals("Meals on Wheels", sc2.getName());
 		assertEquals("Rick Astley", sc2.getBoardMember());
-		assertEquals("Seniors, Community", sc2.getCategory());
+		assertEquals("Seniors", sc2.getCategory());
 
 		// Testing primary Contact info for service client 1
 		assertEquals(1, sc2.getMainContact().getContactId());

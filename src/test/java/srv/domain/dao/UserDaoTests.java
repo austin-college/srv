@@ -17,10 +17,10 @@ import srv.domain.user.UserDao;
 @JdbcTest
 @ComponentScan("srv.config")
 class UserDaoTests {
-	
+
 	@Autowired
-	UserDao dao; 
-	
+	UserDao dao;
+
 	/*
 	 * Testing fetchUserById(int i) should return the user info for the user with id
 	 * i.
@@ -174,5 +174,33 @@ class UserDaoTests {
 
 		assertEquals(newUsername, u1.getUsername());
 
+	}
+
+	@Test
+	void testFetchByUserName_whenUsingJdbcTemplate() throws Exception {
+
+		// test that u1 can be fetched
+		String uname1 = "apritchard";
+		User u1 = dao.fetchUserByUserName(uname1);
+
+		assertEquals(uname1, u1.getUsername());
+
+		assertEquals("apritchard", u1.getUsername());
+
+		// test that u2 can be fetched
+		String uname2 = "hCouturier";
+		User u2 = dao.fetchUserByUserName(uname2);
+
+		assertEquals(uname2, u2.getUsername());
+
+		assertEquals("hCouturier", u2.getUsername());
+
+		// test that u3 can be fetched
+		String uname3 = "eDriscoll";
+		User u3 = dao.fetchUserByUserName(uname3);
+
+		assertEquals(uname3, u3.getUsername());
+
+		assertEquals("eDriscoll", u3.getUsername());
 	}
 }

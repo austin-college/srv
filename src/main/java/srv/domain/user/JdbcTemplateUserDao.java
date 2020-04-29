@@ -126,7 +126,24 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		List<User> results = getJdbcTemplate().query(sqlStr, new UserRowMapper());
 
 		if (results.size() != 1) {
-			log.error("unable to fetch reason [{}]", uid);
+			log.error("unable to fetch UserID [{}]", uid);
+			return null;
+		}
+
+		return results.get(0);
+	}
+	/**
+	 * Gets the user with the userName uName
+	 */
+	@Override
+	public User fetchUserByUserName(String uName) throws Exception {
+		String sqlStr = String.format("select userId, username, contactId from users where username = '%s'", uName);
+		log.debug(sqlStr);
+
+		List<User> results = getJdbcTemplate().query(sqlStr, new UserRowMapper());
+
+		if (results.size() != 1) {
+			log.error("unable to fetch Username [{}]", uName);
 			return null;
 		}
 
@@ -178,4 +195,5 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 			return sc;
 		}
 	}
+
 }
