@@ -106,7 +106,7 @@ CREATE TABLE serviceHours (
 		on delete set NULL, 
 	foreign key (userId)
 		references users(userId)
-		on delete set NULL	
+		on delete set NULL,	
 	foreign key (eventId)
 		references events(eventId)
 		on delete set NULL
@@ -157,3 +157,5 @@ insert into eventParticipants(eventId, userId) values (3, 1);
 INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service');
 INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
 INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');
+
+INSERT INTO serviceHours(serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
