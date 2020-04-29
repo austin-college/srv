@@ -96,7 +96,7 @@ class ServiceHoursDaoTests {
 		assertEquals(2.0, sHour2.getHours());
 		assertEquals("Pending", sHour2.getStatus());
 		assertEquals("Made food", sHour2.getReflection());
-		assertEquals("Crisis Center", sHour4.getDescription());
+		assertEquals("Crisis Center", sHour2.getDescription());
 		
 		//testing contents of sHour4
 		assertEquals(1, sHour4.getServedPet().getScid());
@@ -115,8 +115,7 @@ class ServiceHoursDaoTests {
 		
 		log.warn("\n\n\n");
 		
-		ServiceHours s = dao.create(2, 3, 2, 2.0, "Approved", "fun", "Crisis Center");
-		s.setShid(5);
+		ServiceHours s = dao.create(5, 2, 3, 2, 2.0, "Approved", "fun", "Crisis Center");
 		
 		ServiceHours sh5 = dao.fetchHoursById(5);
 		
@@ -205,18 +204,18 @@ class ServiceHoursDaoTests {
 		
 		log.warn("\n\n\n");
 		
-		dao.update(1, 1, 1, 3, 2.0, "Pending", "Painted a lot", "HousePainting");
+		dao.update(1, 1, 1, 3, 2.0, "Pending", "Painted a lot", "House Painting");
 		
 		ServiceHours sh1 = dao.fetchHoursById(1);
 		
 		assertEquals(1, sh1.getShid());
-		assertEquals(1, sh1.getServedPet());
-		assertEquals(1, sh1.getServant());
-		assertEquals(3, sh1.getEvent());
+		assertEquals(1, sh1.getServedPet().getScid());
+		assertEquals(1, sh1.getServant().getUid());
+		assertEquals(3, sh1.getEvent().getEid());
 		assertEquals(2, sh1.getHours());
 		assertEquals("Pending", sh1.getStatus());
 		assertEquals("Painted a lot", sh1.getReflection());
-		assertEquals("HousePainting", sh1.getDescription());
+		assertEquals("House Painting", sh1.getDescription());
 	}
 	
 }

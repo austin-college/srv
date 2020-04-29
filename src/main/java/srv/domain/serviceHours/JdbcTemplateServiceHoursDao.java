@@ -37,7 +37,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
  
 	@Autowired
 	JdbcTemplateServiceClientDao serviceClientDao;
+	@Autowired
 	JdbcTemplateUserDao userDao;
+	@Autowired
 	JdbcTemplateEventDao eventDao;
 	
 	/**
@@ -60,8 +62,8 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 
 	@Override
-	public ServiceHours create(Integer scid, Integer uid, Integer eid, double hours, String stat, String reflection,
-			String description) throws Exception {
+	public ServiceHours create(Integer shid, Integer scid, Integer uid, Integer eid, double hours, String stat,
+			String reflection, String description) throws Exception {
 		
 		 final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			
@@ -96,13 +98,13 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	     Number num = keyHolder.getKey();
 	     
 		if (num == null ) {
-			String msg = String.format("Unable to insert new service hour for [%s]", scid);
+			String msg = String.format("Unable to insert new service hour [%s]", shid);
 			log.warn(msg);
 			throw new Exception("Unable to insert new service hour.");
 		}
 	   
 	   log.debug("generated id is {}", num);
-		
+	   
 	   return this.fetchHoursById((int)num);
 		
 		
@@ -115,7 +117,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	
 		int rc = getJdbcTemplate().update("UPDATE serviceHours SET serviceClientId = ?, userId = ?, eventId = ?, hours = ?,"
 				+ "status = ?, reflection = ?, description = ? WHERE serviceHourId = ?", 
-				new Object[] {shid, scid, uid, eid, hours, stat, reflection, description});
+				new Object[] { scid, uid, eid, hours, stat, reflection, description, shid});
 
 		if (rc < 1) {
 			log.error("Unable to update service hour [{}]", shid);
@@ -181,7 +183,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 				
 				sh.setShid(rs.getInt("serviceHourId"))
 				.setServedPet(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))
-			//	.setServant(userDao.fetchUserById(rs.getInt("userId")))
+				.setServant(userDao.fetchUserById(rs.getInt("userId")))
 				.setEvent(eventDao.fetchEventById(rs.getInt("eventId")))
 				.setHours(rs.getDouble("hours"))
 				.setStatus(rs.getString("status"))
