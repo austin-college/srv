@@ -1,14 +1,18 @@
 package srv.utils;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import srv.AppConstants;
+import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;
+import srv.domain.user.UserDao;
 
 /**
  * This utility class is the home for several convenient
@@ -19,18 +23,17 @@ import srv.domain.user.User;
  */
 public class UserUtil {
 	
-	public static User currentUser() {
+	public static User currentUser() throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		String auth_user_id = auth.getName();
+		return fetchUserByUserName(auth_user_id);
 		
-		
-		// TODO  Now use our daos to find a user in our system 
-		
-		return null;
 	}
 	
 	
+
+
 	/**
 	 * Returns a collection of authorities/roles for the current authenticated user.
 	 * In our app, the user can have multiple roles {ADMIN  
@@ -115,5 +118,15 @@ public class UserUtil {
 	public static boolean userIsServant() throws Exception {
 		return hasAnyRole(AppConstants.ROLE_SERVANT);
 	}
+
+	private static User fetchUserByUserName(String auth_user_id) throws Exception {
+		JdbcTemplateUserDao jdbcTUD = new JdbcTemplateUserDao();
+		return jdbcTUD.fetchUserByUserName(auth_user_id);
+		
+		
+		
+	}
+
+
 
 }
