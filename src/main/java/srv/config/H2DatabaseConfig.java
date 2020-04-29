@@ -9,6 +9,7 @@ import srv.domain.event.JdbcTemplateEventTypeDao;
 import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
 import srv.domain.user.JdbcTemplateUserDao;
 
 /**
@@ -60,6 +61,11 @@ public class H2DatabaseConfig {
 	@Bean
 	public JdbcTemplateEventTypeDao EventTypeDao() {
 		return new JdbcTemplateEventTypeDao();
+	}
+	
+	@Bean
+	public JdbcTemplateServiceGroupDao ServiceGroupDao() {
+		return new JdbcTemplateServiceGroupDao();
 	}
 
 //    @Bean
