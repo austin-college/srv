@@ -45,9 +45,7 @@
 						<tr id="scid-${sc.scid}">
 							<td name='sc_id'>${sc.scid!"UNKNOWN"}</td>
 							<td name='sc_title'>${sc.name!"UNKNOWN"}</td>
-							<td name='sc_contact_name'><a href="#">
-									${sc.mainContact.firstName!"UNKNOWN"}
-									${sc.mainContact.lastName!"UNKNOWN"}</a></td>
+							<td name='sc_contact_name'>	${sc.mainContact.firstName!"UNKNOWN"} ${sc.mainContact.lastName!"UNKNOWN"}</td>
 							<td name='sc_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
 							<td name='sc_category'>${sc.category!"UNKNOWN"}</td>
 							<td>
@@ -107,11 +105,11 @@
     			<label for="addDlg_selcCat" class="col-sm-3 col-form-label">Select Category</label>
     			<div class="col-sm">
       				<select id="addDlg_selcCat" class="form-control" style="width:200px"> 
-						<option value="animals">Animals</option>
-				  		<option value="community">Community</option>
-				 	 	<option value="education">Education</option>
-				 	 	<option value="seniors">Seniors</option>
-				 	 	<option value="medical">medical</option>
+						<option value="Animals">Animals</option>
+				  		<option value="Community">Community</option>
+				 	 	<option value="Education">Education</option>
+				 	 	<option value="Seniors">Seniors</option>
+				 	 	<option value="Medical">Medical</option>
 			 		 </select>
     			</div>
   			</div>

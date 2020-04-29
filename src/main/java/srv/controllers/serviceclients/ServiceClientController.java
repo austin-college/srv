@@ -102,7 +102,39 @@ public class ServiceClientController {
 		  	   
 	   }
 	   
+	   @PostMapping("/ajax/addServiceClient")
+	   public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
+
+		   response.setContentType("text/html");
 	   
+		   String name = request.getParameter("name");
+		   String category = request.getParameter("cat");
+		   
+			/*
+			 * Prepare and render the response of the template's model for the HTTP response
+			 */
+		   ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleClientRow");
+
+		   try {
+			
+			   ServiceClient newClient = doa.create(name, 1, 2, "John Smith", category);
+			   
+			   mav.addObject("scid", newClient.getScid());
+			   mav.addObject("name", newClient.getName());
+			   mav.addObject("category", newClient.getCategory());
+			   
+
+			   
+		   } catch (Exception e) {
+			   System.err.println("\n\n ERROR ");
+			   System.err.println(e.getMessage());
+			   
+	
+		   }
+		   
+		  return mav;
+		  	   
+	   }
 	   
 	   
 	   @GetMapping("/test/sc")

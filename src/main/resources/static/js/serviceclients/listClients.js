@@ -36,7 +36,38 @@ function delClient(client_id) {
 	
 }
 
-function addClient(client_name, client_cat, ) {
+function addClient(client_name, client_cat, client_desc) {
+	
+	// Harvests the information from the add dialog form
+	
+	var nameStr =$(client_name).val();
+	var catStr = $(client_cat).val();
+	var descStr = $(client_desc).val();
+	
+	$.ajax({
+		method: "POST",
+		url: "/srv/ajax/addServiceClient",
+		cache: false,
+		data: {name: nameStr, cat: catStr, desc: descStr},
+		success: function(data) {
+			console.log("added client");
+			
+			var id = $(data)[2];
+			console.log(id);
+			$('#sc_tbl_body').append(id);
+
+			
+			$(".del").on("click", function() {
+				var selected_scid = $(this).attr('onDelClick');
+				$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
+			});
+
+			
+		},
+		error: function(jqXHR, textStatus) {
+			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		}
+	});
 	
 }
 /**
@@ -93,7 +124,9 @@ $(document).ready(function() {
 		modal: true,
 		dialogClass: "addDlgClass",	
 		open: function(event, ui) {
-	
+			$("#addDlg_clientName").val("");
+	    	$("#addDlg_descOfClient").val("");
+	    	$("#addDlg_selcCat").val("Animals");	
 		},							
 		buttons: [
 			{
@@ -101,6 +134,7 @@ $(document).ready(function() {
 				"id": "addBtnDlg",
 				"class": 'btn',
 				click: function() {		
+					addClient("#addDlg_clientName", "#addDlg_selcCat", "#addDlg_descOfClient");
 					$("#addDlg").dialog("close");
 				}
 			},
