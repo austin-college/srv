@@ -112,8 +112,8 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Housing, Community');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Women, Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Community');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
 
 insert into users (username, contactId) values ('apritchard', 4);
 insert into users (username, contactId) values ('hCouturier', 5);
