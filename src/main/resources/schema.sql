@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS serviceClients;
 drop table if exists users;
 drop table if exists reasons;
 drop table if exists eventParticipants;
+drop table if exists eventType;
 drop table if exists events;
 DROP TABLE IF EXISTS contacts;
 
@@ -82,6 +83,13 @@ CREATE TABLE eventParticipants (
 		references users(userId)
 		on delete set NULL
 );
+
+CREATE TABLE eventTypes (
+	eventTypeId INTEGER AUTO_INCREMENT,
+	name VARCHAR(255),
+	description VARCHAR(255),
+	primary key (eventTypeId)
+	);
 	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
@@ -104,8 +112,8 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Housing, Community');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Women, Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Community');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
 
 insert into users (username, contactId) values ('apritchard', 4);
 insert into users (username, contactId) values ('hCouturier', 5);
@@ -123,3 +131,7 @@ insert into eventParticipants(eventId, userId) values (2, 2);
 insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
+
+INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service');
+INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
+INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');

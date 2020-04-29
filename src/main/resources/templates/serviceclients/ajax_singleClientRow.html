@@ -1,0 +1,20 @@
+<!-- Appends new service client to the table. -->
+<tr id="scid-${scid}">
+	<td name='sc_id'>${scid!"UNKNOWN"}</td>
+	<td name='sc_title'>${name!"UNKNOWN"}</td>
+	<td name='sc_contact_name'>${firstName!"UNKNOWN"} ${lastName!"UNKNOWN"}</td>
+	<td name='sc_bm_name'>${boardMember!"UNKNOWN"}</td>
+	<td name='sc_category'>${category!"UNKNOWN"}</td>
+	<td> 
+	   <button type="button" class="edit btn" onEditClick="${sc.scid?c}">
+		<span class="fas fa-pencil-alt"></span> 
+			 Edit
+		</button>
+	</td>
+	<td>
+	   <button type="button" class="del btn" onDelClick="${scid?c}">
+		<span class="fas fa-trash-alt"></span>  
+			  Delete 
+		</button>
+	</td>
+</tr>
