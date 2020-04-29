@@ -36,6 +36,12 @@ function delClient(client_id) {
 	
 }
 
+/*
+ * function below is for adding a new service client to the list.
+ * only passing minimal information
+ *  not handling address information from the form, need to ask if client wants this
+ *  not handling board member or contact information
+ */
 function addClient(client_name, client_cat, client_desc) {
 	
 	// Harvests the information from the add dialog form

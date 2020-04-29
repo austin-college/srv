@@ -102,6 +102,15 @@ public class ServiceClientController {
 		  	   
 	   }
 	   
+	   /**
+	    * Adding a new row to the service client for service client list.
+	    * TODO figure out what to do with board member and contacts, for now making them null or unknown
+	    * figure out if we are keeping address information
+	    * 
+	    * @param request
+	    * @param response
+	    * @return
+	    */
 	   @PostMapping("/ajax/addServiceClient")
 	   public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
 
