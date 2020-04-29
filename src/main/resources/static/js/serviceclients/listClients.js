@@ -2,6 +2,9 @@
  * The delete client function makes an AJAX call to remove the selected
  * service client from the table
  * 
+ * TODO
+ * handle when an exception is thrown
+ * 
  * @param client_id - the service client ID to be deleted
  */
 function delClient(client_id) {
@@ -12,20 +15,66 @@ function delClient(client_id) {
 		method: "POST",
 		url: "/srv/ajax/delServiceClient",
 		cache: false,
-		data: {ID: idStr}
-	})
-	/*
-	 * If successful, then remove the selected service client from the table.
-	 */
-	.done(function(data){
-		$(client_id).remove();
-	}) 
-	/*
-	 * If unsuccessful (invalid data values), display error message and reasoning.
-	 */
-	.fail(function(jqXHR, textStatus) {
-		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		data: {ID: idStr},
+		//dataType: "text",
+		/*
+		 * If successful, then remove the selected service client from the table.
+		 */
+		success: function(data) {
+			console.log("done");
+			
+			$("#scid-"+ client_id).remove();
+		},
+		/*
+		 * If unsuccessful (invalid data values), display error message and reasoning.
+		 */
+		error: function(jqXHR, textStatus) {
+			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		}
+		
 	});
+	
+}
+
+/*
+ * function below is for adding a new service client to the list.
+ * only passing minimal information
+ *  not handling address information from the form, need to ask if client wants this
+ *  not handling board member or contact information
+ */
+function addClient(client_name, client_cat, client_desc) {
+	
+	// Harvests the information from the add dialog form
+	
+	var nameStr =$(client_name).val();
+	var catStr = $(client_cat).val();
+	var descStr = $(client_desc).val();
+	
+	$.ajax({
+		method: "POST",
+		url: "/srv/ajax/addServiceClient",
+		cache: false,
+		data: {name: nameStr, cat: catStr, desc: descStr},
+		success: function(data) {
+			console.log("added client");
+			
+			var id = $(data)[2];
+			console.log(id);
+			$('#sc_tbl_body').append(id);
+
+			
+			$(".del").on("click", function() {
+				var selected_scid = $(this).attr('onDelClick');
+				$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
+			});
+
+			
+		},
+		error: function(jqXHR, textStatus) {
+			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		}
+	});
+	
 }
 /**
  * When the DOM is completed loaded and ready, hide the dialogs and
@@ -79,8 +128,46 @@ $(document).ready(function() {
 		height: 500,
 		width: 800,
 		modal: true,
-		dialogClass: "addDlgClass",
-	})
+		dialogClass: "addDlgClass",	
+		open: function(event, ui) {
+			$("#addDlg_clientName").val("");
+	    	$("#addDlg_descOfClient").val("");
+	    	$("#addDlg_selcCat").val("Animals");	
+		},							
+		buttons: [
+			{
+				text: "Add Service Client", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+					addClient("#addDlg_clientName", "#addDlg_selcCat", "#addDlg_descOfClient");
+					$("#addDlg").dialog("close");
+				}
+			},
+			{
+				text: "Add Contact(s)",
+					  "id" : "addContactBtn",
+					  "class" : 'btn btn-info',
+				click: function() {
+					$("#addDlg").dialog("close");
+				}
+			},
+			{
+				text: "Assign Board Member",
+					  "class" : 'btn btn-info',
+				click: function() {
+					$('#addDlg').dialog("close");
+				}
+			},
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					$("#addDlg").dialog("close");
+
+				}
+			}]
+	});
 	
 	//Register and hide the add dialog div until an add button is clicked on.
 	$("#editDlg").dialog({
@@ -89,7 +176,7 @@ $(document).ready(function() {
 		width: 800,
 		modal: true,
 		dialogClass: "editDlgClass",
-	})
+	});
 
 
 
@@ -105,14 +192,14 @@ $(document).ready(function() {
 		/* 
 		 * Opens add service client dialog
 		 */
-		$(".addBtnContainer").on("click", function() {
+		$(".addBtn").on("click", function() {
 			$("#addDlg").dialog("open");
 		});
 		
 		/* 
 		 * Opens add service client dialog
 		 */
-		$(".edit btn").on("click", function() {
+		$(".edit ").on("click", function() {
 			$("#editDlg").dialog("open");
 		});
 

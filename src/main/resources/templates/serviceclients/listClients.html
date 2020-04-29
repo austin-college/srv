@@ -1,7 +1,6 @@
 <#import "/main_layout.html" as layout />
 <!-- CSS style for jquery widgets -->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <@layout.stdpage "Service Client Manager" "listStyle.css"
 "serviceclients/listClients.js">
@@ -46,9 +45,7 @@
 						<tr id="scid-${sc.scid}">
 							<td name='sc_id'>${sc.scid!"UNKNOWN"}</td>
 							<td name='sc_title'>${sc.name!"UNKNOWN"}</td>
-							<td name='sc_contact_name'><a href="#">
-									${sc.mainContact.firstName!"UNKNOWN"}
-									${sc.mainContact.lastName!"UNKNOWN"}</a></td>
+							<td name='sc_contact_name'>	${sc.mainContact.firstName!"UNKNOWN"} ${sc.mainContact.lastName!"UNKNOWN"}</td>
 							<td name='sc_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
 							<td name='sc_category'>${sc.category!"UNKNOWN"}</td>
 							<td>
@@ -90,142 +87,61 @@
 
 	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
 	<!--  Credit to be given to who ever made the viewHours HTML, I bases most of this off what your work did -->
-	<div id="addDlg" title="Add Service Organization"
-	style= overflow-y:auto;
-		class="ui-widget delWid">
-		<div class="container">
-			<div class="row">
-				<div class='form-group'>
-
-					<div class='row'>
-						<div class='col'>
-							<h5>
-								<b>Client Information</b>
-							</h5>
-							<hr class=".col-md-11-auto">
-						</div>
-					</div>
-					<div class="row">
-						<div class='col'>
-							<label for="addDlg_clientName"><b>Client Name:</b></label> <input>
-						</div>
-
-					</div>
-					
-					<div class="row">
-						<div class='col'>
-						<label for="addDlg_selcCat"><b>Select Category:</b></label> <input>
-						</div>
-					</div>
-					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-					<div class='row'>
-						<div class='col'>
-							<label for="addDlg_descOfClient"><b>Description of The Client:</b></label> <input>
-						</div>
-					</div>
-
-
-					<div class='row'>
-						<div class='col'>
-							<h5>
-								<b>Address Information</b>
-							</h5>
-							<hr class=".col-md-11-auto">
-						</div>
-					</div>
-					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-					<div class='row'>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_address"><b>Address:</b></label> <input
-								type="text" id="editDlg_address" value=${address! "118 Main
-								Street"} size='15'>
-						</div>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_city"><b>City:</b></label> <input type="text"
-								id="editDlg_city" " value=${city! "Sherman"} size='15'>
-						</div>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_zip"><b>Zip Code:</b></label> <input
-								type="text" id="editDlg_zip" value=${zip! "75090"} size='5'>
-						</div>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_state"><b>State:</b></label> <input
-								type="text" id="editDlg_state" value=${state! "TX"} size='5'>
-						</div>
-					</div>
-
-					<div class='row'>
-						<div class='col'>
-							<h5>
-								<b>Main Contact Information</b>
-							</h5>
-							<hr class=".col-md-11-auto">
-						</div>
-					</div>
-					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-					<div class='row'>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_contactName"><b>Contact's Name:</b></label> <input
-								type="text" id="editDlg_contactName" value=${conName!"Joe_Smith"}>
-						</div>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_contactNumber"><b>Contact's Phone
-									Number:</b></label> <input type="text" id="editDlg_contactNumber"
-								" value=${conNumber! "903-331-1241"} size='15'>
-						</div>
-					</div>
-					<div class='row'>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
-							<input type="text" id="editDlg_contactEmail" value=${conEmail!
-								"randomEmail@gmail.com"}>
-						</div>
-					</div>
-
-				</div>
-				
-				<div class='row'>
-						<div class='col'>
-							<h5>
-								<b>Secondary Contact Information</b>
-							</h5>
-							<hr class=".col-md-11-auto">
-						</div>
-					</div>
-					<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-					<div class='row'>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_contactName"><b>Contact's Name:</b></label> <input
-								type="text" id="editDlg_contactName" value=${conName!"Leroy_Jenks"}>
-						</div>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_contactNumber"><b>Contact's Phone
-									Number:</b></label> <input type="text" id="editDlg_contactNumber"
-								" value=${conNumber! "903-623-2311"} size='15'>
-						</div>
-					</div>
-					<div class='row'>
-						<div class='col'>
-							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-							<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
-							<input type="text" id="editDlg_contactEmail" value=${conEmail!
-								"leroyJenks@gmail.com"}>
-						</div>
-					</div>
-
-				</div>
+	<div id="addDlg" title="Add Service Organization" class="ui-widget delWid">
+		<form>
+			<div class='form-row'>
+				<h5><b>Client Information</b></h5>
 			</div>
-		</div>
-	</div>
+			<div class='form-row'>
+				<hr class='col'>
+			</div>
+		  	<div class="form-group row">
+    			<label for="addDlg_clientName" class="col-sm-2 col-form-label">Client Name</label>
+    			<div class="col-sm-10">
+      				<input class="form-control" id="addDlg_clientName" placeholder="EX: Habitat for Humanity">
+    			</div>
+  			</div>
+  			<div class="form-group row">
+    			<label for="addDlg_selcCat" class="col-sm-3 col-form-label">Select Category</label>
+    			<div class="col-sm">
+      				<select id="addDlg_selcCat" class="form-control" style="width:200px"> 
+						<option value="Animals">Animals</option>
+				  		<option value="Community">Community</option>
+				 	 	<option value="Education">Education</option>
+				 	 	<option value="Seniors">Seniors</option>
+				 	 	<option value="Medical">Medical</option>
+			 		 </select>
+    			</div>
+  			</div>
+  			<div class="form-group row">
+    			<label for="addDlg_descOfClient" class="col-sm-4 col-form-label">Description</label>
+    			<div class="col-sm">
+      				<input class="form-control" id="addDlg_descOfClient" placeholder="EX: Builds homes">
+    			</div>
+  			</div>
+  			<div class='form-row'>
+				<h5><b>Address Information</b></h5>
+			</div>
+			<div class='form-row'>
+				<hr class='col'>
+			</div>
+			<div class="form-row">
+				<div class="col-4">
+      				<input id="addDlg_address" type="text" class="form-control" placeholder="Address">
+			    </div>
+    			<div class="col-4">
+      				<input id="addDlg_city" type="text" class="form-control" placeholder="City">
+			    </div>
+    			<div class="col">
+      				<input id="addDlg_state" type="text" class="form-control" placeholder="State">
+    			</div>
+    			<div class="col">
+      				<input id="addDlg_state" type="text" class="form-control" placeholder="Zip">
+    			</div>
+  			</div>
+		</form>
+
+
 	
 	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
 	<!--  Credit to be given to who ever made the viewHours HTML, I bases most of this off what your work did -->
@@ -283,7 +199,7 @@
 						<div class='col'>
 							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 							<label for="editDlg_city"><b>City:</b></label> <input type="text"
-								id="editDlg_city" " value=${city! "Sherman"} size='15'>
+								id="editDlg_city"  value=${city! "Sherman"} size='15'>
 						</div>
 						<div class='col'>
 							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
@@ -316,7 +232,7 @@
 							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 							<label for="editDlg_contactNumber"><b>Contact's Phone
 									Number:</b></label> <input type="text" id="editDlg_contactNumber"
-								" value=${conNumber! "903-331-1241"} size='15'>
+								 value=${conNumber! "903-331-1241"} size='15'>
 						</div>
 					</div>
 					<div class='row'>
@@ -349,7 +265,7 @@
 							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 							<label for="editDlg_contactNumber"><b>Contact's Phone
 									Number:</b></label> <input type="text" id="editDlg_contactNumber"
-								" value=${conNumber! "903-623-2311"} size='15'>
+								 value=${conNumber! "903-623-2311"} size='15'>
 						</div>
 					</div>
 					<div class='row'>
@@ -364,9 +280,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-
 	<!-- JavaScript file that will allow us to use jquery widgets -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 

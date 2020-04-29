@@ -62,6 +62,10 @@ public class ServiceClientController {
 	   /**
 	    *  Ajax action that renders a new page removing the selected service client from the table.
 	    * 
+	    * TODO this should return a string where if successful (found the id) returns "okay" and
+	    * if unsuccessful returns "error" with error message explaining why. The corresponding jquery callback
+	    * method in listClients.js in the delClient function should handle when an exception is thrown. It is not returning
+	    * a string as of now because upon trying to delete I get a 404 not found error.
 	    * 
 	    * @param request
 	    * @param response
@@ -71,6 +75,7 @@ public class ServiceClientController {
 	   public ModelAndView ajaxServiceClientDelete(HttpServletRequest request, HttpServletResponse response) {
 
 		   response.setContentType("text/html");
+		   //response.setContentType("text/text"); will tell the js that we are expecting text back
 
 		   int id = Integer.parseInt(request.getParameter("ID")); 
 		   
@@ -82,20 +87,63 @@ public class ServiceClientController {
 		   try {
 			   
 			   doa.delete(id);   
-			   //return id;
 			   mav.addObject("scid", id);
+			   
+			 //  return "Okay";	
 			   
 		   } catch (Exception e) {
 			   System.err.println("\n\n ERROR ");
 			   System.err.println(e.getMessage());
 			   
-		//	   return -1;
+		//	   return "Error" + e.getMessage();
 		   }
 		   
-		   return mav;		   
+		  return mav;
+		  	   
 	   }
 	   
+	   /**
+	    * Adding a new row to the service client for service client list.
+	    * TODO figure out what to do with board member and contacts, for now making them null or unknown
+	    * figure out if we are keeping address information
+	    * 
+	    * @param request
+	    * @param response
+	    * @return
+	    */
+	   @PostMapping("/ajax/addServiceClient")
+	   public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
+
+		   response.setContentType("text/html");
 	   
+		   String name = request.getParameter("name");
+		   String category = request.getParameter("cat");
+		   
+			/*
+			 * Prepare and render the response of the template's model for the HTTP response
+			 */
+		   ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleClientRow");
+
+		   try {
+			
+			   ServiceClient newClient = doa.create(name, 1, 2, "John Smith", category);
+			   
+			   mav.addObject("scid", newClient.getScid());
+			   mav.addObject("name", newClient.getName());
+			   mav.addObject("category", newClient.getCategory());
+			   
+
+			   
+		   } catch (Exception e) {
+			   System.err.println("\n\n ERROR ");
+			   System.err.println(e.getMessage());
+			   
+	
+		   }
+		   
+		  return mav;
+		  	   
+	   }
 	   
 	   
 	   @GetMapping("/test/sc")
