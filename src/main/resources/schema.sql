@@ -91,6 +91,17 @@ CREATE TABLE eventTypes (
 	primary key (eventTypeId)
 	);
 	
+CREATE TABLE serviceGroups (
+	serviceGroupId INTEGER AUTO_INCREMENT,
+	shortName VARCHAR(255),
+	title VARCHAR(255),
+	contactId INT,
+	primary key (serviceGroupId),
+	foreign key (contactId)
+		references contacts(contactId)
+		on delete set NULL
+	);
+	
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 	
@@ -135,3 +146,7 @@ insert into eventParticipants(eventId, userId) values (3, 1);
 INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service');
 INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
 INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');
+
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
