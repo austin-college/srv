@@ -53,10 +53,7 @@ thead th {
 #addDlg, #editDlg{
 	overflow: hidden;
 }
-/* Close button icon for dialog close buttons. */
-.ui-button .ui-icon{ 
-	background-image: url(http://download.jqueryui.com/themeroller/images/ui-icons_white_256x240.png);
-}
+
 /* Style setting for the edit and add dialog headers. */
 .ui-dialog-titlebar{
 	background-color: #a41e34;
@@ -88,5 +85,9 @@ td a:hover {
 	
 }
 
+#addBtnDlg  {
+	background-color: #db9401;
+	color: white;
+}
 
 

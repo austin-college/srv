@@ -35,6 +35,10 @@ function delClient(client_id) {
 	});
 	
 }
+
+function addClient(client_name, client_cat, ) {
+	
+}
 /**
  * When the DOM is completed loaded and ready, hide the dialogs and
  * create the functionality of the buttons.
@@ -87,8 +91,43 @@ $(document).ready(function() {
 		height: 500,
 		width: 800,
 		modal: true,
-		dialogClass: "addDlgClass",
-	})
+		dialogClass: "addDlgClass",	
+		open: function(event, ui) {
+	
+		},							
+		buttons: [
+			{
+				text: "Add Service Client", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+					$("#addDlg").dialog("close");
+				}
+			},
+			{
+				text: "Add Contact(s)",
+					  "id" : "addContactBtn",
+					  "class" : 'btn btn-info',
+				click: function() {
+					$("#addDlg").dialog("close");
+				}
+			},
+			{
+				text: "Assign Board Member",
+					  "class" : 'btn btn-info',
+				click: function() {
+					$('#addDlg').dialog("close");
+				}
+			},
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					$("#addDlg").dialog("close");
+
+				}
+			}]
+	});
 	
 	//Register and hide the add dialog div until an add button is clicked on.
 	$("#editDlg").dialog({
@@ -97,7 +136,7 @@ $(document).ready(function() {
 		width: 800,
 		modal: true,
 		dialogClass: "editDlgClass",
-	})
+	});
 
 
 
