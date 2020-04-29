@@ -57,6 +57,8 @@ class ServiceHoursDaoTests {
 		assertEquals(1, sh1.getEvent());
 		assertEquals(3, sh1.getHours());
 		assertEquals("Approved", sh1.getStatus());
+		assertEquals("I hated it", sh1.getReflection());
+		assertEquals("House building", sh1.getDescritpion());
 	}
 	
 	/**
@@ -107,7 +109,7 @@ class ServiceHoursDaoTests {
 		
 		log.warn("\n\n\n");
 		
-		ServiceHours s = dao.create(2, 3, 2, 2.0, "Approved");
+		ServiceHours s = dao.create(2, 3, 2, 2.0, "Approved", null, null);
 		
 		ServiceHours sh5 = dao.fetchHoursById(5);
 		
@@ -186,7 +188,7 @@ class ServiceHoursDaoTests {
 		
 		log.warn("\n\n\n");
 		
-		dao.update(1, 1, 1, 3, 2.0, "Pending");
+		dao.update(1, 1, 1, 3, 2.0, "Pending", null, null);
 		
 		ServiceHours sh1 = dao.fetchHoursById(1);
 		
