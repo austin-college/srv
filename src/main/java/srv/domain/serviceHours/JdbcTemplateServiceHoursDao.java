@@ -147,7 +147,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	public ServiceHours fetchHoursById(int shid) throws Exception {
 		
 		String sqlStr = String.format("SELECT serviceHourId, serviceClientId, userId, eventId, hours,"
-				+ " status FROM serviceHours WHERE serviceClientId = %d", shid);
+				+ " status, reflection, description FROM serviceHours WHERE serviceClientId = %d", shid);
 		log.debug(sqlStr);
 
 		List<ServiceHours> results = getJdbcTemplate().query(sqlStr, new ServiceHourRowMapper());
