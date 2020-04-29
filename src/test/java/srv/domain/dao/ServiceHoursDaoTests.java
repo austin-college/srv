@@ -205,7 +205,7 @@ class ServiceHoursDaoTests {
 		
 		log.warn("\n\n\n");
 		
-		dao.update(1, 1, 1, 3, 2.0, "Pending", "Painted a lot", "House Painting");
+		dao.update(1, 1, 1, 3, 2.0, "Pending", "Painted a lot", "HousePainting");
 		
 		ServiceHours sh1 = dao.fetchHoursById(1);
 		
