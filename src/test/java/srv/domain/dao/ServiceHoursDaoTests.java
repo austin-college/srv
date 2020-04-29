@@ -216,7 +216,7 @@ class ServiceHoursDaoTests {
 		assertEquals(2, sh1.getHours());
 		assertEquals("Pending", sh1.getStatus());
 		assertEquals("Painted a lot", sh1.getReflection());
-		assertEquals("House Painting", sh1.getDescription());
+		assertEquals("HousePainting", sh1.getDescription());
 	}
 	
 }

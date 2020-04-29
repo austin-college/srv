@@ -181,7 +181,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 				
 				sh.setShid(rs.getInt("serviceHourId"))
 				.setServedPet(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))
-				.setServant(userDao.fetchUserById(rs.getInt("userId")))
+			//	.setServant(userDao.fetchUserById(rs.getInt("userId")))
 				.setEvent(eventDao.fetchEventById(rs.getInt("eventId")))
 				.setHours(rs.getDouble("hours"))
 				.setStatus(rs.getString("status"))
