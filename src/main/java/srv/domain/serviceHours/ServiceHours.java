@@ -85,6 +85,7 @@ public class ServiceHours implements Serializable{
 	public ServiceHours setShid(Integer id) {
 		this.shid = id;
 		return this;
+		
 	}
 	public ServiceClient getServedPet() {
 		return servedPet;
@@ -116,6 +117,7 @@ public class ServiceHours implements Serializable{
 	public ServiceHours setEvent(Event eventName) {
 		this.event = eventName;
 		return this;
+		
 	}
 
 
@@ -137,7 +139,7 @@ public class ServiceHours implements Serializable{
 
 	public ServiceHours setDate(String date) {
 		this.date = date;
-		return this;
+		return this; 
 	}
 
 
@@ -152,12 +154,13 @@ public class ServiceHours implements Serializable{
 	}
 
 
-	public String getDescritpion() {
+	public String getDescription() {
 		return description;
 	}
 
 
-	public ServiceHours setDescritpion(String description) {
+	public ServiceHours setDescription(String description) {
+		
 		this.description = description;
 		return this;
 	}
@@ -171,11 +174,6 @@ public class ServiceHours implements Serializable{
 		return this;
 	}
 
-	public void setDescription(String string) {
-		
-		description = string; 
-		
-	}
 	
 	
 }

@@ -52,13 +52,13 @@ class ServiceHoursDaoTests {
 		ServiceHours sh1 = dao.fetchHoursById(1);
 		
 		assertEquals(1, sh1.getShid());
-		assertEquals(1, sh1.getServedPet());
-		assertEquals(1, sh1.getServant());
-		assertEquals(1, sh1.getEvent());
-		assertEquals(3, sh1.getHours());
+		assertEquals(1, sh1.getServedPet().getScid());
+		assertEquals(1, sh1.getServant().getUid());
+		assertEquals(1, sh1.getEvent().getEid());
+		assertEquals(3.0, sh1.getHours());
 		assertEquals("Approved", sh1.getStatus());
 		assertEquals("I hated it", sh1.getReflection());
-		assertEquals("House building", sh1.getDescritpion());
+		assertEquals("House building", sh1.getDescription());
 	}
 	
 	/**
@@ -75,31 +75,37 @@ class ServiceHoursDaoTests {
 		ServiceHours sHour2 = serviceHours.get(1);
 		ServiceHours sHour4 = serviceHours.get(3);
 		
-		//Verifying service hour1
+		//Verifying service hour id's
 		assertEquals(1, sHour1.getShid());
 		assertEquals(2, sHour2.getShid());
 		assertEquals(4, sHour4.getShid());
 		
 		//testing contents of sHour1
-		assertEquals(1, sHour1.getServedPet());
-		assertEquals(1, sHour1.getServant());
-		assertEquals(1, sHour1.getEvent());
-		assertEquals(3, sHour1.getHours());
+		assertEquals(1, sHour1.getServedPet().getScid());
+		assertEquals(1, sHour1.getServant().getUid());
+		assertEquals(1, sHour1.getEvent().getEid());
+		assertEquals(3.0, sHour1.getHours());
 		assertEquals("Approved", sHour1.getStatus());
+		assertEquals("I hated it", sHour1.getReflection());
+		assertEquals("House building", sHour1.getDescription());
 		
 		//testing contents of sHour2
-		assertEquals(2, sHour2.getServedPet());
-		assertEquals(2, sHour2.getServant());
-		assertEquals(2, sHour2.getEvent());
-		assertEquals(2, sHour2.getHours());
+		assertEquals(2, sHour2.getServedPet().getScid());
+		assertEquals(2, sHour2.getServant().getUid());
+		assertEquals(1, sHour2.getEvent().getEid());
+		assertEquals(2.0, sHour2.getHours());
 		assertEquals("Pending", sHour2.getStatus());
+		assertEquals("Made food", sHour2.getReflection());
+		assertEquals("Crisis Center", sHour4.getDescription());
 		
 		//testing contents of sHour4
-		assertEquals(3, sHour4.getServedPet());
-		assertEquals(4, sHour4.getServant());
-		assertEquals(2, sHour4.getEvent());
-		assertEquals(2, sHour4.getHours());
+		assertEquals(1, sHour4.getServedPet().getScid());
+		assertEquals(2, sHour4.getServant().getUid());
+		assertEquals(1, sHour4.getEvent().getEid());
+		assertEquals(2.3, sHour4.getHours());
 		assertEquals("Approved", sHour4.getStatus());
+		assertEquals("Met a guy named Randy", sHour4.getReflection());
+		assertEquals("Landscaping", sHour4.getDescription());
 		
 		
 	}
@@ -109,26 +115,31 @@ class ServiceHoursDaoTests {
 		
 		log.warn("\n\n\n");
 		
-		ServiceHours s = dao.create(2, 3, 2, 2.0, "Approved", null, null);
+		ServiceHours s = dao.create(2, 3, 2, 2.0, "Approved", "fun", "Crisis Center");
+		s.setShid(5);
 		
 		ServiceHours sh5 = dao.fetchHoursById(5);
 		
 		//Verifying that contact was stored in database
 		assertEquals(5, sh5.getShid());
-		assertEquals(2, sh5.getServedPet());
-		assertEquals(3, sh5.getServant());
-		assertEquals(2, sh5.getEvent());
-		assertEquals(2, sh5.getHours());
+		assertEquals(2, sh5.getServedPet().getScid());
+		assertEquals(3, sh5.getServant().getUid());
+		assertEquals(2, sh5.getEvent().getEid());
+		assertEquals(2.0, sh5.getHours());
 		assertEquals("Approved", sh5.getStatus());
+		assertEquals("fun", sh5.getReflection());
+		assertEquals("Crisis Center", sh5.getDescription());
 		
 		//Testing ServiceHour returned from create
 		
 		assertEquals(5, s.getShid());
-		assertEquals(2, s.getServedPet());
-		assertEquals(3, s.getServant());
-		assertEquals(2, s.getEvent());
-		assertEquals(2, s.getHours());
+		assertEquals(2, s.getServedPet().getScid());
+		assertEquals(3, s.getServant().getUid());
+		assertEquals(2, s.getEvent().getEid());
+		assertEquals(2.0, s.getHours());
 		assertEquals("Approved", s.getStatus());
+		assertEquals("fun", s.getReflection());
+		assertEquals("Crisis Center", s.getDescription());
 		
 	}
 	
@@ -157,27 +168,33 @@ class ServiceHoursDaoTests {
 		
 		//Verifying first service hour info 
 		
-		assertEquals(2, sh1.getServedPet());
-		assertEquals(2, sh1.getServant());
-		assertEquals(2, sh1.getEvent());
-		assertEquals(2, sh1.getHours());
+		assertEquals(2, sh1.getServedPet().getScid());
+		assertEquals(2, sh1.getServant().getUid());
+		assertEquals(1, sh1.getEvent().getEid());
+		assertEquals(2.0, sh1.getHours());
 		assertEquals("Pending", sh1.getStatus());
+		assertEquals("Made food", sh1.getReflection());
+		assertEquals("Crisis Center", sh1.getDescription());
 		
 		//Verifying second service hour info
 		
-		assertEquals(1, sh2.getServedPet());
+		assertEquals(2, sh2.getServedPet());
 		assertEquals(3, sh2.getServant());
-		assertEquals(3, sh2.getEvent());
-		assertEquals(3, sh2.getHours());
+		assertEquals(2, sh2.getEvent());
+		assertEquals(1.5, sh2.getHours());
 		assertEquals("Approved", sh2.getStatus());
+		assertEquals("Made friends", sh2.getReflection());
+		assertEquals("Crisis Center", sh2.getDescription());
 		
 		//Verifying third service hour info 
 		
-		assertEquals(3, sh3.getServedPet());
-		assertEquals(4, sh3.getServant());
-		assertEquals(2, sh3.getEvent());
-		assertEquals(2, sh3.getHours());
+		assertEquals(1, sh3.getServedPet());
+		assertEquals(2, sh3.getServant());
+		assertEquals(1, sh3.getEvent());
+		assertEquals(2.3, sh3.getHours());
 		assertEquals("Approved", sh3.getStatus());
+		assertEquals("Met a guy named Randy", sh3.getReflection());
+		assertEquals("Landscaping", sh3.getDescription());
 	}
 	
 	/**
@@ -188,7 +205,7 @@ class ServiceHoursDaoTests {
 		
 		log.warn("\n\n\n");
 		
-		dao.update(1, 1, 1, 3, 2.0, "Pending", null, null);
+		dao.update(1, 1, 1, 3, 2.0, "Pending", "Painted a lot", "House Painting");
 		
 		ServiceHours sh1 = dao.fetchHoursById(1);
 		
@@ -198,6 +215,8 @@ class ServiceHoursDaoTests {
 		assertEquals(3, sh1.getEvent());
 		assertEquals(2, sh1.getHours());
 		assertEquals("Pending", sh1.getStatus());
+		assertEquals("Painted a lot", sh1.getReflection());
+		assertEquals("House Painting", sh1.getDescription());
 	}
 	
 }
