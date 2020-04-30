@@ -1,7 +1,7 @@
 package srv.domain.user;
 
-import srv.domain.ServiceGroup;
 import srv.domain.contact.Contact;
+import srv.domain.serviceGroup.ServiceGroup;
 
 /**
  * This is class is an extension of the User class, and represents

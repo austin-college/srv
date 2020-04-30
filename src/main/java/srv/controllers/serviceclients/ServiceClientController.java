@@ -145,7 +145,59 @@ public class ServiceClientController {
 		  	   
 	   }
 	   
+	   /**
+	    * TODO
+	    * Updating an existing service client in the service client list but at this point in time
+	    * only updating service client's name and category.
+	    * 
+	    *  Need to figure out how to handle board member and contact data
+	    * 
+	    * @param request
+	    * @param response
+	    * @return
+	    */
+	   @PostMapping("/ajax/editServiceClient")
+	   public ModelAndView ajaxServiceClientUpdate(HttpServletRequest request, HttpServletResponse response) {
+
+		   response.setContentType("text/html");
 	   
+		   int id = Integer.parseInt(request.getParameter("ID")); 
+		   String name = request.getParameter("name");
+		   String category = request.getParameter("cat");
+		   
+			/*
+			 * Prepare and render the response of the template's model for the HTTP response
+			 */
+		   ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleClientRow");
+
+		   try {
+			
+			   doa.update(id, name, 1, 2, "John Smith", category);
+			   
+			   ServiceClient updatedClient = doa.fetchClientById(id);
+			   
+			   mav.addObject("scid", updatedClient.getScid());
+			   mav.addObject("name", updatedClient.getName());
+			   mav.addObject("category", updatedClient.getCategory());  
+
+			   
+		   } catch (Exception e) {
+			   System.err.println("\n\n ERROR ");
+			   System.err.println(e.getMessage());
+			   
+	
+		   }
+		   
+		  return mav;
+		  	   
+	   }
+	   
+	   /**
+	    * Testing the ServiceClient dao
+	    * @param request
+	    * @param response
+	    * @return
+	    */
 	   @GetMapping("/test/sc")
 	   public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 		   

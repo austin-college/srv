@@ -115,3 +115,40 @@ th {
 	line-height: 75px;
 }
 /* End credit to lydia, thanks lydia */
+
+/* Style setting for the edit and add dialog headers. */
+.ui-dialog-titlebar{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}
+/* Style settings for the close button on the edit and add dialog headers. */
+ .ui-dialog-titlebar > .ui-button {
+   border: 0 none;
+   background-color: #a41e34;
+   margin-top: -11px;
+ }
+
+/* Style settings for the add and update buttons in the add and edit dialogs. */
+.addBtnClass, .editBtnClass{
+	background-color: #db9401;
+	color: white;
+	text-align: center;
+}
+
+/* Change the color of the cancel button in dialogs on hover */
+.cancelBtnClass:hover{
+	color: white;
+  	background-color: #dc3545;
+}
+
+td a:hover {
+	background-color: #ffffff;
+	
+}
+
+#addBtnDlg  {
+	background-color: #db9401;
+	color: white;
+}
+

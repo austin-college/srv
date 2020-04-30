@@ -91,6 +91,7 @@ CREATE TABLE eventTypes (
 	primary key (eventTypeId)
 	);
 	
+<<<<<<< HEAD
 CREATE TABLE serviceHours (
 	serviceHourId INTEGER AUTO_INCREMENT, 
 	serviceClientId int, 
@@ -113,6 +114,19 @@ CREATE TABLE serviceHours (
 	);
 	
 	
+=======
+CREATE TABLE serviceGroups (
+	serviceGroupId INTEGER AUTO_INCREMENT,
+	shortName VARCHAR(255),
+	title VARCHAR(255),
+	contactId INT,
+	primary key (serviceGroupId),
+	foreign key (contactId)
+		references contacts(contactId)
+		on delete set NULL
+	);
+	
+>>>>>>> 377854a68d82e5e1026c3807c225b8f07ad3181e
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 	
@@ -134,8 +148,8 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Housing, Community');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Women, Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Community');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
 
 insert into users (username, contactId) values ('apritchard', 4);
 insert into users (username, contactId) values ('hCouturier', 5);
@@ -158,7 +172,13 @@ INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service')
 INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
 INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');
 
+<<<<<<< HEAD
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 2, 1, '2.0', 'Pending', 'Made food', 'Crisis Center');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
+=======
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
+>>>>>>> 377854a68d82e5e1026c3807c225b8f07ad3181e

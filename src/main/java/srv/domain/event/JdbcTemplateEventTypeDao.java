@@ -36,8 +36,8 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/*
-	 * Creates a new EventType in the data.sql database. An exception is thrown
-	 * if the new contact is a duplicate. 
+	 * Creates a new EventType in the data.sql database.
+	 * An exception is thrown if the new EventType is a duplicate. 
 	 */
 	@Override
 	public EventType create(String name, String description) throws Exception {
@@ -71,8 +71,8 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/*
-	 * Removes the desired EventType (by id) from the data.sql database. An
-	 * exception is thrown if the contact is unable to be removed (does not exist).
+	 * Removes the desired EventType (by id) from the data.sql database. 
+	 * An exception is thrown if the eventType is unable to be removed (does not exist).
 	 */
 	@Override
 	public void delete(int etid) throws Exception {
@@ -88,8 +88,8 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/* 
-	 * Updates the desired EventType (by id) in the data.sql database with the new 
-	 * specified content. An exception is thrown if the contact is unable to be updates (does not exist).
+	 * Updates the desired EventType (by id) in the data.sql database with the new specified content.
+	 * An exception is thrown if the EventType is unable to be updates (does not exist).
 	 */
 	@Override
 	public void update(int etid,  String name, String description) throws Exception {
@@ -99,7 +99,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 				new Object[] {name, description, etid});
 
 		if (rc < 1) {
-			String msg = String.format("Unable to update event type [%]", etid);
+			String msg = String.format("Unable to update eventType [%]", etid);
 			log.error(msg);
 			throw new Exception(msg);
 		}
@@ -107,8 +107,8 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/*
-	 * Finds the corresponding EventType given the specified id. An exception is thrown
-	 * if the contact is unable to be fetched (does not exist).
+	 * Finds the corresponding EventType given the specified id. 
+	 * An exception is thrown if the EventType is unable to be fetched (does not exist).
 	 */
 	@Override
 	public EventType fetchEventTypeById(int etid) throws Exception {
