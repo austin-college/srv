@@ -1,6 +1,9 @@
 package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -15,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import srv.domain.contact.Contact;
+import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceHours.ServiceHours;
 import srv.domain.serviceHours.ServiceHoursDao;
 
@@ -113,32 +117,72 @@ class ServiceHoursDaoTests {
 	@Test
 	void testCreate_whenUsingJdbcTemplate() throws Exception {
 		
-		log.warn("\n\n\n");
+		List<ServiceHours> hoursBefore = dao.listAll(); 
+		int numBeforeInsert = hoursBefore.size();
+		System.err.println("\n\nBefore Insert " + numBeforeInsert);
+		for (ServiceHours sc : hoursBefore) {
+			System.err.println(sc.getShid());
+		}
 		
-		ServiceHours s = dao.create(5, 2, 3, 2, 2.0, "Approved", "fun", "Crisis Center");
+		ServiceHours nsh = dao.create(2, 1, 1, 3.0, "Approved", "Painted", "House Painting");
 		
-		ServiceHours sh5 = dao.fetchHoursById(5);
+		assertNotNull(nsh);
 		
-		//Verifying that contact was stored in database
-		assertEquals(5, sh5.getShid());
+		List<ServiceHours> hoursAfter = dao.listAll(); 
+		int numAfterInsert = hoursAfter.size();
+		
+		System.err.println("\n\nAfter Insert " + numAfterInsert);
+		for (ServiceHours sc : hoursBefore) {
+			System.err.println(sc.getShid());
+		}
+
+		
+		
+		/*
+		 * The next assigned id on successful insert should be numBeforeInsert + 1.
+		 */
+		assertEquals(numBeforeInsert+1, nsh.getShid());
+
+		
+		/*
+		 * Now we will examine the newly inserted record.
+		 */
+		ServiceHours sh5 = nsh;
+
+		//assertEquals(5, sh5.getShid());
 		assertEquals(2, sh5.getServedPet().getScid());
-		assertEquals(3, sh5.getServant().getUid());
-		assertEquals(2, sh5.getEvent().getEid());
-		assertEquals(2.0, sh5.getHours());
+		assertEquals(1, sh5.getServant().getUid());
+		assertEquals(1, sh5.getEvent().getEid());
+		assertEquals(3.0, sh5.getHours());
 		assertEquals("Approved", sh5.getStatus());
-		assertEquals("fun", sh5.getReflection());
-		assertEquals("Crisis Center", sh5.getDescription());
-		
-		//Testing ServiceHour returned from create
-		
-		assertEquals(5, s.getShid());
-		assertEquals(2, s.getServedPet().getScid());
-		assertEquals(3, s.getServant().getUid());
-		assertEquals(2, s.getEvent().getEid());
-		assertEquals(2.0, s.getHours());
-		assertEquals("Approved", s.getStatus());
-		assertEquals("fun", s.getReflection());
-		assertEquals("Crisis Center", s.getDescription());
+		assertEquals("Painted", sh5.getReflection());
+		assertEquals("House Painting", sh5.getDescription());
+
+
+
+		/*
+		 * log.warn("\n\n\n");
+		 * 
+		 * ServiceHours s = dao.create(5, 2, 3, 2, 2.0, "Approved", "fun",
+		 * "Crisis Center");
+		 * 
+		 * ServiceHours sh5 = dao.fetchHoursById(5);
+		 * 
+		 * //Verifying that contact was stored in database assertEquals(5,
+		 * sh5.getShid()); assertEquals(2, sh5.getServedPet().getScid());
+		 * assertEquals(3, sh5.getServant().getUid()); assertEquals(2,
+		 * sh5.getEvent().getEid()); assertEquals(2.0, sh5.getHours());
+		 * assertEquals("Approved", sh5.getStatus()); assertEquals("fun",
+		 * sh5.getReflection()); assertEquals("Crisis Center", sh5.getDescription());
+		 * 
+		 * //Testing ServiceHour returned from create
+		 * 
+		 * assertEquals(5, s.getShid()); assertEquals(2, s.getServedPet().getScid());
+		 * assertEquals(3, s.getServant().getUid()); assertEquals(2,
+		 * s.getEvent().getEid()); assertEquals(2.0, s.getHours());
+		 * assertEquals("Approved", s.getStatus()); assertEquals("fun",
+		 * s.getReflection()); assertEquals("Crisis Center", s.getDescription());
+		 */
 		
 	}
 	
@@ -177,9 +221,9 @@ class ServiceHoursDaoTests {
 		
 		//Verifying second service hour info
 		
-		assertEquals(2, sh2.getServedPet());
-		assertEquals(3, sh2.getServant());
-		assertEquals(2, sh2.getEvent());
+		assertEquals(2, sh2.getServedPet().getScid());
+		assertEquals(3, sh2.getServant().getUid());
+		assertEquals(2, sh2.getEvent().getEid());
 		assertEquals(1.5, sh2.getHours());
 		assertEquals("Approved", sh2.getStatus());
 		assertEquals("Made friends", sh2.getReflection());
@@ -187,9 +231,9 @@ class ServiceHoursDaoTests {
 		
 		//Verifying third service hour info 
 		
-		assertEquals(1, sh3.getServedPet());
-		assertEquals(2, sh3.getServant());
-		assertEquals(1, sh3.getEvent());
+		assertEquals(1, sh3.getServedPet().getScid());
+		assertEquals(2, sh3.getServant().getUid());
+		assertEquals(1, sh3.getEvent().getEid());
 		assertEquals(2.3, sh3.getHours());
 		assertEquals("Approved", sh3.getStatus());
 		assertEquals("Met a guy named Randy", sh3.getReflection());

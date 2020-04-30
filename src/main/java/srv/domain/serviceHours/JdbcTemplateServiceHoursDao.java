@@ -62,8 +62,8 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 
 	@Override
-	public ServiceHours create(Integer shid, Integer scid, Integer uid, Integer eid, double hours, String stat,
-			String reflection, String description) throws Exception {
+	public ServiceHours create(Integer scid, Integer uid, Integer eid, double hours, String stat, String reflection,
+			String description) throws Exception {
 		
 		 final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			
@@ -98,7 +98,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	     Number num = keyHolder.getKey();
 	     
 		if (num == null ) {
-			String msg = String.format("Unable to insert new service hour [%s]", shid);
+			String msg = String.format("Unable to insert new service hour [%s]", scid);
 			log.warn(msg);
 			throw new Exception("Unable to insert new service hour.");
 		}
