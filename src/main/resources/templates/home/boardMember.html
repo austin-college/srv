@@ -184,24 +184,30 @@
 				<th class="th-sm" colspan='3'>Actions</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr id="row${hrs.shid?c}">
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_srvName'>${hrs.servant.contact.firstName!"UNKOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_scName'>${hrs.serviceClient.name!"UNKOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
-
-				<td><a class="btn edit" href="#"> <i
-						class="icon-check-sign icon-large"></i> Approve
-				</a> <a class="btn btn-danger del" href="#"> <i
-						class="icon-trash icon-large"></i> Reject
-				</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
-						View
-				</a></td>
-			</tr>
-		</tbody>
+		<tbody id="hrs_tbl_body">
+			<#if hours??>
+				<#list hours as hrs>
+						<tr id="row${hrs.shid?c}">
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_event'>${hrs.event.title!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_contact_email'>${hrs.servedPet!"UNKNOWN"}</td>
+						
+						<td>
+							<!-- Buttons to open edit/delete hours dialog  -->
+							<button type="button" class="edit btn" onEditClick="${hrs.shid?c}">
+							<span class="fas fa-pencil-alt"></span> 
+						  					Edit</button></td>
+						<td>
+				   		<button type="button" class="del btn" onDelClick="${hrs.shid?c}">
+						<span class="fas fa-trash-alt"></span>  
+						  		Reject 
+						</button>
+						</td>
+						</tr>
+				</#list>
+			</#if>
 		<tfoot>
 		</tfoot>
 	</table>

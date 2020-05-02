@@ -21,7 +21,7 @@ public class ServiceHours implements Serializable{
 	private Integer shid; // Unique id for each hour
 	private ServiceClient servedPet; // Associated Pet
 	private User servant; // Servant worked for Pet
-	private Event eventName; // Event held for service
+	private Event event; // Event held for service
 	private Double hours;	// Hours served
 	private String date; // Date Served
 	private String reflection; // Thoughts on the event
@@ -44,7 +44,7 @@ public class ServiceHours implements Serializable{
 		this.shid = id;
 		this.servedPet = servedPet;
 		this.servant = servant;
-		this.eventName = eventName;
+		this.event = eventName;
 		this.hours = hours;
 		this.status = stat;
 	}
@@ -62,15 +62,16 @@ public class ServiceHours implements Serializable{
 	 * @param reflection
 	 * @param description
 	 */
-	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours, String reflection, String description) {
+	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours, String reflection, String description, String stat) {
 		super();
 		this.servedPet = servedPet;
 		this.servant = servant;
-		this.eventName = eventName;
+		this.event = eventName;
 		this.hours = hours;
 		this.date = eventName.getDate();
 		this.reflection = reflection;
 		this.description = description;
+		this.status = stat; 
 	}
 
 	public ServiceHours() {
@@ -84,6 +85,7 @@ public class ServiceHours implements Serializable{
 	public ServiceHours setShid(Integer id) {
 		this.shid = id;
 		return this;
+		
 	}
 	public ServiceClient getServedPet() {
 		return servedPet;
@@ -107,14 +109,15 @@ public class ServiceHours implements Serializable{
 	}
 
 
-	public Event getEventName() {
-		return eventName;
+	public Event getEvent() {
+		return event;
 	}
 
 
-	public ServiceHours setEventName(Event eventName) {
-		this.eventName = eventName;
+	public ServiceHours setEvent(Event eventName) {
+		this.event = eventName;
 		return this;
+		
 	}
 
 
@@ -136,7 +139,7 @@ public class ServiceHours implements Serializable{
 
 	public ServiceHours setDate(String date) {
 		this.date = date;
-		return this;
+		return this; 
 	}
 
 
@@ -151,13 +154,14 @@ public class ServiceHours implements Serializable{
 	}
 
 
-	public String getDescritpion() {
+	public String getDescription() {
 		return description;
 	}
 
 
-	public ServiceHours setDescritpion(String descritpion) {
-		this.description = descritpion;
+	public ServiceHours setDescription(String description) {
+		
+		this.description = description;
 		return this;
 	}
 	
@@ -169,6 +173,7 @@ public class ServiceHours implements Serializable{
 		this.status = stat;
 		return this;
 	}
+
 	
 	
 }
