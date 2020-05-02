@@ -189,9 +189,11 @@
 				<#list hours as hrs>
 						<tr id="row${hrs.shid?c}">
 						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
-						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_event'>${hrs.event.title!"UNKNOWN"}</td>
 						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
 						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_contact_email'>${hrs.servedPet!"UNKNOWN"}</td>
+						
 						<td>
 							<!-- Buttons to open edit/delete hours dialog  -->
 							<button type="button" class="edit btn" onEditClick="${hrs.shid?c}">
