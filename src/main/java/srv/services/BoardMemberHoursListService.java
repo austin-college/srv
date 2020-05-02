@@ -49,7 +49,7 @@ public class BoardMemberHoursListService {
 		clientContact.setEmail("fakeEmail@temp.net");
 		clientContact2.setEmail("fakeEmail2@temp.net");
 		clientContact.setFirstName("Billy");
-		clientContact.setLastName("BobThornton");
+		clientContact.setLastName("Bob Thornton");
 		
 		ServantUser srv1 = new ServantUser(1,"602232", srv1Con, 's');
 		ServantUser srv2 = new ServantUser(2,"618826",srv2Con, 's');
