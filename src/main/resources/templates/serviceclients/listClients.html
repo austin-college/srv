@@ -22,22 +22,27 @@
 				value="Add Service Client" />
 		</div>
 	</div>
-
+	
 	<!-- The row below contains the table of service clients. -->
 	<div class="row">
 		<div class="col">
 			<div class="container ui-widget table-responsive">
 				<table id="client_tbl" class="table ui-widget ui-widget-content table-striped table-bordered table-hover">
+				<!-- Using complex header in order to allow for datatables to sort the columns -->
 					<thead>
-						<tr class="ui-widget-header">
-							<th>ID</th>
-							<th>Title</th>
-							<th>Contact Name</th>
-							<th>Board Member</th>
-							<th>Category</th>
-							<th colspan='2'>Actions</th>
+    					<tr class="ui-widget-header">
+        					<th rowspan="2">ID</th>
+        					<th rowspan="2">Title</th>
+        					<th rowspan="2">Primary Contact Name</th>
+        					<th rowspan="2">Board Member</th>
+        					<th rowspan="2">Category</th>
+        					<th colspan='2'>Actions</th>
 						</tr>
-					</thead>
+   					  	<tr>
+   					 		<th>Edit</th>
+   					 		<th>Delete</th>
+    					</tr>	
+					</thead>	
 					<tbody id="sc_tbl_body">
 						<#list clients as sc>
 						<tr id="scid-${sc.scid}">

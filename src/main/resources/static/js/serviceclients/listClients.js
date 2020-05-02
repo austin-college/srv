@@ -299,7 +299,15 @@ $(document).ready(function() {
 		$("#editDlg").data("selectedClientID", selected_scid).dialog("open");
 	});
 
-		 
-
+	
+	/*
+	 *  Allows for the table columns to be sorted disables the extra features such as 'searching'
+	 */
+	  $('#client_tbl').DataTable({	
+			"paging": false,
+			"searching": false,
+			"info": false
+	  });
+	  $('.dataTables_length').addClass('bs-select');
 
 });
