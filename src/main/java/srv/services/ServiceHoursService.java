@@ -75,7 +75,7 @@ public class ServiceHoursService {
 				h.setServedPet(new ServiceClient().setName(org));
 				h.setHours(hrsServed);
 				h.setDate(date);
-				h.setDescritpion(desc);
+				h.setDescription(desc);
 			
 				break;
 			}
