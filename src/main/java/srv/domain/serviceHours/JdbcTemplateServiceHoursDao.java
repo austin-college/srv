@@ -98,7 +98,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	     Number num = keyHolder.getKey();
 	     
 		if (num == null ) {
-			String msg = String.format("Unable to insert new service hour [%s]", scid);
+			String msg = String.format("Unable to insert new service hour [%d]", scid);
 			log.warn(msg);
 			throw new Exception("Unable to insert new service hour.");
 		}
@@ -149,7 +149,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	public ServiceHours fetchHoursById(int shid) throws Exception {
 		
 		String sqlStr = String.format("SELECT serviceHourId, serviceClientId, userId, eventId, hours,"
-				+ " status, reflection, description FROM serviceHours WHERE serviceClientId = %d", shid);
+				+ " status, reflection, description FROM serviceHours WHERE serviceHourId = %d", shid);
 		log.debug(sqlStr);
 
 		List<ServiceHours> results = getJdbcTemplate().query(sqlStr, new ServiceHourRowMapper());
