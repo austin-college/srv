@@ -37,6 +37,8 @@ public class BoardMemberController {
 	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("home/boardMember");
+		
+		mav.addObject( "hours", bmHrListSrv.listHours());
 
 		return mav;
 	}
