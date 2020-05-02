@@ -115,7 +115,7 @@ public class BoardMemberHoursListService {
 			
 			if(h.getShid() == id) {
 				
-				h.setEventName(new Event().setTitle(eName));
+				h.setEvent(new Event().setTitle(eName));
 				h.setServedPet(new ServiceClient().setName(org));
 				h.setHours(hrsServed);
 				h.setDate(date);
