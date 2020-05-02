@@ -156,7 +156,7 @@ public class ServiceHours implements Serializable{
 	}
 
 
-	public ServiceHours setDescritpion(String descritpion) {
+	public ServiceHours setDescription(String descritpion) {
 		this.description = descritpion;
 		return this;
 	}
