@@ -3,10 +3,12 @@ package srv.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import srv.domain.event.Event;
 
 import srv.domain.serviceClient.ServiceClient;
-
+import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
 import srv.domain.serviceHours.ServiceHours;
 
 
@@ -16,7 +18,13 @@ import srv.domain.serviceHours.ServiceHours;
  *
  */
 public class ServiceHoursService {
+	
 	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
+	
+	//autowire
+	@Autowired
+	JdbcTemplateServiceHoursDao serviceHoursDao; 
+	
 	
 	public ServiceHoursService() {
 		initialize();
@@ -25,22 +33,22 @@ public class ServiceHoursService {
 	public void initialize() {
 		ServiceHours a = new ServiceHours()
 				.setShid(1)
-				.setEventName(new Event().setTitle("Spending Time with Toys for Tots"))
+				.setEvent(new Event().setTitle("Spending Time with Toys for Tots"))
 				.setHours(6.0)
 				.setStatus("Approved");
 		ServiceHours b = new ServiceHours()
 				.setShid(2)
-				.setEventName(new Event().setTitle("Teaching Part Time"))
+				.setEvent(new Event().setTitle("Teaching Part Time"))
 				.setHours(2.0)
 				.setStatus("Pending");
 		ServiceHours c = new ServiceHours()
 				.setShid(3)
-				.setEventName(new Event().setTitle("Working with Food House"))
+				.setEvent(new Event().setTitle("Working with Food House"))
 				.setHours(4.0)
 				.setStatus("Rejected");
 		ServiceHours d = new ServiceHours()
 				.setShid(4)
-				.setEventName(new Event().setTitle("Volunteering at Service Station"))
+				.setEvent(new Event().setTitle("Volunteering at Service Station"))
 				.setHours(2.0)
 				.setStatus("Pending");
 		
@@ -71,7 +79,7 @@ public class ServiceHoursService {
 			
 			if(h.getShid() == id) {
 				
-				h.setEventName(new Event().setTitle(eName));
+				h.setEvent(new Event().setTitle(eName));
 				h.setServedPet(new ServiceClient().setName(org));
 				h.setHours(hrsServed);
 				h.setDate(date);
