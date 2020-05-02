@@ -94,5 +94,39 @@ public class BoardMemberHoursListService {
 		hrs.add(d);
 	}
 	
+	/**@return ServiceHours list*/
+	public List<ServiceHours> listHours(){	return hrs;}
+	
+	/**Updates serviceHours object
+	 * @param ID
+	 * @param eName
+	 * @param eName
+	 * @param org
+	 * @param hrsServed
+	 * @param date
+	 * @param desc
+	 * @return ServiceHours
+	 * */
+	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, String date, String desc)   {
+
+		int index = 0;
+		for(ServiceHours h : hrs) {
+			
+			if(h.getShid() == id) {
+				
+				h.setEventName(new Event().setTitle(eName));
+				h.setServedPet(new ServiceClient().setName(org));
+				h.setHours(hrsServed);
+				h.setDate(date);
+				h.setDescription(desc);
+			
+				break;
+			}
+			
+			index++;
+		}
+		
+		return hrs.get(index);
+	}
 	
 }
