@@ -43,9 +43,6 @@ public class HoursController {
 	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
-		
-		
-		
 
 		mav.addObject("hours", hrSvc.listHours());
 		return mav;

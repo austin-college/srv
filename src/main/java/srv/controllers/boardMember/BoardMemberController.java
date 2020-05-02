@@ -38,7 +38,7 @@ public class BoardMemberController {
 
 		ModelAndView mav = new ModelAndView("home/boardMember");
 		
-		mav.addObject( "hours", bmHrListSrv.listHours());
+		mav.addObject("hours", bmHrListSrv.listHours());
 
 		return mav;
 	}
