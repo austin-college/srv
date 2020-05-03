@@ -9,11 +9,8 @@ import srv.domain.event.JdbcTemplateEventTypeDao;
 import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
-//<<<<<<< HEAD
 import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
-//=======
 import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
-//>>>>>>> 377854a68d82e5e1026c3807c225b8f07ad3181e
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
 
@@ -49,31 +46,30 @@ public class H2DatabaseConfig {
 	}
 
 	@Bean
-	public JdbcTemplateUserDao UserDao() {
+	public JdbcTemplateUserDao userDao() {
 		return new JdbcTemplateUserDao();
 	}
 
 	@Bean
-	public JdbcTemplateEventDao EventDao() {
+	public JdbcTemplateEventDao eventDao() {
 		return new JdbcTemplateEventDao();
 	}
 	
 	@Bean
-	public JdbcTemplateEventParticipantDao EventParticipantDao() {
+	public JdbcTemplateEventParticipantDao eventParticipantDao() {
 		return new JdbcTemplateEventParticipantDao();
 	}
 	
 	@Bean
-	public JdbcTemplateEventTypeDao EventTypeDao() {
+	public JdbcTemplateEventTypeDao eventTypeDao() {
 		return new JdbcTemplateEventTypeDao();
 	}
 	
-//<<<<<<< HEAD
 	/*
 	 * Added ServiceHourDao bean for autowired dependency 
 	 */
 	@Bean
-	public JdbcTemplateServiceHoursDao ServiceHoursDao() {
+	public JdbcTemplateServiceHoursDao serviceHoursDao() {
 		
 		return new JdbcTemplateServiceHoursDao();
 	}
@@ -87,21 +83,16 @@ public class H2DatabaseConfig {
 		return new ServiceHoursService();
 		
 	}
-//=======
 //	@Bean
 //	public JdbcTemplateServiceGroupDao ServiceGroupDao() {
 //		return new JdbcTemplateServiceGroupDao();
-//>>>>>>> 377854a68d82e5e1026c3807c225b8f07ad3181e
-//	}
 
-//    @Bean
-//    public DataSource dataSource() {
-//    
-//        return new EmbeddedDatabaseBuilder()
-//                .setType(EmbeddedDatabaseType.H2)
-//                .addScript("schema.sql")//script to create person table
-//                //.addScript("data.sql")//script to create person table
-//                .build();
-//    }
+//	}
+	
+	@Bean
+	public JdbcTemplateServiceGroupDao serviceGroupDao() {
+		return new JdbcTemplateServiceGroupDao();
+	}
+
 
 }

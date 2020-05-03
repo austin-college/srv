@@ -22,36 +22,41 @@
 				value="Add Service Client" />
 		</div>
 	</div>
-
+	
 	<!-- The row below contains the table of service clients. -->
 	<div class="row">
 		<div class="col">
 			<div class="container ui-widget table-responsive">
-				<table id="client_tbl" class="table ui-widget ui-widget-content table-striped table-bordered table-hover">
+				<table id="client_tbl" class="table ui-widget ui-widget-content table-striped table-bordered table-hover" width=100%>
+				<!-- Using complex header in order to allow for datatables to sort the columns -->
 					<thead>
-						<tr class="ui-widget-header">
-							<th>ID</th>
-							<th>Title</th>
-							<th>Contact Name</th>
-							<th>Board Member</th>
-							<th>Category</th>
-							<th colspan='2'>Actions</th>
+    					<tr class="ui-widget-header">
+        					<th rowspan="2">ID</th>
+        					<th rowspan="2">Name</th>
+        					<th rowspan="2">Primary Contact Name</th>
+        					<th rowspan="2">Board Member</th>
+        					<th rowspan="2">Category</th>
+        					<th colspan='2'>Actions</th>
 						</tr>
-					</thead>
+   					  	<tr>
+   					 		<th>Edit</th>
+   					 		<th>Delete</th>
+    					</tr>	
+					</thead>	
 					<tbody id="sc_tbl_body">
 						<#list clients as sc>
-						<tr id="scid-${sc.scid}">
-							<td name='sc_id'>${sc.scid!"UNKNOWN"}</td>
-							<td name='sc_title'>${sc.name!"UNKNOWN"}</td>
-							<td name='sc_contact_name'>	${sc.mainContact.firstName!"UNKNOWN"} ${sc.mainContact.lastName!"UNKNOWN"}</td>
-							<td name='sc_bm_name'>${sc.boardMember!"UNKNOWN"}</td>
-							<td name='sc_category'>${sc.category!"UNKNOWN"}</td>
-							<td>
+						<tr id="scid-${sc.scid?c}">
+							<td name='sc_id' class='scRow' onRowClick="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
+							<td name='sc_title' class='scRow' onRowClick="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
+							<td name='sc_contact_name' class='scRow' onRowClick="${sc.scid?c}">${sc.mainContact.firstName!"UNKNOWN"} ${sc.mainContact.lastName!"UNKNOWN"}</td>
+							<td name='sc_bm_name' class='scRow' onRowClick="${sc.scid?c}">${sc.boardMember!"UNKNOWN"}</td>
+							<td name='sc_category' class='scRow' onRowClick="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
+							<td class="text-center">
 								<button type="button" class="edit btn" onEditClick="${sc.scid?c}">
 									<span class="fas fa-pencil-alt"></span> Edit
 								</button>
 							</td>
-							<td>
+							<td class="text-center">
 								<button type="button" class="del btn" onDelClick="${sc.scid?c}">
 									<span class="fas fa-trash-alt"></span> Delete
 								</button>
@@ -139,7 +144,7 @@
     			</div>
   			</div>
 		</form>
-
+	</div>
 
 	
 	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
@@ -188,7 +193,7 @@
       				<input id="editDlg_address" type="text" class="form-control" value="118">
 			    </div>
     			<div class="col-4">
-      				<input id="editDlg_city" type="text" class="form-control" value='Sherman' >
+      				<input id="editDlg_city" type="text" class="form-control" value='Sherman'>
 			    </div>
     			<div class="col">
       				<input id="editDlg_state" type="text" class="form-control" value='TX'>
@@ -199,15 +204,141 @@
   			</div>
 		</form>
 	</div>
-				
-
+	
+	<!--  The div below shows a modal view of the service client information (contacts, names, etc) when the row was selected 
+	      Does not allow for the user to edit any of the fields or provide any buttons to do so. -->
+	<div id="scInfoDlg" title="Service Client Information" class="ui-widget">
+	<div class="container">
+		<div class="row">
+			<div class='form-group'>
+		
+			<div class="container-fluid">
+					<div class='form-row'>
+						<div class='col-sm-4'>
+							<label for="scInfoDlg_name" ><b>Name of Service Client</b></label>
+						</div>
+						<div class='col-sm-6'>
+							<input id="scInfoDlg_name" class="form-control" readonly  size=50>
+						</div>
+					</div>
+					<div class="form-row">
+    					<div class="form-group col-md-6">
+							<label for="scInfoDlg_bmName" ><b>Board Member:</b></label>
+							<input class="form-control" id="scInfoDlg_bmName" readonly>
+					    </div>
+    					<div class="form-group col-md-6">
+							<label for="scInfoDlg_cat" ><b>Category</b></label>
+							<input class="form-control" id="scInfoDlg_cat" readonly>
+						</div>
+					</div> 
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Primary Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_mcName"><b>Name</b></label>
+      						<input class="form-control" id="scInfoDlg_mcName" readonly>
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_mcEmail"><b>Email</b></label>
+      						<input class="form-control" id="scInfoDlg_mcEmail" readonly>
+    					</div>
+  					</div>
+   					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_mcWorkPhone"><b>Phone Number (Work)</b></label>
+      						<input class="form-control" id="scInfoDlg_mcWorkPhone" readonly>
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_mcMobilePhone"><b>Phone Number (Mobile)</b></label>
+      						<input class="form-control" id="scInfoDlg_mcMobilePhone" readonly>
+    					</div>
+  					</div>
+					<div class="form-group">
+    					<label for="scInfoDlg_mcStreet"><b>Address</b></label>
+    					<input class="form-control" id="scInfoDlg_mcStreet" readonly>
+  					</div>
+  					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_mcCity"><b>City</b></label>
+      						<input class="form-control" id="scInfoDlg_mcCity" readonly>
+    					</div>
+    				<div class="form-group col-md-4">
+      					<label for="scInfoDlg_mcState"><b>State</b></label>
+      					<input id="scInfoDlg_mcState" class="form-control" readonly>
+    				</div>
+    				<div class="form-group col-md-2">
+      					<label for="scInfoDlg_mcZip"><b>Zip</b></label>
+      					<input class="form-control" id="scInfoDlg_mcZip" readonly>
+    				</div>
+  				</div>
+  				<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Secondary Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_ocName"><b>Name</b></label>
+      						<input class="form-control" id="scInfoDlg_ocName" readonly>
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_ocEmail"><b>Email</b></label>
+      						<input class="form-control" id="scInfoDlg_ocEmail" readonly>
+    					</div>
+  					</div>
+   					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_ocWorkPhone"><b>Phone Number (Work)</b></label>
+      						<input class="form-control" id="scInfoDlg_ocWorkPhone" readonly>
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_ocMobilePhone"><b>Phone Number (Mobile)</b></label>
+      						<input class="form-control" id="scInfoDlg_ocMobilePhone" readonly>
+    					</div>
+  					</div>
+					<div class="form-group">
+    					<label for="scInfoDlg_ocStreet"><b>Address</b></label>
+    					<input class="form-control" id="scInfoDlg_ocStreet" readonly>
+  					</div>
+  					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="scInfoDlg_ocCity"><b>City</b></label>
+      						<input class="form-control" id="scInfoDlg_ocCity" readonly>
+    					</div>
+    				<div class="form-group col-md-4">
+      					<label for="scInfoDlg_ocState"><b>State</b></label>
+      					<input id="scInfoDlg_ocState" class="form-control" readonly>
+    				</div>
+    				<div class="form-group col-md-2">
+      					<label for="scInfoDlg_ocZip"><b>Zip</b></label>
+      					<input class="form-control" id="scInfoDlg_ocZip" readonly>
+    				</div>
+  				</div>
+  	
+			</div> 	
 			</div>
 		</div>
+		</div>
+	</div>
+</div>
+
+			
+
+
 		
-	<!--  JavaScript file that will allow us to sort the table columns -->
-	<script src="/srv/js/datatables.min.js"></script>
-	<!-- JavaScript file that will allow us to use jquery widgets -->
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!--  JavaScript file that will allow us to sort the table columns -->
+<script src="/srv/js/datatables.min.js"></script>
+<!-- JavaScript file that will allow us to use jquery widgets -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	
-	</@layout.stdpage>
+</@layout.stdpage>
