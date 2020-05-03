@@ -1,3 +1,46 @@
+/**
+ * The following function verifies that none of the add service client or service
+ * clients dialogs have empty fields.
+ * 
+ * @param client_name
+ * @param bm_Name
+ * @returns
+ */
+function checkForEmptyFields(client_name, bm_Name) {
+
+	var valid = true;
+	var msg = "Please complete the selected fields."; // Error message
+	var counter = 0; // For the invalid message/effect not to occur several times.
+
+	/*
+	 * Removes previous error messages on the fields for the add service client dialog.
+	 */
+	$("#addDlg_name").removeClass("is-invalid");
+	$("#addDlg_bmName").removeClass("is-invalid");
+
+	// Checks to see if the service client's name field is empty.
+	if (!$(client_name).val()) {
+		$(client_name).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+
+	// Checks to see if the service client's board member name field is empty.
+	if (!$(bm_Name).val()) {
+		$(bm_Name).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+
+	return valid;
+}
+
 /** 
  * The delete client function makes an AJAX call to remove the selected
  * service client from the table
@@ -112,7 +155,7 @@ function addClient(client_name, mc_ID, oc_ID, bm_Name, client_cat) {
 			var id = $(data)[2]; // Obtains the new service client's ID from the AJAX response
 
 			console.log(id); // Verifies the new service client's ID
-			
+
 			$('#sc_tbl_body').append(id); // Appends the new service client row to the table
 
 			// Appends the buttons and their functionality to the new service client
@@ -120,12 +163,12 @@ function addClient(client_name, mc_ID, oc_ID, bm_Name, client_cat) {
 				var selected_scid = $(this).attr('onEditClick');
 				$("#editDlg").data("selectedClientID", selected_scid).dialog("open");
 			});
-			
+
 			$(".del").on("click", function() {
 				var selected_scid = $(this).attr('onDelClick');
 				$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
 			});
-			
+
 			$(".scRow").on("click", function() {
 				var selected_scid = $(this).attr('onRowClick');
 				$("#scInfoDlg").data("selectedClientID", selected_scid).dialog("open");
@@ -237,7 +280,7 @@ function scInfo(client_id) {
  * @returns
  */
 function populateMCFields(contact_id) {
-	
+
 	var idStr = contact_id; // Selected main contact's ID
 
 	console.log(idStr); // Verifying id in console
@@ -254,7 +297,7 @@ function populateMCFields(contact_id) {
 		success: function(data) {
 
 			console.log("add main contact info");
-			
+
 			/*
 			 * In order to obtain the information passed back from the AJAX call, we have to 
 			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
@@ -269,7 +312,7 @@ function populateMCFields(contact_id) {
 			var setMcCity = $(data)[10].innerText;
 			var setMcState = $(data)[12].innerText;
 			var setMcZip = $(data)[14].innerText;
-			
+
 			/*
 			 * From the values above, we can set the main contact input fields within the addDlg (in listClients.html)
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
@@ -320,7 +363,7 @@ function populateOCFields(contact_id) {
 		success: function(data) {
 
 			console.log("add other/secondary contact info");
-			
+
 			/*
 			 * In order to obtain the information passed back from the AJAX call, we have to 
 			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
@@ -336,7 +379,7 @@ function populateOCFields(contact_id) {
 			var setOcCity = $(data)[26].innerText;
 			var setOcState = $(data)[28].innerText;
 			var setOcZip = $(data)[30].innerText;
-			
+
 			/*
 			 * From the values above, we can set the other/secondary contact input fields within the addDlg (in listClients.html)
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
@@ -357,6 +400,19 @@ function populateOCFields(contact_id) {
 			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
 		}
 	});	
+}
+
+/**
+ * The following function replaces a HTML paragraph's text with error
+ * messages to the user on the invalid fields in the add service client and
+ * edit service client dialogs.
+ * 
+ * @param msg
+ * @returns
+ */
+function updateTips(msg) {
+	$(".ui-dialog").effect("shake");
+	$(".validationTips").text(msg).addClass("alert alert-danger");
 }
 
 /**
@@ -415,6 +471,14 @@ $(document).ready(function() {
 		modal: true,
 		dialogClass: "addDlgClass",	
 		open: function(event, ui) {	
+
+			/*
+			 * Resets all the fields of the add dialog to empty.
+			 */
+			$("#addDlg_name").val("");
+			$("#addDlg_bmName").val("");
+			$("#addDlg_cat").val("Animals");
+			$('select').prop('selectedIndex', 0);
 			
 			/*
 			 *  Upon open, we populate the main and other contact information fields (name, phone numbers, etc)
@@ -425,14 +489,7 @@ $(document).ready(function() {
 
 			var selected_ocID = $(".ocRow").children("option:selected").val();
 			populateOCFields(selected_ocID);
-			
-			
-			/*
-	    	 * Resets all the fields of the add dialog to empty.
-	    	 */
-	    	$("#addDlg_name").val("");
-	    	$("#addDlg_bmName").val("");
-	    	$("#addDlg_cat").val("Animals");
+
 			/*
 			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
 			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
@@ -446,6 +503,13 @@ $(document).ready(function() {
 				var selected_ocID = $(this).children("option:selected").val();
 				populateOCFields(selected_ocID);				   
 			}); 
+
+			/*
+			 * Removes previous error messages from the fields.
+			 */
+			$("#addDlg_name").removeClass("is-invalid");
+			$("#addDlg_bmName").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
 		},							
 		buttons: [
 			{
@@ -453,12 +517,20 @@ $(document).ready(function() {
 				"id": "addBtnDlg",
 				"class": 'btn',
 				click: function() {		
-				
+
 					var selected_mcID = $(".mcRow").children("option:selected").val(); // ID for main contact
 					var selected_ocID = $(".ocRow").children("option:selected").val(); // ID for other/secondary contact
-					
-					addClient("#addDlg_name", selected_mcID, selected_ocID, "#addDlg_bmName", "#addDlg_cat");
-					$("#addDlg").dialog("close");
+
+					/*
+					 * Validates that the fields of the add service client dialog are not empty.
+					 * If all the fields are valid, adds the new service client to the table and closes the dialog.
+					 */
+					if(checkForEmptyFields("#addDlg_name", "#addDlg_bmName")){
+						
+						addClient("#addDlg_name", selected_mcID, selected_ocID, "#addDlg_bmName", "#addDlg_cat");
+						
+						$("#addDlg").dialog("close");
+					}
 				}
 			},
 			{	
