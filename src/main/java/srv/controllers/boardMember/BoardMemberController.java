@@ -26,7 +26,7 @@ public class BoardMemberController {
 	private static Logger log = LoggerFactory.getLogger(BoardMemberController.class);
 	
 	@Autowired
-	BoardMemberHoursListService bmHrListSrv = new BoardMemberHoursListService();
+	BoardMemberHoursListService bmHrListSrv;
 	
 
 	/**
