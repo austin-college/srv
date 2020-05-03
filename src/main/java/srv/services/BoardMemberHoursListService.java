@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
 import srv.domain.serviceHours.ServiceHours;
 import srv.domain.serviceHours.ServiceHoursDao;
 import srv.domain.contact.Contact;
@@ -18,25 +20,22 @@ import srv.domain.user.UserDao;
 /**
  * The methods in this class are just a temporary stand in until the ServiceHourDao is completed.
  */
+@Service
 public class BoardMemberHoursListService {
 
 	@Autowired 
-	ServiceHoursDao serviceDao;
+	JdbcTemplateServiceHoursDao serviceDao;
 	
-	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
-	
+	public List<ServiceHours> hrs;
 	
 	public BoardMemberHoursListService() {
-		initialize();
-	}
-//TODO Make Live with finished ServiceHoursdao
-	public void initialize() {
 		try {
-			this.hrs = serviceDao.listAll();
+			hrs = serviceDao.listAll();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}    
 	}
+
 	
 	/**@return ServiceHours list*/
 	public List<ServiceHours> listHours(){	return hrs;}
