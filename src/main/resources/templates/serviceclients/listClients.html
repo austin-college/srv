@@ -103,10 +103,10 @@
 	<div id="addDlg" title="New Service Client" class="ui-widget"
 		style='overflow: auto'>
 		<div class="container">
-			<div class="row"> 
+			<div class="row">
 				<div class='form-group'>
 					<div class="container-fluid">
-		  	        <p class="validationTips"></p>
+						<p class="validationTips"></p>
 						<div class='form-row'>
 							<div class='col-sm-4'>
 								<label for="addDlg_name"><b>Name of Service Client</b></label>
@@ -145,7 +145,7 @@
 								<label for="addDlg_mcID"><b>Select Contact ID</b></label>
 							</div>
 							<div class='col-sm-2'>
-								<select id="addDlg_cat" class='form-control mcRow'>
+								<select id="addDlg_mcID" class='form-control mcRow'>
 									<#list contacts as con>
 									<option>${con.contactId?c}</option>
 									</#list>
@@ -203,10 +203,10 @@
 						</div>
 						<div class='form-row'>
 							<div class='col-sm-3'>
-								<label for="addDlg_mcID"><b>Select Contact ID</b></label>
+								<label for="addDlg_ocID"><b>Select Contact ID</b></label>
 							</div>
 							<div class='col-sm-2'>
-								<select id="addDlg_cat" class='form-control ocRow'>
+								<select id="addDlg_ocID" class='form-control ocRow'>
 									<#list contacts as con>
 									<option>${con.contactId?c}</option>
 									</#list>
@@ -259,75 +259,169 @@
 		</div>
 	</div>
 
-
-	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
+	<!-- The div below defines the edit dialog for updating an existing service client which is hidden by JS and exposed by JQ. -->
+	<!-- The user is free to update the service client's name, board member, and category along with the contact ID. The contact 
+		 information for the service client is assuming that the contact is already in the contact database. Thus, the user can select the
+		 desired contact ID which then pre-populates the contact information field from that contact but the user does
+		 not have the ability to change it (such as contact name, phone, etc) -->
 	<!--  Credit to be given to who ever made the viewHours HTML, I bases most of this off what your work did -->
-	<div id="editDlg" title="Edit Service Organization" class="ui-widget">
-		<form>
-			<div class='form-row'>
-				<h5>
-					<b>Client Information</b>
-				</h5>
-			</div>
-			<div class='form-row'>
-				<hr class='col'>
-			</div>
-			<div class="form-group row">
-				<label for="editDlg_clientName" class="col-sm-2 col-form-label">Client
-					Name</label>
-				<div class="col-sm-10">
-					<input class="form-control" id="editDlg_clientName">
+	<div id="editDlg" title="Edit Service Client" class="ui-widget"
+		style='overflow: auto'>
+		<div class="container">
+			<div class="row">
+				<div class='form-group'>
+					<div class="container-fluid">
+						<p class="validationTips"></p>
+						<div class='form-row'>
+							<div class='col-sm-4'>
+								<label for="editDlg_name"><b>Name of Service Client</b></label>
+							</div>
+							<div class='col-sm-6'>
+								<input id="editDlg_name" class="form-control" size=50>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="editDlg_bmName"><b>Board Member:</b></label> <input
+									class="form-control" id="editDlg_bmName">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="editDlg_cat"><b>Category</b></label> <select
+									id="editDlg_cat" class="form-control">
+									<option value="Animals">Animals</option>
+									<option value="Community">Community</option>
+									<option value="Education">Education</option>
+									<option value="Seniors">Seniors</option>
+									<option value="Medical">Medical</option>
+									<option value="Crisis Support">Crisis Support</option>
+								</select>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col'>
+								<h5>
+									<b>Primary Contact Information</b>
+								</h5>
+								<hr class=".col-md-11-auto">
+							</div>
+						</div>
+						<div class='form-row'>
+							<div class='col-sm-3'>
+								<label for="editDlg_mcID"><b>Select Contact ID</b></label>
+							</div>
+							<div class='col-sm-2'>
+								<select id="editDlg_mcID" class='form-control mcRow'>
+									<#list contacts as con>
+									<option>${con.contactId?c}</option>
+									</#list>
+								</select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="editDlg_mcName"><b>Name</b></label> <input
+									class="form-control" id="editDlg_mcName" readonly>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="editDlg_mcEmail"><b>Email</b></label> <input
+									class="form-control" id="editDlg_mcEmail" readonly>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="editDlg_mcWorkPhone"><b>Phone Number
+										(Work)</b></label> <input class="form-control" id="editDlg_mcWorkPhone"
+									readonly>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="editDlg_mcMobilePhone"><b>Phone Number
+										(Mobile)</b></label> <input class="form-control"
+									id="editDlg_mcMobilePhone" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="editDlg_mcStreet"><b>Address</b></label> <input
+								class="form-control" id="editDlg_mcStreet" readonly>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="editDlg_mcCity"><b>City</b></label> <input
+									class="form-control" id="editDlg_mcCity" readonly>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="editDlg_mcState"><b>State</b></label> <input
+									id="editDlg_mcState" class="form-control" readonly>
+							</div>
+							<div class="form-group col-md-2">
+								<label for="editDlg_mcZip"><b>Zip</b></label> <input
+									class="form-control" id="editDlg_mcZip" readonly>
+							</div>
+						</div>
+						<div class='row'>
+							<div class='col'>
+								<h5>
+									<b>Secondary Contact Information</b>
+								</h5>
+								<hr class=".col-md-11-auto">
+							</div>
+						</div>
+						<div class='form-row'>
+							<div class='col-sm-3'>
+								<label for="editDlg_ocID"><b>Select Contact ID</b></label>
+							</div>
+							<div class='col-sm-2'>
+								<select id="editDlg_ocID" class='form-control ocRow'>
+									<#list contacts as con>
+									<option>${con.contactId?c}</option>
+									</#list>
+								</select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="editDlg_ocName"><b>Name</b></label> <input
+									class="form-control" id="editDlg_ocName" readonly>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="editDlg_ocEmail"><b>Email</b></label> <input
+									class="form-control" id="editDlg_ocEmail" readonly>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="editDlg_ocWorkPhone"><b>Phone Number
+										(Work)</b></label> <input class="form-control" id="editDlg_ocWorkPhone"
+									readonly>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="editDlg_ocMobilePhone"><b>Phone Number
+										(Mobile)</b></label> <input class="form-control"
+									id="editDlg_ocMobilePhone" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="editDlg_ocStreet"><b>Address</b></label> <input
+								class="form-control" id="editDlg_ocStreet" readonly>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="editDlg_ocCity"><b>City</b></label> <input
+									class="form-control" id="editDlg_ocCity" readonly>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="editDlg_ocState"><b>State</b></label> <input
+									id="editDlg_ocState" class="form-control" readonly>
+							</div>
+							<div class="form-group col-md-2">
+								<label for="editDlg_ocZip"><b>Zip</b></label> <input
+									class="form-control" id="editDlg_ocZip" readonly>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="form-group row">
-				<label for="editDlg_selcCat" class="col-sm-3 col-form-label">Select
-					Category</label>
-				<div class="col-sm">
-					<select id="editDlg_selcCat" class="form-control"
-						style="width: 200px">
-						<option value="Animals">Animals</option>
-						<option value="Community">Community</option>
-						<option value="Education">Education</option>
-						<option value="Seniors">Seniors</option>
-						<option value="Medical">Medical</option>
-						<option value="Crisis Support">Crisis Support</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="editDlg_descOfClient" class="col-sm-4 col-form-label">Description</label>
-				<div class="col-sm">
-					<input class="form-control" id="editDlg_descOfClient"
-						value='A brief description about the organizaton'>
-				</div>
-			</div>
-			<div class='form-row'>
-				<h5>
-					<b>Address Information</b>
-				</h5>
-			</div>
-			<div class='form-row'>
-				<hr class='col'>
-			</div>
-			<div class="form-row">
-				<div class="col-4">
-					<input id="editDlg_address" type="text" class="form-control"
-						value="118">
-				</div>
-				<div class="col-4">
-					<input id="editDlg_city" type="text" class="form-control"
-						value='Sherman'>
-				</div>
-				<div class="col">
-					<input id="editDlg_state" type="text" class="form-control"
-						value='TX'>
-				</div>
-				<div class="col">
-					<input id="editDlg_state" type="text" class="form-control"
-						value='75090'>
-				</div>
-			</div>
-		</form>
+		</div>
 	</div>
 
 	<!--  The div below shows a modal view of the service client information (contacts, names, etc) when the row was selected 
@@ -363,6 +457,14 @@
 									<b>Primary Contact Information</b>
 								</h5>
 								<hr class=".col-md-11-auto">
+							</div>
+						</div>
+						<div class='form-row'>
+							<div class='col-sm-3'>
+								<label for="scInfoDlg_mcID"><b>Select Contact ID</b></label>
+							</div>
+							<div class='col-sm-2'>
+								<input id="scInfoDlg_mcID" class='form-control mcRow' readonly>
 							</div>
 						</div>
 						<div class="form-row">
@@ -411,6 +513,14 @@
 									<b>Secondary Contact Information</b>
 								</h5>
 								<hr class=".col-md-11-auto">
+							</div>
+						</div>
+						<div class='form-row'>
+							<div class='col-sm-3'>
+								<label for="scInfoDlg_ocID"><b>Select Contact ID</b></label>
+							</div>
+							<div class='col-sm-2' readonly>
+								<input id="scInfoDlg_ocID" class='form-control mcRow' readonly>
 							</div>
 						</div>
 						<div class="form-row">

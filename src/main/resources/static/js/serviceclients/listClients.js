@@ -235,7 +235,10 @@ function scInfo(client_id) {
 			var setOcCity = $(data)[32].innerText;
 			var setOcState = $(data)[34].innerText;
 			var setOcZip = $(data)[36].innerText;
-
+			var setMcID = $(data)[38].innerText;
+			var setOcID = $(data)[40].innerText;
+			
+			console.log(setMcID);
 			/*
 			 * From the values above, we can set the input fields within the scInfoDlg (in listClients.html)
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
@@ -259,6 +262,8 @@ function scInfo(client_id) {
 			$("#scInfoDlg_ocCity").val(setOcCity);
 			$("#scInfoDlg_ocState").val(setOcState);
 			$("#scInfoDlg_ocZip").val(setOcZip);
+			$("#scInfoDlg_mcID").val(setMcID);
+			$("#scInfoDlg_ocID").val(setOcID);
 		},
 		/*
 		 * If unsuccessful, display error message and reasoning.
@@ -543,11 +548,11 @@ $(document).ready(function() {
 			}],
 	});
 
-	//Register and hide the add dialog div until an add button is clicked on.
+	// Register and hide the add dialog div until an edit button is clicked on.
 	$("#editDlg").dialog({
 		autoOpen: false,
 		height: 500,
-		width: 800,
+		width: 700,
 		modal: true,
 		dialogClass: "editDlgClass",
 		open: function(event, ui) {
@@ -555,11 +560,16 @@ $(document).ready(function() {
 			// Harvests the selected servant client's old values from the table.
 			var selected_shid = $("#editDlg").data('selectedClientID');
 			var set_name = $("#scid-" + selected_shid + " td[name ='sc_title']").text();
+			var set_bmName = $("#scid-" + selected_shid + " td[name ='sc_bm_name']").text();
 			var set_cat = $("#scid-" + selected_shid + " td[name ='sc_category']").text().trim();
 
 			// Sets the dialog's fields to the selected servant client's old values upon opening.
-			$("#editDlg_clientName").val(set_name);
+			$("#editDlg_name").val(set_name);
+			$("#editDlg_bmName").val(set_bmName);
 			$("#editDlg_selcCat").val(set_cat);
+			
+			var selected_mcID = $(".mcRow").children("option:selected").val();
+			console.log(selected_mcID);
 		},							
 		buttons: [
 			{
@@ -571,21 +581,6 @@ $(document).ready(function() {
 
 					editClient(selected_shid, "#editDlg_clientName", "#editDlg_selcCat", "#editDlg_descOfClient");
 					$("#editDlg").dialog("close");
-				}
-			},
-			{
-				text: "Update Contact(s)",
-				"id" : "addContactBtn",
-				"class" : 'btn btn-info',
-				click: function() {
-					$("#editDlg").dialog("close");
-				}
-			},
-			{
-				text: "Update Board Member",
-				"class" : 'btn btn-info',
-				click: function() {
-					$('#editDlg').dialog("close");
 				}
 			},
 			{	

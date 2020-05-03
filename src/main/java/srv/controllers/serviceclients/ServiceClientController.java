@@ -36,7 +36,7 @@ public class ServiceClientController {
 			List<ServiceClient> myClients = doa.listAll();
 			mav.addObject("clients", myClients);
 			
-			// Lists the current contacts in the contact database in a drop down menu in the add service client dialog
+			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
 			List<Contact> contacts = cDoa.listAll();			
 			mav.addObject("contacts", contacts);
 
@@ -243,7 +243,8 @@ public class ServiceClientController {
 			mav.addObject("ocCity", selectedClient.getOtherContact().getCity());
 			mav.addObject("ocState", selectedClient.getOtherContact().getState());
 			mav.addObject("ocZip", selectedClient.getOtherContact().getZipcode());
-
+			mav.addObject("mcID", selectedClient.getMainContact().getContactId());
+			mav.addObject("ocID", selectedClient.getOtherContact().getContactId());
 		} catch (Exception e) {
 
 			System.err.println("\n\n ERROR ");
