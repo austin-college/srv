@@ -282,21 +282,6 @@ $(document).ready(function() {
 					$("#addDlg").dialog("close");
 				}
 			},
-			{
-				text: "Add Contact(s)",
-					  "id" : "addContactBtn",
-					  "class" : 'btn btn-info',
-				click: function() {
-					$("#addDlg").dialog("close");
-				}
-			},
-			{
-				text: "Assign Board Member",
-					  "class" : 'btn btn-info',
-				click: function() {
-					$('#addDlg').dialog("close");
-				}
-			},
 			{	
 				text: "Cancel",
 				"class": 'btn btn-secondary',

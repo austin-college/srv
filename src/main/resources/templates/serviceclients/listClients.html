@@ -87,66 +87,138 @@
 			<br> <span id="delMsg2"></span>
 		</p>
 	</div>
-
+	
 	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
 	<!--  Credit to be given to who ever made the viewHours HTML, I bases most of this off what your work did -->
-	<div id="addDlg" title="Add Service Organization" class="ui-widget">
-		<form>
-			<div class='form-row'>
-				<h5><b>Client Information</b></h5>
+	<div id="addDlg" title="New Service Client" class="ui-widget" style='overflow: auto'>
+	<div class="container">
+		<div class="row">
+			<div class='form-group'>	
+			<div class="container-fluid">
+					<div class='form-row'>
+						<div class='col-sm-4'>
+							<label for="addDlg_name" ><b>Name of Service Client</b></label>
+						</div>
+						<div class='col-sm-6'>
+							<input id="addDlg_name" class="form-control" size=50>
+						</div>
+					</div>
+					<div class="form-row">
+    					<div class="form-group col-md-6">
+							<label for="addDlg_bmName" ><b>Board Member:</b></label>
+							<input class="form-control" id="addDlg_bmName">
+					    </div>
+    					<div class="form-group col-md-6">
+							<label for="addDlg_cat" ><b>Category</b></label>
+								<select id="addDlg_cat" class="form-control"> 
+									<option value="Animals">Animals</option>
+				  					<option value="Community">Community</option>
+				 	 				<option value="Education">Education</option>
+				 	 				<option value="Seniors">Seniors</option>
+				 	 				<option value="Medical">Medical</option>
+				 	 				<option value="Crisis Support">Crisis Support</option>
+			 		 			</select>
+						</div>
+					</div> 
+					<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Primary Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_mcName"><b>Name</b></label>
+      						<input class="form-control" id="addDlg_mcName">
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_mcEmail"><b>Email</b></label>
+      						<input class="form-control" id="addDlgmcEmail">
+    					</div>
+  					</div>
+   					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_mcWorkPhone"><b>Phone Number (Work)</b></label>
+      						<input class="form-control" id="addDlg_mcWorkPhone">
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_mcMobilePhone"><b>Phone Number (Mobile)</b></label>
+      						<input class="form-control" id="addDlg_mcMobilePhone">
+    					</div>
+  					</div>
+					<div class="form-group">
+    					<label for="addDlg_mcStreet"><b>Address</b></label>
+    					<input class="form-control" id="addDlg_mcStreet">
+  					</div>
+  					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_mcCity"><b>City</b></label>
+      						<input class="form-control" id="addDlg_mcCity">
+    					</div>
+    				<div class="form-group col-md-4">
+      					<label for="addDlg_mcState"><b>State</b></label>
+      					<input id="addDlg_mcState" class="form-control">
+    				</div>
+    				<div class="form-group col-md-2">
+      					<label for="addDlg_mcZip"><b>Zip</b></label>
+      					<input class="form-control" id="addDlg_mcZip">
+    				</div>
+  				</div>
+  				<div class='row'>
+						<div class='col'>
+							<h5>
+								<b>Secondary Contact Information</b>
+							</h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_ocName"><b>Name</b></label>
+      						<input class="form-control" id="addDlg_ocName">
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_ocEmail"><b>Email</b></label>
+      						<input class="form-control" id="addDlg_ocEmail">
+    					</div>
+  					</div>
+   					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_ocWorkPhone"><b>Phone Number (Work)</b></label>
+      						<input class="form-control" id="addDlg_ocWorkPhone">
+    					</div>
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_ocMobilePhone"><b>Phone Number (Mobile)</b></label>
+      						<input class="form-control" id="addDlg_ocMobilePhone">
+    					</div>
+  					</div>
+					<div class="form-group">
+    					<label for="addDlg_ocStreet"><b>Address</b></label>
+    					<input class="form-control" id="addDlg_ocStreet">
+  					</div>
+  					<div class="form-row">
+    					<div class="form-group col-md-6">
+      						<label for="addDlg_ocCity"><b>City</b></label>
+      						<input class="form-control" id="addDlg_ocCity">
+    					</div>
+    				<div class="form-group col-md-4">
+      					<label for="addDlg_ocState"><b>State</b></label>
+      					<input id="addDlg_ocState" class="form-control">
+    				</div>
+    				<div class="form-group col-md-2">
+      					<label for="addDlg_ocZip"><b>Zip</b></label>
+      					<input class="form-control" id="addDlg_ocZip">
+    				</div>
+  				</div>
+			</div> 	
 			</div>
-			<div class='form-row'>
-				<hr class='col'>
-			</div>
-		  	<div class="form-group row">
-    			<label for="addDlg_clientName" class="col-sm-2 col-form-label">Client Name</label>
-    			<div class="col-sm-10">
-      				<input class="form-control" id="addDlg_clientName" placeholder="EX: Habitat for Humanity">
-    			</div>
-  			</div>
-  			<div class="form-group row">
-    			<label for="addDlg_selcCat" class="col-sm-3 col-form-label">Select Category</label>
-    			<div class="col-sm">
-      				<select id="addDlg_selcCat" class="form-control" style="width:200px"> 
-						<option value="Animals">Animals</option>
-				  		<option value="Community">Community</option>
-				 	 	<option value="Education">Education</option>
-				 	 	<option value="Seniors">Seniors</option>
-				 	 	<option value="Medical">Medical</option>
-				 	 	<option value="Crisis Support">Crisis Support</option>
-			 		 </select>
-    			</div>
-  			</div>
-  			<div class="form-group row">
-    			<label for="addDlg_descOfClient" class="col-sm-4 col-form-label">Description</label>
-    			<div class="col-sm">
-      				<input class="form-control" id="addDlg_descOfClient" placeholder="EX: Builds homes">
-    			</div>
-  			</div>
-  			<div class='form-row'>
-				<h5><b>Address Information</b></h5>
-			</div>
-			<div class='form-row'>
-				<hr class='col'>
-			</div>
-			<div class="form-row">
-				<div class="col-4">
-      				<input id="addDlg_address" type="text" class="form-control" placeholder="Address">
-			    </div>
-    			<div class="col-4">
-      				<input id="addDlg_city" type="text" class="form-control" placeholder="City">
-			    </div>
-    			<div class="col">
-      				<input id="addDlg_state" type="text" class="form-control" placeholder="State">
-    			</div>
-    			<div class="col">
-      				<input id="addDlg_state" type="text" class="form-control" placeholder="Zip">
-    			</div>
-  			</div>
-		</form>
+		</div>
+	</div>
 	</div>
 
-	
+		
 	<!-- The div below defines the add dialog for adding an service client which is hidden by JS and exposed by JQ. -->
 	<!--  Credit to be given to who ever made the viewHours HTML, I bases most of this off what your work did -->
 	<div id="editDlg" title="Edit Service Organization" class="ui-widget">
@@ -210,8 +282,7 @@
 	<div id="scInfoDlg" title="Service Client Information" class="ui-widget">
 	<div class="container">
 		<div class="row">
-			<div class='form-group'>
-		
+			<div class='form-group'>		
 			<div class="container-fluid">
 					<div class='form-row'>
 						<div class='col-sm-4'>
@@ -323,11 +394,10 @@
       					<input class="form-control" id="scInfoDlg_ocZip" readonly>
     				</div>
   				</div>
-  	
 			</div> 	
 			</div>
 		</div>
-		</div>
+	</div>
 	</div>
 </div>
 
