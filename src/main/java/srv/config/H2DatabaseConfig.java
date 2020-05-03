@@ -46,31 +46,30 @@ public class H2DatabaseConfig {
 	}
 
 	@Bean
-	public JdbcTemplateUserDao UserDao() {
+	public JdbcTemplateUserDao userDao() {
 		return new JdbcTemplateUserDao();
 	}
 
 	@Bean
-	public JdbcTemplateEventDao EventDao() {
+	public JdbcTemplateEventDao eventDao() {
 		return new JdbcTemplateEventDao();
 	}
 	
 	@Bean
-	public JdbcTemplateEventParticipantDao EventParticipantDao() {
+	public JdbcTemplateEventParticipantDao eventParticipantDao() {
 		return new JdbcTemplateEventParticipantDao();
 	}
 	
 	@Bean
-	public JdbcTemplateEventTypeDao EventTypeDao() {
+	public JdbcTemplateEventTypeDao eventTypeDao() {
 		return new JdbcTemplateEventTypeDao();
 	}
 	
-
 	/*
 	 * Added ServiceHourDao bean for autowired dependency 
 	 */
 	@Bean
-	public JdbcTemplateServiceHoursDao ServiceHoursDao() {
+	public JdbcTemplateServiceHoursDao serviceHoursDao() {
 		
 		return new JdbcTemplateServiceHoursDao();
 	}
@@ -84,21 +83,16 @@ public class H2DatabaseConfig {
 		return new ServiceHoursService();
 		
 	}
-
 //	@Bean
 //	public JdbcTemplateServiceGroupDao ServiceGroupDao() {
 //		return new JdbcTemplateServiceGroupDao();
 
 //	}
+	
+	@Bean
+	public JdbcTemplateServiceGroupDao serviceGroupDao() {
+		return new JdbcTemplateServiceGroupDao();
+	}
 
-//    @Bean
-//    public DataSource dataSource() {
-//    
-//        return new EmbeddedDatabaseBuilder()
-//                .setType(EmbeddedDatabaseType.H2)
-//                .addScript("schema.sql")//script to create person table
-//                //.addScript("data.sql")//script to create person table
-//                .build();
-//    }
 
 }
