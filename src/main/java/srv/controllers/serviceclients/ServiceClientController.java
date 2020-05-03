@@ -96,31 +96,36 @@ public class ServiceClientController {
 	}
 
 	/**
-	 * Adding a new row to the service client for service client list.
-	 * TODO figure out what to do with board member and contacts, for now making them null or unknown
-	 * figure out if we are keeping address information
+	 * Adding a new row to the service client for service client list. The parameters follow
+	 * the parameters of the ServiceClientDao.
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
+	 * 
+	 * @author Lydia House
 	 */
 	@PostMapping("/ajax/addServiceClient")
 	public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
-
+		
+		// Obtains the information from the JavaScript function
 		String clientName = request.getParameter("clientName");
-		int cid1 = Integer.parseInt(request.getParameter("mcID")); 
-		int cid2 = Integer.parseInt(request.getParameter("ocID")); 
+		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
+		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
 		String bmName = request.getParameter("bmName");
 		String category = request.getParameter("cat");
 
 		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
-
-			ServiceClient newClient = doa.create(clientName, cid1, cid2, bmName, category);
-
+			
+			// Creates the a new service client in the service client database. Then we hold onto a
+			// handle of the newly created service client to aid with preparing the MAV response.
+			ServiceClient newClient = doa.create(clientName, cid1, cid2, bmName, category); 
+			
+			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
 			mav.addObject("name", newClient.getName());
 			mav.addObject("firstName", newClient.getMainContact().getFirstName());
@@ -128,12 +133,9 @@ public class ServiceClientController {
 			mav.addObject("boardMember", newClient.getBoardMember());
 			mav.addObject("category", newClient.getCategory());
 
-
-
 		} catch (Exception e) {
 			System.err.println("\n\n ERROR ");
 			System.err.println(e.getMessage());
-
 
 		}
 

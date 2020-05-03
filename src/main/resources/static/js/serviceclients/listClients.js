@@ -80,11 +80,16 @@ function editClient(client_id, client_name, client_cat, client_desc) {
 }
 
 
-/*
- * function below is for adding a new service client to the list.
- * only passing minimal information
- *  not handling address information from the form, need to ask if client wants this
- *  not handling board member or contact information
+/**
+ * Add a new service client to the service client table. The parameters correspond with the
+ * create method of the ServiceClientDao.
+ * 
+ * @param client_name
+ * @param mc_ID
+ * @param oc_ID
+ * @param bm_Name
+ * @param client_cat
+ * @returns
  */
 function addClient(client_name, mc_ID, oc_ID, bm_Name, client_cat) {
 
