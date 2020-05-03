@@ -1,22 +1,20 @@
 package srv.domain.dao;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
-import srv.domain.contact.JdbcTemplateContactDao;
 
 @RunWith(SpringRunner.class)
 @JdbcTest
@@ -34,7 +32,7 @@ public class ContactDaoTests {
 	 * contact info in the list.
 	 */
 	@Test
-	void testFetchById_whenUsingJdbcTemplate() throws Exception {
+	public void testFetchById_whenUsingJdbcTemplate() throws Exception {
 		
 		log.warn("\n\n\n");
 		
@@ -60,7 +58,7 @@ public class ContactDaoTests {
 	 * data.sql database.
 	 */
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception { 
+	public void testListAll_whenUsingJdbcTemplate() throws Exception { 
 		
 		
 		List<Contact> contacts = dao.listAll();
@@ -128,7 +126,7 @@ public class ContactDaoTests {
 	 * data.sql database.
 	 */
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception {
+	public void testCreate_whenUsingJdbcTemplate() throws Exception {
 		
 		log.warn("\n\n\n");
 		
@@ -166,7 +164,7 @@ public class ContactDaoTests {
 	 *  still be one query left in the database.
 	 */
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception {
+	public void testDelete_whenUsingJdbcTemplate() throws Exception {
 		
 		log.warn("\n\n\n");
 			
@@ -224,7 +222,7 @@ public class ContactDaoTests {
 	 * Testing the update(), should update the query with the specified ID.
 	 */
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+	public void testUpdate_whenUsingJdbcTemplate() throws Exception {
 		
 		log.warn("\n\n\n");
 		

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -19,8 +19,7 @@ import srv.domain.serviceGroup.ServiceGroupDao;
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ComponentScan("srv.config")
-
-class ServiceGroupDaoTests {
+public class ServiceGroupDaoTests {
 
 	@Autowired
 	ServiceGroupDao dao;
@@ -30,7 +29,7 @@ class ServiceGroupDaoTests {
 	 * should return the ServiceGroup info for the Event with id i.
 	 */
 	@Test
-	void testFetchServiceGroupById_whenUsingJdbcTemplate() throws Exception{
+	public void testFetchServiceGroupById_whenUsingJdbcTemplate() throws Exception{
 		
 		// Check existing ServieGroup in SQL 1~3
 		ServiceGroup sg01 = dao.fetchServiceGroupById(1);
@@ -56,7 +55,7 @@ class ServiceGroupDaoTests {
 	 * that are in the data.sql database.
 	 */
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception {
+	public void testListAll_whenUsingJdbcTemplate() throws Exception {
 
 		List<ServiceGroup> sgs = dao.listAll();
 
@@ -77,7 +76,7 @@ class ServiceGroupDaoTests {
 	 * in the data.sql database.
 	 */
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception{
+	public void testCreate_whenUsingJdbcTemplate() throws Exception{
 		
 		List<ServiceGroup> preCreate = dao.listAll();
 		int numBeforeInsert = preCreate.size();
@@ -114,7 +113,7 @@ class ServiceGroupDaoTests {
 	 *  Should still be one query left in the database.
 	 */
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception{
+	public void testDelete_whenUsingJdbcTemplate() throws Exception{
 		
 		dao.delete(1);
 		
@@ -134,7 +133,7 @@ class ServiceGroupDaoTests {
 	 * Testing the update(), should update the query with the specified ID.
 	 */
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception{
+	public void testUpdate_whenUsingJdbcTemplate() throws Exception{
 		
 		dao.update(1, "COOLShortName", "COOLTitleName", 1);
 		

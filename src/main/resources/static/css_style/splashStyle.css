@@ -1,0 +1,133 @@
+@charset "ISO-8859-1";
+@import "all.css"; /* Importing the css file that contains the style for the fontawesome.js*/
+
+
+/* Makes background AC blue */
+body { 
+	background-color: white;
+}
+
+/* Style for the announcement title */
+#announceTitle {
+	padding-left:50px; 
+	padding-top:20p
+}
+
+/* Style for the column containing the list of announcements and find opportunity*/
+#annListCol, #findOpTitle {
+	padding-left:50px
+}
+
+/* Style for the See All link */
+#seeAllLink {
+	font-size:18px
+}
+
+/* Style for the columns containing the spotlight elements and opportunity icons*/
+#spotlightCol, #rowIcons {
+	padding-top:25px
+}
+/* Style for section titles */
+h1 {
+	font-family: Roboto, sans-serif;
+	font-weight: 700;
+	line-height: 1.2;
+	
+}
+
+/* Style for the horizontal rules below section titles */
+hr {
+	border: .5px solid #A9A9A9;
+	background-color: black;
+	margin-top: 0px;
+}
+
+/* Style for the containers */
+#announcementElements.container-fluid, #findOpElements.container-fluid{
+	background-color: white;
+   	width: 100%;
+   	padding-bottom: 50px;
+}
+
+/* Style for the announcement list */
+#announceList {
+	font-size: 20px;
+	margin-top: 25px;
+}
+
+/* Change the color of links on hover */
+#announceList a:hover {
+	background-color: #e9a911;
+	color: white;
+}
+
+/* Style for the spotlight description */
+#spotlightDesc {
+	font-family: Roboto, sans-serif;
+	font-size: 18px;
+	padding-top: 50px;
+	padding-left: 40px;
+	padding-right: 40px;
+	text-align: left;
+}
+
+/* Style for the spotlight image */
+#spotlightImg {
+	width: 600px;
+	height: 450px;
+	opacity: 0.95;
+}
+
+/* Style for opportunity icon circles */
+.dot {
+  color:black;
+  display: inline-block;
+  line-height: 80px;
+  background-color: #e9a911;
+  border-radius:50%;
+  height: 90px;
+  width: 90px;
+  vertical-align:bottom;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+
+/* Change the color of icons on hover */
+.opIcons a:hover {
+	background-color: #a41e34;
+	color:white;
+}
+
+/* Style for types of opportunities */
+i {
+	color:black;
+	margin: 16px 0px 0px 16px;
+	font-size:48px
+}
+
+/* Style for icon labels */
+.opLabel {
+	text-align: center;
+	font-size: 20px;
+	padding-top: 10px;
+}
+
+/* Change the color of icon labels on hover */
+.opLabel a:hover {
+	background-color: white;
+	color: #a41e34;
+}
+
+/* Make the list group AC red with white font */
+.list-group-item {
+	background-color: #a41e34;
+	color: white;
+}
+
+/* Make the headings/titles AC red with a black border around it */
+h1 {
+	color: #a41e34;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}

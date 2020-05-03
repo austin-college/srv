@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
 
+@Repository
 public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao implements ServiceGroupDao {
 		
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceGroupDao.class);
