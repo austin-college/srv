@@ -86,36 +86,45 @@ function editClient(client_id, client_name, client_cat, client_desc) {
  *  not handling address information from the form, need to ask if client wants this
  *  not handling board member or contact information
  */
-function addClient(client_name, client_cat, client_desc) {
+function addClient(client_name, mc_ID, oc_ID, bm_Name, client_cat) {
 
-	// Harvests the information from the add dialog form
+	// Harvests the information (service client's name, board member's name, and category) from the add dialog form
 	var nameStr =$(client_name).val();
+	var bmStr = $(bm_Name).val();
 	var catStr = $(client_cat).val();
-	var descStr = $(client_desc).val(); //Don't use now but maybe we will in future
 
 	$.ajax({
 		method: "POST",
 		url: "/srv/ajax/addServiceClient",
 		cache: false,
-		data: {name: nameStr, cat: catStr, desc: descStr},
+		data: {clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmName: bmStr, cat: catStr},
 		/*
-		 * If successful then add the selected service client 
-		 * with the new values.
+		 * If successful then add the service client to the list with the new values.
 		 */
 		success: function(data) {
 			console.log("added client");
 
-			var id = $(data)[2];
+			var id = $(data)[2]; // Obtains the new service client's ID from the AJAX response
 
-			console.log(id);
-			$('#sc_tbl_body').append(id);
+			console.log(id); // Verifies the new service client's ID
+			
+			$('#sc_tbl_body').append(id); // Appends the new service client row to the table
 
+			// Appends the buttons and their functionality to the new service client
+			$(".edit ").on("click", function() {
+				var selected_scid = $(this).attr('onEditClick');
+				$("#editDlg").data("selectedClientID", selected_scid).dialog("open");
+			});
+			
 			$(".del").on("click", function() {
 				var selected_scid = $(this).attr('onDelClick');
 				$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
 			});
-
-
+			
+			$(".scRow").on("click", function() {
+				var selected_scid = $(this).attr('onRowClick');
+				$("#scInfoDlg").data("selectedClientID", selected_scid).dialog("open");
+			});
 		},
 		/*
 		 * If unsuccessful, display error message and reasoning.
@@ -411,7 +420,14 @@ $(document).ready(function() {
 
 			var selected_ocID = $(".ocRow").children("option:selected").val();
 			populateOCFields(selected_ocID);
-
+			
+			
+			/*
+	    	 * Resets all the fields of the add dialog to empty.
+	    	 */
+	    	$("#addDlg_name").val("");
+	    	$("#addDlg_bmName").val("");
+	    	$("#addDlg_cat").val("Animals");
 			/*
 			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
 			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
@@ -432,7 +448,11 @@ $(document).ready(function() {
 				"id": "addBtnDlg",
 				"class": 'btn',
 				click: function() {		
-					addClient("#addDlg_clientName", "#addDlg_selcCat", "#addDlg_descOfClient");
+				
+					var selected_mcID = $(".mcRow").children("option:selected").val(); // ID for main contact
+					var selected_ocID = $(".ocRow").children("option:selected").val(); // ID for other/secondary contact
+					
+					addClient("#addDlg_name", selected_mcID, selected_ocID, "#addDlg_bmName", "#addDlg_cat");
 					$("#addDlg").dialog("close");
 				}
 			},

@@ -109,20 +109,23 @@ public class ServiceClientController {
 
 		response.setContentType("text/html");
 
-		String name = request.getParameter("name");
+		String clientName = request.getParameter("clientName");
+		int cid1 = Integer.parseInt(request.getParameter("mcID")); 
+		int cid2 = Integer.parseInt(request.getParameter("ocID")); 
+		String bmName = request.getParameter("bmName");
 		String category = request.getParameter("cat");
 
-		/*
-		 * Prepare and render the response of the template's model for the HTTP response
-		 */
-		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleClientRow");
+		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
 
-			ServiceClient newClient = doa.create(name, 1, 2, "John Smith", category);
+			ServiceClient newClient = doa.create(clientName, cid1, cid2, bmName, category);
 
 			mav.addObject("scid", newClient.getScid());
 			mav.addObject("name", newClient.getName());
+			mav.addObject("firstName", newClient.getMainContact().getFirstName());
+			mav.addObject("lastName", newClient.getMainContact().getLastName());
+			mav.addObject("boardMember", newClient.getBoardMember());
 			mav.addObject("category", newClient.getCategory());
 
 
