@@ -22,7 +22,7 @@ function delClient(client_id) {
 		 */
 		success: function(data) {
 			console.log("deleted client");
-			
+
 			$("#scid-"+ client_id).remove();
 		},
 		/*
@@ -31,9 +31,7 @@ function delClient(client_id) {
 		error: function(jqXHR, textStatus) {
 			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
 		}
-		
 	});
-	
 }
 
 /**
@@ -55,7 +53,7 @@ function editClient(client_id, client_name, client_cat, client_desc) {
 	var catStr  = $(client_cat).val();
 	var descStr = $(client_desc).val();
 
-	
+
 	$.ajax({
 		method: "POST",
 		url: "/srv/ajax/editServiceClient",
@@ -67,7 +65,7 @@ function editClient(client_id, client_name, client_cat, client_desc) {
 		 */
 		success: function(data) {
 			console.log("updated client");
-	
+
 			$("#scid-" + client_id + " td[name ='sc_title']").html($(client_name).val());
 			$("#scid-" + client_id + " td[name ='sc_category']").html($(client_cat).val());
 		},
@@ -89,12 +87,12 @@ function editClient(client_id, client_name, client_cat, client_desc) {
  *  not handling board member or contact information
  */
 function addClient(client_name, client_cat, client_desc) {
-	
+
 	// Harvests the information from the add dialog form
 	var nameStr =$(client_name).val();
 	var catStr = $(client_cat).val();
 	var descStr = $(client_desc).val(); //Don't use now but maybe we will in future
-	
+
 	$.ajax({
 		method: "POST",
 		url: "/srv/ajax/addServiceClient",
@@ -106,18 +104,18 @@ function addClient(client_name, client_cat, client_desc) {
 		 */
 		success: function(data) {
 			console.log("added client");
-			
+
 			var id = $(data)[2];
-			
+
 			console.log(id);
 			$('#sc_tbl_body').append(id);
-			
+
 			$(".del").on("click", function() {
 				var selected_scid = $(this).attr('onDelClick');
 				$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
 			});
 
-			
+
 		},
 		/*
 		 * If unsuccessful, display error message and reasoning.
@@ -133,16 +131,16 @@ function addClient(client_name, client_cat, client_desc) {
  * function in order to make an AJAX call to the ServiceClientController. That way, from the
  * ServiceClientController we can access the ServiceClientDao to access the ServiceClient database
  * in order to obtain the information about the selected service client's contact information as this
- * is not displayed in the table. We obtain the information from the AJAX call by the scInfo.html which
+ * is not displayed in the table. We obtain the information from the AJAX call by the ajax_scInfo.html which
  * contains the selected service client's information. 
  * 
  * @param client_id
  * @returns
  */
 function scInfo(client_id) {
-	
+
 	var idStr = client_id; // Selected client's ID
-	
+
 	$.ajax({
 		method: "GET",
 		url: "/srv/ajax/infoServiceClient",
@@ -152,14 +150,14 @@ function scInfo(client_id) {
 		 * If successful then populate the scInfoDlg with the selected service client's values 
 		 */
 		success: function(data) {
-			
+
 			console.log("client info");
-			
+
 			/*
 			 * In order to obtain the information passed back from the AJAX call, we have to 
 			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
-			 * the text in scInfo.html. There is probably a better way to do this, hopefully by selecting
-			 * a div's unique ID and so the scInfo.html has divs for this future change.
+			 * the text in ajax_scInfo.html. There is probably a better way to do this, hopefully by selecting
+			 * a div's unique ID and so the ajax_scInfo.html has divs for this future change.
 			 */
 			var setClientName = $(data)[0].innerText;
 			var setBmName =  $(data)[2].innerText; 
@@ -180,7 +178,7 @@ function scInfo(client_id) {
 			var setOcCity = $(data)[32].innerText;
 			var setOcState = $(data)[34].innerText;
 			var setOcZip = $(data)[36].innerText;
-			
+
 			/*
 			 * From the values above, we can set the input fields within the scInfoDlg (in listClients.html)
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
@@ -212,6 +210,139 @@ function scInfo(client_id) {
 			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
 		}
 	});
+}
+
+/**
+ * When a contact ID is selected on (or upon opening of the add dialog) in the add dialog, the addDlg takes us to this
+ * function in order to make an AJAX call to the ServiceClientController. That way, from the ServiceClientController we 
+ * can access the ContactDao to access the Contact database in order to obtain the information about the selected main 
+ * contact information. We obtain the information from the AJAX call by the ajax_contactFields.html which contains the 
+ * selected main contact's information. 
+ * 
+ * @param contact_id
+ * @returns
+ */
+function populateMCFields(contact_id) {
+	
+	var idStr = contact_id; // Selected main contact's ID
+
+	console.log(idStr); // Verifying id in console
+
+	$.ajax({
+		method: "GET",
+		url: "/srv/ajax/fillMCFields",
+		cache: false,
+		data: {ID: idStr},
+		/*
+		 * If successful, populate the main contact information fields with the data received
+		 * from AJAX, which should contain the contact's information retrieved from the contact database.
+		 */
+		success: function(data) {
+
+			console.log("add main contact info");
+			
+			/*
+			 * In order to obtain the information passed back from the AJAX call, we have to 
+			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
+			 * the text in ajax_contactFields.html. There is probably a better way to do this, hopefully by selecting
+			 * a div's unique ID and so the  ajax_contactFields.html has divs for this future change.
+			 */
+			var setMcName = $(data)[0].innerText;
+			var setMcEmail = $(data)[2].innerText;
+			var setMcWorkPhone = $(data)[4].innerText;
+			var setMcMobilePhone = $(data)[6].innerText;
+			var setMcStreet = $(data)[8].innerText;
+			var setMcCity = $(data)[10].innerText;
+			var setMcState = $(data)[12].innerText;
+			var setMcZip = $(data)[14].innerText;
+			
+			/*
+			 * From the values above, we can set the main contact input fields within the addDlg (in listClients.html)
+			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
+			 */
+			$("#addDlg_mcName").val(setMcName);
+			$("#addDlg_mcEmail").val(setMcEmail);
+			$("#addDlg_mcWorkPhone").val(setMcWorkPhone);
+			$("#addDlg_mcMobilePhone").val(setMcMobilePhone);
+			$("#addDlg_mcStreet").val(setMcStreet);
+			$("#addDlg_mcCity").val(setMcCity);
+			$("#addDlg_mcState").val(setMcState);
+			$("#addDlg_mcZip").val(setMcZip);
+		},
+		/*
+		 * If unsuccessful, display error message and reasoning.
+		 */
+		error: function(jqXHR, textStatus) {
+			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		}
+	});	
+}
+
+/**
+ * When a contact ID is selected on (or upon opening of the add dialog) in the add dialog, the addDlg takes us to this
+ * function in order to make an AJAX call to the ServiceClientController. That way, from the ServiceClientController we 
+ * can access the ContactDao to access the Contact database in order to obtain the information about the selected other/secondary 
+ * contact information. We obtain the information from the AJAX call by the ajax_contactFields.html which contains the 
+ * selected other/secondary contact's information. 
+ * 
+ * @param contact_id
+ * @returns
+ */
+function populateOCFields(contact_id) {
+
+	var idStr = contact_id; // Selected other contact's ID
+
+	console.log(idStr); // Verifying id in console
+
+	$.ajax({
+		method: "GET",
+		url: "/srv/ajax/fillOCFields",
+		cache: false,
+		data: {ID: idStr},
+		/*
+		 * If successful, populate the other/secondary contact information fields with the data received
+		 * from AJAX, which should contain the contact's information retrieved from the contact database.
+		 */
+		success: function(data) {
+
+			console.log("add other/secondary contact info");
+			
+			/*
+			 * In order to obtain the information passed back from the AJAX call, we have to 
+			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
+			 * the text in ajax_contactFields.html. There is probably a better way to do this, hopefully by selecting
+			 * a div's unique ID and so the  ajax_contactFields.html has divs for this future change. Note we are
+			 * only interested in other/secondary contact information which is why we do not begin indexing at 0
+			 */
+			var setOcName = $(data)[16].innerText;
+			var setOcEmail = $(data)[18].innerText;
+			var setOcWorkPhone = $(data)[20].innerText;
+			var setOcMobilePhone = $(data)[22].innerText;
+			var setOcStreet = $(data)[24].innerText;
+			var setOcCity = $(data)[26].innerText;
+			var setOcState = $(data)[28].innerText;
+			var setOcZip = $(data)[30].innerText;
+			
+			/*
+			 * From the values above, we can set the other/secondary contact input fields within the addDlg (in listClients.html)
+			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
+			 */
+			$("#addDlg_ocName").val(setOcName);
+			$("#addDlg_ocEmail").val(setOcEmail);
+			$("#addDlg_ocWorkPhone").val(setOcWorkPhone);
+			$("#addDlg_ocMobilePhone").val(setOcMobilePhone);
+			$("#addDlg_ocStreet").val(setOcStreet);
+			$("#addDlg_ocCity").val(setOcCity);
+			$("#addDlg_ocState").val(setOcState);
+			$("#addDlg_ocZip").val(setOcZip);
+		},
+		/*
+		 * If unsuccessful, display error message and reasoning.
+		 */
+		error: function(jqXHR, textStatus) {
+			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		}
+	});	
 }
 
 /**
@@ -259,18 +390,41 @@ $(document).ready(function() {
 				}
 			}]
 	});
-	
-	//Register and hide the add dialog div until an add button is clicked on.
+
+	/*
+	 * Register and hide the add dialog div until an add button is clicked on.
+	 */
 	$("#addDlg").dialog({
 		autoOpen: false,
 		height: 500,
-		width: 800,
+		width: 700,
 		modal: true,
 		dialogClass: "addDlgClass",	
-		open: function(event, ui) {
-			$("#addDlg_clientName").val("");
-	    	$("#addDlg_descOfClient").val("");
-	    	$("#addDlg_selcCat").val("Animals");	
+		open: function(event, ui) {	
+			
+			/*
+			 *  Upon open, we populate the main and other contact information fields (name, phone numbers, etc)
+			 *  with the first contact in the list/database.
+			 */
+			var selected_mcID = $(".mcRow").children("option:selected").val();
+			populateMCFields(selected_mcID);
+
+			var selected_ocID = $(".ocRow").children("option:selected").val();
+			populateOCFields(selected_ocID);
+
+			/*
+			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
+			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
+			 */
+			$(".mcRow").change("click", function() {
+				var selected_mcID = $(this).children("option:selected").val();
+				populateMCFields(selected_mcID);				   
+			}); 
+
+			$(".ocRow").change("click", function() {
+				var selected_ocID = $(this).children("option:selected").val();
+				populateOCFields(selected_ocID);				   
+			}); 
 		},							
 		buttons: [
 			{
@@ -289,7 +443,7 @@ $(document).ready(function() {
 					$("#addDlg").dialog("close");
 
 				}
-			}]
+			}],
 	});
 
 	//Register and hide the add dialog div until an add button is clicked on.
@@ -317,22 +471,22 @@ $(document).ready(function() {
 				"class": 'btn',
 				click: function() {		
 					var selected_shid = $("#editDlg").data('selectedClientID'); // The selected service client's ID
-					
+
 					editClient(selected_shid, "#editDlg_clientName", "#editDlg_selcCat", "#editDlg_descOfClient");
 					$("#editDlg").dialog("close");
 				}
 			},
 			{
 				text: "Update Contact(s)",
-					  "id" : "addContactBtn",
-					  "class" : 'btn btn-info',
+				"id" : "addContactBtn",
+				"class" : 'btn btn-info',
 				click: function() {
 					$("#editDlg").dialog("close");
 				}
 			},
 			{
 				text: "Update Board Member",
-					  "class" : 'btn btn-info',
+				"class" : 'btn btn-info',
 				click: function() {
 					$('#editDlg').dialog("close");
 				}
@@ -346,7 +500,7 @@ $(document).ready(function() {
 				}
 			}]
 	});
-	
+
 	/*
 	 * Register and hide the service hour information dialog div until a row is clicked on.
 	 * The selected service client's ID is passed into this function when the row is clicked on, which is
@@ -387,26 +541,25 @@ $(document).ready(function() {
 		var selected_scid = $(this).attr('onEditClick');
 		$("#editDlg").data("selectedClientID", selected_scid).dialog("open");
 	});
-	
-	 /*
-     * Opens a service client dialog and passes in the selected row's service client's id when a user
-     * clicks on a row in the service client table in order to view the information about the selected
-     * service client such as their main and other contact information (phone numbers, address, etc)
-     */
-    $(".scRow").on("click", function() {
-    	var selected_scid = $(this).attr('onRowClick');
-    	$("#scInfoDlg").data("selectedClientID", selected_scid).dialog("open");
-    });
 
-	
+	/*
+	 * Opens a service client dialog and passes in the selected row's service client's id when a user
+	 * clicks on a row in the service client table in order to view the information about the selected
+	 * service client such as their main and other contact information (phone numbers, address, etc)
+	 */
+	$(".scRow").on("click", function() {
+		var selected_scid = $(this).attr('onRowClick');
+		$("#scInfoDlg").data("selectedClientID", selected_scid).dialog("open");
+	});
+
 	/*
 	 *  Allows for the table columns to be sorted disables the extra features such as 'searching'
 	 */
-	  $('#client_tbl').DataTable({	
-			"paging": false,
-			"searching": false,
-			"info": false
-	  });
-	  $('.dataTables_length').addClass('bs-select');
+	$('#client_tbl').DataTable({	
+		"paging": false,
+		"searching": false,
+		"info": false
+	});
+	$('.dataTables_length').addClass('bs-select');
 
 });
