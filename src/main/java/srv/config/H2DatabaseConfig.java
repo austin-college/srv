@@ -9,7 +9,13 @@ import srv.domain.event.JdbcTemplateEventTypeDao;
 import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+//<<<<<<< HEAD
+import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
+//=======
+import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
+//>>>>>>> 377854a68d82e5e1026c3807c225b8f07ad3181e
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.ServiceHoursService;
 
 /**
  * This class is the home for runtime configuration for our database. It creates
@@ -61,6 +67,32 @@ public class H2DatabaseConfig {
 	public JdbcTemplateEventTypeDao EventTypeDao() {
 		return new JdbcTemplateEventTypeDao();
 	}
+	
+//<<<<<<< HEAD
+	/*
+	 * Added ServiceHourDao bean for autowired dependency 
+	 */
+	@Bean
+	public JdbcTemplateServiceHoursDao ServiceHoursDao() {
+		
+		return new JdbcTemplateServiceHoursDao();
+	}
+	
+	/*
+	 * Added ServiceHoursService Bean for autowired dependency in HoursController
+	 */
+	@Bean
+	public ServiceHoursService serviceHoursService() {
+		
+		return new ServiceHoursService();
+		
+	}
+//=======
+//	@Bean
+//	public JdbcTemplateServiceGroupDao ServiceGroupDao() {
+//		return new JdbcTemplateServiceGroupDao();
+//>>>>>>> 377854a68d82e5e1026c3807c225b8f07ad3181e
+//	}
 
 //    @Bean
 //    public DataSource dataSource() {

@@ -91,6 +91,42 @@ CREATE TABLE eventTypes (
 	primary key (eventTypeId)
 	);
 	
+
+CREATE TABLE serviceHours (
+	serviceHourId INTEGER AUTO_INCREMENT, 
+	serviceClientId int, 
+	userId int, 
+	eventId int, 
+	hours VARCHAR(255), 
+	status VARCHAR(255),
+	reflection VARCHAR(255), 
+	description VARCHAR(255), 
+	primary key (serviceHourId), 
+	foreign key (serviceClientId)
+		references serviceClients(serviceClientId)
+		on delete set NULL, 
+	foreign key (userId)
+		references users(userId)
+		on delete set NULL,	
+	foreign key (eventId)
+		references events(eventId)
+		on delete set NULL
+	);
+	
+	
+
+CREATE TABLE serviceGroups (
+	serviceGroupId INTEGER AUTO_INCREMENT,
+	shortName VARCHAR(255),
+	title VARCHAR(255),
+	contactId INT,
+	primary key (serviceGroupId),
+	foreign key (contactId)
+		references contacts(contactId)
+		on delete set NULL
+	);
+	
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 	
@@ -135,3 +171,14 @@ insert into eventParticipants(eventId, userId) values (3, 1);
 INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service');
 INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
 INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');
+
+
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 2, 1, '2.0', 'Pending', 'Made food', 'Crisis Center');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
+
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
+

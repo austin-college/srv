@@ -47,6 +47,10 @@ public class BoardMemberHoursListService {
 		Contact clientContact = new Contact();
 		Contact clientContact2 = new Contact();
 		clientContact.setEmail("fakeEmail@temp.net");
+		clientContact2.setEmail("fakeEmail2@temp.net");
+		clientContact.setFirstName("Billy");
+		clientContact.setLastName("Bob Thornton");
+		
 		ServantUser srv1 = new ServantUser(1,"602232", srv1Con, 's');
 		ServantUser srv2 = new ServantUser(2,"618826",srv2Con, 's');
 		ServantUser srv3 = new ServantUser(3,"652286",srv3Con, 's');
@@ -61,28 +65,28 @@ public class BoardMemberHoursListService {
 		/*Hard Coded serviceHour objects to be replaced*/
 		ServiceHours a = new ServiceHours()
 				.setShid(1)
-				.setEventName(new Event().setTitle("Spending Time with Toys for Tots"))
+				.setEvent(new Event().setTitle("Spending Time with Toys for Tots"))
 				.setHours(6.0)
 				.setStatus("Pending")
 				.setServant(srv1)
 				.setServedPet(cl1);
 		ServiceHours b = new ServiceHours()
 				.setShid(2)
-				.setEventName(new Event().setTitle("Teaching Part Time"))
+				.setEvent(new Event().setTitle("Teaching Part Time"))
 				.setHours(2.0)
 				.setStatus("Pending")
 				.setServant(srv2)
 				.setServedPet(cl2);;
 		ServiceHours c = new ServiceHours()
 				.setShid(3)
-				.setEventName(new Event().setTitle("Working with Food House"))
+				.setEvent(new Event().setTitle("Working with Food House"))
 				.setHours(4.0)
 				.setStatus("Pending")
 				.setServant(srv3)
 				.setServedPet(cl3);;
 		ServiceHours d = new ServiceHours()
 				.setShid(4)
-				.setEventName(new Event().setTitle("Volunteering at Service Station"))
+				.setEvent(new Event().setTitle("Volunteering at Service Station"))
 				.setHours(2.0)
 				.setStatus("Pending")
 				.setServant(srv4)
@@ -94,5 +98,39 @@ public class BoardMemberHoursListService {
 		hrs.add(d);
 	}
 	
+	/**@return ServiceHours list*/
+	public List<ServiceHours> listHours(){	return hrs;}
+	
+	/**Updates serviceHours object
+	 * @param ID
+	 * @param eName
+	 * @param eName
+	 * @param org
+	 * @param hrsServed
+	 * @param date
+	 * @param desc
+	 * @return ServiceHours
+	 * */
+	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, String date, String desc)   {
+
+		int index = 0;
+		for(ServiceHours h : hrs) {
+			
+			if(h.getShid() == id) {
+				
+				h.setEvent(new Event().setTitle(eName));
+				h.setServedPet(new ServiceClient().setName(org));
+				h.setHours(hrsServed);
+				h.setDate(date);
+				h.setDescription(desc);
+			
+				break;
+			}
+			
+			index++;
+		}
+		
+		return hrs.get(index);
+	}
 	
 }

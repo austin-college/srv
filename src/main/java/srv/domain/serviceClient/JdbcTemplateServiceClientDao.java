@@ -42,7 +42,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceClientDao.class);
 
 	@Autowired
-	private JdbcTemplateContactDao dao;
+	JdbcTemplateContactDao dao;
 	
 	/**
 	 * Default constructor.

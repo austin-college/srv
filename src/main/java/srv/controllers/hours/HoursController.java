@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,8 @@ public class HoursController {
 
 	private static Logger log = LoggerFactory.getLogger(HoursController.class);
 	
-	private ServiceHoursService hrSvc = new ServiceHoursService();
+	@Autowired
+	ServiceHoursService hrSvc;
 	
 
 	/**
@@ -43,9 +45,6 @@ public class HoursController {
 	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
-		
-		
-		
 
 		mav.addObject("hours", hrSvc.listHours());
 		return mav;

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import srv.services.BoardMemberHoursListService;
+
 /**
  * This is the algorithm that prepares the response
  * for the board member home page.
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class BoardMemberController {
 
 	private static Logger log = LoggerFactory.getLogger(BoardMemberController.class);
+	BoardMemberHoursListService bmHrListSrv = new BoardMemberHoursListService();
+	
 
 	/**
 	 * Maps boardMember.html template to /boardMember
@@ -33,6 +37,8 @@ public class BoardMemberController {
 	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("home/boardMember");
+		
+		mav.addObject("hours", bmHrListSrv.listHours());
 
 		return mav;
 	}

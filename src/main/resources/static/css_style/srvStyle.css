@@ -57,7 +57,7 @@ hr {
 
 /* Change the color of links on hover */
 #announceList a:hover {
-	background-color: #a41e34;
+	background-color: #e9a911;
 	color: white;
 }
 
@@ -120,80 +120,12 @@ i {
 	color: #a41e34;
 }
 
-ul {
-	list-style-type: none;
+.list-group-item {
+	background-color: #a41e34;
+	color: white;
 }
 
-#calendar.container-fluid {
-	width: 76.6%;
+h1 {
+	color: #a41e34;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-
-/* Style for month header */
-.month {
-  font-family: Roboto, sans-serif;
-  padding: 25px;
-  background: #a41e34;
-  text-align: center;
-}
-
-.month ul {
-  margin: 0;
-  padding: 0;
-}
-
-.month ul li {
-  color: white;
-  font-size: 40px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-}
-
-.month .prev {
-  float: left;
-}
-
-.month .next {
-  float: right;
-}
-
-/* Style for weekday header */
-.weekdays {
-  margin: 0;
-  padding: 10px 0;
-  background-color: #ddd;
-  font-size: 20px;
-}
-
-.weekdays li {
-  display: inline-block;
-  width: 13.6%;
-  color: black;
-  text-align: center;
-}
-
-/* Style for days header */
-.days {
-  font-size: 30px;
-  padding: 10px 0;
-  background-color: white;
-  margin: 0;
-}
-
-.days li {
-
-  display: inline-block;
-  width: 13.6%;
-  text-align: center;
-  margin-bottom: 5px;
-  font-size: 20px;
-  color: black;
-}
-
-.days li .active {
-  padding: 5px;
-  background: #e9a911;
-  color: white !important
-}
-
-/* STYLE FOR PET LIST PAGE BELOW */
-

@@ -13,68 +13,79 @@
 	<div>
 		<!-- Navigation buttons //TODO Add all use cases with respective pages -->
 		<div class="col-md" style="padding-left: 20px; padding-bottom: 20px">
+		<div Class= "row justify-content-between">
 			<button type="button" class="btn btn-white"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-clipboard-list fa-3x"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Approve Hours</p>
+					style="padding-right: 15px; font-size: 36px"></i>  <b>Approve Hours</b>
+					 </a>
+					<p>Approve hours with the proper signatures</p>
+				
 			</button>
 			<button type="button" class="btn btn-white"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="/srv/managePet"><i class="fa fa-cat"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Manage pets</p>
+					style="padding-right: 15px; font-size: 36px"></i> <b>Manage Pets</b>
+					 </a>
+				<p>View current pets</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-clock"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Correct Student hours</p>
+					style="padding-right: 15px; font-size: 36px"></i> <b>Correct Student Hours</b>
+					</a>
+				<p>Correct mistakes such as mistyping hours or misspelling something</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-file-alt"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Summarize Event</p>
+					style="padding-right: 15px; font-size: 36px"></i><b>Summarize Event</b>
+					 </a>
+				<p>Short description of how the event went for your assigned pets</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-address-card"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Handle Pet Request</p>
+					style="padding-right: 15px; font-size: 36px"></i> <b>Handle Pet Request</b>
+					</a>
+				<p>When the event is, how many volunteers they need, and for how long</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="far fa-file-alt"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Manage an Event Summary</p>
+					style="padding-right: 15px; font-size: 36px"></i><b>Manage an Event Summary</b>
+					 </a>
+				<p>Edit your event summaries</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="far fa-calendar-alt"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Manage Service Announcement</p>
+					style="padding-right: 15px; font-size: 36px"></i> <b>Manage Service Announcements</b>
+					</a>
+				<p>Add, edit, and delete service announcements such as cancellations or address changes</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-envelope-open-text"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>View/Print Report</p>
+					style="padding-right: 15px; font-size: 36px"></i><b>View/Print Report</b>
+					 </a>
+				<p>View and print reports </p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 30%; border-color: white;">
+				style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-file-import"
-					style="padding-right: 15px; font-size: 36px"></i> </a>
-				<p>Import Hours</p>
+					style="padding-right: 15px; font-size: 36px"></i><b>Import Hours</b>
+					 </a>
+				<p>Import hours from somewhere else</p>
 			</button>
-
+</div>
 		</div>
 
 	</div>
@@ -173,24 +184,31 @@
 				<th class="th-sm" colspan='3'>Actions</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr id="row${hrs.shid?c}">
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_srvName'>${hrs.servant.contact.firstName!"UNKOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_scName'>${hrs.serviceClient.name!"UNKOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
-				<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
-
-				<td><a class="btn edit" href="#"> <i
-						class="icon-check-sign icon-large"></i> Approve
-				</a> <a class="btn btn-danger del" href="#"> <i
-						class="icon-trash icon-large"></i> Reject
-				</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
-						View
-				</a></td>
-			</tr>
-		</tbody>
+		<tbody id="hrs_tbl_body">
+			<#if hours??>
+				<#list hours as hrs>
+						<tr id="row${hrs.shid?c}">
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_event'>${hrs.event.title!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_contact_name'>${hrs.servedPet.mainContact.firstName!"UNKNOWN"} ${hrs.servedPet.mainContact.lastName!"UNKNOWN"}</td>
+						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_contact_email'>${hrs.servedPet.mainContact.email!"UNKNOWN"}</td>
+						
+						<td>
+							<!-- Buttons to open edit/delete hours dialog  -->
+							<button type="button" class="edit btn" onEditClick="${hrs.shid?c}">
+							<span class="fas fa-pencil-alt"></span> 
+						  					Edit</button></td>
+						<td>
+				   		<button type="button" class="del btn" onDelClick="${hrs.shid?c}">
+						<span class="fas fa-trash-alt"></span>  
+						  		Reject 
+						</button>
+						</td>
+						</tr>
+				</#list>
+			</#if>
 		<tfoot>
 		</tfoot>
 	</table>
