@@ -80,6 +80,8 @@ function editClient(client_id, client_name, client_cat, client_desc) {
 	});
 
 }
+
+
 /*
  * function below is for adding a new service client to the list.
  * only passing minimal information
@@ -106,7 +108,8 @@ function addClient(client_name, client_cat, client_desc) {
 			console.log("added client");
 			
 			var id = $(data)[2];
-
+			
+			console.log(id);
 			$('#sc_tbl_body').append(id);
 			
 			$(".del").on("click", function() {
@@ -125,6 +128,91 @@ function addClient(client_name, client_cat, client_desc) {
 	});	
 }
 
+/**
+ * When a row is selected on in the service client's table, the scInfoDlg takes us to this
+ * function in order to make an AJAX call to the ServiceClientController. That way, from the
+ * ServiceClientController we can access the ServiceClientDao to access the ServiceClient database
+ * in order to obtain the information about the selected service client's contact information as this
+ * is not displayed in the table. We obtain the information from the AJAX call by the scInfo.html which
+ * contains the selected service client's information. 
+ * 
+ * @param client_id
+ * @returns
+ */
+function scInfo(client_id) {
+	
+	var idStr = client_id; // Selected client's ID
+	
+	$.ajax({
+		method: "GET",
+		url: "/srv/ajax/infoServiceClient",
+		cache: false,
+		data: {ID: idStr},
+		/*
+		 * If successful then populate the scInfoDlg with the selected service client's values 
+		 */
+		success: function(data) {
+			
+			console.log("client info");
+			
+			/*
+			 * In order to obtain the information passed back from the AJAX call, we have to 
+			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
+			 * the text in scInfo.html. There is probably a better way to do this, hopefully by selecting
+			 * a div's unique ID and so the scInfo.html has divs for this future change.
+			 */
+			var setClientName = $(data)[0].innerText;
+			var setBmName =  $(data)[2].innerText; 
+			var setCat = $(data)[4].innerText;
+			var setMcName = $(data)[6].innerText;
+			var setMcEmail = $(data)[8].innerText;
+			var setMcWorkPhone = $(data)[10].innerText;
+			var setMcMobilePhone = $(data)[12].innerText;
+			var setMcStreet = $(data)[14].innerText;
+			var setMcCity = $(data)[16].innerText;
+			var setMcState = $(data)[18].innerText;
+			var setMcZip = $(data)[20].innerText;
+			var setOcName = $(data)[22].innerText;
+			var setOcEmail = $(data)[24].innerText;
+			var setOcWorkPhone = $(data)[26].innerText;
+			var setOcMobilePhone = $(data)[28].innerText;
+			var setOcStreet = $(data)[30].innerText;
+			var setOcCity = $(data)[32].innerText;
+			var setOcState = $(data)[34].innerText;
+			var setOcZip = $(data)[36].innerText;
+			
+			/*
+			 * From the values above, we can set the input fields within the scInfoDlg (in listClients.html)
+			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
+			 */
+			$("#scInfoDlg_name").val(setClientName);
+			$("#scInfoDlg_bmName").val(setBmName);
+			$("#scInfoDlg_cat").val(setCat);
+			$("#scInfoDlg_mcName").val(setMcName);
+			$("#scInfoDlg_mcEmail").val(setMcEmail);
+			$("#scInfoDlg_mcWorkPhone").val(setMcWorkPhone);
+			$("#scInfoDlg_mcMobilePhone").val(setMcMobilePhone);
+			$("#scInfoDlg_mcStreet").val(setMcStreet);
+			$("#scInfoDlg_mcCity").val(setMcCity);
+			$("#scInfoDlg_mcState").val(setMcState);
+			$("#scInfoDlg_mcZip").val(setMcZip);
+			$("#scInfoDlg_ocName").val(setOcName);
+			$("#scInfoDlg_ocEmail").val(setOcEmail);
+			$("#scInfoDlg_ocWorkPhone").val(setOcWorkPhone);
+			$("#scInfoDlg_ocMobilePhone").val(setOcMobilePhone);
+			$("#scInfoDlg_ocStreet").val(setOcStreet);
+			$("#scInfoDlg_ocCity").val(setOcCity);
+			$("#scInfoDlg_ocState").val(setOcState);
+			$("#scInfoDlg_ocZip").val(setOcZip);
+		},
+		/*
+		 * If unsuccessful, display error message and reasoning.
+		 */
+		error: function(jqXHR, textStatus) {
+			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		}
+	});
+}
 
 /**
  * When the DOM is completed loaded and ready, hide the dialogs and
@@ -273,7 +361,23 @@ $(document).ready(function() {
 				}
 			}]
 	});
-
+	
+	/*
+	 * Register and hide the service hour information dialog div until a row is clicked on.
+	 * The selected service client's ID is passed into this function when the row is clicked on, which is
+	 * then harvested in order to pass the ID into the JavaScript function to be used further for
+	 * selecting the correct service client information from the database in order to populate the dialog's fields.
+	 */ 
+	$("#scInfoDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 700,
+		modal: true,
+		open: function(event, ui) {			
+			var selected_scid = $("#scInfoDlg").data('selectedClientID'); // Harvests the selected service client's id from the table to pass to js function
+			scInfo(selected_scid);		
+		}
+	});
 
 	/* 
 	 * Opens delete service client dialog and passes in the selected delete button's 
@@ -298,6 +402,16 @@ $(document).ready(function() {
 		var selected_scid = $(this).attr('onEditClick');
 		$("#editDlg").data("selectedClientID", selected_scid).dialog("open");
 	});
+	
+	 /*
+     * Opens a service client dialog and passes in the selected row's service client's id when a user
+     * clicks on a row in the service client table in order to view the information about the selected
+     * service client such as their main and other contact information (phone numbers, address, etc)
+     */
+    $(".scRow").on("click", function() {
+    	var selected_scid = $(this).attr('onRowClick');
+    	$("#scInfoDlg").data("selectedClientID", selected_scid).dialog("open");
+    });
 
 	
 	/*
