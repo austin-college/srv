@@ -9,11 +9,8 @@ import srv.domain.event.JdbcTemplateEventTypeDao;
 import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
-//<<<<<<< HEAD
 import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
-//=======
 import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
-//>>>>>>> 377854a68d82e5e1026c3807c225b8f07ad3181e
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
 
@@ -86,7 +83,11 @@ public class H2DatabaseConfig {
 		return new ServiceHoursService();
 		
 	}
+//	@Bean
+//	public JdbcTemplateServiceGroupDao ServiceGroupDao() {
+//		return new JdbcTemplateServiceGroupDao();
 
+//	}
 	
 	@Bean
 	public JdbcTemplateServiceGroupDao serviceGroupDao() {
