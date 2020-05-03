@@ -89,6 +89,9 @@ public class H2DatabaseConfig {
 		
 	}
 	
+	/*
+	 * Add BoardMemberHoursListService Bean for autowired dependency in BoardMemberController
+	 */
 	@Bean
 	public BoardMemberHoursListService bmHoursListService() {
 		
