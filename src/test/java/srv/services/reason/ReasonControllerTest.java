@@ -46,8 +46,7 @@ public class ReasonControllerTest {
     
     
     @Test
-    public void basicHtmlPageTest()
-      throws Exception {
+    public void basicHtmlPageTest() throws Exception {
          
     	// train the service to return 2 when asked for count
        when(service.reasonCount()).thenReturn(2);
