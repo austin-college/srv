@@ -82,8 +82,8 @@ class EventDaoTests {
 
 		// System.err.println("Size of list before create is " + dao.listAll().size());
 
-		Event e1 = dao.create("Dummy Event 4", "Dummy Address 4", 1, "EVENT TYPE", "/0/0/0000", false, 5, 1);
-		Event e3 = dao.create("Dummy Event 5", "Dummy Address 5", 1, "EVENT TYPE", "/0/0/0000", false, 5, 2);
+		Event e1 = dao.create("Dummy Event 4", "Dummy Address 4", 1, "EVENT TYPE", "/0/0/0000", false, 5, 1, 0, 0, "");
+		Event e3 = dao.create("Dummy Event 5", "Dummy Address 5", 1, "EVENT TYPE", "/0/0/0000", false, 5, 2, 0, 0, "");
 
 		Event e2 = dao.fetchEventById(e1.getEid());
 
@@ -149,7 +149,7 @@ class EventDaoTests {
 		// update each item
 
 		dao.update(id, newEventname, e1.getAddress(), newContact, e1.getDate(), "", e1.isContinous(),
-				e1.getVolunteersNeeded(), (int) e1.getServiceClient().getScid());
+				e1.getVolunteersNeeded(), (int) e1.getServiceClient().getScid(), 0.0, 0.0, " ");
 
 		e1 = dao.fetchEventById(id);
 

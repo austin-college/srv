@@ -55,7 +55,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	@Override
 	public Event create(String title, String addr, int cid, String date, String eventType, boolean continuous,
-			int volunteersNeeded, int organizationId) throws Exception {
+			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception {
 
 		// SQL statement that is to be executed
 		final String sql = "insert into events (title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values(?, ?, ?, ?, ?, ?, ?, ?)";
@@ -103,7 +103,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	@Override
 	public void update(int eid, String title, String addr, int cid, String date, String eventType, boolean continuous,
-			int volunteersNeeded, int organizationId) throws Exception {
+			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception {
 		// SQL statement that is to be executed
 		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventType = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ? where eventId = ?";
 

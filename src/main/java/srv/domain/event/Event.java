@@ -29,7 +29,9 @@ public class Event implements Serializable {
 	private boolean continous;// if event repeats??
 	private int volunteersNeeded; // 3 of volunteers needed
 	private ServiceClient serviceClient; // pet associated with event
-	
+	private double neededVolunteerHours; // volunteer hours needed for event
+	private double rsvpVolunteerHours; // volunteer hours already registered for event
+	private String freeTextField; // freeform text space
 //	private List<EventParticipant> participantsList;// list of all ServantUsers signed up for the event
 
 	public Event() {
@@ -122,6 +124,35 @@ public class Event implements Serializable {
 	public Event setServiceClient(ServiceClient serviceClient) {
 		this.serviceClient = serviceClient;
 		return this;
+	}
+
+	public double getNeededVolunteerHours() {
+		return neededVolunteerHours;
+	}
+
+	public Event setNeededVolunteerHours(double neededVolunteerHours) {
+		
+		this.neededVolunteerHours = neededVolunteerHours;
+		return this; 
+	}
+
+	public double getRsvpVolunteerHours() {
+		return rsvpVolunteerHours;
+	}
+
+	public Event setRsvpVolunteerHours(double rsvpVolunteerHours) {
+		
+		this.rsvpVolunteerHours = rsvpVolunteerHours;
+		return this; 
+	}
+
+	public String getFreeTextField() {
+		return freeTextField;
+	}
+
+	public Event setFreeTextField(String freeTextField) {
+		this.freeTextField = freeTextField;
+		return this; 
 	}
 
 //	public List<EventParticipant> getParticipantsList() {
