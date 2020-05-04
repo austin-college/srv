@@ -21,10 +21,10 @@ import srv.utils.UserUtil;
 public class ServiceClientController {
 
 	@Autowired
-	ServiceClientDao doa;
+	ServiceClientDao dao;
 	
 	@Autowired
-	ContactDao cDoa;
+	ContactDao cDao;
 
 	@GetMapping("/sc/list")
 	public ModelAndView listAction(HttpServletRequest request, HttpServletResponse response) { 
@@ -34,11 +34,11 @@ public class ServiceClientController {
 		try {
 			
 			// Lists the current service clients in the service client database in a table
-			List<ServiceClient> myClients = doa.listAll();
+			List<ServiceClient> myClients = dao.listAll();
 			mav.addObject("clients", myClients);
 			
 			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
-			List<Contact> contacts = cDoa.listAll();			
+			List<Contact> contacts = cDao.listAll();			
 			mav.addObject("contacts", contacts);
 			
 			// Checks to see if the current user is an admin, if so displays the add, edit, and delete buttons of the service client list
@@ -84,7 +84,7 @@ public class ServiceClientController {
 
 		try {
 
-			doa.delete(id);   
+			dao.delete(id);   
 			mav.addObject("scid", id);
 
 			//  return "Okay";	
@@ -128,7 +128,7 @@ public class ServiceClientController {
 			
 			// Creates the a new service client in the service client database. Then we hold onto a
 			// handle of the newly created service client to aid with preparing the MAV response.
-			ServiceClient newClient = doa.create(clientName, cid1, cid2, bmName, category); 
+			ServiceClient newClient = dao.create(clientName, cid1, cid2, bmName, category); 
 			
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
@@ -176,10 +176,10 @@ public class ServiceClientController {
 		try {
 			
 			// Updates the service client in the service client database.
-			doa.update(id, clientName, cid1, cid2, bmName, category);
+			dao.update(id, clientName, cid1, cid2, bmName, category);
 			
 			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
-			ServiceClient updatedClient = doa.fetchClientById(id);
+			ServiceClient updatedClient = dao.fetchClientById(id);
 
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", updatedClient.getScid());
@@ -228,7 +228,7 @@ public class ServiceClientController {
 		try {
 
 			// Fetches the selected service client from the database
-			ServiceClient selectedClient = doa.fetchClientById(id);
+			ServiceClient selectedClient = dao.fetchClientById(id);
 
 			// Adds the selected service client's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the fields in the dialog box in listClients.html
@@ -296,7 +296,7 @@ public class ServiceClientController {
 		try {
 			
 			// Fetches the selected contact from the contact database
-			Contact selectedCon = cDoa.fetchContactById(id);
+			Contact selectedCon = cDao.fetchContactById(id);
 			
 			// Adds the selected contact's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the main contact fields in the add dialog box in listClients.html
@@ -351,7 +351,7 @@ public class ServiceClientController {
 		try {
 			
 			// Fetches the selected contact from the contact database
-			Contact selectedCon = cDoa.fetchContactById(id);
+			Contact selectedCon = cDao.fetchContactById(id);
 			
 			// Adds the selected contact's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the other/secondary contact fields in the add dialog box in listClients.html
@@ -390,7 +390,7 @@ public class ServiceClientController {
    
 		   try {
 			   
-			List<ServiceClient> myClients = doa.listAll();
+			List<ServiceClient> myClients = dao.listAll();
 
 			mav.addObject("clients", myClients);
 			
