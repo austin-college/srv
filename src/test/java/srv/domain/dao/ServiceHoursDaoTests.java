@@ -43,86 +43,88 @@ class ServiceHoursDaoTests {
 	@Autowired
 	ServiceHoursDao dao;
 
-		/**
-			 * Tests the FetchById method in ServiceHoursDao, should return the information
-			 * for the first serviceHour entered.
-			 * 
-			 * @throws Exception
-			 */
+	/**
+	 * Tests the FetchById method in ServiceHoursDao, should return the information
+	 * for the first serviceHour entered.
+	 * 
+	 * @throws Exception
+	 */
 
-	
-	  @Test void testFetchById_whenUsingJdbcTemplate() throws Exception {
-	  
-	  log.warn("\n\n\n");
-	  
-	  ServiceHours sh1 = dao.fetchHoursById(1);
-	  
-	  assertEquals(1, sh1.getShid()); assertEquals(1,
-	  sh1.getServedPet().getScid()); assertEquals(1, sh1.getServant().getUid());
-	  assertEquals(1, sh1.getEvent().getEid()); assertEquals(3.0, sh1.getHours());
-	  assertEquals("Approved", sh1.getStatus()); assertEquals("I hated it",
-	  sh1.getReflection()); assertEquals("House building", sh1.getDescription()); }
-	  
-	 /**
-		 * Tests the listAll method in the ServiceHoursDao.
-		 */
-			  @Test 
-			  void testListAll_whenUsingJdbcTemplate() throws Exception {
-			  
-			  List<ServiceHours> serviceHours = dao.listAll();
-			  
-			  assertEquals(4, serviceHours.size());
-			  
-			  ServiceHours sHour1 = serviceHours.get(0); 
-			  ServiceHours sHour2 = serviceHours.get(1); 
-			  ServiceHours sHour4 = serviceHours.get(3);
-			  
-			  //Verifying service hour id's 
-			  assertEquals(1, sHour1.getShid());
-			  assertEquals(2, sHour2.getShid()); 
-			  assertEquals(4, sHour4.getShid());
-			  
-			  //testing contents of sHour1 assertEquals(1,
-			  
-			  assertEquals(1,sHour1.getServedPet().getScid());
-			  assertEquals(1, sHour1.getServant().getUid()); 
-			  assertEquals(1, sHour1.getEvent().getEid());
-			  assertEquals(3.0, sHour1.getHours());
-			  assertEquals("Approved", sHour1.getStatus());
-			  assertEquals("I hated it", sHour1.getReflection());
-			  assertEquals("House building", sHour1.getDescription());
-			  
-			  //testing contents of sHour2 
-			  assertEquals(2,sHour2.getServedPet().getScid()); 
-			  assertEquals(2,sHour2.getServant().getUid()); 
-			  assertEquals(1, sHour2.getEvent().getEid());
-			  assertEquals(2.0, sHour2.getHours()); 
-			  assertEquals("Pending",sHour2.getStatus()); 
-			  assertEquals("Made food", sHour2.getReflection());
-			  assertEquals("Crisis Center", sHour2.getDescription());
-			  
-			  //testing contents of sHour4 
-			  assertEquals(1,sHour4.getServedPet().getScid());
-			  assertEquals(2,sHour4.getServant().getUid()); 
-			  assertEquals(1, sHour4.getEvent().getEid());
-			  assertEquals(2.3, sHour4.getHours()); 
-			  assertEquals("Approved",sHour4.getStatus()); 
-			  assertEquals("Met a guy named Randy",sHour4.getReflection()); 
-			  assertEquals("Landscaping",sHour4.getDescription());
-			  
-			  
-			  }
-			 
+	@Test
+	void testFetchById_whenUsingJdbcTemplate() throws Exception {
+
+		log.warn("\n\n\n");
+
+		ServiceHours sh1 = dao.fetchHoursById(1);
+
+		assertEquals(1, sh1.getShid());
+		assertEquals(1, sh1.getServedPet().getScid());
+		assertEquals(1, sh1.getServant().getUid());
+		assertEquals(1, sh1.getEvent().getEid());
+		assertEquals(3.0, sh1.getHours());
+		assertEquals("Approved", sh1.getStatus());
+		assertEquals("I hated it", sh1.getReflection());
+		assertEquals("House building", sh1.getDescription());
+	}
+
+	/**
+	 * Tests the listAll method in the ServiceHoursDao.
+	 */
+	@Test
+	void testListAll_whenUsingJdbcTemplate() throws Exception {
+
+		List<ServiceHours> serviceHours = dao.listAll();
+
+		assertEquals(4, serviceHours.size());
+
+		ServiceHours sHour1 = serviceHours.get(0);
+		ServiceHours sHour2 = serviceHours.get(1);
+		ServiceHours sHour4 = serviceHours.get(3);
+
+		// Verifying service hour id's
+		assertEquals(1, sHour1.getShid());
+		assertEquals(2, sHour2.getShid());
+		assertEquals(4, sHour4.getShid());
+
+		// testing contents of sHour1 assertEquals(1,
+
+		assertEquals(1, sHour1.getServedPet().getScid());
+		assertEquals(1, sHour1.getServant().getUid());
+		assertEquals(1, sHour1.getEvent().getEid());
+		assertEquals(3.0, sHour1.getHours());
+		assertEquals("Approved", sHour1.getStatus());
+		assertEquals("I hated it", sHour1.getReflection());
+		assertEquals("House building", sHour1.getDescription());
+
+		// testing contents of sHour2
+		assertEquals(2, sHour2.getServedPet().getScid());
+		assertEquals(2, sHour2.getServant().getUid());
+		assertEquals(1, sHour2.getEvent().getEid());
+		assertEquals(2.0, sHour2.getHours());
+		assertEquals("Pending", sHour2.getStatus());
+		assertEquals("Made food", sHour2.getReflection());
+		assertEquals("Crisis Center", sHour2.getDescription());
+
+		// testing contents of sHour4
+		assertEquals(1, sHour4.getServedPet().getScid());
+		assertEquals(2, sHour4.getServant().getUid());
+		assertEquals(1, sHour4.getEvent().getEid());
+		assertEquals(2.3, sHour4.getHours());
+		assertEquals("Approved", sHour4.getStatus());
+		assertEquals("Met a guy named Randy", sHour4.getReflection());
+		assertEquals("Landscaping", sHour4.getDescription());
+
+	}
+
 	@Test
 	void testCreate_whenUsingJdbcTemplate() throws Exception {
 
 		List<ServiceHours> hoursBefore = dao.listAll();
 		int numBeforeInsert = hoursBefore.size();
-		System.err.println("\n\nBefore Insert " + numBeforeInsert);
 		for (ServiceHours sc : hoursBefore) {
 			System.err.println(sc.getShid());
 		}
-		
+
 		ServiceHours nsh = dao.create(2, 1, 1, 3.0, "Approved", "Painted", "House Painting");
 
 		assertNotNull(nsh);
@@ -138,7 +140,7 @@ class ServiceHoursDaoTests {
 		/*
 		 * The next assigned id on successful insert should be numBeforeInsert + 1.
 		 */
-		assertEquals(numBeforeInsert+1, nsh.getShid());
+		assertEquals(numBeforeInsert + 1, nsh.getShid());
 
 		/*
 		 * Now we will examine the newly inserted record.
