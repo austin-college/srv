@@ -31,9 +31,10 @@ public class HomeControllerTest {
 	public void basicHtmlPageTest() throws Exception {
 		boolean pageLoadedSucessfully = false;
 		pageLoadedSucessfully = UserUtil.userIsServant();
-
-		
 		assertTrue(pageLoadedSucessfully);
+		
+//		mvc.perform(get("/srv/viewHours").contentType(MediaType.TEXT_HTML))
+//		.andExpect(status().isOk());
 		
 		
 
