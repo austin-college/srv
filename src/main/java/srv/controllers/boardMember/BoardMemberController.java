@@ -27,7 +27,6 @@ public class BoardMemberController {
 	
 	@Autowired
 	BoardMemberHoursListService bmHrListSrv;
-	
 
 	/**
 	 * Maps boardMember.html template to /boardMember
