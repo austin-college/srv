@@ -15,7 +15,8 @@
 			<h1>Service Client List</h1>
 		</div>
 	</div>
-
+	
+	<#if userAdmin>
 	<!-- The row below contains the button to add another organization to the table. -->
 	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
 		<div id="addBtnContainer" class="col-sm-3 widget rounded">
@@ -24,6 +25,7 @@
 				value="Add Service Client" />
 		</div>
 	</div>
+	</#if>
 
 	<!-- The row below contains the table of service clients. -->
 	<div class="row">
@@ -35,17 +37,25 @@
 					<!-- Using complex header in order to allow for datatables to sort the columns -->
 					<thead>
 						<tr class="ui-widget-header">
+						<#if userAdmin>
 							<th rowspan="2">ID</th>
 							<th rowspan="2">Name</th>
 							<th rowspan="2">Primary Contact Name</th>
 							<th rowspan="2">Board Member</th>
 							<th rowspan="2">Category</th>
-							<th colspan='2'>Actions</th>
+							<th colspan='2'>Actions</th>	
 						</tr>
 						<tr>
 							<th>Edit</th>
 							<th>Delete</th>
 						</tr>
+						<#else>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Primary Contact Name</th>
+							<th>Board Member</th>
+							<th>Category</th>
+						</#if>
 					</thead>
 					<tbody id="sc_tbl_body">
 						<#list clients as sc>
@@ -57,6 +67,7 @@
 								${sc.mainContact.lastName!"UNKNOWN"}</td>
 							<td name='sc_bm_name' class='scRow' onRowClick="${sc.scid?c}">${sc.boardMember!"UNKNOWN"}</td>
 							<td name='sc_category' class='scRow' onRowClick="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
+							<#if userAdmin>
 							<td class="text-center">
 								<button type="button" class="edit btn"
 									onEditClick="${sc.scid?c}">
@@ -68,6 +79,7 @@
 									<span class="fas fa-trash-alt"></span> Delete
 								</button>
 							</td>
+							</#if>
 						</tr>
 						</#list>
 					</tbody>
@@ -75,7 +87,8 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<#if userAdmin>
 	<!-- The row below contains the button to add another service client to the table. -->
 	<div class="row" style="padding-left: 30px">
 		<div id="addBtnContainer" class="col-sm-3 widget rounded">
@@ -84,6 +97,7 @@
 				value="Add Service Client" />
 		</div>
 	</div>
+	</#if>
 
 	<!-- The div below defines the delete dialog for deleting an service client which is hidden by JS and exposed by JQ. -->
 	<div id="delDlg" title="DELETE SELECTED ORGANIZATION"
