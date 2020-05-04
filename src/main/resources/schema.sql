@@ -16,10 +16,10 @@ CREATE TABLE contacts (
 	str VARCHAR(255),
 	city VARCHAR(255),
 	st VARCHAR(255),
-	zip VARCHAR(255), 
+	zip VARCHAR(255),
 	PRIMARY KEY (contactId)
 	);
-	
+
 CREATE TABLE serviceClients (
 	serviceClientId INTEGER AUTO_INCREMENT,
 	title VARCHAR(255),
@@ -28,8 +28,8 @@ CREATE TABLE serviceClients (
 	boardMem VARCHAR(255),
 	category VARCHAR(255),
 	PRIMARY KEY (serviceClientId),
-	FOREIGN KEY (primaryContactId) 
-		REFERENCES contacts(contactId) 
+	FOREIGN KEY (primaryContactId)
+		REFERENCES contacts(contactId)
 		ON DELETE SET NULL,
 	FOREIGN KEY (secondContactId)
 		REFERENCES contacts(contactId)
@@ -41,17 +41,17 @@ CREATE TABLE users (
 	username VARCHAR(255),
 	contactId int,
 	primary key (userId),
-	foreign key (contactId) 
-		references contacts(contactId) 
+	foreign key (contactId)
+		references contacts(contactId)
 		on delete set NULL
 	);
-	
+
 CREATE TABLE reasons (
 	rid integer auto_increment,
 	reason VARCHAR(255),
 	primary key (rid)
 	);
-	
+
 CREATE TABLE events (
 	eventId integer auto_increment,
 	title VARCHAR(255),
@@ -62,6 +62,9 @@ CREATE TABLE events (
 	continuous boolean,
 	volunteersNeeded int,
 	serviceClientId int,
+	neededVolunteerHours double,
+	rsvpVolunteerHours double,
+	freeTextField VARCHAR(255),
 	primary key (eventId),
 	foreign key (contactId)
 		references contacts(contactId)
@@ -90,30 +93,30 @@ CREATE TABLE eventTypes (
 	description VARCHAR(255),
 	primary key (eventTypeId)
 	);
-	
+
 
 CREATE TABLE serviceHours (
-	serviceHourId INTEGER AUTO_INCREMENT, 
-	serviceClientId int, 
-	userId int, 
-	eventId int, 
-	hours VARCHAR(255), 
+	serviceHourId INTEGER AUTO_INCREMENT,
+	serviceClientId int,
+	userId int,
+	eventId int,
+	hours VARCHAR(255),
 	status VARCHAR(255),
-	reflection VARCHAR(255), 
-	description VARCHAR(255), 
-	primary key (serviceHourId), 
+	reflection VARCHAR(255),
+	description VARCHAR(255),
+	primary key (serviceHourId),
 	foreign key (serviceClientId)
 		references serviceClients(serviceClientId)
-		on delete set NULL, 
+		on delete set NULL,
 	foreign key (userId)
 		references users(userId)
-		on delete set NULL,	
+		on delete set NULL,
 	foreign key (eventId)
 		references events(eventId)
 		on delete set NULL
 	);
-	
-	
+
+
 
 CREATE TABLE serviceGroups (
 	serviceGroupId INTEGER AUTO_INCREMENT,
@@ -125,26 +128,26 @@ CREATE TABLE serviceGroups (
 		references contacts(contactId)
 		on delete set NULL
 	);
-	
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
+
+INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
-	
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Lois', 'Lane', 'llane86@gmail.com', '803-423-1257', '800-232-1211', '118 NW Crawford Street', 'Sherman', 'TX', '75090');
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES 
+INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Joe', 'Smith', 'jsmith12@gmail.com', '903-444-4440', '401-322-1201', '25 Frieda Drive', 'Gunter', 'TX', '75058');
-	
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Susan', 'Atkins', 'satkins67@gmail.com', '803-426-1527', '800-191-9412', '23 First Street', 'Denison', 'TX', '75021');
-	
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('AJ', 'Pritchard', 'apritchard18@austincollege.edu', '253-886-2125', '253-886-2125', '23 First Street', 'Denison', 'TX', '75021');
-	
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Hunter', 'Couturier', 'hCouturier@gmail.com', '803-426-1527', '800-191-9412', '24 First Street', 'Denison', 'TX', '75021');
-	
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
@@ -177,8 +180,9 @@ INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, refle
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 2, 1, '2.0', 'Pending', 'Made food', 'Crisis Center');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
+
 
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
-

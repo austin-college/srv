@@ -12,6 +12,7 @@ import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
 import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.BoardMemberHoursListService;
 import srv.services.ServiceHoursService;
 
 /**
@@ -83,6 +84,13 @@ public class H2DatabaseConfig {
 		return new ServiceHoursService();
 		
 	}
+	/*TODO Unsure if this Bean should be made*/
+	@Bean
+	public BoardMemberHoursListService bmHrListSrv() {
+		return new BoardMemberHoursListService();
+	}
+	
+//	
 //	@Bean
 //	public JdbcTemplateServiceGroupDao ServiceGroupDao() {
 //		return new JdbcTemplateServiceGroupDao();
