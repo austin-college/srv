@@ -10,27 +10,35 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import srv.domain.contact.Contact;
+import srv.domain.contact.ContactDao;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceClient.ServiceClientDao;
 
 @Controller
 public class ServiceClientController {
 
-
 	@Autowired
 	ServiceClientDao doa;
+	
+	@Autowired
+	ContactDao cDoa;
 
 	@GetMapping("/sc/list")
 	public ModelAndView listAction(HttpServletRequest request, HttpServletResponse response) { 
+		
 		ModelAndView mav = new ModelAndView("serviceclients/listClients"); 
 
 		try {
-
+			
+			// Lists the current service clients in the service client database in a table
 			List<ServiceClient> myClients = doa.listAll();
-
 			mav.addObject("clients", myClients);
-			//	mav.addObject("pcAddr","E Main Street");
-			System.out.println( myClients.get(0).getMainContact().getStreet());
+			
+			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
+			List<Contact> contacts = cDoa.listAll();			
+			mav.addObject("contacts", contacts);
 
 		} catch (Exception e) {
 
@@ -41,9 +49,9 @@ public class ServiceClientController {
 			e.printStackTrace();
 		}
 
-
 		return mav;
 	}
+	
 	/**
 	 *  Ajax action that renders a new page removing the selected service client from the table.
 	 * 
@@ -56,7 +64,7 @@ public class ServiceClientController {
 	 * @param response
 	 * @return MAV of the deleted service client row of the table
 	 */
-	@PostMapping("/ajax/delServiceClient")
+	@PostMapping("/ajax/delSc")
 	public ModelAndView ajaxServiceClientDelete(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
@@ -88,89 +96,97 @@ public class ServiceClientController {
 	}
 
 	/**
-	 * Adding a new row to the service client for service client list.
-	 * TODO figure out what to do with board member and contacts, for now making them null or unknown
-	 * figure out if we are keeping address information
+	 * Adding a new row to the service client for service client list. The parameters follow
+	 * the parameters of the create method in the ServiceClientDao.
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
+	 * 
+	 * @author Lydia House
 	 */
-	@PostMapping("/ajax/addServiceClient")
+	@PostMapping("/ajax/addSc")
 	public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
-
-		String name = request.getParameter("name");
+		
+		// Obtains the information from the JavaScript function
+		String clientName = request.getParameter("clientName");
+		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
+		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
+		String bmName = request.getParameter("bmName");
 		String category = request.getParameter("cat");
 
-		/*
-		 * Prepare and render the response of the template's model for the HTTP response
-		 */
-		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleClientRow");
+		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
-
-			ServiceClient newClient = doa.create(name, 1, 2, "John Smith", category);
-
+			
+			// Creates the a new service client in the service client database. Then we hold onto a
+			// handle of the newly created service client to aid with preparing the MAV response.
+			ServiceClient newClient = doa.create(clientName, cid1, cid2, bmName, category); 
+			
+			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
 			mav.addObject("name", newClient.getName());
+			mav.addObject("firstName", newClient.getMainContact().getFirstName());
+			mav.addObject("lastName", newClient.getMainContact().getLastName());
+			mav.addObject("boardMember", newClient.getBoardMember());
 			mav.addObject("category", newClient.getCategory());
-
-
 
 		} catch (Exception e) {
 			System.err.println("\n\n ERROR ");
 			System.err.println(e.getMessage());
-
 
 		}
 
 		return mav;
-
 	}
 
 	/**
-	 * TODO
-	 * Updating an existing service client in the service client list but at this point in time
-	 * only updating service client's name and category.
-	 * 
-	 *  Need to figure out how to handle board member and contact data
+	 * Updating an existing service client in the service client list.The parameters follow
+	 * the parameters of the update method in the ServiceClientDao.
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	@PostMapping("/ajax/editServiceClient")
-	public ModelAndView ajaxServiceClientUpdate(HttpServletRequest request, HttpServletResponse response) {
+	@PostMapping("/ajax/editSc")
+	public ModelAndView ajaxScUpdate(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
 
+		// Obtains the information from the JavaScript function
 		int id = Integer.parseInt(request.getParameter("ID")); 
-		String name = request.getParameter("name");
+		String clientName = request.getParameter("clientName");
+		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
+		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
+		String bmName = request.getParameter("bmName");
 		String category = request.getParameter("cat");
 
 		/*
 		 * Prepare and render the response of the template's model for the HTTP response
 		 */
-		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleClientRow");
+		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
-
-			doa.update(id, name, 1, 2, "John Smith", category);
-
+			
+			// Updates the service client in the service client database.
+			doa.update(id, clientName, cid1, cid2, bmName, category);
+			
+			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
 			ServiceClient updatedClient = doa.fetchClientById(id);
 
+			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", updatedClient.getScid());
 			mav.addObject("name", updatedClient.getName());
+			mav.addObject("firstName", updatedClient.getMainContact().getFirstName());
+			mav.addObject("lastName", updatedClient.getMainContact().getLastName());
+			mav.addObject("boardMember", updatedClient.getBoardMember());
 			mav.addObject("category", updatedClient.getCategory());  
-
 
 		} catch (Exception e) {
 			System.err.println("\n\n ERROR ");
 			System.err.println(e.getMessage());
-
-
 		}
 
 		return mav;
@@ -186,6 +202,7 @@ public class ServiceClientController {
 	 * js file has access to the information in order to populate the fields in the service client information
 	 * dialog box. 
 	 * 
+	 * Note this function is also called for the editDlg for updating a service client
 	 * Note there is most likely a better way to do this.
 	 * 
 	 * @param request
@@ -194,12 +211,12 @@ public class ServiceClientController {
 	 * 
 	 * @author lahouse
 	 */
-	@GetMapping("/ajax/infoServiceClient")
+	@GetMapping("/ajax/infoSc")
 	public ModelAndView ajaxScInfo(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
 
-		ModelAndView mav = new ModelAndView("/serviceclients/scInfo");
+		ModelAndView mav = new ModelAndView("/serviceclients/ajax_scInfo");
 
 		int id = Integer.parseInt(request.getParameter("ID")); // Harvests the selected client's ID
 
@@ -231,6 +248,62 @@ public class ServiceClientController {
 			mav.addObject("ocCity", selectedClient.getOtherContact().getCity());
 			mav.addObject("ocState", selectedClient.getOtherContact().getState());
 			mav.addObject("ocZip", selectedClient.getOtherContact().getZipcode());
+			mav.addObject("mcID", selectedClient.getMainContact().getContactId());
+			mav.addObject("ocID", selectedClient.getOtherContact().getContactId());
+		} catch (Exception e) {
+
+			System.err.println("\n\n ERROR ");
+			System.err.println(e.getMessage());
+
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	/**
+	 * When a user selects on an contact ID (or open opening) in the add service client dialog, we display that selected
+	 * contact's information (such as name, address, email, etc.) in the main contact fields where the user is not allowed to make changes to. 
+	 * 
+	 * ajaxPopulateMCFields is called by the populateMCFields function in listClients.js in order to obtain the selected 
+	 * main contact's information from the contact database and to return it back to the listClients.js so that the
+	 * js file has access to the information in order to populate the main contact fields in the add service client dialog box. 
+	 * 
+	 * Note this is also used for the editDlg when editing/updating a service client.
+	 * Note there is most likely a better way to do this.
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * 
+	 * @author lahouse
+	 */
+	@GetMapping("/ajax/fillMCFields")
+	public ModelAndView ajaxPopulateMCFields(HttpServletRequest request, HttpServletResponse response) { 
+
+		response.setContentType("text/html");
+		
+		ModelAndView mav = new ModelAndView("/serviceclients/ajax_contactFields"); 
+		
+		int id = Integer.parseInt(request.getParameter("ID")); // Harvests the selected contact's ID
+
+		try {
+			
+			// Fetches the selected contact from the contact database
+			Contact selectedCon = cDoa.fetchContactById(id);
+			
+			// Adds the selected contact's information to an html snippet so that we can access it
+			// in listClients.js in order to populate the main contact fields in the add dialog box in listClients.html
+			mav.addObject("mcFirstName", selectedCon.getFirstName());
+			mav.addObject("mcLastName", selectedCon.getLastName());
+			mav.addObject("mcEmail", selectedCon.getEmail());
+			mav.addObject("mcWorkPhone", selectedCon.getPhoneNumWork());
+			mav.addObject("mcMobilePhone", selectedCon.getPhoneNumMobile());
+			mav.addObject("mcStreet", selectedCon.getStreet());
+			mav.addObject("mcCity", selectedCon.getCity());
+			mav.addObject("mcState", selectedCon.getState());
+			mav.addObject("mcZip", selectedCon.getZipcode());
 
 		} catch (Exception e) {
 
@@ -242,7 +315,61 @@ public class ServiceClientController {
 		}
 
 		return mav;
+	}
+	
+	/**
+	 * When a user selects on an contact ID (or open opening) in the add service client dialog, we display that selected
+	 * contact's information (such as name, address, email, etc.) in the other/secondary contact fields where the user is not allowed to make changes to. 
+	 * 
+	 * ajaxPopulateOCFields is called by the populateOCFields function in listClients.js in order to obtain the selected 
+	 * other/secondary contact's information from the contact database and to return it back to the listClients.js so that the
+	 * js file has access to the information in order to populate the other/secondary contact fields in the add service client dialog box. 
+	 * 
+	 * Note this is also used for the editDlg when editing/updating a service client.
+	 * Note there is most likely a better way to do this.
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * 
+	 * @author lahouse
+	 */
+	@GetMapping("/ajax/fillOCFields")
+	public ModelAndView ajaxPopulateOCFields(HttpServletRequest request, HttpServletResponse response) { 
 
+		response.setContentType("text/html");
+		
+		ModelAndView mav = new ModelAndView("/serviceclients/ajax_contactFields"); 
+		
+		int id = Integer.parseInt(request.getParameter("ID")); // Harvests the selected contact's ID
+
+		try {
+			
+			// Fetches the selected contact from the contact database
+			Contact selectedCon = cDoa.fetchContactById(id);
+			
+			// Adds the selected contact's information to an html snippet so that we can access it
+			// in listClients.js in order to populate the other/secondary contact fields in the add dialog box in listClients.html
+			mav.addObject("ocFirstName", selectedCon.getFirstName());
+			mav.addObject("ocLastName", selectedCon.getLastName());
+			mav.addObject("ocEmail", selectedCon.getEmail());
+			mav.addObject("ocWorkPhone", selectedCon.getPhoneNumWork());
+			mav.addObject("ocMobilePhone", selectedCon.getPhoneNumMobile());
+			mav.addObject("ocStreet", selectedCon.getStreet());
+			mav.addObject("ocCity", selectedCon.getCity());
+			mav.addObject("ocState", selectedCon.getState());
+			mav.addObject("ocZip", selectedCon.getZipcode());
+
+		} catch (Exception e) {
+
+			System.err.println("\n\n ERROR ");
+			System.err.println(e.getMessage());
+
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return mav;
 	}
 	   
 	   /**
