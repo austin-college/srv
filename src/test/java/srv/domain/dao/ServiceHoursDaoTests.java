@@ -75,7 +75,7 @@ class ServiceHoursDaoTests {
 
 		List<ServiceHours> serviceHours = dao.listAll();
 
-		assertEquals(4, serviceHours.size());
+		assertEquals(5, serviceHours.size());
 
 		ServiceHours sHour1 = serviceHours.get(0);
 		ServiceHours sHour2 = serviceHours.get(1);
@@ -196,7 +196,7 @@ class ServiceHoursDaoTests {
 
 		List<ServiceHours> serviceHours = dao.listAll();
 
-		assertEquals(3, serviceHours.size());
+		assertEquals(4, serviceHours.size());
 
 		ServiceHours sh1 = serviceHours.get(0);
 		ServiceHours sh2 = serviceHours.get(1);
