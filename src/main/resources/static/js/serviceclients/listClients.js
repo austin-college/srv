@@ -1,5 +1,5 @@
 /**
- * The following function verifies that none of the add service client or service
+ * The following function verifies that none of the add service client or edit service
  * clients dialogs have empty fields.
  * 
  * @param client_name
@@ -17,6 +17,12 @@ function checkForEmptyFields(client_name, bm_Name) {
 	 */
 	$("#addDlg_name").removeClass("is-invalid");
 	$("#addDlg_bmName").removeClass("is-invalid");
+	
+	/*
+	 * Removes previous error messages on the fields for the edit service client dialog.
+	 */
+	$("#editDlg_name").removeClass("is-invalid");
+	$("#editDlg_bmName").removeClass("is-invalid");
 
 	// Checks to see if the service client's name field is empty.
 	if (!$(client_name).val()) {
@@ -56,7 +62,7 @@ function delClient(client_id) {
 
 	$.ajax({
 		method: "POST",
-		url: "/srv/ajax/delServiceClient",
+		url: "/srv/ajax/delSc",
 		cache: false,
 		data: {ID: idStr},
 		//dataType: "text",
@@ -77,40 +83,49 @@ function delClient(client_id) {
 	});
 }
 
+
 /**
- * Function below if for updating a service client but only their name
- * and category. Since description isn't stored in service client domain class
- * I'm not updating
+ * Updates an existing service client in the table with the new values. The parameters follow the update method
+ * in the ServiceClientDao except that the main contact's name is also passed in, in order to update the table 
+ * immediately (upon a successful response). 
  * 
  * @param client_id
  * @param client_name
+ * @param mc_ID
+ * @param oc_ID
+ * @param mc_name
+ * @param bm_Name
  * @param client_cat
- * @param client_desc
  * @returns
  */
-function editClient(client_id, client_name, client_cat, client_desc) {
+function editClient(client_id, client_name, mc_ID, oc_ID, mc_name, bm_Name, client_cat) {
 
-	// Harvests the data values from the form
+	// Harvests the information (id, service client's name, board member's name, and category) from the edit dialog form
 	var idStr = client_id;
 	var nameStr  = $(client_name).val();
-	var catStr  = $(client_cat).val();
-	var descStr = $(client_desc).val();
-
+	var bmStr = $(bm_Name).val();
+	var catStr = $(client_cat).val();
 
 	$.ajax({
 		method: "POST",
-		url: "/srv/ajax/editServiceClient",
+		url: "/srv/ajax/editSc",
 		cache: false,
-		data: {ID: idStr, name: nameStr, cat: catStr, desc: descStr},
+		data: {ID: idStr, clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmName: bmStr, cat: catStr},
 		/*
 		 * If successful then update the selected service client 
 		 * with the new values.
 		 */
 		success: function(data) {
 			console.log("updated client");
+			
+			console.log($(mc_name).val()); // Verifies the new service client's main contact's name
 
+			// Updates the edited service client's row with the new values
 			$("#scid-" + client_id + " td[name ='sc_title']").html($(client_name).val());
+			$("#scid-" + client_id + " td[name ='sc_contact_name']").html($(mc_name).val());
+			$("#scid-" + client_id + " td[name ='sc_bm_name']").html($(bm_Name).val());
 			$("#scid-" + client_id + " td[name ='sc_category']").html($(client_cat).val());
+			
 		},
 		/*
 		 * If unsuccessful, display error message and reasoning.
@@ -119,9 +134,7 @@ function editClient(client_id, client_name, client_cat, client_desc) {
 			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
 		}
 	});
-
 }
-
 
 /**
  * Add a new service client to the service client table. The parameters correspond with the
@@ -143,7 +156,7 @@ function addClient(client_name, mc_ID, oc_ID, bm_Name, client_cat) {
 
 	$.ajax({
 		method: "POST",
-		url: "/srv/ajax/addServiceClient",
+		url: "/srv/ajax/addSc",
 		cache: false,
 		data: {clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmName: bmStr, cat: catStr},
 		/*
@@ -189,7 +202,7 @@ function addClient(client_name, mc_ID, oc_ID, bm_Name, client_cat) {
  * ServiceClientController we can access the ServiceClientDao to access the ServiceClient database
  * in order to obtain the information about the selected service client's contact information as this
  * is not displayed in the table. We obtain the information from the AJAX call by the ajax_scInfo.html which
- * contains the selected service client's information. 
+ * contains the selected service client's information. Note this also does the same thing for the editDlg
  * 
  * @param client_id
  * @returns
@@ -200,7 +213,7 @@ function scInfo(client_id) {
 
 	$.ajax({
 		method: "GET",
-		url: "/srv/ajax/infoServiceClient",
+		url: "/srv/ajax/infoSc",
 		cache: false,
 		data: {ID: idStr},
 		/*
@@ -218,7 +231,7 @@ function scInfo(client_id) {
 			 */
 			var setClientName = $(data)[0].innerText;
 			var setBmName =  $(data)[2].innerText; 
-			var setCat = $(data)[4].innerText;
+			var setCat = $(data)[4].innerText.trim();
 			var setMcName = $(data)[6].innerText;
 			var setMcEmail = $(data)[8].innerText;
 			var setMcWorkPhone = $(data)[10].innerText;
@@ -235,10 +248,9 @@ function scInfo(client_id) {
 			var setOcCity = $(data)[32].innerText;
 			var setOcState = $(data)[34].innerText;
 			var setOcZip = $(data)[36].innerText;
-			var setMcID = $(data)[38].innerText;
-			var setOcID = $(data)[40].innerText;
+			var setMcID = $(data)[38].innerText.trim();
+			var setOcID = $(data)[40].innerText.trim();
 			
-			console.log(setMcID);
 			/*
 			 * From the values above, we can set the input fields within the scInfoDlg (in listClients.html)
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
@@ -264,6 +276,32 @@ function scInfo(client_id) {
 			$("#scInfoDlg_ocZip").val(setOcZip);
 			$("#scInfoDlg_mcID").val(setMcID);
 			$("#scInfoDlg_ocID").val(setOcID);
+			
+			/*
+			 * From the values above, we can set the input fields within the editDlg (in listClients.html)
+			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
+			 */
+			$("#editDlg_name").val(setClientName);
+			$("#editDlg_bmName").val(setBmName);
+			$("#editDlg_cat").val(setCat);
+			$("#editDlg_mcName").val(setMcName);
+			$("#editDlg_mcEmail").val(setMcEmail);
+			$("#editDlg_mcWorkPhone").val(setMcWorkPhone);
+			$("#editDlg_mcMobilePhone").val(setMcMobilePhone);
+			$("#editDlg_mcStreet").val(setMcStreet);
+			$("#editDlg_mcCity").val(setMcCity);
+			$("#editDlg_mcState").val(setMcState);
+			$("#editDlg_mcZip").val(setMcZip);
+			$("#editDlg_ocName").val(setOcName);
+			$("#editDlg_ocEmail").val(setOcEmail);
+			$("#editDlg_ocWorkPhone").val(setOcWorkPhone);
+			$("#editDlg_ocMobilePhone").val(setOcMobilePhone);
+			$("#editDlg_ocStreet").val(setOcStreet);
+			$("#editDlg_ocCity").val(setOcCity);
+			$("#editDlg_ocState").val(setOcState);
+			$("#editDlg_mcID").val(setMcID);
+			$("#editDlg_ocID").val(setOcID);
+
 		},
 		/*
 		 * If unsuccessful, display error message and reasoning.
@@ -279,7 +317,7 @@ function scInfo(client_id) {
  * function in order to make an AJAX call to the ServiceClientController. That way, from the ServiceClientController we 
  * can access the ContactDao to access the Contact database in order to obtain the information about the selected main 
  * contact information. We obtain the information from the AJAX call by the ajax_contactFields.html which contains the 
- * selected main contact's information. 
+ * selected main contact's information. Note this also does the same thing for the edit dialog.
  * 
  * @param contact_id
  * @returns
@@ -330,6 +368,19 @@ function populateMCFields(contact_id) {
 			$("#addDlg_mcCity").val(setMcCity);
 			$("#addDlg_mcState").val(setMcState);
 			$("#addDlg_mcZip").val(setMcZip);
+			
+			/*
+			 * From the values above, we can set the main contact input fields within the editDlg (in listClients.html)
+			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
+			 */
+			$("#editDlg_mcName").val(setMcName);
+			$("#editDlg_mcEmail").val(setMcEmail);
+			$("#editDlg_mcWorkPhone").val(setMcWorkPhone);
+			$("#editDlg_mcMobilePhone").val(setMcMobilePhone);
+			$("#editDlg_mcStreet").val(setMcStreet);
+			$("#editDlg_mcCity").val(setMcCity);
+			$("#editDlg_mcState").val(setMcState);
+			$("#editDlg_mcZip").val(setMcZip);
 		},
 		/*
 		 * If unsuccessful, display error message and reasoning.
@@ -345,7 +396,7 @@ function populateMCFields(contact_id) {
  * function in order to make an AJAX call to the ServiceClientController. That way, from the ServiceClientController we 
  * can access the ContactDao to access the Contact database in order to obtain the information about the selected other/secondary 
  * contact information. We obtain the information from the AJAX call by the ajax_contactFields.html which contains the 
- * selected other/secondary contact's information. 
+ * selected other/secondary contact's information. Note this also is the same for the edit dialog.
  * 
  * @param contact_id
  * @returns
@@ -397,6 +448,20 @@ function populateOCFields(contact_id) {
 			$("#addDlg_ocCity").val(setOcCity);
 			$("#addDlg_ocState").val(setOcState);
 			$("#addDlg_ocZip").val(setOcZip);
+			
+
+			/*
+			 * From the values above, we can set the other/secondary contact input fields within the editDlg (in listClients.html)
+			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
+			 */
+			$("#editDlg_ocName").val(setOcName);
+			$("#editDlg_ocEmail").val(setOcEmail);
+			$("#editDlg_ocWorkPhone").val(setOcWorkPhone);
+			$("#editDlg_ocMobilePhone").val(setOcMobilePhone);
+			$("#editDlg_ocStreet").val(setOcStreet);
+			$("#editDlg_ocCity").val(setOcCity);
+			$("#editDlg_ocState").val(setOcState);
+			$("#editDlg_ocZip").val(setOcZip);
 		},
 		/*
 		 * If unsuccessful, display error message and reasoning.
@@ -489,22 +554,22 @@ $(document).ready(function() {
 			 *  Upon open, we populate the main and other contact information fields (name, phone numbers, etc)
 			 *  with the first contact in the list/database.
 			 */
-			var selected_mcID = $(".mcRow").children("option:selected").val();
+			var selected_mcID = $("#addDlg_mcID").children("option:selected").val();
 			populateMCFields(selected_mcID);
 
-			var selected_ocID = $(".ocRow").children("option:selected").val();
+			var selected_ocID = $("#addDlg_ocID").children("option:selected").val();
 			populateOCFields(selected_ocID);
 
 			/*
 			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
 			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
 			 */
-			$(".mcRow").change("click", function() {
+			$("#addDlg_mcID").change("click", function() {
 				var selected_mcID = $(this).children("option:selected").val();
 				populateMCFields(selected_mcID);				   
 			}); 
 
-			$(".ocRow").change("click", function() {
+			$("#addDlg_ocID").change("click", function() {
 				var selected_ocID = $(this).children("option:selected").val();
 				populateOCFields(selected_ocID);				   
 			}); 
@@ -523,8 +588,8 @@ $(document).ready(function() {
 				"class": 'btn',
 				click: function() {		
 
-					var selected_mcID = $(".mcRow").children("option:selected").val(); // ID for main contact
-					var selected_ocID = $(".ocRow").children("option:selected").val(); // ID for other/secondary contact
+					var selected_mcID = $("#addDlg_mcID").children("option:selected").val(); // ID for main contact
+					var selected_ocID = $("#addDlg_ocID").children("option:selected").val(); // ID for other/secondary contact
 
 					/*
 					 * Validates that the fields of the add service client dialog are not empty.
@@ -556,20 +621,32 @@ $(document).ready(function() {
 		modal: true,
 		dialogClass: "editDlgClass",
 		open: function(event, ui) {
-
-			// Harvests the selected servant client's old values from the table.
-			var selected_shid = $("#editDlg").data('selectedClientID');
-			var set_name = $("#scid-" + selected_shid + " td[name ='sc_title']").text();
-			var set_bmName = $("#scid-" + selected_shid + " td[name ='sc_bm_name']").text();
-			var set_cat = $("#scid-" + selected_shid + " td[name ='sc_category']").text().trim();
-
-			// Sets the dialog's fields to the selected servant client's old values upon opening.
-			$("#editDlg_name").val(set_name);
-			$("#editDlg_bmName").val(set_bmName);
-			$("#editDlg_selcCat").val(set_cat);
 			
-			var selected_mcID = $(".mcRow").children("option:selected").val();
-			console.log(selected_mcID);
+			var selected_scid = $("#editDlg").data('selectedClientID'); // Harvests the selected service client's id from the table to pass to js function
+			
+			// Populates the selected service client's contact information for the edit service client dialog box.
+			scInfo(selected_scid); 
+			
+			/*
+			 * When a user changes the main or other contact ID from the drop down menu that is inside the editDlg,
+			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
+			 */
+			$("#editDlg_mcID").change("click", function() {
+				var selected_mcID = $(this).children("option:selected").val();
+				populateMCFields(selected_mcID);				   
+			}); 
+
+			$("#editDlg_ocID").change("click", function() {
+				var selected_ocID = $(this).children("option:selected").val();
+				populateOCFields(selected_ocID);				   
+			}); 
+			
+			/*
+			 * Removes previous error messages from the fields.
+			 */
+			$("#editDlg_name").removeClass("is-invalid");
+			$("#editDlg_bmName").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
 		},							
 		buttons: [
 			{
@@ -577,10 +654,21 @@ $(document).ready(function() {
 				"id": "addBtnDlg",
 				"class": 'btn',
 				click: function() {		
+					
 					var selected_shid = $("#editDlg").data('selectedClientID'); // The selected service client's ID
+					var selected_mcID = $("#editDlg_mcID").children("option:selected").val(); // ID for main contact
+					var selected_ocID = $("#editDlg_ocID").children("option:selected").val(); // ID for other/secondary contact
 
-					editClient(selected_shid, "#editDlg_clientName", "#editDlg_selcCat", "#editDlg_descOfClient");
-					$("#editDlg").dialog("close");
+					/*
+					 * Validates that the fields of the edit service client dialog are not empty.
+					 * If all the fields are valid, updates the service client to the table and closes the dialog.
+					 */
+					if(checkForEmptyFields("#editDlg_name", "#editDlg_bmName")){
+						
+						editClient(selected_shid, "#editDlg_name", selected_mcID, selected_ocID, "#editDlg_mcName", "#editDlg_bmName", "#editDlg_cat");
+						
+						$("#editDlg").dialog("close");
+					}					
 				}
 			},
 			{	
@@ -627,7 +715,8 @@ $(document).ready(function() {
 	});
 
 	/* 
-	 * Opens add service client dialog
+	 * Opens a edit service client dialog and passes in the selected row's service client's id when a user
+	 * clicks on an edit button.
 	 */
 	$(".edit ").on("click", function() {
 		var selected_scid = $(this).attr('onEditClick');

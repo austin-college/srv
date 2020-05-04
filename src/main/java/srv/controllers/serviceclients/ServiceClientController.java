@@ -64,7 +64,7 @@ public class ServiceClientController {
 	 * @param response
 	 * @return MAV of the deleted service client row of the table
 	 */
-	@PostMapping("/ajax/delServiceClient")
+	@PostMapping("/ajax/delSc")
 	public ModelAndView ajaxServiceClientDelete(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
@@ -97,7 +97,7 @@ public class ServiceClientController {
 
 	/**
 	 * Adding a new row to the service client for service client list. The parameters follow
-	 * the parameters of the ServiceClientDao.
+	 * the parameters of the create method in the ServiceClientDao.
 	 * 
 	 * @param request
 	 * @param response
@@ -105,7 +105,7 @@ public class ServiceClientController {
 	 * 
 	 * @author Lydia House
 	 */
-	@PostMapping("/ajax/addServiceClient")
+	@PostMapping("/ajax/addSc")
 	public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
@@ -143,46 +143,50 @@ public class ServiceClientController {
 	}
 
 	/**
-	 * TODO
-	 * Updating an existing service client in the service client list but at this point in time
-	 * only updating service client's name and category.
-	 * 
-	 *  Need to figure out how to handle board member and contact data
+	 * Updating an existing service client in the service client list.The parameters follow
+	 * the parameters of the update method in the ServiceClientDao.
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	@PostMapping("/ajax/editServiceClient")
-	public ModelAndView ajaxServiceClientUpdate(HttpServletRequest request, HttpServletResponse response) {
+	@PostMapping("/ajax/editSc")
+	public ModelAndView ajaxScUpdate(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
 
+		// Obtains the information from the JavaScript function
 		int id = Integer.parseInt(request.getParameter("ID")); 
-		String name = request.getParameter("name");
+		String clientName = request.getParameter("clientName");
+		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
+		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
+		String bmName = request.getParameter("bmName");
 		String category = request.getParameter("cat");
 
 		/*
 		 * Prepare and render the response of the template's model for the HTTP response
 		 */
-		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleClientRow");
+		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
-
-			doa.update(id, name, 1, 2, "John Smith", category);
-
+			
+			// Updates the service client in the service client database.
+			doa.update(id, clientName, cid1, cid2, bmName, category);
+			
+			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
 			ServiceClient updatedClient = doa.fetchClientById(id);
 
+			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", updatedClient.getScid());
 			mav.addObject("name", updatedClient.getName());
+			mav.addObject("firstName", updatedClient.getMainContact().getFirstName());
+			mav.addObject("lastName", updatedClient.getMainContact().getLastName());
+			mav.addObject("boardMember", updatedClient.getBoardMember());
 			mav.addObject("category", updatedClient.getCategory());  
-
 
 		} catch (Exception e) {
 			System.err.println("\n\n ERROR ");
 			System.err.println(e.getMessage());
-
-
 		}
 
 		return mav;
@@ -198,6 +202,7 @@ public class ServiceClientController {
 	 * js file has access to the information in order to populate the fields in the service client information
 	 * dialog box. 
 	 * 
+	 * Note this function is also called for the editDlg for updating a service client
 	 * Note there is most likely a better way to do this.
 	 * 
 	 * @param request
@@ -206,7 +211,7 @@ public class ServiceClientController {
 	 * 
 	 * @author lahouse
 	 */
-	@GetMapping("/ajax/infoServiceClient")
+	@GetMapping("/ajax/infoSc")
 	public ModelAndView ajaxScInfo(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
@@ -265,6 +270,7 @@ public class ServiceClientController {
 	 * main contact's information from the contact database and to return it back to the listClients.js so that the
 	 * js file has access to the information in order to populate the main contact fields in the add service client dialog box. 
 	 * 
+	 * Note this is also used for the editDlg when editing/updating a service client.
 	 * Note there is most likely a better way to do this.
 	 * 
 	 * @param request
@@ -319,6 +325,7 @@ public class ServiceClientController {
 	 * other/secondary contact's information from the contact database and to return it back to the listClients.js so that the
 	 * js file has access to the information in order to populate the other/secondary contact fields in the add service client dialog box. 
 	 * 
+	 * Note this is also used for the editDlg when editing/updating a service client.
 	 * Note there is most likely a better way to do this.
 	 * 
 	 * @param request
