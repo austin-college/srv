@@ -15,6 +15,7 @@ import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceClient.ServiceClientDao;
+import srv.utils.UserUtil;
 
 @Controller
 public class ServiceClientController {
@@ -39,6 +40,10 @@ public class ServiceClientController {
 			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
 			List<Contact> contacts = cDoa.listAll();			
 			mav.addObject("contacts", contacts);
+			
+			// Checks to see if the current user is an admin, if so displays the add, edit, and delete buttons of the service client list
+			// otherwise the buttons are gone.
+			mav.addObject("userAdmin",UserUtil.userIsAdmin());
 
 		} catch (Exception e) {
 
