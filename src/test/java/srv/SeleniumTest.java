@@ -20,8 +20,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SeleniumTest {
 	
-	public static final String DRIVERPATH = "src/main/resources/chromedriver";
-	
+	public static final String WINDRIVERPATH = "src/main/resources/chromedriver.exe";
+	public static final String MACDRIVERPATH = "src/main/resources/chromedriver";
+
     @LocalServerPort
     protected int port;
     
@@ -57,11 +58,21 @@ public abstract class SeleniumTest {
 
     @BeforeClass
     public static void createAndStartService() throws Exception {
-      
-      System.setProperty("webdriver.chrome.driver", DRIVERPATH);
-      
+    	String path;
+    	System.err.println(System.getProperty("os.name"));
+      if(System.getProperty("os.name").toLowerCase().contains("win")) {
+    	  path = WINDRIVERPATH;
+
+      } else {
+    	  path = MACDRIVERPATH;
+    	  
+      }
+      System.setProperty("webdriver.chrome.driver", path);
+
+    	
+    	      
       service = new ChromeDriverService.Builder()
-          .usingDriverExecutable(new File(DRIVERPATH))
+          .usingDriverExecutable(new File(path))
           .usingAnyFreePort()
           .build();
       
