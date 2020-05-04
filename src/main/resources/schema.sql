@@ -62,6 +62,9 @@ CREATE TABLE events (
 	continuous boolean,
 	volunteersNeeded int,
 	serviceClientId int,
+	neededVolunteerHours double,
+	rsvpVolunteerHours double,
+	freeTextField VARCHAR(255),
 	primary key (eventId),
 	foreign key (contactId)
 		references contacts(contactId)
