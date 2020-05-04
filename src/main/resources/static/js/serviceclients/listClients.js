@@ -494,8 +494,8 @@ $(document).ready(function() {
 	//Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen: false,
-		height: 350,
-		width: 400,
+		height: 300,
+		width: 625,
 		modal: true,
 		dialogClass: "delDlgClass",
 		create: function(event, ui) { 
@@ -503,11 +503,16 @@ $(document).ready(function() {
 			$(".cancBtnClass").addClass("btn btn-secondary");
 		},
 		open: function(event, ui) {
+			
+			 var selected_scid = $("#delDlg").data('selectedClientID'); // The selected service client's ID
+			 var set_name = $("#scid-" + selected_scid + " td[name ='sc_title']").text(); // The selected service client's title/name
+	
 			/*
-			 * Prompt on the delete service client dialog, verifying if they want to delete the selected service client.
+			 * Prompt on the delete service client dialog, specifying the name of the selected service client to the user,
+			 *  verifying if they want to delete the selected service client.
 			 */ 
-			$("#delMsg1").html("The following service client will be permanently deleted and cannot be recovered.");
-			$("#delMsg2").html("Are you sure you want to delete?");
+			$("#delMsg1").html(set_name + " will be permanently deleted and cannot be recovered.");
+			$("#delMsg2").html("Are you sure you want to delete " + set_name + "?");
 		},							
 		buttons: [
 			{
