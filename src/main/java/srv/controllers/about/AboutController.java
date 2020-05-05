@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @Controller
-@EnableWebSecurity
 public class AboutController {
 
 	/**

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import srv.utils.UserUtil;
 
 @Controller
 @EnableWebSecurity
+@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN"})
 public class ServiceClientController {
 
 	@Autowired

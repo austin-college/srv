@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ public class HomeController {
 	 * @param attributes
 	 * @return
 	 */
+	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT" })
     @GetMapping("/home")
     public RedirectView redirectAll ( RedirectAttributes attributes) {
           	
@@ -73,7 +75,7 @@ public class HomeController {
     }
     
     
-	
+	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN"})
 	@GetMapping("/home/boardMember")
 	public ModelAndView boardMemberAction(HttpServletRequest request, HttpServletResponse response) {
 
@@ -81,7 +83,7 @@ public class HomeController {
 
 		return mav;
 	}
-	
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/home/admin/editBM")
 	public ModelAndView adminEditBMAction(HttpServletRequest request, HttpServletResponse response) {
 
@@ -90,6 +92,7 @@ public class HomeController {
 		return mav;
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/home/admin")
 	public ModelAndView adminAction(HttpServletRequest request, HttpServletResponse response) {
 
