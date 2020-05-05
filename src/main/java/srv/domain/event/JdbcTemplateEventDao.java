@@ -37,8 +37,8 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * TODO We need an eventParticipantsDao if we want to pull a list of
 	 * participants
 	 */
-	//@Autowired
-	//private JdbcTemplateEventParticipantDao eventParticipantsDao;
+	// @Autowired
+	// private JdbcTemplateEventParticipantDao eventParticipantsDao;
 
 	public JdbcTemplateEventDao() {
 		super();
@@ -47,7 +47,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public List<Event> listAll() throws Exception {
 		List<Event> results = getJdbcTemplate().query(
-				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId from events",
+				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField from events",
 				new EventRowMapper());
 
 		return results;
@@ -55,10 +55,11 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	@Override
 	public Event create(String title, String addr, int cid, String date, String eventType, boolean continuous,
-			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception {
+			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
+			String freeTextField) throws Exception {
 
 		// SQL statement that is to be executed
-		final String sql = "insert into events (title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values(?, ?, ?, ?, ?, ?, ?, ?)";
+		final String sql = "insert into events (title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -73,6 +74,9 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setBoolean(6, continuous);
 			ps.setInt(7, volunteersNeeded);
 			ps.setInt(8, organizationId);
+			ps.setDouble(9, neededVolunteerHours);
+			ps.setDouble(10, rsvpVolunteerHours);
+			ps.setString(11, freeTextField);
 			return ps;
 		}, keyHolder);
 
@@ -103,9 +107,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	@Override
 	public void update(int eid, String title, String addr, int cid, String date, String eventType, boolean continuous,
-			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception {
+			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
+			String freeTextField) throws Exception {
 		// SQL statement that is to be executed
-		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventType = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ? where eventId = ?";
+		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventType = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ?, neededVolunteerHours = ?, rsvpVolunteerHours = ?, freeTextField = ? where eventId = ?";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -120,7 +125,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setBoolean(6, continuous);
 			ps.setInt(7, volunteersNeeded);
 			ps.setInt(8, organizationId);
-			ps.setInt(9, eid);
+			ps.setDouble(9, neededVolunteerHours);
+			ps.setDouble(10, rsvpVolunteerHours);
+			ps.setString(11, freeTextField);
+			ps.setInt(12, eid);
 			return ps;
 		}, keyHolder);
 
@@ -134,7 +142,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public Event fetchEventById(int eid) throws Exception {
 		String sqlStr = String.format(
-				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId from events where eventId = %d",
+				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField from events where eventId = %d",
 				eid);
 		log.debug(sqlStr);
 
@@ -169,65 +177,14 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 			try {
 
-				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title"))
+				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title")).setAddress(rs.getString("address"))
 						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
-						.setType(null)// rs.getString("boardMem"))
+						.setType(null) // rs.getString("boardMem"))
 						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))
-						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")));
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-
-			return ev;
-		}
-	}
-
-	class EventParticipantsRowMapper implements RowMapper<Event> {
-		/**
-		 * Returns the User in the given row
-		 */
-		@Override
-		public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-			Event ev = new Event();
-
-			/*
-			 * We use the ContactDao in order to access the contacts table in the data.sql
-			 * database, so that the event has a handle on that contact.
-			 */
-
-			/*
-			 * We use the serviceClientDao in order to access the serviceClient table in the
-			 * data.sql database, so that the event has a handle on that service client.
-			 */
-
-//			try {
-//				if (eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")) == null) {
-//					System.err.println("ERROR: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
-//				}
-//			} catch (Exception e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//				System.err.println("ERROR2: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
-//			}
-//
-//			System.err.println("ALERTALERTALERTALERT");
-
-			try {
-
-				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title"))
-						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
-						.setType(null).setContinous(rs.getBoolean("continuous"))
-						.setVolunteersNeeded(rs.getInt("volunteersNeeded"))
 						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))
 						.setNeededVolunteerHours(rs.getDouble("neededVolunteerHours"))
-						.setRsvpVolunteerHours(rs.getDouble("rsvpVolunteerHours"))
+						.setRsvpVolunteerHours(rs.getDouble(""))
 						.setFreeTextField(rs.getString("freeTextField"));
-						
-//						.setParticipantsList(
-//								eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")));
 
 			} catch (Exception e) {
 
@@ -237,4 +194,56 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			return ev;
 		}
 	}
+
+	/*
+	 * class EventParticipantsRowMapper implements RowMapper<Event> {
+	 *//**
+		 * Returns the User in the given row
+		 *//*
+			 * @Override public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
+			 * 
+			 * Event ev = new Event();
+			 * 
+			 * 
+			 * We use the ContactDao in order to access the contacts table in the data.sql
+			 * database, so that the event has a handle on that contact.
+			 * 
+			 * 
+			 * 
+			 * We use the serviceClientDao in order to access the serviceClient table in the
+			 * data.sql database, so that the event has a handle on that service client.
+			 * 
+			 * 
+			 * // try { // if
+			 * (eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId")
+			 * ) == null) { //
+			 * System.err.println("ERROR: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
+			 * // } // } catch (Exception e1) { // // TODO Auto-generated catch block //
+			 * e1.printStackTrace(); //
+			 * System.err.println("ERROR2: EVENT PARTICIPANTS IS NULL WHEN BEING FETCHED");
+			 * // } // // System.err.println("ALERTALERTALERTALERT");
+			 * 
+			 * try {
+			 * 
+			 * ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title")).setAddress(rs
+			 * .getString(columnIndex))
+			 * .setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.
+			 * getString("dateOf")) .setType(null).setContinous(rs.getBoolean("continuous"))
+			 * .setVolunteersNeeded(rs.getInt("volunteersNeeded"))
+			 * .setServiceClient(serviceClientDao.fetchClientById(rs.getInt(
+			 * "serviceClientId")))
+			 * .setNeededVolunteerHours(rs.getDouble("neededVolunteerHours"))
+			 * .setRsvpVolunteerHours(rs.getDouble("rsvpVolunteerHours"))
+			 * .setFreeTextField(rs.getString("freeTextField"));
+			 * 
+			 * // .setParticipantsList( //
+			 * eventParticipantsDao.fetchAllEventParticipantsByEventId(rs.getInt("eventId"))
+			 * );
+			 * 
+			 * } catch (Exception e) {
+			 * 
+			 * e.printStackTrace(); }
+			 * 
+			 * return ev; } }
+			 */
 }
