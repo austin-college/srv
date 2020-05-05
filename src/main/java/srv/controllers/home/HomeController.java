@@ -1,10 +1,13 @@
 package srv.controllers.home;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import srv.domain.contact.Contact;
+import srv.domain.event.Event;
+import srv.domain.event.EventDao;
+import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceClient.ServiceClientDao;
 import srv.utils.UserUtil;
 
 /**
@@ -37,6 +45,8 @@ public class HomeController {
 	
 	private static Logger log = LoggerFactory.getLogger(HomeController.class);
 	
+	@Autowired
+	EventDao dao;
 
 	/**
 	 * All requests to /home are protected.  The user must authenticate successfully.
@@ -97,6 +107,22 @@ public class HomeController {
 	public ModelAndView adminManageEventsAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("home/adminManageEvents");
+		
+		try {
+			
+			// Lists the current events in the event database in a table
+			List<Event> myEvents = dao.listAll();
+			mav.addObject("events", myEvents);
+			
+
+		} catch (Exception e) {
+
+			System.err.println("\n\n ERROR ");
+			System.err.println(e.getMessage());
+
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return mav;
 	}
