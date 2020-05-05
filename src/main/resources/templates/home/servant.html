@@ -1,0 +1,92 @@
+<#import "/main_layout.html" as layout />
+<@layout.stdpage "User Home" "home.css" "servant/userHome.js">
+
+
+<div id="mainContainer" class="container">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col-md">
+			<h1>Welcome, User</h1>
+		</div>
+	</div>
+	<div>
+	<!-- table title. -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+			<h2>My Upcoming Events</h2>
+		</div>
+	</div>
+<!-- A  (TODO/MAKE LIVE) list (data-table) of all to-be-approved serviceEvents, includes buttons to view full info, approve, and reject servant event forms -->
+	<table id="dtDynamicVerticalScroll"
+			class="table table-striped table-bordered table-sm" cellspacing="0"
+			width="100%">
+		<thead>
+			<tr>
+				
+				<th class="th-sm">Organization</th>
+				<th class="th-sm">Hours to be Completed</th>
+				<th class="th-sm">Contact</th>
+				<th class="th-sm">Contact E-Mail</th>
+				<th class="th-sm" colspan='3'>Actions</th>
+			</tr>
+		</thead>
+		</a>
+			</td>
+			</tr>
+			<tr>
+				<td>Meals on Wheels</td>
+				<td>4</td>
+				<td>Heath Ledger</td>
+				<td>hledger@gmail.com</td>
+				<!--edit button-->
+
+				<td><a class="btn del" href="#"> <i
+						class="icon-check-sign icon-large"></i>Delete
+						
+
+				</a>
+				<a class="btn edit" href="#"> <i
+						class="icon-check-sign icon-large"></i>View Event Page
+						
+
+				</a></td>
+			</tr>
+			<tr>
+			<tr>
+				<td>Volunteer with Service Station</td>
+				<td>7</td>
+				<td>Jason Statham</td>
+				<td>jstatham@gmail.com</td>
+				<!--edit button-->
+
+				<td><a class="btn del" href="#"> <i
+						class="icon-check-sign icon-large"></i>Delete
+						
+
+				</a>
+				<a class="btn edit" href="#"> <i
+						class="icon-check-sign icon-large"></i>View Event Page
+						
+
+				</a></td>
+			</tr>
+			<tr>
+			<tr>
+				<td>Habitat for Humanity</td>
+				<td>2</td>
+				<td>Bruce Willis</td>
+				<td>bwillis@gmail.com</td>
+				<!--edit button-->
+
+				<td><a class="btn del" href="#"> <i
+						class="icon-check-sign icon-large"></i>Delete
+						
+
+				</a>
+				<a class="btn edit" href="#"> <i
+						class="icon-check-sign icon-large"></i>View Event Page
+						
+
+				</a></td>
+			</tr>
+			<tr>
+</@layout.stdpage>

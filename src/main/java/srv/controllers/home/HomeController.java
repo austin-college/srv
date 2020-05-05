@@ -54,7 +54,7 @@ public class HomeController {
 		   * Order of evaluation is important since an ADMIN has all three roles
 		   * and the boardMember has two roles.        
 		   */
-		  if (UserUtil.userIsServant()) destUrl = "/srv/viewHours";
+		  if (UserUtil.userIsServant()) destUrl = "/srv/home/servant";
 		  
 		  if (UserUtil.userIsBoardMember()) destUrl = "/srv/home/boardMember";
 		  
@@ -96,4 +96,11 @@ public class HomeController {
 		return mav;
 	}
 	
+	@GetMapping("/home/servant")
+	public ModelAndView servantAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("home/servant");
+
+		return mav;
+	}
 }
