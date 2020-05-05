@@ -93,6 +93,15 @@ public class HomeController {
 	}
 	
 	@Secured("ROLE_ADMIN")
+	@GetMapping("/home/admin/manageEvents")
+	public ModelAndView adminManageEventsAction(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("home/adminManageEvents");
+
+		return mav;
+	}
+	
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/home/admin")
 	public ModelAndView adminAction(HttpServletRequest request, HttpServletResponse response) {
 
