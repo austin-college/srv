@@ -5,11 +5,11 @@
 	<form method="post">
 		<div class="row">
 			<div class="col-md-4">
-				
-					<div class="btn edit" style="width: 70%" >
-						Change Photo <input type="file" name="file" />
-					</div>
-				
+
+				<div class="btn edit" style="width: 70%">
+					Change Photo <input type="file" name="file" />
+				</div>
+
 			</div>
 			<div class="col-md-6">
 				<div class="profile-head">
@@ -27,20 +27,33 @@
 				</div>
 			</div>
 			<div class="col-md-2">
-				<input class="btn edit" style="width: 70%"
-					value="Edit Profile" />
+				<input class="btn edit" style="width: 70%" value="Edit Profile" />
 			</div>
 		</div>
-		<div class="row" style= "align: center">
+		<div class="row" style="align: center">
 			<div class="col-md-4">
-				
-					<p> </p>
-					<a href=""> </a><br /> <a href=""> </a><br />
-					<a href=""> </a>
-					<p> </p>
-					<a href=""> </a><br /> <a href=""> </a><br />
-					<a href=""> </a><br /> <a href=""> </a><br /> <a
-						href=""> </a><br />
+
+				<p></p>
+				<!-- Contains list of announcements -->
+				<h4>Events Needing Volunteers</h3>
+				<div id="annListCol" class="col-sm">
+					<div id="announceList" class="list-group" >
+						<!-- Links -->
+						<a href="#" class="list-group-item list-group-item-action ">Habitat
+							for Humanity Build Next Saturday</a> <a href="#"
+							class="list-group-item list-group-item-action ">Meals on
+							Wheels Event - March 17th</a> <a href="#"
+							class="list-group-item list-group-item-action ">Lake Texoma
+							Cleanup - March 28th</a> <a href="#"
+							class="list-group-item list-group-item-action ">Sherman
+							Animal Shelter Volunteers</a> <a href="#"
+							class="list-group-item list-group-item-action ">Crisis Center
+							Volunteers</a>
+					</div>
+					<div id="seeAllCol" class="col-sm">
+						<a id="seeAllLink" href="#">See All</a>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-8">
 				<div class="tab-content profile-tab" id="myTabContent">
@@ -94,7 +107,7 @@
 								<table
 									class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 									<thead>
-										<tr class="ui-widget-header" style="width:70%">
+										<tr class="ui-widget-header" style="width: 70%">
 											<th>Hours Served</th>
 											<th class="wtTh">15</th>
 										</tr>
@@ -104,94 +117,93 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="tab-pane fade" id="profile" role="tabpanel"
 						aria-labelledby="profile-tab">
 						<div class="row">
-							
-					
-								<!-- table title. -->
-								<div class="row"
-									style="padding-left: 80px; padding-bottom: 20px">
-									<div class="col"></div>
-								</div>
-								<!-- A  (TODO/MAKE LIVE) list (data-table) of RSVP event of the current user -->
-								<table id="dtDynamicVerticalScroll"
-									class="table table-striped table-bordered table-sm"
-									cellspacing="0" width="100%" style="text-align: right;">
-									<thead>
-										<tr>
-
-											<th class="th-sm">Organization</th>
-											<th class="th-sm">Hours to be Completed</th>
-											<th class="th-sm">Contact</th>
-											<th class="th-sm">Contact E-Mail</th>
-											<th class="th-sm" colspan='3'>Actions</th>
-										</tr>
-									</thead>
-
-									<tr>
-										<td>Meals on Wheels</td>
-										<td>4</td>
-										<td>Heath Ledger</td>
-										<td>hledger@gmail.com</td>
-										<!--edit button-->
-
-										<td><a class="btn del" href="#"> <i
-												class="icon-check-sign icon-large"></i>Delete
 
 
-										</a> <a class="btn edit" href="#"> <i
-												class="icon-check-sign icon-large"></i>View Event Page
-
-
-										</a></td>
-									</tr>
-									<tr>
-									<tr>
-										<td>Volunteer with Service Station</td>
-										<td>7</td>
-										<td>Jason Statham</td>
-										<td>jstatham@gmail.com</td>
-										<!--edit button-->
-
-										<td><a class="btn del" href="#"> <i
-												class="icon-check-sign icon-large"></i>Delete
-
-
-										</a> <a class="btn edit" href="#"> <i
-												class="icon-check-sign icon-large"></i>View Event Page
-
-
-										</a></td>
-									</tr>
-									<tr>
-									<tr>
-										<td>Habitat for Humanity</td>
-										<td>2</td>
-										<td>Bruce Willis</td>
-										<td>bwillis@gmail.com</td>
-										<!--edit button-->
-
-										<td><a class="btn del" href="#"> <i
-												class="icon-check-sign icon-large"></i>Delete
-
-
-										</a> <a class="btn edit" href="#"> <i
-												class="icon-check-sign icon-large"></i>View Event Page
-
-
-										</a></td>
-									</tr>
-									<tr>
-								</table>
+							<!-- table title. -->
+							<div class="row" style="padding-left: 80px; padding-bottom: 20px">
+								<div class="col"></div>
 							</div>
+							<!-- A  (TODO/MAKE LIVE) list (data-table) of RSVP event of the current user -->
+							<table id="dtDynamicVerticalScroll"
+								class="table table-striped table-bordered table-sm"
+								cellspacing="0" width="100%" style="text-align: right;">
+								<thead>
+									<tr>
+
+										<th class="th-sm">Organization</th>
+										<th class="th-sm">Hours to be Completed</th>
+										<th class="th-sm">Contact</th>
+										<th class="th-sm">Contact E-Mail</th>
+										<th class="th-sm" colspan='3'>Actions</th>
+									</tr>
+								</thead>
+
+								<tr>
+									<td>Meals on Wheels</td>
+									<td>4</td>
+									<td>Heath Ledger</td>
+									<td>hledger@gmail.com</td>
+									<!--edit button-->
+
+									<td><a class="btn del" href="#"> <i
+											class="icon-check-sign icon-large"></i>Delete
+
+
+									</a> <a class="btn edit" href="#"> <i
+											class="icon-check-sign icon-large"></i>View Event Page
+
+
+									</a></td>
+								</tr>
+								<tr>
+								<tr>
+									<td>Volunteer with Service Station</td>
+									<td>7</td>
+									<td>Jason Statham</td>
+									<td>jstatham@gmail.com</td>
+									<!--edit button-->
+
+									<td><a class="btn del" href="#"> <i
+											class="icon-check-sign icon-large"></i>Delete
+
+
+									</a> <a class="btn edit" href="#"> <i
+											class="icon-check-sign icon-large"></i>View Event Page
+
+
+									</a></td>
+								</tr>
+								<tr>
+								<tr>
+									<td>Habitat for Humanity</td>
+									<td>2</td>
+									<td>Bruce Willis</td>
+									<td>bwillis@gmail.com</td>
+									<!--edit button-->
+
+									<td><a class="btn del" href="#"> <i
+											class="icon-check-sign icon-large"></i>Delete
+
+
+									</a> <a class="btn edit" href="#"> <i
+											class="icon-check-sign icon-large"></i>View Event Page
+
+
+									</a></td>
+								</tr>
+								<tr>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form>
+</div>
+</form>
 </div>
 
 
