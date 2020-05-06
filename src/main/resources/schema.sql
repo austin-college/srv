@@ -4,6 +4,7 @@ drop table if exists reasons;
 drop table if exists eventParticipants;
 drop table if exists eventType;
 drop table if exists events;
+drop table if exists serviceGroups;
 DROP TABLE IF EXISTS contacts;
 
 CREATE TABLE contacts (
@@ -87,11 +88,36 @@ CREATE TABLE eventParticipants (
 		on delete set NULL
 );
 
+
+
+CREATE TABLE serviceGroups (
+	serviceGroupId INTEGER AUTO_INCREMENT,
+	shortName VARCHAR(255),
+	title VARCHAR(255),
+	contactId INT,
+	primary key (serviceGroupId),
+	foreign key (contactId)
+		references contacts(contactId)
+		on delete set NULL
+	);
+
+
+
 CREATE TABLE eventTypes (
 	eventTypeId INTEGER AUTO_INCREMENT,
 	name VARCHAR(255),
 	description VARCHAR(255),
-	primary key (eventTypeId)
+	defaultHours INT,
+	pinHours boolean,
+	serviceClientId INT,
+	serviceGroupId INT,
+	primary key (eventTypeId),
+	foreign key (serviceClientId)
+		references events(serviceClientId)
+		on delete set NULL,
+	foreign key (serviceGroupId)
+		references serviceGroups(serviceGroupId)
+		on delete set NULL	
 	);
 
 
@@ -113,19 +139,6 @@ CREATE TABLE serviceHours (
 		on delete set NULL,
 	foreign key (eventId)
 		references events(eventId)
-		on delete set NULL
-	);
-
-
-
-CREATE TABLE serviceGroups (
-	serviceGroupId INTEGER AUTO_INCREMENT,
-	shortName VARCHAR(255),
-	title VARCHAR(255),
-	contactId INT,
-	primary key (serviceGroupId),
-	foreign key (contactId)
-		references contacts(contactId)
 		on delete set NULL
 	);
 
@@ -171,9 +184,15 @@ insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
 
-INSERT INTO eventTypes (name, description) VALUES('gds', 'Great Day of Service');
-INSERT INTO eventTypes (name, description) VALUES('fws', 'First We Serve');
-INSERT INTO eventTypes (name, description) VALUES('rbd', 'Roo Bound');
+
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
+INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
+
+
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('gds', 'Great Day of Service', 2, true, 1, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('fws', 'First We Serve', 2, true, 2, 2);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('rbd', 'Roo Bound', 3, true, 1, 3);
 
 
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
@@ -181,8 +200,3 @@ INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, refle
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
-
-
-INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
-INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
-INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
