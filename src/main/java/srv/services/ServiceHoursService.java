@@ -1,6 +1,8 @@
 package srv.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +94,43 @@ public class ServiceHoursService {
 		}
 		
 		return hrs.get(index);
-}
+	}
+	
+	/**
+	 * returns the total hours served in a semester. 
+	 * @param id
+	 * @return
+	 */
+	public double getSemTot(List<ServiceHours> hours) {
+		double avg = 0;
+		
+		
+		//get current month and date
+//		Date date = new Date();
+//		SimpleDateFormat yForm = new SimpleDateFormat("yyyy");
+//		SimpleDateFormat mForm = new SimpleDateFormat("MM");
+//		int year = Integer.parseInt(yForm.format(date));
+//		int month = Integer.parseInt(mForm.format(date));
+//		System.out.println(hours.get(0).getDate());
+		//create a new list that only includes hours from the last semester
+//		List<ServiceHours> refHours;
+//		for(int i = 0; i < hours.size(); i++) {
+//			if(hours.get(i).getDate())
+//		}
+		//can't do any of the above because none of the hours have dates and their events don't exist yet
+		//for now just going to average the list of service hours until we can differentiate servants 
+		
+		//average list
+		for(int i = 0; i < hours.size(); i++) {
+			avg += hours.get(i).getHours();
+		}
+		System.out.println(hours.size() + ", " + avg);
+		avg = avg / hours.size();
+		
+		
+		return avg;
+	}
+	
+	
 	
 }	

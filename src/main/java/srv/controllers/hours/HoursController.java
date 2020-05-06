@@ -20,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import srv.domain.event.Event;
 import srv.domain.reason.Reason;
 import srv.domain.serviceHours.ServiceHours;
+import srv.domain.serviceHours.ServiceHoursDao;
 import srv.services.ServiceHoursService;
+import srv.utils.UserUtil;
 
 /**
  * This is the algorithm that prepares the response.
@@ -55,6 +57,19 @@ public class HoursController {
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 
 		mav.addObject("hours", hrSvc.listHours());
+		
+		try {
+			//average hours served per semester
+			mav.addObject("semTot", hrSvc.getSemTot(hrSvc.listHours())); 
+//			mav.addObject("termTot", hrSvc.getTermTot(hrSvc.listHours()); //average hours served per term
+//			mav.addObject("totOrgs", hrSvc.getTotOrgs(hrSvc.listHours()); //total organizations helped
+//			mav.addObject("avgPerMo", hrSvc.getPerMo(hrSvc.listHours()); //average hours served per month
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+		
 		return mav;
 	}
 	
