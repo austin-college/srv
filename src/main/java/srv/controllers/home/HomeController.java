@@ -28,13 +28,8 @@ import srv.utils.UserUtil;
 /**
  * 
  * this algorithm prepares the response 
- * 	- Michael Higgs
- * 
  * @author Conor Mackey
  * 
- * [Conor's comments] Not sure how to make these show up after the user logs in as either a 
- * board member or an admin, but I thought this would be helpful to have for when someone
- * smarter than me takes over. 
  * 
  *
  */
@@ -44,9 +39,6 @@ import srv.utils.UserUtil;
 public class HomeController {
 	
 	private static Logger log = LoggerFactory.getLogger(HomeController.class);
-	
-	@Autowired
-	EventDao dao;
 
 	/**
 	 * All requests to /home are protected.  The user must authenticate successfully.
@@ -57,7 +49,7 @@ public class HomeController {
 	 * @param attributes
 	 * @return
 	 */
-	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT" })
+	
     @GetMapping("/home")
     public RedirectView redirectAll ( RedirectAttributes attributes) {
           	
@@ -84,7 +76,12 @@ public class HomeController {
       return new RedirectView(destUrl);
     }
     
-    
+    /**
+     * displays the board member home page
+     * @param request
+     * @param response
+     * @return
+     */
 	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN"})
 	@GetMapping("/home/boardMember")
 	public ModelAndView boardMemberAction(HttpServletRequest request, HttpServletResponse response) {
@@ -93,6 +90,13 @@ public class HomeController {
 
 		return mav;
 	}
+	
+	/**
+	 * displays the admin edit board member/co chair page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("/home/admin/editBM")
 	public ModelAndView adminEditBMAction(HttpServletRequest request, HttpServletResponse response) {
@@ -102,31 +106,12 @@ public class HomeController {
 		return mav;
 	}
 	
-	@Secured("ROLE_ADMIN")
-	@GetMapping("/home/admin/manageEvents")
-	public ModelAndView adminManageEventsAction(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView mav = new ModelAndView("home/adminManageEvents");
-		
-		try {
-			
-			// Lists the current events in the event database in a table
-			List<Event> myEvents = dao.listAll();
-			mav.addObject("events", myEvents);
-			
-
-		} catch (Exception e) {
-
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return mav;
-	}
-	
+	/**
+	 * displays the admin home page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("/home/admin")
 	public ModelAndView adminAction(HttpServletRequest request, HttpServletResponse response) {
@@ -136,6 +121,12 @@ public class HomeController {
 		return mav;
 	}
 	
+	/**
+	 * displays the default home page for servants
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@GetMapping("/home/servant")
 	public ModelAndView servantAction(HttpServletRequest request, HttpServletResponse response) {
 
