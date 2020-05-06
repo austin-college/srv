@@ -50,7 +50,7 @@ public class EventController {
 	 * @return
 	 */
 	@Secured("ROLE_ADMIN")
-	@GetMapping("/events")
+	@GetMapping("home/admin/manageEvents")
 	public ModelAndView adminManageEventsAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");
