@@ -7,16 +7,27 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
-import srv.domain.contact.Contact;
+import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
 
+@ComponentScan("srv.config")
 public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements EventTypeDao {
 
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateEventTypeDao.class);
+	
+	@Autowired
+	JdbcTemplateServiceClientDao scdao;
+	
+	@Autowired
+	JdbcTemplateServiceGroupDao sgdao;
+	
 	
 	// Default Constructor
 	public JdbcTemplateEventTypeDao() {
@@ -30,7 +41,8 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	public List<EventType> listAll() throws Exception {
 		
 		List<EventType> results = getJdbcTemplate()
-				.query("select eventTypeId, name, description from eventTypes", new EventTypeRowMapper());
+				.query("select eventTypeId, name, description, defaultHours, pinHours, "
+						+ "serviceClientId, serviceGroupId from eventTypes", new EventTypeRowMapper());
 		 
 		return results;
 	}
@@ -40,10 +52,11 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	 * An exception is thrown if the new EventType is a duplicate. 
 	 */
 	@Override
-	public EventType create(String name, String description) throws Exception {
+	public EventType create(String name, String description, int defHours, boolean pinHours, Integer scid, Integer sgid) throws Exception {
 
 		// SQL statement that is to be executed
-		final String sql = "INSERT INTO eventTypes (name, description) VALUES(?, ?)";
+		final String sql = "INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) "
+				+ "VALUES(?, ?, ?, ?, ?, ?)";
 		
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -53,6 +66,10 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"eventTypeId"});
 	                  ps.setString(1, name);
 	                  ps.setString(2, description);
+	                  ps.setInt(3, defHours);
+	                  ps.setBoolean(4, pinHours);
+	                  ps.setInt(5, scid);
+	                  ps.setInt(6, sgid);
 	                  return ps;
 	              }, keyHolder);
 		
@@ -92,11 +109,12 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	 * An exception is thrown if the EventType is unable to be updates (does not exist).
 	 */
 	@Override
-	public void update(int etid,  String name, String description) throws Exception {
+	public void update(int etid,  String name, String description, int defHours, boolean pinHours, Integer scid, Integer sgid) throws Exception {
 		
 		int rc = getJdbcTemplate().update(
-				"UPDATE eventTypes SET name = ?, description = ? WHERE eventTypeId = ?", 
-				new Object[] {name, description, etid});
+				"UPDATE eventTypes SET name = ?, description = ?, defaultHours = ?, "
+				+ "pinHours = ?, serviceClientId = ?, serviceGroupId = ? WHERE eventTypeId = ?", 
+				new Object[] {name, description, defHours, pinHours, scid, sgid, etid});
 
 		if (rc < 1) {
 			String msg = String.format("Unable to update eventType [%]", etid);
@@ -113,7 +131,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	@Override
 	public EventType fetchEventTypeById(int etid) throws Exception {
 		
-		String sqlStr = String.format("SELECT eventTypeId, name, description"
+		String sqlStr = String.format("SELECT eventTypeId, name, description, defaultHours, pinHours, serviceClientId, serviceGroupId"
 				+ " FROM eventTypes WHERE eventTypeId = %d", etid);
 		log.debug(sqlStr);
 		
@@ -136,7 +154,11 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	    	try {
 	    			et.setEtid(rs.getInt("eventTypeId"))
 	    			.setName(rs.getString("name"))
-	    			.setDescription(rs.getString("description"));
+	    			.setDescription(rs.getString("description"))
+	    			.setDefHours(rs.getInt("defaultHours"))
+	    			.setPinHours(rs.getBoolean("pinHours"))
+	    			.setDefClient(scdao.fetchClientById(rs.getInt("serviceClientId")))
+	    			.setDefOrg(sgdao.fetchServiceGroupById(rs.getInt("serviceGroupId")));
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
 	    	}

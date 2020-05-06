@@ -1,0 +1,280 @@
+<#import "/main_layout.html" as layout />
+<@layout.stdpage "User Home" "home.css" "servant/userHome.js">
+
+<div class="container servant-profile">
+	<form method="post">
+		<div class="row">
+			<div class="col-md-4">
+				<i class='fas fa-user-circle' style="color: black;"></i><br></br>
+				<div class="btn edit" style="width: 40%"; >Change Photo</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="profile-head">
+					<h5>Kristin Stewart</h5>
+					<h6>Servant</h6>
+
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item"><a class="nav-link active" id="home-tab"
+							data-toggle="tab" href="#home" role="tab" aria-controls="home"
+							aria-selected="true">My Info</a></li>
+						<li class="nav-item"><a class="nav-link" id="profile-tab"
+							data-toggle="tab" href="#profile" role="tab"
+							aria-controls="profile" aria-selected="false">My RSVP's</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<input class="btn edit" style="width: 70%" value="Edit Profile" />
+			</div>
+		</div>
+		<div class="row" style="align: center">
+			<div class="col-md-4">
+
+				<p></p>
+				<!-- Contains list of announcements -->
+				<h4>
+					Upcoming Events Needing Volunteers
+					</h3>
+					<div id="annListCol" class="col-sm">
+						<div id="announceList" class="list-group">
+							<!-- Links -->
+							<a href="#" class="list-group-item list-group-item-action ">Habitat
+								for Humanity Build Next Saturday</a> <a href="#"
+								class="list-group-item list-group-item-action ">Meals on
+								Wheels Event - March 17th</a> <a href="#"
+								class="list-group-item list-group-item-action ">Lake Texoma
+								Cleanup - March 28th</a> <a href="#"
+								class="list-group-item list-group-item-action ">Sherman
+								Animal Shelter Volunteers</a> <a href="#"
+								class="list-group-item list-group-item-action ">Crisis
+								Center Volunteers</a>
+						</div>
+						<div id="seeAllCol" class="col-sm">
+							<a id="seeAllLink" href="#">See All</a>
+						</div>
+					</div>
+			</div>
+			<div class="col-md-8">
+				<div class="tab-content profile-tab" id="myTabContent">
+					<div class="tab-pane fade show active" id="home" role="tabpanel"
+						aria-labelledby="home-tab">
+						<div class="container-tableBackground">
+								<!-- container thats creating a table that will hold our data-->
+								<div class="container ui-widget">
+									<div Id="table" class="row">
+										<table
+											class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+											<thead>
+												<tr class="ui-widget-header" style="width: 40%">
+													<th>Total Hours Served</th>
+													<th class="wtTh">13</th>
+												</tr>
+
+											</thead>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div>
+							</div>
+							<div class="row">
+							<div class="col-md-6">
+								<label><b>UserID:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>Kstewart13</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Name:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>Kristin Stewart</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Email:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>kstewart13@austincollege.edu</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Phone:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>123 456 7890</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Interests:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>Construction, Arts, assisting elderly</p>
+								
+							</div>
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="profile" role="tabpanel"
+						aria-labelledby="profile-tab">
+						<div class="row">
+							<div id="findOpElements" class="container-fluid">
+
+
+
+							<!-- table title. -->
+							<div class="row" style="padding-left: 80px; padding-bottom: 20px">
+								<div class="col"></div>
+							</div>
+							<!-- A  (TODO/MAKE LIVE) list (data-table) of RSVP event of the current user -->
+							<table id="dtDynamicVerticalScroll"
+								class="table table-striped table-bordered table-sm"
+								cellspacing="0" width="100%" style="text-align: right;">
+								<thead>
+									<tr>
+
+										<th class="th-sm">Organization</th>
+										<th class="th-sm">Hours to be Completed</th>
+										<th class="th-sm">Contact</th>
+										<th class="th-sm">Contact E-Mail</th>
+										<th class="th-sm">Event Date</th>
+										<th class="th-sm">Event Location</th>
+										<th class="th-sm" colspan='3'>Actions</th>
+									</tr>
+								</thead>
+
+								<tr>
+									<td>Meals on Wheels</td>
+									<td>4</td>
+									<td>Heath Ledger</td>
+									<td>hledger@gmail.com</td>
+									<td>5/30/20</td>
+									<td>123 abc ave, Sherman, Texas</td>
+
+									<!--edit button-->
+
+									<td><a class="btn del" href="#"> <i
+											class="icon-check-sign icon-large"></i>De-register
+
+
+									</a> <a class="btn edit" href="#"> <i
+											class="icon-check-sign icon-large"></i>View Event Page
+
+
+									</a></td>
+								</tr>
+								<tr>
+								<tr>
+									<td>Volunteer with Service Station</td>
+									<td>7</td>
+									<td>Jason Statham</td>
+									<td>jstatham@gmail.com</td>
+									<td>5/30/20</td>
+									<td>123 abc ave, Sherman, Texas</td>
+									<!--edit button-->
+
+									<td><a class="btn del" href="#"> <i
+											class="icon-check-sign icon-large"></i>De-register
+
+
+									</a> <a class="btn edit" href="#"> <i
+											class="icon-check-sign icon-large"></i>View Event Page
+
+
+									</a></td>
+								</tr>
+								<tr>
+								<tr>
+									<td>Habitat for Humanity</td>
+									<td>2</td>
+									<td>Bruce Willis</td>
+									<td>bwillis@gmail.com</td>
+									<td>5/30/20</td>
+									<td>123 abc ave, Sherman, Texas</td>
+									<!--edit button-->
+
+									<td><a class="btn del" href="#"> <i
+											class="icon-check-sign icon-large"></i>De-register
+
+
+									</a> <a class="btn edit" href="#"> <i
+											class="icon-check-sign icon-large"></i>View Event Page
+
+
+									</a></td>
+								</tr>
+								<tr>
+							</table>
+							<div class="row">
+									<div id="findOpTitle" class=".col-sm" style="text-align: right">
+										<h4>Other Service Opportunities</h4>
+										<hr class=".col-sm-11">
+									</div>
+								</div>
+
+								<div id="rowIcons" class="row opIcons justify-content-between">
+
+									<div class=".col-sm-1">
+										<a href="#" class="dot"> <i class='fas fa-paw fa-3x'
+											style="vertical-align: middle;"></i>
+										</a>
+										<div class="opLabel">
+											<a href="#">Animals</a>
+										</div>
+									</div>
+									<div class=".col-sm-1">
+										<a href="#" class="dot"> <i class='fas fa-music fa-3x'
+											style="vertical-align: middle;"></i>
+										</a>
+										<div class="opLabel">
+											<a href="#">Arts & Culture</a>
+										</div>
+									</div>
+
+									<div class=".col-sm-1">
+										<a href="#" class="dot"> <i
+											class='fas fa-graduation-cap fa-3x'
+											style="vertical-align: middle;"></i>
+										</a>
+										<div class="opLabel">
+											<a href="#">Education</a>
+										</div>
+									</div>
+
+									<div class=".col-sm-1">
+										<a href="#" class="dot"> <i
+											class='fas fa-stethoscope fa-3x'
+											style="vertical-align: middle;"></i>
+										</a>
+										<div class="opLabel">
+											<a href="#">Health & Medicine</a>
+										</div>
+									</div>
+									<div class=".col-sm-1">
+										<a href="#" class="dot"> <i
+											class='fas fa-ellipsis-h fa-3x'
+											style="vertical-align: middle;"></i>
+										</a>
+										<div class="opLabel">
+											<a href="#">More</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+</div>
+
+
+</@layout.stdpage>

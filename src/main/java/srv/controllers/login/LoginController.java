@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 @Controller
+@EnableWebSecurity
 public class LoginController {
 
 
@@ -65,6 +68,7 @@ public class LoginController {
      */
     @GetMapping("/logout")
     @PostMapping("/logout")
+    @Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT"})
     public ModelAndView handleLogoutPost(HttpServletRequest request, HttpServletResponse response ) throws IOException {
     	
     	request.getSession().removeAttribute("user");
