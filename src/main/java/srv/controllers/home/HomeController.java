@@ -44,9 +44,6 @@ import srv.utils.UserUtil;
 public class HomeController {
 	
 	private static Logger log = LoggerFactory.getLogger(HomeController.class);
-	
-	@Autowired
-	EventDao dao;
 
 	/**
 	 * All requests to /home are protected.  The user must authenticate successfully.
@@ -57,7 +54,7 @@ public class HomeController {
 	 * @param attributes
 	 * @return
 	 */
-	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT" })
+	
     @GetMapping("/home")
     public RedirectView redirectAll ( RedirectAttributes attributes) {
           	
@@ -98,31 +95,6 @@ public class HomeController {
 	public ModelAndView adminEditBMAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("home/editBM");
-
-		return mav;
-	}
-	
-	@Secured("ROLE_ADMIN")
-	@GetMapping("/home/admin/manageEvents")
-	public ModelAndView adminManageEventsAction(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView mav = new ModelAndView("home/adminManageEvents");
-		
-		try {
-			
-			// Lists the current events in the event database in a table
-			List<Event> myEvents = dao.listAll();
-			mav.addObject("events", myEvents);
-			
-
-		} catch (Exception e) {
-
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return mav;
 	}

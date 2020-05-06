@@ -166,6 +166,8 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Community');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('For Testing Only', 2, 3, 'Rick Astley', 'Crisis Support');
+
 
 insert into users (username, contactId) values ('apritchard', 4);
 insert into users (username, contactId) values ('hCouturier', 5);
