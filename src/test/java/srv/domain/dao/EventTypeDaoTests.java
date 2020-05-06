@@ -38,18 +38,30 @@ class EventTypeDaoTests {
 		assertEquals(1, et01.getEtid());
 		assertEquals("gds", et01.getName());
 		assertEquals("Great Day of Service", et01.getDescription());
+		assertEquals(2, et01.getDefHours());
+		assertEquals(true, et01.isPinHours());
+		assertEquals(1, et01.getDefClient().getScid());
+		assertEquals(1, et01.getDefOrg().getSgid());
 
 		EventType et02 = dao.fetchEventTypeById(2);
 
 		assertEquals(2, et02.getEtid());
 		assertEquals("fws", et02.getName());
 		assertEquals("First We Serve", et02.getDescription());
-
+		assertEquals(2, et02.getDefHours());
+		assertEquals(true, et02.isPinHours());
+		assertEquals(2, et02.getDefClient().getScid());
+		assertEquals(2, et02.getDefOrg().getSgid());
+		
 		EventType et03 = dao.fetchEventTypeById(3);
 
 		assertEquals(3, et03.getEtid());
 		assertEquals("rbd", et03.getName());
 		assertEquals("Roo Bound", et03.getDescription());
+		assertEquals(3, et03.getDefHours());
+		assertEquals(true, et03.isPinHours());
+		assertEquals(1, et03.getDefClient().getScid());
+		assertEquals(3, et03.getDefOrg().getSgid());
 
 	}
 	
@@ -87,7 +99,7 @@ class EventTypeDaoTests {
 			System.err.println(et.getName());
 		}
 		
-		EventType newET = dao.create("et04", "Event Type 4 Description");
+		EventType newET = dao.create("et04", "Event Type 4 Description", 2, true, 2, 1);
 		
 		assertNotNull(newET);
 		
@@ -108,6 +120,10 @@ class EventTypeDaoTests {
 		assertEquals(4, et4.getEtid());
 		assertEquals("et04", et4.getName());
 		assertEquals("Event Type 4 Description", et4.getDescription());
+		assertEquals(2, et4.getDefHours());
+		assertEquals(true, et4.isPinHours());
+		assertEquals(2, et4.getDefClient().getScid());
+		assertEquals(1, et4.getDefOrg().getSgid());
 	}
 	
 	/*
@@ -137,12 +153,16 @@ class EventTypeDaoTests {
 	@Test
 	void testUpdate_whenUsingJdbcTemplate() throws Exception{
 		
-		dao.update(1, "GreatDayOfService", "Austin College Hosted Event");
+		dao.update(1, "GreatDayOfService", "Austin College Hosted Event", 4, false, 2, 2);
 		
 		EventType et1 = dao.fetchEventTypeById(1);
 		
 		assertEquals("GreatDayOfService", et1.getName());
 		assertEquals("Austin College Hosted Event", et1.getDescription());
+		assertEquals(4, et1.getDefHours());
+		assertEquals(false, et1.isPinHours());
+		assertEquals(2, et1.getDefClient().getScid());
+		assertEquals(2, et1.getDefOrg().getSgid());
 	}
 	
 	

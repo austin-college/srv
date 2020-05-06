@@ -14,7 +14,8 @@ public interface EventTypeDao {
 
 	public List<EventType> listAll() throws Exception;
 	
-	public EventType create(String name, String description) throws Exception;
+	public EventType create(String name, String description, int defHours,
+			boolean pinHours, Integer scid, Integer sgid) throws Exception;
 
 	/**
 	 * @param etid unique EventType ID
@@ -22,7 +23,8 @@ public interface EventTypeDao {
 	 */
 	public void delete(int etid) throws Exception;
 
-	public void update(int etid, String name, String description) throws Exception;
+	public void update(int etid, String name, String description, int defHours,
+			boolean pinHours, Integer scid, Integer sgid) throws Exception;
 
 	/**
 	 * @param etid unique EventType ID

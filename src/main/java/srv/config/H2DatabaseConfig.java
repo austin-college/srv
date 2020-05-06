@@ -91,12 +91,6 @@ public class H2DatabaseConfig {
 		return new BoardMemberHoursListService();
 	}
 	
-//	
-//	@Bean
-//	public JdbcTemplateServiceGroupDao ServiceGroupDao() {
-//		return new JdbcTemplateServiceGroupDao();
-
-//	}
 	
 	@Bean
 	public JdbcTemplateServiceGroupDao serviceGroupDao() {
