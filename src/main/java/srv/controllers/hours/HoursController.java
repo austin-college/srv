@@ -1,12 +1,16 @@
 package srv.controllers.hours;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import srv.domain.event.Event;
+import srv.domain.reason.Reason;
+import srv.domain.serviceHours.ServiceHours;
 import srv.services.ServiceHoursService;
 
 /**
@@ -24,6 +30,8 @@ import srv.services.ServiceHoursService;
  */
 
 @Controller
+@EnableWebSecurity
+@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT"})
 public class HoursController {
 
 	private static Logger log = LoggerFactory.getLogger(HoursController.class);
@@ -133,4 +141,37 @@ public class HoursController {
 
 		return mav;
 	}
+	
+	/** 
+	    * This request handle renders an entire page useful for testing only.   This
+	    * is not part of our actual site.
+	    */
+	   @GetMapping("/test/hours")
+	   public ModelAndView handleReasonRequest(HttpServletRequest request, HttpServletResponse response) {
+		   
+		   ModelAndView mav = new ModelAndView("test/hoursTestView");
+
+
+		   try {
+			   
+			int cnt = hrSvc.listHours().size();
+			
+			mav.addObject("count",cnt);
+			
+			List<ServiceHours> myHours = hrSvc.listHours();
+			
+			mav.addObject("serviceHours", myHours );
+			
+			} catch (Exception e) {
+				
+				System.err.println("\n\n ERROR ");
+				System.err.println(e.getMessage());
+				
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   
+		   
+		   return mav;
+	   }
 }

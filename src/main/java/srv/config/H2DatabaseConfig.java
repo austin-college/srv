@@ -84,6 +84,7 @@ public class H2DatabaseConfig {
 		return new ServiceHoursService();
 		
 	}
+	
 	/*TODO Unsure if this Bean should be made*/
 	@Bean
 	public BoardMemberHoursListService bmHrListSrv() {

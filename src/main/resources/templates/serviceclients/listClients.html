@@ -15,7 +15,8 @@
 			<h1>Service Client List</h1>
 		</div>
 	</div>
-
+	
+	<#if userAdmin>
 	<!-- The row below contains the button to add another organization to the table. -->
 	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
 		<div id="addBtnContainer" class="col-sm-3 widget rounded">
@@ -24,6 +25,7 @@
 				value="Add Service Client" />
 		</div>
 	</div>
+	</#if>
 
 	<!-- The row below contains the table of service clients. -->
 	<div class="row">
@@ -40,11 +42,17 @@
 							<th rowspan="2">Primary Contact Name</th>
 							<th rowspan="2">Board Member</th>
 							<th rowspan="2">Category</th>
+							<#if userAdmin>
 							<th colspan='2'>Actions</th>
+							</#if>	
 						</tr>
 						<tr>
+							<#if userAdmin>
 							<th>Edit</th>
 							<th>Delete</th>
+							<#else>
+							<th>Action</th>
+							</#if>
 						</tr>
 					</thead>
 					<tbody id="sc_tbl_body">
@@ -63,11 +71,13 @@
 									<span class="fas fa-pencil-alt"></span> Edit
 								</button>
 							</td>
+							<#if userAdmin>
 							<td class="text-center">
 								<button type="button" class="del btn" onDelClick="${sc.scid?c}">
 									<span class="fas fa-trash-alt"></span> Delete
 								</button>
 							</td>
+							</#if>
 						</tr>
 						</#list>
 					</tbody>
@@ -75,7 +85,8 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<#if userAdmin>
 	<!-- The row below contains the button to add another service client to the table. -->
 	<div class="row" style="padding-left: 30px">
 		<div id="addBtnContainer" class="col-sm-3 widget rounded">
@@ -84,6 +95,7 @@
 				value="Add Service Client" />
 		</div>
 	</div>
+	</#if>
 
 	<!-- The div below defines the delete dialog for deleting an service client which is hidden by JS and exposed by JQ. -->
 	<div id="delDlg" title="DELETE SELECTED ORGANIZATION"
@@ -277,17 +289,26 @@
 								<label for="editDlg_name"><b>Name of Service Client</b></label>
 							</div>
 							<div class='col-sm-6'>
-								<input id="editDlg_name" class="form-control" size=50>
+								<#if userAdmin>
+									<input id="editDlg_name" class="form-control" size=50>
+								<#else>
+									<input id="editDlg_name" class="form-control" size=50 readonly>
+								</#if>
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="editDlg_bmName"><b>Board Member:</b></label> <input
-									class="form-control" id="editDlg_bmName">
+								<label for="editDlg_bmName"><b>Board Member:</b></label>
+								<#if userAdmin>
+									 <input class="form-control" id="editDlg_bmName" >
+								 <#else>
+								 	<input class="form-control" id="editDlg_bmName" readonly>
+								 </#if>
 							</div>
 							<div class="form-group col-md-6">
-								<label for="editDlg_cat"><b>Category</b></label> <select
-									id="editDlg_cat" class="form-control">
+								<label for="editDlg_cat"><b>Category</b></label> 
+								<#if userAdmin>
+								<select	id="editDlg_cat" class="form-control">
 									<option value="Animals">Animals</option>
 									<option value="Community">Community</option>
 									<option value="Education">Education</option>
@@ -295,6 +316,9 @@
 									<option value="Medical">Medical</option>
 									<option value="Crisis Support">Crisis Support</option>
 								</select>
+								<#else>
+								 <input	class="form-control" id="editDlg_cat" readonly>
+								</#if>
 							</div>
 						</div>
 						<div class='row'>

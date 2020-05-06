@@ -1,0 +1,25 @@
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage title="Service Hours Test" cssname="" >
+
+<!-- Page Content -->
+<div class="container-fluid">
+	<p>We have ${count} services logged.</p>
+	<div>
+		<#if serviceHours?? >
+			<ul>
+			<#list serviceHours as sh>
+				<li  id="row_${sh.shid}"> Num: ${sh.shid!"UNKNOWN"}, ${sh.hours!"0"} hours, Event Title: ${sh.event.title!"UNKNOWN"}</li>
+			</#list>
+			</ul>
+	<#else>
+	<div class="warning">
+		We have no service hours!
+	</div>
+	</#if>
+
+
+	</div>
+</div>
+
+</@layout.stdpage>
