@@ -239,24 +239,46 @@ class EventDaoTests {
 	@Test
 	void testUpdate_whenUsingJdbcTemplate() throws Exception {
 
-		int id = 1;
-		Event e1 = dao.fetchEventById(id);
-
-		assertEquals(id, e1.getEid());
-
-		assertEquals("Dummy Event 1", e1.getTitle());
-
-		String newEventname = "new Eventname";
-		int newContact = 5;
-
-		// update each item
-
-		dao.update(id, newEventname, e1.getAddress(), newContact, e1.getDate(), "", e1.isContinuous(),
-				e1.getVolunteersNeeded(), (int) e1.getServiceClient().getScid(), 0.0, 0.0, " ");
-
-		e1 = dao.fetchEventById(id);
-
-		assertEquals(newEventname, e1.getTitle());
+		/*
+		 * Use update dao method
+		 */
+		dao.update(1, "COOLER EVENT", "1345 Murder Hornet Dr.", 1, "06/36/2020", "EVENT TYPE", true, 100, 1, 30, 15, "they're coming");
+		
+		Event ue = dao.fetchEventById(1);
+		
+		/*
+		 * checking contents of updated client id 1 to match update
+		 */
+		assertEquals(1, ue.getEid());
+		assertEquals("COOLER EVENT", ue.getTitle());
+		assertEquals("1345 Murder Hornet Dr.", ue.getAddress());
+		assertEquals(1, ue.getContact().getContactId());
+		assertEquals("06/36/2020", ue.getDate());
+		assertEquals("EVENT TYPE", ue.getTypeString());
+		assertEquals(true, ue.isContinuous());
+		assertEquals(100, ue.getVolunteersNeeded());
+		assertEquals(30, ue.getNeededVolunteerHours());
+		assertEquals(15, ue.getRsvpVolunteerHours());
+		assertEquals("they're coming", ue.getFreeTextField());
+		/*
+		 * int id = 1; Event e1 = dao.fetchEventById(id);
+		 * 
+		 * assertEquals(id, e1.getEid());
+		 * 
+		 * assertEquals("Dummy Event 1", e1.getTitle());
+		 * 
+		 * String newEventname = "new Eventname"; int newContact = 5;
+		 * 
+		 * // update each item
+		 * 
+		 * dao.update(id, newEventname, e1.getAddress(), newContact, e1.getDate(), "",
+		 * e1.isContinuous(), e1.getVolunteersNeeded(), (int)
+		 * e1.getServiceClient().getScid(), 0.0, 0.0, " ");
+		 * 
+		 * e1 = dao.fetchEventById(id);
+		 * 
+		 * assertEquals(newEventname, e1.getTitle());
+		 */
 
 	}
 
