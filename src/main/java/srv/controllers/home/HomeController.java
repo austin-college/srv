@@ -1,7 +1,5 @@
 package srv.controllers.home;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,19 +10,10 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import srv.domain.contact.Contact;
-import srv.domain.event.Event;
-import srv.domain.event.EventDao;
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceClient.ServiceClientDao;
-import srv.domain.user.JdbcTemplateUserDao;
-import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
 
 /**
@@ -42,6 +31,11 @@ public class HomeController {
 	
 	private static Logger log = LoggerFactory.getLogger(HomeController.class);
 
+	
+	@Autowired
+	UserUtil userUtil;
+	
+	
 	/**
 	 * All requests to /home are protected.  The user must authenticate successfully.
 	 * We check the kind of user and redirect the client request to the proper home
@@ -62,11 +56,11 @@ public class HomeController {
 		   * Order of evaluation is important since an ADMIN has all three roles
 		   * and the boardMember has two roles.        
 		   */
-		  if (UserUtil.userIsServant()) destUrl = "/srv/home/servant";
+		  if (userUtil.userIsServant()) destUrl = "/srv/home/servant";
 		  
-		  if (UserUtil.userIsBoardMember()) destUrl = "/srv/home/boardMember";
+		  if (userUtil.userIsBoardMember()) destUrl = "/srv/home/boardMember";
 		  
-		  if (UserUtil.userIsAdmin()) destUrl = "/srv/home/admin";
+		  if (userUtil.userIsAdmin()) destUrl = "/srv/home/admin";
 		  
 		} catch (Exception e) {
 			log.error("Unknown user.  We cannot determine the user role."); 

@@ -12,10 +12,9 @@ import org.springframework.stereotype.Repository;
 @ComponentScan("srv.config")
 public abstract class JdbcTemplateAbstractDao {
 	
-	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-
+	protected JdbcTemplate jdbcTemplate;
+	
 	
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;

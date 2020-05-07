@@ -61,28 +61,7 @@ public class HoursController {
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 
 		mav.addObject("hours", hrSvc.listHours());
-		
-		/*
-		 * TODO BAD CODE SEE USER UTIL FOR MORE INFO
-		 * 
-		 * make changes to UserUtil.java and HoursControllerTests & HomeController
-		 * 
-		 * see viewHours.html
-		 * fix HoursControllerTests also by removing the mock bean for the user template
-		 * 
-		 * when a servant user goes to the view hours page, it will display their name
-		 * line 74 shows how we use the UserUtil to obtain the current user's first name
-		 * then how we use a freemarker variable to inject that name into the view hours page
-		 * 
-		 * see viewHours.html line 15
-		 */
-		try {
-			mav.addObject("userFn",UserUtil.currentUser(uDao).getContactInfo().getFirstName());
-			
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	
 		
 		try {
 			mav.addObject("semTot", hrSvc.getSemTot(hrSvc.listHours())); //total hours served per semester

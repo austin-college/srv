@@ -49,7 +49,7 @@ public class ReasonControllerTest {
     public void basicHtmlPageTest() throws Exception {
          
     	// train the service to return 2 when asked for count
-       when(service.reasonCount()).thenReturn(2);
+    	when(service.reasonCount()).thenReturn(2);
        
        // train the dao to ask for these when asked to listAll reasons.
 		Reason r1 = new Reason().setRid(1).setReason("reason one");

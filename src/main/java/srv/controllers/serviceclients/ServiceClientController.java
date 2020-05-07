@@ -29,6 +29,9 @@ public class ServiceClientController {
 	
 	@Autowired
 	ContactDao cDao;
+	
+	@Autowired
+	UserUtil userUtil;
 
 	@GetMapping("/sc/list")
 	public ModelAndView listAction(HttpServletRequest request, HttpServletResponse response) { 
@@ -47,7 +50,7 @@ public class ServiceClientController {
 			
 			// Checks to see if the current user is an admin, if so displays the add, edit, and delete buttons of the service client list
 			// otherwise the buttons are gone.
-			mav.addObject("userAdmin",UserUtil.userIsAdmin());
+			mav.addObject("userAdmin",userUtil.userIsAdmin());
 
 		} catch (Exception e) {
 

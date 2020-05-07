@@ -14,6 +14,7 @@ import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.BoardMemberHoursListService;
 import srv.services.ServiceHoursService;
+import srv.utils.UserUtil;
 
 /**
  * This class is the home for runtime configuration for our database. It creates
@@ -31,16 +32,22 @@ import srv.services.ServiceHoursService;
 @Configuration
 public class H2DatabaseConfig {
 
-	@Bean
-	public JdbcTemplateServiceClientDao serviceClientDao() {
-		return new JdbcTemplateServiceClientDao();
-	}
-
+	
+	/*
+	 * DAO beans 
+	 */
+	
 	@Bean
 	public JdbcTemplateReasonDao reasonDao() {
 		return new JdbcTemplateReasonDao();
 	}
 
+	@Bean
+	public JdbcTemplateServiceClientDao serviceClientDao() {
+		return new JdbcTemplateServiceClientDao();
+	}
+
+	
 	@Bean
 	public JdbcTemplateContactDao contactDao() {
 		return new JdbcTemplateContactDao();
@@ -96,6 +103,11 @@ public class H2DatabaseConfig {
 	public JdbcTemplateServiceGroupDao serviceGroupDao() {
 		return new JdbcTemplateServiceGroupDao();
 	}
+
+	
+	
+
+	
 
 
 }
