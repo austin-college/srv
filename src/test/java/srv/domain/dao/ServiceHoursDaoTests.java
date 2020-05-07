@@ -21,6 +21,7 @@ import srv.domain.contact.Contact;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceHours.ServiceHours;
 import srv.domain.serviceHours.ServiceHoursDao;
+import srv.services.ServiceHoursService;
 
 //add listAll method to viewHours hours controller with try catch 
 //check serviceClient controller
@@ -39,6 +40,9 @@ import srv.domain.serviceHours.ServiceHoursDao;
 class ServiceHoursDaoTests {
 
 	private static Logger log = LoggerFactory.getLogger(ServiceHoursDaoTests.class);
+	
+	@Autowired
+	ServiceHoursService hrSvc;
 
 	@Autowired
 	ServiceHoursDao dao;
@@ -257,6 +261,19 @@ class ServiceHoursDaoTests {
 		assertEquals("Pending", sh1.getStatus());
 		assertEquals("Painted a lot", sh1.getReflection());
 		assertEquals("House Painting", sh1.getDescription());
+	}
+	
+	/**
+	 * Tests the method that calculated the total hours served in the last semester.
+	 * currently cannot differentiate servants, since there is only one. This is
+	 * reflected in this test
+	 */
+	@Test
+	void testSemTot() throws Exception {
+		List<ServiceHours> hours = hrSvc.listHours();
+		double result = hrSvc.getSemTot(hours);
+		assertEquals(result, 3.5);
+		
 	}
 
 }
