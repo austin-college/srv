@@ -39,10 +39,10 @@ import srv.utils.UserUtil;
 @Controller
 @EnableWebSecurity
 public class HomeController {
-	//TODO BAD CODE SEE USER UTIL FOR MORE INFO
+	//TODO BAD CODE SEE USER UTIL FOR MORE INFO This will need to be fixed/removed when UserUtil and HoursController is fixed.
 		@Autowired
 		JdbcTemplateUserDao uDao;
-		@Autowired
+		@Autowired 
 		ServiceHoursService hrSvc;
 	private static Logger log = LoggerFactory.getLogger(HomeController.class);
 
