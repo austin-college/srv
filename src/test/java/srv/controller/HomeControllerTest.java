@@ -29,13 +29,14 @@ public class HomeControllerTest {
 	private MockMvc mvc;
 
 
+
 	@Test
 	@WithMockUser(username = "user", password = "user")
 	public void servantHomeRedirectionTest() throws Exception {
 
 		mvc.perform(get("/home").contentType(MediaType.TEXT_HTML))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("/srv/viewHours?userid=user"));
+		.andExpect(redirectedUrl("/srv/home/servant?userid=user"));
 
 	}
 
