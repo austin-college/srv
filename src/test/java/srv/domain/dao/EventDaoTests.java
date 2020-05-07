@@ -18,6 +18,14 @@ import srv.domain.event.Event;
 import srv.domain.event.EventDao;
 import srv.domain.event.eventParticipant.EventParticipant;
 
+/**
+ * NOTE: these tests have been made without the implementation of the EventType dao. 
+ * There is a dummy variable (typeString) holding the place of the eventType column. 
+ * DAO, JdbcTemplate, and tests need to be updated when EventTypeDao is implemented. 
+ * 
+ * @author fancynine9
+ *
+ */
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ComponentScan("srv.config")
@@ -59,6 +67,12 @@ class EventDaoTests {
 
 	}
 
+	/**
+	 * Tests the listAll method in the JdbcTemplateEventDao and makes sure 
+	 * the contents of each event are correctly gotten. 
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	void testListAll_whenUsingJdbcTemplate() throws Exception {
 
@@ -118,21 +132,69 @@ class EventDaoTests {
 
 	}
 
+	/**
+	 * Tests the create method in Dao by checking size, and getting the contents 
+	 * of the newly created event.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	void testCreate_whenUsingJdbcTemplate() throws Exception {
 
-		// System.err.println("Size of list before create is " + dao.listAll().size());
-
-		Event e1 = dao.create("Dummy Event 4", "Dummy Address 4", 1, "EVENT TYPE", "/0/0/0000", false, 5, 1, 0, 0, "");
-		Event e3 = dao.create("Dummy Event 5", "Dummy Address 5", 1, "EVENT TYPE", "/0/0/0000", false, 5, 2, 0, 0, "");
-
-		Event e2 = dao.fetchEventById(e1.getEid());
-
-		assertEquals(e1.getTitle(), e2.getTitle());
-
-		Event e4 = dao.fetchEventById(e3.getEid());
-
-		assertEquals(e3.getTitle(), e4.getTitle());
+		/*
+		 * checks the event list size and contents before we create a new one
+		 */
+		List<Event> eventsBefore = dao.listAll();
+		int numBeforeCreate = eventsBefore.size();
+		System.err.println("\n\nBefore Insert " + numBeforeCreate);
+		
+		for(Event e : eventsBefore) {
+			
+			System.err.println(e.getEid());
+		}
+		
+		/*
+		 * Creating new Event 
+		 */
+		Event ne = dao.create("EARTH DAY", "Dummy Address 4", 3, "03/12/2020", "EVENT TYPE", false, 10, 2, 12.0, 2.5, "save the earth!!!");
+		
+		assertNotNull(ne); // checking if null
+		
+		/*
+		 * testing size and contents of list after insert
+		 */
+		List<Event> eventsAfter = dao.listAll();
+		int numAfterCreate = eventsAfter.size();
+		
+		System.err.println("\n\nAfter Insert " + numAfterCreate);
+		
+		for(Event e : eventsAfter) {
+			System.err.println(e.getEid());
+		}
+		
+		/*
+		 * tests that next assigned id when successful should be numBeforeCreate+1.
+		 * 
+		 */
+		assertEquals(numBeforeCreate + 1, ne.getEid());
+		
+		/*
+		 * Checking contents of ne from eventsAfter to check contents inserted in table
+		 */
+		Event e4 = eventsAfter.get(3);
+		
+		assertEquals(4, e4.getEid());
+		assertEquals("EARTH DAY", e4.getTitle());
+		assertEquals("Dummy Address 4", e4.getAddress());
+		assertEquals(3, e4.getContact().getContactId());
+		assertEquals("03/12/2020", e4.getDate());
+		assertEquals("EVENT TYPE", e4.getTypeString()); // needs to be replaced with getType().getEventTypeId();
+		assertEquals(false, e4.isContinuous());
+		assertEquals(10, e4.getVolunteersNeeded());
+		assertEquals(2, e4.getServiceClient().getScid());
+		assertEquals(12.0, e4.getNeededVolunteerHours());
+		assertEquals(2.5, e4.getRsvpVolunteerHours());
+		assertEquals("save the earth!!!", e4.getFreeTextField());
 
 	}
 
