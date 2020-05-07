@@ -26,6 +26,7 @@ public class Event implements Serializable {
 	private Contact contact; // contact info
 	private String date; // date of event
 	private EventType type; // eventType TODO
+	private String typeString; //testing for eventType until it's implemented
 	private boolean continuous;// if event repeats??
 	private int volunteersNeeded; // 3 of volunteers needed
 	private ServiceClient serviceClient; // pet associated with event
@@ -88,6 +89,21 @@ public class Event implements Serializable {
 	public Event setDate(String date) {
 		this.date = date;
 		return this;
+	}
+	
+	/**
+	 * Temporary setter method to check for eventType in table until eventType dao is 
+	 * implemented
+	 * @param s
+	 * @return
+	 */
+	public Event setTypeString(String s) {
+	    this.typeString = s;
+	    return this;
+	}
+	
+	public String getTypeString() {
+		return typeString;
 	}
 
 	public EventType getType() {

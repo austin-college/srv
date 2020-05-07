@@ -179,11 +179,11 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title")).setAddress(rs.getString("address"))
 						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
-						.setType(null) // rs.getString("boardMem"))
+						.setTypeString(rs.getString("eventType")) // rs.getString("boardMem"))
 						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))
 						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))
 						.setNeededVolunteerHours(rs.getDouble("neededVolunteerHours"))
-						.setRsvpVolunteerHours(rs.getDouble(""))
+						.setRsvpVolunteerHours(rs.getDouble("rsvpVolunteerHours"))
 						.setFreeTextField(rs.getString("freeTextField"));
 
 			} catch (Exception e) {

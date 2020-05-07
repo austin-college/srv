@@ -176,9 +176,9 @@ insert into users (username, contactId) values ('user', 1);
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');
 
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 1', 'Dummy Address 1', 1, 'JANSERVE', '01/01/2020', false, 5, 1, 5.0, 3.0, 'free text field');
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 2', 'Dummy Address 2', 2, 'GREENSERVE', '05/05/2020', false, 10, 2, 3.0, 1.5, 'free text field');
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 3', 'Dummy Address 3', 3, 'HELPFUL EVENT', '03/03/2020', false, 15, 1, 4.0, 2.0, 'free text field');
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 1', 'Dummy Address 1', 1, '01/01/2020', 'JANSERVE', false, 5, 1, 5.0, 3.0, 'free text field');
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 2', 'Dummy Address 2', 2, '05/05/2020', 'GREENSERVE', false, 10, 2, 3.0, 1.5, 'free text field');
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 3', 'Dummy Address 3', 3, '03/03/2020', 'HELPFUL EVENT', false, 15, 1, 4.0, 2.0, 'free text field');
 
 insert into eventParticipants(eventId, userId) values (1, 2);
 insert into eventParticipants(eventId, userId) values (2, 2);
