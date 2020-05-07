@@ -171,6 +171,7 @@ INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, 
 insert into users (username, contactId) values ('apritchard', 4);
 insert into users (username, contactId) values ('hCouturier', 5);
 insert into users (username, contactId) values ('eDriscoll', 6);
+insert into users (username, contactId) values ('user', 1);
 
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');
