@@ -23,11 +23,20 @@ import srv.domain.user.UserDao;
  */
 public class UserUtil {
 	
-	public static User currentUser() throws Exception {
+	/*
+	 * TODO 
+	 * make changes to HoursController.java, HoursControllerTests.java
+	 * 
+	 * need to properly use the JdbcTemplateUserDao, before the dao was not autowired and thus
+	 * we had a null pointer exception when we tried to fetch the user's username. In order to bypass
+	 * this error we are passing in the template from the HoursController.java (where it is autowired)
+	 * but this will change 
+	 */
+	public static User currentUser(JdbcTemplateUserDao jdbcTUD) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		String auth_user_id = auth.getName();
-		return fetchUserByUserName(auth_user_id);
+		return fetchUserByUserName(auth_user_id, jdbcTUD);
 		
 	}
 	
@@ -119,8 +128,9 @@ public class UserUtil {
 		return hasAnyRole(AppConstants.ROLE_SERVANT);
 	}
 
-	private static User fetchUserByUserName(String auth_user_id) throws Exception {
-		JdbcTemplateUserDao jdbcTUD = new JdbcTemplateUserDao();
+	//TODO see the method above currentUser
+	private static User fetchUserByUserName(String auth_user_id, JdbcTemplateUserDao jdbcTUD) throws Exception {
+
 		return jdbcTUD.fetchUserByUserName(auth_user_id);
 		
 		

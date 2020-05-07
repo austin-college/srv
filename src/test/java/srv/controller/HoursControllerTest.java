@@ -28,6 +28,7 @@ import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceClient.ServiceClientDao;
 import srv.domain.serviceHours.ServiceHours;
 import srv.domain.serviceHours.ServiceHoursDao;
+import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
 
 @RunWith(SpringRunner.class)
@@ -42,6 +43,10 @@ public class HoursControllerTest {
 	
 	@MockBean
 	ServiceHoursDao dao;
+	
+	// TODO this will need to be fixed/removed when UserUtil and HoursController is fixed
+	@MockBean
+	JdbcTemplateUserDao uDao;
 
 	@Test
 	public void basicHtmlPageTest() throws Exception {
