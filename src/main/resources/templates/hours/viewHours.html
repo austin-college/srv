@@ -12,7 +12,7 @@
 			<div>
 				<div>
 				<!-- TODO To be replaced with live servant Name -->
-					<h1>Welcome, Servant</h1>
+					<h1>Welcome, ${userFn!"UNKOWN"}</h1>
 					<h2>Service Stats</h2>
 				</div>
 					<div class="container-tableBackground">
@@ -23,11 +23,14 @@
 									class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 									<thead>
 										<tr class="ui-widget-header">
-											<th>Hours Served</th>
-											<th class="wtTh">15</th>
+											<th>Hours Served This Semester</th>
+											<th class="wtTh">${semTot!"UNKNOWN"}</th>
+											<th>Hours Served This Term</th>
+											<th class="wtTh">${termTot!"UNKNOWN"}</th>
 											<th>Organizations Helped</th>
-											<th class="wtTh">2</th>
-											
+											<th class="wtTh">${totOrgs!"UNKNOWN"}</th>
+											<th>Average Hours Served per Month</th>
+											<th class="wtTh">${avgPerMo!"UNKNOWN"}</th>
 										</tr>
 
 									</thead>

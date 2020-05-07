@@ -201,9 +201,5 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		}
 		
 		
-	}
-
-	
-
-	
+	}	
 }

@@ -23,18 +23,15 @@ import srv.domain.event.Event;
 import srv.domain.event.EventDao;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceClient.ServiceClientDao;
+import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
 
 /**
  * 
  * this algorithm prepares the response 
- * 	- Michael Higgs
- * 
  * @author Conor Mackey
  * 
- * [Conor's comments] Not sure how to make these show up after the user logs in as either a 
- * board member or an admin, but I thought this would be helpful to have for when someone
- * smarter than me takes over. 
  * 
  *
  */
@@ -81,7 +78,12 @@ public class HomeController {
       return new RedirectView(destUrl);
     }
     
-    
+    /**
+     * displays the board member home page
+     * @param request
+     * @param response
+     * @return
+     */
 	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN"})
 	@GetMapping("/home/boardMember")
 	public ModelAndView boardMemberAction(HttpServletRequest request, HttpServletResponse response) {
@@ -90,6 +92,13 @@ public class HomeController {
 
 		return mav;
 	}
+	
+	/**
+	 * displays the admin edit board member/co chair page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("/home/admin/editBM")
 	public ModelAndView adminEditBMAction(HttpServletRequest request, HttpServletResponse response) {
@@ -99,6 +108,12 @@ public class HomeController {
 		return mav;
 	}
 	
+	/**
+	 * displays the admin home page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("/home/admin")
 	public ModelAndView adminAction(HttpServletRequest request, HttpServletResponse response) {
@@ -108,11 +123,17 @@ public class HomeController {
 		return mav;
 	}
 	
+	/**
+	 * displays the default home page for servants
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@GetMapping("/home/servant")
 	public ModelAndView servantAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("home/servant");
-
+		
 		return mav;
 	}
 }

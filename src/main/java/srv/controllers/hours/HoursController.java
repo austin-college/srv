@@ -20,7 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 import srv.domain.event.Event;
 import srv.domain.reason.Reason;
 import srv.domain.serviceHours.ServiceHours;
+import srv.domain.serviceHours.ServiceHoursDao;
+import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
+import srv.utils.UserUtil;
 
 /**
  * This is the algorithm that prepares the response.
@@ -39,7 +42,10 @@ public class HoursController {
 	@Autowired
 	ServiceHoursService hrSvc;
 	
-
+	//TODO BAD CODE SEE USER UTIL FOR MORE INFO
+	@Autowired
+	JdbcTemplateUserDao uDao;
+	
 	/**
 	 * Splash action displays the splash page. See splash.html template
 	 * 
@@ -55,6 +61,40 @@ public class HoursController {
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 
 		mav.addObject("hours", hrSvc.listHours());
+		
+		/*
+		 * TODO BAD CODE SEE USER UTIL FOR MORE INFO
+		 * 
+		 * make changes to UserUtil.java and HoursControllerTests & HomeController
+		 * 
+		 * see viewHours.html
+		 * fix HoursControllerTests also by removing the mock bean for the user template
+		 * 
+		 * when a servant user goes to the view hours page, it will display their name
+		 * line 74 shows how we use the UserUtil to obtain the current user's first name
+		 * then how we use a freemarker variable to inject that name into the view hours page
+		 * 
+		 * see viewHours.html line 15
+		 */
+		try {
+			mav.addObject("userFn",UserUtil.currentUser(uDao).getContactInfo().getFirstName());
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			mav.addObject("semTot", hrSvc.getSemTot(hrSvc.listHours())); //total hours served per semester
+			mav.addObject("termTot", hrSvc.getTermTot(hrSvc.listHours())); //total hours served per term
+			mav.addObject("totOrgs", hrSvc.getTotOrgs(hrSvc.listHours())); //total organizations helped
+			mav.addObject("avgPerMo", hrSvc.getAvgPerMo(hrSvc.listHours())); //average hours served per month
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+		
 		return mav;
 	}
 	

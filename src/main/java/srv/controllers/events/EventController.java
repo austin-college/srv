@@ -28,13 +28,7 @@ import srv.utils.UserUtil;
 /**
  * 
  * this algorithm prepares the response 
- * 	- Michael Higgs
- * 
  * @author Conor Mackey
- * 
- * [Conor's comments] Not sure how to make these show up after the user logs in as either a 
- * board member or an admin, but I thought this would be helpful to have for when someone
- * smarter than me takes over. 
  * 
  *
  */
@@ -49,9 +43,14 @@ public class EventController {
 	EventDao dao;
 
 
-
+	/**
+	 * displays the admin manage events page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@Secured("ROLE_ADMIN")
-	@GetMapping("/events")
+	@GetMapping("home/admin/manageEvents")
 	public ModelAndView adminManageEventsAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");

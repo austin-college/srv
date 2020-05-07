@@ -168,17 +168,17 @@ INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, 
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('For Testing Only', 2, 3, 'Rick Astley', 'Crisis Support');
 
-
 insert into users (username, contactId) values ('apritchard', 4);
 insert into users (username, contactId) values ('hCouturier', 5);
 insert into users (username, contactId) values ('eDriscoll', 6);
+insert into users (username, contactId) values ('user', 1);
 
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');
 
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 1', 'Dummy Address 1', 1, 'EVENT TYPE', '/0/0/0000', false, 5, 1);
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 2', 'Dummy Address 2', 2, 'EVENT TYPE', '/0/0/0000', false, 10, 2);
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId) values ('Dummy Event 3', 'Dummy Address 3', 3, 'EVENT TYPE', '/0/0/0000', false, 15, 1);
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 1', 'Dummy Address 1', 1, '01/01/2020', 'JANSERVE', false, 5, 1, 5.0, 3.0, 'free text field');
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 2', 'Dummy Address 2', 2, '05/05/2020', 'GREENSERVE', false, 10, 2, 3.0, 1.5, 'free text field');
+insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 3', 'Dummy Address 3', 3, '03/03/2020', 'HELPFUL EVENT', false, 15, 1, 4.0, 2.0, 'free text field');
 
 insert into eventParticipants(eventId, userId) values (1, 2);
 insert into eventParticipants(eventId, userId) values (2, 2);
@@ -186,16 +186,13 @@ insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
 
-
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
 
-
 INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('gds', 'Great Day of Service', 2, true, 1, 1);
 INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('fws', 'First We Serve', 2, true, 2, 2);
 INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('rbd', 'Roo Bound', 3, true, 1, 3);
-
 
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 2, 1, '2.0', 'Pending', 'Made food', 'Crisis Center');
