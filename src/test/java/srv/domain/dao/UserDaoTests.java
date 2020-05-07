@@ -104,14 +104,14 @@ class UserDaoTests {
 
 		assertEquals("apritchard", u1.getUsername());
 
-		assertEquals(3, dao.listAll().size());
+		assertEquals(4, dao.listAll().size());
 
 		// deletes user with id 1
 		dao.delete(1);
 
 		// verifies its been deleted
 		assertEquals(null, dao.fetchUserById(1));
-		assertEquals(2, dao.listAll().size());
+		assertEquals(3, dao.listAll().size());
 
 		// checks user with id 2 exists
 		u1 = dao.fetchUserById(2);
@@ -120,14 +120,14 @@ class UserDaoTests {
 
 		assertEquals("hCouturier", u1.getUsername());
 
-		assertEquals(2, dao.listAll().size());
+		assertEquals(3, dao.listAll().size());
 
 		// deletes user with id 2
 		dao.delete(2);
 
 		// verifies its been deleted
 		assertEquals(null, dao.fetchUserById(2));
-		assertEquals(1, dao.listAll().size());
+		assertEquals(2, dao.listAll().size());
 	}
 
 	@Test
