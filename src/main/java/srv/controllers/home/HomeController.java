@@ -23,6 +23,8 @@ import srv.domain.event.Event;
 import srv.domain.event.EventDao;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceClient.ServiceClientDao;
+import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
 
 /**
@@ -37,7 +39,11 @@ import srv.utils.UserUtil;
 @Controller
 @EnableWebSecurity
 public class HomeController {
-	
+	//TODO BAD CODE SEE USER UTIL FOR MORE INFO
+		@Autowired
+		JdbcTemplateUserDao uDao;
+		@Autowired
+		ServiceHoursService hrSvc;
 	private static Logger log = LoggerFactory.getLogger(HomeController.class);
 
 	/**
@@ -131,7 +137,28 @@ public class HomeController {
 	public ModelAndView servantAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("home/servant");
-
+		/*
+		 * TODO BAD CODE SEE USER UTIL FOR MORE INFO
+		 * 
+		 * make changes to UserUtil.java and HoursControllerTests & HomeController
+		 * 
+		 * see viewHours.html
+		 * fix HoursControllerTests also by removing the mock bean for the user template
+		 * 
+		 * when a servant user goes to the view hours page, it will display their name
+		 * line 74 shows how we use the UserUtil to obtain the current user's first name
+		 * then how we use a freemarker variable to inject that name into the view hours page
+		 * 
+		 * see viewHours.html line 15
+		 */
+		try {
+			mav.addObject("termTot", hrSvc.getTermTot(hrSvc.listHours())); //total hours served per term
+			mav.addObject("userFn",UserUtil.currentUser(uDao).getContactInfo().getFirstName());
+			mav.addObject("userLn",UserUtil.currentUser(uDao).getContactInfo().getLastName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return mav;
 	}
 }

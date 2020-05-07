@@ -65,7 +65,7 @@ public class HoursController {
 		/*
 		 * TODO BAD CODE SEE USER UTIL FOR MORE INFO
 		 * 
-		 * make changes to UserUtil.java and HoursControllerTests
+		 * make changes to UserUtil.java and HoursControllerTests & HomeController
 		 * 
 		 * see viewHours.html
 		 * fix HoursControllerTests also by removing the mock bean for the user template
@@ -77,7 +77,7 @@ public class HoursController {
 		 * see viewHours.html line 15
 		 */
 		try {
-			mav.addObject("userFn",UserUtil.currentUser(uDao).getContactInfo().getFirstName() );
+			mav.addObject("userFn",UserUtil.currentUser(uDao).getContactInfo().getFirstName());
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

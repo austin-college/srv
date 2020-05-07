@@ -25,7 +25,7 @@ public class UserUtil {
 	
 	/*
 	 * TODO 
-	 * make changes to HoursController.java, HoursControllerTests.java
+	 * make changes to HoursController.java, HoursControllerTests.java & HomeController.java
 	 * 
 	 * need to properly use the JdbcTemplateUserDao, before the dao was not autowired and thus
 	 * we had a null pointer exception when we tried to fetch the user's username. In order to bypass

@@ -1,7 +1,8 @@
 <#import "/main_layout.html" as layout />
+
 <@layout.stdpage "User Home" "servantHome.css" "servant/userHome.js">
 
-<!-- The CSS file for this page makes everything grey and dull looking because nothing is functional-->
+<!-- The CSS file for this page makes everything grey and dull looking because nothing is functional, all buttons are dead-->
 <div class="container servant-profile">
 	<form method="post">
 		<div class="row">
@@ -12,7 +13,7 @@
 
 			<div class="col-md-6">
 				<div class="profile-head">
-					<h5>Kristin Stewart</h5>
+					<h5>${userFn!"UNKOWN"} ${userLn!"UNKOWN"}</h5>
 					<h6>Servant</h6>
 
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -34,48 +35,46 @@
 
 				<p></p>
 				<!-- Contains list of announcements -->
-				<h4>
-					Upcoming Events Needing Volunteers
-					</h3>
-					<div id="annListCol" class="col-sm">
-						<div id="announceList" class="list-group">
-							<!-- Links -->
-							<a href="#" class="list-group-item list-group-item-action ">Habitat
-								for Humanity Build Next Saturday <input class="btn del"
-								style="width: 30%" value="Sign up" />
-							</a> <a href="#" class="list-group-item list-group-item-action ">Meals
-								on Wheels Event - March 17th <input class="btn del"
-								style="width: 30%" value="Sign up" />
-							</a> <a href="#" class="list-group-item list-group-item-action ">Lake
-								Texoma Cleanup - March 28th <input class="btn del"
-								style="width: 30%" value="Sign up" />
-							</a> <a href="#" class="list-group-item list-group-item-action ">Sherman
-								Animal Shelter Volunteers <input class="btn del"
-								style="width: 30%" value="Sign up" />
-							</a> <a href="#" class="list-group-item list-group-item-action ">Crisis
-								Center Volunteers <input class="btn del" style="width: 30%"
-								value="Sign up" />
-							</a>
-						</div>
-						<div id="seeAllCol" class="col-sm">
-							<a id="seeAllLink" href="#">See All</a>
-						</div>
+				<h4>Upcoming Events Needing Volunteers</h4>
+				<div id="annListCol" class="col-sm">
+					<div id="announceList" class="list-group">
+						<!-- Links -->
+						<a href="#" class="list-group-item list-group-item-action ">Habitat
+							for Humanity Build Next Saturday <input class="btn del"
+							style="width: 30%" value="Sign up" />
+						</a> <a href="#" class="list-group-item list-group-item-action ">Meals
+							on Wheels Event - March 17th <input class="btn del"
+							style="width: 30%" value="Sign up" />
+						</a> <a href="#" class="list-group-item list-group-item-action ">Lake
+							Texoma Cleanup - March 28th <input class="btn del"
+							style="width: 30%" value="Sign up" />
+						</a> <a href="#" class="list-group-item list-group-item-action ">Sherman
+							Animal Shelter Volunteers <input class="btn del"
+							style="width: 30%" value="Sign up" />
+						</a> <a href="#" class="list-group-item list-group-item-action ">Crisis
+							Center Volunteers <input class="btn del" style="width: 30%"
+							value="Sign up" />
+						</a>
 					</div>
+					<div id="seeAllCol" class="col-sm">
+						<a id="seeAllLink" href="#">See All</a>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-8">
 				<div class="tab-content profile-tab" id="myTabContent">
 					<div class="tab-pane fade show active" id="home" role="tabpanel"
 						aria-labelledby="home-tab">
 						<div class="container-tableBackground">
-							<!-- container thats creating a table that will hold our data-->
-							<div class="container ui-widget">
-								<div Id="table" class="row">
-									<table
-										class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
-										<thead>
-											<tr class="ui-widget-header" style="width: 40%">
+						<!-- container thats creating a table that will hold our data-->
+						<div class="container ui-widget">
+							<div Id="table" class="row">
+								<table
+									class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+									<thead>
+										<tr class="ui-widget-header">
 												<th>Total Hours Served</th>
-												<th class="wtTh">13</th>
+												<th class="wtTh">${termTot!"UNKNOWN"}</th>
 											</tr>
 
 										</thead>
@@ -299,6 +298,7 @@
 				</div>
 			</div>
 		</div>
+	</form>
 </div>
 
 </@layout.stdpage>
