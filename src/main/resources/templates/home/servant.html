@@ -1,12 +1,13 @@
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "User Home" "home.css" "servant/userHome.js">
+<@layout.stdpage "User Home" "servantHome.css" "servant/userHome.js">
 
+	<<!-- The CSS file for this page makes everything grey and dull looking because nothing is functional-->
 <div class="container servant-profile">
 	<form method="post">
 		<div class="row">
 			<div class="col-md-4">
 				<i class='fas fa-user-circle' style="color: black;"></i><br></br>
-				<div class="btn edit" style="width: 40%;">Change Photo</div>
+				<div class="button edit" style="width: 40%;">Change Photo</div>
 			</div>
 
 			<div class="col-md-6">
@@ -40,18 +41,18 @@
 						<div id="announceList" class="list-group">
 							<!-- Links -->
 							<a href="#" class="list-group-item list-group-item-action ">Habitat
-								for Humanity Build Next Saturday   <input class="btn del" style="width: 30%"
-								value="Sign up" /></a> <a href="#"
-								class="list-group-item list-group-item-action ">Meals on
-								Wheels Event - March 17th   <input class="btn del" style="width: 30%"
-								value="Sign up" /></a> <a href="#"
-								class="list-group-item list-group-item-action ">Lake Texoma
-								Cleanup - March 28th   <input class="btn del" style="width: 30%"
-								value="Sign up" /></a> <a href="#"
-								class="list-group-item list-group-item-action ">Sherman
-								Animal Shelter Volunteers   <input class="btn del" style="width: 30%"
-								value="Sign up" /></a> <a href="#"
-								class="list-group-item list-group-item-action ">Crisis
+								for Humanity Build Next Saturday <input class="btn del"
+								style="width: 30%" value="Sign up" />
+							</a> <a href="#" class="list-group-item list-group-item-action ">Meals
+								on Wheels Event - March 17th <input class="btn del"
+								style="width: 30%" value="Sign up" />
+							</a> <a href="#" class="list-group-item list-group-item-action ">Lake
+								Texoma Cleanup - March 28th <input class="btn del"
+								style="width: 30%" value="Sign up" />
+							</a> <a href="#" class="list-group-item list-group-item-action ">Sherman
+								Animal Shelter Volunteers <input class="btn del"
+								style="width: 30%" value="Sign up" />
+							</a> <a href="#" class="list-group-item list-group-item-action ">Crisis
 								Center Volunteers <input class="btn del" style="width: 30%"
 								value="Sign up" />
 							</a>
@@ -299,6 +300,5 @@
 			</div>
 		</div>
 </div>
-
 
 </@layout.stdpage>

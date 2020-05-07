@@ -1,5 +1,15 @@
 @charset "ISO-8859-1";
-
+.table{
+	text-align: center;
+}
+.table > thead > tr > th {
+	vertical-align: middle;
+}
+thead th {
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}
 .servant-profile{
     padding: 3%;
     margin-top: 3%;
