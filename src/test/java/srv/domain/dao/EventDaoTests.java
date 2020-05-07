@@ -260,25 +260,7 @@ class EventDaoTests {
 		assertEquals(30, ue.getNeededVolunteerHours());
 		assertEquals(15, ue.getRsvpVolunteerHours());
 		assertEquals("they're coming", ue.getFreeTextField());
-		/*
-		 * int id = 1; Event e1 = dao.fetchEventById(id);
-		 * 
-		 * assertEquals(id, e1.getEid());
-		 * 
-		 * assertEquals("Dummy Event 1", e1.getTitle());
-		 * 
-		 * String newEventname = "new Eventname"; int newContact = 5;
-		 * 
-		 * // update each item
-		 * 
-		 * dao.update(id, newEventname, e1.getAddress(), newContact, e1.getDate(), "",
-		 * e1.isContinuous(), e1.getVolunteersNeeded(), (int)
-		 * e1.getServiceClient().getScid(), 0.0, 0.0, " ");
-		 * 
-		 * e1 = dao.fetchEventById(id);
-		 * 
-		 * assertEquals(newEventname, e1.getTitle());
-		 */
+	
 
 	}
 
