@@ -149,7 +149,7 @@ public class ServiceHoursService {
 		return orgs;
 	}
 	
-	public double getAvgPerMo(List<ServiceHours> hours) {
+	public int getAvgPerMo(List<ServiceHours> hours) {
 		double avg = 0;
 		
 		//before this you would make a new list with the dates being from the last year
@@ -157,9 +157,9 @@ public class ServiceHoursService {
 			avg += hours.get(i).getHours();
 		}
 		avg = avg / 12;
+		int refinedAvg = (int) avg;
 		
-		
-		return avg;
+		return refinedAvg;
 	}
 	
 	
