@@ -12,12 +12,20 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
 
+/**
+ * The JDBC Template that implements the ServiceGroup DAO (data access object) interface.
+ * An instance of this class is responsible to get data from the serviceGroups table in the schema.sql
+ * database. The methods this class implements are creating a new service group query, updating an
+ * existing service group query, deleting a service group query, and fetching a service group query by its unique
+ * primary id (sgid). 
+ * 
+ * @author Lydia House
+ *
+ */
 @ComponentScan("srv.config")
 public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao implements ServiceGroupDao {
 		
@@ -32,7 +40,7 @@ public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao impleme
 	}
 	
 	/*
-	 * Lists all the current Service Groups that are in the data.sql database.
+	 * Lists all the current ServiceGroups that are in the schema.sql database.
 	 */
 	@Override
 	public List<ServiceGroup> listAll() throws Exception {
@@ -44,7 +52,7 @@ public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao impleme
 	}
 
 	/*
-	 * Creates a new ServiceGroup in the data.sql database.
+	 * Creates a new ServiceGroup in the schema.sql database.
 	 * An exception is thrown if the new ServiceGroup is a duplicate. 
 	 */
 	@Override
@@ -79,7 +87,7 @@ public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao impleme
 	}
 	
 	/*
-	 * Removes the desired ServiceGroup (by id) from the data.sql database. 
+	 * Removes the desired ServiceGroup (by id) from the schema.sql database. 
 	 * An exception is thrown if the serviceGroup is unable to be removed (does not exist).
 	 */
 	@Override
@@ -95,7 +103,7 @@ public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao impleme
 	}
 
 	/* 
-	 * Updates the desired ServiceGroup (by id) in the data.sql database with the new specified content. 
+	 * Updates the desired ServiceGroup (by id) in the schema.sql database with the new specified content. 
 	 * An exception is thrown if the ServiceGroup is unable to be updates (does not exist).
 	 */
 	@Override
@@ -135,6 +143,10 @@ public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao impleme
 		return results.get(0);
 	}
 	
+	/*
+	 * This class maps a ServiceGroup database record to the ServiceGroup model object by using
+	 * a RowMapper interface to fetch the records for a ServiceGroup from the database.
+	 */
 	private class ServiceGroupRowMapper implements RowMapper<ServiceGroup> {
 
 		@Override

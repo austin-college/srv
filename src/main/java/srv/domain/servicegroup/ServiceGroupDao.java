@@ -2,12 +2,11 @@ package srv.domain.servicegroup;
 
 import java.util.List;
 
-import srv.domain.contact.Contact;
-
 /**
- * Data Access Object Interface for EvenetType.java
- * 
- * @author Min Shim
+ *  Data Access Object Interface for ServiceGroup.java that defines the standard operations
+ *  (CRUD) to be performed on the ServiceGroup model object. 
+ *  
+ * @author Lydia House
  *
  */
 public interface ServiceGroupDao {
