@@ -5,25 +5,28 @@ import java.io.Serializable;
 import srv.domain.contact.Contact;
 
 /**
- * @author
+ * The ServiceClient class represents a service organization entity (referred to as a pet organization) 
+ * that works frequently with the Service Station. 
+ * 
+ *  The information contained includes a unique integer id, the service client's name, main and other contacts, 
+ *  the current board member responsible for the service client, and the category of volunteer work the 
+ *  organization does (medical, seniors, education, animals, etc).
+ *  
+ * @author Lydia House
  *
- *         The ServiceClient class is supposed to represent the information we
- *         are holding for a service client, or a service organization
  */
 public class ServiceClient implements Serializable {
 
-	private Integer scid; // unique id for each service client
+	private Integer scid; // unique id for each service client, given by database
 	private String name; // the name of the service client
-	private Contact mainContact; // the primary contact for service client
-	private Contact otherContact; // the secondary contact for service client
+	private Contact mainContact; // the primary contact for the service client
+	private Contact otherContact; // the secondary contact for the service client
 	private String boardMember; // current board member responsible for the service client
-	private String category; // type of work client does ex: animals
+	private String category; // type of work client 
 
-
-	// putting these to the side for now due to database - lhouse
-	private String eventLoc; // location of an event - We get rid of this
-	private String eventDescrp; // description of an event - we might rename this to ServiceClientDesc
-	private int servantsReq; // amount of personel needed for an event
+	public ServiceClient() {
+		super();
+	}
 
 	public ServiceClient(Integer scid, String new_name, Contact con1, Contact con2, String bm, String cat) { 
 		this.scid = scid;
@@ -32,11 +35,6 @@ public class ServiceClient implements Serializable {
 		this.otherContact = con2;
 		this.boardMember = bm;
 		this.category = cat;
-
-	}
-	
-	public ServiceClient() {
-		super();
 	}
 
 	public Integer getScid() {
@@ -48,7 +46,6 @@ public class ServiceClient implements Serializable {
 		return this;
 	}
 	
-
 	public String getName() {
 		return name;
 	}
@@ -93,14 +90,4 @@ public class ServiceClient implements Serializable {
 		this.otherContact = con;
 		return this;
 	}
-
-	public int getServantsReq() {
-		return servantsReq;
-	}
-
-	public ServiceClient setServantsReq(int servantsReq) {
-		this.servantsReq = servantsReq;
-		return this;
-	}
-
 }

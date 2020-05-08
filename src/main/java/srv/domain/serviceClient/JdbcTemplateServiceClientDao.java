@@ -3,32 +3,22 @@ package srv.domain.serviceClient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.sql.DataSource;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
 import srv.domain.JdbcTemplateAbstractDao;
-import srv.domain.contact.Contact;
 import srv.domain.contact.JdbcTemplateContactDao;
-import srv.domain.user.User;
 
 /**
  * The JDBC Template that implements the ServiceClient DAO (data access object)
  * interface. An instance of this class is responsible to get data from the
  * serviceClients table in the data.sql database. The methods this class
- * implements are creating a new service client query, updating an existing
+ * implement are creating a new service client query, updating an existing
  * service client query, deleting a service client query, and fetching a service
  * client query by its unique primary id (serviceClientId).
  * 
@@ -103,8 +93,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 
 	/**
 	 * Removes the desired Service Client (by id) from the database. An
-	 * exception is thrown if the service client is unable to be removed (does not
-	 * exist).
+	 * exception is thrown if the service client is unable to be removed (does not exist).
 	 */
 	@Override
 	public void delete(int scid) throws Exception {
@@ -118,7 +107,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	}
 
 	/**
-	 * Updates the desired ServiceClient (by id) in the data.sql database with the
+	 * Updates the desired ServiceClient (by id) in the schema.sql database with the
 	 * new specified content. An exception is thrown if the service client is unable
 	 * to be updates (does not exist).
 	 */
@@ -149,7 +138,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 		log.debug(sqlStr);
 
 		List<ServiceClient> results = getJdbcTemplate().query(sqlStr, new ServiceClientRowMapper());
-		//ServiceClient client = getJdbcTemplate().queryForObject(sqlStr, new ServiceClientRowMapper());
+	
 		if (results.size() < 1) {
 			log.error("unable to fetch servant client id [{}]", scid);
 			return null;
@@ -158,14 +147,13 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 		return results.get(0);
 	}
 
+	/*
+	 * This class maps a ServiceClient database record to the ServiceClient model object by using
+	 * a RowMapper interface to fetch the records for a ServiceClient from the database.
+	 */
 	private class ServiceClientRowMapper implements RowMapper<ServiceClient> {
 		@Override
 		public ServiceClient mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-			/*
-			 * We use the ContactDao in order to access the contacts table in the data.sql
-			 * database, so that the service client has a handle on that contact.
-			 */
 
 			ServiceClient sc = new ServiceClient();
 
