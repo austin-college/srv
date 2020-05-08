@@ -3,31 +3,34 @@ package srv.domain.contact;
 import java.io.Serializable;
 
 /**
- * @author Emma Driscoll
+ * An instance of this class is a data holder for contact information. The information
+ * included is the contact's first and last name, their mobile and work phone numbers, an
+ * email address, and their address broken down into street, city, state and zipcode, and
+ * a unique integer id.
  * 
- *         This here is the ol' contact class
- * 
- *         This class is a data holder for contact info. Info includes
- *         firstName, lastName, email, phoneNum(ber), and address(street, city,
- *         state, zipcode)
- *
+ * @author Lydia House
  */
 public class Contact implements Serializable {
 	
-	private Integer cid; // Unique id for contact
-	private String firstName; // name of contact
+	private Integer cid; // Unique id for contact, given by database
+	private String firstName; 
 	private String lastName;
-	private String email; // email
-	private String phoneNumWork; // optional work number for pets
-	private String phoneNumMobile; // mobile phone for anyone
-	private String address; // street,city,state,state, and zipcode combined for full address
+	private String email; 
+	private String phoneNumWork; 
+	private String phoneNumMobile; 
 	private String street;
 	private String city;
 	private String state;
 	private String zipcode;
+	private String address; // street, city, state and zipcode combined for full address
 
+	public Contact() {
+		super();
+	}
+	
 	public Contact(Integer new_id, String firstName, String lastName, String email, String phoneNumWork, String phoneNumMobile,
 			String street, String city, String state, String zipcode) {
+		
 		super();
 		this.cid = new_id;
 		this.firstName = firstName;
@@ -40,10 +43,6 @@ public class Contact implements Serializable {
 		this.city = city;
 		this.state = state;
 		this.zipcode = zipcode;
-	}
-	
-	public Contact() {
-		super();
 	}
 	
 	public Integer getContactId() {
@@ -99,8 +98,11 @@ public class Contact implements Serializable {
 		this.phoneNumMobile = phoneNumMobile;
 		return this;
 	}
-
-	public String getAddress() { // returns full address
+	
+	/*
+	 * Returns full address (street, city, state, and zipcode)
+	 */
+	public String getAddress() {
 		return address;
 	}
 
@@ -115,7 +117,7 @@ public class Contact implements Serializable {
 
 	public Contact setStreet(String street) {
 		this.street = street;
-		this.setAddress(); //update address
+		this.setAddress(); 
 		return this;
 	}
 

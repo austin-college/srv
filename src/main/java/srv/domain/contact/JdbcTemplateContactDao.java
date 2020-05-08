@@ -1,28 +1,19 @@
 package srv.domain.contact;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.sql.DataSource;
 import java.util.List;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-
 import srv.domain.JdbcTemplateAbstractDao;
 
 /**
  * The JDBC Template that implements the Contact DAO (data access object) interface.
- * An instance of this class is responsible to get data from the CONTACTS table in the data.sql
+ * An instance of this class is responsible to get data from the CONTACTS table in the schema.sql
  * database. The methods this class implements are creating a new contact query, updating an
  * existing contact query, deleting a contact query, and fetching a contact query by its unique
  * primary id (contactId). 
@@ -39,7 +30,7 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	}
 
 	/*
-	 * Lists all the current contacts that are in the data.sql database.
+	 * Lists all the current contacts that are in the schema.sql database.
 	 */
 	@Override
 	public List<Contact> listAll() throws Exception {
@@ -51,7 +42,7 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	}
 	
 	/*
-	 * Creates a new Contact in the data.sql database. An exception is thrown
+	 * Creates a new Contact in the schema.sql database. An exception is thrown
 	 * if the new contact is a duplicate. 
 	 */
 	@Override
@@ -103,7 +94,7 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	}
 
 	/*
-	 * Removes the desired Contact (by id) from the data.sql database. An
+	 * Removes the desired Contact (by id) from the schema.sql database. An
 	 * exception is thrown if the contact is unable to be removed (does not exist).
 	 */
 	@Override
@@ -120,10 +111,10 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	}
 
 	/* 
-	 * Updates the desired Contact (by id) in the data.sql database with the new 
+	 * Updates the desired Contact (by id) in the schema.sql database with the new 
 	 * specified content. An exception is thrown if the contact is unable to be updates (does not exist).
 	 * 
-	 * NOTE: in data.sql we are setting references that have contact as a foreign key, to be null when a 
+	 * NOTE: in schema.sql we are setting references that have contact as a foreign key, to be null when a 
 	 * contact is removed.
 	 */
 	@Override
