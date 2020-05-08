@@ -5,25 +5,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.event.EventDao;
-import srv.domain.serviceclient.ServiceClient;
-import srv.domain.serviceclient.ServiceClientDao;
-import srv.utils.UserUtil;
 
 /**
  * 
@@ -36,8 +26,6 @@ import srv.utils.UserUtil;
 @Controller
 @EnableWebSecurity
 public class EventController {
-
-	private static Logger log = LoggerFactory.getLogger(EventController.class);
 
 	@Autowired
 	EventDao dao;

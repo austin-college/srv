@@ -6,24 +6,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import srv.domain.event.Event;
 import srv.domain.hours.ServiceHours;
-import srv.domain.hours.ServiceHoursDao;
-import srv.domain.reason.Reason;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
-import srv.utils.UserUtil;
 
 /**
  * This is the algorithm that prepares the response.
@@ -36,8 +28,6 @@ import srv.utils.UserUtil;
 @EnableWebSecurity
 @Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT"})
 public class HoursController {
-
-	private static Logger log = LoggerFactory.getLogger(HoursController.class);
 	
 	@Autowired
 	ServiceHoursService hrSvc;

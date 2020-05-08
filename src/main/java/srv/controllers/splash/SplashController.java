@@ -7,14 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 /**
- * This is the algorithm that prepares the response. 
+ * A Controller object that renders responses for the splash (home) page of the webapp 
+ * that is accessible to all public users.
  * 
  * @author mahiggs
  *

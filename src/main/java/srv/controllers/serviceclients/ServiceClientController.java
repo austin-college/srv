@@ -19,6 +19,17 @@ import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
 import srv.utils.UserUtil;
 
+/**
+ * A Controller object that renders responses for the page of the site that contains the
+ * list/table of service clients accessible to admin and board members. Also provides
+ * the mappings of actions for adding, editing, selecting a row, and removing a ServiceClient.
+ * 
+ *  Note only board members are only allowed to view the page and the information for a selected
+ *  ServiceClient and to edit the ServiceClient's contact information. They cannot edit other details
+ *  about the ServiceClient (ex: name) nor add or remove ServieClients.
+ * 
+ * @author Lydia House
+ */
 @Controller
 @EnableWebSecurity
 @Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN"})
@@ -33,6 +44,9 @@ public class ServiceClientController {
 	@Autowired
 	UserUtil userUtil;
 
+	/*
+	 * Presents the current list of service clients in a table
+	 */
 	@GetMapping("/sc/list")
 	public ModelAndView listAction(HttpServletRequest request, HttpServletResponse response) { 
 		
@@ -414,21 +428,6 @@ public class ServiceClientController {
 		   return mav;
 	   }
 	   
-//	   @GetMapping("/boardMember")
-//		public ModelAndView managePetAction(HttpServletRequest request, HttpServletResponse response) {
-//
-//			ModelAndView mav = new ModelAndView("home/managePet");
-//
-//			return mav;
-//		}
-//	   
-//	   @GetMapping("/updatePet")
-//		public ModelAndView updatePetAction(HttpServletRequest request, HttpServletResponse response) {
-//
-//			ModelAndView mav = new ModelAndView("home/updatePet");
-//
-//			return mav;
-//		}
 }
 
 

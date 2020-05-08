@@ -1,8 +1,6 @@
 package srv.services;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +11,7 @@ import srv.domain.hours.ServiceHours;
 import srv.domain.serviceclient.ServiceClient;
 
 
-/**
- * The methods in this class are just a temporary stand in until the ServiceHourDao is completed.
- * @author Lydia House
- *
- */
+
 public class ServiceHoursService {
 	
 	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
