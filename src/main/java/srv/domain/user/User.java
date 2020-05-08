@@ -6,12 +6,11 @@ import java.io.Serializable;
 import srv.domain.contact.Contact;
 
 /**
+ * An instance of this class represents a user entity, a person who will have access to the web app.
+ * The information contained includes, a unique integer id, the username (ex: lhouse18), and their contact information.
  * 
  * @author hunter Couturier
  *
- *         User Class holds all information for the User object. This includes
- *         username, and will include email, firstname, lastname, phonenumber
- *         and more.
  */
 public class User implements Serializable {
 

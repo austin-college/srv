@@ -3,7 +3,7 @@ import srv.domain.serviceclient.ServiceClient;
 
 /**
  * An instance of this class represents our Admins for the system,
- * they are an advanced user type that a great deal of control over our system
+ * they are an advanced user type that main control over our system
  * 
  * @author hunter
  * 
@@ -13,7 +13,6 @@ public class AdminUser extends User {
 
 	public AdminUser(String userID) {
 		super(userID);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -72,8 +71,7 @@ public class AdminUser extends User {
 	 */
 //	public ServiceHours approveHours(ServiceHours hoursToApprove) {
 //		return hoursToApprove;
-//	}
-	
+//	}	
 	
 
 }

@@ -17,9 +17,9 @@ import srv.domain.serviceclient.ServiceClient;
 public class BoardMemberUser extends ServantUser {
 
 	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
+	
 	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, char classification) {
 		super(uid, userID, contactInfo, classification);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -32,11 +32,11 @@ public class BoardMemberUser extends ServantUser {
 	 * For now this is an unimplemented stub until we have somewhere we can place
 	 * data
 	 * 
-	 * @param edditedPet
+	 * @param editedPet
 	 * @return
 	 */
-	public ServiceClient editPet(ServiceClient edditedPet) {
-		return edditedPet;
+	public ServiceClient editPet(ServiceClient editedPet) {
+		return editedPet;
 	}
 
 	/**

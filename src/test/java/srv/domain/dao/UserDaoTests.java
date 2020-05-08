@@ -168,7 +168,7 @@ class UserDaoTests {
 		int newContact = 5;
 
 		// update each item
-		dao.Update(id, newUsername, newContact);
+		dao.update(id, newUsername, newContact);
 
 		u1 = dao.fetchUserById(id);
 
@@ -181,7 +181,7 @@ class UserDaoTests {
 
 		// test that u1 can be fetched
 		String uname1 = "apritchard";
-		User u1 = dao.fetchUserByUserName(uname1);
+		User u1 = dao.fetchUserByUsername(uname1);
 
 		assertEquals(uname1, u1.getUsername());
 
@@ -189,7 +189,7 @@ class UserDaoTests {
 
 		// test that u2 can be fetched
 		String uname2 = "hCouturier";
-		User u2 = dao.fetchUserByUserName(uname2);
+		User u2 = dao.fetchUserByUsername(uname2);
 
 		assertEquals(uname2, u2.getUsername());
 
@@ -197,7 +197,7 @@ class UserDaoTests {
 
 		// test that u3 can be fetched
 		String uname3 = "eDriscoll";
-		User u3 = dao.fetchUserByUserName(uname3);
+		User u3 = dao.fetchUserByUsername(uname3);
 
 		assertEquals(uname3, u3.getUsername());
 

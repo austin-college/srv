@@ -2,6 +2,14 @@ package srv.domain.user;
 
 import java.util.List;
 
+/**
+ *  Data Access Object Interface for User.java that defines the standard operations
+ *  (CRUD) to be performed on the User model object as well as fetching a user by their username
+ *  and unique id.
+ *  
+ * @author Lydia House
+ *
+ */
 public interface UserDao {
 
 	public List<User> listAll() throws Exception;
@@ -29,9 +37,9 @@ public interface UserDao {
 	 */
 	public User fetchUserById(int uid) throws Exception;
 	
-	public User fetchUserByUserName(String uName) throws Exception;
+	public User fetchUserByUsername(String uName) throws Exception;
 	
-	public void Update(int uid, String newUsername, int newContact) throws Exception;
+	public void update(int uid, String newUsername, int newContact) throws Exception;
 	
-	public void changeUserName(int uid, String newUsername) throws Exception;
+	public void changeUsername(int uid, String newUsername) throws Exception;
 }

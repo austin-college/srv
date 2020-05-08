@@ -16,6 +16,13 @@ import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
 
 /**
+ * 
+ * The JDBC Template that implements the User DAO (data access object) interface.
+ * An instance of this class is responsible to get data from the users table in the schema.sql
+ * database. The methods this class implements are creating a new user query, updating an
+ * existing user query, deleting a user query, and fetching a user query by its unique
+ * primary id (user) and their username. 
+ * 
  * @author AJ Pritchard
  *
  */
@@ -30,7 +37,7 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		super();
 	}
 
-	/**
+	/*
 	 * Returns a list of all users
 	 */
 	@Override
@@ -41,7 +48,7 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		return results;
 	}
 
-	/**
+	/*
 	 * Creates a new User and adds it to the database
 	 */
 	@Override
@@ -74,7 +81,7 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		return this.fetchUserById((int) num);
 	}
 
-	/**
+	/*
 	 * Deletes the given uid
 	 */
 	@Override
@@ -88,11 +95,11 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		}
 	}
 
-	/**
+	/*
 	 * Asks for a new version of every variable to update
 	 */
 	@Override
-	public void Update(int uid, String newUsername, int newContact) throws Exception {
+	public void update(int uid, String newUsername, int newContact) throws Exception {
 
 		// the sequel statement
 		final String sql = "update users set username = ?, contactId = ? where userId = ?";
@@ -132,11 +139,11 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 
 		return results.get(0);
 	}
-	/**
+	/*
 	 * Gets the user with the userName uName
 	 */
 	@Override
-	public User fetchUserByUserName(String uName) throws Exception {
+	public User fetchUserByUsername(String uName) throws Exception {
 		String sqlStr = String.format("select userId, username, contactId from users where username = '%s'", uName);
 		log.debug(sqlStr);
 
@@ -150,11 +157,11 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		return results.get(0);
 	}
 
-	/**
+	/*
 	 * Changes the username
 	 */
 	@Override
-	public void changeUserName(int uid, String newUsername) throws Exception {
+	public void changeUsername(int uid, String newUsername) throws Exception {
 		int rc = getJdbcTemplate().update("update users set username = ? where userId = ?",
 				new Object[] { newUsername, uid });
 
@@ -164,21 +171,16 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 
 	}
 
-	public int size() {
-		return getJdbcTemplate().query("select userId, username, contactId from users", new UserRowMapper()).size();
-	}
-
+	/**
+	 * This class maps a User database record to the User model object by using
+	 * a RowMapper interface to fetch the records for a User from the database.
+	 */
 	class UserRowMapper implements RowMapper<User> {
 		/**
 		 * Returns the User in the given row
 		 */
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-			/*
-			 * We use the ContactDao in order to access the contacts table in the data.sql
-			 * database, so that the service client has a handle on that contact.
-			 */
 
 			User sc = new User();
 
