@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
-import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceclient.ServiceClient;
 
 /**
  * An instance of this class represents the Board Member User base. These

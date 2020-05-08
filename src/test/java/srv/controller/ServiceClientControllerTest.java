@@ -23,8 +23,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import srv.config.WebSecurityConfig;
 import srv.controllers.serviceclients.ServiceClientController;
 import srv.domain.contact.ContactDao;
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceClient.ServiceClientDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
 import srv.utils.UserUtil;
 
 @RunWith(SpringRunner.class)

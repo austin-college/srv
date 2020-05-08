@@ -8,10 +8,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import srv.domain.event.Event;
-
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
-import srv.domain.serviceHours.ServiceHours;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.servicehours.JdbcTemplateServiceHoursDao;
+import srv.domain.servicehours.ServiceHours;
 
 
 /**

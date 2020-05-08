@@ -1,4 +1,4 @@
-package srv.domain.serviceClient;
+package srv.domain.serviceclient;
 
 import java.util.List;
 

@@ -21,8 +21,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.event.EventDao;
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceClient.ServiceClientDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
 import srv.utils.UserUtil;
 
 /**

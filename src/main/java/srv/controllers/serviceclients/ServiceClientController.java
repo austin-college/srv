@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceClient.ServiceClientDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
 import srv.utils.UserUtil;
 
 @Controller

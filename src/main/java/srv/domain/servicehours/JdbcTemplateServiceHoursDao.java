@@ -1,4 +1,4 @@
-package srv.domain.serviceHours;
+package srv.domain.servicehours;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.event.JdbcTemplateEventDao;
-import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 
 /** 

@@ -13,8 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.domain.event.eventype.EventType;
-import srv.domain.serviceGroup.ServiceGroup;
-import srv.domain.serviceGroup.ServiceGroupDao;
+import srv.domain.servicegroup.ServiceGroup;
+import srv.domain.servicegroup.ServiceGroupDao;
 
 @RunWith(SpringRunner.class)
 @JdbcTest

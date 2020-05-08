@@ -1,9 +1,9 @@
-package srv.domain.serviceHours;
+package srv.domain.servicehours;
 
 import java.io.Serializable;
 
 import srv.domain.event.Event;
-import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.User;
 
 /**

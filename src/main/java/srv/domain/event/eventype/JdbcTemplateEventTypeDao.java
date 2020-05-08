@@ -14,8 +14,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
-import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
-import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
+import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
+import srv.domain.servicegroup.JdbcTemplateServiceGroupDao;
 
 /**
  * The JDBC Template that implements the EventType DAO (data access object) interface.

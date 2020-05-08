@@ -1,4 +1,4 @@
-package srv.domain.serviceGroup;
+package srv.domain.servicegroup;
 
 import java.io.Serializable;
 

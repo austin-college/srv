@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
-import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.User;
 
 class SrvDomainObjectTests {

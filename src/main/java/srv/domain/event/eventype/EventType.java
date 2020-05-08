@@ -2,8 +2,8 @@ package srv.domain.event.eventype;
 
 import java.io.Serializable;
 
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceGroup.ServiceGroup;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.servicegroup.ServiceGroup;
 
 /**
  * An instance of this class is a data holder, mainly for sorting purposes for events. It represents

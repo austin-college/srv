@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import srv.domain.contact.Contact;
 import srv.domain.event.eventype.EventType;
-import srv.domain.serviceClient.ServiceClient;
+import srv.domain.serviceclient.ServiceClient;
 
 /**
  * An instance of this class represents an event from the Service Station. The information

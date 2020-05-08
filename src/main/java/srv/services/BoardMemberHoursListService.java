@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
-import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;
-import srv.domain.serviceHours.ServiceHours;
-import srv.domain.serviceHours.ServiceHoursDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.servicehours.JdbcTemplateServiceHoursDao;
+import srv.domain.servicehours.ServiceHours;
+import srv.domain.servicehours.ServiceHoursDao;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
-import srv.domain.serviceClient.ServiceClient;
-import srv.domain.serviceClient.ServiceClientDao;
 import srv.domain.user.ServantUser;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;

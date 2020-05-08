@@ -1,4 +1,4 @@
-package srv.domain.serviceHours;
+package srv.domain.servicehours;
 
 import java.util.List;
 
