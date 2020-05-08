@@ -16,8 +16,8 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
-import srv.domain.event.eventParticipant.EventParticipant;
-import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
+import srv.domain.event.eventparticipant.EventParticipant;
+import srv.domain.event.eventparticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;

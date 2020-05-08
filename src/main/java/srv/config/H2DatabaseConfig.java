@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.event.JdbcTemplateEventDao;
-import srv.domain.event.JdbcTemplateEventTypeDao;
-import srv.domain.event.eventParticipant.JdbcTemplateEventParticipantDao;
+import srv.domain.event.eventparticipant.JdbcTemplateEventParticipantDao;
+import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceHours.JdbcTemplateServiceHoursDao;

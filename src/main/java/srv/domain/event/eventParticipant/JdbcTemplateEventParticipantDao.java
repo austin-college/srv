@@ -1,4 +1,4 @@
-package srv.domain.event.eventParticipant;
+package srv.domain.event.eventparticipant;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

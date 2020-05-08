@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import srv.domain.contact.Contact;
-import srv.domain.event.eventParticipant.EventParticipant;
+import srv.domain.event.eventparticipant.EventParticipant;
+import srv.domain.event.eventype.EventType;
 import srv.domain.serviceClient.ServiceClient;
 import srv.domain.user.User;
 

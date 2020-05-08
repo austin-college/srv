@@ -1,4 +1,4 @@
-package srv.domain.event;
+package srv.domain.event.eventype;
 
 import java.io.Serializable;
 

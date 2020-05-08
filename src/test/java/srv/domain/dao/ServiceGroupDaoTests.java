@@ -12,7 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import srv.domain.event.EventType;
+import srv.domain.event.eventype.EventType;
 import srv.domain.serviceGroup.ServiceGroup;
 import srv.domain.serviceGroup.ServiceGroupDao;
 

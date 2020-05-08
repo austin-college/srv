@@ -11,8 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import srv.domain.event.eventParticipant.EventParticipant;
-import srv.domain.event.eventParticipant.EventParticipantDao;
+import srv.domain.event.eventparticipant.EventParticipant;
+import srv.domain.event.eventparticipant.EventParticipantDao;
 
 @RunWith(SpringRunner.class)
 @JdbcTest
