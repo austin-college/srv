@@ -5,9 +5,16 @@ import java.io.Serializable;
 import srv.domain.event.Event;
 import srv.domain.user.User;
 
+/**
+ * An instance of this class represents an event and a person (user)
+ * who has claimed (RSVP) they are going to the event. 
+ * 
+ * @author Lydia House
+ *
+ */
 public class EventParticipant implements Serializable {
 
-	private int eventParticipantId;
+	private int eventParticipantId;	// unique id, given by database
 	private Event event;
 	private User user;
 	

@@ -9,7 +9,6 @@ import java.util.List;
  * @author Lydia House
  *
  */
-
 public interface ContactDao {
 	
 	public List<Contact> listAll() throws Exception;

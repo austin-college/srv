@@ -14,12 +14,19 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
-import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.event.JdbcTemplateEventDao;
-import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
-import srv.domain.user.User;
 
+/**
+ * The JDBC Template that implements the EventParticipant DAO (data access object) interface.
+ * An instance of this class is responsible to get data from the eventParticipants table in the schema.sql
+ * database. The methods this class implements are creating a new event participant query, updating an
+ * existing event participant query, deleting a event participant query, and fetching a event participant query by its unique
+ * primary id (eventParticipantId). 
+ * 
+ * @author Lydia House
+ *
+ */
 @ComponentScan("srv.config")
 public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao implements EventParticipantDao {
 
@@ -35,6 +42,9 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		super();
 	}
 
+	/*
+	 * Lists all the current event participants that are in the schema.sql database
+	 */
 	@Override
 	public List<EventParticipant> listAll() throws Exception {
 		List<EventParticipant> results = getJdbcTemplate().query(
@@ -43,6 +53,10 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		return results;
 	}
 
+	/*
+	 * Creates a new EventParticipant in the schema.sql database. An exception is thrown if the new
+	 * event participant is a duplicate
+	 */
 	@Override
 	public EventParticipant create(int eventId, int userId) throws Exception {
 
@@ -70,9 +84,12 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		log.debug("generated EventParticipant id is {}", num);
 
 		return this.fetchEventParticipantById((int) num);
-
 	}
 
+	/*
+	 * Removes the desired EventParticipant (by id) from the schema.sql database. An
+	 * exception is thrown if the event participant is unable to be removed (does not exist).
+	 */
 	@Override
 	public void delete(int eventParticipantId) throws Exception {
 		int rc = getJdbcTemplate().update("DELETE from eventParticipants where eventParticipantId= ?",
@@ -85,6 +102,10 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		}
 	}
 
+	/*
+	 * Updates the desired EventParticipant (by id) in the schema.sql database with the new
+	 * specified content. An exception is thrown if the event participant is unable to updated (does not exist)
+	 */
 	@Override
 	public void update(int eventParticipantId, int eventId, int userId) throws Exception {
 		// SQL statement that is to be executed
@@ -108,6 +129,10 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		}
 	}
 
+	/*
+	 * Finds the corresponding EventParticipant given the specified id and returns the first instance of an
+	 * EventParticipant in the database. An exception is thrown if the EventParticipant is unable to be fetched (does not exist).
+	 */
 	@Override
 	public EventParticipant fetchEventParticipantById(int eventParticipantId) throws Exception {
 		String sqlStr = String.format(
@@ -125,6 +150,10 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		return results.get(0);
 	}
 
+	/*
+	 * Finds the corresponding EventParticipant given the specified id and returns the list of all the people (users)
+	 * that have RSVPed for the specified event.
+	 */
 	@Override
 	public List<EventParticipant> fetchAllEventParticipantsByEventId(int eventId) throws Exception {
 
@@ -136,24 +165,18 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		return results;
 	}
 
+	/*
+	 * This class maps a EventParticipant database record to the EventParticipant model object by using
+	 * a RowMapper interface to fetch the records for a EventParticipant from the database.
+	 */
 	class EventParticipantRowMapper implements RowMapper<EventParticipant> {
 		/**
-		 * Returns the User in the given row
+		 * Returns the EventParticipant in the given row
 		 */
 		@Override
 		public EventParticipant mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 			EventParticipant ep = new EventParticipant();
-
-			/*
-			 * We use the ContactDao in order to access the contacts table in the data.sql
-			 * database, so that the service client has a handle on that contact.
-			 */
-
-			/*
-			 * We use the serviceClientDao in order to access the contacts table in the
-			 * data.sql database, so that the service client has a handle on that contact.
-			 */
 
 			try {
 

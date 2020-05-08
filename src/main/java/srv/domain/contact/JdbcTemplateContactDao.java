@@ -96,6 +96,9 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	/*
 	 * Removes the desired Contact (by id) from the schema.sql database. An
 	 * exception is thrown if the contact is unable to be removed (does not exist).
+	 * 
+	 * NOTE: in schema.sql we are setting references that have contact as a foreign key, to be null when a 
+	 * contact is removed.
 	 */
 	@Override
 	public void delete(int cid) throws Exception {
@@ -112,10 +115,7 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 
 	/* 
 	 * Updates the desired Contact (by id) in the schema.sql database with the new 
-	 * specified content. An exception is thrown if the contact is unable to be updates (does not exist).
-	 * 
-	 * NOTE: in schema.sql we are setting references that have contact as a foreign key, to be null when a 
-	 * contact is removed.
+	 * specified content. An exception is thrown if the contact is unable to be updated (does not exist).
 	 */
 	@Override
 	public void update(int cid,  String newFn, String newLn, String newEmail, String newWork, String newMobile, String newStr, String newCity, String newSt, String newZip) throws Exception {
@@ -150,6 +150,10 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 		return results.get(0);
 	}
 	
+	/*
+	 * This class maps a Contact database record to the Contact model object by using
+	 * a RowMapper interface to fetch the records for a Contact from the database.
+	 */
 	private class ContactRowMapper implements RowMapper <Contact> {
 	    @Override
 	    public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
