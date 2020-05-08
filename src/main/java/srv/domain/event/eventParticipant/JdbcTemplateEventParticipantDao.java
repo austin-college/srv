@@ -165,7 +165,7 @@ public class JdbcTemplateEventParticipantDao extends JdbcTemplateAbstractDao imp
 		return results;
 	}
 
-	/*
+	/**
 	 * This class maps a EventParticipant database record to the EventParticipant model object by using
 	 * a RowMapper interface to fetch the records for a EventParticipant from the database.
 	 */

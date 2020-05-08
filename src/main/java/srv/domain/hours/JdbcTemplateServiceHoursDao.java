@@ -1,11 +1,9 @@
-package srv.domain.servicehours;
+package srv.domain.hours;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.event.JdbcTemplateEventDao;
@@ -27,7 +24,7 @@ import srv.domain.user.JdbcTemplateUserDao;
  * 
  * An instance of this class is the JDBC Template that implements the ServiceHoursDao 
  * This class is responsible for retrieving data from the serviceHours table in the 
- * data.sql database. The methods implemented are to create a new service hour query, 
+ * schema.sql database. The methods implemented are to create a new service hour query, 
  * to update an existing service hours query, delete a service hour query and fetching
  * a service hour query by its primary id.
  * 
@@ -41,8 +38,10 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
  
 	@Autowired
 	JdbcTemplateServiceClientDao serviceClientDao;
+	
 	@Autowired
 	JdbcTemplateUserDao userDao;
+	
 	@Autowired
 	JdbcTemplateEventDao eventDao;
 	
@@ -50,11 +49,12 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 * Default constructor. 
 	 */
 	public JdbcTemplateServiceHoursDao() {
-		
 		super();
 	}
 	
-	
+	/*
+	 * Lists all the current service hours that are in the data.sql database.
+	 */
 	@Override
 	public List<ServiceHours> listAll() throws Exception {
 		
@@ -65,6 +65,10 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		return results;
 	}
 
+	/*
+	 * Creates a new ServiceHour in the schema.sql database. An exception is thrown
+	 * if the new service hour is a duplicate. 
+	 */
 	@Override
 	public ServiceHours create(Integer scid, Integer uid, Integer eid, double hours, String stat, String reflection,
 			String description) throws Exception {
@@ -114,7 +118,10 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		
 	}
 
-
+	/* 
+	 * Updates the desired ServiceHour (by id) in the schema.sql database with the new 
+	 * specified content. An exception is thrown if the service hour is unable to be updated (does not exist).
+	 */
 	@Override
 	public void update(Integer shid, Integer scid, Integer uid, Integer eid, double hours, String stat,
 			String reflection, String description) throws Exception {
@@ -128,8 +135,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		}
 		
 	}
-	/**
-	 * Removes the desired Service Hour (by id) from the data.sql database. An exception is thrown if 
+	
+	/*
+	 * Removes the desired Service Hour (by id) from the schema.sql database. An exception is thrown if 
 	 * a service hour doesn't exist. 
 	 */
 	@Override
@@ -146,8 +154,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 
 
-	/**
-	 * An instance of this method fetched the ServiceHour by its id
+	/*
+	 * An instance of this method fetched the ServiceHour by its id.An exception is thrown
+	 * if the service hour is unable to be fetched (does not exist).
 	 */
 	@Override
 	public ServiceHours fetchHoursById(int shid) throws Exception {
@@ -167,20 +176,14 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 	
 	/**
-	 * Private helper class that allows the ServiceHoursDao to be mapped to the ServiceClientDao,
-	 * the UserDao, and the EventDao.
-	 * 
-	 * @author fancynine9
-	 *
+	 * This class maps a ServiceHour database record to the ServiceHour model object by using
+	 * a RowMapper interface to fetch the records for a ServiceHour from the database.
 	 */
 	private class ServiceHourRowMapper implements RowMapper<ServiceHours> {
 
 		@Override
 		public ServiceHours mapRow(ResultSet rs, int rowNum) throws SQLException {
 			
-			/*
-			 * We use the daos for each seperate entity
-			 */
 			 ServiceHours sh = new ServiceHours();
 			 
 			try {

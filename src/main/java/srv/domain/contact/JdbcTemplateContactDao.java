@@ -150,7 +150,7 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 		return results.get(0);
 	}
 	
-	/*
+	/**
 	 * This class maps a Contact database record to the Contact model object by using
 	 * a RowMapper interface to fetch the records for a Contact from the database.
 	 */

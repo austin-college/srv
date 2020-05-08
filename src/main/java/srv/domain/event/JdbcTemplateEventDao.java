@@ -39,12 +39,13 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Autowired
 	private JdbcTemplateServiceClientDao serviceClientDao;
 
-
-
 	public JdbcTemplateEventDao() {
 		super();
 	}
 
+	/*
+	 * Lists all the current events that are in the schema.sql database.
+	 */
 	@Override
 	public List<Event> listAll() throws Exception {
 		List<Event> results = getJdbcTemplate().query(
@@ -54,6 +55,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		return results;
 	}
 
+	/*
+	 * Creates a new Event in the schema.sql database. An exception is thrown
+	 * if the new event is a duplicate. 
+	 */
 	@Override
 	public Event create(String title, String addr, int cid, String date, String eventType, boolean continuous,
 			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
@@ -95,6 +100,13 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	}
 
+	/*
+	 * Removes the desired Event (by id) from the schema.sql database. An
+	 * exception is thrown if the event is unable to be removed (does not exist).
+	 * 
+	 * NOTE: in schema.sql we are setting references that have event as a foreign key, to be null when a 
+	 * event is removed.
+	 */
 	@Override
 	public void delete(int eid) throws Exception {
 		int rc = getJdbcTemplate().update("DELETE from events where eventId= ?", new Object[] { eid });
@@ -106,6 +118,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		}
 	}
 
+	/* 
+	 * Updates the desired Event (by id) in the schema.sql database with the new 
+	 * specified content. An exception is thrown if the event is unable to be updated (does not exist).
+	 */
 	@Override
 	public void update(int eid, String title, String addr, int cid, String date, String eventType, boolean continuous,
 			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
@@ -140,6 +156,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		}
 	}
 
+	/*
+	 * Finds the corresponding Event given the specified id. An exception is thrown
+	 * if the event is unable to be fetched (does not exist).
+	 */
 	@Override
 	public Event fetchEventById(int eid) throws Exception {
 		String sqlStr = String.format(
@@ -157,6 +177,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		return results.get(0);
 	}
 
+	/**
+	 * This class maps a Event database record to the Event model object by using
+	 * a RowMapper interface to fetch the records for a Event from the database.
+	 */
 	class EventRowMapper implements RowMapper<Event> {
 		/**
 		 * Returns the Event in the given row

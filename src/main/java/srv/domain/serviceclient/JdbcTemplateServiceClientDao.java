@@ -147,7 +147,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 		return results.get(0);
 	}
 
-	/*
+	/**
 	 * This class maps a ServiceClient database record to the ServiceClient model object by using
 	 * a RowMapper interface to fetch the records for a ServiceClient from the database.
 	 */

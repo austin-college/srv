@@ -155,7 +155,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 		return results.get(0);
 	}
 
-	/*
+	/**
 	 * This class maps a EventType database record to the EventType model object by using
 	 * a RowMapper interface to fetch the records for a EventType from the database.
 	 */

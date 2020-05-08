@@ -143,7 +143,7 @@ public class JdbcTemplateServiceGroupDao extends JdbcTemplateAbstractDao impleme
 		return results.get(0);
 	}
 	
-	/*
+	/**
 	 * This class maps a ServiceGroup database record to the ServiceGroup model object by using
 	 * a RowMapper interface to fetch the records for a ServiceGroup from the database.
 	 */

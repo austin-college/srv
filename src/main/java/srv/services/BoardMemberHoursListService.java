@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
-import srv.domain.servicehours.JdbcTemplateServiceHoursDao;
-import srv.domain.servicehours.ServiceHours;
-import srv.domain.servicehours.ServiceHoursDao;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
+import srv.domain.hours.JdbcTemplateServiceHoursDao;
+import srv.domain.hours.ServiceHours;
+import srv.domain.hours.ServiceHoursDao;
 import srv.domain.user.ServantUser;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;

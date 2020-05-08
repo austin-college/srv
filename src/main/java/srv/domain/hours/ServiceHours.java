@@ -1,4 +1,4 @@
-package srv.domain.servicehours;
+package srv.domain.hours;
 
 import java.io.Serializable;
 
@@ -11,16 +11,13 @@ import srv.domain.user.User;
  *
  *	This class is a data holder for Service hours info. 
  *	ServiceHours will include basic informations such as:
- *	Associated Pet, Servant(or Board Member), Event, and hours served.
- *
- *	Initially this class is keeping track of single event, 
- *	but later it can be turned into a class tracking of all service opportunities (I need to hear more opinions about this) 
+ *	Associated service client, Servant(or Board Member), Event, and hours served.
  */
 public class ServiceHours implements Serializable{
 
-	private Integer shid; // Unique id for each hour
-	private ServiceClient servedPet; // Associated Pet
-	private User servant; // Servant worked for Pet
+	private Integer shid; // Unique id for each hour, given by database
+	private ServiceClient servedSc; // Associated service client
+	private User servant; // Servant worked for service client
 	private Event event; // Event held for service
 	private Double hours;	// Hours served
 	private String date; // Date Served
@@ -42,7 +39,7 @@ public class ServiceHours implements Serializable{
 			String stat) {
 		super();
 		this.shid = id;
-		this.servedPet = servedPet;
+		this.servedSc = servedPet;
 		this.servant = servant;
 		this.event = eventName;
 		this.hours = hours;
@@ -64,7 +61,7 @@ public class ServiceHours implements Serializable{
 	 */
 	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, double hours, String reflection, String description, String stat) {
 		super();
-		this.servedPet = servedPet;
+		this.servedSc = servedPet;
 		this.servant = servant;
 		this.event = eventName;
 		this.hours = hours;
@@ -88,12 +85,12 @@ public class ServiceHours implements Serializable{
 		
 	}
 	public ServiceClient getServedPet() {
-		return servedPet;
+		return servedSc;
 	}
 
 
 	public ServiceHours setServedPet(ServiceClient servedPet) {
-		this.servedPet = servedPet;
+		this.servedSc = servedPet;
 		return this;
 	}
 

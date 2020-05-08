@@ -24,10 +24,10 @@ import srv.controllers.hours.HoursController;
 import srv.controllers.serviceclients.ServiceClientController;
 import srv.domain.contact.ContactDao;
 import srv.domain.event.Event;
+import srv.domain.hours.ServiceHours;
+import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
-import srv.domain.servicehours.ServiceHours;
-import srv.domain.servicehours.ServiceHoursDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
 
