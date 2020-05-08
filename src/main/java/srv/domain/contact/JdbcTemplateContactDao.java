@@ -173,5 +173,4 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	        return con;
 	    }
 	}
-
 }

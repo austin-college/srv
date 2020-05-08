@@ -6,19 +6,13 @@ import srv.domain.serviceClient.ServiceClient;
 import srv.domain.serviceGroup.ServiceGroup;
 
 /**
+ * An instance of this class is a data holder, mainly for sorting purposes for events. It represents
+ * whether an event is an Austin College event such as Great Day of Service (GSD) or tutoring through
+ * the Service Station.
  * 
  * 
- * @author Min Shim
+ * @author Lydia House
  *
- *         [AJ's comment] We need to decide what to do here. I think this should
- *         be an enum, or something else if we don't want the choices to be hard
- *         coded. This is because I assume that this will be for purely for
- *         sorting means.
- * 
- *         [Min's comment] This class is a data holder, mainly for sorting
- *         purpose. Initially this class only have eventType input, and a method
- *         that returns True if the event is AC and False if the event is non AC
- *         event.
  */
 public class EventType implements Serializable {
 	
@@ -30,7 +24,10 @@ public class EventType implements Serializable {
 	private ServiceClient defClient; //  identifies the default ServiceClient
 	private ServiceGroup defOrg; // identifies the default ServiceGroup affiliation
 	
-
+	public EventType() {
+		super();
+	}
+	
 	public EventType(Integer etid, String name, String description, int defHours, boolean pinHours, ServiceClient sc, ServiceGroup sg) {
 		this.etId = etid;
 		this.name = name;
@@ -39,10 +36,6 @@ public class EventType implements Serializable {
 		this.pinHours = pinHours;
 		this.defClient = sc;
 		this.defOrg = sg;
-	}
-	
-	public EventType() {
-		super();
 	}
 	
 	public Integer getEtid() {
@@ -107,9 +100,4 @@ public class EventType implements Serializable {
 		this.defOrg = defOrg;
 		return this;
 	}
-	
-	
-	
-	
-
 }

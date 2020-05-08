@@ -3,13 +3,12 @@ package srv.domain.event.eventype;
 import java.util.List;
 
 /**
- * Data Access Object Interface for EvenetType.java
+ *  Data Access Object Interface for EventType.java that defines the standard operations
+ *  (CRUD) to be performed on the EventType model object. 
  *  
- * @author Min Shim
+ * @author Lydia House
  *
  */
-
-
 public interface EventTypeDao {
 
 	public List<EventType> listAll() throws Exception;

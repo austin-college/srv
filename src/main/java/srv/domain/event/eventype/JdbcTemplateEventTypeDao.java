@@ -17,6 +17,16 @@ import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.serviceClient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceGroup.JdbcTemplateServiceGroupDao;
 
+/**
+ * The JDBC Template that implements the EventType DAO (data access object) interface.
+ * An instance of this class is responsible to get data from the eventTypes table in the schema.sql
+ * database. The methods this class implements are creating a new event type query, updating an
+ * existing event type query, deleting a event type query, and fetching a event type query by its unique
+ * primary id (etId). 
+ * 
+ * @author Lydia House
+ *
+ */
 @ComponentScan("srv.config")
 public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements EventTypeDao {
 
@@ -35,7 +45,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/*
-	 * Lists all the current event types that are in the data.sql database.
+	 * Lists all the current event types that are in the schema.sql database.
 	 */
 	@Override
 	public List<EventType> listAll() throws Exception {
@@ -48,7 +58,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/*
-	 * Creates a new EventType in the data.sql database.
+	 * Creates a new EventType in the schema.sql database.
 	 * An exception is thrown if the new EventType is a duplicate. 
 	 */
 	@Override
@@ -88,7 +98,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/*
-	 * Removes the desired EventType (by id) from the data.sql database. 
+	 * Removes the desired EventType (by id) from the schema.sql database. 
 	 * An exception is thrown if the eventType is unable to be removed (does not exist).
 	 */
 	@Override
@@ -105,7 +115,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	}
 	
 	/* 
-	 * Updates the desired EventType (by id) in the data.sql database with the new specified content.
+	 * Updates the desired EventType (by id) in the schema.sql database with the new specified content.
 	 * An exception is thrown if the EventType is unable to be updates (does not exist).
 	 */
 	@Override
@@ -145,6 +155,10 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 		return results.get(0);
 	}
 
+	/*
+	 * This class maps a EventType database record to the EventType model object by using
+	 * a RowMapper interface to fetch the records for a EventType from the database.
+	 */
 	private class EventTypeRowMapper implements RowMapper<EventType> {
 	    @Override
 	    public EventType mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -164,8 +178,5 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	    	}
 	    	return et;
 	    }
-	}
-
-	
-	
+	}	
 }
