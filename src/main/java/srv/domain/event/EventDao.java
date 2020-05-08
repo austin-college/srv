@@ -2,9 +2,13 @@ package srv.domain.event;
 
 import java.util.List;
 
-import srv.domain.contact.Contact;
-import srv.domain.user.User;
-
+/**
+ *  Data Access Object Interface for Event.java that defines the standard operations
+ *  (CRUD) to be performed on the Event model object. 
+ *  
+ * @author Lydia House
+ *
+ */
 public interface EventDao {
 
 	public List<Event> listAll() throws Exception;

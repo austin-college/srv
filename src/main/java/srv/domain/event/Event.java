@@ -1,28 +1,25 @@
 package srv.domain.event;
 
 import java.io.Serializable;
-import java.util.List;
 
 import srv.domain.contact.Contact;
-import srv.domain.event.eventparticipant.EventParticipant;
 import srv.domain.event.eventype.EventType;
 import srv.domain.serviceClient.ServiceClient;
-import srv.domain.user.User;
 
 /**
+ * An instance of this class represents an event from the Service Station. The information
+ * contained includes the event name, location/address, contact information, date, the event type (AC or adhoc),
+ * needed volunteers (in hours and by persons), the service client associated with the event, the number
+ * of hours registered for the event and a free text field that provides a description of the event.
+ * 
+ * 
  * @author Segun Adekunle
  *
- *         This class should hold various events. Each event should be held by
- *         its pet and should also hold its pet.
- * 
- *         Importantly Event also holds and controls a list of servants
- * 
- *         Also holds onto the EventParticipants class
  */
 public class Event implements Serializable {
 
 	private int eid;
-	private String title; // I'm not sure each event will have title
+	private String title; 
 	private String address; // address of location
 	private Contact contact; // contact info
 	private String date; // date of event
@@ -30,11 +27,10 @@ public class Event implements Serializable {
 	private String typeString; //testing for eventType until it's implemented
 	private boolean continuous;// if event repeats??
 	private int volunteersNeeded; // 3 of volunteers needed
-	private ServiceClient serviceClient; // pet associated with event
+	private ServiceClient serviceClient; // service client associated with event
 	private double neededVolunteerHours; // volunteer hours needed for event
 	private double rsvpVolunteerHours; // volunteer hours already registered for event
 	private String freeTextField; // freeform text space
-//	private List<EventParticipant> participantsList;// list of all ServantUsers signed up for the event
 
 	public Event() {
 		super();
@@ -171,13 +167,4 @@ public class Event implements Serializable {
 		this.freeTextField = freeTextField;
 		return this; 
 	}
-
-//	public List<EventParticipant> getParticipantsList() {
-//		return participantsList;
-//	}
-//
-//	public Event setParticipantsList(List<EventParticipant> list) {
-//		this.participantsList = list;
-//		return this;
-//	}
 }
