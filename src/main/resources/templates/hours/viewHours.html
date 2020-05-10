@@ -38,41 +38,37 @@
 							</div>
 						</div>
 					</div>
+					
+			<!-- Button that prompts the user to enter their service hours -->
+			<button type="button" class="btn btn-md btn-dark addBtn"
+				data-toggle="modal" data-target="#myModal">
+				<span class="	fas fa-plus-circle"></span>Add Hours
+			</button>
 
-				<!-- Button that prompts the user to enter their service hours -->
-			<div id="addBtnContainer" style="padding-top: 10px">
-					<!-- Button that takes you to add hours page -->
-					<a href="addHours" class="btn btn-md btn-dark addBtn"> <span
-						class="	fas fa-plus-circle"></span> Add hours
-					</a>
+			<!-- Event Type Dialogue -->
+			<div id="myModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<div class="modal-body">
+							<p>Some text in the modal.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+							<!-- Button that takes you to add hours page -->
+							<a href="addHours" class="btn btn-md btn-dark addBtn"> Submit
+							</a>
+						</div>
+					</div>
+
 				</div>
-				<!-- Button that prompts the user to enter their service hours -->
-<button type="button" class="btn btn-md btn-dark addBtn" data-toggle="modal" data-target="#myModal"><span
-						class="	fas fa-plus-circle"></span>Add Hours</button>
-
-<!-- Event Type Dialogue -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <!-- Button that takes you to add hours page -->
-					<a href="addHours" class="btn btn-md btn-dark addBtn"> Submit
-					</a>
-      </div>
-    </div>
-
-  </div>
-</div>
 			</div>
+		</div>
 	</div>
 	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
 		<!-- BIG credit to Lydia for the most of the elements in this table, and for making the style -->
