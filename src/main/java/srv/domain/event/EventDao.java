@@ -17,7 +17,7 @@ public interface EventDao {
 	 * @param addr
 	 * @param cid
 	 * @param date
-	 * @param eventType
+	 * @param eventTypeId
 	 * @param continuous
 	 * @param volunteersNeeded
 	 * @param organizationId
@@ -28,7 +28,7 @@ public interface EventDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public Event create(String title, String addr, int cid, String date, String eventType, boolean continuous,
+	public Event create(String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
 			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception;
 
 	/**
@@ -37,7 +37,7 @@ public interface EventDao {
 	 */
 	public void delete(int eid) throws Exception;
 
-	public void update(int eid, String title, String addr, int cid, String date, String eventType, boolean continuous,
+	public void update(int eid, String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
 			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception;
 
 	/**

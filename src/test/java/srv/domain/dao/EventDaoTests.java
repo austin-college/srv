@@ -94,7 +94,7 @@ class EventDaoTests {
 		assertEquals("Dummy Address 1", e1.getAddress());
 		assertEquals(1, e1.getContact().getContactId());
 		assertEquals("01/01/2020", e1.getDate());
-		assertEquals("JANSERVE", e1.getTypeString()); // testing hardcoded example in schema - eventTypeDao not created yet
+		assertEquals(1, e1.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
 		assertFalse(e1.isContinuous());
 		assertEquals(5, e1.getVolunteersNeeded());
 		assertEquals(1, e1.getServiceClient().getScid());
@@ -108,7 +108,7 @@ class EventDaoTests {
 		assertEquals("Dummy Address 2", e2.getAddress());
 		assertEquals(2, e2.getContact().getContactId());
 		assertEquals("05/05/2020", e2.getDate());
-		assertEquals("GREENSERVE", e2.getTypeString()); // testing hardcoded example in schema - eventTypeDao not created yet
+		assertEquals(2, e2.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
 		assertFalse(e2.isContinuous());
 		assertEquals(10, e2.getVolunteersNeeded());
 		assertEquals(2, e2.getServiceClient().getScid());
@@ -122,7 +122,7 @@ class EventDaoTests {
 		assertEquals("Dummy Address 3", e3.getAddress());
 		assertEquals(3, e3.getContact().getContactId());
 		assertEquals("03/03/2020", e3.getDate());
-		assertEquals("HELPFUL EVENT", e3.getTypeString()); // testing hardcoded example in schema - eventTypeDao not created yet
+		assertEquals(3, e3.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
 		assertFalse(e3.isContinuous());
 		assertEquals(15, e3.getVolunteersNeeded());
 		assertEquals(1, e3.getServiceClient().getScid());
@@ -156,7 +156,7 @@ class EventDaoTests {
 		/*
 		 * Creating new Event 
 		 */
-		Event ne = dao.create("EARTH DAY", "Dummy Address 4", 3, "03/12/2020", "EVENT TYPE", false, 10, 2, 12.0, 2.5, "save the earth!!!");
+		Event ne = dao.create("EARTH DAY", "Dummy Address 4", 3, "03/12/2020", 2, false, 10, 2, 12.0, 2.5, "save the earth!!!");
 		
 		assertNotNull(ne); // checking if null
 		
@@ -188,7 +188,7 @@ class EventDaoTests {
 		assertEquals("Dummy Address 4", e4.getAddress());
 		assertEquals(3, e4.getContact().getContactId());
 		assertEquals("03/12/2020", e4.getDate());
-		assertEquals("EVENT TYPE", e4.getTypeString()); // needs to be replaced with getType().getEventTypeId();
+		assertEquals(2, e4.getType().getEtid()); // needs to be replaced with getType().getEventTypeId();
 		assertEquals(false, e4.isContinuous());
 		assertEquals(10, e4.getVolunteersNeeded());
 		assertEquals(2, e4.getServiceClient().getScid());
@@ -242,7 +242,7 @@ class EventDaoTests {
 		/*
 		 * Use update dao method
 		 */
-		dao.update(1, "COOLER EVENT", "1345 Murder Hornet Dr.", 1, "06/36/2020", "EVENT TYPE", true, 100, 1, 30, 15, "they're coming");
+		dao.update(1, "COOLER EVENT", "1345 Murder Hornet Dr.", 1, "06/36/2020", 2, true, 100, 1, 30, 15, "they're coming");
 		
 		Event ue = dao.fetchEventById(1);
 		
@@ -254,7 +254,7 @@ class EventDaoTests {
 		assertEquals("1345 Murder Hornet Dr.", ue.getAddress());
 		assertEquals(1, ue.getContact().getContactId());
 		assertEquals("06/36/2020", ue.getDate());
-		assertEquals("EVENT TYPE", ue.getTypeString());
+		assertEquals(2, ue.getType().getEtid());
 		assertEquals(true, ue.isContinuous());
 		assertEquals(100, ue.getVolunteersNeeded());
 		assertEquals(30, ue.getNeededVolunteerHours());

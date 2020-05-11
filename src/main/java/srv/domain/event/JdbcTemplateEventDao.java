@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
+import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 
@@ -38,6 +39,9 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 	@Autowired
 	private JdbcTemplateServiceClientDao serviceClientDao;
+	
+	@Autowired 
+	private JdbcTemplateEventTypeDao eventTypeDao;
 
 	public JdbcTemplateEventDao() {
 		super();
@@ -49,7 +53,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public List<Event> listAll() throws Exception {
 		List<Event> results = getJdbcTemplate().query(
-				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField from events",
+				"select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField from events",
 				new EventRowMapper());
 
 		return results;
@@ -60,12 +64,12 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * if the new event is a duplicate. 
 	 */
 	@Override
-	public Event create(String title, String addr, int cid, String date, String eventType, boolean continuous,
+	public Event create(String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
 			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
 
 		// SQL statement that is to be executed
-		final String sql = "insert into events (title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String sql = "insert into events (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -76,7 +80,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setString(2, addr);
 			ps.setInt(3, cid);
 			ps.setString(4, date);
-			ps.setString(5, eventType);
+			ps.setInt(5, eventTypeId);
 			ps.setBoolean(6, continuous);
 			ps.setInt(7, volunteersNeeded);
 			ps.setInt(8, organizationId);
@@ -123,11 +127,11 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * specified content. An exception is thrown if the event is unable to be updated (does not exist).
 	 */
 	@Override
-	public void update(int eid, String title, String addr, int cid, String date, String eventType, boolean continuous,
+	public void update(int eid, String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
 			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
 		// SQL statement that is to be executed
-		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventType = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ?, neededVolunteerHours = ?, rsvpVolunteerHours = ?, freeTextField = ? where eventId = ?";
+		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventTypeId = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ?, neededVolunteerHours = ?, rsvpVolunteerHours = ?, freeTextField = ? where eventId = ?";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -138,7 +142,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setString(2, addr);
 			ps.setInt(3, cid);
 			ps.setString(4, date);
-			ps.setString(5, eventType);
+			ps.setInt(5, eventTypeId);
 			ps.setBoolean(6, continuous);
 			ps.setInt(7, volunteersNeeded);
 			ps.setInt(8, organizationId);
@@ -163,7 +167,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public Event fetchEventById(int eid) throws Exception {
 		String sqlStr = String.format(
-				"select eventId, title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField from events where eventId = %d",
+				"select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField from events where eventId = %d",
 				eid);
 		log.debug(sqlStr);
 
@@ -194,7 +198,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title")).setAddress(rs.getString("address"))
 						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
-						.setTypeString(rs.getString("eventType")) // rs.getString("boardMem"))
+						.setType(eventTypeDao.fetchEventTypeById(rs.getInt("eventTypeId"))) // rs.getString("boardMem"))
 						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))
 						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))
 						.setNeededVolunteerHours(rs.getDouble("neededVolunteerHours"))

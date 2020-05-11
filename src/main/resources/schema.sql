@@ -52,6 +52,35 @@ CREATE TABLE reasons (
 	reason VARCHAR(255),
 	primary key (rid)
 	);
+	
+	
+CREATE TABLE serviceGroups (
+	serviceGroupId INTEGER AUTO_INCREMENT,
+	shortName VARCHAR(255),
+	title VARCHAR(255),
+	contactId INT,
+	primary key (serviceGroupId),
+	foreign key (contactId)
+		references contacts(contactId)
+		on delete set NULL
+	);
+	
+CREATE TABLE eventTypes (
+	eventTypeId INTEGER AUTO_INCREMENT,
+	name VARCHAR(255),
+	description VARCHAR(255),
+	defaultHours INT,
+	pinHours boolean,
+	serviceClientId INT,
+	serviceGroupId INT,
+	primary key (eventTypeId),
+	foreign key (serviceClientId)
+		references serviceClients(serviceClientId)
+		on delete set NULL,
+	foreign key (serviceGroupId)
+		references serviceGroups(serviceGroupId)
+		on delete set NULL	
+	);
 
 CREATE TABLE events (
 	eventId integer auto_increment,
@@ -59,7 +88,7 @@ CREATE TABLE events (
 	address VARCHAR(255),
 	contactId int,
 	dateOf VARCHAR(255),
-	eventType VARCHAR(255),
+	eventTypeId int,
 	continuous boolean,
 	volunteersNeeded int,
 	serviceClientId int,
@@ -69,6 +98,9 @@ CREATE TABLE events (
 	primary key (eventId),
 	foreign key (contactId)
 		references contacts(contactId)
+		on delete set NULL,
+	foreign key (eventTypeId)
+		references eventTypes(eventTypeId)
 		on delete set NULL,
 	foreign key (serviceClientId)
 		references serviceClients(serviceClientId)
@@ -87,38 +119,6 @@ CREATE TABLE eventParticipants (
 		references users(userId)
 		on delete set NULL
 );
-
-
-
-CREATE TABLE serviceGroups (
-	serviceGroupId INTEGER AUTO_INCREMENT,
-	shortName VARCHAR(255),
-	title VARCHAR(255),
-	contactId INT,
-	primary key (serviceGroupId),
-	foreign key (contactId)
-		references contacts(contactId)
-		on delete set NULL
-	);
-
-
-
-CREATE TABLE eventTypes (
-	eventTypeId INTEGER AUTO_INCREMENT,
-	name VARCHAR(255),
-	description VARCHAR(255),
-	defaultHours INT,
-	pinHours boolean,
-	serviceClientId INT,
-	serviceGroupId INT,
-	primary key (eventTypeId),
-	foreign key (serviceClientId)
-		references events(serviceClientId)
-		on delete set NULL,
-	foreign key (serviceGroupId)
-		references serviceGroups(serviceGroupId)
-		on delete set NULL	
-	);
 
 
 CREATE TABLE serviceHours (
@@ -176,16 +176,6 @@ insert into users (username, contactId) values ('user', 1);
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');
 
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 1', 'Dummy Address 1', 1, '01/01/2020', 'JANSERVE', false, 5, 1, 5.0, 3.0, 'free text field');
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 2', 'Dummy Address 2', 2, '05/05/2020', 'GREENSERVE', false, 10, 2, 3.0, 1.5, 'free text field');
-insert into events(title, address, contactId, dateOf, eventType, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 3', 'Dummy Address 3', 3, '03/03/2020', 'HELPFUL EVENT', false, 15, 1, 4.0, 2.0, 'free text field');
-
-insert into eventParticipants(eventId, userId) values (1, 2);
-insert into eventParticipants(eventId, userId) values (2, 2);
-insert into eventParticipants(eventId, userId) values (3, 2);
-insert into eventParticipants(eventId, userId) values (1, 1);
-insert into eventParticipants(eventId, userId) values (3, 1);
-
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
@@ -193,6 +183,16 @@ INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'D
 INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('gds', 'Great Day of Service', 2, true, 1, 1);
 INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('fws', 'First We Serve', 2, true, 2, 2);
 INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('rbd', 'Roo Bound', 3, true, 1, 3);
+
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 1', 'Dummy Address 1', 1, '01/01/2020', 1, false, 5, 1, 5.0, 3.0, 'free text field');
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 2', 'Dummy Address 2', 2, '05/05/2020', 2, false, 10, 2, 3.0, 1.5, 'free text field');
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, freeTextField) values ('Dummy Event 3', 'Dummy Address 3', 3, '03/03/2020', 3, false, 15, 1, 4.0, 2.0, 'free text field');
+
+insert into eventParticipants(eventId, userId) values (1, 2);
+insert into eventParticipants(eventId, userId) values (2, 2);
+insert into eventParticipants(eventId, userId) values (3, 2);
+insert into eventParticipants(eventId, userId) values (1, 1);
+insert into eventParticipants(eventId, userId) values (3, 1);
 
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 2, 1, '2.0', 'Pending', 'Made food', 'Crisis Center');
