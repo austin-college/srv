@@ -66,8 +66,13 @@ public class UserUtil {
 		
 		String auth_user_id = auth.getName();
 		
+		User usr = userDao.fetchUserByUsername(auth_user_id);
 		
-		return null;
+		if (this.userIsServant()) usr.setRoll(AppConstants.ROLE_SERVANT);
+		if (this.userIsBoardMember()) usr.setRoll(AppConstants.ROLE_BOARDMEMBER);
+		if (this.userIsAdmin()) usr.setRoll(AppConstants.ROLE_ADMIN);
+		
+		return usr;
 		
 	}
 	
