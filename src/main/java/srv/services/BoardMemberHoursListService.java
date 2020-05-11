@@ -27,21 +27,27 @@ public class BoardMemberHoursListService {
 
 	@Autowired 
 	ServiceHoursDao serviceDao;
+	
 	public BoardMemberHoursListService() {
 
 	}
 	
 	/**@return ServiceHours list directly from the Dao
 	 *TODO Only return services with "Pending as status"*/
-	public List<ServiceHours> listHours(){	try {
-		return serviceDao.listAll();
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
+	public List<ServiceHours> listHours() {	
+		
+		try {
+			
+			return serviceDao.listAll();
+			
+		} catch (Exception e) {
+		
 		e.printStackTrace();
 		return null;
 	}}
 	
 	public List<ServiceHours> listHoursToBeApproved(){	
+		
 		List<ServiceHours> allHrs;
 		List<ServiceHours> tbaHrs = new ArrayList<ServiceHours>();
 		try {

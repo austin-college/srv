@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import srv.domain.hours.ServiceHoursDao;
 import srv.services.BoardMemberHoursListService;
 
 /**
@@ -24,6 +25,9 @@ public class BoardMemberController {
 	
 	@Autowired
 	BoardMemberHoursListService bmHrListSrv;
+	
+	@Autowired
+	ServiceHoursDao serviceHoursDao; 
 
 	/**
 	 * Maps boardMember.html template to /boardMember
