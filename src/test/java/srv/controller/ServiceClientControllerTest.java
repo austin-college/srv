@@ -4,10 +4,13 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.SSLEngineResult.Status;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -74,5 +78,25 @@ public class ServiceClientControllerTest {
 						containsString("<li id=\"row_2\"> 2, Crisis Center, Rick Astley, Crisis Support</li>")));
 
 	}
+	
+	
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void servantHomeRedirectionTest() throws Exception {
+
+		when(userUtil.userIsAdmin()).thenReturn(true);
+
+		mvc.perform(get("/sc/list").contentType(MediaType.TEXT_HTML))
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("Service Client List")))
+				//checks to see if there is a button that adds a Service Client
+				.andExpect(content().string(containsString("class=\"addBtn ui-button ui-widget\" type=\"submit\"\r\n" + 
+						"				value=\"Add Service Client\"")))
+				//checks for a table
+				.andExpect(content().string(containsString("class=\"table ui-widget ui-widget-content table-striped table-bordered table-hover\"")));
+	}
+	
+	
+	
 
 }
