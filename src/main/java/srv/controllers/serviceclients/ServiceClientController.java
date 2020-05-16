@@ -138,8 +138,18 @@ public class ServiceClientController {
 		
 		// Obtains the information from the JavaScript function
 		String clientName = request.getParameter("clientName");
-		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
-		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
+		String cid1Str = request.getParameter("mcID");
+		String cid2Str = request.getParameter("ocID");
+		
+		Integer cid1 = null;
+		Integer cid2 = null;
+		
+		if (cid1Str != null && cid1Str.length()>0 )
+			cid1 = Integer.valueOf(cid1Str); // main contact ID
+		
+		if (cid2Str != null && cid2Str.length()>0 )
+			cid2 = Integer.valueOf(cid2Str);  // other/secondary ID
+		
 		String bmName = request.getParameter("bmName");
 		String category = request.getParameter("cat");
 
