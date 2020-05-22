@@ -1,4 +1,4 @@
-package srv.controllers.events;
+package srv.controllers;
 
 import java.util.List;
 

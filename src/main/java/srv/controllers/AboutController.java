@@ -1,5 +1,5 @@
 
-package srv.controllers.about;
+package srv.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

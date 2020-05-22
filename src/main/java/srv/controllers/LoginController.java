@@ -1,4 +1,4 @@
-package srv.controllers.login;
+package srv.controllers;
 
 
 import java.io.IOException;

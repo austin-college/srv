@@ -1,4 +1,4 @@
-package srv.controllers.serviceclients;
+package srv.controllers;
 
 import java.util.List;
 

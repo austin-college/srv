@@ -1,4 +1,4 @@
-package srv.controllers.home;
+package srv.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

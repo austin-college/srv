@@ -31,7 +31,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.config.WebSecurityConfig;
-import srv.controllers.serviceclients.ServiceClientController;
+import srv.controllers.ServiceClientController;
 import srv.domain.contact.ContactDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;

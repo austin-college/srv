@@ -1,4 +1,4 @@
-package srv.controllers.hours;
+package srv.controllers;
 
 
 import java.util.List;
