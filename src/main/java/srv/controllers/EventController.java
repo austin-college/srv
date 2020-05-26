@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.Event;
 import srv.domain.event.EventDao;
+import srv.services.EventService;
 
 /**
  * 
@@ -27,9 +28,8 @@ import srv.domain.event.EventDao;
 @EnableWebSecurity
 public class EventController {
 
-	@Autowired
-	EventDao dao;
-
+	
+	@Autowired EventService eventService;
 
 	/**
 	 * displays the admin manage events page
@@ -46,7 +46,8 @@ public class EventController {
 		try {
 
 			// Lists the current events in the event database in a table
-			List<Event> myEvents = dao.listAll();
+			List<Event> myEvents = eventService.allEvents();
+			
 			mav.addObject("events", myEvents);
 
 

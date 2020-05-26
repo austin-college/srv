@@ -30,7 +30,7 @@ public class Event implements Serializable {
 	private ServiceClient serviceClient; // service client associated with event
 	private double neededVolunteerHours; // volunteer hours needed for event
 	private double rsvpVolunteerHours; // volunteer hours already registered for event
-	private String freeTextField; // freeform text space
+	private String note; // freeform text space
 
 	public Event() {
 		super();
@@ -159,12 +159,12 @@ public class Event implements Serializable {
 		return this; 
 	}
 
-	public String getFreeTextField() {
-		return freeTextField;
+	public String getNote() {
+		return note;
 	}
 
-	public Event setFreeTextField(String freeTextField) {
-		this.freeTextField = freeTextField;
+	public Event setNote(String freeTextField) {
+		this.note = freeTextField;
 		return this; 
 	}
 }

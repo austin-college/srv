@@ -47,23 +47,7 @@ class EventDaoTests {
 
 		assertEquals(id1, e1.getEid());
 
-		assertEquals("Dummy Event 1", e1.getTitle());
-
-		// test that e2 can be fetched
-		int id2 = 2;
-		Event e2 = dao.fetchEventById(id2);
-
-		assertEquals(id2, e2.getEid());
-
-		assertEquals("Dummy Event 2", e2.getTitle());
-
-		// test that e3 can be fetched
-		int id3 = 3;
-		Event e3 = dao.fetchEventById(id3);
-
-		assertEquals(id3, e3.getEid());
-
-		assertEquals("Dummy Event 3", e3.getTitle());
+		assertEquals("GDS2020", e1.getTitle());
 
 	}
 
@@ -88,10 +72,13 @@ class EventDaoTests {
 		Event e3 = events.get(2);
 		assertNotNull(e3); 
 		
+		/*
+		 * ('GDS2020', 'distributed', 1, '01/01/2020', 1, false, 5, 1, 5.0, 3.0, 'free text field');
+		 */
 		//testing contents of e1
 		assertEquals(1, e1.getEid());
-		assertEquals("Dummy Event 1", e1.getTitle());
-		assertEquals("Dummy Address 1", e1.getAddress());
+		assertEquals("GDS2020", e1.getTitle());
+		assertEquals("distributed", e1.getAddress());
 		assertEquals(1, e1.getContact().getContactId());
 		assertEquals("01/01/2020", e1.getDate());
 		assertEquals(1, e1.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
@@ -100,7 +87,7 @@ class EventDaoTests {
 		assertEquals(1, e1.getServiceClient().getScid());
 		assertEquals(5.0, e1.getNeededVolunteerHours());
 		assertEquals(3.0, e1.getRsvpVolunteerHours());
-		assertEquals("free text field", e1.getFreeTextField());
+		assertEquals("free text field", e1.getNote());
 	
 		// testing contents of e2
 		assertEquals(2, e2.getEid());
@@ -114,7 +101,7 @@ class EventDaoTests {
 		assertEquals(2, e2.getServiceClient().getScid());
 		assertEquals(3.0, e2.getNeededVolunteerHours());
 		assertEquals(1.5, e2.getRsvpVolunteerHours());
-		assertEquals("free text field", e2.getFreeTextField());
+		assertEquals("free text field", e2.getNote());
 
 		// testing contents of e3
 		assertEquals(3, e3.getEid());
@@ -128,7 +115,7 @@ class EventDaoTests {
 		assertEquals(1, e3.getServiceClient().getScid());
 		assertEquals(4.0, e3.getNeededVolunteerHours());
 		assertEquals(2.0, e3.getRsvpVolunteerHours());
-		assertEquals("free text field", e3.getFreeTextField());
+		assertEquals("free text field", e3.getNote());
 
 	}
 
@@ -194,7 +181,7 @@ class EventDaoTests {
 		assertEquals(2, e4.getServiceClient().getScid());
 		assertEquals(12.0, e4.getNeededVolunteerHours());
 		assertEquals(2.5, e4.getRsvpVolunteerHours());
-		assertEquals("save the earth!!!", e4.getFreeTextField());
+		assertEquals("save the earth!!!", e4.getNote());
 
 	}
 
@@ -208,7 +195,7 @@ class EventDaoTests {
 
 		assertEquals(1, e1.getEid());
 
-		assertEquals("Dummy Event 1", e1.getTitle());
+		assertEquals("GDS2020", e1.getTitle());
 
 		assertEquals(size, dao.listAll().size());
 
@@ -219,21 +206,6 @@ class EventDaoTests {
 		assertEquals(null, dao.fetchEventById(1));
 		assertEquals(2, dao.listAll().size());
 
-		// checks Event with id 2 exists
-		e1 = dao.fetchEventById(2);
-
-		assertEquals(2, e1.getEid());
-
-		assertEquals("Dummy Event 2", e1.getTitle());
-
-		assertEquals(size - 1, dao.listAll().size());
-
-		// deletes Event with id 2
-		dao.delete(2);
-
-		// verifies its been deleted
-		assertEquals(null, dao.fetchEventById(2));
-		assertEquals(size - 2, dao.listAll().size());
 	}
 
 	@Test
@@ -259,7 +231,7 @@ class EventDaoTests {
 		assertEquals(100, ue.getVolunteersNeeded());
 		assertEquals(30, ue.getNeededVolunteerHours());
 		assertEquals(15, ue.getRsvpVolunteerHours());
-		assertEquals("they're coming", ue.getFreeTextField());
+		assertEquals("they're coming", ue.getNote());
 	
 
 	}
