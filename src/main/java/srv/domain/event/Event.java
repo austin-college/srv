@@ -20,16 +20,21 @@ public class Event implements Serializable {
 
 	private int eid;
 	private String title; 
-	private String address; // address of location
+	private String address; // address of location 
 	private Contact contact; // contact info
-	private String date; // date of event
+	private String date; // start date of event
 	private EventType type; // eventType TODO
+	
 	private String typeString; //testing for eventType until it's implemented
-	private boolean continuous;// if event repeats??
-	private int volunteersNeeded; // 3 of volunteers needed
-	private ServiceClient serviceClient; // service client associated with event
-	private double neededVolunteerHours; // volunteer hours needed for event
-	private double rsvpVolunteerHours; // volunteer hours already registered for event
+	
+	private boolean continuous;	// true if event is always ongoing (like tutoring the service station).
+	
+	private int volunteersNeeded; 		 // estimated number of volunteers needed
+	private double neededVolunteerHours; // volunteer hours needed for event.  sum of all hours for min number of volunteers.
+	private double rsvpVolunteerHours;   // volunteer hours already registered for event  
+	
+	private ServiceClient serviceClient; // service client associated with event...the "sponsor" of the event
+	
 	private String note; // freeform text space
 
 	public Event() {

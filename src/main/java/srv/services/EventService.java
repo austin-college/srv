@@ -2,6 +2,8 @@ package srv.services;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ import srv.domain.event.eventype.EventTypeDao;
 @Service
 public class EventService {
 
+	private static Logger log = LoggerFactory.getLogger(EventService.class);
+	
+	
 	@Autowired
 	private EventDao dao;
 	
@@ -48,8 +53,7 @@ public class EventService {
 	 */
 	public void deleteEvent(int eventId) throws Exception {
 		
-		//TODO
-		
+		log.debug("deleting item {}", eventId);
 	}
 
 	

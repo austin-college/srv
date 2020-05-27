@@ -69,4 +69,15 @@
 	color:#81d2f7
 }
 
+.ui-widget-overlay {
+  opacity: 0.5;
+  filter: Alpha(Opacity=50);
+  background-color: black;
+}
+
+.ui-dialog-titlebar {
+  background-color: #A41E33;
+  background-image: none;
+  color: #FFF;
+}
 
