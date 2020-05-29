@@ -171,10 +171,11 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	    			.setDescription(rs.getString("description"))
 	    			.setDefHours(rs.getInt("defaultHours"))
 	    			.setPinHours(rs.getBoolean("pinHours"))
-	    			.setDefClient(scdao.fetchClientById(rs.getInt("serviceClientId")))
-	    			.setDefOrg(sgdao.fetchServiceGroupById(rs.getInt("serviceGroupId")));
+	    			.setDefClient(scdao.fetchClientById(rs.getInt("serviceClientId")));
+
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
+	    		throw new SQLException(e.getMessage());
 	    	}
 	    	return et;
 	    }
