@@ -137,6 +137,8 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	@Override
 	public Contact fetchContactById(int cid) throws Exception {
 		
+		if (cid == 0) return null;
+		
 		String sqlStr = String.format("SELECT contactId, firstName, lastName, email, workPhone, mobilePhone, "
 				+ "str, city, st, zip FROM contacts WHERE contactId = %d", cid);
 		log.debug(sqlStr);
