@@ -169,6 +169,43 @@ public class EventController {
 
 	
 	/**
+	 * Find the event
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(value = "/events/ajax/event/{id}/contact")
+	public ModelAndView ajaxFetchEvent(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+		
+		try {
+			/*
+			 * fetch the event
+			 */
+			log.debug("fetching event {}",id);
+			Event theEvent = eventService.eventById(id.intValue());
+			
+			ModelAndView mav = new ModelAndView("events/contact");
+			
+			mav.addObject("event",theEvent);
+			mav.addObject("contact", theEvent.getContact());
+			
+			// everything is fine.... back to the event management base page
+			return mav;
+
+		} catch (Exception e) {
+
+			// TODO:  flash error on page to user.
+			
+			return new ModelAndView("redirect:/events/");
+
+		}
+
+	}
+	
+	
+	/**
 	 * When the client needs to delete an event, this controller action will
 	 * handle the request.  Note: we are using the DELETE HTTP method and embedding
 	 * the item id as part of the URL (not a query parameter).   

@@ -6,6 +6,41 @@ function onNewClick() {
 	$("#dlgNewEvent").dialog( "open" );
 }
 
+
+/*
+ * When user clicks on contact, this method opens the modal dialog.
+ */
+function onContactClick() {
+	//alert("contact click event "+$(this).attr("eid"));
+	
+	$("#dlgViewContact").dialog( "open" );
+	
+		var idStr = $(this).attr("eid");  // our TD better have an eid attr embedded.
+		
+		$.ajax({
+			method: "get",
+	  	    url: "/srv/events/ajax/event/"+idStr+"/contact",
+	  	    cache: false
+	    })
+	    /*
+		 * If successful, then remove the selected event row from the table.
+		 */
+		.done(function(htmltext) {
+			//alert("done "+htmltext);
+			$("#dlgViewContact").html(htmltext);
+
+		})
+		/*
+		 * If unsuccessful (invalid data values), display error message and reasoning.
+		 */
+		.fail(function(jqXHR, textStatus) {
+			alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);
+
+		});
+		
+
+}
+
 /*
  * launch the action for deleting given the event id.  Present dialog 
  * to confirm.   Then let dialog callbacks do all the work.
@@ -113,6 +148,8 @@ function onViewClick() {
 }
 
 
+
+
 // Final preparations once the page is loaded.  we hide stuff and attach functions to buttons. 
 function onPageLoad() {
 	
@@ -127,6 +164,9 @@ function onPageLoad() {
 	
 	// connect the view action to all view buttons 
 	$(".btnEvView").click(onViewClick);
+
+	// connect the view action to all view buttons 
+	$("td.ev_contact").click(onContactClick);
 
 
 	// Register and hide the delete dialog div until a delete button is clicked on.
@@ -191,6 +231,30 @@ function onPageLoad() {
 	    		}
 			},
 		
+	        {	
+				text: "CANCEL",
+	        	      "class": 'cancBtnClass',
+	        	click: function() {
+	        		$(this).dialog("close");
+	        	}
+	        }
+		]
+	});
+	
+	// setup the create new event dialog....
+	$("#dlgViewContact").dialog({
+		autoOpen: false,   // hide it at first
+		height: 400,
+		width: 400,
+		position: {
+			  my: "center top",
+			  at: "center top",
+			  of: window
+			},
+		modal: true,
+		//dialogClass: "newDlgClass",
+		show: { effect: "blind", duration: 300 },
+		buttons: [
 	        {	
 				text: "CANCEL",
 	        	      "class": 'cancBtnClass',
