@@ -64,10 +64,13 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * if the new event is a duplicate. 
 	 */
 	@Override
-	public Event create(String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
-			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
+	public Event create(String title, String addr, Integer cid, String date, Integer eventTypeId, 
+			Boolean continuous, Integer volunteersNeeded, 
+			Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
 
+		assert(eventTypeId != null);
+		
 		// SQL statement that is to be executed
 		final String sql = "insert into events (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -76,17 +79,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		// fills in the SQL statements ?'s
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "eventId" });
-			ps.setString(1, title);
-			ps.setString(2, addr);
-			ps.setInt(3, cid);
-			ps.setString(4, date);
-			ps.setInt(5, eventTypeId);
-			ps.setBoolean(6, continuous);
-			ps.setInt(7, volunteersNeeded);
-			ps.setInt(8, organizationId);
-			ps.setDouble(9, neededVolunteerHours);
-			ps.setDouble(10, rsvpVolunteerHours);
-			ps.setString(11, freeTextField);
+			
+			fillInTheBlanks(title, addr, cid, date, eventTypeId, continuous, volunteersNeeded, organizationId,
+					neededVolunteerHours, rsvpVolunteerHours, freeTextField, ps);
+			
 			return ps;
 		}, keyHolder);
 
@@ -102,6 +98,71 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 		return this.fetchEventById((int) num);
 
+	}
+
+	/**
+	 * Helper method used to set or nullify the blanks in a prepared statement.  You must
+	 * refer to the SQL schema to ensure we are using the right types when nullifying.  See
+	 * the SQL CREATE statement.   
+	 */
+	private void fillInTheBlanks(String title, String addr, Integer cid, String date, Integer eventTypeId,
+			Boolean continuous, Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours,
+			Double rsvpVolunteerHours, String freeTextField, PreparedStatement ps) throws SQLException {
+		
+		if (title == null) 
+			ps.setNull(1, java.sql.Types.VARCHAR);
+		else
+			ps.setString(1, title);
+		
+		if (addr == null)
+			ps.setNull(2, java.sql.Types.VARCHAR);
+		else
+			ps.setString(2, addr);
+		
+		if (cid == null)
+			ps.setNull(3, java.sql.Types.INTEGER);
+		else
+			ps.setInt(3, cid.intValue());
+		
+		if (date == null)
+			ps.setNull(4, java.sql.Types.VARCHAR);
+		else 
+			ps.setString(4, date);
+		
+		if (eventTypeId == null)
+			ps.setNull(5, java.sql.Types.INTEGER);
+		else
+			ps.setInt(5, eventTypeId);   
+		
+		if (continuous == null)
+			ps.setNull(6, java.sql.Types.BOOLEAN);
+		else
+			ps.setBoolean(6, continuous);
+		
+		if (volunteersNeeded == null)
+			ps.setNull(7, java.sql.Types.INTEGER);
+		else
+			ps.setInt(7, volunteersNeeded);
+		
+		if (organizationId == null)
+			ps.setNull(8, java.sql.Types.INTEGER);
+		else
+			ps.setInt(8, organizationId);
+		
+		if (neededVolunteerHours == null)
+			ps.setNull(9, java.sql.Types.INTEGER);
+		else
+			ps.setDouble(9, neededVolunteerHours);
+		
+		if (rsvpVolunteerHours == null)
+			ps.setNull(10, java.sql.Types.DOUBLE);
+		else
+			ps.setDouble(10, rsvpVolunteerHours);
+		
+		if (freeTextField == null)
+			ps.setNull(11, java.sql.Types.VARCHAR);
+		else
+			ps.setString(11, freeTextField);
 	}
 
 	/*
@@ -127,28 +188,23 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * specified content. An exception is thrown if the event is unable to be updated (does not exist).
 	 */
 	@Override
-	public void update(int eid, String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
-			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours,
+	public void update(int eid, String title, 
+			String addr, Integer cid, String date, Integer eventTypeId, Boolean continuous,
+			Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
+		
 		// SQL statement that is to be executed
 		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventTypeId = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ?, neededVolunteerHours = ?, rsvpVolunteerHours = ?, note = ? where eventId = ?";
+
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		// fills in the SQL statements ?'s
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "eventId" });
-			ps.setString(1, title);
-			ps.setString(2, addr);
-			ps.setInt(3, cid);
-			ps.setString(4, date);
-			ps.setInt(5, eventTypeId);
-			ps.setBoolean(6, continuous);
-			ps.setInt(7, volunteersNeeded);
-			ps.setInt(8, organizationId);
-			ps.setDouble(9, neededVolunteerHours);
-			ps.setDouble(10, rsvpVolunteerHours);
-			ps.setString(11, freeTextField);
+			
+			this.fillInTheBlanks(title, addr, cid, date, eventTypeId, continuous, volunteersNeeded, organizationId, neededVolunteerHours, rsvpVolunteerHours, freeTextField, ps);
+			
 			ps.setInt(12, eid);
 			return ps;
 		}, keyHolder);
@@ -196,8 +252,11 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 			try {
 
-				ev.setEid(rs.getInt("eventId")).setTitle(rs.getString("title")).setAddress(rs.getString("address"))
-						.setContact(contactDao.fetchContactById(rs.getInt("contactId"))).setDate(rs.getString("dateOf"))
+				ev.setEid(rs.getInt("eventId"))
+						.setTitle(rs.getString("title"))
+						.setAddress(rs.getString("address"))
+						.setContact(contactDao.fetchContactById(rs.getInt("contactId")))
+						.setDate(rs.getString("dateOf"))
 						.setType(eventTypeDao.fetchEventTypeById(rs.getInt("eventTypeId"))) // rs.getString("boardMem"))
 						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))
 						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))

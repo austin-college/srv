@@ -1,12 +1,15 @@
 
-// open the dialog or launch the action related to 
-// creating a new event
+/*
+ * open the dialog to start to create an event.
+ */
 function onNewClick() {
-	alert("new event");
+	$("#dlgNewEvent").dialog( "open" );
 }
 
-//launch the action for deleting given the event id.  Present dialog
-//to confirm.   Then let dialog callbacks do all the work.
+/*
+ * launch the action for deleting given the event id.  Present dialog 
+ * to confirm.   Then let dialog callbacks do all the work.
+ */
 function onDeleteClick() {
 	
 	var eid = $(this).attr("eid");  // assume eid attr exists on button.
@@ -35,8 +38,8 @@ function ajaxDeleteEventNow() {
 	// alert(idStr);
 	
 	$.ajax({
-		method: "DELETE",
-  	    url: "/srv/events/"+idStr,
+		method: "POST",
+  	    url: "/srv/events/ajax/del/"+idStr,
   	    cache: false
     })
     /*
@@ -57,12 +60,50 @@ function ajaxDeleteEventNow() {
 	
 }
 
+/*
+ * Makes the request back to server to create a new event.
+ *  
+ * @param etid
+ * @returns
+ */
+function ajaxCreateEventNow(etid) {
+	
+	// The ID of the selected event to be deleted...from the dialog
+	$.ajax({
+		method: "POST",
+  	    url: "/srv/events/ajax/new/"+etid,
+  	    cache: false
+    })
+    /*
+	 * If successful, then request browser to move to edit
+	 * page on the newly created item.
+	 */
+	.done(function(eid) {
+		var site = location.origin
+		var path = site+"/srv/events/edit/"+eid;
+		location.assign(path);
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);
+		$("#dlgNewEvent").dialog( "close" );
+	});
+	
+}
 
-// open the dialog or launch the action related to
-// editing the current row/event
+
+
+/*
+ * cause the client to request the edit page with the specified
+ * event id.   Assumes that the button to which this handler is 
+ * attached has a eid attribute. 
+ */
 function onEditClick() {
-	alert("edit event "+$(this).attr("eid"));
-	// TODO use javascript 
+	var site = location.origin
+	var path = site+"/srv/events/edit/"+$(this).attr("eid");
+	location.assign(path);
 }
 
 //launch the action for viewing details given the event id
@@ -78,7 +119,7 @@ function onPageLoad() {
 	// connection action to unique create button
 	$("#btnEvNew").click(onNewClick);
 	
-	// connect the delete action to all delete buttons 
+	// connect the delete action to all delete buttons tagged with btnEvDel class
 	$(".btnEvDel").click(onDeleteClick);
 
 	// connect the edit action to all edit buttons 
@@ -106,9 +147,7 @@ function onPageLoad() {
 				text: "DELETE", 
 	    			  "class": 'delBtnClass',
 	    		click: function() {
-	    			// alert("now really delete it");
-	    			// make ajax call...let ajax callback refresh DOM
-	    			ajaxDeleteEventNow();
+	    			ajaxDeleteEventNow(); 
 	    		}
 			},
 		
@@ -116,12 +155,51 @@ function onPageLoad() {
 				text: "CANCEL",
 	        	      "class": 'cancBtnClass',
 	        	click: function() {
-	        		$("#dlgDelete").dialog("close");
+	        		$(this).dialog("close");
 	        	}
 	        }
 		]
 	});	
 	
+	
+	// setup the create new event dialog....
+	$("#dlgNewEvent").dialog({
+		autoOpen: false,   // hide it at first
+		height: 250,
+		width: 400,
+		position: {
+			  my: "center top",
+			  at: "center top",
+			  of: "#srv-page"
+			},
+		modal: true,
+		dialogClass: "newDlgClass",
+		show: { effect: "blind", duration: 500 },
+		buttons: [
+			{
+				text: "CREATE NEW", 
+	    			  "class": 'newBtnClass',
+	    		click: function() {
+	    			
+	    			// harvest user's data
+	    			var etype = $("#evType").val();   // what did user choose in dialog?
+	    			//alert("create new button "+etype);
+	    			
+	    			// post to the server
+	    			ajaxCreateEventNow(etype);
+	    			
+	    		}
+			},
+		
+	        {	
+				text: "CANCEL",
+	        	      "class": 'cancBtnClass',
+	        	click: function() {
+	        		$(this).dialog("close");
+	        	}
+	        }
+		]
+	});
 	
 }
 

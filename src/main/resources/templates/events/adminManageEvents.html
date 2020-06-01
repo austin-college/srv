@@ -39,6 +39,7 @@
 				<tr>
 					<th class="th-sm">ID</th>
 					<th class="th-sm">Title</th>
+					<th class="th-sm">Type</th>
 					<th class="th-sm">Contact</th>
 					<th class="th-sm">Date</th>
 					<th class="th-sm">Action</th>
@@ -49,7 +50,8 @@
 				<tr id="eid-${ev.eid?c}">
 					<td class='ev_id'>${ev.eid!"UNKNOWN"}</td>
 					<td class='ev_title'>${ev.title!"UNKNOWN"}</td>
-					<td class='ev_contact'>${ev.cid!"UNKNOWN"}</td>
+					<td class='ev_type'>${ev.type.name!"UNKNOWN"}</td>
+					<td class='ev_contact'>${ev.contact.fullName()!"UNKNOWN"}</td>
 					<td class='ev_date'>${ev.date!"UNKNOWN"}</td>
 	
 					<!--action buttons-->
@@ -83,6 +85,29 @@
 		<div id="delEvId">id</div>
 		<div id="delEvTitle">title</div>
 		<div id="delEvDate">date</div>
+	</p>
+</div>
+
+<div id="dlgView" title="EVENT DETAILS" class="ui-widget" style="display:none">
+	<p>
+		Show event details here.
+	</p>
+</div>
+
+<div id="dlgViewContact" title="CONTACT DETAILS" class="ui-widget" style="display:none">
+	<p>
+		Show event contact here.
+	</p>
+</div>
+
+<div id="dlgNewEvent" title="CREATE NEW EVENT" class="ui-widget" style="display:none">
+	<p>
+		Select Event Type: 
+		<select id="evType" name="evtype">
+		  <#list evtypes as et>
+		  <option value="${et.etid}">(${et.name}) ${et.description}</option>
+		  </#list>		</select>
+
 	</p>
 </div>
 </@layout.stdpage>

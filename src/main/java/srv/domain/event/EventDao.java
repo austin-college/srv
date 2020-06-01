@@ -28,8 +28,13 @@ public interface EventDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public Event create(String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
-			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception;
+	public Event create(String title, 
+			String addr, 
+			Integer cid, 
+			String date, 
+			Integer eventTypeId, Boolean continuous,
+			Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours, 
+			Double rsvpVolunteerHours, String freeTextField) throws Exception;
 
 	/**
 	 * @param eid unique event ID
@@ -37,8 +42,8 @@ public interface EventDao {
 	 */
 	public void delete(int eid) throws Exception;
 
-	public void update(int eid, String title, String addr, int cid, String date, int eventTypeId, boolean continuous,
-			int volunteersNeeded, int organizationId, double neededVolunteerHours, double rsvpVolunteerHours, String freeTextField) throws Exception;
+	public void update(int eid, String title, String addr, Integer cid, String date, Integer eventTypeId, Boolean continuous,
+			Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours, String freeTextField) throws Exception;
 
 	/**
 	 * @param eid unique event ID

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import srv.domain.event.Event;
 import srv.domain.event.EventDao;
+import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.EventTypeDao;
 
 
@@ -26,21 +27,61 @@ public class EventService {
 
 	private static Logger log = LoggerFactory.getLogger(EventService.class);
 	
-	
+
 	@Autowired
-	private EventDao dao;
+	private EventDao eventDao;
 	
 	
 	@Autowired
 	private EventTypeDao eventTypeDao;
 	
+
+	/**
+	 * Delegates to the dao in order to find the specified event from our
+	 * data store.  
+	 * 
+	 * @param eid
+	 * @return
+	 * @throws Exception
+	 */
+	public Event eventById(int eid) throws Exception {
+
+		assert(eid > 0);
+		
+		return eventDao.fetchEventById(eid);
+	}
 	
-	// create event given the event type
+	
+	/**
+	 * Creates a dummy event with default values so the user can eventually
+	 * configure to taste.
+	 * 
+	 * @param eventTypeId id of the eventType  (must not be null).
+	 * 
+	 * @return newly created event
+	 * 
+	 * @throws Exception
+	 */
 	public Event createEventOfType(int eventTypeId) throws Exception {
 		
-		// TODO
+		/*
+		 * Create a default dummy event
+		 */
+		Event ne = eventDao.create("new event", 
+				"location", 
+				null,  // no contact id yet
+				new java.util.Date().toString(),
+				eventTypeId, 
+				false, 
+				null, 
+				null, 
+				null, 
+				null, 
+				"");
+
+		log.debug("back with new event {}", ne.getEid());
 		
-		return null;  // temporaily until implementation provided 
+		return ne;  
 	}
 
 	
@@ -54,6 +95,11 @@ public class EventService {
 	public void deleteEvent(int eventId) throws Exception {
 		
 		log.debug("deleting item {}", eventId);
+		
+		// TODO  what should we do with all logged hours that
+		// refer to this event?
+		
+		eventDao.delete(eventId);
 	}
 
 	
@@ -67,21 +113,60 @@ public class EventService {
 	 */
 	public List<Event> allEvents() throws Exception {
 	
-		return dao.listAll();
+		return eventDao.listAll();
 	}
 	
+	/**
+	 * Returns all of the current event types known to our system.  This
+	 * is commonly used for populating user interface elements (selection lists).
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<EventType> allEventTypes() throws Exception {
+		
+		return eventTypeDao.listAll();
+	}
 	
 	/**
-	 * Not sure about this yet.  
+	 * Given the current event object, we save back to our data store with 
+	 * the help of our DAO.  If any additional data transformations are necessary
+	 * we do them here.   If any application defaults are enforced,  we do that
+	 * here.
+	 * <p>
+	 * Note that if referential integrity or other database constraints are violated 
+	 * an SQLException is thrown.  We let the controller figure out how to deal with
+	 * that.
+	 *  
+	 * </p>
 	 * 
 	 * @param e
 	 * @return
 	 */
 	public Event updateEvent(Event ev) throws Exception {
 		
-		// TODO
+		if (ev == null) return null;
 		
-		return ev;   // temporarily
+		
+		log.debug("updating event {}", ev.getEid());
+		
+		eventDao.update(ev.getEid(), 
+					ev.getTitle(),
+					ev.getAddress(),
+					
+					ev.getClass()==null?null:ev.getContact().getContactId(),
+					ev.getDate(),
+					
+					ev.getType().getEtid(),
+					ev.isContinuous(),
+					ev.getVolunteersNeeded(), 
+					null,
+					ev.getNeededVolunteerHours(), 
+					ev.getRsvpVolunteerHours(),
+					ev.getNote()
+					);
+		
+		return ev;   
 	}
 	
 	

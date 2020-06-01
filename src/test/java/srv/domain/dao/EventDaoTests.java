@@ -2,6 +2,7 @@ package srv.domain.dao;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,7 +40,7 @@ class EventDaoTests {
 	 * id i.
 	 */
 	@Test
-	void testFetchById_whenUsingJdbcTemplate() throws Exception {
+	void testFetchById() throws Exception {
 
 		// test that e1 can be fetched
 		int id1 = 1;
@@ -58,7 +59,7 @@ class EventDaoTests {
 	 * @throws Exception
 	 */
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception {
+	void testListAll() throws Exception {
 
 		List<Event> events = dao.listAll();
 
@@ -126,7 +127,7 @@ class EventDaoTests {
 	 * @throws Exception
 	 */
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception {
+	void testCreate_whenNullsPresent() throws Exception {
 
 		/*
 		 * checks the event list size and contents before we create a new one
@@ -141,9 +142,10 @@ class EventDaoTests {
 		}
 		
 		/*
-		 * Creating new Event 
+		 * Creating new Event with one null for each type
+		 * 			//(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note)
 		 */
-		Event ne = dao.create("EARTH DAY", "Dummy Address 4", 3, "03/12/2020", 2, false, 10, 2, 12.0, 2.5, "save the earth!!!");
+		Event ne = dao.create("EARTH DAY", null, null, "03/12/2020", 2, false, null, 2, null, 2.5, null);
 		
 		assertNotNull(ne); // checking if null
 		
@@ -163,14 +165,79 @@ class EventDaoTests {
 		 * tests that next assigned id when successful should be numBeforeCreate+1.
 		 * 
 		 */
-		assertEquals(numBeforeCreate + 1, ne.getEid());
+		assertTrue(ne.getEid() > 3);
 		
 		/*
 		 * Checking contents of ne from eventsAfter to check contents inserted in table
 		 */
-		Event e4 = eventsAfter.get(3);
+		Event e4 = ne;
 		
 		assertEquals(4, e4.getEid());
+		assertEquals("EARTH DAY", e4.getTitle());
+		assertNull(e4.getAddress());
+		assertNull(e4.getContact());
+		
+		assertEquals("03/12/2020", e4.getDate());
+		assertEquals(2, e4.getType().getEtid()); // needs to be replaced with getType().getEventTypeId();
+		assertEquals(false, e4.isContinuous());
+		assertEquals(0, e4.getVolunteersNeeded());
+		assertEquals(2, e4.getServiceClient().getScid());
+		assertEquals(0.0, e4.getNeededVolunteerHours());
+		assertEquals(2.5, e4.getRsvpVolunteerHours());
+		
+		assertNull( e4.getNote());
+
+	}
+	
+	
+	/**
+	 * Tests the create method in Dao by checking size, and getting the contents 
+	 * of the newly created event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void testCreate() throws Exception {
+
+		/*
+		 * checks the event list size and contents before we create a new one
+		 */
+		List<Event> eventsBefore = dao.listAll();
+		int numBeforeCreate = eventsBefore.size();
+		System.err.println("\n\nBefore Insert " + numBeforeCreate);
+		
+		for(Event e : eventsBefore) {
+			System.err.println(String.format("%d %s", e.getEid(),e.getTitle()));
+		}
+		
+		/*
+		 * Creating new Event 
+		 */
+		Event ne = dao.create("EARTH DAY", "Dummy Address 4", 3, "03/12/2020", 2, false, 10, 2, 12.0, 2.5, "save the earth!!!");
+		
+		assertNotNull(ne); // checking if null
+		
+		/*
+		 * testing size and contents of list after insert
+		 */
+		List<Event> eventsAfter = dao.listAll();
+		int numAfterCreate = eventsAfter.size();
+		
+		System.err.println("\n\nAfter Insert " + numAfterCreate);
+		
+		for(Event e : eventsAfter) {
+			System.err.println(String.format("%d %s", e.getEid(),e.getTitle()));
+		}
+		
+		/*
+		 * Checking contents of ne from eventsAfter to check contents inserted in table
+		 */
+		assertTrue(eventsAfter.contains(ne));
+		
+		Event e4 = ne;
+
+		assertTrue(e4.getEid()>4);   // assigned it must be after the first 4 created in our sql
+		
 		assertEquals("EARTH DAY", e4.getTitle());
 		assertEquals("Dummy Address 4", e4.getAddress());
 		assertEquals(3, e4.getContact().getContactId());
@@ -186,7 +253,7 @@ class EventDaoTests {
 	}
 
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception {
+	void testDelete() throws Exception {
 
 		// checks to see that Event with id 1 exists then
 		Event e1 = dao.fetchEventById(1);
@@ -209,12 +276,24 @@ class EventDaoTests {
 	}
 
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+	void testUpdate() throws Exception {
 
 		/*
 		 * Use update dao method
 		 */
-		dao.update(1, "COOLER EVENT", "1345 Murder Hornet Dr.", 1, "06/36/2020", 2, true, 100, 1, 30, 15, "they're coming");
+		dao.update(1, 
+				"COOLER EVENT", 
+				"1345 Murder Hornet Dr.", 
+				Integer.valueOf(1), 
+				"06/36/2020", 
+				Integer.valueOf(2), 
+				Boolean.TRUE, 
+				Integer.valueOf(100), 
+				Integer.valueOf(1), 
+				Double.valueOf(30), 
+				Double.valueOf(15), 
+				"they're coming");
+		
 		
 		Event ue = dao.fetchEventById(1);
 		
@@ -229,8 +308,8 @@ class EventDaoTests {
 		assertEquals(2, ue.getType().getEtid());
 		assertEquals(true, ue.isContinuous());
 		assertEquals(100, ue.getVolunteersNeeded());
-		assertEquals(30, ue.getNeededVolunteerHours());
-		assertEquals(15, ue.getRsvpVolunteerHours());
+		assertEquals(30.0, ue.getNeededVolunteerHours());
+		assertEquals(15.0, ue.getRsvpVolunteerHours());
 		assertEquals("they're coming", ue.getNote());
 	
 
@@ -240,7 +319,7 @@ class EventDaoTests {
 //	 * Tests getParticipants()
 //	 */
 //	@Test
-//	void testGetParticipants_whenUsingJdbcTemplate() throws Exception {
+//	void testGetParticipants() throws Exception {
 //
 //		// test that e1 can be fetched
 //		int id1 = 1;

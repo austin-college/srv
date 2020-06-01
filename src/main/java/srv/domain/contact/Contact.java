@@ -45,6 +45,19 @@ public class Contact implements Serializable {
 		this.zipcode = zipcode;
 	}
 	
+	/**
+	 * Provides the contacts full name or a non-null piece.  Returns
+	 * null if both first and last names are unknown.
+	 * 
+	 * @return  full name of contact
+	 */
+	public String fullName() {
+		if (this.firstName == null) return this.lastName;
+		if (this.lastName == null) return this.firstName;
+		
+		return this.firstName+" "+this.lastName;
+	}
+	
 	public Integer getContactId() {
 		return cid;
 	}

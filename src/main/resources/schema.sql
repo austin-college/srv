@@ -88,7 +88,7 @@ CREATE TABLE events (
 	address VARCHAR(255),
 	contactId int,
 	dateOf VARCHAR(255),
-	eventTypeId int,
+	eventTypeId int not null,
 	continuous boolean,
 	volunteersNeeded int,
 	serviceClientId int,
@@ -165,7 +165,7 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Austin College Service Station', 1, 4, 'Billy Bob', 'Community');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Austin College Service Station', 1, 4, 'Andrea Restrepo', 'Variety');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Community, Construction');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('For Testing Only', 2, 3, 'Rick Astley', 'Crisis Support');
@@ -182,10 +182,10 @@ INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'D
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
 
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('gds', 'Great Day of Service', 2, false, 1, null);
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('fws', 'First We Serve', 2, true, 1, null);
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('rbd', 'Roo Bound', 3, true, 1, null);
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) VALUES('ext', 'Community Service Client', 3, false, 1, null);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('gds', 'Great Day of Service', 2, false, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('fws', 'First We Serve', 2, true, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('rbd', 'Roo Bound', 3, true, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('ext', 'Community Service Client', 3, false, 1);
 
 insert into events
 (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values 

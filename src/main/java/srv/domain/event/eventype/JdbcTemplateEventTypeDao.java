@@ -14,7 +14,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
+import srv.domain.contact.Contact;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
+import srv.domain.serviceclient.ServiceClient;
 import srv.domain.servicegroup.JdbcTemplateServiceGroupDao;
 
 /**
@@ -170,8 +172,13 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	    			.setName(rs.getString("name"))
 	    			.setDescription(rs.getString("description"))
 	    			.setDefHours(rs.getInt("defaultHours"))
-	    			.setPinHours(rs.getBoolean("pinHours"))
-	    			.setDefClient(scdao.fetchClientById(rs.getInt("serviceClientId")));
+	    			.setPinHours(rs.getBoolean("pinHours"));
+	    			
+	    			int cid = rs.getInt("serviceClientId");
+	    			ServiceClient sc = null; 
+	    			if (cid > 0 ) sc = scdao.fetchClientById(cid);
+	    			
+	    			et.setDefClient(sc);
 
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
