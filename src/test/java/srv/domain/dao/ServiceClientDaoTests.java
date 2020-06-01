@@ -1,5 +1,6 @@
 package srv.domain.dao;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -35,9 +36,10 @@ class ServiceClientDaoTests {
 		ServiceClient sc1 = dao.fetchClientById(1);
 
 		assertEquals(1, sc1.getScid());
-		assertEquals("Habitat for Humanity", sc1.getName());
-		assertEquals("Billy Bob", sc1.getBoardMember());
-		assertEquals("Community", sc1.getCategory());
+		assertEquals("Austin College Service Station", sc1.getName());
+		assertEquals("Andrea Restrepo", sc1.getBoardMember());
+		assertEquals("Variety", sc1.getCategory());
+		
 
 		// Testing primary Contact info
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -74,18 +76,18 @@ class ServiceClientDaoTests {
 
 		List<ServiceClient> clients = dao.listAll();
 
-		assertEquals(3, clients.size());
+		assertEquals(4, clients.size());
 
 		ServiceClient sc1 = clients.get(0);
-		ServiceClient sc2 = clients.get(1);
+		ServiceClient sc2 = clients.get(2);
 
 		assertEquals(1, sc1.getScid());
-		assertEquals(2, sc2.getScid());
+		assertEquals(3, sc2.getScid());
 
 		// Service Client info for client id 1
-		assertEquals("Habitat for Humanity", sc1.getName());
-		assertEquals("Billy Bob", sc1.getBoardMember());
-		assertEquals("Community", sc1.getCategory());
+		assertEquals("Austin College Service Station", sc1.getName());
+		assertEquals("Andrea Restrepo", sc1.getBoardMember());
+		assertEquals("Variety", sc1.getCategory());
 
 		// Testing primary Contact info for service client 1
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -185,7 +187,8 @@ class ServiceClientDaoTests {
 		 */
 		ServiceClient sc4 = nsc;
 
-		assertEquals(4, sc4.getScid());
+		assertTrue(sc4.getScid()>numBeforeInsert);
+		
 		assertEquals("Meals on Wheels", sc4.getName());
 		assertEquals("Donald Duck", sc4.getBoardMember());
 		assertEquals("Seniors", sc4.getCategory());
@@ -226,12 +229,13 @@ class ServiceClientDaoTests {
 	@Test
 	void testDelete_whenUsingJdbcTemplate() throws Exception {
 
+		int cnum = dao.listAll().size();
 
 		dao.delete(3);
 
 		List<ServiceClient> clients = dao.listAll();
 
-		assertEquals(2, clients.size());
+		assertEquals(cnum-1, clients.size());
 		
 		
 		
