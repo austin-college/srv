@@ -137,7 +137,7 @@ function onPageLoad() {
 		position: {
 			  my: "center top",
 			  at: "center top",
-			  of: "#srv-page"
+			  of: window
 			},
 		modal: true,
 		dialogClass: "delDlgClass",
@@ -170,7 +170,7 @@ function onPageLoad() {
 		position: {
 			  my: "center top",
 			  at: "center top",
-			  of: "#srv-page"
+			  of: window
 			},
 		modal: true,
 		dialogClass: "newDlgClass",
