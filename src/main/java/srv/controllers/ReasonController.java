@@ -16,7 +16,7 @@ import srv.domain.reason.JdbcReasonDao;
 import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.reason.Reason;
 import srv.domain.reason.ReasonDao;
-import srv.services.reason.ReasonService;
+import srv.services.ReasonService;
 
 
 /**

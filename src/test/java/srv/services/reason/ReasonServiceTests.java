@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import srv.domain.reason.Reason;
 import srv.domain.reason.ReasonDao;
-import srv.services.reason.ReasonService;
+import srv.services.ReasonService;
 
 
 @RunWith(MockitoJUnitRunner.class)
