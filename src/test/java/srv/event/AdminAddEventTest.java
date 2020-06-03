@@ -113,12 +113,20 @@ public class AdminAddEventTest extends SeleniumTest {
 
 
 		/*
-		 * should lead us to the manage service clients page
+		 * should lead us to the manage events page
 		 */
-		link = driver.findElement(By.id("manageClients")); 
+		link = driver.findElement(By.id("manageEvents")); 
 		link.click();
 
-		assertEquals(base+"/sc/list", driver.getCurrentUrl());
+		assertEquals(base+"/events", driver.getCurrentUrl());
+		
+//		/*
+//		 * should lead us to the manage service clients page
+//		 */
+//		link = driver.findElement(By.className("addBtn ui-button ui-widget")); 
+//		link.click();
+//
+//		assertEquals(base+"/sc/list", link.findElement(By.id("")) );
 
 	}
 
