@@ -13,6 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import srv.domain.event.eventype.EventType;
+import srv.domain.event.eventype.EventTypeDao;
+import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
@@ -36,6 +40,9 @@ public class HoursController {
 	@Autowired
 	JdbcTemplateUserDao uDao;
 	
+	@Autowired
+	JdbcTemplateEventTypeDao eDao;
+	
 	/**
 	 * Splash action displays the splash page. See splash.html template
 	 * 
@@ -51,6 +58,16 @@ public class HoursController {
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 
 		mav.addObject("hours", hrSvc.listHours());
+		
+		
+		try {
+			List<EventType> eTypes = eDao.listAll();
+			mav.addObject("eventTypes", eTypes);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	
 		
 		try {

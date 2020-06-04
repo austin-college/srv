@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class Contact implements Serializable {
 	
-	private Integer cid; // Unique id for contact, given by database
+	private int cid; // Unique id for contact, given by database
 	private String firstName; 
 	private String lastName;
 	private String email; 
@@ -28,7 +28,7 @@ public class Contact implements Serializable {
 		super();
 	}
 	
-	public Contact(Integer new_id, String firstName, String lastName, String email, String phoneNumWork, String phoneNumMobile,
+	public Contact(int new_id, String firstName, String lastName, String email, String phoneNumWork, String phoneNumMobile,
 			String street, String city, String state, String zipcode) {
 		
 		super();
@@ -58,11 +58,11 @@ public class Contact implements Serializable {
 		return this.firstName+" "+this.lastName;
 	}
 	
-	public Integer getContactId() {
+	public int getContactId() {
 		return cid;
 	}
 	
-	public Contact setContactId(Integer new_id) {
+	public Contact setContactId(int new_id) {
 		this.cid = new_id;
 		return this;
 	}

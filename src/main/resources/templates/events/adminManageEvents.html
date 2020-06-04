@@ -1,119 +1,128 @@
 <#import "/main_layout.html" as layout />
+
 <@layout.stdpage "Manage Events" "home.css" "events.js">
 
 <div id="mainContainer" class="container">
-<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col-md">
 			<h1>Manage Events</h1>
 			<p>Please select the action you would like to take.</p>
 		</div>
 	</div>
-	
+
 	<!-- A  (TODO/MAKE LIVE) list (data-table) of all board members and co-chairs -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<!-- table title. -->
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 			<div class="col">
-				<h2>
-					Events
-				</h2>
+				<h2>Events</h2>
 			</div>
 		</div>
-	
-		<div class="row" style="padding-left:20px; padding-bottom:20px">
+
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 			<div class="col">
-				<button id="btnEvNew" href="addHours" class = "btn btn-md btn-dark addBtn">
-					<span class="fas fa-plus-circle"></span>
-					Create New
+				<button id="btnEvNew" href="addHours"
+					class="btn btn-md btn-dark addBtn">
+					<span class="fas fa-plus-circle"></span> Create New
 				</button>
 			</div>
 		</div>
-	
-		<!-- board member table -->
-		<table id="dtDynamicVerticalScroll"
-			class="table table-striped table-bordered table-sm" cellspacing="0"
-			width="100%">
-			<thead>
-			<!-- these columns are not final. If anyone thinks different information would be better
+		<br/>
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<!-- Events table -->
+			<table id="tblEvents"
+				class="table table-striped table-bordered table-sm" cellspacing="0"
+				width="100%">
+				<thead>
+					<!-- these columns are not final. If anyone thinks different information would be better
 				feel free to change these -->
-				<tr>
-					<th class="th-sm">ID</th>
-					<th class="th-sm">Title</th>
-					<th class="th-sm">Type</th>
-					<th class="th-sm">Contact</th>
-					<th class="th-sm">Date</th>
-					<th class="th-sm">Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<#list events as ev>
-				<tr id="eid-${ev.eid?c}">
-					<td class='ev_id'>${ev.eid!"UNKNOWN"}</td>
-					<td class='ev_title'>${ev.title!"UNKNOWN"}</td>
-					<td class='ev_type'>${ev.type.name!"UNKNOWN"}</td>
-					<td class='ev_contact' eid="${ev.eid?c}">
-					<#if ev.contact??>
+					<tr>
+						<th class="th-sm">ID</th>
+						<th class="th-sm">Title</th>
+						<th class="th-sm">Type</th>
+						<th class="th-sm">Contact</th>
+						<th class="th-sm">Date</th>
+						<th class="th-sm">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#list events as ev>
+					<tr id="eid-${ev.eid?c}">
+						<td class='ev_id'>${ev.eid!"UNKNOWN"}</td>
+						<td class='ev_title'>${ev.title!"UNKNOWN"}</td>
+						<td class='ev_type'>${ev.type.name!"UNKNOWN"}</td>
+						<td class='ev_contact' eid="${ev.eid?c}"><#if ev.contact??>
 					${ev.contact.fullName()!"UNKNOWN"}
 					<#else>
 					None
 					</#if>
 					</td>
-					<td class='ev_date'>${ev.date!"UNKNOWN"}</td>
-	
-					<!--action buttons-->
-					<td>
-					<button class="btn edit btnEvEdit" eid="${ev.eid?c}" ><i class="fas fa-pencil-alt"></i></button> 
-					<button class="btn edit btnEvView" eid="${ev.eid?c}" ><i class="fas fa-search"></i></button>
-					<button class="btn edit btnEvDel" eid="${ev.eid?c}"><i class="far fa-trash-alt"></i></button> 
-				   </td>
-				   
-				</tr>
-				</#list>
-			</tbody>
-			<tfoot>
-			</tfoot>
-		</table>
-	</div>
-	
-	<!-- back button -->
-	<div class="row" style="padding-left:20px; padding-bottom:20px">
-		<a class="btn edit" href="/srv/home/admin"> <i class="icon-trash icon-large"></i>
-			Back
-		</a>
-	</div>
-</div>
+						<td class='ev_date'>${ev.date!"UNKNOWN"}</td>
 
-<!-- The div below defines the delete dialog.  It is hidden and exposed when needed -->
-<div id="dlgDelete" title="DELETE SELECTED EVENT" class="ui-widget delWid" style="display:none">
-	<p id="del_confirm">
-		Are you sure you want to delete this event?
-		<br/>
+						<!--action buttons-->
+						<td>
+							<button class="btn edit btnEvEdit" eid="${ev.eid?c}">
+								<i class="fas fa-pencil-alt"></i>
+							</button>
+							<button class="btn edit btnEvView" eid="${ev.eid?c}">
+								<i class="fas fa-search"></i>
+							</button>
+							<button class="btn edit btnEvDel" eid="${ev.eid?c}">
+								<i class="far fa-trash-alt"></i>
+							</button>
+						</td>
+
+					</tr>
+					</#list>
+				</tbody>
+				<tfoot>
+				</tfoot>
+			</table>
+			</div>
+		</div>
+
+		<!-- back button -->
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<a class="btn edit" href="/srv/home/admin"> <i
+				class="icon-trash icon-large"></i> Back
+			</a>
+		</div>
+	</div>
+
+	<!-- The div below defines the delete dialog.  It is hidden and exposed when needed -->
+	<div id="dlgDelete" title="DELETE SELECTED EVENT"
+		class="ui-widget delWid" style="display: none">
+		<p id="del_confirm">
+			Are you sure you want to delete this event? <br />
 		<div id="delEvId">id</div>
 		<div id="delEvTitle">title</div>
 		<div id="delEvDate">date</div>
-	</p>
-</div>
+		</p>
+	</div>
 
-<div id="dlgView" title="EVENT DETAILS" class="ui-widget" style="display:none">
-	<p>
-		Show event details here.
-	</p>
-</div>
+	<div id="dlgView" title="EVENT DETAILS" class="ui-widget"
+		style="display: none">
+		<p>Show event details here.</p>
+	</div>
 
-<div id="dlgViewContact" title="CONTACT DETAILS" class="ui-widget" style="display:none">
-	<p>
-		Show event contact here.
-	</p>
-</div>
+	<div id="dlgViewContact" title="CONTACT DETAILS" class="ui-widget"
+		style="display: none">
+		<p>Show event contact here.</p>
+	</div>
 
-<div id="dlgNewEvent" title="CREATE NEW EVENT" class="ui-widget" style="display:none">
-	<p>
-		Select Event Type: 
-		<select id="evType" name="evtype">
-		  <#list evtypes as et>
-		  <option value="${et.etid}">(${et.name}) ${et.description}</option>
-		  </#list>		</select>
+	<div id="dlgNewEvent" title="CREATE NEW EVENT" class="ui-widget"
+		style="display: none">
+		<p>
+			Select Event Type: <select id="evType" name="evtype">
+				<#list evtypes as et>
+				<option value="${et.etid}">(${et.name}) ${et.description}</option>
+				</#list>
+			</select>
 
-	</p>
-</div>
-</@layout.stdpage>
+		</p>
+	</div>
+	<!-- JavaScript file that will allow us to sort the table columns -->
+	<script src="/srv/js/datatables.min.js"></script>
+		<link rel="stylesheet" href="/srv/css_style/datatables.min.css">
+
+	</@layout.stdpage>

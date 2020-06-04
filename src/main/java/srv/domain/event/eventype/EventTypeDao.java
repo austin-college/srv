@@ -13,7 +13,7 @@ public interface EventTypeDao {
 
 	public List<EventType> listAll() throws Exception;
 	
-	public EventType create(String name, String description, int defHours,
+	public EventType create(String name, String description, Integer defHours,
 			boolean pinHours, Integer scid, Integer sgid) throws Exception;
 
 	/**
@@ -22,7 +22,7 @@ public interface EventTypeDao {
 	 */
 	public void delete(int etid) throws Exception;
 
-	public void update(int etid, String name, String description, int defHours,
+	public void update(int etid, String name, String description, Integer defHours,
 			boolean pinHours, Integer scid, Integer sgid) throws Exception;
 
 	/**
