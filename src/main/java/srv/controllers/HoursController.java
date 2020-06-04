@@ -39,6 +39,7 @@ public class HoursController {
 	//TODO BAD CODE SEE USER UTIL FOR MORE INFO
 	@Autowired
 	JdbcTemplateUserDao uDao;
+	
 	@Autowired
 	JdbcTemplateEventTypeDao eDao;
 	
