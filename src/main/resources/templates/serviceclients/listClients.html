@@ -134,7 +134,7 @@
 							<div class="form-group col-sm-6">
 								<select id="addDlg_bmName" class='form-control'>
 									<#list users as bm>
-									<option>${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+									<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
 									</#list>
 								</select>
 							</div>

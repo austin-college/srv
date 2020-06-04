@@ -3,10 +3,9 @@
  * clients dialogs have empty fields.
  * 
  * @param client_name
- * @param bm_Name
  * @returns
  */
-function checkForEmptyFields(client_name, bm_Name) {
+function checkForEmptyFields(client_name) {
 
 	var valid = true;
 	var msg = "Please complete the selected fields."; // Error message
@@ -16,27 +15,15 @@ function checkForEmptyFields(client_name, bm_Name) {
 	 * Removes previous error messages on the fields for the add service client dialog.
 	 */
 	$("#addDlg_name").removeClass("is-invalid");
-	$("#addDlg_bmName").removeClass("is-invalid");
-	
+
 	/*
 	 * Removes previous error messages on the fields for the edit service client dialog.
 	 */
 	$("#editDlg_name").removeClass("is-invalid");
-	$("#editDlg_bmName").removeClass("is-invalid");
 
 	// Checks to see if the service client's name field is empty.
 	if (!$(client_name).val()) {
 		$(client_name).addClass("is-invalid");
-		if(counter == 0) {
-			counter++;
-			updateTips(msg);
-		}
-		valid = false;
-	}
-
-	// Checks to see if the service client's board member name field is empty.
-	if (!$(bm_Name).val()) {
-		$(bm_Name).addClass("is-invalid");
 		if(counter == 0) {
 			counter++;
 			updateTips(msg);
@@ -550,7 +537,6 @@ $(document).ready(function() {
 			 * Resets all the fields of the add dialog to empty.
 			 */
 			$("#addDlg_name").val("");
-			$("#addDlg_bmName").val("");
 			$("#addDlg_cat").val("Animals");
 			$('select').prop('selectedIndex', 0);
 			
@@ -582,7 +568,6 @@ $(document).ready(function() {
 			 * Removes previous error messages from the fields.
 			 */
 			$("#addDlg_name").removeClass("is-invalid");
-			$("#addDlg_bmName").removeClass("is-invalid");
 			$(".validationTips" ).removeClass("alert alert-danger").text("");
 		},							
 		buttons: [
@@ -592,16 +577,19 @@ $(document).ready(function() {
 				"class": 'btn',
 				click: function() {		
 
+					var selected_bm = $("#addDlg_bmName").val(); // ID for board member
+					console.log(selected_bm); 
+					
 					var selected_mcID = $("#addDlg_mcID").children("option:selected").val(); // ID for main contact
 					var selected_ocID = $("#addDlg_ocID").children("option:selected").val(); // ID for other/secondary contact
-
+					
 					/*
 					 * Validates that the fields of the add service client dialog are not empty.
 					 * If all the fields are valid, adds the new service client to the table and closes the dialog.
 					 */
-					if(checkForEmptyFields("#addDlg_name", "#addDlg_bmName")){
+					if(checkForEmptyFields("#addDlg_name")){
 						
-						addClient("#addDlg_name", selected_mcID, selected_ocID, "#addDlg_bmName", "#addDlg_cat");
+						addClient("#addDlg_name", selected_mcID, selected_ocID, selected_bm, "#addDlg_cat");
 						
 						$("#addDlg").dialog("close");
 					}
