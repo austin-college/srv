@@ -24,6 +24,7 @@ import srv.controllers.HoursController;
 import srv.controllers.ServiceClientController;
 import srv.domain.contact.ContactDao;
 import srv.domain.event.Event;
+import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
@@ -47,6 +48,9 @@ public class HoursControllerTest {
 	// TODO this will need to be fixed/removed when UserUtil and HoursController is fixed
 	@MockBean
 	JdbcTemplateUserDao uDao;
+	
+	@MockBean
+	JdbcTemplateEventTypeDao eDao;
 
 	@Test
 	public void basicHtmlPageTest() throws Exception {

@@ -203,7 +203,47 @@ $(document).ready(function() {
 	    	
 	     }]
 	  });
-	
+	 
+	 $("#addDlg").dialog({
+			autoOpen: false,
+			height: 500,
+			width: 700,
+			modal: true,
+			open: function(event, ui) {			
+				console.log("WOOOO");	
+			}
+		});
+	 $("#etDlg").dialog({
+		 autoOpen: false,
+		 height: 500,
+		 width: 700,
+		 modal: true,
+		 open: function(event, ui) {			
+			 console.log("boop");	
+		 },
+		 buttons: [
+			 {
+				 text: "Submit", 
+				 "id": "addBtnDlg",
+				 "class": 'btn',
+				 click: function() {		
+					 console.log("FIE");
+					
+					 $("#etDlg").dialog("close");
+					 $("#addDlg").dialog("open");
+
+				 }
+			 },
+			 {	
+				 text: "Cancel",
+				 "class": 'btn btn-secondary',
+				 click: function() {
+					 $("#etDlg").dialog("close");
+
+				 }
+			 }]
+	 });
+
 	/* 
      * Opens delete service hour dialog and passes in the selected delete button's service hour's id
      * when a user clicks a delete button.
@@ -231,4 +271,8 @@ $(document).ready(function() {
     	$("#editDlg").data("selectedHoursID", selected_shid).dialog("open");
     });   
     
+    $(".addBtn").on("click", function() {
+    	console.log("HERE");
+    	$("#etDlg").dialog("open");
+    });
 });

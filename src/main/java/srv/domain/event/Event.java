@@ -27,8 +27,6 @@ public class Event implements Serializable {
 	
 	private EventType type; // eventType TODO
 	
-	private String typeString; //testing for eventType until it's implemented
-	
 	private Boolean continuous;	// true if event is always ongoing (like tutoring the service station).
 	
 	private Integer volunteersNeeded; 		 // estimated number of volunteers needed
@@ -101,14 +99,6 @@ public class Event implements Serializable {
 	 * @param s
 	 * @return
 	 */
-	public Event setTypeString(String s) {
-	    this.typeString = s;
-	    return this;
-	}
-	
-	public String getTypeString() {
-		return typeString;
-	}
 
 	public EventType getType() {
 		return type;
