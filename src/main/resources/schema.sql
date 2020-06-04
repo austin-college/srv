@@ -20,23 +20,7 @@ CREATE TABLE contacts (
 	zip VARCHAR(255),
 	PRIMARY KEY (contactId)
 	);
-
-CREATE TABLE serviceClients (
-	serviceClientId INTEGER AUTO_INCREMENT,
-	title VARCHAR(255),
-	primaryContactId INT,
-	secondContactId INT,
-	boardMem VARCHAR(255),
-	category VARCHAR(255),
-	PRIMARY KEY (serviceClientId),
-	FOREIGN KEY (primaryContactId)
-		REFERENCES contacts(contactId)
-		ON DELETE SET NULL,
-	FOREIGN KEY (secondContactId)
-		REFERENCES contacts(contactId)
-		ON DELETE SET NULL
-	);
-
+	
 CREATE TABLE users (
 	userId integer auto_increment,
 	username VARCHAR(255),
@@ -45,6 +29,25 @@ CREATE TABLE users (
 	foreign key (contactId)
 		references contacts(contactId)
 		on delete set NULL
+	);
+
+CREATE TABLE serviceClients (
+	serviceClientId INTEGER AUTO_INCREMENT,
+	title VARCHAR(255),
+	primaryContactId INT,
+	secondContactId INT,
+	boardMemId INT,
+	category VARCHAR(255),
+	PRIMARY KEY (serviceClientId),
+	FOREIGN KEY (primaryContactId)
+		REFERENCES contacts(contactId)
+		ON DELETE SET NULL,
+	FOREIGN KEY (secondContactId)
+		REFERENCES contacts(contactId)
+		ON DELETE SET NULL,
+	FOREIGN KEY (boardMemId)
+		REFERENCES users(userId)
+		ON DELETE SET NULL
 	);
 
 CREATE TABLE reasons (
@@ -165,15 +168,15 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Austin College Service Station', 1, 4, 'Andrea Restrepo', 'Variety');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Community, Construction');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('For Testing Only', 2, 3, 'Rick Astley', 'Crisis Support');
-
 insert into users (username, contactId) values ('apritchard', 4);
 insert into users (username, contactId) values ('hCouturier', 5);
 insert into users (username, contactId) values ('eDriscoll', 6);
 insert into users (username, contactId) values ('user', 1);
+
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Austin College Service Station', 1, 4, 1, 'Variety');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Habitat for Humanity', 2, 3, 2, 'Community');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 2, 3, 3, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 4, 'Crisis Support');
 
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');

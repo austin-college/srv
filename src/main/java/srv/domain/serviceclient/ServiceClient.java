@@ -3,6 +3,7 @@ package srv.domain.serviceclient;
 import java.io.Serializable;
 
 import srv.domain.contact.Contact;
+import srv.domain.user.User;
 
 /**
  * The ServiceClient class represents a service organization entity (referred to as a pet organization) 
@@ -21,19 +22,19 @@ public class ServiceClient implements Serializable {
 	private String name; // the name of the service client
 	private Contact mainContact; // the primary contact for the service client
 	private Contact otherContact; // the secondary contact for the service client
-	private String boardMember; // current board member responsible for the service client
+	private User currentBoardMember; 
 	private String category; // type of work client 
 
 	public ServiceClient() {
 		super();
 	}
 
-	public ServiceClient(Integer scid, String new_name, Contact con1, Contact con2, String bm, String cat) { 
+	public ServiceClient(Integer scid, String new_name, Contact con1, Contact con2, User bm, String cat) { 
 		this.scid = scid;
 		this.name = new_name;
 		this.mainContact = con1;
 		this.otherContact = con2;
-		this.boardMember = bm;
+		this.currentBoardMember = bm;
 		this.category = cat;
 	}
 
@@ -55,12 +56,12 @@ public class ServiceClient implements Serializable {
 		return this;
 	}
 
-	public String getBoardMember() {
-		return boardMember;
+	public User getBoardMember() {
+		return currentBoardMember;
 	}
 
-	public ServiceClient setBoardMember(String bm) {
-		this.boardMember = bm;
+	public ServiceClient setBoardMember(User bm) {
+		this.currentBoardMember = bm;
 		return this;
 	}
 
