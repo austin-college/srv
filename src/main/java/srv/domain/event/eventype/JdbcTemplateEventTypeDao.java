@@ -64,7 +64,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	 * An exception is thrown if the new EventType is a duplicate. 
 	 */
 	@Override
-	public EventType create(String name, String description, int defHours, boolean pinHours, Integer scid, Integer sgid) throws Exception {
+	public EventType create(String name, String description, Integer defHours, boolean pinHours, Integer scid, Integer sgid) throws Exception {
 
 		// SQL statement that is to be executed
 		final String sql = "INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId, serviceGroupId) "
@@ -121,7 +121,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	 * An exception is thrown if the EventType is unable to be updates (does not exist).
 	 */
 	@Override
-	public void update(int etid,  String name, String description, int defHours, boolean pinHours, Integer scid, Integer sgid) throws Exception {
+	public void update(int etid,  String name, String description, Integer defHours, boolean pinHours, Integer scid, Integer sgid) throws Exception {
 		
 		int rc = getJdbcTemplate().update(
 				"UPDATE eventTypes SET name = ?, description = ?, defaultHours = ?, "
