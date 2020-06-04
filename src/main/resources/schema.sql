@@ -175,7 +175,7 @@ insert into users (username, contactId) values ('user', 1);
 
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Austin College Service Station', 1, 4, 1, 'Variety');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Habitat for Humanity', 2, 3, 2, 'Community');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 2, 3, 3, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 3, 4, 3, 'Crisis Support');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 4, 'Crisis Support');
 
 insert into reasons (reason) values ('Assembly Drawing');

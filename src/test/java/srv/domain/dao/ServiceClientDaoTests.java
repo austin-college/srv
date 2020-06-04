@@ -38,9 +38,9 @@ class ServiceClientDaoTests {
 		assertEquals("Variety", sc1.getCategory());
 		
 		// Testing board member info
-		assertEquals(1, sc1.getBoardMember().getUid());
-		assertEquals("apritchard", sc1.getBoardMember().getUsername());
-		assertEquals(4, sc1.getBoardMember().getContactInfo().getContactId());
+		assertEquals(1, sc1.getCurrentBoardMember().getUid());
+		assertEquals("apritchard", sc1.getCurrentBoardMember().getUsername());
+		assertEquals(4, sc1.getCurrentBoardMember().getContactInfo().getContactId());
 
 		// Testing primary Contact info
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -89,9 +89,9 @@ class ServiceClientDaoTests {
 		assertEquals("Variety", sc1.getCategory());
 		
 		// Testing board member info for service client 1
-		assertEquals(1, sc1.getBoardMember().getUid());
-		assertEquals("apritchard", sc1.getBoardMember().getUsername());
-		assertEquals(4, sc1.getBoardMember().getContactInfo().getContactId());
+		assertEquals(1, sc1.getCurrentBoardMember().getUid());
+		assertEquals("apritchard", sc1.getCurrentBoardMember().getUsername());
+		assertEquals(4, sc1.getCurrentBoardMember().getContactInfo().getContactId());
 
 		// Testing primary Contact info for service client 1
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -122,33 +122,33 @@ class ServiceClientDaoTests {
 		assertEquals("Crisis Support", sc3.getCategory());
 		
 		// Testing board member info for service client id 3
-		assertEquals(3, sc3.getBoardMember().getUid());
-		assertEquals("eDriscoll", sc3.getBoardMember().getUsername());
-		assertEquals(6, sc3.getBoardMember().getContactInfo().getContactId());
+		assertEquals(3, sc3.getCurrentBoardMember().getUid());
+		assertEquals("eDriscoll", sc3.getCurrentBoardMember().getUsername());
+		assertEquals(6, sc3.getCurrentBoardMember().getContactInfo().getContactId());
 				
 		// Testing primary Contact info for service client id 3
-		assertEquals(2, sc3.getMainContact().getContactId());
-		assertEquals("Lois", sc3.getMainContact().getFirstName());
-		assertEquals("Lane", sc3.getMainContact().getLastName());
-		assertEquals("llane86@gmail.com", sc3.getMainContact().getEmail());
-		assertEquals("803-423-1257", sc3.getMainContact().getPhoneNumWork());
-		assertEquals("800-232-1211", sc3.getMainContact().getPhoneNumMobile());
-		assertEquals("118 NW Crawford Street", sc3.getMainContact().getStreet());
-		assertEquals("Sherman", sc3.getMainContact().getCity());
+		assertEquals(3, sc3.getMainContact().getContactId());
+		assertEquals("Joe", sc3.getMainContact().getFirstName());
+		assertEquals("Smith", sc3.getMainContact().getLastName());
+		assertEquals("jsmith12@gmail.com", sc3.getMainContact().getEmail());
+		assertEquals("903-444-4440", sc3.getMainContact().getPhoneNumWork());
+		assertEquals("401-322-1201", sc3.getMainContact().getPhoneNumMobile());
+		assertEquals("25 Frieda Drive", sc3.getMainContact().getStreet());
+		assertEquals("Gunter", sc3.getMainContact().getCity());
 		assertEquals("TX", sc3.getMainContact().getState());
-		assertEquals("75090", sc3.getMainContact().getZipcode());
-
+		assertEquals("75058", sc3.getMainContact().getZipcode());
+		
 		// Testing secondary Contact info for service client id 3
-		assertEquals(3, sc3.getOtherContact().getContactId());
-		assertEquals("Joe", sc3.getOtherContact().getFirstName());
-		assertEquals("Smith", sc3.getOtherContact().getLastName());
-		assertEquals("jsmith12@gmail.com", sc3.getOtherContact().getEmail());
-		assertEquals("903-444-4440", sc3.getOtherContact().getPhoneNumWork());
-		assertEquals("401-322-1201", sc3.getOtherContact().getPhoneNumMobile());
-		assertEquals("25 Frieda Drive", sc3.getOtherContact().getStreet());
-		assertEquals("Gunter", sc3.getOtherContact().getCity());
+		assertEquals(4, sc3.getOtherContact().getContactId());
+		assertEquals("Susan", sc3.getOtherContact().getFirstName());
+		assertEquals("Atkins", sc3.getOtherContact().getLastName());
+		assertEquals("satkins67@gmail.com", sc3.getOtherContact().getEmail());
+		assertEquals("803-426-1527", sc3.getOtherContact().getPhoneNumWork());
+		assertEquals("800-191-9412", sc3.getOtherContact().getPhoneNumMobile());
+		assertEquals("23 First Street", sc3.getOtherContact().getStreet());
+		assertEquals("Denison", sc3.getOtherContact().getCity());
 		assertEquals("TX", sc3.getOtherContact().getState());
-		assertEquals("75058", sc3.getOtherContact().getZipcode());
+		assertEquals("75021", sc3.getOtherContact().getZipcode());
 	}
 
 
@@ -200,9 +200,9 @@ class ServiceClientDaoTests {
 		assertEquals("Seniors", sc5.getCategory());
 		
 		// Testing board member info for service client returned from create
-		assertEquals(1, sc5.getBoardMember().getUid());
-		assertEquals("apritchard", sc5.getBoardMember().getUsername());
-		assertEquals(4, sc5.getBoardMember().getContactInfo().getContactId());
+		assertEquals(1, sc5.getCurrentBoardMember().getUid());
+		assertEquals("apritchard", sc5.getCurrentBoardMember().getUsername());
+		assertEquals(4, sc5.getCurrentBoardMember().getContactInfo().getContactId());
 
 		// Testing primary Contact info for service client returned from create
 		assertEquals(2, sc5.getMainContact().getContactId());
@@ -244,9 +244,6 @@ class ServiceClientDaoTests {
 		List<ServiceClient> clients = dao.listAll();
 
 		assertEquals(cnum-1, clients.size());
-		
-		
-		
 	}
 
 	/*
@@ -266,9 +263,9 @@ class ServiceClientDaoTests {
 		assertEquals("Seniors", sc2.getCategory());
 		
 		// Testing board member info for service client returned from create
-		assertEquals(4, sc2.getBoardMember().getUid());
-		assertEquals("user", sc2.getBoardMember().getUsername());
-		assertEquals(1, sc2.getBoardMember().getContactInfo().getContactId());
+		assertEquals(4, sc2.getCurrentBoardMember().getUid());
+		assertEquals("user", sc2.getCurrentBoardMember().getUsername());
+		assertEquals(1, sc2.getCurrentBoardMember().getContactInfo().getContactId());
 
 		// Testing primary Contact info for service client id 2
 		assertEquals(1, sc2.getMainContact().getContactId());

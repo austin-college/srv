@@ -18,7 +18,7 @@ import srv.domain.user.User;
  */
 public class ServiceClient implements Serializable {
 
-	private Integer scid; // unique id for each service client, given by database
+	private int scid; // unique id for each service client, given by database
 	private String name; // the name of the service client
 	private Contact mainContact; // the primary contact for the service client
 	private Contact otherContact; // the secondary contact for the service client
@@ -56,11 +56,11 @@ public class ServiceClient implements Serializable {
 		return this;
 	}
 
-	public User getBoardMember() {
+	public User getCurrentBoardMember() {
 		return currentBoardMember;
 	}
 
-	public ServiceClient setBoardMember(User bm) {
+	public ServiceClient setCurrentBoardMember(User bm) {
 		this.currentBoardMember = bm;
 		return this;
 	}
