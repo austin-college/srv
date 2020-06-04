@@ -168,9 +168,9 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
-insert into users (username, contactId) values ('apritchard', 4);
-insert into users (username, contactId) values ('hCouturier', 5);
-insert into users (username, contactId) values ('eDriscoll', 6);
+insert into users (username, contactId) values ('apritchard', 5);
+insert into users (username, contactId) values ('hCouturier', 6);
+insert into users (username, contactId) values ('eDriscoll', 7);
 insert into users (username, contactId) values ('user', 1);
 
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Austin College Service Station', 1, 4, 1, 'Variety');

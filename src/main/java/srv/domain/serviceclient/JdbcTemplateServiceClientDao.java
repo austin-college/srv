@@ -166,7 +166,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 				sc.setClientId(rs.getInt("serviceClientId")).setName(rs.getString("title"))
 						.setMainContact(contactDao.fetchContactById(rs.getInt("primaryContactId")))
 						.setOtherContact(contactDao.fetchContactById(rs.getInt("secondContactId")))
-						.setBoardMember(userDao.fetchUserById(rs.getInt("boardMemId")))
+						.setCurrentBoardMember(userDao.fetchUserById(rs.getInt("boardMemId")))
 						.setCategory(rs.getString("category"));
 
 			} catch (Exception e) {

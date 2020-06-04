@@ -147,18 +147,17 @@ function editClient(client_id, client_name, mc_ID, oc_ID, mc_name, bm_Name, clie
  * @param client_cat
  * @returns
  */
-function addClient(client_name, mc_ID, oc_ID, bm_Name, client_cat) {
+function addClient(client_name, mc_ID, oc_ID, bm_ID, client_cat) {
 
-	// Harvests the information (service client's name, board member's name, and category) from the add dialog form
+	// Harvests the information (service client's name and category) from the add dialog form
 	var nameStr =$(client_name).val();
-	var bmStr = $(bm_Name).val();
 	var catStr = $(client_cat).val();
 
 	$.ajax({
 		method: "POST",
 		url: "/srv/ajax/addSc",
 		cache: false,
-		data: {clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmName: bmStr, cat: catStr},
+		data: {clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmId: bm_ID, cat: catStr},
 		/*
 		 * If successful then add the service client to the list with the new values.
 		 */

@@ -63,7 +63,7 @@
 							<td name='sc_contact_name' class='scRow'
 								onRowClick="${sc.scid?c}">${sc.mainContact.firstName!"UNKNOWN"}
 								${sc.mainContact.lastName!"UNKNOWN"}</td>
-							<td name='sc_bm_name' class='scRow' onRowClick="${sc.scid?c}">${sc.boardMember!"UNKNOWN"}</td>
+							<td name='sc_bm_name' class='scRow' onRowClick="${sc.scid?c}">${sc.currentBoardMember.contactInfo.firstName!"UNKNOWN"} ${sc.currentBoardMember.contactInfo.lastName!"UNKNOWN"}</td>
 							<td name='sc_category' class='scRow' onRowClick="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
 							<td class="text-center">
 								<button type="button" class="edit btn"
@@ -119,7 +119,7 @@
 				<div class='form-group'>
 					<div class="container-fluid">
 						<p class="validationTips"></p>
-						<div class='form-row'>
+						<div class='form-row' style='padding-bottom:15px'>
 							<div class='col-sm-4'>
 								<label for="addDlg_name"><b>Name of Service Client</b></label>
 							</div>
@@ -128,13 +128,23 @@
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="addDlg_bmName"><b>Board Member:</b></label> <input
-									class="form-control" id="addDlg_bmName">
+							<div class='col-sm-4'>
+								<label for="addDlg_mcID"><b>Select Board Member</b></label>
 							</div>
-							<div class="form-group col-md-6">
-								<label for="addDlg_cat"><b>Category</b></label> <select
-									id="addDlg_cat" class="form-control">
+							<div class="form-group col-sm-6">
+								<select id="addDlg_bmName" class='form-control'>
+									<#list users as bm>
+									<option>${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+									</#list>
+								</select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class='col-sm-4'>
+								<label for="addDlg_cat"><b>Category</b></label>
+							</div>
+							<div class="form-group col-sm-6">
+								 <select id="addDlg_cat" class="form-control">
 									<option value="Animals">Animals</option>
 									<option value="Community">Community</option>
 									<option value="Education">Education</option>

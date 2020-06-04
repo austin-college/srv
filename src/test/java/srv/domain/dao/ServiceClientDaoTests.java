@@ -40,7 +40,7 @@ class ServiceClientDaoTests {
 		// Testing board member info
 		assertEquals(1, sc1.getCurrentBoardMember().getUid());
 		assertEquals("apritchard", sc1.getCurrentBoardMember().getUsername());
-		assertEquals(4, sc1.getCurrentBoardMember().getContactInfo().getContactId());
+		assertEquals(5, sc1.getCurrentBoardMember().getContactInfo().getContactId());
 
 		// Testing primary Contact info
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -91,7 +91,7 @@ class ServiceClientDaoTests {
 		// Testing board member info for service client 1
 		assertEquals(1, sc1.getCurrentBoardMember().getUid());
 		assertEquals("apritchard", sc1.getCurrentBoardMember().getUsername());
-		assertEquals(4, sc1.getCurrentBoardMember().getContactInfo().getContactId());
+		assertEquals(5, sc1.getCurrentBoardMember().getContactInfo().getContactId());
 
 		// Testing primary Contact info for service client 1
 		assertEquals(1, sc1.getMainContact().getContactId());
@@ -124,7 +124,7 @@ class ServiceClientDaoTests {
 		// Testing board member info for service client id 3
 		assertEquals(3, sc3.getCurrentBoardMember().getUid());
 		assertEquals("eDriscoll", sc3.getCurrentBoardMember().getUsername());
-		assertEquals(6, sc3.getCurrentBoardMember().getContactInfo().getContactId());
+		assertEquals(7, sc3.getCurrentBoardMember().getContactInfo().getContactId());
 				
 		// Testing primary Contact info for service client id 3
 		assertEquals(3, sc3.getMainContact().getContactId());
@@ -202,7 +202,7 @@ class ServiceClientDaoTests {
 		// Testing board member info for service client returned from create
 		assertEquals(1, sc5.getCurrentBoardMember().getUid());
 		assertEquals("apritchard", sc5.getCurrentBoardMember().getUsername());
-		assertEquals(4, sc5.getCurrentBoardMember().getContactInfo().getContactId());
+		assertEquals(5, sc5.getCurrentBoardMember().getContactInfo().getContactId());
 
 		// Testing primary Contact info for service client returned from create
 		assertEquals(2, sc5.getMainContact().getContactId());
