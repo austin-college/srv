@@ -61,7 +61,6 @@ public class ServiceClientController {
 			
 			// Lists the current service clients in the service client database in a table
 			List<ServiceClient> myClients = dao.listAll();
-			myClients.remove(myClients.size() - 1); // removes the last instance since it is for testing purposes only
 			mav.addObject("clients", myClients);
 			
 			// Lists the current users in the user database in a drop down menu in the add and edit service client dialogs for selecting a current board member
@@ -211,7 +210,9 @@ public class ServiceClientController {
 		String clientName = request.getParameter("clientName");
 		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
 		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
-		String bmName = request.getParameter("bmName");
+		int bmId = Integer.parseInt(request.getParameter("bmID"));
+		
+		System.out.println(bmId);
 		String category = request.getParameter("cat");
 
 		/*
@@ -222,7 +223,7 @@ public class ServiceClientController {
 		try {
 			
 			// Updates the service client in the service client database.
-			dao.update(id, clientName, cid1, cid2, bmName, category);
+			dao.update(id, clientName, cid1, cid2, bmId, category);
 			
 			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
 			ServiceClient updatedClient = dao.fetchClientById(id);
@@ -232,7 +233,8 @@ public class ServiceClientController {
 			mav.addObject("name", updatedClient.getName());
 			mav.addObject("firstName", updatedClient.getMainContact().getFirstName());
 			mav.addObject("lastName", updatedClient.getMainContact().getLastName());
-			mav.addObject("boardMember", updatedClient.getBoardMember());
+			mav.addObject("bmFirstName", updatedClient.getCurrentBoardMember().getContactInfo().getFirstName());
+			mav.addObject("bmLastName", updatedClient.getCurrentBoardMember().getContactInfo().getLastName());
 			mav.addObject("category", updatedClient.getCategory());  
 
 		} catch (Exception e) {
@@ -279,7 +281,9 @@ public class ServiceClientController {
 			// Adds the selected service client's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the fields in the dialog box in listClients.html
 			mav.addObject("name", selectedClient.getName());
-			mav.addObject("bm", selectedClient.getBoardMember());
+			mav.addObject("bmId", selectedClient.getCurrentBoardMember().getUid());
+			mav.addObject("bmFirstName", selectedClient.getCurrentBoardMember().getContactInfo().getFirstName());
+			mav.addObject("bmLastName", selectedClient.getCurrentBoardMember().getContactInfo().getLastName());
 			mav.addObject("cat", selectedClient.getCategory());
 			mav.addObject("mcFirstName", selectedClient.getMainContact().getFirstName());
 			mav.addObject("mcLastName", selectedClient.getMainContact().getLastName());

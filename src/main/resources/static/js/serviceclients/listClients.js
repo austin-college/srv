@@ -81,23 +81,23 @@ function delClient(client_id) {
  * @param mc_ID
  * @param oc_ID
  * @param mc_name
+ * @param bm_ID
  * @param bm_Name
  * @param client_cat
  * @returns
  */
-function editClient(client_id, client_name, mc_ID, oc_ID, mc_name, bm_Name, client_cat) {
+function editClient(client_id, client_name, mc_ID, oc_ID, bm_ID, client_cat, mc_name, bm_name) {
 
-	// Harvests the information (id, service client's name, board member's name, and category) from the edit dialog form
+	// Harvests the information (id, service client's name, and category) from the edit dialog form
 	var idStr = client_id;
 	var nameStr  = $(client_name).val();
-	var bmStr = $(bm_Name).val();
 	var catStr = $(client_cat).val();
 
 	$.ajax({
 		method: "POST",
 		url: "/srv/ajax/editSc",
 		cache: false,
-		data: {ID: idStr, clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmName: bmStr, cat: catStr},
+		data: {ID: idStr, clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmID: bm_ID, cat: catStr},
 		/*
 		 * If successful then update the selected service client 
 		 * with the new values.
@@ -106,11 +106,12 @@ function editClient(client_id, client_name, mc_ID, oc_ID, mc_name, bm_Name, clie
 			console.log("updated client");
 			
 			console.log($(mc_name).val()); // Verifies the new service client's main contact's name
+			console.log(bm_name);
 
 			// Updates the edited service client's row with the new values
 			$("#scid-" + client_id + " td[name ='sc_title']").html($(client_name).val());
 			$("#scid-" + client_id + " td[name ='sc_contact_name']").html($(mc_name).val());
-			$("#scid-" + client_id + " td[name ='sc_bm_name']").html($(bm_Name).val());
+			$("#scid-" + client_id + " td[name ='sc_bm_name']").html(bm_name);
 			$("#scid-" + client_id + " td[name ='sc_category']").html($(client_cat).val());
 			
 		},
@@ -130,7 +131,7 @@ function editClient(client_id, client_name, mc_ID, oc_ID, mc_name, bm_Name, clie
  * @param client_name
  * @param mc_ID
  * @param oc_ID
- * @param bm_Name
+ * @param bm_ID
  * @param client_cat
  * @returns
  */
@@ -216,7 +217,7 @@ function scInfo(client_id) {
 			 * a div's unique ID and so the ajax_scInfo.html has divs for this future change.
 			 */
 			var setClientName = $(data)[0].innerText;
-			var setBmName =  $(data)[2].innerText; 
+			var setBmID =  $(data)[2].innerText.trim(); 
 			var setCat = $(data)[4].innerText.trim();
 			var setMcName = $(data)[6].innerText;
 			var setMcEmail = $(data)[8].innerText;
@@ -236,7 +237,8 @@ function scInfo(client_id) {
 			var setOcZip = $(data)[36].innerText;
 			var setMcID = $(data)[38].innerText.trim();
 			var setOcID = $(data)[40].innerText.trim();
-			
+			var setBmName = $(data)[42].innerText.trim();
+	
 			/*
 			 * From the values above, we can set the input fields within the scInfoDlg (in listClients.html)
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
@@ -268,6 +270,7 @@ function scInfo(client_id) {
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
 			 */
 			$("#editDlg_name").val(setClientName);
+			$("#editDlg_bmNameAdmin").val(setBmID);
 			$("#editDlg_bmName").val(setBmName);
 			$("#editDlg_cat").val(setCat);
 			$("#editDlg_mcName").val(setMcName);
@@ -632,13 +635,13 @@ $(document).ready(function() {
 				var selected_ocID = $(this).children("option:selected").val();
 				populateOCFields(selected_ocID);				   
 			}); 
-			
+
 			/*
 			 * Removes previous error messages from the fields.
 			 */
 			$("#editDlg_name").removeClass("is-invalid");
-			$("#editDlg_bmName").removeClass("is-invalid");
 			$(".validationTips" ).removeClass("alert alert-danger").text("");
+			
 		},							
 		buttons: [
 			{
@@ -650,14 +653,16 @@ $(document).ready(function() {
 					var selected_shid = $("#editDlg").data('selectedClientID'); // The selected service client's ID
 					var selected_mcID = $("#editDlg_mcID").children("option:selected").val(); // ID for main contact
 					var selected_ocID = $("#editDlg_ocID").children("option:selected").val(); // ID for other/secondary contact
-
+					var selected_bm = $("#editDlg_bmNameAdmin").val(); // ID for board member
+					var selected_bmName = $("[id='editDlg_bmNameAdmin'] option:selected").text();
+		
 					/*
 					 * Validates that the fields of the edit service client dialog are not empty.
 					 * If all the fields are valid, updates the service client to the table and closes the dialog.
 					 */
-					if(checkForEmptyFields("#editDlg_name", "#editDlg_bmName")){
+					if(checkForEmptyFields("#editDlg_name")){
 						
-						editClient(selected_shid, "#editDlg_name", selected_mcID, selected_ocID, "#editDlg_mcName", "#editDlg_bmName", "#editDlg_cat");
+						editClient(selected_shid, "#editDlg_name", selected_mcID, selected_ocID, selected_bm, "#editDlg_cat", "#editDlg_mcName", selected_bmName);
 						
 						$("#editDlg").dialog("close");
 					}					

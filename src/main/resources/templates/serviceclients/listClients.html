@@ -129,7 +129,7 @@
 						</div>
 						<div class="form-row">
 							<div class='col-sm-4'>
-								<label for="addDlg_mcID"><b>Select Board Member</b></label>
+								<label for="addDlg_bmName"><b>Board Member</b></label>
 							</div>
 							<div class="form-group col-sm-6">
 								<select id="addDlg_bmName" class='form-control'>
@@ -151,6 +151,7 @@
 									<option value="Seniors">Seniors</option>
 									<option value="Medical">Medical</option>
 									<option value="Crisis Support">Crisis Support</option>
+									<option value="Variety">Variety</option>
 								</select>
 							</div>
 						</div>
@@ -294,7 +295,7 @@
 				<div class='form-group'>
 					<div class="container-fluid">
 						<p class="validationTips"></p>
-						<div class='form-row'>
+						<div class='form-row' style='padding-bottom:15px'>
 							<div class='col-sm-4'>
 								<label for="editDlg_name"><b>Name of Service Client</b></label>
 							</div>
@@ -307,16 +308,26 @@
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="editDlg_bmName"><b>Board Member:</b></label>
+							<div class='col-sm-4'>
+								<label for="editDlg_bmName"><b>Board Member</b></label>
+							</div>
+							<div class="form-group col-sm-6">
 								<#if userAdmin>
-									 <input class="form-control" id="editDlg_bmName" >
-								 <#else>
-								 	<input class="form-control" id="editDlg_bmName" readonly>
+								<select id="editDlg_bmNameAdmin" class='form-control'>
+									<#list users as bm>
+										<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+									</#list>
+								</select>
+								<#else>
+									<input class="form-control" id="editDlg_bmName" readonly>
 								 </#if>
 							</div>
+						</div>
+						<div class="form-row">
+							<div class='col-sm-4'>
+								<label for="editDlg_cat"><b>Category</b></label>
+							</div>
 							<div class="form-group col-md-6">
-								<label for="editDlg_cat"><b>Category</b></label> 
 								<#if userAdmin>
 								<select	id="editDlg_cat" class="form-control">
 									<option value="Animals">Animals</option>
@@ -325,6 +336,7 @@
 									<option value="Seniors">Seniors</option>
 									<option value="Medical">Medical</option>
 									<option value="Crisis Support">Crisis Support</option>
+									<option value="Variety">Variety</option>
 								</select>
 								<#else>
 								 <input	class="form-control" id="editDlg_cat" readonly>
