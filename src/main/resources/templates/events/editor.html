@@ -1,0 +1,45 @@
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage title="Blank Template" >
+
+<!-- Page Content -->
+<div class="container-fluid">
+
+<h1>Edit Event</h1>
+page instructions here
+<hr/>
+<br/>
+<div id="evFormDiv">
+<form id="evForm" method="post" action="/srv/events/update/${event.eid?c}">
+  <input type="hidden" value="${event.eid?c}">
+  <div class="form-group">
+    <label for="evTitle">Event Title</label>
+    <input type="text" class="form-control" id="evTitle" name="evTitle" aria-describedby="titleHelp" placeholder="event title" value="${event.title}">
+    <small id="titleHelp" class="form-text text-muted">Name of event for display.</small>
+  </div>
+  <div class="form-group">
+    <label for="evType">Event Type</label>
+	<select id="evType" name="evtype">
+    <#list evtypes as et>
+     <#if et.etid == event.type.etid >
+      <option value="${et.etid} " selected>(${et.name}) ${et.description}</option>
+     <#else>
+	  <option value="${et.etid}">(${et.name}) ${et.description}</option>
+	 </#if>
+	</#list>		
+  </select>
+  </div>
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="evContinuous" name="evContinuous">
+    <label class="form-check-label" for="evContinuous">Ongoing/Continuous event.</label>
+  </div>
+  <br/>
+  <br/>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+</div>
+
+</div>
+
+</@layout.stdpage>

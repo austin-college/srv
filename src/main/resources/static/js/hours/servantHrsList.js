@@ -89,6 +89,12 @@ $(document).ready(function() {
 		autoOpen: false,
 		height: 350,
 		width: 400,
+		position: {
+			  my: "center top",
+			  at: "center top",
+			  of: window //"#srv-page"
+			},
+		show: { effect: "blind", duration: 500 },
 		modal: true,
 		dialogClass: "delDlgClass",
 		create: function(event, ui) { 
@@ -127,9 +133,15 @@ $(document).ready(function() {
 	// Register and hide the service hour information dialog div until a row is clicked on
 	$("#hrInfoDlg").dialog({
 		autoOpen: false,
-		height: 500,
-		width: 1100,
+		 width: $(window).width() * 0.8,
+		 height: $(window).height() * 0.3,
 		modal: true,
+		position: {
+			  my: "center top",
+			  at: "center top",
+			  of: "#srv-page"
+			},
+		show: { effect: "blind", duration: 500 },
 		open: function(event, ui) {
 			
 			// Harvests the selected service hour's values from the table.
@@ -143,12 +155,19 @@ $(document).ready(function() {
 		
 	});
 	
+	
 	// Register and hide the edit dialog div until an edit button is clicked on.
 	 $("#editDlg").dialog({
 		 autoOpen: false,
-		 height: 500,
-		 width: 1100,
+		 width: $(window).width() * 0.8,
+		 height: $(window).height() * 0.3,
          modal: true,
+	 		position: {
+				  my: "center top",
+				  at: "center top",
+				  of: "#srv-page"
+				},
+		 show: { effect: "blind", duration: 500 },				
 	     open: function(event, ui) {  
 	    	  
 	    	 // Harvests the selected service hour's old values from the table.

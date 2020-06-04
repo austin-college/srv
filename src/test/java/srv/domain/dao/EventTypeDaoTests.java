@@ -1,5 +1,6 @@
 package srv.domain.dao;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,9 +40,8 @@ class EventTypeDaoTests {
 		assertEquals("gds", et01.getName());
 		assertEquals("Great Day of Service", et01.getDescription());
 		assertEquals(2, et01.getDefHours());
-		assertEquals(true, et01.isPinHours());
+		assertEquals(false, et01.isPinHours());
 		assertEquals(1, et01.getDefClient().getScid());
-		assertEquals(1, et01.getDefOrg().getSgid());
 
 		EventType et02 = dao.fetchEventTypeById(2);
 
@@ -50,8 +50,7 @@ class EventTypeDaoTests {
 		assertEquals("First We Serve", et02.getDescription());
 		assertEquals(2, et02.getDefHours());
 		assertEquals(true, et02.isPinHours());
-		assertEquals(2, et02.getDefClient().getScid());
-		assertEquals(2, et02.getDefOrg().getSgid());
+		assertEquals(1, et02.getDefClient().getScid());
 		
 		EventType et03 = dao.fetchEventTypeById(3);
 
@@ -61,7 +60,6 @@ class EventTypeDaoTests {
 		assertEquals(3, et03.getDefHours());
 		assertEquals(true, et03.isPinHours());
 		assertEquals(1, et03.getDefClient().getScid());
-		assertEquals(3, et03.getDefOrg().getSgid());
 
 	}
 	
@@ -117,13 +115,13 @@ class EventTypeDaoTests {
 		// Checking the newly inserted record.
 		EventType et4 = newET;
 		
-		assertEquals(4, et4.getEtid());
+		assertEquals(numAfterInsert, et4.getEtid());
 		assertEquals("et04", et4.getName());
 		assertEquals("Event Type 4 Description", et4.getDescription());
 		assertEquals(2, et4.getDefHours());
 		assertEquals(true, et4.isPinHours());
 		assertEquals(2, et4.getDefClient().getScid());
-		assertEquals(1, et4.getDefOrg().getSgid());
+
 	}
 	
 	/*
@@ -133,18 +131,21 @@ class EventTypeDaoTests {
 	@Test
 	void testDelete_whenUsingJdbcTemplate() throws Exception{
 		
-		dao.delete(1);
-		
 		List<EventType> ets = dao.listAll();
+		EventType lastItem = ets.get(ets.size()-1);
+				
+		dao.delete(lastItem.getEtid());
 		
-		// Original Size, 3, minus 1 since we deleted = 2
-		assertEquals(2, ets.size());
+		List<EventType> etsAfter = dao.listAll();
 		
-		EventType et1 = ets.get(0);
+		// should be one smaller than original size.
+		assertEquals(ets.size()-1, etsAfter.size());
 		
-		// SQL input for Event Type id 2
-		assertEquals("fws", et1.getName());
-		assertEquals("First We Serve", et1.getDescription());
+		// makes sure that no remaining event type matches the one we deleted.
+		for (EventType et : etsAfter) {
+			assertNotEquals(lastItem.getEtid(), et.getEtid());
+		}
+		
 	}
 	
 	/*
@@ -162,7 +163,7 @@ class EventTypeDaoTests {
 		assertEquals(4, et1.getDefHours());
 		assertEquals(false, et1.isPinHours());
 		assertEquals(2, et1.getDefClient().getScid());
-		assertEquals(2, et1.getDefOrg().getSgid());
+
 	}
 	
 	

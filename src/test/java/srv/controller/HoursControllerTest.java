@@ -20,8 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import srv.controllers.hours.HoursController;
-import srv.controllers.serviceclients.ServiceClientController;
+import srv.controllers.HoursController;
+import srv.controllers.ServiceClientController;
 import srv.domain.contact.ContactDao;
 import srv.domain.event.Event;
 import srv.domain.hours.ServiceHours;

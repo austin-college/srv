@@ -20,17 +20,24 @@ public class Event implements Serializable {
 
 	private int eid;
 	private String title; 
-	private String address; // address of location
+	private String address; // address of location 
 	private Contact contact; // contact info
-	private String date; // date of event
+	
+	private String date; // start date of event  (should be a java.util.Date which maps to SQL TimeStamp)
+	
 	private EventType type; // eventType TODO
+	
 	private String typeString; //testing for eventType until it's implemented
-	private boolean continuous;// if event repeats??
-	private int volunteersNeeded; // 3 of volunteers needed
-	private ServiceClient serviceClient; // service client associated with event
-	private double neededVolunteerHours; // volunteer hours needed for event
-	private double rsvpVolunteerHours; // volunteer hours already registered for event
-	private String freeTextField; // freeform text space
+	
+	private Boolean continuous;	// true if event is always ongoing (like tutoring the service station).
+	
+	private Integer volunteersNeeded; 		 // estimated number of volunteers needed
+	private Double neededVolunteerHours; // volunteer hours needed for event.  sum of all hours for min number of volunteers.
+	private Double rsvpVolunteerHours;   // volunteer hours already registered for event  
+	
+	private ServiceClient serviceClient; // service client associated with event...the "sponsor" of the event
+	
+	private String note; // freeform text space
 
 	public Event() {
 		super();
@@ -112,20 +119,20 @@ public class Event implements Serializable {
 		return this;
 	}
 
-	public boolean isContinuous() {
+	public Boolean isContinuous() {
 		return continuous;
 	}
 
-	public Event setContinous(boolean continous) {
+	public Event setContinous(Boolean continous) {
 		this.continuous = continous;
 		return this;
 	}
 
-	public int getVolunteersNeeded() {
+	public Integer getVolunteersNeeded() {
 		return volunteersNeeded;
 	}
 
-	public Event setVolunteersNeeded(int volunteersNeeded) {
+	public Event setVolunteersNeeded(Integer volunteersNeeded) {
 		this.volunteersNeeded = volunteersNeeded;
 		return this;
 	}
@@ -139,32 +146,56 @@ public class Event implements Serializable {
 		return this;
 	}
 
-	public double getNeededVolunteerHours() {
+	public Double getNeededVolunteerHours() {
 		return neededVolunteerHours;
 	}
 
-	public Event setNeededVolunteerHours(double neededVolunteerHours) {
+	public Event setNeededVolunteerHours(Double neededVolunteerHours) {
 		
 		this.neededVolunteerHours = neededVolunteerHours;
 		return this; 
 	}
 
-	public double getRsvpVolunteerHours() {
+	public Double getRsvpVolunteerHours() {
 		return rsvpVolunteerHours;
 	}
 
-	public Event setRsvpVolunteerHours(double rsvpVolunteerHours) {
+	public Event setRsvpVolunteerHours(Double rsvpVolunteerHours) {
 		
 		this.rsvpVolunteerHours = rsvpVolunteerHours;
 		return this; 
 	}
 
-	public String getFreeTextField() {
-		return freeTextField;
+	public String getNote() {
+		return note;
 	}
 
-	public Event setFreeTextField(String freeTextField) {
-		this.freeTextField = freeTextField;
+	public Event setNote(String freeTextField) {
+		this.note = freeTextField;
 		return this; 
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + eid;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Event other = (Event) obj;
+		if (eid != other.eid)
+			return false;
+		return true;
+	}
+	
+	
 }

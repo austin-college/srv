@@ -16,34 +16,33 @@ import srv.domain.servicegroup.ServiceGroup;
  */
 public class EventType implements Serializable {
 	
-	private Integer etId; // unique id for each event type
+	private Integer etid; // unique id for each event type
 	private String name; // name of the event type
 	private String description; // description of event type
 	private Integer defHours; // use to populate the hours served as user  
 	private boolean pinHours; // true -> user must report using the defHours value
 	private ServiceClient defClient; //  identifies the default ServiceClient
-	private ServiceGroup defOrg; // identifies the default ServiceGroup affiliation
+
 	
 	public EventType() {
 		super();
 	}
 	
 	public EventType(Integer etid, String name, String description, int defHours, boolean pinHours, ServiceClient sc, ServiceGroup sg) {
-		this.etId = etid;
+		this.etid = etid;
 		this.name = name;
 		this.description = description;
 		this.defHours = defHours;
 		this.pinHours = pinHours;
 		this.defClient = sc;
-		this.defOrg = sg;
 	}
 	
 	public Integer getEtid() {
-		return etId;
+		return etid;
 	}
 
 	public EventType setEtid(Integer etid) {
-		this.etId = etid;
+		this.etid = etid;
 		return this;
 	}
 
@@ -92,12 +91,4 @@ public class EventType implements Serializable {
 		return this;
 	}
 
-	public ServiceGroup getDefOrg() {
-		return defOrg;
-	}
-
-	public EventType setDefOrg(ServiceGroup defOrg) {
-		this.defOrg = defOrg;
-		return this;
-	}
 }

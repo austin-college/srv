@@ -20,9 +20,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import srv.controllers.reason.ReasonController;
+import srv.controllers.ReasonController;
 import srv.domain.reason.Reason;
 import srv.domain.reason.ReasonDao;
+import srv.services.ReasonService;
 
 
 /**

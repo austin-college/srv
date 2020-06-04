@@ -1,5 +1,5 @@
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Manage Events" "home.css">
+<@layout.stdpage "Manage Events" "home.css" "events.js">
 
 <div id="mainContainer" class="container">
 <div class="row" style="padding-left: 20px; padding-bottom: 20px">
@@ -22,10 +22,10 @@
 	
 		<div class="row" style="padding-left:20px; padding-bottom:20px">
 			<div class="col">
-				<a href="addHours" class = "btn btn-md btn-dark addBtn">
-					<span class="	fas fa-plus-circle"></span>
+				<button id="btnEvNew" href="addHours" class = "btn btn-md btn-dark addBtn">
+					<span class="fas fa-plus-circle"></span>
 					Create New
-				</a>
+				</button>
 			</div>
 		</div>
 	
@@ -39,6 +39,7 @@
 				<tr>
 					<th class="th-sm">ID</th>
 					<th class="th-sm">Title</th>
+					<th class="th-sm">Type</th>
 					<th class="th-sm">Contact</th>
 					<th class="th-sm">Date</th>
 					<th class="th-sm">Action</th>
@@ -47,19 +48,25 @@
 			<tbody>
 				<#list events as ev>
 				<tr id="eid-${ev.eid?c}">
-					<td name='ev_id'>${ev.eid!"UNKNOWN"}</td>
-					<td name='ev_title'>${ev.title!"UNKNOWN"}</td>
-					<td name='ev_contact'>${ev.cid!"UNKNOWN"}</td>
-					<td name='ev_date'>${ev.date!"UNKNOWN"}</td>
+					<td class='ev_id'>${ev.eid!"UNKNOWN"}</td>
+					<td class='ev_title'>${ev.title!"UNKNOWN"}</td>
+					<td class='ev_type'>${ev.type.name!"UNKNOWN"}</td>
+					<td class='ev_contact' eid="${ev.eid?c}">
+					<#if ev.contact??>
+					${ev.contact.fullName()!"UNKNOWN"}
+					<#else>
+					None
+					</#if>
+					</td>
+					<td class='ev_date'>${ev.date!"UNKNOWN"}</td>
 	
-					<!--edit button-->
-	
-					<td><a class="btn edit" href="#"> <i
-							class="icon-check-sign icon-large"></i>Edit
-	
-					</a> <a class="btn edit" href="#"> <i class="icon-trash icon-large"></i>
-						View
-					</a> </td>
+					<!--action buttons-->
+					<td>
+					<button class="btn edit btnEvEdit" eid="${ev.eid?c}" ><i class="fas fa-pencil-alt"></i></button> 
+					<button class="btn edit btnEvView" eid="${ev.eid?c}" ><i class="fas fa-search"></i></button>
+					<button class="btn edit btnEvDel" eid="${ev.eid?c}"><i class="far fa-trash-alt"></i></button> 
+				   </td>
+				   
 				</tr>
 				</#list>
 			</tbody>
@@ -70,9 +77,43 @@
 	
 	<!-- back button -->
 	<div class="row" style="padding-left:20px; padding-bottom:20px">
-		<a class="btn edit" href="http://localhost:8080/srv/home/admin"> <i class="icon-trash icon-large"></i>
+		<a class="btn edit" href="/srv/home/admin"> <i class="icon-trash icon-large"></i>
 			Back
 		</a>
 	</div>
+</div>
+
+<!-- The div below defines the delete dialog.  It is hidden and exposed when needed -->
+<div id="dlgDelete" title="DELETE SELECTED EVENT" class="ui-widget delWid" style="display:none">
+	<p id="del_confirm">
+		Are you sure you want to delete this event?
+		<br/>
+		<div id="delEvId">id</div>
+		<div id="delEvTitle">title</div>
+		<div id="delEvDate">date</div>
+	</p>
+</div>
+
+<div id="dlgView" title="EVENT DETAILS" class="ui-widget" style="display:none">
+	<p>
+		Show event details here.
+	</p>
+</div>
+
+<div id="dlgViewContact" title="CONTACT DETAILS" class="ui-widget" style="display:none">
+	<p>
+		Show event contact here.
+	</p>
+</div>
+
+<div id="dlgNewEvent" title="CREATE NEW EVENT" class="ui-widget" style="display:none">
+	<p>
+		Select Event Type: 
+		<select id="evType" name="evtype">
+		  <#list evtypes as et>
+		  <option value="${et.etid}">(${et.name}) ${et.description}</option>
+		  </#list>		</select>
+
+	</p>
 </div>
 </@layout.stdpage>
