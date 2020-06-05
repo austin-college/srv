@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -72,7 +74,7 @@ class EventDaoTests {
 		
 		Event e3 = events.get(2);
 		assertNotNull(e3); 
-		
+			
 		/*
 		 * ('GDS2020', 'distributed', 1, '01/01/2020', 1, false, 5, 1, 5.0, 3.0, 'free text field');
 		 */
@@ -81,7 +83,7 @@ class EventDaoTests {
 		assertEquals("GDS2020", e1.getTitle());
 		assertEquals("distributed", e1.getAddress());
 		assertEquals(1, e1.getContact().getContactId());
-		assertEquals("01/01/2020", e1.getDate());
+		assertEquals("2020-01-01 00:00:00.0", e1.getDate().toString());
 		assertEquals(1, e1.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
 		assertFalse(e1.isContinuous());
 		assertEquals(5, e1.getVolunteersNeeded());
@@ -95,7 +97,7 @@ class EventDaoTests {
 		assertEquals("Dummy Event 2", e2.getTitle());
 		assertEquals("Dummy Address 2", e2.getAddress());
 		assertEquals(2, e2.getContact().getContactId());
-		assertEquals("05/05/2020", e2.getDate());
+		assertEquals("2020-05-05 00:00:00.0", e2.getDate().toString());
 		assertEquals(2, e2.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
 		assertFalse(e2.isContinuous());
 		assertEquals(10, e2.getVolunteersNeeded());
@@ -109,7 +111,7 @@ class EventDaoTests {
 		assertEquals("Dummy Event 3", e3.getTitle());
 		assertEquals("Dummy Address 3", e3.getAddress());
 		assertEquals(3, e3.getContact().getContactId());
-		assertEquals("03/03/2020", e3.getDate());
+		assertEquals("2020-03-03 00:00:00.0", e3.getDate().toString());
 		assertEquals(3, e3.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
 		assertFalse(e3.isContinuous());
 		assertEquals(15, e3.getVolunteersNeeded());
@@ -141,11 +143,18 @@ class EventDaoTests {
 			System.err.println(e.getEid());
 		}
 		
+		// Creating new Date object
+		String sDate = "2020-03-12 00:00:00";
+		String pattern = "yyyy-MM-dd HH:mm:ss";
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Date date = sdf.parse(sDate);
+		
 		/*
 		 * Creating new Event with one null for each type
 		 * 			//(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note)
-		 */
-		Event ne = dao.create("EARTH DAY", null, null, "03/12/2020", 2, false, null, 2, null, 2.5, null);
+		 */		
+		Event ne = dao.create("EARTH DAY", null, null, date, 2, false, null, 2, null, 2.5, null);
 		
 		assertNotNull(ne); // checking if null
 		
@@ -177,7 +186,7 @@ class EventDaoTests {
 		assertNull(e4.getAddress());
 		assertNull(e4.getContact());
 		
-		assertEquals("03/12/2020", e4.getDate());
+		assertEquals("2020-03-12 00:00:00.0", e4.getDate().toString());
 		assertEquals(2, e4.getType().getEtid()); // needs to be replaced with getType().getEventTypeId();
 		assertEquals(false, e4.isContinuous());
 		assertEquals(0, e4.getVolunteersNeeded());
@@ -210,10 +219,17 @@ class EventDaoTests {
 			System.err.println(String.format("%d %s", e.getEid(),e.getTitle()));
 		}
 		
+		// Creating new Date object
+		String sDate = "2020-03-12 00:00:00";
+		String pattern = "yyyy-MM-dd HH:mm:ss";
+
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Date date = sdf.parse(sDate);
+		
 		/*
 		 * Creating new Event 
 		 */
-		Event ne = dao.create("EARTH DAY", "Dummy Address 4", 3, "03/12/2020", 2, false, 10, 2, 12.0, 2.5, "save the earth!!!");
+		Event ne = dao.create("EARTH DAY", "Dummy Address 4", 3, date, 2, false, 10, 2, 12.0, 2.5, "save the earth!!!");
 		
 		assertNotNull(ne); // checking if null
 		
@@ -241,7 +257,7 @@ class EventDaoTests {
 		assertEquals("EARTH DAY", e4.getTitle());
 		assertEquals("Dummy Address 4", e4.getAddress());
 		assertEquals(3, e4.getContact().getContactId());
-		assertEquals("03/12/2020", e4.getDate());
+		assertEquals("2020-03-12 00:00:00.0", e4.getDate().toString());
 		assertEquals(2, e4.getType().getEtid()); // needs to be replaced with getType().getEventTypeId();
 		assertEquals(false, e4.isContinuous());
 		assertEquals(10, e4.getVolunteersNeeded());
@@ -277,7 +293,14 @@ class EventDaoTests {
 
 	@Test
 	void testUpdate() throws Exception {
+		
+		// Creating new Date object
+		String sDate = "2020-06-16 00:00:00";
+		String pattern = "yyyy-MM-dd HH:mm:ss";
 
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Date date = sdf.parse(sDate);
+				
 		/*
 		 * Use update dao method
 		 */
@@ -285,7 +308,7 @@ class EventDaoTests {
 				"COOLER EVENT", 
 				"1345 Murder Hornet Dr.", 
 				Integer.valueOf(1), 
-				"06/36/2020", 
+				date, 
 				Integer.valueOf(2), 
 				Boolean.TRUE, 
 				Integer.valueOf(100), 
@@ -304,7 +327,7 @@ class EventDaoTests {
 		assertEquals("COOLER EVENT", ue.getTitle());
 		assertEquals("1345 Murder Hornet Dr.", ue.getAddress());
 		assertEquals(1, ue.getContact().getContactId());
-		assertEquals("06/36/2020", ue.getDate());
+		assertEquals("2020-06-16 00:00:00.0", ue.getDate().toString());
 		assertEquals(2, ue.getType().getEtid());
 		assertEquals(true, ue.isContinuous());
 		assertEquals(100, ue.getVolunteersNeeded());

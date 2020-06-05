@@ -90,7 +90,7 @@ CREATE TABLE events (
 	title VARCHAR(255),
 	address VARCHAR(255),
 	contactId int,
-	dateOf VARCHAR(255),
+	dateOf TIMESTAMP,
 	eventTypeId int not null,
 	continuous boolean,
 	volunteersNeeded int,
@@ -192,10 +192,10 @@ INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClient
 
 insert into events
 (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values 
-('GDS2020', 'distributed', 1, '01/01/2020', 1, false, 5, 1, 5.0, 3.0, 'free text field');
+('GDS2020', 'distributed', 1, '2020-01-01 00:00:00', 1, false, 5, 1, 5.0, 3.0, 'free text field');
 
-insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 2', 'Dummy Address 2', 2, '05/05/2020', 2, false, 10, 2, 3.0, 1.5, 'free text field');
-insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 3', 'Dummy Address 3', 3, '03/03/2020', 3, false, 15, 1, 4.0, 2.0, 'free text field');
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 2', 'Dummy Address 2', 2, '2020-05-05 00:00:00', 2, false, 10, 2, 3.0, 1.5, 'free text field');
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 3', 'Dummy Address 3', 3, '2020-03-03 00:00:00', 3, false, 15, 1, 4.0, 2.0, 'free text field');
 
 insert into eventParticipants(eventId, userId) values (1, 2);
 insert into eventParticipants(eventId, userId) values (2, 2);

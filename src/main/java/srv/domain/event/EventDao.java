@@ -1,5 +1,6 @@
 package srv.domain.event;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public interface EventDao {
 	public Event create(String title, 
 			String addr, 
 			Integer cid, 
-			String date, 
+			Date date, 
 			Integer eventTypeId, Boolean continuous,
 			Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours, 
 			Double rsvpVolunteerHours, String freeTextField) throws Exception;
@@ -42,7 +43,7 @@ public interface EventDao {
 	 */
 	public void delete(int eid) throws Exception;
 
-	public void update(int eid, String title, String addr, Integer cid, String date, Integer eventTypeId, Boolean continuous,
+	public void update(int eid, String title, String addr, Integer cid, Date date, Integer eventTypeId, Boolean continuous,
 			Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours, String freeTextField) throws Exception;
 
 	/**

@@ -1,6 +1,7 @@
 package srv.domain.event;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import srv.domain.contact.Contact;
 import srv.domain.event.eventype.EventType;
@@ -23,9 +24,9 @@ public class Event implements Serializable {
 	private String address; // address of location 
 	private Contact contact; // contact info
 	
-	private String date; // start date of event  (should be a java.util.Date which maps to SQL TimeStamp)
+	private Date startDate;
 	
-	private EventType type; // eventType TODO
+	private EventType type; // eventType 
 	
 	private Boolean continuous;	// true if event is always ongoing (like tutoring the service station).
 	
@@ -41,9 +42,9 @@ public class Event implements Serializable {
 		super();
 	}
 
-	public Event(String date, ServiceClient serviceClient, EventType type) {
+	public Event(Date date, ServiceClient serviceClient, EventType type) {
 		super();
-		this.date = date;
+		this.startDate = date;
 		this.serviceClient = serviceClient;
 		this.type = type;
 	}
@@ -84,12 +85,12 @@ public class Event implements Serializable {
 		return this;
 	}
 
-	public String getDate() {
-		return date;
+	public Date getDate() {
+		return startDate;
 	}
 
-	public Event setDate(String date) {
-		this.date = date;
+	public Event setDate(Date date) {
+		this.startDate = date;
 		return this;
 	}
 	
