@@ -31,7 +31,7 @@ class EventTypeDaoTests {
 	 * should return the EventType info for the Event with id i.
 	 */
 	@Test
-	void testFetchEventTypeById_whenUsingJdbcTemplate() throws Exception {
+	void testFetchEventTypeById() throws Exception {
 		
 		// Check existing event type in sql 1~3
 		EventType et01 = dao.fetchEventTypeById(1);
@@ -68,7 +68,7 @@ class EventTypeDaoTests {
 	 * are in the data.sql database.
 	 */
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception {
+	void testListAll() throws Exception {
 
 		List<EventType> events = dao.listAll();
 
@@ -88,7 +88,7 @@ class EventTypeDaoTests {
 	 * in the data.sql database.
 	 */
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception{
+	void testCreate() throws Exception{
 		
 		List<EventType> preCreate = dao.listAll();
 		int numBeforeInsert = preCreate.size();
@@ -97,7 +97,7 @@ class EventTypeDaoTests {
 			System.err.println(et.getName());
 		}
 		
-		EventType newET = dao.create("et04", "Event Type 4 Description", 2, true, 2, 1);
+		EventType newET = dao.create("et04", "Event Type 4 Description", 2, true, 2);
 		
 		assertNotNull(newET);
 		
@@ -129,7 +129,7 @@ class EventTypeDaoTests {
 	 *  Should still be one query left in the database.
 	 */
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception{
+	void testDelete() throws Exception{
 		
 		List<EventType> ets = dao.listAll();
 		EventType lastItem = ets.get(ets.size()-1);
@@ -152,9 +152,9 @@ class EventTypeDaoTests {
 	 * Testing the update(), should update the query with the specified ID.
 	 */
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception{
+	void testUpdate() throws Exception{
 		
-		dao.update(1, "GreatDayOfService", "Austin College Hosted Event", 4, false, 2, 2);
+		dao.update(1, "GreatDayOfService", "Austin College Hosted Event", 4, false, 2);
 		
 		EventType et1 = dao.fetchEventTypeById(1);
 		

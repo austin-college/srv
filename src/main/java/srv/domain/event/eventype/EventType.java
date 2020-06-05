@@ -28,7 +28,7 @@ public class EventType implements Serializable {
 		super();
 	}
 	
-	public EventType(Integer etid, String name, String description, Integer defHours, boolean pinHours, ServiceClient sc, ServiceGroup sg) {
+	public EventType(Integer etid, String name, String description, Integer defHours, boolean pinHours, ServiceClient sc) {
 		this.etid = etid;
 		this.name = name;
 		this.description = description;

@@ -75,14 +75,10 @@ CREATE TABLE eventTypes (
 	defaultHours INT,
 	pinHours boolean,
 	serviceClientId INT,
-	serviceGroupId INT,
 	primary key (eventTypeId),
 	foreign key (serviceClientId)
 		references serviceClients(serviceClientId)
-		on delete set NULL,
-	foreign key (serviceGroupId)
-		references serviceGroups(serviceGroupId)
-		on delete set NULL	
+		on delete set NULL
 	);
 
 CREATE TABLE events (
