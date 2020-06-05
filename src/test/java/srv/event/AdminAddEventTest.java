@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -127,9 +128,28 @@ public class AdminAddEventTest extends SeleniumTest {
 		link = driver.findElement(By.id("btnEvNew")); 
 		link.click();
 		
+		Thread.sleep(2000);
+		
 		//this checks the dialog box to see if its visible
-		assertEquals(true, link.findElement(By.xpath("//div[@class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle']/span[@class='ui-dialog-title'][@id='ui-id-2']")).isDisplayed()); // ("dlgNewEvent")).getText());
+		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed()); // ("dlgNewEvent")).getText());
 
+		/*
+		 * clicks on the combo box to open a list of options
+		 */
+		link = driver.findElement(By.id("evType"));
+		link.click();
+		
+		/*
+		 * selects option 2
+		 * "(fws) First We Serve"
+		 */
+		Select selector = new Select(driver.findElement(By.id("evType")));
+		selector.selectByIndex(1);
+		
+		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
+		
+		
+		
 	}
 
 }
