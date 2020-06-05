@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.Event;
@@ -43,23 +44,51 @@ public class EventController {
 	 * displays the admin manage events page
 	 * @param request
 	 * @param response
+	 * @param before 	query parameter for filtering events before current date
+	 * @param after 	query parameter for filtering events after current date
 	 * @return
 	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("events")
-	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String before,  @RequestParam(required = false) String after) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");
-
+		
 		try {
 
-			// Lists the current events in the event database in a table
-			List<Event> myEvents = eventService.allEvents();
-			List<EventType> types = eventService.allEventTypes();
+			// Lists events before current date
+			if (before != null) {
+				List<Event> myEvents = eventService.filteredEvents(before, null, null, null, null);
+				List<EventType> types = eventService.allEventTypes();
+				
+				mav.addObject("beforeSelected", 1); // turns the toggle button for before on
+				mav.addObject("afterSelected", 0); // turns the toggle button for after off
+				mav.addObject("events", myEvents);
+				mav.addObject("evtypes", types);
+			}
 			
-			mav.addObject("events", myEvents);
-			mav.addObject("evtypes", types);
-
+			// Lists events after current date
+			else if (after != null) {
+				List<Event> myEvents = eventService.filteredEvents(null, after, null, null, null);
+				List<EventType> types = eventService.allEventTypes();
+				
+				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
+				mav.addObject("afterSelected", 1); // turns the toggle button for after on
+				mav.addObject("events", myEvents);
+				mav.addObject("evtypes", types);
+			}
+			
+			
+			else {
+				// Lists the current events in the event database in a table
+				List<Event> myEvents = eventService.allEvents();
+				List<EventType> types = eventService.allEventTypes();
+			
+				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
+				mav.addObject("afterSelected", 0); // turns the toggle button for after off
+				mav.addObject("events", myEvents);
+				mav.addObject("evtypes", types);
+			}
 
 		} catch (Exception e) {
 
@@ -257,6 +286,6 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-
 	}
+	
 }

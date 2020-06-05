@@ -29,15 +29,34 @@
 			<!-- Toggle button for filtering events before current date -->
 			<div class="col-sm-3 text-right" >
 				<div class="custom-control custom-switch">
-  					<input type="checkbox" class="custom-control-input" id="beforeToggle">
+					<!-- Turns before toggle button on after page is reloaded as long as the after toggle is not on -->
+					<#if afterSelected == 0 && beforeSelected == 1>
+  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href = location.href.split('?')[0];" checked> 						
+  					<#elseif afterSelected == 0 && beforeSelected == 0>
+  					<!-- Before toggle button is turned off when the after toggle is not on-->
+  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href += '?before=now';">
+					<#else>
+					<!-- Disables toggle button when the after toggle button is on -->
+						<input type="checkbox" class="custom-control-input" id="beforeToggle" disabled>
+						
+  					</#if> 
   					<label class="custom-control-label" for="beforeToggle">Before Current Date</label>
 				</div>
 			</div>
-			
+						
 			<!-- Toggle button for filtering events after current date -->
 			<div class="col-sm-3 text-right" >
 				<div class="custom-control custom-switch">
-  					<input type="checkbox" class="custom-control-input" id="afterToggle">
+					<!-- Turns after toggle button on after page is reloaded as long as the before toggle is not on-->
+					<#if beforeSelected == 0 && afterSelected == 1>
+  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href = location.href.split('?')[0];" checked>
+  					<#elseif beforeSelected == 0 && afterSelected == 0>
+  					<!-- After toggle button is turned off when the before toggle is not on-->
+  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href += '?after=now';">
+  					<#else>
+  					<!-- Disables toggle button when the before toggle button is on -->
+  						<input type="checkbox" class="custom-control-input" id="afterToggle" disabled>
+  					</#if>
   					<label class="custom-control-label" for="afterToggle">After Current Date</label>
 				</div>
 			</div>

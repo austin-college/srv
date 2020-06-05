@@ -169,5 +169,10 @@ public class EventService {
 		return ev;   
 	}
 	
+	public List<Event> filteredEvents(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
+		
+		return eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId);
+	}
+	
 	
 }
