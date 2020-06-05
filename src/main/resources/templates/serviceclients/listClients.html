@@ -12,7 +12,16 @@
 	<!-- The row below contains the table's title. -->
 	<div class="row">
 		<div class="col">
-			<h1>Service Client List</h1>
+			<h1>Manage Service Clients</h1>
+			<p>Please select the action you would like to take.</p>
+		</div>
+	</div>
+	
+	
+	<!-- table title. -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+			<h2>Service Clients</h2>
 		</div>
 	</div>
 	
@@ -32,7 +41,7 @@
 		<div class="col">
 			<div class="container ui-widget table-responsive">
 				<table id="client_tbl"
-					class="table ui-widget ui-widget-content table-striped table-bordered table-hover"
+					class="table ui-widget ui-widget-content table-striped table-bordered table-hover" cellspacing="0"
 					width=100%>
 					<!-- Using complex header in order to allow for datatables to sort the columns -->
 					<thead>
@@ -42,17 +51,7 @@
 							<th rowspan="2">Primary Contact Name</th>
 							<th rowspan="2">Board Member</th>
 							<th rowspan="2">Category</th>
-							<#if userAdmin>
-							<th colspan='2'>Actions</th>
-							</#if>	
-						</tr>
-						<tr>
-							<#if userAdmin>
-							<th>Edit</th>
-							<th>Delete</th>
-							<#else>
-							<th>Action</th>
-							</#if>
+							<th rowspan="2">Action</th>
 						</tr>
 					</thead>
 					<tbody id="sc_tbl_body">
@@ -68,16 +67,15 @@
 							<td class="text-center">
 								<button type="button" class="edit btn"
 									onEditClick="${sc.scid?c}">
-									<span class="fas fa-pencil-alt"></span> Edit
+									<span class="fas fa-pencil-alt"></span> 
 								</button>
-							</td>
-							<#if userAdmin>
-							<td class="text-center">
+								
+								<#if userAdmin>
 								<button type="button" class="del btn" onDelClick="${sc.scid?c}">
-									<span class="fas fa-trash-alt"></span> Delete
+									<span class="fas fa-trash-alt"></span> 
 								</button>
+								</#if>
 							</td>
-							</#if>
 						</tr>
 						</#list>
 					</tbody>
