@@ -29,7 +29,7 @@ class ServiceClientDaoTests {
 	 * list.
 	 */
 	@Test
-	void testGetById_whenUsingJdbcTemplate() throws Exception {
+	void testGetById() throws Exception {
 
 		ServiceClient sc1 = dao.fetchClientById(1);
 
@@ -72,7 +72,7 @@ class ServiceClientDaoTests {
 	 * are in the data.sql database.
 	 */
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception {
+	void testListAll() throws Exception {
 
 		List<ServiceClient> clients = dao.listAll();
 
@@ -159,7 +159,7 @@ class ServiceClientDaoTests {
 	 * 
 	 */
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception {
+	void testCreate() throws Exception {
 
 		List<ServiceClient> clientsBefore = dao.listAll(); 
 		int numBeforeInsert = clientsBefore.size();
@@ -235,7 +235,7 @@ class ServiceClientDaoTests {
 	 * one in this case). Should still be one query left in the database.
 	 */
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception {
+	void testDelete() throws Exception {
 
 		int cnum = dao.listAll().size();
 
@@ -252,7 +252,7 @@ class ServiceClientDaoTests {
 	 * rather than the second entry.
 	 */
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+	void testUpdate() throws Exception {
 
 		dao.update(2, "Meals on Wheels", 1, 2, 4, "Seniors");
 
