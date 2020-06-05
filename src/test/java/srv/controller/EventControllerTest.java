@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.net.ssl.SSLEngineResult.Status;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -57,14 +58,22 @@ public class EventControllerTest {
 
 	@MockBean
 	private UserUtil userUtil;
+
 	
+	// handy objects for these tests
+	
+	private List<Event> testEvents = new ArrayList<Event>();		
+	private List<EventType> testTypes = new ArrayList<EventType>();
 
-	@Test
-	@WithMockUser(username = "admin", password = "admin")
-	public void basicBasePageTest() throws Exception {
-
-		
-
+	
+	/**
+	 * Called before each an every test in order to have sufficient
+	 * data for this series of tests.   We make a couple of typical
+	 * events and a couple of typical event types.  
+	 * 
+	 */
+	@Before
+	public void setupTestFixture() {
 		
 		EventType et1 = new EventType()
 				.setEtid(1)
@@ -95,13 +104,13 @@ public class EventControllerTest {
 						);
 		
 		Event e2 = new Event()
-				.setEid(1)
+				.setEid(2)
 				.setTitle("fws 2020")
 				.setDate("today")
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
 				.setContact(new Contact()
-						.setContactId(1)
+						.setContactId(2)
 						.setEmail("jsmith@austincollege.edu")
 						.setCity("Sherman")
 						.setState("TX")
@@ -109,17 +118,26 @@ public class EventControllerTest {
 						.setLastName("Smith")
 						);
 		
-		when(userUtil.userIsAdmin()).thenReturn(true);
 		
-		List<Event> myEvents = new ArrayList<Event>();
-		myEvents.add(e1);
-		
-		List<EventType> types = new ArrayList<EventType>();
-		types.add(et1);
 		
 
-		Mockito.when(mockService.allEvents()).thenReturn(myEvents);
-		Mockito.when(mockService.allEventTypes()).thenReturn(types);
+		testEvents.add(e1);
+		testEvents.add(e2);
+		testTypes.add(et1);
+		testTypes.add(et2);
+		
+	}
+
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest() throws Exception {
+		
+
+		
+		when(userUtil.userIsAdmin()).thenReturn(true);
+
+		Mockito.when(mockService.allEvents()).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		
 
 		// now perform the test ... should contain rows <tr id="eid-${ev.eid?c}">
@@ -130,14 +148,34 @@ public class EventControllerTest {
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
 			
-			// there's a row in our table for the ifrst event
+			// there's a row in our table for the first event
 			.andExpect(content()
 					.string(containsString("<tr id=\"eid-1\">")))
+			
+			// and is should contain a data cell for matching the first event id
 			.andExpect(content()
 					.string(containsString("<td class='ev_id'>1</td>")))
+			
+			// and is should contain a data cell matching the the title of the first event
 			.andExpect(content()
 					.string(containsString("<td class='ev_title'>gds 2020</td>")))
+			
+			// there's a row in our table for the second event
+			.andExpect(content()
+					.string(containsString("<tr id=\"eid-2\">")))
+			
+			// and is should contain a data cell for matching the second event id
+			.andExpect(content()
+					.string(containsString("<td class='ev_id'>2</td>")))
+			
+			// and is should contain a data cell matching the the title of the second event
+			.andExpect(content()
+					.string(containsString("<td class='ev_title'>fws 2020</td>")))
+			
+		
 			;
+		
+		
 
 	}
 	
