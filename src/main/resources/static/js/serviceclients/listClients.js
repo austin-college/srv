@@ -209,7 +209,7 @@ function scInfo(client_id) {
 		success: function(data) {
 
 			console.log("client info");
-
+			console.log(data);
 			/*
 			 * In order to obtain the information passed back from the AJAX call, we have to 
 			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
@@ -328,7 +328,7 @@ function populateMCFields(contact_id) {
 		success: function(data) {
 
 			console.log("add main contact info");
-
+		
 			/*
 			 * In order to obtain the information passed back from the AJAX call, we have to 
 			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
