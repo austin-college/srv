@@ -1,6 +1,7 @@
 package srv.domain.hours;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import srv.domain.event.Event;
 import srv.domain.serviceclient.ServiceClient;
@@ -20,7 +21,7 @@ public class ServiceHours implements Serializable{
 	private User servant; // Servant worked for service client
 	private Event event; // Event held for service
 	private Double hours;	// Hours served
-	private String date; // Date Served
+	private Date date; // Date Served
 	private String reflection; // Thoughts on the event
 	private String description; // Description of the event
 	private String status; // Tells if the hours are pending, approved or rejected.
@@ -129,12 +130,12 @@ public class ServiceHours implements Serializable{
 	}
 
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
 
-	public ServiceHours setDate(String date) {
+	public ServiceHours setDate(Date date) {
 		this.date = date;
 		return this; 
 	}
@@ -169,6 +170,31 @@ public class ServiceHours implements Serializable{
 	public ServiceHours setStatus(String stat) {
 		this.status = stat;
 		return this;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((shid == null) ? 0 : shid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ServiceHours other = (ServiceHours) obj;
+		if (shid == null) {
+			if (other.shid != null)
+				return false;
+		} else if (!shid.equals(other.shid))
+			return false;
+		return true;
 	}
 
 	

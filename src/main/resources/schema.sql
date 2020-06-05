@@ -20,23 +20,7 @@ CREATE TABLE contacts (
 	zip VARCHAR(255),
 	PRIMARY KEY (contactId)
 	);
-
-CREATE TABLE serviceClients (
-	serviceClientId INTEGER AUTO_INCREMENT,
-	title VARCHAR(255),
-	primaryContactId INT,
-	secondContactId INT,
-	boardMem VARCHAR(255),
-	category VARCHAR(255),
-	PRIMARY KEY (serviceClientId),
-	FOREIGN KEY (primaryContactId)
-		REFERENCES contacts(contactId)
-		ON DELETE SET NULL,
-	FOREIGN KEY (secondContactId)
-		REFERENCES contacts(contactId)
-		ON DELETE SET NULL
-	);
-
+	
 CREATE TABLE users (
 	userId integer auto_increment,
 	username VARCHAR(255),
@@ -45,6 +29,25 @@ CREATE TABLE users (
 	foreign key (contactId)
 		references contacts(contactId)
 		on delete set NULL
+	);
+
+CREATE TABLE serviceClients (
+	serviceClientId INTEGER AUTO_INCREMENT,
+	title VARCHAR(255),
+	primaryContactId INT,
+	secondContactId INT,
+	boardMemId INT,
+	category VARCHAR(255),
+	PRIMARY KEY (serviceClientId),
+	FOREIGN KEY (primaryContactId)
+		REFERENCES contacts(contactId)
+		ON DELETE SET NULL,
+	FOREIGN KEY (secondContactId)
+		REFERENCES contacts(contactId)
+		ON DELETE SET NULL,
+	FOREIGN KEY (boardMemId)
+		REFERENCES users(userId)
+		ON DELETE SET NULL
 	);
 
 CREATE TABLE reasons (
@@ -72,14 +75,10 @@ CREATE TABLE eventTypes (
 	defaultHours INT,
 	pinHours boolean,
 	serviceClientId INT,
-	serviceGroupId INT,
 	primary key (eventTypeId),
 	foreign key (serviceClientId)
 		references serviceClients(serviceClientId)
-		on delete set NULL,
-	foreign key (serviceGroupId)
-		references serviceGroups(serviceGroupId)
-		on delete set NULL	
+		on delete set NULL
 	);
 
 CREATE TABLE events (
@@ -87,7 +86,7 @@ CREATE TABLE events (
 	title VARCHAR(255),
 	address VARCHAR(255),
 	contactId int,
-	dateOf VARCHAR(255),
+	dateOf TIMESTAMP,
 	eventTypeId int not null,
 	continuous boolean,
 	volunteersNeeded int,
@@ -165,15 +164,15 @@ INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, c
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Austin College Service Station', 1, 4, 'Andrea Restrepo', 'Variety');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Habitat for Humanity', 1, 4, 'Billy Bob', 'Community, Construction');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('Crisis Center', 2, 3, 'Rick Astley', 'Crisis Support');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES ('For Testing Only', 2, 3, 'Rick Astley', 'Crisis Support');
-
-insert into users (username, contactId) values ('apritchard', 4);
-insert into users (username, contactId) values ('hCouturier', 5);
-insert into users (username, contactId) values ('eDriscoll', 6);
+insert into users (username, contactId) values ('apritchard', 5);
+insert into users (username, contactId) values ('hCouturier', 6);
+insert into users (username, contactId) values ('eDriscoll', 7);
 insert into users (username, contactId) values ('user', 1);
+
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Austin College Service Station', 1, 4, 1, 'Variety');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Habitat for Humanity', 2, 3, 2, 'Community');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 3, 4, 3, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 4, 'Crisis Support');
 
 insert into reasons (reason) values ('Assembly Drawing');
 insert into reasons (reason) values ('Piece Part Drawing');
@@ -189,10 +188,10 @@ INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClient
 
 insert into events
 (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values 
-('GDS2020', 'distributed', 1, '01/01/2020', 1, false, 5, 1, 5.0, 3.0, 'free text field');
+('GDS2020', 'distributed', 1, '2020-01-01 00:00:00', 1, false, 5, 1, 5.0, 3.0, 'free text field');
 
-insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 2', 'Dummy Address 2', 2, '05/05/2020', 2, false, 10, 2, 3.0, 1.5, 'free text field');
-insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 3', 'Dummy Address 3', 3, '03/03/2020', 3, false, 15, 1, 4.0, 2.0, 'free text field');
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 2', 'Dummy Address 2', 2, '2020-05-05 00:00:00', 2, false, 10, 2, 3.0, 1.5, 'free text field');
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 3', 'Dummy Address 3', 3, '2020-03-03 00:00:00', 3, false, 15, 1, 4.0, 2.0, 'free text field');
 
 insert into eventParticipants(eventId, userId) values (1, 2);
 insert into eventParticipants(eventId, userId) values (2, 2);
