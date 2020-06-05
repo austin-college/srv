@@ -70,7 +70,7 @@ public class EventService {
 		Event ne = eventDao.create("new event", 
 				"location", 
 				null,  // no contact id yet
-				new java.util.Date().toString(),
+				new java.util.Date(),
 				eventTypeId, 
 				false, 
 				null, 

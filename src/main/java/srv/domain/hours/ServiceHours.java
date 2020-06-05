@@ -1,6 +1,7 @@
 package srv.domain.hours;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import srv.domain.event.Event;
 import srv.domain.serviceclient.ServiceClient;
@@ -20,7 +21,7 @@ public class ServiceHours implements Serializable{
 	private User servant; // Servant worked for service client
 	private Event event; // Event held for service
 	private Double hours;	// Hours served
-	private String date; // Date Served
+	private Date date; // Date Served
 	private String reflection; // Thoughts on the event
 	private String description; // Description of the event
 	private String status; // Tells if the hours are pending, approved or rejected.
@@ -129,12 +130,12 @@ public class ServiceHours implements Serializable{
 	}
 
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
 
-	public ServiceHours setDate(String date) {
+	public ServiceHours setDate(Date date) {
 		this.date = date;
 		return this; 
 	}
