@@ -190,7 +190,7 @@ insert into events
 (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values 
 ('GDS2020', 'distributed', 1, '2020-01-01 00:00:00', 1, false, 5, 1, 5.0, 3.0, 'free text field');
 
-insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 2', 'Dummy Address 2', 2, '2020-05-05 00:00:00', 2, false, 10, 2, 3.0, 1.5, 'free text field');
+insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 2', 'Dummy Address 2', 2, '2020-08-08 00:00:00', 2, false, 10, 2, 3.0, 1.5, 'free text field');
 insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 3', 'Dummy Address 3', 3, '2020-03-03 00:00:00', 3, false, 15, 1, 4.0, 2.0, 'free text field');
 
 insert into eventParticipants(eventId, userId) values (1, 2);

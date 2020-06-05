@@ -133,7 +133,6 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setTimestamp(4,  ts);
 		}
 			
-		
 		if (eventTypeId == null)
 			ps.setNull(5, java.sql.Types.INTEGER);
 		else
@@ -241,6 +240,61 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 		return results.get(0);
 	}
+	
+	@Override
+	public List<Event> listByFilter(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
+		
+		// Get the current date and convert it to a timestamp for mysql type
+		Timestamp now =new Timestamp(new Date().getTime());	
+		
+		
+		/*
+		 * Returns the entire list
+		 */
+		if ((startDate != null) && (endDate != null)) 		
+			return listAll();
+		
+		/*
+		 * Returns the list of past events based on current date
+		 */
+		else if (startDate != null) {
+						
+			final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
+					+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf <= ?";
+			
+			log.debug(sqlStr);
+			
+			List<Event> results = getJdbcTemplate().query(connection -> {
+				PreparedStatement ps = connection.prepareStatement(sqlStr);
+				ps.setTimestamp(1, now);
+				return ps;
+			}, new EventRowMapper());
+			
+			return results;			
+		}
+		
+		/*
+		 * Returns the list of events after the current date
+		 */
+		else if (endDate != null) {
+			
+			final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
+					+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf >= ?";
+			
+			log.debug(sqlStr);
+			
+			List<Event> results = getJdbcTemplate().query(connection -> {
+				PreparedStatement ps = connection.prepareStatement(sqlStr);
+				ps.setTimestamp(1, now);
+				return ps;
+			}, new EventRowMapper());
+			
+			return results;	
+		}
+	
+		
+		return null;
+	}
 
 	/**
 	 * This class maps a Event database record to the Event model object by using
@@ -277,4 +331,5 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			return ev;
 		}
 	}
+
 }

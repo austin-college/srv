@@ -97,7 +97,7 @@ class EventDaoTests {
 		assertEquals("Dummy Event 2", e2.getTitle());
 		assertEquals("Dummy Address 2", e2.getAddress());
 		assertEquals(2, e2.getContact().getContactId());
-		assertEquals("2020-05-05 00:00:00.0", e2.getDate().toString());
+		assertEquals("2020-08-08 00:00:00.0", e2.getDate().toString());
 		assertEquals(2, e2.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
 		assertFalse(e2.isContinuous());
 		assertEquals(10, e2.getVolunteersNeeded());
@@ -336,6 +336,55 @@ class EventDaoTests {
 		assertEquals("they're coming", ue.getNote());
 	
 
+	}
+	
+	/**
+	 * Filters the list of events by events before the current date (2020-06-05)
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBefore() throws Exception {
+		
+		// Fetches the list of events before the currrent date
+		List<Event> eventsBeforeNow = dao.listByFilter("now", null, null, null, null);
+		
+		assertEquals(2, eventsBeforeNow.size());
+		assertEquals(1, eventsBeforeNow.get(0).getEid());
+		assertEquals(3, eventsBeforeNow.get(1).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events after the current date (2020-06-05)
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byAfter() throws Exception {
+		
+		// Fetches the list of events before the currrent date
+		List<Event> eventsAfterNow = dao.listByFilter(null, "now", null, null, null);
+		
+		assertEquals(1, eventsAfterNow.size());
+		assertEquals(2, eventsAfterNow.get(0).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events before and after the current date (2020-06-05).
+	 * Returns the entire list of events.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBeforeAndAfter() throws Exception {
+		
+		// Fetches the list of events before the currrent date
+		List<Event> allEvents = dao.listByFilter("now", "now", null, null, null);
+		
+		assertEquals(3, allEvents.size());
+		assertEquals(1, allEvents.get(0).getEid());
+		assertEquals(2, allEvents.get(1).getEid());
+		assertEquals(3, allEvents.get(2).getEid());
 	}
 
 //	/*
