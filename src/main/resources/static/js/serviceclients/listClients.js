@@ -145,7 +145,7 @@ function addClient(client_name, mc_ID, oc_ID, bm_ID, client_cat) {
 		method: "POST",
 		url: "/srv/ajax/addSc",
 		cache: false,
-		data: {clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmId: bm_ID, cat: catStr},
+		data: {clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmID: bm_ID, cat: catStr},
 		/*
 		 * If successful then add the service client to the list with the new values.
 		 */
@@ -270,8 +270,7 @@ function scInfo(client_id) {
 			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
 			 */
 			$("#editDlg_name").val(setClientName);
-			$("#editDlg_bmNameAdmin").val(setBmID);
-			$("#editDlg_bmName").val(setBmName);
+			$("#editDlg_bmName").val(setBmID);
 			$("#editDlg_cat").val(setCat);
 			$("#editDlg_mcName").val(setMcName);
 			$("#editDlg_mcEmail").val(setMcEmail);
@@ -653,9 +652,10 @@ $(document).ready(function() {
 					var selected_shid = $("#editDlg").data('selectedClientID'); // The selected service client's ID
 					var selected_mcID = $("#editDlg_mcID").children("option:selected").val(); // ID for main contact
 					var selected_ocID = $("#editDlg_ocID").children("option:selected").val(); // ID for other/secondary contact
-					var selected_bm = $("#editDlg_bmNameAdmin").val(); // ID for board member
-					var selected_bmName = $("[id='editDlg_bmNameAdmin'] option:selected").text();
-		
+					var selected_bm = $("#editDlg_bmName").val(); // ID for board member
+					var selected_bmName = $("[id='editDlg_bmName'] option:selected").text();
+					
+					
 					/*
 					 * Validates that the fields of the edit service client dialog are not empty.
 					 * If all the fields are valid, updates the service client to the table and closes the dialog.
@@ -667,6 +667,7 @@ $(document).ready(function() {
 						$("#editDlg").dialog("close");
 					}					
 				}
+				
 			},
 			{	
 				text: "Cancel",

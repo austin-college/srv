@@ -142,14 +142,15 @@ public class ServiceClientController {
 	 */
 	@PostMapping("/ajax/addSc")
 	public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
-
+		
 		response.setContentType("text/html");
 		
 		// Obtains the information from the JavaScript function
 		String clientName = request.getParameter("clientName");
 		String cid1Str = request.getParameter("mcID");
 		String cid2Str = request.getParameter("ocID");
-		String bmIdStr = request.getParameter("bmId");
+		String bmIdStr = request.getParameter("bmID");
+		String category = request.getParameter("cat");
 		
 		Integer cid1 = null;
 		Integer cid2 = null;
@@ -164,8 +165,6 @@ public class ServiceClientController {
 		if (bmIdStr != null && bmIdStr.length() > 0)
 			bmId = Integer.valueOf(bmIdStr); // current board member's ID
 		
-		String category = request.getParameter("cat");
-
 		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
@@ -177,11 +176,12 @@ public class ServiceClientController {
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
 			mav.addObject("name", newClient.getName());
+			mav.addObject("category", newClient.getCategory());
 			mav.addObject("firstName", newClient.getMainContact().getFirstName());
 			mav.addObject("lastName", newClient.getMainContact().getLastName());
 			mav.addObject("bmFirstName", newClient.getCurrentBoardMember().getContactInfo().getFirstName());
 			mav.addObject("bmLastName", newClient.getCurrentBoardMember().getContactInfo().getLastName());
-			mav.addObject("category", newClient.getCategory());
+			
 
 		} catch (Exception e) {
 			System.err.println("\n\n ERROR ");

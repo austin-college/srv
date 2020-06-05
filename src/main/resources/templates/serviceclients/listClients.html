@@ -313,13 +313,17 @@
 							</div>
 							<div class="form-group col-sm-6">
 								<#if userAdmin>
-								<select id="editDlg_bmNameAdmin" class='form-control'>
+								<select id="editDlg_bmName" class='form-control'>
 									<#list users as bm>
 										<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
 									</#list>
 								</select>
 								<#else>
-									<input class="form-control" id="editDlg_bmName" readonly>
+									<select id="editDlg_bmName" class='form-control' disabled>
+									<#list users as bm>
+										<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+									</#list>
+								</select>
 								 </#if>
 							</div>
 						</div>
