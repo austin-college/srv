@@ -67,4 +67,31 @@ public class ServiceGroup implements Serializable{
 		this.contactInfo = contactInfo;
 		return this;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((sgid == null) ? 0 : sgid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ServiceGroup other = (ServiceGroup) obj;
+		if (sgid == null) {
+			if (other.sgid != null)
+				return false;
+		} else if (!sgid.equals(other.sgid))
+			return false;
+		return true;
+	}
+	
+	
 }

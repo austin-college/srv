@@ -17,6 +17,8 @@ import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.User;
+import srv.domain.user.UserDao;
 import srv.utils.UserUtil;
 
 /**
@@ -42,6 +44,9 @@ public class ServiceClientController {
 	ContactDao cDao;
 	
 	@Autowired
+	UserDao uDao;
+	
+	@Autowired
 	UserUtil userUtil;
 
 	/*
@@ -57,6 +62,10 @@ public class ServiceClientController {
 			// Lists the current service clients in the service client database in a table
 			List<ServiceClient> myClients = dao.listAll();
 			mav.addObject("clients", myClients);
+			
+			// Lists the current users in the user database in a drop down menu in the add and edit service client dialogs for selecting a current board member
+			List<User> users = uDao.listAll();
+			mav.addObject("users", users);
 			
 			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
 			List<Contact> contacts = cDao.listAll();			
@@ -133,16 +142,19 @@ public class ServiceClientController {
 	 */
 	@PostMapping("/ajax/addSc")
 	public ModelAndView ajaxServiceClientCreate(HttpServletRequest request, HttpServletResponse response) {
-
+		
 		response.setContentType("text/html");
 		
 		// Obtains the information from the JavaScript function
 		String clientName = request.getParameter("clientName");
 		String cid1Str = request.getParameter("mcID");
 		String cid2Str = request.getParameter("ocID");
+		String bmIdStr = request.getParameter("bmID");
+		String category = request.getParameter("cat");
 		
 		Integer cid1 = null;
 		Integer cid2 = null;
+		Integer bmId = null;
 		
 		if (cid1Str != null && cid1Str.length()>0 )
 			cid1 = Integer.valueOf(cid1Str); // main contact ID
@@ -150,24 +162,26 @@ public class ServiceClientController {
 		if (cid2Str != null && cid2Str.length()>0 )
 			cid2 = Integer.valueOf(cid2Str);  // other/secondary ID
 		
-		String bmName = request.getParameter("bmName");
-		String category = request.getParameter("cat");
-
+		if (bmIdStr != null && bmIdStr.length() > 0)
+			bmId = Integer.valueOf(bmIdStr); // current board member's ID
+		
 		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
 			
 			// Creates the a new service client in the service client database. Then we hold onto a
 			// handle of the newly created service client to aid with preparing the MAV response.
-			ServiceClient newClient = dao.create(clientName, cid1, cid2, bmName, category); 
+			ServiceClient newClient = dao.create(clientName, cid1, cid2, bmId, category); 
 			
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
 			mav.addObject("name", newClient.getName());
+			mav.addObject("category", newClient.getCategory());
 			mav.addObject("firstName", newClient.getMainContact().getFirstName());
 			mav.addObject("lastName", newClient.getMainContact().getLastName());
-			mav.addObject("boardMember", newClient.getBoardMember());
-			mav.addObject("category", newClient.getCategory());
+			mav.addObject("bmFirstName", newClient.getCurrentBoardMember().getContactInfo().getFirstName());
+			mav.addObject("bmLastName", newClient.getCurrentBoardMember().getContactInfo().getLastName());
+			
 
 		} catch (Exception e) {
 			System.err.println("\n\n ERROR ");
@@ -196,7 +210,9 @@ public class ServiceClientController {
 		String clientName = request.getParameter("clientName");
 		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
 		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
-		String bmName = request.getParameter("bmName");
+		int bmId = Integer.parseInt(request.getParameter("bmID"));
+		
+		System.out.println(bmId);
 		String category = request.getParameter("cat");
 
 		/*
@@ -207,7 +223,7 @@ public class ServiceClientController {
 		try {
 			
 			// Updates the service client in the service client database.
-			dao.update(id, clientName, cid1, cid2, bmName, category);
+			dao.update(id, clientName, cid1, cid2, bmId, category);
 			
 			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
 			ServiceClient updatedClient = dao.fetchClientById(id);
@@ -217,7 +233,8 @@ public class ServiceClientController {
 			mav.addObject("name", updatedClient.getName());
 			mav.addObject("firstName", updatedClient.getMainContact().getFirstName());
 			mav.addObject("lastName", updatedClient.getMainContact().getLastName());
-			mav.addObject("boardMember", updatedClient.getBoardMember());
+			mav.addObject("bmFirstName", updatedClient.getCurrentBoardMember().getContactInfo().getFirstName());
+			mav.addObject("bmLastName", updatedClient.getCurrentBoardMember().getContactInfo().getLastName());
 			mav.addObject("category", updatedClient.getCategory());  
 
 		} catch (Exception e) {
@@ -264,7 +281,9 @@ public class ServiceClientController {
 			// Adds the selected service client's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the fields in the dialog box in listClients.html
 			mav.addObject("name", selectedClient.getName());
-			mav.addObject("bm", selectedClient.getBoardMember());
+			mav.addObject("bmId", selectedClient.getCurrentBoardMember().getUid());
+			mav.addObject("bmFirstName", selectedClient.getCurrentBoardMember().getContactInfo().getFirstName());
+			mav.addObject("bmLastName", selectedClient.getCurrentBoardMember().getContactInfo().getLastName());
 			mav.addObject("cat", selectedClient.getCategory());
 			mav.addObject("mcFirstName", selectedClient.getMainContact().getFirstName());
 			mav.addObject("mcLastName", selectedClient.getMainContact().getLastName());

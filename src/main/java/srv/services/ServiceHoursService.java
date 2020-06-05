@@ -1,6 +1,7 @@
 package srv.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class ServiceHoursService {
 		  }
 	}
 	
-	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, String date, String desc)   {
+	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, Date date, String desc)   {
 
 		int index = 0;
 		for(ServiceHours h : hrs) {

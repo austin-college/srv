@@ -3,6 +3,8 @@ package srv.domain.event;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -64,7 +66,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * if the new event is a duplicate. 
 	 */
 	@Override
-	public Event create(String title, String addr, Integer cid, String date, Integer eventTypeId, 
+	public Event create(String title, String addr, Integer cid, Date date, Integer eventTypeId, 
 			Boolean continuous, Integer volunteersNeeded, 
 			Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
@@ -105,7 +107,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * refer to the SQL schema to ensure we are using the right types when nullifying.  See
 	 * the SQL CREATE statement.   
 	 */
-	private void fillInTheBlanks(String title, String addr, Integer cid, String date, Integer eventTypeId,
+	private void fillInTheBlanks(String title, String addr, Integer cid, Date date, Integer eventTypeId,
 			Boolean continuous, Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours,
 			Double rsvpVolunteerHours, String freeTextField, PreparedStatement ps) throws SQLException {
 		
@@ -125,9 +127,12 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setInt(3, cid.intValue());
 		
 		if (date == null)
-			ps.setNull(4, java.sql.Types.VARCHAR);
-		else 
-			ps.setString(4, date);
+			ps.setNull(4, java.sql.Types.TIMESTAMP);
+		else {
+			Timestamp ts=new Timestamp(date.getTime());  // convert java.util.Date to a timestamp
+			ps.setTimestamp(4,  ts);
+		}
+			
 		
 		if (eventTypeId == null)
 			ps.setNull(5, java.sql.Types.INTEGER);
@@ -189,7 +194,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 */
 	@Override
 	public void update(int eid, String title, 
-			String addr, Integer cid, String date, Integer eventTypeId, Boolean continuous,
+			String addr, Integer cid, Date date, Integer eventTypeId, Boolean continuous,
 			Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
 		
@@ -256,7 +261,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 						.setTitle(rs.getString("title"))
 						.setAddress(rs.getString("address"))
 						.setContact(contactDao.fetchContactById(rs.getInt("contactId")))
-						.setDate(rs.getString("dateOf"))
+						.setDate(rs.getTimestamp("dateOf"))
 						.setType(eventTypeDao.fetchEventTypeById(rs.getInt("eventTypeId"))) // rs.getString("boardMem"))
 						.setContinous(rs.getBoolean("continuous")).setVolunteersNeeded(rs.getInt("volunteersNeeded"))
 						.setServiceClient(serviceClientDao.fetchClientById(rs.getInt("serviceClientId")))

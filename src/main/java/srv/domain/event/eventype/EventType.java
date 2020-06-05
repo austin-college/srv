@@ -28,7 +28,7 @@ public class EventType implements Serializable {
 		super();
 	}
 	
-	public EventType(Integer etid, String name, String description, Integer defHours, boolean pinHours, ServiceClient sc, ServiceGroup sg) {
+	public EventType(Integer etid, String name, String description, Integer defHours, boolean pinHours, ServiceClient sc) {
 		this.etid = etid;
 		this.name = name;
 		this.description = description;
@@ -91,4 +91,30 @@ public class EventType implements Serializable {
 		return this;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((etid == null) ? 0 : etid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EventType other = (EventType) obj;
+		if (etid == null) {
+			if (other.etid != null)
+				return false;
+		} else if (!etid.equals(other.etid))
+			return false;
+		return true;
+	}
+
+	
 }

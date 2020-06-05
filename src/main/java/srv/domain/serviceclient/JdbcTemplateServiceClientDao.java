@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
+import srv.domain.user.JdbcTemplateUserDao;
 
 /**
  * The JDBC Template that implements the ServiceClient DAO (data access object)
@@ -32,7 +33,10 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	private static Logger log = LoggerFactory.getLogger(JdbcTemplateServiceClientDao.class);
 
 	@Autowired
-	JdbcTemplateContactDao dao;
+	JdbcTemplateContactDao contactDao;
+	
+	@Autowired
+	JdbcTemplateUserDao userDao;
 	
 	/**
 	 * Default constructor.
@@ -49,7 +53,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 
 		List<ServiceClient> results = getJdbcTemplate()
 				.query("select serviceClientId, title, primaryContactId, secondContactId, "
-						+ "boardMem, category from serviceClients", new ServiceClientRowMapper());
+						+ "boardMemId, category from serviceClients", new ServiceClientRowMapper());
 
 		return results;
 
@@ -60,9 +64,9 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	 * thrown if the new service client is a duplicate.
 	 */
 	@Override
-	public ServiceClient create(String title, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
+	public ServiceClient create(String title, Integer cid1, Integer cid2, Integer bmId, String cat) throws Exception {
 
-		  final String sql = "INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMem, category) VALUES(?, ?, ?, ?, ?)";
+		  final String sql = "INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES(?, ?, ?, ?, ?)";
 			
 		  final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -72,7 +76,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	                  ps.setString(1, title);
 	                  ps.setInt(2, cid1);
 	                  ps.setInt(3, cid2);
-	                  ps.setString(4, bm);
+	                  ps.setInt(4, bmId);
 	                  ps.setString(5, cat);
 	                  return ps;
 	              }, keyHolder);
@@ -112,11 +116,11 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	 * to be updates (does not exist).
 	 */
 	@Override
-	public void update(int scid, String name, Integer cid1, Integer cid2, String bm, String cat) throws Exception {
+	public void update(int scid, String name, Integer cid1, Integer cid2, Integer bmId, String cat) throws Exception {
 		int rc = getJdbcTemplate().update(
 				"UPDATE serviceClients SET title = ?, primaryContactId = ?, "
-						+ "secondContactId = ?, boardMem = ?, category = ? WHERE serviceClientId = ?",
-				new Object[] { name, cid1, cid2, bm, cat, scid });
+						+ "secondContactId = ?, boardMemId = ?, category = ? WHERE serviceClientId = ?",
+				new Object[] { name, cid1, cid2, bmId, cat, scid });
 
 		if (rc < 1) {
 			String msg = String.format("unable to update service client [%]", scid); 
@@ -133,7 +137,7 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	@Override
 	public ServiceClient fetchClientById(int scid) throws Exception {
 
-		String sqlStr = String.format("SELECT serviceClientId, title, primaryContactId, secondContactId, boardMem,"
+		String sqlStr = String.format("SELECT serviceClientId, title, primaryContactId, secondContactId, boardMemId,"
 				+ " category FROM serviceClients WHERE serviceClientId = %d", scid);
 		log.debug(sqlStr);
 
@@ -160,9 +164,9 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 			try {
 
 				sc.setClientId(rs.getInt("serviceClientId")).setName(rs.getString("title"))
-						.setMainContact(dao.fetchContactById(rs.getInt("primaryContactId")))
-						.setOtherContact(dao.fetchContactById(rs.getInt("secondContactId")))
-						.setBoardMember(rs.getString("boardMem"))
+						.setMainContact(contactDao.fetchContactById(rs.getInt("primaryContactId")))
+						.setOtherContact(contactDao.fetchContactById(rs.getInt("secondContactId")))
+						.setCurrentBoardMember(userDao.fetchUserById(rs.getInt("boardMemId")))
 						.setCategory(rs.getString("category"));
 
 			} catch (Exception e) {
