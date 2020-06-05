@@ -32,9 +32,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import srv.config.WebSecurityConfig;
 import srv.controllers.ServiceClientController;
+import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.User;
+import srv.domain.user.UserDao;
 import srv.utils.UserUtil;
 
 @RunWith(SpringRunner.class)
@@ -53,6 +56,9 @@ public class ServiceClientControllerTest {
 	private ContactDao cDao;
 	
 	@MockBean
+	private UserDao uDao;
+	
+	@MockBean
 	private UserUtil userUtil;
 	
 
@@ -60,15 +66,53 @@ public class ServiceClientControllerTest {
 	@WithMockUser(username = "admin", password = "admin")
 	public void basicHtmlPageTest() throws Exception {
 
-		
 		when(userUtil.userIsAdmin()).thenReturn(true);
 		
+		// Create dependencies
 		
+		// Main/primary contact for service client 1
+		Contact main1 = new Contact().setContactId(2).setFirstName("Lois").setLastName("Lane").setEmail("llane86@gmail.com")
+				.setPhoneNumWork("803-423-1257").setPhoneNumMobile("800-232-1211").setStreet("118 NW Crawford Street")
+				.setCity("Sherman").setState("TX").setZipcode("75090");
+		
+		// Other/secondary contact for service client 1
+		Contact other1 = new Contact().setContactId(3).setFirstName("Joe").setLastName("Smith").setEmail("jsmith12@gmail.com")
+				.setPhoneNumWork("903-444-4440").setPhoneNumMobile("401-322-1201").setStreet("25 Frieda Drive")
+				.setCity("Gunter").setState("TX").setZipcode("75058");
+		
+		// Contact information for current board member for service client 1
+		Contact bmContact1 = new Contact().setContactId(5).setFirstName("Hunter").setLastName("Couturier").setEmail("hCouturier@gmail.com")
+				.setPhoneNumWork("803-426-1527").setPhoneNumMobile("800-191-9412").setStreet("24 First Street")
+				.setCity("Dension").setState("TX").setZipcode("75021");
+				
+		// Current board member for service client 1
+		User bm1 = new User().setUid(2).setUsername("hCouturier").setContactInfo(bmContact1);
+
+		// Main/primary contact for service client 2
+		Contact main2 = new Contact().setContactId(2).setFirstName("Lois").setLastName("Lane").setEmail("llane86@gmail.com")
+				.setPhoneNumWork("803-423-1257").setPhoneNumMobile("800-232-1211").setStreet("118 NW Crawford Street")
+				.setCity("Sherman").setState("TX").setZipcode("75090");
+
+		// Other/secondary contact for service client 2
+		Contact other2 = new Contact().setContactId(3).setFirstName("Joe").setLastName("Smith").setEmail("jsmith12@gmail.com")
+				.setPhoneNumWork("903-444-4440").setPhoneNumMobile("401-322-1201").setStreet("25 Frieda Drive")
+				.setCity("Gunter").setState("TX").setZipcode("75058");
+
+		// Contact information for current board member for service client 2
+		Contact bmContact2 = new Contact().setContactId(5).setFirstName("Emma").setLastName("Driscoll").setEmail("eDriscoll@gmail.com")
+				.setPhoneNumWork("803-426-1527").setPhoneNumMobile("800-191-9412").setStreet("25 First Street")
+				.setCity("Dension").setState("TX").setZipcode("75021");
+
+		// Current board member for service client 2
+		User bm2 = new User().setUid(3).setUsername("eDriscoll").setContactInfo(bmContact2);
+				
+				
 		// train the dao to ask for these when asked to listAll reasons.
 		ServiceClient sc1 = new ServiceClient().setClientId(1).setName("Habitat for Humanity")
-				.setBoardMember("Billy Bob").setCategory("Community");
-		ServiceClient sc2 = new ServiceClient().setClientId(2).setName("Crisis Center").setBoardMember("Rick Astley")
-				.setCategory("Crisis Support");
+				.setMainContact(main1).setOtherContact(other1).setCurrentBoardMember(bm1).setCategory("Community");
+	
+		ServiceClient sc2 = new ServiceClient().setClientId(2).setName("Crisis Center")
+				.setMainContact(main2).setOtherContact(other2).setCurrentBoardMember(bm2).setCategory("Crisis Support");
 
 		List<ServiceClient> dummyList = new ArrayList<ServiceClient>();
 		dummyList.add(sc1);
@@ -76,72 +120,50 @@ public class ServiceClientControllerTest {
 
 		Mockito.when(dao.listAll()).thenReturn(dummyList);
 
-		// now perform the test
+		// now perform the test 
 
 		mvc.perform(get("/test/sc").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(content()
-						.string(containsString("<li id=\"row_1\"> 1, Habitat for Humanity, Billy Bob, Community</li>")))
-				.andExpect(content().string(
-						containsString("<li id=\"row_2\"> 2, Crisis Center, Rick Astley, Crisis Support</li>")));
+						.string(containsString("<li id=\"row_1\"> 1, Habitat for Humanity, Lois Lane, Joe Smith, hCouturier, Community</li>")))
+				.andExpect(content()
+						.string(containsString("<li id=\"row_2\"> 2, Crisis Center, Lois Lane, Joe Smith, eDriscoll, Crisis Support</li>")));
 
 	}
-	
-	
-//	@Test
-//	@WithMockUser(username = "admin", password = "admin")
-//	public void servantHomeRedirectionTest() throws Exception {
-//
-//		when(userUtil.userIsAdmin()).thenReturn(true);
-//
-//		mvc.perform(get("/sc/list").contentType(MediaType.TEXT_HTML))
-//				.andExpect(status().isOk())
-//				.andExpect(content().string(containsString("Service Client List")))
-//				//checks to see if there is a button that adds a Service Client
-//				.andExpect(content().string(containsString("class=\"addBtn ui-button ui-widget\" type=\"submit\"\r\n" + 
-//						"				value=\"Add Service Client\"")))
-//				//checks for a table
-//				.andExpect(content().string(containsString("class=\"table ui-widget ui-widget-content table-striped table-bordered table-hover\"")));
-//	}
 	
 	
 	//credit to Professor Higgs here for this test
 	@Test
     @WithMockUser(username = "admin", password = "admin")
-    public void ajaxAddSerciceClientTest() throws Exception {
+    public void ajaxAddServiceClientTest() throws Exception {
 
-        
          when(userUtil.userIsAdmin()).thenReturn(true);
-
-        
+                 
          /*
          * prepare dummy client obj
          */
          String clientName = "Habitat for Humanity";
          int cid1 = 1; 
-         String bmName = "Billy Bob";
          String category = "Community";
         
          ServiceClient sc1 = new ServiceClient()
                   .setClientId(cid1)
                   .setName(clientName)
-                  .setBoardMember(bmName)
                   .setCategory(category);
-
         
+                 
          // when the controller asks the dao to create a client in the database, we 
          // fake it and use our dummy client above (sc1)
-         Mockito.when(dao.create(clientName, cid1, -1, bmName, category) ).thenReturn(sc1);
-
+         Mockito.when(dao.create(clientName, cid1, -1, cid1, category)).thenReturn(sc1);
+ 
          // now perform the test...pretend that jquery sends in the parameters for a new
          // client...  Our mock dao is trained to return a dummy service client (above)
          // we should see an HTML table row return.
-        
          mvc.perform(post("/ajax/addSc")
                   .param("clientName", clientName)
                   .param("mcID", String.valueOf(cid1))
                   .param("ocID", String.valueOf("-1"))
-                  .param("bmName", bmName)
-                  .param("cat",category)
+                  .param("bmID", String.valueOf(cid1))
+                  .param("cat", category)
                  
                   .contentType(MediaType.TEXT_HTML))
         
@@ -154,57 +176,44 @@ public class ServiceClientControllerTest {
                   .andExpect(content().string(containsString(clientName)))
                  
                   // other expectations here...
-                  ;
-        
-
+                 .andExpect(content().string(containsString(category)));
     }
 	
 	@Test
     @WithMockUser(username = "admin", password = "admin")
-    public void ajaxDeleteSerciceClientTest() throws Exception {
-
+    public void ajaxDeleteServiceClientTest() throws Exception {
         
          when(userUtil.userIsAdmin()).thenReturn(true);
-
         
          /*
          * prepare dummy client obj
          */
          String clientName = "Habitat for Humanity";
          int cid1 = 1; 
-         String bmName = "Billy Bob";
          String category = "Community";
         
          ServiceClient sc1 = new ServiceClient()
                   .setClientId(cid1)
                   .setName(clientName)
-                  .setBoardMember(bmName)
                   .setCategory(category);
 
         
          // when the controller asks the dao to create a client in the database, we 
          // fake it and use our dummy client above (sc1)
-         Mockito.when(dao.create(clientName, cid1, -1, bmName, category) ).thenReturn(sc1);
+         Mockito.when(dao.create(clientName, cid1, -1, cid1, category) ).thenReturn(sc1);
          
 
          //For now we are going to delete the Service Client we just added
          //In the future for more robust testing we need to delete
-         //an already there Service Client
-        
+         //an already there Service Client        
          mvc.perform(post("/ajax/delSc")
-                  .param("clientName", clientName)
-                  .param("mcID", String.valueOf(cid1))
-                  .param("ocID", String.valueOf("-1"))
-                  .param("bmName", bmName)
-                  .param("cat",category)
                   .param("ID", String.valueOf(cid1))
                  
                   .contentType(MediaType.TEXT_HTML))
         
                   .andExpect(status().isOk())
-                //checks to see if there is a button that adds a Service Client
-  				.andExpect(content().string(containsString("1 was deleted")));
 
+  				  .andExpect(content().string(containsString("1 was deleted")));
     }
 	
 	
