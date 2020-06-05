@@ -120,6 +120,15 @@ public class AdminAddEventTest extends SeleniumTest {
 
 		assertEquals(base+"/events", driver.getCurrentUrl());
 		
+		/*
+		 * opens up the creation of a new event
+		 */
+		
+		link = driver.findElement(By.id("btnEvNew")); 
+		link.click();
+		
+		//this checks the dialog box to see if its visible
+		assertEquals(true, link.findElement(By.xpath("//div[@class='ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle']/span[@class='ui-dialog-title'][@id='ui-id-2']")).isDisplayed()); // ("dlgNewEvent")).getText());
 
 	}
 
