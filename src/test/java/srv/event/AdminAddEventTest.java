@@ -162,7 +162,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		/*
 		 * should lead us to the edit event page
 		 */
-		assertEquals(base+"/events/edit/4", driver.getCurrentUrl());
+		assertEquals(base+"/events/edit/6", driver.getCurrentUrl());
 		
 		/*
 		 * inputs a name into event title
