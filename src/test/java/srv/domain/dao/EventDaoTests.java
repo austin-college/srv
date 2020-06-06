@@ -423,5 +423,21 @@ class EventDaoTests {
 		assertEquals(4, oneMonthAfterEvents.get(0).getEid());
 	
 	}
+	
+	/**
+	 * Filters the list of events by event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byEventTypeId() throws Exception {
+		
+		// Fetches the list of events with event type id 3
+		List<Event> eventsByEtid3 = dao.listByFilter(null, null, 3, null, null);
+		
+		assertEquals(2, eventsByEtid3.size());
+		assertEquals(3, eventsByEtid3.get(0).getEid());
+		assertEquals(5, eventsByEtid3.get(1).getEid());
+	}
 
 }

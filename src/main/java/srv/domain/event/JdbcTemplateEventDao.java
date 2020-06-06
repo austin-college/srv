@@ -265,8 +265,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			myCal.setTime(now);  
 
 			if (startDate.equals("now")) {
-				final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
-						+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf <= ?";
+				final String sqlStr = "select * from events where dateOf <= ?";
 
 				log.debug(sqlStr);
 
@@ -284,8 +283,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 				myCal.add(Calendar.MONTH, 1);   
 				Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());			
 				
-				final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
-						+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf between ? and ?";
+				final String sqlStr = "select * from events where dateOf between ? and ?";
 
 				log.debug(sqlStr);
 
@@ -303,8 +301,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 				myCal.add(Calendar.MONTH, -1);   
 				Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());			
 
-				final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
-						+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf between ? and ?";
+				final String sqlStr = "select * from events where dateOf between ? and ?";
 
 				log.debug(sqlStr);
 
@@ -325,8 +322,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		 */
 		else if (endDate != null) {
 			
-			final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
-					+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf >= ?";
+			final String sqlStr = "select * from events where dateOf >= ?";
 			
 			log.debug(sqlStr);
 			
@@ -338,7 +334,15 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			
 			return results;	
 		}
+		
+		else if (eTypeId != null) {
+			String sqlStr = String.format("select * from events where eventTypeId = %d", eTypeId);
 			
+			List<Event> results = getJdbcTemplate().query(sqlStr, new EventRowMapper());
+			
+			return results;
+
+		}
 		
 		return null;
 	}
