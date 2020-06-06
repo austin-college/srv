@@ -131,7 +131,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		Thread.sleep(2000);
 		
 		//this checks the dialog box to see if its visible
-		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed()); // ("dlgNewEvent")).getText());
+		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed());
 
 		/*
 		 * clicks on the combo box to open a list of options
@@ -146,9 +146,41 @@ public class AdminAddEventTest extends SeleniumTest {
 		Select selector = new Select(driver.findElement(By.id("evType")));
 		selector.selectByIndex(1);
 		
+		//checks to see if the correct option is displayed
 		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
 		
 		
+		/*
+		 * finds the add new button and clicks it
+		 */
+		link = driver.findElement(By.className("newBtnClass"));
+		link.click();
+		
+		Thread.sleep(2000);
+		
+
+		/*
+		 * should lead us to the edit event page
+		 */
+		assertEquals(base+"/events/edit/4", driver.getCurrentUrl());
+		
+		/*
+		 * inputs a name into event title
+		 */
+		WebElement addName = driver.findElement(By.id("evTitle"));
+		addName.click();
+		addName.clear();
+		addName.sendKeys("testedEvent");
+		
+		//tests if the correct text is displayed
+		assertEquals("testedEvent", addName.getAttribute("value") );
+		
+		/*
+		 * finds the submit button and submits the information
+		 */
+		
+		link = driver.findElement(By.className("btn-primary"));
+		link.click();
 		
 	}
 
