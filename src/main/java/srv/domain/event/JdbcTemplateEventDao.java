@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import aj.org.objectweb.asm.Type;
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
@@ -245,32 +247,77 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	public List<Event> listByFilter(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
 		
 		// Get the current date and convert it to a timestamp for mysql type
-		Timestamp now =new Timestamp(new Date().getTime());	
+		Timestamp now = new Timestamp(new Date().getTime());	
 		
 		
 		/*
 		 * Returns the entire list
 		 */
-		if ((startDate != null) && (endDate != null)) 		
+		if ((startDate != null) && (endDate != null))
 			return listAll();
 		
 		/*
 		 * Returns the list of past events based on current date
 		 */
 		else if (startDate != null) {
-						
-			final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
-					+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf <= ?";
 			
-			log.debug(sqlStr);
+			Calendar myCal = Calendar.getInstance();
+			myCal.setTime(now);  
+
+			if (startDate.equals("now")) {
+				final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
+						+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf <= ?";
+
+				log.debug(sqlStr);
+
+				List<Event> results = getJdbcTemplate().query(connection -> {
+					PreparedStatement ps = connection.prepareStatement(sqlStr);
+					ps.setTimestamp(1, now);
+					return ps;
+				}, new EventRowMapper());
+
+				return results;			
+			}
+			else if (startDate.equals("now+1M")) {
+				
+				// Get the timestamp 1 month from now
+				myCal.add(Calendar.MONTH, 1);   
+				Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());			
+				
+				final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
+						+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf between ? and ?";
+
+				log.debug(sqlStr);
+
+				List<Event> results = getJdbcTemplate().query(connection -> {
+					PreparedStatement ps = connection.prepareStatement(sqlStr);
+					ps.setTimestamp(1, now);
+					ps.setTimestamp(2, oneMonthAfterNow);
+					return ps;
+				}, new EventRowMapper());
+
+				return results;		
+			}
+			else if (startDate.equals("now-1M")) {
+				// Get the timestamp 1 month before now
+				myCal.add(Calendar.MONTH, -1);   
+				Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());			
+
+				final String sqlStr = "select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, "
+						+ "serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events where dateOf between ? and ?";
+
+				log.debug(sqlStr);
+
+				List<Event> results = getJdbcTemplate().query(connection -> {
+					PreparedStatement ps = connection.prepareStatement(sqlStr);
+					ps.setTimestamp(1, oneMonthBeforeNow);
+					ps.setTimestamp(2, now);
+					return ps;
+				}, new EventRowMapper());
+
+				return results;		
+			}
 			
-			List<Event> results = getJdbcTemplate().query(connection -> {
-				PreparedStatement ps = connection.prepareStatement(sqlStr);
-				ps.setTimestamp(1, now);
-				return ps;
-			}, new EventRowMapper());
-			
-			return results;			
 		}
 		
 		/*
@@ -291,7 +338,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			
 			return results;	
 		}
-	
+			
 		
 		return null;
 	}

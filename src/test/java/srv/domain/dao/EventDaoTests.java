@@ -346,7 +346,7 @@ class EventDaoTests {
 	@Test
 	void listByFilter_byBefore() throws Exception {
 		
-		// Fetches the list of events before the currrent date
+		// Fetches the list of events before the current date
 		List<Event> eventsBeforeNow = dao.listByFilter("now", null, null, null, null);
 		
 		assertEquals(2, eventsBeforeNow.size());
@@ -362,7 +362,7 @@ class EventDaoTests {
 	@Test
 	void listByFilter_byAfter() throws Exception {
 		
-		// Fetches the list of events before the currrent date
+		// Fetches the list of events before the current date
 		List<Event> eventsAfterNow = dao.listByFilter(null, "now", null, null, null);
 		
 		assertEquals(1, eventsAfterNow.size());
@@ -378,13 +378,94 @@ class EventDaoTests {
 	@Test
 	void listByFilter_byBeforeAndAfter() throws Exception {
 		
-		// Fetches the list of events before the currrent date
+		// Fetches the list of events before the current date
 		List<Event> allEvents = dao.listByFilter("now", "now", null, null, null);
 		
 		assertEquals(3, allEvents.size());
 		assertEquals(1, allEvents.get(0).getEid());
 		assertEquals(2, allEvents.get(1).getEid());
 		assertEquals(3, allEvents.get(2).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events one month after the current date (2020-06-05).
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBeforePlusOneMonth() throws Exception {
+		
+		// Fetches the list of events one month after the current date
+		List<Event> oneMonthBeforeEvents = dao.listByFilter("now+1M", null, null, null, null);
+
+		assertEquals(0, oneMonthBeforeEvents.size());
+		
+		// Creating a new event in order to have at least one event in the list
+				
+		// Creating new Date object for new event
+//		String sDate = "2020-06-16 00:00:00";
+//		String pattern = "yyyy-MM-dd HH:mm:ss";
+//
+//		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+//		Date date = sdf.parse(sDate);
+//		
+//		dao.create("A name",
+//				"An address",
+//				1, 
+//				date, 
+//				1,
+//				true,
+//				4, 
+//				1,
+//				10.0, 
+//				4.0,
+//				"Plz work");
+//		
+//		oneMonthBeforeEvents = dao.listByFilter("now+1M", null, null, null, null);
+//
+//		assertEquals(1, oneMonthBeforeEvents.size());
+//		assertEquals(4, oneMonthBeforeEvents.get(0).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events one month before the current date (2020-06-05).
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBeforeMinusOneMonth() throws Exception {
+		
+		// Fetches the list of events one month before the current date
+		List<Event> oneMonthAfterEvents = dao.listByFilter("now-1M", null, null, null, null);
+
+		assertEquals(0, oneMonthAfterEvents.size());
+		
+		// Creating a new event in order to have at least one event in the list
+
+		// Creating new Date object for new event
+//		String sDate = "2020-05-07 00:00:00";
+//		String pattern = "yyyy-MM-dd HH:mm:ss";
+//
+//		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+//		Date date = sdf.parse(sDate);
+//
+//		dao.create("A name",
+//				"An address",
+//				1, 
+//				date, 
+//				1,
+//				true,
+//				4, 
+//				1,
+//				10.0, 
+//				4.0,
+//				"Plz work");
+//
+//		oneMonthAfterEvents = dao.listByFilter("now-1M", null, null, null, null);
+//
+//		assertEquals(1, oneMonthAfterEvents.size());
+//		assertEquals(4, oneMonthAfterEvents.get(0).getEid());
+		
 	}
 
 //	/*

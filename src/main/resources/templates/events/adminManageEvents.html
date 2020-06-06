@@ -40,7 +40,7 @@
 						<input type="checkbox" class="custom-control-input" id="beforeToggle" disabled>
 						
   					</#if> 
-  					<label class="custom-control-label" for="beforeToggle">Before Current Date</label>
+  					<label class="custom-control-label" for="beforeToggle">Past Events</label>
 				</div>
 			</div>
 						
@@ -57,7 +57,7 @@
   					<!-- Disables toggle button when the before toggle button is on -->
   						<input type="checkbox" class="custom-control-input" id="afterToggle" disabled>
   					</#if>
-  					<label class="custom-control-label" for="afterToggle">After Current Date</label>
+  					<label class="custom-control-label" for="afterToggle">Future Events</label>
 				</div>
 			</div>
 		</div>
@@ -81,6 +81,7 @@
 					</tr>
 				</thead>
 				<tbody>
+					<#if events??>
 					<#list events as ev>
 					<tr id="eid-${ev.eid?c}">
 						<td class='ev_id'>${ev.eid!"UNKNOWN"}</td>
@@ -109,6 +110,7 @@
 
 					</tr>
 					</#list>
+					</#if>
 				</tbody>
 				<tfoot>
 				</tfoot>
