@@ -61,18 +61,23 @@ public class EventController {
 				List<Event> myEvents = eventService.filteredEvents(before, null, null, null, null);
 				List<EventType> types = eventService.allEventTypes();
 				
-				if (before.equals("now")) {
-					mav.addObject("beforeSelected", 1); // turns the toggle button for before on
-					mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
-				}
-				else if (before.equals("now-1M")) {
-					mav.addObject("beforeSelected", 0); // turns the toggle button for before on
-					mav.addObject("lastMonthSelected", 1); // turns the toggle button for last month off
-				}
-				else
-					System.out.println("NOT DONE YET");
 				
+				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
 				mav.addObject("afterSelected", 0); // turns the toggle button for after off
+				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
+				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
+				
+				System.out.println(before);
+				/*
+				 * Turns the toggle switches on based on what toggle is selected
+				 */
+				if (before.equals("now")) 
+					mav.addObject("beforeSelected", 1); // turns the toggle button for before on
+				else if (before.equals("now-1M")) 
+					mav.addObject("lastMonthSelected", 1); // turns the toggle button for last month off
+				else if (before.equals("now+1M"))
+					mav.addObject("nextMonthSelected", 1); // turns the toggle button for last month on
+			
 				mav.addObject("events", myEvents);
 				mav.addObject("evtypes", types);
 			}
@@ -85,10 +90,10 @@ public class EventController {
 				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
 				mav.addObject("afterSelected", 1); // turns the toggle button for after on
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
+				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
 				mav.addObject("events", myEvents);
 				mav.addObject("evtypes", types);
 			}
-			
 			
 			else {
 				// Lists the current events in the event database in a table
@@ -98,7 +103,7 @@ public class EventController {
 				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
 				mav.addObject("afterSelected", 0); // turns the toggle button for after off
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
-
+				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
 				mav.addObject("events", myEvents);
 				mav.addObject("evtypes", types);
 			}

@@ -36,10 +36,10 @@
 			<div class="col-sm-2 text-right toggle" >
 				<div class="custom-control custom-switch">
 					<!-- Turns before toggle button on after page is reloaded as long as the no other toggles are not on -->
-					<#if (lastMonthSelected == 0 && afterSelected == 0) && beforeSelected == 1>
+					<#if (lastMonthSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && beforeSelected == 1>
   						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href = location.href.split('?')[0];" checked> 						
   					<!-- Before toggle button is turned off when no other toggles are not on-->
-  					<#elseif (lastMonthSelected == 0 && afterSelected == 0) && beforeSelected == 0>
+  					<#elseif (lastMonthSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && beforeSelected == 0>
   						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href += '?before=now';">
 					<!-- Disables toggle button when another toggle button is on -->
 					<#else>
@@ -53,10 +53,10 @@
 			<div class="col-sm-2 text-right toggle" >
 				<div class="custom-control custom-switch">
 					<!-- Turns after toggle button on after page is reloaded as long as the no other toggles are not on-->
-					<#if (lastMonthSelected == 0 && beforeSelected == 0) && afterSelected == 1>
+					<#if (lastMonthSelected == 0 && beforeSelected == 0 && nextMonthSelected == 0) && afterSelected == 1>
   						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href = location.href.split('?')[0];" checked>
   					<!-- After toggle button is turned off when no other toggles are not on-->
-  					<#elseif (lastMonthSelected == 0 && beforeSelected == 0) && afterSelected == 0>
+  					<#elseif (lastMonthSelected == 0 && beforeSelected == 0 && nextMonthSelected == 0) && afterSelected == 0>
   						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href += '?after=now';">
   					<!-- Disables toggle button when another toggle button is on -->
   					<#else>
@@ -71,10 +71,10 @@
 		<div class="col-sm-2 text-right toggle">
 			<div class="custom-control custom-switch">
 				<!-- Turns last month toggle button on after page is reloaded as long as the no other toggles are not on-->
-				<#if (beforeSelected == 0 && afterSelected == 0) && lastMonthSelected == 1>
+				<#if (beforeSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && lastMonthSelected == 1>
 					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="location.href = location.href.split('?')[0];" checked>
   				<!-- Last month toggle button is turned off when no other toggles are not on-->		
-				<#elseif (beforeSelected == 0 && afterSelected == 0) && lastMonthSelected == 0>
+				<#elseif (beforeSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && lastMonthSelected == 0>
 					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="location.href += '?before=now-1M';">
   				<!-- Disables last month toggle button when another toggle button is on -->
 				<#else>
@@ -88,7 +88,16 @@
 		<!-- Toggle button for filtering events one month before current date -->
 		<div class="col-sm-2 text-right toggle">
 			<div class="custom-control custom-switch">
-				  <input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle">
+				<!-- Turns next month toggle button on after page is reloaded as long as the no other toggles are not on-->
+				<#if (beforeSelected == 0 && afterSelected == 0 && lastMonthSelected == 0) && nextMonthSelected == 1 >
+					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="location.href = location.href.split('?')[0];" checked>
+  				<!-- Next month toggle button is turned off when no other toggles are not on-->		
+				<#elseif (beforeSelected == 0 && afterSelected == 0 && lastMonthSelected == 0) && nextMonthSelected == 0>
+					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="location.href += '?before=now%2B1M';">
+  				<!-- Disables next month toggle button when another toggle button is on -->
+				<#else>
+  					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" disabled>
+				</#if>
 				  <label class="custom-control-label" for="oneMonthAfterToggle">Next Month</label>
 			</div>
 		</div>
