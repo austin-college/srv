@@ -179,22 +179,22 @@ class EventDaoTests {
 		/*
 		 * Checking contents of ne from eventsAfter to check contents inserted in table
 		 */
-		Event e4 = ne;
+		Event e6 = ne;
 		
-		assertEquals(4, e4.getEid());
-		assertEquals("EARTH DAY", e4.getTitle());
-		assertNull(e4.getAddress());
-		assertNull(e4.getContact());
+		assertEquals(6, e6.getEid());
+		assertEquals("EARTH DAY", e6.getTitle());
+		assertNull(e6.getAddress());
+		assertNull(e6.getContact());
 		
-		assertEquals("2020-03-12 00:00:00.0", e4.getDate().toString());
-		assertEquals(2, e4.getType().getEtid()); // needs to be replaced with getType().getEventTypeId();
-		assertEquals(false, e4.isContinuous());
-		assertEquals(0, e4.getVolunteersNeeded());
-		assertEquals(2, e4.getServiceClient().getScid());
-		assertEquals(0.0, e4.getNeededVolunteerHours());
-		assertEquals(2.5, e4.getRsvpVolunteerHours());
+		assertEquals("2020-03-12 00:00:00.0", e6.getDate().toString());
+		assertEquals(2, e6.getType().getEtid()); // needs to be replaced with getType().getEventTypeId();
+		assertEquals(false, e6.isContinuous());
+		assertEquals(0, e6.getVolunteersNeeded());
+		assertEquals(2, e6.getServiceClient().getScid());
+		assertEquals(0.0, e6.getNeededVolunteerHours());
+		assertEquals(2.5, e6.getRsvpVolunteerHours());
 		
-		assertNull( e4.getNote());
+		assertNull( e6.getNote());
 
 	}
 	
@@ -287,7 +287,7 @@ class EventDaoTests {
 
 		// verifies its been deleted
 		assertEquals(null, dao.fetchEventById(1));
-		assertEquals(2, dao.listAll().size());
+		assertEquals(4, dao.listAll().size());
 
 	}
 
@@ -349,9 +349,10 @@ class EventDaoTests {
 		// Fetches the list of events before the current date
 		List<Event> eventsBeforeNow = dao.listByFilter("now", null, null, null, null);
 		
-		assertEquals(2, eventsBeforeNow.size());
+		assertEquals(3, eventsBeforeNow.size());
 		assertEquals(1, eventsBeforeNow.get(0).getEid());
 		assertEquals(3, eventsBeforeNow.get(1).getEid());
+		assertEquals(4, eventsBeforeNow.get(2).getEid());
 	}
 	
 	/**
@@ -365,8 +366,10 @@ class EventDaoTests {
 		// Fetches the list of events before the current date
 		List<Event> eventsAfterNow = dao.listByFilter(null, "now", null, null, null);
 		
-		assertEquals(1, eventsAfterNow.size());
+		assertEquals(2, eventsAfterNow.size());
 		assertEquals(2, eventsAfterNow.get(0).getEid());
+		assertEquals(5, eventsAfterNow.get(1).getEid());
+
 	}
 	
 	/**
@@ -381,10 +384,12 @@ class EventDaoTests {
 		// Fetches the list of events before the current date
 		List<Event> allEvents = dao.listByFilter("now", "now", null, null, null);
 		
-		assertEquals(3, allEvents.size());
+		assertEquals(5, allEvents.size());
 		assertEquals(1, allEvents.get(0).getEid());
 		assertEquals(2, allEvents.get(1).getEid());
 		assertEquals(3, allEvents.get(2).getEid());
+		assertEquals(4, allEvents.get(3).getEid());
+		assertEquals(5, allEvents.get(4).getEid());
 	}
 	
 	/**
@@ -398,33 +403,9 @@ class EventDaoTests {
 		// Fetches the list of events one month after the current date
 		List<Event> oneMonthBeforeEvents = dao.listByFilter("now+1M", null, null, null, null);
 
-		assertEquals(0, oneMonthBeforeEvents.size());
+		assertEquals(1, oneMonthBeforeEvents.size());
+		assertEquals(5, oneMonthBeforeEvents.get(0).getEid());
 		
-		// Creating a new event in order to have at least one event in the list
-				
-		// Creating new Date object for new event
-//		String sDate = "2020-06-16 00:00:00";
-//		String pattern = "yyyy-MM-dd HH:mm:ss";
-//
-//		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-//		Date date = sdf.parse(sDate);
-//		
-//		dao.create("A name",
-//				"An address",
-//				1, 
-//				date, 
-//				1,
-//				true,
-//				4, 
-//				1,
-//				10.0, 
-//				4.0,
-//				"Plz work");
-//		
-//		oneMonthBeforeEvents = dao.listByFilter("now+1M", null, null, null, null);
-//
-//		assertEquals(1, oneMonthBeforeEvents.size());
-//		assertEquals(4, oneMonthBeforeEvents.get(0).getEid());
 	}
 	
 	/**
@@ -438,52 +419,9 @@ class EventDaoTests {
 		// Fetches the list of events one month before the current date
 		List<Event> oneMonthAfterEvents = dao.listByFilter("now-1M", null, null, null, null);
 
-		assertEquals(0, oneMonthAfterEvents.size());
-		
-		// Creating a new event in order to have at least one event in the list
-
-		// Creating new Date object for new event
-//		String sDate = "2020-05-07 00:00:00";
-//		String pattern = "yyyy-MM-dd HH:mm:ss";
-//
-//		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-//		Date date = sdf.parse(sDate);
-//
-//		dao.create("A name",
-//				"An address",
-//				1, 
-//				date, 
-//				1,
-//				true,
-//				4, 
-//				1,
-//				10.0, 
-//				4.0,
-//				"Plz work");
-//
-//		oneMonthAfterEvents = dao.listByFilter("now-1M", null, null, null, null);
-//
-//		assertEquals(1, oneMonthAfterEvents.size());
-//		assertEquals(4, oneMonthAfterEvents.get(0).getEid());
-		
+		assertEquals(1, oneMonthAfterEvents.size());
+		assertEquals(4, oneMonthAfterEvents.get(0).getEid());
+	
 	}
 
-//	/*
-//	 * Tests getParticipants()
-//	 */
-//	@Test
-//	void testGetParticipants() throws Exception {
-//
-//		// test that e1 can be fetched
-//		int id1 = 1;
-//		Event e1 = dao.fetchEventById(id1);
-//
-//		assertEquals(id1, e1.getEid());
-//
-//		assertEquals("Dummy Event 1", e1.getTitle());
-//
-//		assertFalse(e1.getParticipantsList() == null);
-////		System.err.println("User List Size: " + usersOfEvent1.size());
-//		// assertEquals("apritchard", usersOfEvent1.get(0).getUsername());
-//	}
 }
