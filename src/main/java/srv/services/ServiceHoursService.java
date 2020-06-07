@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import srv.domain.event.Event;
 import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.hours.ServiceHours;
+import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
 import org.slf4j.LoggerFactory;
 
@@ -19,27 +20,21 @@ public class ServiceHoursService {
 	
 	private static org.slf4j.Logger log = LoggerFactory.getLogger(ServiceHoursService.class);
 	
-	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
+	public List<ServiceHours> hrs;
 	
 	//autowire
 	@Autowired
-	JdbcTemplateServiceHoursDao serviceHoursDao; 
+	ServiceHoursDao serviceHoursDao; 
 	
 	
 	/**
-	 * Constructor that uses the initialize method to populate the hrs list of 
-	 * Service Hours
+	 * No argument default constructor that initializes an empty arraylist
+	 * of ServiceHours
 	 */
 	public ServiceHoursService() {
 		
-		try {
-			
-			initialize();
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+	hrs = new ArrayList<ServiceHours>();
+	
 	}
 	
 	/**
@@ -48,7 +43,7 @@ public class ServiceHoursService {
 	 */
 	public void initialize() throws Exception {
 		
-		
+		hrs = serviceHoursDao.listAll();
 		/*
 		 * ServiceHours a = new ServiceHours() .setShid(1) .setEvent(new
 		 * Event().setTitle("Spending Time with Toys for Tots")) .setHours(6.0)
