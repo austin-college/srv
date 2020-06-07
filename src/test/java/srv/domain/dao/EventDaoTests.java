@@ -454,5 +454,75 @@ class EventDaoTests {
 		assertEquals(1, eventsByScid1.get(0).getEid());
 		assertEquals(3, eventsByScid1.get(1).getEid());
 	}
+	
+	/**
+	 * Filters the list of events by the current date (2020-06-07) and
+	 * by event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBeforeAndEventType() throws Exception {
+		
+		// Fetches the list of events before the current date with event type id 3
+		List <Event> eventsPastEtid3 = dao.listByFilter("now", null, 3, null, null);
+		
+		assertEquals(1, eventsPastEtid3.size());
+		assertEquals(3, eventsPastEtid3.get(0).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by one month before the current date (2020-06-07) and
+	 * by event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBeforeOneMonthAndEventType() throws Exception {
+		
+		// Fetches the list of events one month before the current date with event type id 2
+		List <Event> eventsOneMonthBeforeEtid2 = dao.listByFilter("now-1M", null, 2, null, null);
+		
+		assertEquals(0, eventsOneMonthBeforeEtid2.size());
+	}
+	
+	/**
+	 * Filters the list of events by one month after the current date (2020-06-07) and
+	 * by event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byAfterOneMonthAndEventType() throws Exception {
+		
+		// Fetches the list of events one month after the current date with event type id 1
+		List <Event> eventsOneMonthAfterEtid1 = dao.listByFilter("now+1M", null, 1, null, null);
+		
+		assertEquals(0, eventsOneMonthAfterEtid1.size());
+	}
+	
+	/**
+	 * Filters the list of events after the current date (2020-06-07) and by event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byAfterAndEventType() throws Exception {
 
+		// Fetches the list of events after the current date with event type id 3
+		List <Event> eventsAfterNowEtid3 = dao.listByFilter(null, "now", 3, null, null);
+
+		assertEquals(1, eventsAfterNowEtid3.size());
+		assertEquals(5, eventsAfterNowEtid3.get(0).getEid());
+	}
+	
+	@Test
+	void listByFilter_byEventTypeAndServiceClient() throws Exception {
+		
+		// Fetches the list of events with event type id 1 and service client 1
+		List <Event> eventsEtid1Scid1 = dao.listByFilter(null, null, 1, 1, null);
+
+		assertEquals(1, eventsEtid1Scid1.size());
+		assertEquals(1, eventsEtid1Scid1.get(0).getEid());
+	}
 }
