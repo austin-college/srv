@@ -108,11 +108,11 @@
 				<option value=0>List All</option>
 
 				<#list evtypes as et>
-				 <#if et.etid == selectedEtid >
-				<option value="${et.etid}" selected>(${et.name}) ${et.description}</option>
-				<#else>
-				<option value="${et.etid}">(${et.name}) ${et.description}</option>				
-				</#if>
+					<#if et.etid == selectedEtid >
+						<option value="${et.etid}" selected>(${et.name}) ${et.description}</option>
+					<#else>
+						<option value="${et.etid}">(${et.name}) ${et.description}</option>				
+					</#if>
 				</#list>
 			</select>
 
@@ -121,10 +121,15 @@
 		<!-- Combo box for filtering events by service client -->
 		<div class="col text-right comboBox">
 			<label>By Service Client</label> 
-			<select>
+			<select data-prev-selected="${selectedScid}" onchange="if(this.value != 0) {location.href = location.href.split('?')[0] + '?sc='+this.value;} else {location.href = location.href.split('?')[0]}">
 				<option value=0>List All</option>
+				
 				<#list sClients as sc>
-				<option value="${sc.scid}">${sc.name}</option>
+					<#if sc.scid == selectedScid>
+						<option value="${sc.scid}" selected>${sc.name}</option>
+					<#else>
+						<option value="${sc.scid}">${sc.name}</option>
+					</#if>					
 				</#list>
 
 			</select>
