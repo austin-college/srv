@@ -335,6 +335,9 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			return results;	
 		}
 		
+		/*
+		 * Returns the list of events based on the specified event type id
+		 */
 		else if (eTypeId != null) {
 			String sqlStr = String.format("select * from events where eventTypeId = %d", eTypeId);
 			
@@ -344,6 +347,16 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 		}
 		
+		/*
+		 * Returns the list of events based on the specified service client id
+		 */
+		else if (scId != null) {
+			String sqlStr = String.format("select * from events where serviceClientId = %d", scId);
+			
+			List<Event> results = getJdbcTemplate().query(sqlStr, new EventRowMapper());
+			
+			return results;
+		}
 		return null;
 	}
 

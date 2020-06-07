@@ -19,7 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.domain.event.Event;
 import srv.domain.event.EventDao;
-import srv.domain.event.eventparticipant.EventParticipant;
 
 /**
  * NOTE: these tests have been made without the implementation of the EventType dao. 
@@ -430,7 +429,7 @@ class EventDaoTests {
 	 * @throws Exception
 	 */
 	@Test
-	void listByFilter_byEventTypeId() throws Exception {
+	void listByFilter_byEventType() throws Exception {
 		
 		// Fetches the list of events with event type id 3
 		List<Event> eventsByEtid3 = dao.listByFilter(null, null, 3, null, null);
@@ -438,6 +437,22 @@ class EventDaoTests {
 		assertEquals(2, eventsByEtid3.size());
 		assertEquals(3, eventsByEtid3.get(0).getEid());
 		assertEquals(5, eventsByEtid3.get(1).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byServiceClient() throws Exception {
+		
+		// Fetches the list of events with service client id 1
+		List <Event> eventsByScid1 = dao.listByFilter(null, null, null, 1, null);
+		
+		assertEquals(2, eventsByScid1.size());
+		assertEquals(1, eventsByScid1.get(0).getEid());
+		assertEquals(3, eventsByScid1.get(1).getEid());
 	}
 
 }
