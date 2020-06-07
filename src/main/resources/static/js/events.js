@@ -5,6 +5,7 @@ function onNewClick() {
 	$("#dlgNewEvent").dialog("open");
 }
 
+
 /*
  * When user clicks on contact, this method opens the modal dialog.
  */

@@ -52,7 +52,8 @@ public class EventController {
 	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("events")
-	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String before,  @RequestParam(required = false) String after) {
+	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String before,  @RequestParam(required = false) String after,
+			@RequestParam(required = false) String eType) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");
 				
@@ -71,8 +72,8 @@ public class EventController {
 				mav.addObject("afterSelected", 0); // turns the toggle button for after off
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
 				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				
-				System.out.println(before);
+				mav.addObject("selectedEtid", 0);
+
 				/*
 				 * Turns the toggle switches on based on what toggle is selected
 				 */
@@ -93,9 +94,19 @@ public class EventController {
 				mav.addObject("afterSelected", 1); // turns the toggle button for after on
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
 				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				
+				mav.addObject("selectedEtid", 0);
+
 			}
 			
+			else if (eType != null && Integer.valueOf(eType) != 0) {
+				myEvents = eventService.filteredEvents(null, null, Integer.valueOf(eType), null, null);
+				
+				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
+				mav.addObject("afterSelected", 0); // turns the toggle button for after off
+				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
+				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
+				mav.addObject("selectedEtid", Integer.valueOf(eType));
+			}
 			else {
 				// Lists the current events in the event database in a table
 				myEvents = eventService.allEvents();
@@ -104,6 +115,7 @@ public class EventController {
 				mav.addObject("afterSelected", 0); // turns the toggle button for after off
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
 				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
+				mav.addObject("selectedEtid", 0);
 
 			}
 			
