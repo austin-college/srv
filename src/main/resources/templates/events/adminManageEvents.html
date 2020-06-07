@@ -26,11 +26,7 @@
 				</button>
 			</div>
 			
-			<!-- Clears all filters -->
-			<div class="col-sm-2">
-				<button id="btnClearFilters" class="btn btn-md btn-light btn-outline-secondary" type="button" onclick="location.href = location.href.split('?')[0];"> Clear All Filters
-				</button>
-			</div>
+		
 			
 			<!-- Toggle button for filtering events before current date -->
 			<div class="col-sm-2 text-right toggle" >
@@ -65,7 +61,7 @@
   					<label class="custom-control-label" for="afterToggle">Future Events</label>
 				</div>
 			</div>
-		
+			
 		
 		<!-- Toggle button for filtering events one month before current date -->
 		<div class="col-sm-2 text-right toggle">
@@ -85,8 +81,8 @@
 		</div>
 		
 		
-		<!-- Toggle button for filtering events one month before current date -->
-		<div class="col-sm-2 text-right toggle">
+		<!-- Toggle button for filtering events one month after current date -->
+		<div class="col-sm-2 text-right toggle" style="padding-right: 15px;">
 			<div class="custom-control custom-switch">
 				<!-- Turns next month toggle button on after page is reloaded as long as the no other toggles are not on-->
 				<#if (beforeSelected == 0 && afterSelected == 0 && lastMonthSelected == 0) && nextMonthSelected == 1 >
@@ -102,7 +98,58 @@
 			</div>
 		</div>
 		</div>
-		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+
+	<div class="row" style="padding-left:100px;padding-bottom: 20px">
+
+		<div class="col text-right comboBox">
+			<label>By Event Type</label> 
+			<select>
+				<option value=0>List All</option>
+
+				<#list evtypes as et>
+				<option value="${et.etid}">(${et.name}) ${et.description}</option>
+				</#list>
+			</select>
+
+		</div>
+		<div class="col text-right comboBox">
+			<label>By Service Client</label> 
+			<select>
+				<option value=0>List All</option>
+				<#list sClients as sc>
+				<option value="${sc.scid}">${sc.name}</option>
+				</#list>
+
+			</select>
+
+
+		</div>
+		
+			<div class="col text-right comboBox">
+			<label>By Board Member</label> 
+			<select style="width:235px;">
+				<option value=0>List All</option>
+				<#list users as bm>
+				<option value="${bm.uid}">${bm.contactInfo.firstName} ${bm.contactInfo.lastName}</option>
+				</#list>
+
+			</select>
+
+		</div>
+	</div>
+	<div class="row text-right" style="padding-bottom: 20px">
+
+	
+		<!-- Clears all filters -->
+		<div class="col">
+			<button id="btnClearFilters" class="btn btn-md addBtn" type="button"
+				onclick="location.href = location.href.split('?')[0];">
+				Clear All Filters</button>
+		</div>
+	</div>
+
+
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class=col>
 			<!-- Events table -->
 			<table id="tblEvents"

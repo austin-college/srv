@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.user.User;
 import srv.services.EventService;
 
 /**
@@ -53,15 +55,18 @@ public class EventController {
 	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String before,  @RequestParam(required = false) String after) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");
-		
+				
 		try {
+			
+			List<Event> myEvents;
+			List<EventType> types = eventService.allEventTypes();
+			List<ServiceClient> clients = eventService.allServiceClients();
+			List<User> boardMembers = eventService.allBoardMembers();
 
 			// Lists events before current date
 			if (before != null) {
-				List<Event> myEvents = eventService.filteredEvents(before, null, null, null, null);
-				List<EventType> types = eventService.allEventTypes();
-				
-				
+				myEvents = eventService.filteredEvents(before, null, null, null, null);
+											
 				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
 				mav.addObject("afterSelected", 0); // turns the toggle button for after off
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
@@ -77,36 +82,35 @@ public class EventController {
 					mav.addObject("lastMonthSelected", 1); // turns the toggle button for last month off
 				else if (before.equals("now+1M"))
 					mav.addObject("nextMonthSelected", 1); // turns the toggle button for last month on
-			
-				mav.addObject("events", myEvents);
-				mav.addObject("evtypes", types);
+							
 			}
 			
 			// Lists events after current date
 			else if (after != null) {
-				List<Event> myEvents = eventService.filteredEvents(null, after, null, null, null);
-				List<EventType> types = eventService.allEventTypes();
+				myEvents = eventService.filteredEvents(null, after, null, null, null);
 				
 				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
 				mav.addObject("afterSelected", 1); // turns the toggle button for after on
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
 				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("events", myEvents);
-				mav.addObject("evtypes", types);
+				
 			}
 			
 			else {
 				// Lists the current events in the event database in a table
-				List<Event> myEvents = eventService.allEvents();
-				List<EventType> types = eventService.allEventTypes();
+				myEvents = eventService.allEvents();
 			
 				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
 				mav.addObject("afterSelected", 0); // turns the toggle button for after off
 				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
 				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("events", myEvents);
-				mav.addObject("evtypes", types);
+
 			}
+			
+			mav.addObject("events", myEvents);
+			mav.addObject("evtypes", types);
+			mav.addObject("sClients", clients);
+			mav.addObject("users", boardMembers);
 
 		} catch (Exception e) {
 

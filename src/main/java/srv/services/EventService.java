@@ -11,6 +11,10 @@ import srv.domain.event.Event;
 import srv.domain.event.EventDao;
 import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.EventTypeDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.User;
+import srv.domain.user.UserDao;
 
 
 /**
@@ -35,6 +39,11 @@ public class EventService {
 	@Autowired
 	private EventTypeDao eventTypeDao;
 	
+	@Autowired
+	private ServiceClientDao serviceClientDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	/**
 	 * Delegates to the dao in order to find the specified event from our
@@ -128,6 +137,34 @@ public class EventService {
 		return eventTypeDao.listAll();
 	}
 	
+	/**
+	 * Returns all of the current service clients known to our system. This is
+	 * commonly used for populating user interface elements (selection lists).
+	 * Throws an exception if our dao encounters a problem.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ServiceClient> allServiceClients() throws Exception {
+		
+		return serviceClientDao.listAll();
+	}
+	
+	/**
+	 * TODO currently our system has no way of listing only board member users
+	 * so as of now we are displaying the entire list of users
+	 * 
+	 * Returns all the current board members known to our system. This is
+	 * commonly used for populating user interface elements (selection lists).
+	 * Throws an exception if our dao encounters a problem.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> allBoardMembers() throws Exception {
+		
+		return userDao.listAll();
+	}
 	/**
 	 * Given the current event object, we save back to our data store with 
 	 * the help of our DAO.  If any additional data transformations are necessary
