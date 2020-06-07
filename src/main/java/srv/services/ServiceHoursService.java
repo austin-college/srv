@@ -24,7 +24,7 @@ public class ServiceHoursService {
 	
 	//autowire
 	@Autowired
-	ServiceHoursDao serviceHoursDao; 
+	ServiceHoursDao sHoursDao; 
 	
 	
 	/**
@@ -43,7 +43,7 @@ public class ServiceHoursService {
 	 */
 	public void initialize() throws Exception {
 		
-		hrs = serviceHoursDao.listAll();
+		hrs = sHoursDao.listAll();
 		/*
 		 * ServiceHours a = new ServiceHours() .setShid(1) .setEvent(new
 		 * Event().setTitle("Spending Time with Toys for Tots")) .setHours(6.0)
