@@ -2,6 +2,8 @@ package srv.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.File;
 
@@ -28,14 +30,6 @@ import srv.SeleniumTest;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AdminDeleteEventTest extends SeleniumTest {
-
-	@Test
-	public void testRedirectToSplash() throws Exception {
-		driver.get(base + "/");
-
-		assertEquals("Welcome",driver.getTitle());
-		assertEquals(base+"/splash", driver.getCurrentUrl());
-	}
 
 
 	private void clickAndWaitForPage(WebDriver driver, By by, int waitTime) {
@@ -120,21 +114,45 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		link.click();
 
 		assertEquals(base+"/events", driver.getCurrentUrl());
-		
+
+		/*
+		 * stores the title of the event that will be deleted
+		 * for testing purposes
+		 */
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
+
 		/*
 		 * clicks on the button to delete the first event in the list
 		 */
-		
-		link = driver.findElement(By.xpath("//div/div/div/div/div/div/div/table/tbody/tr[@id='eid-1']")); 
+
+		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvDel']")); 
+		link.click();
+
+		Thread.sleep(2000);
+
+		//this checks the dialog box to see if its visible
+		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-1']")).isDisplayed());
+
+		/*
+		 * clicks on the confirm delete button
+		 */
+
+		link = driver.findElement(By.xpath("//div/div/div/button[@class='delBtnClass']"));
 		link.click();
 		
 		Thread.sleep(2000);
 		
-		//this checks the dialog box to see if its visible
-		//assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed());
+		//checks to see if the element is no longer visible
+		assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).size() == 0);
 
-		
-		
+
+
 	}
 
 }
