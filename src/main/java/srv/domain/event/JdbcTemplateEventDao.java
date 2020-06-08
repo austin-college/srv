@@ -57,7 +57,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public List<Event> listAll() throws Exception {
 		List<Event> results = getJdbcTemplate().query(
-				"select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events",
+				"select * from events",
 				new EventRowMapper());
 
 		return results;
@@ -248,221 +248,88 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		
 		// Get the current date and convert it to a timestamp for mysql type
 		Timestamp now = new Timestamp(new Date().getTime());	
+		Calendar myCal = Calendar.getInstance();
+		myCal.setTime(now);  
 		
 		
-		/*
-		 * Returns the entire list
-		 */
-		if ((startDate != null) && (endDate != null))
-			return listAll();
+		StringBuffer buff = new StringBuffer("select * from events ");
+		boolean first = true;
 		
-		/*
-		 * Returns the list filtered by events before ( or one month after) current date
-		 * and by the specified event type.
-		 */
-		else if ((startDate != null) && (eTypeId != null)) {
-			Calendar myCal = Calendar.getInstance();
-			myCal.setTime(now);  
-			
-			if (startDate.equals("now")) {
-				final String sqlStr = "select * from events where dateOf <= ? and eventTypeId = ?";
-
-				log.debug(sqlStr);
-
-				List<Event> results = getJdbcTemplate().query(connection -> {
-					PreparedStatement ps = connection.prepareStatement(sqlStr);
-					ps.setTimestamp(1, now);
-					ps.setInt(2, eTypeId);
-					return ps;
-				}, new EventRowMapper());
-
-				return results;			
+		
+		if (startDate != null) {
+			if (first) {
+				first = false;
+				buff.append("where ");
 			}
-			else if (startDate.equals("now+1M")) {
-
-				// Get the timestamp 1 month from now
-				myCal.add(Calendar.MONTH, 1);   
-				Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());			
-
-				final String sqlStr = "select * from events where dateOf between ? and ? and eventTypeId = ?";
-
-				log.debug(sqlStr);
-
-				List<Event> results = getJdbcTemplate().query(connection -> {
-					PreparedStatement ps = connection.prepareStatement(sqlStr);
-					ps.setTimestamp(1, now);
-					ps.setTimestamp(2, oneMonthAfterNow);
-					ps.setInt(3, eTypeId);
-					return ps;
-				}, new EventRowMapper());
-
-				return results;		
+			else {
+				buff.append("and ");
 			}
-			else if (startDate.equals("now-1M")) {
-				// Get the timestamp 1 month before now
-				myCal.add(Calendar.MONTH, -1);   
-				Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());			
-
-				final String sqlStr = "select * from events where dateOf between ? and ? and eventTypeId = ?";
-
-				log.debug(sqlStr);
-
-				List<Event> results = getJdbcTemplate().query(connection -> {
-					PreparedStatement ps = connection.prepareStatement(sqlStr);
-					ps.setTimestamp(1, oneMonthBeforeNow);
-					ps.setTimestamp(2, now);
-					ps.setInt(3, eTypeId);
-					return ps;
-				}, new EventRowMapper());
-
-				return results;		
+			buff.append("dateOf <= ");
+			buff.append("'");
+			buff.append(startDate);
+			buff.append("' ");
+		}
+		
+		if (endDate != null) {
+			if (first) {
+				first = false;
+				buff.append("where ");
 			}
-
+			else
+				buff.append("and ");
+			
+			buff.append("dateOf >= ");
+			buff.append("'");
+			buff.append(endDate);
+			buff.append("' ");
 		}
 		
-		/*
-		 * Returns the list of events after the current date and by the specified event type
-		 */
-		else if ((endDate != null) && (eTypeId !=null)) {
-			
-			final String sqlStr = "select * from events where dateOf >= ? and eventTypeId = ? ";
-			
-			log.debug(sqlStr);
-			
-			List<Event> results = getJdbcTemplate().query(connection -> {
-				PreparedStatement ps = connection.prepareStatement(sqlStr);
-				ps.setTimestamp(1, now);
-				ps.setInt(2, eTypeId);
-				return ps;
-			}, new EventRowMapper());
-			
-			return results;	
-		}
-		
-		/*
-		 * Returns the list of events by the specified event type and service client 
-		 */
-		else if ((eTypeId != null) && (scId != null)) {
-			
-			final String sqlStr = "select * from events where eventTypeId = ? and serviceClientId = ?";
-			
-			log.debug(sqlStr);
-			
-			List<Event> results = getJdbcTemplate().query(connection -> {
-				PreparedStatement ps = connection.prepareStatement(sqlStr);
-				ps.setInt(1, eTypeId);
-				ps.setInt(2, scId);
-				return ps;
-			}, new EventRowMapper());
-			
-			return results;	
-		}
-		/*
-		 * Returns the list of past events based on current date
-		 */
-		else if (startDate != null) {
-			
-			Calendar myCal = Calendar.getInstance();
-			myCal.setTime(now);  
-
-			if (startDate.equals("now")) {
-				final String sqlStr = "select * from events where dateOf <= ?";
-
-				log.debug(sqlStr);
-
-				List<Event> results = getJdbcTemplate().query(connection -> {
-					PreparedStatement ps = connection.prepareStatement(sqlStr);
-					ps.setTimestamp(1, now);
-					return ps;
-				}, new EventRowMapper());
-
-				return results;			
+		if (eTypeId != null) {
+			if (first) {
+				first = false;
+				buff.append("where ");
 			}
-			else if (startDate.equals("now+1M")) {
-				
-				// Get the timestamp 1 month from now
-				myCal.add(Calendar.MONTH, 1);   
-				Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());			
-				
-				final String sqlStr = "select * from events where dateOf between ? and ?";
-
-				log.debug(sqlStr);
-
-				List<Event> results = getJdbcTemplate().query(connection -> {
-					PreparedStatement ps = connection.prepareStatement(sqlStr);
-					ps.setTimestamp(1, now);
-					ps.setTimestamp(2, oneMonthAfterNow);
-					return ps;
-				}, new EventRowMapper());
-
-				return results;		
+			else
+				buff.append("and ");
+			
+			buff.append("eventTypeId = ");
+			buff.append("'");
+			buff.append(eTypeId);
+			buff.append("' ");
+		}
+		
+		if (scId != null) {
+			if (first) {
+				first = false;
+				buff.append("where ");
 			}
-			else if (startDate.equals("now-1M")) {
-				// Get the timestamp 1 month before now
-				myCal.add(Calendar.MONTH, -1);   
-				Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());			
-
-				final String sqlStr = "select * from events where dateOf between ? and ?";
-
-				log.debug(sqlStr);
-
-				List<Event> results = getJdbcTemplate().query(connection -> {
-					PreparedStatement ps = connection.prepareStatement(sqlStr);
-					ps.setTimestamp(1, oneMonthBeforeNow);
-					ps.setTimestamp(2, now);
-					return ps;
-				}, new EventRowMapper());
-
-				return results;		
-			}
+			else
+				buff.append("and ");
+			
+			buff.append("serviceClientId = ");
+			buff.append("'");
+			buff.append(scId);
+			buff.append("' ");
+		}
+		
+		// TODO wait until there is dao support for board member users
+		if (bmId != null) {
 			
 		}
 		
-		/*
-		 * Returns the list of events after the current date
-		 */
-		else if (endDate != null) {
-			
-			final String sqlStr = "select * from events where dateOf >= ?";
-			
-			log.debug(sqlStr);
-			
-			List<Event> results = getJdbcTemplate().query(connection -> {
-				PreparedStatement ps = connection.prepareStatement(sqlStr);
-				ps.setTimestamp(1, now);
-				return ps;
-			}, new EventRowMapper());
-			
-			return results;	
-		}
 		
-		/*
-		 * Returns the list of events based on the specified event type id
-		 */
-		else if (eTypeId != null) {
-			String sqlStr = String.format("select * from events where eventTypeId = %d", eTypeId);
-			
-			List<Event> results = getJdbcTemplate().query(sqlStr, new EventRowMapper());
-			
-			return results;
+		log.debug(buff.toString());
+		List<Event> results = getJdbcTemplate().query(buff.toString(),	new EventRowMapper());
 
-		}
+		return results;
+		// test with all nulls
+		// repeat for others 
+		//buff append 
 		
-		/*
-		 * Returns the list of events based on the specified service client id
-		 */
-		else if (scId != null) {
-			String sqlStr = String.format("select * from events where serviceClientId = %d", scId);
-			
-			List<Event> results = getJdbcTemplate().query(sqlStr, new EventRowMapper());
-			
-			return results;
-		}
-		
-		
-		return null;
+	
 	}
-
+	
+	
 	/**
 	 * This class maps a Event database record to the Event model object by using
 	 * a RowMapper interface to fetch the records for a Event from the database.
