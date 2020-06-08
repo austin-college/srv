@@ -197,60 +197,30 @@ public class EventControllerTest {
 	
 	
 	
-//	//credit to Professor Higgs here for this test
-//	@Test
-//    @WithMockUser(username = "admin", password = "admin")
-//    public void ajaxAddSerciceClientTest() throws Exception {
-//
-//        
-//         when(userUtil.userIsAdmin()).thenReturn(true);
-//
-//        
-//         /*
-//         * prepare dummy client obj
-//         */
-//         String clientName = "Habitat for Humanity";
-//         int cid1 = 1; 
-//         String bmName = "Billy Bob";
-//         String category = "Community";
-//        
-//         ServiceClient sc1 = new ServiceClient()
-//                  .setClientId(cid1)
-//                  .setName(clientName)
-//                  .setBoardMember(bmName)
-//                  .setCategory(category);
-//
-//        
-//         // when the controller asks the dao to create a client in the database, we 
-//         // fake it and use our dummy client above (sc1)
-//         Mockito.when(dao.create(clientName, cid1, -1, bmName, category) ).thenReturn(sc1);
-//
-//         // now perform the test...pretend that jquery sends in the parameters for a new
-//         // client...  Our mock dao is trained to return a dummy service client (above)
-//         // we should see an HTML table row return.
-//        
-//         mvc.perform(post("/ajax/addSc")
-//                  .param("clientName", clientName)
-//                  .param("mcID", String.valueOf(cid1))
-//                  .param("ocID", String.valueOf("-1"))
-//                  .param("bmName", bmName)
-//                  .param("cat",category)
-//                 
-//                  .contentType(MediaType.TEXT_HTML))
-//        
-//                  .andExpect(status().isOk())
-//                 
-//                  // it should be a table row tagged with right id.
-//                  .andExpect(content().string(containsString("<tr id=\"scid-1\">")))
-//                 
-//                  // it should have the client's name
-//                  .andExpect(content().string(containsString(clientName)))
-//                 
-//                  // other expectations here...
-//                  ;
-//        
-//
-//    }
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void ajaxDeleteEventTest_whenEventExists() throws Exception {
+        
+		 // for this test, our service will pretend to delete
+
+		Mockito.doNothing().when(mockService).deleteEvent(1);
+		
+		 
+         mvc.perform(post("/events/ajax/del/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(content().string(containsString("1")))
+                 
+                  // other expectations here...
+                  ;
+        
+         Mockito.verify(mockService).deleteEvent(1);
+       
+    }
 	
 
 	
