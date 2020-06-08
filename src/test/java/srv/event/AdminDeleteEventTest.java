@@ -27,7 +27,7 @@ import srv.SeleniumTest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AdminAddEventTest extends SeleniumTest {
+public class AdminDeleteEventTest extends SeleniumTest {
 
 	@Test
 	public void testRedirectToSplash() throws Exception {
@@ -56,7 +56,7 @@ public class AdminAddEventTest extends SeleniumTest {
 
 
 	@Test
-	public void testAdminAddEvent() throws Exception {
+	public void testAdminDeleteEvent() throws Exception {
 
 		driver.get(base + "/splash");
 
@@ -122,65 +122,18 @@ public class AdminAddEventTest extends SeleniumTest {
 		assertEquals(base+"/events", driver.getCurrentUrl());
 		
 		/*
-		 * opens up the creation of a new event
+		 * clicks on the button to delete the first event in the list
 		 */
 		
-		link = driver.findElement(By.id("btnEvNew")); 
+		link = driver.findElement(By.xpath("//div/div/div/div/div/div/div/table/tbody/tr[@id='eid-1']")); 
 		link.click();
 		
 		Thread.sleep(2000);
 		
 		//this checks the dialog box to see if its visible
-		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed());
+		//assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed());
 
-		/*
-		 * clicks on the combo box to open a list of options
-		 */
-		link = driver.findElement(By.id("evType"));
-		link.click();
 		
-		/*
-		 * selects option 2
-		 * "(fws) First We Serve"
-		 */
-		Select selector = new Select(driver.findElement(By.id("evType")));
-		selector.selectByIndex(1);
-		
-		//checks to see if the correct option is displayed
-		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
-		
-		
-		/*
-		 * finds the add new button and clicks it
-		 */
-		link = driver.findElement(By.className("newBtnClass"));
-		link.click();
-		
-		Thread.sleep(2000);
-		
-
-		/*
-		 * should lead us to the edit event page
-		 */
-		assertEquals(base+"/events/edit/4", driver.getCurrentUrl());
-		
-		/*
-		 * inputs a name into event title
-		 */
-		WebElement addName = driver.findElement(By.id("evTitle"));
-		addName.click();
-		addName.clear();
-		addName.sendKeys("testedEvent");
-		
-		//tests if the correct text is displayed
-		assertEquals("testedEvent", addName.getAttribute("value") );
-		
-		/*
-		 * finds the submit button and submits the information
-		 */
-		
-		link = driver.findElement(By.className("btn-primary"));
-		link.click();
 		
 	}
 
