@@ -8,13 +8,11 @@ import srv.domain.event.JdbcTemplateEventDao;
 import srv.domain.event.eventparticipant.JdbcTemplateEventParticipantDao;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.JdbcTemplateServiceHoursDao;
-import srv.domain.reason.JdbcTemplateReasonDao;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.servicegroup.JdbcTemplateServiceGroupDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.BoardMemberHoursListService;
 import srv.services.ServiceHoursService;
-import srv.utils.UserUtil;
 
 /**
  * This class is the home for runtime configuration for our database. It creates
@@ -37,10 +35,6 @@ public class H2DatabaseConfig {
 	 * DAO beans 
 	 */
 	
-	@Bean
-	public JdbcTemplateReasonDao reasonDao() {
-		return new JdbcTemplateReasonDao();
-	}
 
 	@Bean
 	public JdbcTemplateServiceClientDao serviceClientDao() {
