@@ -243,6 +243,11 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		return results.get(0);
 	}
 	
+	/**
+	 * Filters the list of events by dates, event types, service clients, and
+	 * board members.
+	 * 
+	 */
 	@Override
 	public List<Event> listByFilter(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
 		
@@ -251,82 +256,83 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		Calendar myCal = Calendar.getInstance();
 		myCal.setTime(now);  
 		
+		// Allows for dynamic building of query string based on parameters
+		StringBuffer queryBuff = new StringBuffer("select * from events ");
 		
-		StringBuffer buff = new StringBuffer("select * from events ");
+		// Flag for if the parameter is first in the query
 		boolean first = true;
-		
-		
+	
+		// Filters for past events
 		if (startDate != null) {
 			if (first) {
 				first = false;
-				buff.append("where ");
+				queryBuff.append("where ");
 			}
 			else {
-				buff.append("and ");
+				queryBuff.append("and ");
 			}
-			buff.append("dateOf <= ");
-			buff.append("'");
-			buff.append(startDate);
-			buff.append("' ");
+			queryBuff.append("dateOf <= ");
+			queryBuff.append("'");
+			queryBuff.append(startDate);
+			queryBuff.append("' ");
 		}
 		
+		// Filters for future events
 		if (endDate != null) {
 			if (first) {
 				first = false;
-				buff.append("where ");
+				queryBuff.append("where ");
 			}
 			else
-				buff.append("and ");
+				queryBuff.append("and ");
 			
-			buff.append("dateOf >= ");
-			buff.append("'");
-			buff.append(endDate);
-			buff.append("' ");
+			queryBuff.append("dateOf >= ");
+			queryBuff.append("'");
+			queryBuff.append(endDate);
+			queryBuff.append("' ");
 		}
 		
+		// Filters by event type
 		if (eTypeId != null) {
 			if (first) {
 				first = false;
-				buff.append("where ");
+				queryBuff.append("where ");
 			}
 			else
-				buff.append("and ");
+				queryBuff.append("and ");
 			
-			buff.append("eventTypeId = ");
-			buff.append("'");
-			buff.append(eTypeId);
-			buff.append("' ");
+			queryBuff.append("eventTypeId = ");
+			queryBuff.append("'");
+			queryBuff.append(eTypeId);
+			queryBuff.append("' ");
 		}
 		
+		// Filters by service client
 		if (scId != null) {
 			if (first) {
 				first = false;
-				buff.append("where ");
+				queryBuff.append("where ");
 			}
 			else
-				buff.append("and ");
+				queryBuff.append("and ");
 			
-			buff.append("serviceClientId = ");
-			buff.append("'");
-			buff.append(scId);
-			buff.append("' ");
+			queryBuff.append("serviceClientId = ");
+			queryBuff.append("'");
+			queryBuff.append(scId);
+			queryBuff.append("' ");
 		}
 		
 		// TODO wait until there is dao support for board member users
+		// Filters by board member
 		if (bmId != null) {
 			
 		}
 		
+		log.debug(queryBuff.toString());
 		
-		log.debug(buff.toString());
-		List<Event> results = getJdbcTemplate().query(buff.toString(),	new EventRowMapper());
+		List<Event> results = getJdbcTemplate().query(queryBuff.toString(),	new EventRowMapper());
 
-		return results;
-		// test with all nulls
-		// repeat for others 
-		//buff append 
-		
-	
+		return results;	
 	}
 	
 	
