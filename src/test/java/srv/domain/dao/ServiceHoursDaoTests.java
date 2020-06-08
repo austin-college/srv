@@ -2,7 +2,6 @@ package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -13,14 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import srv.domain.contact.Contact;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
-import srv.domain.serviceclient.ServiceClient;
 import srv.services.ServiceHoursService;
 
 //add listAll method to viewHours hours controller with try catch 
