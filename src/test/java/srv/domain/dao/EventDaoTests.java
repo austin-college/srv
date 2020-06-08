@@ -435,5 +435,210 @@ class EventDaoTests {
 		assertEquals(3, eventsByScid1.get(1).getEid());
 	}
 	
-
+	/**
+	 * Verifies that the entire list of events is returned when all 
+	 * parameters are null.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_allNull() throws Exception {
+		
+		// Fetches the list of events with all nulls
+		List <Event> allEvents = dao.listByFilter(null, null, null, null, null);
+		
+		assertEquals(5, allEvents.size());
+	}
+	
+	
+	
+	/**
+	 * Filters the list of events by events before the current date (2020-06-08 00:00:00)
+	 * with the specified event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBeforeNowAndEventType() throws Exception {
+		
+		// Fetches the list of past events with event type 1
+		List <Event> eventsBeforeWithEtid1 = dao.listByFilter("2020-06-08 00:00:00", null, 1, null, null) ;
+		
+		assertEquals(2, eventsBeforeWithEtid1.size());
+		assertEquals(1, eventsBeforeWithEtid1.get(0).getEid());
+		assertEquals(4, eventsBeforeWithEtid1.get(1).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events after the current date (2020-06-08 00:00:00)
+	 * with the specified event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byAfterNowAndEventType() throws Exception {
+		
+		// Fetches the list of future events with event type 2
+		List <Event> eventsAfterWithEtid2 = dao.listByFilter(null, "2020-06-08 00:00:00", 2, null, null) ;
+		
+		assertEquals(1, eventsAfterWithEtid2.size());
+		assertEquals(2, eventsAfterWithEtid2.get(0).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events one month before the current date (2020-06-08 00:00:00)
+	 * with the specified event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byLastMonthAndEventType() throws Exception {
+		
+		// Fetches the list of events in the last month with event type 2
+		List <Event> lastMonthWithEtid2 = dao.listByFilter("2020-06-08 00:00:00", "2020-05-08 00:00:00", 2, null, null) ;
+		
+		assertEquals(0, lastMonthWithEtid2.size());
+	}
+	
+	/**
+	 * Filters the list of events by events one month after the current date (2020-06-08 00:00:00)
+	 * with the specified event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_bNextMonthAndEventType() throws Exception {
+		
+		// Fetches the list of events in the next month with event type 2
+		List <Event> nextMonthWithEtid2 = dao.listByFilter("2020-07-08 00:00:00", "2020-06-08 00:00:00", 2, null, null) ;
+		
+		assertEquals(0, nextMonthWithEtid2.size());
+	}
+	
+	/**
+	 * Filters the list of events by events before the current date (2020-06-08 00:00:00)
+	 * with the specified service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byBeforeNowAndServiceClient() throws Exception {
+		
+		// Fetches the list of past events with service client 1
+		List <Event> beforeNowWithScid1 = dao.listByFilter("2020-06-08 00:00:00", null, null, 1, null) ;
+		
+		assertEquals(2, beforeNowWithScid1.size());
+		assertEquals(1, beforeNowWithScid1.get(0).getEid());
+		assertEquals(3, beforeNowWithScid1.get(1).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events after the current date (2020-06-08 00:00:00)
+	 * with the specified service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byAfterNowAndServiceClient() throws Exception {
+		
+		// Fetches the list of future events with service client 4
+		List <Event> afterNowWithScid4 = dao.listByFilter(null, "2020-06-08 00:00:00", null, 4, null) ;
+		
+		assertEquals(1, afterNowWithScid4.size());
+		assertEquals(5, afterNowWithScid4.get(0).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events one month before the current date (2020-06-08 00:00:00)
+	 * with the specified service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byLastMonthAndServiceClient() throws Exception {
+		
+		// Fetches the list of events in the last month with service client 1
+		List <Event> lastMonthWithScid1 = dao.listByFilter("2020-06-08 00:00:00", "2020-05-08 00:00:00", null, 1, null) ;
+		
+		assertEquals(0, lastMonthWithScid1.size());
+	}
+	
+	/**
+	 * Filters the list of events by events one month after the current date (2020-06-08 00:00:00)
+	 * with the specified service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byNextMonthAndServiceClient() throws Exception {
+		
+		// Fetches the list of events in the next month with service client 3
+		List <Event> nextMonthWithScid3 = dao.listByFilter("2020-07-08 00:00:00", "2020-06-08 00:00:00", null, 3, null) ;
+		
+		assertEquals(0, nextMonthWithScid3.size());
+	}
+	
+	/**
+	 * Filters the list of events by event before the current date (2020-06-08 00:00:00)
+	 * with the specified event type id and service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test 
+	void listByFilter_byBeforeNowAndEventTypeAndServiceClient() throws Exception {
+		
+		// Fetches the list of past events with event type 1 and service client 1
+		List <Event> beforeNowEtid1Scid1 = dao.listByFilter("2020-06-08 00:00:00", null, 1, 1, null);
+		
+		assertEquals(1, beforeNowEtid1Scid1.size());
+		assertEquals(1, beforeNowEtid1Scid1.get(0).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by event after the current date (2020-06-08 00:00:00)
+	 * with the specified event type id and service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test 
+	void listByFilter_byAfterNowAndEventTypeAndServiceClient() throws Exception {
+		
+		// Fetches the list of future events with event type 2 and service client 2
+		List <Event> afterNowEtid2Scid2 = dao.listByFilter(null, "2020-06-08 00:00:00", 2, 2, null);
+		
+		assertEquals(1, afterNowEtid2Scid2.size());
+		assertEquals(2, afterNowEtid2Scid2.get(0).getEid());
+	}
+	
+	/**
+	 * Filters the list of events by events one month before the current date (2020-06-08 00:00:00)
+	 * with the specified event type id and service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byLastMonthAndEventTypeAndServiceClient() throws Exception {
+		
+		// Fetches the list of events in the last month with event type 2 and service client 3
+		List <Event> lastMonthEtid2Scid3 = dao.listByFilter("2020-06-08 00:00:00", "2020-05-08 00:00:00", 2, 3, null) ;
+		
+		assertEquals(0, lastMonthEtid2Scid3.size());
+	}
+	
+	/**
+	 * Filters the list of events by events one month after the current date (2020-06-08 00:00:00)
+	 * with the specified event type id and service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void listByFilter_byNextMonthAndEventTypeAndServiceClient() throws Exception {
+		
+		// Fetches the list of events in the next month with event type 3 and service client 4
+		List <Event> nextMonthEtid3Scid4 = dao.listByFilter("2020-07-08 00:00:00", "2020-06-08 00:00:00", 3, 4, null) ;
+		
+		assertEquals(1, nextMonthEtid3Scid4.size());
+		assertEquals(5, nextMonthEtid3Scid4.get(0).getEid());
+	}
+	
 }
