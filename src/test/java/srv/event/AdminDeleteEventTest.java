@@ -151,7 +151,13 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		//checks to see if the element is no longer visible
 		assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).size() == 0);
 
-
+		/*
+		 * clicks on the log out button
+		 */
+		link = driver.findElement(By.xpath("//div/a[@href='/srv/logout']"));
+		link.click();
+		
+		 assertEquals(base+"/splash", driver.getCurrentUrl());
 
 	}
 
