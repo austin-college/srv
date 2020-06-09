@@ -1,5 +1,8 @@
 package srv.services;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -220,7 +223,58 @@ public class EventService {
 	
 	public List<Event> filteredEvents(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
 		
-		return eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId);
+		Timestamp now = new Timestamp(new Date().getTime());	
+		
+		if (startDate != null || endDate != null) {
+			// Sets the startDate to the current date
+			if (startDate.equals("now")) 
+				startDate = now.toString();
+
+			/*
+			 * For events in the last month, sets the startDate to be the current date 
+			 * and sets the endDate to be the timestamp of the current date minus one month.
+			 */
+			else if (startDate.equals("now-1M")) {
+
+				// Get the timestamp for one month after the current date
+				Calendar myCal = Calendar.getInstance();
+				myCal.setTime(now); 
+				myCal.add(Calendar.MONTH, -1);
+				Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());
+
+				// Sets the strings to be the appropriate date
+				startDate = now.toString();
+				endDate = oneMonthBeforeNow.toString();
+			}
+
+			// Sets the endDate to the current date
+			else if (endDate.equals("now")) {
+				endDate = now.toString();
+			}
+
+			/*
+			 * For events in the next month, sets the startDate to be the current date plus one month
+			 * and sets the endDate to be the timestamp of the current date.
+			 */
+			else if (endDate.equals("now+1M")) {
+
+				// Get the timestamp for one month after the current date
+				Calendar myCal = Calendar.getInstance();
+				myCal.setTime(now); 
+				myCal.add(Calendar.MONTH, 1);
+				Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());
+
+				// Sets the strings to be the appropriate date
+				startDate = oneMonthAfterNow.toString();
+				endDate = now.toString();			
+			}
+		}
+		
+		List<Event> results = eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId); 
+		
+		log.debug("Size of filtered list is: " + results.size());
+		
+		return results;
 	}
 	
 	

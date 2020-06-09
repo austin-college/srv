@@ -250,12 +250,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 */
 	@Override
 	public List<Event> listByFilter(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
-		
-		// Get the current date and convert it to a timestamp for mysql type
-		Timestamp now = new Timestamp(new Date().getTime());	
-		Calendar myCal = Calendar.getInstance();
-		myCal.setTime(now);  
-		
+	
 		// Allows for dynamic building of query string based on parameters
 		StringBuffer queryBuff = new StringBuffer("select * from events ");
 		
