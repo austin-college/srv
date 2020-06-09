@@ -50,8 +50,8 @@ public class HoursControllerTest {
 	public void basicHtmlPageTest() throws Exception {
 		
 		// train the dao to ask for these when asked to listAll reasons.
-		ServiceHours h1 = new ServiceHours().setShid(1).setEvent(new Event().setTitle("Spending Time with Toys for Tots")).setHours(6);
-		ServiceHours h2 = new ServiceHours().setShid(2).setEvent(new Event().setTitle("Teaching Part Time")).setHours(2);
+		ServiceHours h1 = new ServiceHours().setShid(1).setEvent(new Event().setTitle("Spending Time with Toys for Tots")).setHours((double) 6);
+		ServiceHours h2 = new ServiceHours().setShid(2).setEvent(new Event().setTitle("Teaching Part Time")).setHours((double) 2);
 
 		List<ServiceHours> dummyList = new ArrayList<ServiceHours>();
 		dummyList.add(h1);

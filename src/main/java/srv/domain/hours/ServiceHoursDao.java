@@ -14,11 +14,11 @@ public interface ServiceHoursDao {
 
 	public List<ServiceHours> listAll() throws Exception;
 	
-	public ServiceHours create(Integer scid, Integer uid, Integer eid, double hours, String stat, String reflection, String description) throws Exception;
+	public ServiceHours create(Integer scid, Integer uid, Integer eid, Double hours, String stat, String reflection, String description) throws Exception;
 
 	public void delete(int shid) throws Exception;
 	
-	public void update(Integer shid, Integer scid, Integer uid, Integer eid, double hours, String stat, String reflection, String description) throws Exception;
+	public void update(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat, String reflection, String description) throws Exception;
 	
 	public ServiceHours fetchHoursById(int shid) throws Exception;
 	

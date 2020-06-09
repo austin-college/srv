@@ -69,7 +69,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 * if the new service hour is a duplicate. 
 	 */
 	@Override
-	public ServiceHours create(Integer scid, Integer uid, Integer eid, double hours, String stat, String reflection,
+	public ServiceHours create(Integer scid, Integer uid, Integer eid, Double hours, String stat, String reflection,
 			String description) throws Exception {
 		
 		 final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -122,7 +122,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 * specified content. An exception is thrown if the service hour is unable to be updated (does not exist).
 	 */
 	@Override
-	public void update(Integer shid, Integer scid, Integer uid, Integer eid, double hours, String stat,
+	public void update(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat,
 			String reflection, String description) throws Exception {
 	
 		int rc = getJdbcTemplate().update("UPDATE serviceHours SET serviceClientId = ?, userId = ?, eventId = ?, hours = ?,"
