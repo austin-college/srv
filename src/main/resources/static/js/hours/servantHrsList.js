@@ -139,7 +139,7 @@ $(document).ready(function() {
 		position: {
 			  my: "center top",
 			  at: "center top",
-			  of: "#srv-page"
+			  of: window
 			},
 		show: { effect: "blind", duration: 500 },
 		open: function(event, ui) {
@@ -165,7 +165,7 @@ $(document).ready(function() {
 	 		position: {
 				  my: "center top",
 				  at: "center top",
-				  of: "#srv-page"
+				  of: window
 				},
 		 show: { effect: "blind", duration: 500 },				
 	     open: function(event, ui) {  
@@ -218,6 +218,11 @@ $(document).ready(function() {
 		 height: 500,
 		 width: 700,
 		 modal: true,
+		 position: {
+			  my: "center top",
+			  at: "center top",
+			  of: window
+			},
 		 open: function(event, ui) {			
 			 console.log("boop");	
 		 },
