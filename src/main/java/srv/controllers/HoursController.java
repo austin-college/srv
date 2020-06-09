@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.EventService;
 import srv.services.ServiceHoursService;
 
 /**
@@ -35,12 +37,14 @@ public class HoursController {
 	@Autowired
 	ServiceHoursService hrSvc;
 	
+	@Autowired
+	EventService evSvc;
+	
+	
 	//TODO BAD CODE SEE USER UTIL FOR MORE INFO
 	@Autowired
 	JdbcTemplateUserDao uDao;
 	
-	@Autowired
-	JdbcTemplateEventTypeDao eDao;
 	
 	/**
 	 * Splash action displays the splash page. See splash.html template
@@ -55,30 +59,25 @@ public class HoursController {
 	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
+		
+		try {
+		
+			mav.addObject("hours", hrSvc.listHours());
+			
+			List<Event> events = evSvc.allEvents();
+			
+			mav.addObject("events", events);
 
-		mav.addObject("hours", hrSvc.listHours());
-		
-		
-		try {
-			List<EventType> eTypes = eDao.listAll();
-			mav.addObject("eventTypes", eTypes);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-	
-		
-		try {
 			mav.addObject("semTot", hrSvc.getSemTot(hrSvc.listHours())); //total hours served per semester
 			mav.addObject("termTot", hrSvc.getTermTot(hrSvc.listHours())); //total hours served per term
 			mav.addObject("totOrgs", hrSvc.getTotOrgs(hrSvc.listHours())); //total organizations helped
 			mav.addObject("avgPerMo", hrSvc.getAvgPerMo(hrSvc.listHours())); //average hours served per month
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		return mav;
 	}

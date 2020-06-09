@@ -1,9 +1,6 @@
 <#import "/main_layout.html" as layout />
-<!-- CSS style for jquery widgets -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<@layout.stdpage "Hours Served" "hoursStyle.css"
-"hours/servantHrsList.js">
+<@layout.stdpage "Hours Served" "hoursStyle.css" "hours/servantHrsList.js">
 
 <div>
 	<div class="row" style="padding-left: 30px; padding-bottom: 30px">
@@ -15,7 +12,8 @@
 					<h1>Welcome, ${userid!"UNKNOWN"}</h1>
 					<h2>Service Stats</h2>
 				</div>
-					<div class="container-tableBackground">
+				
+
 						<!-- container thats creating a table that will hold our data-->
 						<div class="container ui-widget">
 							<div Id="table" class="row">
@@ -37,12 +35,12 @@
 								</table>
 							</div>
 						</div>
-					</div>
+
 					
 			<!-- Button that prompts the user to enter their service hours -->
 			<button type="button" class="btn btn-md btn-dark addBtn"
 			>
-				<span class="	fas fa-plus-circle"></span>Add Hours
+				<span class="fas fa-plus-circle"></span>Add Hours
 			</button>
 
 	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
@@ -448,15 +446,14 @@
 </div>
 
 
-	<div id="etDlg" title="Select Event Type" class="ui-widget">
-		
-		
-								<select class="form-control">
-				<#list eventTypes as et>
-				<option>${et.name!"UNKNOWN"}</option>
-				</#list>
-			</select>
-	</div>
+<div id="etDlg" title="Select Event Type" class="ui-widget">
+		<select class="form-control">
+			<#list events as e>
+			<option value="${e.eid}">${e.title!"UNKNOWN"}</option>
+			</#list>
+		</select>
+</div>
+
 
 <div id="addDlg" title="Add Service Hour"
 		class="ui-widget delWid">
@@ -466,6 +463,9 @@
 	<div class="row">
 		<div class="col-lg-4">
 			<form action="/srv/viewHours.html">
+			
+				<input type="hidden" id="newEvId" value="" />
+				
 				<div class="form-group">
 					<label for="name">Name of Event: </label><br> <input
 						type="text" class="form-control" value="Great Day Of Service" readonly><br>
@@ -510,7 +510,44 @@
 	</form>
 </div>
 	</div>
-<!-- JavaScript file that will allow us to use jquery widgets -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<div id="dlgEvSel" title="Select Event..." style="display:none">
+
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		
+		<div class="col">
+			<!-- Events table -->
+			<table id="tblEvents"
+				class="table table-striped table-bordered table-sm" cellspacing="0"
+				width="100%">
+				<thead>
+					<!-- these columns are not final. If anyone thinks different information would be better
+				feel free to change these -->
+					<tr>
+						<th class="th-sm">&nbsp;</th>
+						<th class="th-sm">Id</th>
+						<th class="th-sm">Title</th>
+						<th class="th-sm">Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#list events as ev>
+					<tr id="eid-${ev.eid?c}">
+						<td class="ev_sel"><input class="boxSel" type="checkbox" eid="${ev.eid}" /></td>
+						<td class="ev_id">${ev.eid!"UNKNOWN"}</td>
+						<td class="ev_title">${ev.title!"UNKNOWN"}</td>
+						<td class="ev_date">${ev.date?datetime}</td>
+					</tr>
+					</#list>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script src="/srv/js/datatables.min.js"></script>
+<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
+
 </@layout.stdpage>
 
