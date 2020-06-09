@@ -227,18 +227,23 @@ public class EventService {
 			
 			// Sets the startDate to the current date
 			if (startDate.equals("now")) 
-				startDate = getDate("now");
+				startDate = currentDate().toString();
 
 			/*
 			 * For events in the last month, sets the startDate to be the current date 
 			 * and sets the endDate to be the timestamp of the current date minus one month.
 			 */
-			else if (startDate.equals("now-1M")) {
+			else if (startDate.contains("M")) {
 
+				
+				int offset = Integer.valueOf(startDate.substring(3, startDate.length() - 1));
+				Timestamp oneMonthBeforeNow = effectiveDate(currentDate(), "month", offset);
 
 				// Sets the strings to be the appropriate date
-				startDate = getDate("now");
-				endDate = getDate("now-1M");
+				startDate = currentDate().toString();
+				endDate = oneMonthBeforeNow.toString();
+				
+				log.debug("YOOOOO"+oneMonthBeforeNow.toString());
 			}
 		}	
 		
@@ -246,19 +251,23 @@ public class EventService {
 			
 			// Sets the endDate to the current date
 			if (endDate.equals("now")) 
-				endDate = getDate("now");
+				endDate = currentDate().toString();
 			
 			/*
 			 * For events in the next month, sets the startDate to be the current date plus one month
 			 * and sets the endDate to be the timestamp of the current date.
 			 */
-			else if (endDate.equals("now+1M")) {
-
+			else if (endDate.contains("M")) {
 				
+			
+		        int offset = Integer.valueOf(endDate.substring(3, endDate.length() - 1));
 
+		
+				Timestamp oneMonthAfterNow = effectiveDate(currentDate(), "month", offset);//new Timestamp(myCal.getTime().getTime());
+				log.debug("YOOOOO"+oneMonthAfterNow.toString());
 				// Sets the strings to be the appropriate date
-				startDate = getDate("now+1M");
-				endDate = getDate("now");			
+				endDate = currentDate().toString();
+				startDate = oneMonthAfterNow.toString();			
 			}
 		}
 		
@@ -269,33 +278,21 @@ public class EventService {
 		return results;
 	}
 	
-	public String getDate(String date) {
+	public Timestamp currentDate() {
+		return new Timestamp(new Date().getTime());	
+	}
+	
+	public Timestamp effectiveDate(Timestamp base, String duration, int offset) {
+		Calendar myCal = Calendar.getInstance();
+		myCal.setTime(base);
 		
-		Timestamp now = new Timestamp(new Date().getTime());	
-		
-		if (date.equals("now")) 
-			return now.toString();
-		
-		else if (date.equals("now-1M")) {
-			// Get the timestamp for one month after the current date
-			Calendar myCal = Calendar.getInstance();
-			myCal.setTime(now); 
-			myCal.add(Calendar.MONTH, -1);
-			Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());
+		if (duration.equalsIgnoreCase("month")) {
+			myCal.add(Calendar.MONTH, offset);
 			
-			return oneMonthBeforeNow.toString();
+			
 		}
 		
-		else if (date.equals("now+1M")) {
-			// Get the timestamp for one month after the current date
-			Calendar myCal = Calendar.getInstance();
-			myCal.setTime(now); 
-			myCal.add(Calendar.MONTH, 1);
-			Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());
-			
-			return oneMonthAfterNow.toString();
-		}
-		return "";
+		return new Timestamp(myCal.getTime().getTime());
 	}
 	
 }
