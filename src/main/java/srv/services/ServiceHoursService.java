@@ -4,54 +4,59 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import srv.domain.event.Event;
 import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.hours.ServiceHours;
+import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
+import org.slf4j.LoggerFactory;
 
-
-
+@Service
 public class ServiceHoursService {
 	
-	public List<ServiceHours> hrs = new ArrayList<ServiceHours>();
+	private static org.slf4j.Logger log = LoggerFactory.getLogger(ServiceHoursService.class);
+	
+	public List<ServiceHours> hrs;
 	
 	//autowire
 	@Autowired
-	JdbcTemplateServiceHoursDao serviceHoursDao; 
+	ServiceHoursDao sHoursDao; 
 	
 	
+	/**
+	 * No argument default constructor that initializes an empty arraylist
+	 * of ServiceHours
+	 */
 	public ServiceHoursService() {
-		initialize();
+		
+	hrs = new ArrayList<ServiceHours>();
+	
 	}
 	
-	public void initialize() {
-		ServiceHours a = new ServiceHours()
-				.setShid(1)
-				.setEvent(new Event().setTitle("Spending Time with Toys for Tots"))
-				.setHours(6.0)
-				.setStatus("Approved");
-		ServiceHours b = new ServiceHours()
-				.setShid(2)
-				.setEvent(new Event().setTitle("Teaching Part Time"))
-				.setHours(2.0)
-				.setStatus("Pending");
-		ServiceHours c = new ServiceHours()
-				.setShid(3)
-				.setEvent(new Event().setTitle("Working with Food House"))
-				.setHours(4.0)
-				.setStatus("Rejected");
-		ServiceHours d = new ServiceHours()
-				.setShid(4)
-				.setEvent(new Event().setTitle("Volunteering at Service Station"))
-				.setHours(2.0)
-				.setStatus("Pending");
+	/**
+	 * Populates a list of ServiceHours using the ServiceHours DAO to retrieve the data.
+	 * Throws an exception if there is an issue with the DAO.
+	 */
+	public void initialize() throws Exception {
 		
-		hrs.add(a);
-		hrs.add(b);
-		hrs.add(c);
-		hrs.add(d);
+		hrs = sHoursDao.listAll();
+		/*
+		 * ServiceHours a = new ServiceHours() .setShid(1) .setEvent(new
+		 * Event().setTitle("Spending Time with Toys for Tots")) .setHours(6.0)
+		 * .setStatus("Approved"); ServiceHours b = new ServiceHours() .setShid(2)
+		 * .setEvent(new Event().setTitle("Teaching Part Time")) .setHours(2.0)
+		 * .setStatus("Pending"); ServiceHours c = new ServiceHours() .setShid(3)
+		 * .setEvent(new Event().setTitle("Working with Food House")) .setHours(4.0)
+		 * .setStatus("Rejected"); ServiceHours d = new ServiceHours() .setShid(4)
+		 * .setEvent(new Event().setTitle("Volunteering at Service Station"))
+		 * .setHours(2.0) .setStatus("Pending");
+		 * 
+		 * hrs.add(a); hrs.add(b); hrs.add(c); hrs.add(d);
+		 */
 	}
 	
 	public List<ServiceHours> listHours(){	return hrs;}
