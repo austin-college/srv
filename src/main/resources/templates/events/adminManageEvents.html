@@ -28,7 +28,7 @@
 		</div>
 		
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
-		<div class=col>
+		<div class="col">
 			<!-- Events table -->
 			<table id="tblEvents"
 				class="table table-striped table-bordered table-sm" cellspacing="0"
@@ -48,29 +48,29 @@
 				<tbody>
 					<#list events as ev>
 					<tr id="eid-${ev.eid?c}">
-						<td class='ev_id'>${ev.eid!"UNKNOWN"}</td>
-						<td class='ev_title'>${ev.title!"UNKNOWN"}</td>
-						<td class='ev_type'>${ev.type.name!"UNKNOWN"}</td>
-						<td class='ev_contact' eid="${ev.eid?c}"><#if ev.contact??>
+						<td class="ev_id">${ev.eid!"UNKNOWN"}</td>
+						<td class="ev_title">${ev.title!"UNKNOWN"}</td>
+						<td class="ev_type">${ev.type.name!"UNKNOWN"}</td>
+						<td class="ev_contact" eid="${ev.eid?c}"><#if ev.contact??>
 					${ev.contact.fullName()!"UNKNOWN"}
 					<#else>
 					None
 					</#if>
 					</td>
-						<td class='ev_date'>${ev.date?datetime}</td>
+					<td class="ev_date">${ev.date?datetime}</td>
 
-						<!--action buttons-->
-						<td>
-							<button class="btn edit btnEvEdit" eid="${ev.eid?c}">
-								<i class="fas fa-pencil-alt"></i>
-							</button>
-							<button class="btn edit btnEvView" eid="${ev.eid?c}">
-								<i class="fas fa-search"></i>
-							</button>
-							<button class="btn edit btnEvDel" eid="${ev.eid?c}">
-								<i class="far fa-trash-alt"></i>
-							</button>
-						</td>
+					<!--action buttons-->
+					<td class="evActions">
+						<button class="btn edit btnEvEdit" eid="${ev.eid?c}">
+							<i class="fas fa-pencil-alt"></i>
+						</button>
+						<button class="btn edit btnEvView" eid="${ev.eid?c}">
+							<i class="fas fa-search"></i>
+						</button>
+						<button class="btn edit btnEvDel" eid="${ev.eid?c}">
+							<i class="far fa-trash-alt"></i>
+						</button>
+					</td>
 
 					</tr>
 					</#list>
@@ -88,17 +88,18 @@
 				class="icon-trash icon-large"></i> Back
 			</a>
 		</div>
-	</div>
 
 	<!-- The div below defines the delete dialog.  It is hidden and exposed when needed -->
 	<div id="dlgDelete" title="DELETE SELECTED EVENT"
 		class="ui-widget delWid" style="display: none">
 		<p id="del_confirm">
 			Are you sure you want to delete this event? <br />
+		</p>
+		
 		<div id="delEvId">id</div>
 		<div id="delEvTitle">title</div>
 		<div id="delEvDate">date</div>
-		</p>
+		
 	</div>
 
 	<div id="dlgView" title="EVENT DETAILS" class="ui-widget"
@@ -113,17 +114,15 @@
 
 	<div id="dlgNewEvent" title="CREATE NEW EVENT" class="ui-widget"
 		style="display: none">
-		<p>
+
 			Select Event Type: <select id="evType" name="evtype">
 				<#list evtypes as et>
 				<option value="${et.etid}">(${et.name}) ${et.description}</option>
 				</#list>
 			</select>
-
-		</p>
 	</div>
 	<!-- JavaScript file that will allow us to sort the table columns -->
 	<script src="/srv/js/datatables.min.js"></script>
-		<link rel="stylesheet" href="/srv/css_style/datatables.min.css">
-
+	<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
+		
 	</@layout.stdpage>

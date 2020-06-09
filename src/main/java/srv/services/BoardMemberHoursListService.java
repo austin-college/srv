@@ -5,19 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
-import srv.domain.serviceclient.ServiceClient;
-import srv.domain.serviceclient.ServiceClientDao;
-import srv.domain.contact.Contact;
 import srv.domain.event.Event;
-import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
-import srv.domain.user.ServantUser;
-import srv.domain.user.User;
-import srv.domain.user.UserDao;
+import srv.domain.serviceclient.ServiceClient;
 /*TODO Need to check above imports and make sure they are all useful or removed. (Previously HardCoded examples used some)*/
 /**
  * BoardMemberHoursListService populates a list of all 

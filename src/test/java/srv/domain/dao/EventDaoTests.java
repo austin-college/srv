@@ -19,7 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.domain.event.Event;
 import srv.domain.event.EventDao;
-import srv.domain.event.eventparticipant.EventParticipant;
 
 /**
  * NOTE: these tests have been made without the implementation of the EventType dao. 

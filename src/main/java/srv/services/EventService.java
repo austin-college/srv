@@ -46,7 +46,9 @@ public class EventService {
 	 */
 	public Event eventById(int eid) throws Exception {
 
-		assert(eid > 0);
+		if (eid <= 0) {
+			throw new Exception(String.format("Invalid event id [%d]",eid));
+		}
 		
 		return eventDao.fetchEventById(eid);
 	}
@@ -64,10 +66,15 @@ public class EventService {
 	 */
 	public Event createEventOfType(int eventTypeId) throws Exception {
 		
+		if (eventTypeId <= 0) {
+			throw new Exception(String.format("Invalid event type id [%d]",eventTypeId));
+		}
+		
 		/*
 		 * Create a default dummy event
 		 */
-		Event ne = eventDao.create("new event", 
+		Event ne = eventDao.create(
+				"new event", 
 				"location", 
 				null,  // no contact id yet
 				new java.util.Date(),
@@ -95,6 +102,10 @@ public class EventService {
 	public void deleteEvent(int eventId) throws Exception {
 		
 		log.debug("deleting item {}", eventId);
+		
+		if (eventId <= 0) {
+			throw new Exception(String.format("Invalid event id [%d]",eventId));
+		}
 		
 		// TODO  what should we do with all logged hours that
 		// refer to this event?
@@ -145,12 +156,13 @@ public class EventService {
 	 */
 	public Event updateEvent(Event ev) throws Exception {
 		
-		if (ev == null) return null;
+		if (ev == null) return null; // do nothing / return nothing
 		
 		
 		log.debug("updating event {}", ev.getEid());
 		
-		eventDao.update(ev.getEid(), 
+		eventDao.update(
+				    ev.getEid(), 
 					ev.getTitle(),
 					ev.getAddress(),
 					

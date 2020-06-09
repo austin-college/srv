@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.eventype.EventType;
-import srv.domain.event.eventype.EventTypeDao;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.user.JdbcTemplateUserDao;

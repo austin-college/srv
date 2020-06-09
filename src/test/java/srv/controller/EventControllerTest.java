@@ -1,26 +1,20 @@
 package srv.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.net.ssl.SSLEngineResult.Status;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,18 +23,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.servlet.ModelAndView;
 
 import srv.config.WebSecurityConfig;
 import srv.controllers.EventController;
-import srv.controllers.ServiceClientController;
 import srv.domain.contact.Contact;
-import srv.domain.contact.ContactDao;
 import srv.domain.event.Event;
-import srv.domain.event.EventDao;
 import srv.domain.event.eventype.EventType;
-import srv.domain.serviceclient.ServiceClient;
-import srv.domain.serviceclient.ServiceClientDao;
 import srv.services.EventService;
 import srv.utils.UserUtil;
 
@@ -64,6 +52,10 @@ public class EventControllerTest {
 	
 	private List<Event> testEvents = new ArrayList<Event>();		
 	private List<EventType> testTypes = new ArrayList<EventType>();
+
+	private Event e1;
+
+	private Event e2;
 
 	
 	/**
@@ -91,32 +83,28 @@ public class EventControllerTest {
 				.setDefClient(null)
 				.setPinHours(false);
 		
-		Event e1 = new Event()
+		e1 = new Event()
 				.setEid(1)
 				.setTitle("gds 2020")
 				.setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
 				.setContact(new Contact()
+						.setFirstName("Rusty")
+						.setLastName("Buckle")
 						.setContactId(1)
 						.setEmail("rbuckle@helpful.org")
+						.setPhoneNumMobile("903-813-5555")
 						.setCity("Sherman")
 						);
 		
-		Event e2 = new Event()
+		e2 = new Event()
 				.setEid(2)
 				.setTitle("fws 2020")
 				.setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
-				.setContact(new Contact()
-						.setContactId(2)
-						.setEmail("jsmith@austincollege.edu")
-						.setCity("Sherman")
-						.setState("TX")
-						.setFirstName("Jane")
-						.setLastName("Smith")
-						);
+				.setContact(null);
 		
 		
 		
@@ -128,51 +116,71 @@ public class EventControllerTest {
 		
 	}
 
+	private String dquote(String anyStr) {
+		if (anyStr == null) return null;
+		return anyStr.replaceAll("[']", "\"");
+	}
+	
+	@Test
+	public void test_replace_single_quotes_function() {
+		String str = "tr/td[@id='xyz']";
+		System.err.println(dquote(str));
+		assertEquals("tr/td[@id=\"xyz\"]",dquote(str));
+	}
+	
+	
+	/**
+	 * Make sure the base page shows a table of 2 events with buttons
+	 * to allow the user to create a new event.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	@WithMockUser(username = "admin", password = "admin")
 	public void basicBasePageTest() throws Exception {
 		
-
-		
-		when(userUtil.userIsAdmin()).thenReturn(true);
-
 		Mockito.when(mockService.allEvents()).thenReturn(testEvents);
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
-		
 
-		// now perform the test ... should contain rows <tr id="eid-${ev.eid?c}">
-
-		// http://hamcrest.org/JavaHamcrest/javadoc/2.1/org/hamcrest/Matchers.html
-		
 		mvc.perform(get("/events")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
 			
-			// there's a row in our table for the first event
-			.andExpect(content()
-					.string(containsString("<tr id=\"eid-1\">")))
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
-			// and is should contain a data cell for matching the first event id
-			.andExpect(content()
-					.string(containsString("<td class='ev_id'>1</td>")))
+			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
 			
-			// and is should contain a data cell matching the the title of the first event
-			.andExpect(content()
-					.string(containsString("<td class='ev_title'>gds 2020</td>")))
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
 			
-			// there's a row in our table for the second event
-			.andExpect(content()
-					.string(containsString("<tr id=\"eid-2\">")))
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+
 			
-			// and is should contain a data cell for matching the second event id
-			.andExpect(content()
-					.string(containsString("<td class='ev_id'>2</td>")))
+			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+
+			// and that second event better handle null contact just fine... ignoring extra white space around.
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
 			
-			// and is should contain a data cell matching the the title of the second event
-			.andExpect(content()
-					.string(containsString("<td class='ev_title'>fws 2020</td>")))
 			
-		
+			
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
 			;
 		
 		
@@ -182,64 +190,195 @@ public class EventControllerTest {
 	
 	
 	
-//	//credit to Professor Higgs here for this test
-//	@Test
-//    @WithMockUser(username = "admin", password = "admin")
-//    public void ajaxAddSerciceClientTest() throws Exception {
-//
-//        
-//         when(userUtil.userIsAdmin()).thenReturn(true);
-//
-//        
-//         /*
-//         * prepare dummy client obj
-//         */
-//         String clientName = "Habitat for Humanity";
-//         int cid1 = 1; 
-//         String bmName = "Billy Bob";
-//         String category = "Community";
-//        
-//         ServiceClient sc1 = new ServiceClient()
-//                  .setClientId(cid1)
-//                  .setName(clientName)
-//                  .setBoardMember(bmName)
-//                  .setCategory(category);
-//
-//        
-//         // when the controller asks the dao to create a client in the database, we 
-//         // fake it and use our dummy client above (sc1)
-//         Mockito.when(dao.create(clientName, cid1, -1, bmName, category) ).thenReturn(sc1);
-//
-//         // now perform the test...pretend that jquery sends in the parameters for a new
-//         // client...  Our mock dao is trained to return a dummy service client (above)
-//         // we should see an HTML table row return.
-//        
-//         mvc.perform(post("/ajax/addSc")
-//                  .param("clientName", clientName)
-//                  .param("mcID", String.valueOf(cid1))
-//                  .param("ocID", String.valueOf("-1"))
-//                  .param("bmName", bmName)
-//                  .param("cat",category)
-//                 
-//                  .contentType(MediaType.TEXT_HTML))
-//        
-//                  .andExpect(status().isOk())
-//                 
-//                  // it should be a table row tagged with right id.
-//                  .andExpect(content().string(containsString("<tr id=\"scid-1\">")))
-//                 
-//                  // it should have the client's name
-//                  .andExpect(content().string(containsString(clientName)))
-//                 
-//                  // other expectations here...
-//                  ;
-//        
-//
-//    }
-	
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void ajaxDeleteEventTest_whenEventExists() throws Exception {
+        
+		 // for this test, our service will pretend to delete
 
+		Mockito.doNothing().when(mockService).deleteEvent(1);
+		
+		 
+         mvc.perform(post("/events/ajax/del/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(content().string(containsString("1")))
+                 
+                  // other expectations here...
+                  ;
+        
+         Mockito.verify(mockService).deleteEvent(1);
+       
+    }
+	
+	/**
+	 * Test how our controller responds when an exception is thrown.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void ajaxDeleteEventTest_whenEventMissing() throws Exception {
+        
+		// for this test, our service will throw an exception like we might
+		// see if the database could not delete
+		Mockito.doThrow(Exception.class) .when(mockService).deleteEvent(1);
+				
+		 
+		// let's test....
+         mvc.perform(post("/events/ajax/del/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().is4xxClientError())
+                  ;
+
+                  
+         // did the mock object get tickled appropriately
+         Mockito.verify(mockService).deleteEvent(1);
+       
+    }
 	
 	
 	
+	/**
+	 * Test that the controller returns HTML to present the events contact
+	 * info.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxEventContact_whenContactExists() throws Exception {
+        
+
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(get("/events/ajax/event/1/contact")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(
+                 
+                  xpath(dquote("//div[@id='evContactDiv']")).exists()
+                  
+                  )
+                  
+                  .andExpect(content().string(containsString("Rusty Buckle")))
+                  .andExpect(content().string(containsString("work: unknown")))
+                  .andExpect(content().string(containsString("mobile: 903-813-5555")))
+         		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
+         
+                  // other expectations here...
+                  
+        
+         Mockito.verify(mockService).eventById(1);
+       
+    }
+	
+	
+	/**
+	 * Also test that the controller handles the case when the event's contact
+	 * information is missing.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxEventContact_whenContactMissing() throws Exception {
+        
+		 
+		e1.setContact(null);
+		
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(get("/events/ajax/event/1/contact")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(
+                 
+                  xpath(dquote("//div[@id='evContactDiv']")).exists()
+                  
+                  )
+                  .andExpect(content().string(containsString("Missing Contact")));
+         
+                  // other expectations here...
+                  
+        
+         Mockito.verify(mockService).eventById(1);
+       
+    }
+	
+	
+	/**
+	 * Make sure the controller is creating a new event of a specified type when
+	 * asked.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxNewEvent() throws Exception {
+        
+
+		 Mockito.when(mockService.createEventOfType(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(post("/events/ajax/new/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(content().string(containsString("1")));
+
+         
+                  // other expectations here...
+                  
+        
+         Mockito.verify(mockService).createEventOfType(1);
+       
+    }
+	
+	
+	/**
+	 * Make sure the controller is handling the case where the event type
+	 * is invalid (the service throws an exception). 
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxNewEvent_whenExceptionThrown() throws Exception {
+        
+
+		// for this test, our service will throw an exception like we might
+		// see if the database could not delete
+		Mockito.doThrow(Exception.class) .when(mockService).createEventOfType(Mockito.anyInt());
+		
+		 // ready to test....
+         mvc.perform(post("/events/ajax/new/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+         		  .andExpect(status().is4xxClientError());
+        
+         Mockito.verify(mockService).createEventOfType(1);
+       
+    }
 
 }

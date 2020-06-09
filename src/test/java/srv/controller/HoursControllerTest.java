@@ -1,8 +1,6 @@
 package srv.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,14 +19,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import srv.controllers.HoursController;
-import srv.controllers.ServiceClientController;
-import srv.domain.contact.ContactDao;
 import srv.domain.event.Event;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
-import srv.domain.serviceclient.ServiceClient;
-import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
 
@@ -56,8 +50,8 @@ public class HoursControllerTest {
 	public void basicHtmlPageTest() throws Exception {
 		
 		// train the dao to ask for these when asked to listAll reasons.
-		ServiceHours h1 = new ServiceHours().setShid(1).setEvent(new Event().setTitle("Spending Time with Toys for Tots")).setHours(6);
-		ServiceHours h2 = new ServiceHours().setShid(2).setEvent(new Event().setTitle("Teaching Part Time")).setHours(2);
+		ServiceHours h1 = new ServiceHours().setShid(1).setEvent(new Event().setTitle("Spending Time with Toys for Tots")).setHours((double) 6);
+		ServiceHours h2 = new ServiceHours().setShid(2).setEvent(new Event().setTitle("Teaching Part Time")).setHours((double) 2);
 
 		List<ServiceHours> dummyList = new ArrayList<ServiceHours>();
 		dummyList.add(h1);

@@ -87,8 +87,8 @@ $(document).ready(function() {
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen: false,
-		height: 350,
-		width: 400,
+		width: $(window).width() * 0.5,
+		height: $(window).height() * 0.1,
 		position: {
 			  my: "center top",
 			  at: "center top",
@@ -139,7 +139,7 @@ $(document).ready(function() {
 		position: {
 			  my: "center top",
 			  at: "center top",
-			  of: "#srv-page"
+			  of: window
 			},
 		show: { effect: "blind", duration: 500 },
 		open: function(event, ui) {
@@ -160,12 +160,12 @@ $(document).ready(function() {
 	 $("#editDlg").dialog({
 		 autoOpen: false,
 		 width: $(window).width() * 0.8,
-		 height: $(window).height() * 0.3,
+		 height: $(window).height() * 0.2,
          modal: true,
 	 		position: {
 				  my: "center top",
 				  at: "center top",
-				  of: "#srv-page"
+				  of: window
 				},
 		 show: { effect: "blind", duration: 500 },				
 	     open: function(event, ui) {  
@@ -215,9 +215,14 @@ $(document).ready(function() {
 		});
 	 $("#etDlg").dialog({
 		 autoOpen: false,
-		 height: 500,
-		 width: 700,
+		 width: $(window).width() * 0.6,
+		 height: $(window).height() * 0.3,
 		 modal: true,
+		 position: {
+			  my: "center top",
+			  at: "center top",
+			  of: window
+			},
 		 open: function(event, ui) {			
 			 console.log("boop");	
 		 },

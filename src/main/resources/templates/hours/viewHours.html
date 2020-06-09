@@ -235,44 +235,82 @@
 						<hr class=".col-md-11-auto">
 					</div>
 				</div>
-				<div class="row">
-					<div class='col'>
-						<label for="editDlg_eventName"><b>Name of Event:</b></label> <input
-							type="text" id="editDlg_eventName" value=${eventName!"UNKNOWN"}  size="30">
-					</div>
-					<div class='col'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_date"><b>Date of Event (mm/dd/yy):</b></label>
-						<input type='text' id="editDlg_date" value=${date!
-							"03/12/20"}  size='10'>
-					</div>
-				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 				<div class="row">
 					<div class='col'>
 						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_org"><b>Organization:</b></label> <input
-							type='text' id='editDlg_org' value=${org!
-							"Meals_on_Wheels"}  size='30'>
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_eventName"><b>Name of Event:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type="text" id="editDlg_eventName" value=${eventName!"UNKNOWN"}  size="30">
+							</div>
+						</div>
 					</div>
+				</div>
+				<div class="row">
 					<div class='col'>
 						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for='editDlg_hrsServed'><b>Hours Served:</b></label> <input
-							type='text' id="editDlg_hrsServed" value=${hrsServed!
-							"UNKNOWN"}  size='10'>
-
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_date"><b>Date of Event (mm/dd/yy):</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type='text' id="editDlg_date" value=${date!"03/12/20"}  size='10'>
+							</div>
+						</div>
 					</div>
 				</div>
-				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-				<div class='row'>
+				<div class="row">
 					<div class='col'>
-						<label for="editDlg_desc"><b>Description of Event:</b></label> <input
-							type='text' id="editDlg_desc" value=${desc!
-							"Did_miscellaneous_tasks."} size='80'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<div class="row-sm">
+								<div class="col">
+									<label for="editDlg_org"><b>Organization:</b></label> 
+								</div>
+							</div>
+							<div class="row-sm">
+								<div class="col">
+									<input type='text' id='editDlg_org' value=${org!"Meals_on_Wheels"}  size='30'>
+								</div>
+							</div>
 					</div>
 				</div>
-
-
+				<div class="row">
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<div class="row-sm">
+							<div class="col">
+								<label for='editDlg_hrsServed'><b>Hours Served:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type='text' id="editDlg_hrsServed" value=${hrsServed!"UNKNOWN"}  size='10'>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_desc"><b>Description of Event:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type='text' id="editDlg_desc" value=${desc!"Did_miscellaneous_tasks."} size='80'>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class='row'>
 					<div class='col'>
 						<h5>
@@ -282,30 +320,70 @@
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-				<div class='row'>
+				<div class="row">
 					<div class='col'>
 						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_address"><b>Address:</b></label> <input
-							type="text" id="editDlg_address" value=${address! "118 Main
-							Street"} size='15'>
-					</div>
-					<div class='col'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_city"><b>City:</b></label> <input type="text"
-							id="editDlg_city" " value=${city! "Sherman"} size='15'>
-					</div>
-					<div class='col'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_zip"><b>Zip Code:</b></label> <input
-							type="text" id="editDlg_zip" value=${zip! "75090"} size='5'>
-					</div>
-					<div class='col'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_state"><b>State:</b></label> <input
-							type="text" id="editDlg_state" value=${state! "TX"} size='5'>
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_address"><b>Address:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type="text" id="editDlg_address" value=${address! "118 Main
+									Street"} size='15'>	
+							</div>
+						</div>
 					</div>
 				</div>
-
+				<div class="row">
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_city"><b>City:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type="text"
+									id="editDlg_city" " value=${city! "Sherman"} size='15'>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_zip"><b>Zip Code:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input
+									type="text" id="editDlg_zip" value=${zip! "75090"} size='5'>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class='col'>
+						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_state"><b>State:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input
+									type="text" id="editDlg_state" value=${state! "TX"} size='5'>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class='row'>
 					<div class='col'>
 						<h5>
@@ -315,27 +393,54 @@
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-				<div class='row'>
+				<div class="row">
 					<div class='col'>
 						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_contactName"><b>Contact's Name:</b></label> <input
-							type="text" id="editDlg_contactName" value=${conName!"Joe_Smith"}>
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_contactName"><b>Contact's Name:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type="text" id="editDlg_contactName" value=${conName!"Joe_Smith"}>
+							</div>
+						</div>
 					</div>
+				</div>		
+				<div class="row">
 					<div class='col'>
 						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_contactNumber"><b>Contact's Phone
-								Number:</b></label> <input type="text" id="editDlg_contactNumber"
-							" value=${conNumber! "903-331-1241"} size='15'>
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_contactNumber"><b>Contact's Phone
+									Number:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type="text" id="editDlg_contactNumber"
+									" value=${conNumber! "903-331-1241"} size='15'>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class='row'>
+				</div>	
+				<div class="row">
 					<div class='col'>
 						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
-						<input type="text" id="editDlg_contactEmail" value=${conEmail!
-							"randomEmail@gmail.com"}>
+						<div class="row-sm">
+							<div class="col">
+								<label for="editDlg_contactEmail"><b>Contact's Email:</b></label>
+							</div>
+						</div>
+						<div class="row-sm">
+							<div class="col">
+								<input type="text" id="editDlg_contactEmail" value=${conEmail!
+									"randomEmail@gmail.com"}>
+							</div>
+						</div>
 					</div>
-				</div>
+				</div>			
 
 			</div>
 		</div>
