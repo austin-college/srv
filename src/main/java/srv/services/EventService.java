@@ -55,7 +55,9 @@ public class EventService {
 	 */
 	public Event eventById(int eid) throws Exception {
 
-		assert(eid > 0);
+		if (eid <= 0) {
+			throw new Exception(String.format("Invalid event id [%d]",eid));
+		}
 		
 		return eventDao.fetchEventById(eid);
 	}
@@ -73,10 +75,15 @@ public class EventService {
 	 */
 	public Event createEventOfType(int eventTypeId) throws Exception {
 		
+		if (eventTypeId <= 0) {
+			throw new Exception(String.format("Invalid event type id [%d]",eventTypeId));
+		}
+		
 		/*
 		 * Create a default dummy event
 		 */
-		Event ne = eventDao.create("new event", 
+		Event ne = eventDao.create(
+				"new event", 
 				"location", 
 				null,  // no contact id yet
 				new java.util.Date(),

@@ -14,7 +14,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
-import srv.domain.contact.Contact;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.servicegroup.JdbcTemplateServiceGroupDao;

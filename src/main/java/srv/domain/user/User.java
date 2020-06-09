@@ -1,6 +1,5 @@
 package srv.domain.user;
 
-import java.util.ArrayList;
 import java.io.Serializable;
 
 import srv.AppConstants;

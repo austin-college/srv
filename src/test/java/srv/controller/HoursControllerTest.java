@@ -1,8 +1,6 @@
 package srv.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,14 +19,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import srv.controllers.HoursController;
-import srv.controllers.ServiceClientController;
-import srv.domain.contact.ContactDao;
 import srv.domain.event.Event;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
-import srv.domain.serviceclient.ServiceClient;
-import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.ServiceHoursService;
 

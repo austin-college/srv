@@ -2,31 +2,34 @@ package srv.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.io.File;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.SeleniumTest;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AdminAddEventTest extends SeleniumTest {
-
-	@Test
-	public void testRedirectToSplash() throws Exception {
-		driver.get(base + "/");
-
-		assertEquals("Welcome",driver.getTitle());
-		assertEquals(base+"/splash", driver.getCurrentUrl());
-	}
+public class AdminDeleteEventTest extends SeleniumTest {
 
 
 	private void clickAndWaitForPage(WebDriver driver, By by, int waitTime) {
@@ -47,7 +50,7 @@ public class AdminAddEventTest extends SeleniumTest {
 
 
 	@Test
-	public void testAdminAddEvent() throws Exception {
+	public void testAdminDeleteEvent() throws Exception {
 
 		driver.get(base + "/splash");
 
@@ -111,68 +114,51 @@ public class AdminAddEventTest extends SeleniumTest {
 		link.click();
 
 		assertEquals(base+"/events", driver.getCurrentUrl());
-		
+
 		/*
-		 * opens up the creation of a new event
+		 * stores the title of the event that will be deleted
+		 * for testing purposes
 		 */
-		
-		link = driver.findElement(By.id("btnEvNew")); 
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+//		Thread.sleep(2000);
+		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
+
+		/*
+		 * clicks on the button to delete the first event in the list
+		 */
+
+		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvDel']")); 
 		link.click();
-		
+
 		Thread.sleep(2000);
-		
+
 		//this checks the dialog box to see if its visible
-		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed());
+		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-1']")).isDisplayed());
 
 		/*
-		 * clicks on the combo box to open a list of options
+		 * clicks on the confirm delete button
 		 */
-		link = driver.findElement(By.id("evType"));
-		link.click();
-		
-		/*
-		 * selects option 2
-		 * "(fws) First We Serve"
-		 */
-		Select selector = new Select(driver.findElement(By.id("evType")));
-		selector.selectByIndex(1);
-		
-		//checks to see if the correct option is displayed
-		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
-		
-		
-		/*
-		 * finds the add new button and clicks it
-		 */
-		link = driver.findElement(By.className("newBtnClass"));
+
+		link = driver.findElement(By.xpath("//div/div/div/button[@class='delBtnClass']"));
 		link.click();
 		
 		Thread.sleep(2000);
 		
+		//checks to see if the element is no longer visible
+		assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).size() == 0);
 
 		/*
-		 * should lead us to the edit event page
+		 * clicks on the log out button
 		 */
-		assertEquals(base+"/events/edit/6", driver.getCurrentUrl());
-		
-		/*
-		 * inputs a name into event title
-		 */
-		WebElement addName = driver.findElement(By.id("evTitle"));
-		addName.click();
-		addName.clear();
-		addName.sendKeys("testedEvent");
-		
-		//tests if the correct text is displayed
-		assertEquals("testedEvent", addName.getAttribute("value") );
-		
-		/*
-		 * finds the submit button and submits the information
-		 */
-		
-		link = driver.findElement(By.className("btn-primary"));
+		link = driver.findElement(By.xpath("//div/a[@href='/srv/logout']"));
 		link.click();
 		
+		 assertEquals(base+"/splash", driver.getCurrentUrl());
+
 	}
 
 }
