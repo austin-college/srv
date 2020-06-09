@@ -5,7 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -297,5 +299,34 @@ public class EventServiceTests {
 		
 	}
 
+//	@Test
+//	public void test() throws Exception {
+//
+//		List<Event> list = new ArrayList<Event>();
+//		list.add(e1); list.add(e2);
+//		
+//		Mockito.when(eventDao.listByFilter(null, null, null, null, null)).thenReturn(list);
+//		
+//		List<Event> newList = srv.filteredEvents(null, null, null, null, null);
+//		
+//		Mockito.verify(eventDao).listByFilter(null, null, null, null, null);		
+//	}
+//	
+//	@Test
+//	public void test2() throws Exception {
+//
+//		List<Event> list = new ArrayList<Event>();
+//		list.add(e1); list.add(e2);
+//		
+//		// Get string of current date
+//		String now = new Timestamp(new Date().getTime()).toString();	
+//		
+//		Mockito.when(eventDao.listByFilter(now, null, null, null, null)).thenReturn(list);
+//		srv.filteredEvents("now", null, null, null, null);
+//		
+//		List<Event> newList = srv.allEvents();
+//
+//		Mockito.verify(eventDao).listAll();		
+//	}
 	
 }

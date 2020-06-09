@@ -223,12 +223,11 @@ public class EventService {
 	
 	public List<Event> filteredEvents(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
 		
-		Timestamp now = new Timestamp(new Date().getTime());	
-		
-		if (startDate != null || endDate != null) {
+		if (startDate != null) {
+			
 			// Sets the startDate to the current date
 			if (startDate.equals("now")) 
-				startDate = now.toString();
+				startDate = getDate("now");
 
 			/*
 			 * For events in the last month, sets the startDate to be the current date 
@@ -243,15 +242,17 @@ public class EventService {
 				Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());
 
 				// Sets the strings to be the appropriate date
-				startDate = now.toString();
+				startDate = getDate("now");
 				endDate = oneMonthBeforeNow.toString();
 			}
-
+		}	
+		
+		if (endDate != null) {
+			
 			// Sets the endDate to the current date
-			else if (endDate.equals("now")) {
-				endDate = now.toString();
-			}
-
+			if (endDate.equals("now")) 
+				endDate = getDate("now");
+			
 			/*
 			 * For events in the next month, sets the startDate to be the current date plus one month
 			 * and sets the endDate to be the timestamp of the current date.
@@ -266,7 +267,7 @@ public class EventService {
 
 				// Sets the strings to be the appropriate date
 				startDate = oneMonthAfterNow.toString();
-				endDate = now.toString();			
+				endDate = getDate("now");			
 			}
 		}
 		
@@ -277,5 +278,14 @@ public class EventService {
 		return results;
 	}
 	
+	public String getDate(String current) {
+		
+		Timestamp now = new Timestamp(new Date().getTime());	
+		
+		if (current.equals("now")) 
+			return now.toString();
+		
+		return "";
+	}
 	
 }

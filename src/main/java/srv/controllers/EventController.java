@@ -48,12 +48,15 @@ public class EventController {
 	 * @param response
 	 * @param before 	query parameter for filtering events before current date
 	 * @param after 	query parameter for filtering events after current date
+	 * @param eType		query parameter for filtering events by event type
+	 * @param sc		query parameter for filtering events by service client
+	 * @param bm		query parameter for filtering events by board member
 	 * @return
 	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("events")
 	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String before,  @RequestParam(required = false) String after,
-			@RequestParam(required = false) String eType, @RequestParam(required = false) String sc) {
+			@RequestParam(required = false) String eType, @RequestParam(required = false) String sc, @RequestParam(required = false) String bm) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");
 				
@@ -63,87 +66,56 @@ public class EventController {
 			List<EventType> types = eventService.allEventTypes();
 			List<ServiceClient> clients = eventService.allServiceClients();
 			List<User> boardMembers = eventService.allBoardMembers();
-
-			// Lists events before current date
-			if (before != null) {
-				myEvents = eventService.filteredEvents(before, null, null, null, null);
-											
-				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
-				mav.addObject("afterSelected", 0); // turns the toggle button for after off
-				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("selectedEtid", 0);
-				mav.addObject("selectedScid", 0);
-
-
-				/*
-				 * Turns the toggle switches on based on what toggle is selected
-				 */
-				if (before.equals("now")) 
-					mav.addObject("beforeSelected", 1); // turns the toggle button for before on
-				else if (before.equals("now-1M")) 
-					mav.addObject("lastMonthSelected", 1); // turns the toggle button for last month off
-				else if (before.equals("now+1M"))
-					mav.addObject("nextMonthSelected", 1); // turns the toggle button for last month on
-							
-			}
 			
-			// Lists events after current date
-			else if (after != null) {
-				myEvents = eventService.filteredEvents(null, after, null, null, null);
-				
-				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
-				mav.addObject("afterSelected", 1); // turns the toggle button for after on
-				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("selectedEtid", 0);
-				mav.addObject("selectedScid", 0);
-
-
-			}
-			
-			// Lists events by the specified event type id
-			else if (eType != null && Integer.valueOf(eType) != 0) {
-				myEvents = eventService.filteredEvents(null, null, Integer.valueOf(eType), null, null);
-				
-				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
-				mav.addObject("afterSelected", 0); // turns the toggle button for after off
-				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("selectedEtid", Integer.valueOf(eType));
-				mav.addObject("selectedScid", 0);
-
-			}
-			
-			// Lists events by the specified service client id
-			else if (sc != null && Integer.valueOf(sc) != 0) {
-				myEvents = eventService.filteredEvents(null, null, null, Integer.valueOf(sc), null);
-				
-				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
-				mav.addObject("afterSelected", 0); // turns the toggle button for after off
-				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("selectedEtid", 0);
-				mav.addObject("selectedScid", Integer.valueOf(sc));
-				
-			}
-			else {
-				// Lists the current events in the event database in a table
-				myEvents = eventService.allEvents();
-			
-				mav.addObject("beforeSelected", 0); // turns the toggle button for before off
-				mav.addObject("afterSelected", 0); // turns the toggle button for after off
-				mav.addObject("lastMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("nextMonthSelected", 0); // turns the toggle button for last month off
-				mav.addObject("selectedEtid", 0);
-				mav.addObject("selectedScid", 0);
-
-			}
-			
-			mav.addObject("events", myEvents);
 			mav.addObject("evtypes", types);
 			mav.addObject("sClients", clients);
 			mav.addObject("users", boardMembers);
+			
+			String beforeP = null;
+			String afterP = null;
+			Integer eTypeP = null;
+			Integer scP = null;
+			Integer bmP = null;
+			
+			mav.addObject("beforeSelected", 0); // turns the toggle button for before off
+			mav.addObject("afterSelected", 0); // turns the toggle button for after off
+			mav.addObject("monthSelected", 0); // turns the toggle button for last month off
+			mav.addObject("selectedEtid", 0); // sets the combo box for event types to 'List All' 
+			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
+		
+			if (before != null) {
+				beforeP = before;
+				mav.addObject("beforeSelected", 1);
+				if (before.equals("now-1M"))
+					mav.addObject("monthSelected", 1);
+			}
+			
+			if (after != null) {
+				afterP = after;
+				mav.addObject("afterSelected", 1);
+				if (after.equals("now+1M"))
+					mav.addObject("monthSelected", 1);
+			}
+			
+			if (eType != null) {
+				eTypeP = Integer.valueOf(eType);
+				mav.addObject("selectedEtid", Integer.valueOf(eType));
+			}
+			
+			if (sc != null) {
+				scP = Integer.valueOf(sc);
+				mav.addObject("selectedScid", Integer.valueOf(sc));
+			}
+			
+			// TODO needs board member dao support before this to work
+			if (bm != null) {
+				bmP = Integer.valueOf(bm);
+				mav.addObject("selectedBmid", Integer.valueOf(bm));
+			}
+			
+			myEvents = eventService.filteredEvents(beforeP, afterP, eTypeP, scP, bmP);			
+
+			mav.addObject("events", myEvents);
 
 		} catch (Exception e) {
 

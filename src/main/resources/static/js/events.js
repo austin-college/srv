@@ -5,6 +5,246 @@ function onNewClick() {
 	$("#dlgNewEvent").dialog("open");
 }
 
+/*
+ * Resets the url to be /srv/events without query parameters. 
+ * Occurs when 'Clear All Filters' button is selected.
+ */
+function baseUrl() {
+	location.href = location.href.split('?')[0];
+}
+
+function removeQueryUrl(filter) {
+	
+	var newUrl = location.href;
+	var currentUrlArray = location.href.split(/[\&,?]+/);
+	
+	console.log(currentUrlArray.length);
+	
+	if (filter == 'beforeToggle') {	
+		
+		if (newUrl.includes("before=now-1M")) {
+		
+			if (currentUrlArray.length == 2)
+				newUrl = newUrl.replace('?before=now-1M', "");
+			else if (currentUrlArray[1] == "before=now-1M")
+				newUrl = newUrl.replace('before=now-1M&', "");
+			else
+				newUrl = newUrl.replace('&before=now-1M', "");	
+			
+		}
+		
+		else {
+			
+			if (currentUrlArray.length == 2)
+				newUrl = newUrl.replace('?before=now', "");
+			else if (currentUrlArray[1] == "before=now")
+				newUrl = newUrl.replace('before=now&', "");
+			else
+				newUrl = newUrl.replace('&before=now', "");
+		}
+	}
+	
+	else if (filter == 'afterToggle') {
+	
+		if (newUrl.includes("after=now%2B1M")) {
+	
+			if (currentUrlArray.length == 2)
+				newUrl = newUrl.replace('?after=now%2B1M', "");
+			else if (currentUrlArray[1] == "after=now%2B1M")
+				newUrl = newUrl.replace('after=now%2B1M&', "");
+			else
+				newUrl = newUrl.replace('&after=now%2B1M', "");				
+		}
+		
+		else {
+
+			if (currentUrlArray.length == 2)
+				newUrl = newUrl.replace('?after=now', "");
+			else if (currentUrlArray[1] == "after=now")
+				newUrl = newUrl.replace('after=now&', "");
+			else
+				newUrl = newUrl.replace('&after=now', "");
+		}
+	}
+	
+	else if (filter == 'oneMonthBeforeToggle') {
+		if (currentUrlArray.length == 2)
+			newUrl = newUrl.replace('?before=now-1M', "?before=now");
+		else if (currentUrlArray[1] == "before=now-1M")
+			newUrl = newUrl.replace('before=now-1M&', "before=now&");
+		else
+			newUrl = newUrl.replace('&before=now-1M', "&before=now");	
+	}
+	
+	else if (filter == 'oneMonthAfterToggle') {
+		if (currentUrlArray.length == 2)
+			newUrl = newUrl.replace('?after=now%2B1M', "?after=now");
+		else if (currentUrlArray[1] == "after=now%2B1M")
+			newUrl = newUrl.replace('after=now2%B1M&', "after=now&");
+		else
+			newUrl = newUrl.replace('&after=now%2B1M', "&after=now");	
+	}
+	
+	else if (filter == 'eTypeComboBox') {
+		
+		deleteQuery = findQuery(currentUrlArray, 1);
+		
+		if (currentUrlArray.length == 2)
+			newUrl = newUrl.replace('?' + deleteQuery, "");
+		else if (currentUrlArray[1].includes('?eType='))
+			newUrl = newUrl.replace(deleteQuery + '&', "");
+		else
+			newUrl = newUrl.replace('&' + deleteQuery, "");	
+	}
+
+	else if (filter == 'scComboBox') {
+		
+		deleteQuery = findQuery(currentUrlArray, 2);
+
+		if (currentUrlArray.length == 2)
+			newUrl = newUrl.replace('?' + deleteQuery, "");
+		else if (currentUrlArray[1].includes('?sc='))
+			newUrl = newUrl.replace(deleteQuery + '&', "");
+		else
+			newUrl = newUrl.replace('&' + deleteQuery, "");	
+	}
+	
+	console.log(newUrl);
+	
+	location.href = newUrl;
+	
+}
+
+function findQuery(urlArray, flag) {
+	
+	var query;
+	
+	for (var index = 0; index < urlArray.length; index++) {
+		
+		if(flag == 1) {
+			if (urlArray[index].includes("eType="))
+				query = urlArray[index];
+		}
+		
+		else if (flag == 2) {
+			if (urlArray[index].includes("sc="))
+				query = urlArray[index];
+		}
+		
+		else if (flag == 3) {
+			if (urlArray[index].includes("before="))
+				query = urlArray[index];
+		}
+		
+		else if (flag == 4) {
+			if (urlArray[index].includes("after="))
+				query = urlArray[index];		
+		}	
+	}
+	
+	return query;
+}
+
+function urlContains(filter, url, comboBoxSelectedId) {
+	
+	comboBoxSelectedId = comboBoxSelectedId || -1; 
+	contains = false;
+	
+	if ((filter == 'eTypeComboBox') && (url.includes("eType="))) {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 1);
+		url = url.replace(oldQuery, 'eType=' + comboBoxSelectedId);
+		contains = true;
+	}
+	
+	else if ((filter == 'scComboBox') && (url.includes("sc="))) {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 2);
+		url = url.replace(oldQuery, 'sc=' + comboBoxSelectedId);
+		contains = true;
+	}
+	
+	else if (filter == 'oneMonthBeforeToggle') {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 3);
+		url = url.replace(oldQuery, 'before=now-1M');
+		contains = true;
+	}
+	
+	else if (filter == 'oneMonthAfterToggle') {
+
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 4);
+		url = url.replace(oldQuery, 'after=now%2B1M');
+		contains = true;
+	}
+	
+	else if ((filter == 'beforeToggle') && (url.includes("after="))){
+
+		if (url.includes("after=now%2B1M")) {
+			oldQuery = findQuery(location.href.split(/[\&,?]+/), 4);
+			url = url.replace(oldQuery, 'before=now-1M');			
+		}
+		else {
+			oldQuery = findQuery(location.href.split(/[\&,?]+/), 4);
+			url = url.replace(oldQuery, 'before=now');
+		}
+		contains = true;
+	}
+	
+	else if ((filter == 'afterToggle') && (url.includes("before="))) {
+		
+		if (url.includes("before=now-1M")) {
+			oldQuery = findQuery(location.href.split(/[\&,?]+/), 3);
+			url = url.replace(oldQuery, 'after=now%2B1M');
+		}
+		
+		else {
+			oldQuery = findQuery(location.href.split(/[\&,?]+/), 3);
+			url = url.replace(oldQuery, 'after=now');
+		}		
+		
+		contains = true;
+	}
+		
+	return [url, contains];
+
+}
+function queryUrl(filter, comboBoxSelectedId) {
+	
+	comboBoxSelectedId = comboBoxSelectedId || -1; 
+	
+	var currentUrl = location.href;
+		
+	containsArray = urlContains(filter, currentUrl, comboBoxSelectedId); 
+	currentUrl =  containsArray[0];
+	
+	console.log(currentUrl);
+	
+	if (!containsArray[1]) {	
+		
+		if (currentUrl.includes("?")) 
+			currentUrl += "&";
+
+		else 
+			currentUrl += "?";
+		
+		if (filter == 'beforeToggle')
+			currentUrl += 'before=now';		
+	
+		else if (filter == 'afterToggle')
+			currentUrl += 'after=now';
+		
+		else if (filter == 'eTypeComboBox')
+			currentUrl += 'eType=' + comboBoxSelectedId;
+	
+		else if (filter == 'scComboBox')
+			currentUrl += 'sc=' + comboBoxSelectedId;
+	}
+
+	console.log(currentUrl);
+	
+	location.href = currentUrl;
+}
 
 /*
  * When user clicks on contact, this method opens the modal dialog.
