@@ -33,12 +33,10 @@ import srv.domain.user.UserDao;
 public class EventService {
 
 	private static Logger log = LoggerFactory.getLogger(EventService.class);
-	
 
 	@Autowired
 	private EventDao eventDao;
-	
-	
+		
 	@Autowired
 	private EventTypeDao eventTypeDao;
 	
@@ -220,8 +218,22 @@ public class EventService {
 		
 		return ev;   
 	}
-	
+
+	/**
+	 * 
+	 * Returns a list of events in our system based on the following parameters/filters. 
+	 * Throws an exception if our dao has encountered a problem.
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param eTypeId
+	 * @param scId
+	 * @param bmId
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Event> filteredEvents(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
+		
 		
 		if (startDate != null) {
 			
@@ -230,16 +242,15 @@ public class EventService {
 				startDate = currentDate().toString();
 
 			/*
-			 * For events in the last month, sets the startDate to be the current date 
-			 * and sets the endDate to be the timestamp of the current date minus one month.
+			 * For events in the previous months, sets the startDate to be the current date 
+			 * and sets the endDate to be the current date minus the offset for the month.
 			 */
 			else if (startDate.contains("M")) {
 
-				
 				int offset = Integer.valueOf(startDate.substring(3, startDate.length() - 1));
+				
 				Timestamp lastMonth = effectiveDate(currentDate(), "month", offset);
 
-				// Sets the strings to be the appropriate date
 				startDate = currentDate().toString();
 				endDate = lastMonth.toString();
 			}
@@ -252,8 +263,8 @@ public class EventService {
 				endDate = currentDate().toString();
 			
 			/*
-			 * For events in the next month, sets the startDate to be the current date plus one month
-			 * and sets the endDate to be the timestamp of the current date.
+			 * For events in the upcoming months, sets the startDate to be the current date plus the
+			 * offset for the month and sets the endDate to be the current date.
 			 */
 			else if (endDate.contains("M")) {
 						
@@ -281,14 +292,34 @@ public class EventService {
 		return results;
 	}
 	
+	/**
+	 * Helper getter method for the current date. Separate method in order to provide
+	 * for easy testing.
+	 * 
+	 * @return current date
+	 */
 	public Timestamp currentDate() {
 		return new Timestamp(new Date().getTime());	
 	}
 	
+	/**
+	 * Helper method to calculate the duration of events. As of now
+	 * it is only for last/next month but future implementations can
+	 * include hours, days, weeks, etc. and a variable amount of time
+	 * (i.e. 2 weeks from now, 5 days before).
+	 * 
+	 * @param base current date
+	 * @param duration hours, weeks, months, etc.
+	 * @param offset +/- value based on duration
+	 * 
+	 * @return
+	 */
 	public Timestamp effectiveDate(Timestamp base, String duration, int offset) {
+		
 		Calendar myCal = Calendar.getInstance();
 		myCal.setTime(base);
 	
+		// Setting the new date based off of the month and offset
 		if (duration.equalsIgnoreCase("month")) 
 			myCal.add(Calendar.MONTH, offset);
 			
