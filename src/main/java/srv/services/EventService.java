@@ -112,6 +112,10 @@ public class EventService {
 		
 		log.debug("deleting item {}", eventId);
 		
+		if (eventId <= 0) {
+			throw new Exception(String.format("Invalid event id [%d]",eventId));
+		}
+		
 		// TODO  what should we do with all logged hours that
 		// refer to this event?
 		
@@ -189,12 +193,13 @@ public class EventService {
 	 */
 	public Event updateEvent(Event ev) throws Exception {
 		
-		if (ev == null) return null;
+		if (ev == null) return null; // do nothing / return nothing
 		
 		
 		log.debug("updating event {}", ev.getEid());
 		
-		eventDao.update(ev.getEid(), 
+		eventDao.update(
+				    ev.getEid(), 
 					ev.getTitle(),
 					ev.getAddress(),
 					

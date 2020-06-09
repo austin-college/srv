@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -148,7 +151,7 @@ public class EventServiceTests {
 				Mockito.refEq(null), 
 				Mockito.any(String.class)
 				)).thenReturn(e1);
-		
+	
 		
 		// ready to test. here we go...
 		Event e = srv.createEventOfType(1);
@@ -187,4 +190,112 @@ public class EventServiceTests {
 	    // ok...let's test
 	    Event e = srv.createEventOfType(-1);
 	}
+	
+	
+	/**
+	 * Test to make sure service tells dao to delete same 
+	 * event id as pass  
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_delete_whenIdIsValid() throws Exception {
+		
+		
+		Mockito.doNothing().when(eventDao).delete(Mockito.anyInt());
+		
+		srv.deleteEvent(1);
+		
+		Mockito.verify(eventDao).delete(1);
+		
+		
+	}
+	
+	
+	/**
+	 * Test to make sure service checks for valid id and throws exception
+	 * when not valid.
+	 * 
+	 * @throws Exception
+	 */
+	@Test(expected=Exception.class)
+	public void test_delete_whenIdIsNotValid() throws Exception {
+
+		srv.deleteEvent(-1);
+		
+		
+	}
+	
+	
+	/**
+	 * Initial test for allEvents.  Should delegate to the dao and 
+	 * return whatever the dao provided.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_allEvents() throws Exception {
+		
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listAll()).thenReturn(list);
+		
+		List<Event> newList = srv.allEvents();
+		
+		Mockito.verify(eventDao).listAll();		
+		
+	}
+	
+	
+	@Test
+	public void test_allEventsTypes() throws Exception {
+		
+		List<EventType> list = new ArrayList<EventType>();
+		list.add(et1); list.add(et2);
+		
+		Mockito.when(eventTypeDao.listAll()).thenReturn(list);
+		
+		List<EventType> newList = srv.allEventTypes();   
+		
+		Mockito.verify(eventTypeDao).listAll();		
+		
+	}
+	
+	@Test
+	public void test_updateEvent() throws Exception {
+		
+
+		// finish configuring e1 for this test
+		
+		e1.setContinous(Boolean.valueOf(true));
+		e1.setNeededVolunteerHours(2.5);
+		e1.setRsvpVolunteerHours(1.5);
+		e1.setVolunteersNeeded(3);
+		e1.setNote("foo");
+		
+		
+		// tell service to update
+		srv.updateEvent(e1);   
+		
+		// verify that the dao got involved.
+		
+		Mockito.verify(eventDao).update(
+				Mockito.eq(1),
+				Mockito.eq(e1.getTitle()),
+				Mockito.eq(e1.getAddress()),
+				Mockito.eq(e1.getContact().getContactId()),
+				Mockito.eq(e1.getDate()),
+				Mockito.eq(e1.getType().getEtid()), 
+				Mockito.anyBoolean(), 
+				Mockito.eq(e1.getVolunteersNeeded()),
+				Mockito.refEq(null),
+				Mockito.anyDouble(),
+				Mockito.anyDouble(),
+				Mockito.any(String.class)
+				);
+		
+	}
+
+	
 }
