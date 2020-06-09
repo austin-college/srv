@@ -235,15 +235,10 @@ public class EventService {
 			 */
 			else if (startDate.equals("now-1M")) {
 
-				// Get the timestamp for one month after the current date
-				Calendar myCal = Calendar.getInstance();
-				myCal.setTime(now); 
-				myCal.add(Calendar.MONTH, -1);
-				Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());
 
 				// Sets the strings to be the appropriate date
 				startDate = getDate("now");
-				endDate = oneMonthBeforeNow.toString();
+				endDate = getDate("now-1M");
 			}
 		}	
 		
@@ -259,14 +254,10 @@ public class EventService {
 			 */
 			else if (endDate.equals("now+1M")) {
 
-				// Get the timestamp for one month after the current date
-				Calendar myCal = Calendar.getInstance();
-				myCal.setTime(now); 
-				myCal.add(Calendar.MONTH, 1);
-				Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());
+				
 
 				// Sets the strings to be the appropriate date
-				startDate = oneMonthAfterNow.toString();
+				startDate = getDate("now+1M");
 				endDate = getDate("now");			
 			}
 		}
@@ -278,13 +269,32 @@ public class EventService {
 		return results;
 	}
 	
-	public String getDate(String current) {
+	public String getDate(String date) {
 		
 		Timestamp now = new Timestamp(new Date().getTime());	
 		
-		if (current.equals("now")) 
+		if (date.equals("now")) 
 			return now.toString();
 		
+		else if (date.equals("now-1M")) {
+			// Get the timestamp for one month after the current date
+			Calendar myCal = Calendar.getInstance();
+			myCal.setTime(now); 
+			myCal.add(Calendar.MONTH, -1);
+			Timestamp oneMonthBeforeNow = new Timestamp(myCal.getTime().getTime());
+			
+			return oneMonthBeforeNow.toString();
+		}
+		
+		else if (date.equals("now+1M")) {
+			// Get the timestamp for one month after the current date
+			Calendar myCal = Calendar.getInstance();
+			myCal.setTime(now); 
+			myCal.add(Calendar.MONTH, 1);
+			Timestamp oneMonthAfterNow = new Timestamp(myCal.getTime().getTime());
+			
+			return oneMonthAfterNow.toString();
+		}
 		return "";
 	}
 	

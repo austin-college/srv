@@ -132,7 +132,7 @@ public class EventControllerTest {
 	@WithMockUser(username = "admin", password = "admin")
 	public void basicBasePageTest() throws Exception {
 		
-		Mockito.when(mockService.allEvents()).thenReturn(testEvents);
+		Mockito.when(mockService.filteredEvents(null, null, null, null, null)).thenReturn(testEvents);
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 
 		mvc.perform(get("/events")
