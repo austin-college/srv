@@ -73,6 +73,20 @@ public class ServiceHoursService {
 		  }
 	}
 	
+	/**
+	 * Creates a dummy service hour with default values so user can eventually configure them to taste. 
+	 * 
+	 * @param serviceHourId id of ServiceHour (cannot be null)
+	 * 
+	 * @return new dummy service hour
+	 * 
+	 * @throws Exception
+	 */
+	public ServiceHours createServiceHour(int serviceHourId) throws Exception {
+		
+		
+	}
+	
 	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, Date date, String desc)   {
 
 		int index = 0;
