@@ -23,8 +23,11 @@ import srv.domain.event.eventype.EventType;
 import srv.services.EventService;
 
 /**
+ * An instance of this class responds to requests to our server regarding events management. The 
+ * request "handler" methods below are invoked by the spring framework for the module (collection 
+ * of pages and dialogs) that manage events:  listing events,  creating, updating, deleting.
  * 
- * this algorithm prepares the response 
+ * 
  * @author Conor Mackey
  * @author mahiggs
  * 
@@ -177,7 +180,7 @@ public class EventController {
 	 * @return
 	 */
 	@GetMapping(value = "/events/ajax/event/{id}/contact")
-	public ModelAndView ajaxFetchEvent(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public ModelAndView ajaxFetchEventContact(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		
 		try {
 			/*
