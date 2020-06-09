@@ -1,6 +1,7 @@
 
 <div id="evContactDiv">
-${contact.fullName()}
+<#if contact??>
+${contact.fullName()!"unknown"}
 <br/>
 ${contact.email!"unknown email"}
 <br/>
@@ -9,7 +10,9 @@ ${contact.address!"unknown address"}
 work: ${contact.phoneNumWork!"unknown work phone number"}
 <br/>
 mobile: ${contact.phoneNumMobile!"unknown mobile phone number"}
-
+<#else>
+Missing Contact
+</#if>
 </div>
 
 

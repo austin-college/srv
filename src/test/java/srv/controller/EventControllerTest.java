@@ -53,6 +53,10 @@ public class EventControllerTest {
 	private List<Event> testEvents = new ArrayList<Event>();		
 	private List<EventType> testTypes = new ArrayList<EventType>();
 
+	private Event e1;
+
+	private Event e2;
+
 	
 	/**
 	 * Called before each an every test in order to have sufficient
@@ -79,19 +83,22 @@ public class EventControllerTest {
 				.setDefClient(null)
 				.setPinHours(false);
 		
-		Event e1 = new Event()
+		e1 = new Event()
 				.setEid(1)
 				.setTitle("gds 2020")
 				.setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
 				.setContact(new Contact()
+						.setFirstName("Rusty")
+						.setLastName("Buckle")
 						.setContactId(1)
 						.setEmail("rbuckle@helpful.org")
+						.setPhoneNumMobile("903-813-5555")
 						.setCity("Sherman")
 						);
 		
-		Event e2 = new Event()
+		e2 = new Event()
 				.setEid(2)
 				.setTitle("fws 2020")
 				.setDate(new java.util.Date())
@@ -208,9 +215,170 @@ public class EventControllerTest {
        
     }
 	
+	/**
+	 * Test how our controller responds when an exception is thrown.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void ajaxDeleteEventTest_whenEventMissing() throws Exception {
+        
+		// for this test, our service will throw an exception like we might
+		// see if the database could not delete
+		Mockito.doThrow(Exception.class) .when(mockService).deleteEvent(1);
+				
+		 
+		// let's test....
+         mvc.perform(post("/events/ajax/del/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().is4xxClientError())
+                  ;
 
+                  
+         // did the mock object get tickled appropriately
+         Mockito.verify(mockService).deleteEvent(1);
+       
+    }
 	
 	
 	
+	/**
+	 * Test that the controller returns HTML to present the events contact
+	 * info.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxEventContact_whenContactExists() throws Exception {
+        
+
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(get("/events/ajax/event/1/contact")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(
+                 
+                  xpath(dquote("//div[@id='evContactDiv']")).exists()
+                  
+                  )
+                  
+                  .andExpect(content().string(containsString("Rusty Buckle")))
+                  .andExpect(content().string(containsString("work: unknown")))
+                  .andExpect(content().string(containsString("mobile: 903-813-5555")))
+         		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
+         
+                  // other expectations here...
+                  
+        
+         Mockito.verify(mockService).eventById(1);
+       
+    }
+	
+	
+	/**
+	 * Also test that the controller handles the case when the event's contact
+	 * information is missing.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxEventContact_whenContactMissing() throws Exception {
+        
+		 
+		e1.setContact(null);
+		
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(get("/events/ajax/event/1/contact")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(
+                 
+                  xpath(dquote("//div[@id='evContactDiv']")).exists()
+                  
+                  )
+                  .andExpect(content().string(containsString("Missing Contact")));
+         
+                  // other expectations here...
+                  
+        
+         Mockito.verify(mockService).eventById(1);
+       
+    }
+	
+	
+	/**
+	 * Make sure the controller is creating a new event of a specified type when
+	 * asked.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxNewEvent() throws Exception {
+        
+
+		 Mockito.when(mockService.createEventOfType(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(post("/events/ajax/new/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // it should have the client's name
+                  .andExpect(content().string(containsString("1")));
+
+         
+                  // other expectations here...
+                  
+        
+         Mockito.verify(mockService).createEventOfType(1);
+       
+    }
+	
+	
+	/**
+	 * Make sure the controller is handling the case where the event type
+	 * is invalid (the service throws an exception). 
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxNewEvent_whenExceptionThrown() throws Exception {
+        
+
+		// for this test, our service will throw an exception like we might
+		// see if the database could not delete
+		Mockito.doThrow(Exception.class) .when(mockService).createEventOfType(Mockito.anyInt());
+		
+		 // ready to test....
+         mvc.perform(post("/events/ajax/new/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+         		  .andExpect(status().is4xxClientError());
+        
+         Mockito.verify(mockService).createEventOfType(1);
+       
+    }
 
 }
