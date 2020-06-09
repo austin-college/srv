@@ -237,13 +237,11 @@ public class EventService {
 
 				
 				int offset = Integer.valueOf(startDate.substring(3, startDate.length() - 1));
-				Timestamp oneMonthBeforeNow = effectiveDate(currentDate(), "month", offset);
+				Timestamp lastMonth = effectiveDate(currentDate(), "month", offset);
 
 				// Sets the strings to be the appropriate date
 				startDate = currentDate().toString();
-				endDate = oneMonthBeforeNow.toString();
-				
-				log.debug("YOOOOO"+oneMonthBeforeNow.toString());
+				endDate = lastMonth.toString();
 			}
 		}	
 		
@@ -258,17 +256,22 @@ public class EventService {
 			 * and sets the endDate to be the timestamp of the current date.
 			 */
 			else if (endDate.contains("M")) {
-				
-			
+						
 		        int offset = Integer.valueOf(endDate.substring(3, endDate.length() - 1));
-
 		
-				Timestamp oneMonthAfterNow = effectiveDate(currentDate(), "month", offset);//new Timestamp(myCal.getTime().getTime());
-				log.debug("YOOOOO"+oneMonthAfterNow.toString());
-				// Sets the strings to be the appropriate date
+				Timestamp nextMonth = effectiveDate(currentDate(), "month", offset);//new Timestamp(myCal.getTime().getTime());
+			
 				endDate = currentDate().toString();
-				startDate = oneMonthAfterNow.toString();			
+				startDate = nextMonth.toString();			
 			}
+		}
+		
+		if ((eTypeId != null) && (eTypeId <= 0)) {
+			throw new Exception(String.format("Invalid event type id [%d]", eTypeId));
+		}
+		
+		if ((scId != null) && (scId <= 0)) {
+			throw new Exception(String.format("Invalid service client id [%d]", scId));
 		}
 		
 		List<Event> results = eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId); 
@@ -285,13 +288,12 @@ public class EventService {
 	public Timestamp effectiveDate(Timestamp base, String duration, int offset) {
 		Calendar myCal = Calendar.getInstance();
 		myCal.setTime(base);
-		
-		if (duration.equalsIgnoreCase("month")) {
+	
+		if (duration.equalsIgnoreCase("month")) 
 			myCal.add(Calendar.MONTH, offset);
 			
+		// can add other ifs for weeks, days hours etc
 			
-		}
-		
 		return new Timestamp(myCal.getTime().getTime());
 	}
 	
