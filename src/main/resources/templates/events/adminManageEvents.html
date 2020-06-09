@@ -33,13 +33,13 @@
 				<div class="custom-control custom-switch">
 					<!-- Turns before toggle button on after page is reloaded as long as the no other toggles are not on -->
 					<#if (lastMonthSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && beforeSelected == 1>
-  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href = location.href.split('?')[0];" checked> 						
+  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href = location.href.split('?')[0];" checked/> 						
   					<!-- Before toggle button is turned off when no other toggles are not on-->
   					<#elseif (lastMonthSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && beforeSelected == 0>
-  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href += '?before=now';">
+  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="location.href += '?before=now';"/>
 					<!-- Disables toggle button when another toggle button is on -->
 					<#else>
-						<input type="checkbox" class="custom-control-input" id="beforeToggle" disabled>
+						<input type="checkbox" class="custom-control-input" id="beforeToggle" disabled/>
   					</#if> 
   					<label class="custom-control-label" for="beforeToggle">Past Events</label>
 				</div>
@@ -50,13 +50,13 @@
 				<div class="custom-control custom-switch">
 					<!-- Turns after toggle button on after page is reloaded as long as the no other toggles are not on-->
 					<#if (lastMonthSelected == 0 && beforeSelected == 0 && nextMonthSelected == 0) && afterSelected == 1>
-  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href = location.href.split('?')[0];" checked>
+  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href = location.href.split('?')[0];" checked/>
   					<!-- After toggle button is turned off when no other toggles are not on-->
   					<#elseif (lastMonthSelected == 0 && beforeSelected == 0 && nextMonthSelected == 0) && afterSelected == 0>
-  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href += '?after=now';">
+  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="location.href += '?after=now';"/>
   					<!-- Disables toggle button when another toggle button is on -->
   					<#else>
-  						<input type="checkbox" class="custom-control-input" id="afterToggle" disabled>
+  						<input type="checkbox" class="custom-control-input" id="afterToggle" disabled/>
   					</#if>
   					<label class="custom-control-label" for="afterToggle">Future Events</label>
 				</div>
@@ -68,13 +68,13 @@
 			<div class="custom-control custom-switch">
 				<!-- Turns last month toggle button on after page is reloaded as long as the no other toggles are not on-->
 				<#if (beforeSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && lastMonthSelected == 1>
-					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="location.href = location.href.split('?')[0];" checked>
+					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="location.href = location.href.split('?')[0];" checked/>
   				<!-- Last month toggle button is turned off when no other toggles are not on-->		
 				<#elseif (beforeSelected == 0 && afterSelected == 0 && nextMonthSelected == 0) && lastMonthSelected == 0>
-					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="location.href += '?before=now-1M';">
+					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="location.href += '?before=now-1M';"/>
   				<!-- Disables last month toggle button when another toggle button is on -->
 				<#else>
-  					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" disabled>
+  					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" disabled/>
 				</#if>		
 					<label class="custom-control-label" for="oneMonthBeforeToggle">Last Month</label>
 			</div>
@@ -87,13 +87,13 @@
 			<div class="custom-control custom-switch">
 				<!-- Turns next month toggle button on after page is reloaded as long as the no other toggles are not on-->
 				<#if (beforeSelected == 0 && afterSelected == 0 && lastMonthSelected == 0) && nextMonthSelected == 1 >
-					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="location.href = location.href.split('?')[0];" checked>
+					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="location.href = location.href.split('?')[0];" checked/>
   				<!-- Next month toggle button is turned off when no other toggles are not on-->		
 				<#elseif (beforeSelected == 0 && afterSelected == 0 && lastMonthSelected == 0) && nextMonthSelected == 0>
-					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="location.href += '?before=now%2B1M';">
+					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="location.href += '?before=now%2B1M';"/>
   				<!-- Disables next month toggle button when another toggle button is on -->
 				<#else>
-  					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" disabled>
+  					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" disabled/>
 				</#if>
 				  <label class="custom-control-label" for="oneMonthAfterToggle">Next Month</label>
 			</div>
@@ -106,7 +106,7 @@
 		<div class="col text-right comboBox">
 			<label>By Event Type</label> 
 			<select data-prev-selected="${selectedEtid}" onchange="if(this.value != 0) {location.href = location.href.split('?')[0] + '?eType='+this.value;} else {location.href = location.href.split('?')[0]}">
-				<option value=0>List All</option>
+				<option value='0'>List All</option>
 
 				<#list evtypes as et>
 					<#if et.etid == selectedEtid >
@@ -123,7 +123,7 @@
 		<div class="col text-right comboBox">
 			<label>By Service Client</label> 
 			<select data-prev-selected="${selectedScid}" onchange="if(this.value != 0) {location.href = location.href.split('?')[0] + '?sc='+this.value;} else {location.href = location.href.split('?')[0]}">
-				<option value=0>List All</option>
+				<option value='0'>List All</option>
 				
 				<#list sClients as sc>
 					<#if sc.scid == selectedScid>
@@ -143,9 +143,9 @@
 		<div class="col text-right comboBox">
 			<label>By Board Member</label> 
 			<select style="width:235px;">
-				<option value=0>List All</option>
+				<option value='0'>List All</option>
 				<#list users as bm>
-				<option value="${bm.uid}">${bm.contactInfo.firstName} ${bm.contactInfo.lastName}</option>
+				<option value='${bm.uid}'>${bm.contactInfo.firstName} ${bm.contactInfo.lastName}</option>
 				</#list>
 
 			</select>
@@ -164,7 +164,6 @@
 	</div>
 
 
-		<div class=col>
 
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col">
