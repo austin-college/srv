@@ -1,5 +1,8 @@
 package srv.services;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +14,10 @@ import srv.domain.event.Event;
 import srv.domain.event.EventDao;
 import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.EventTypeDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.User;
+import srv.domain.user.UserDao;
 
 
 /**
@@ -26,15 +33,18 @@ import srv.domain.event.eventype.EventTypeDao;
 public class EventService {
 
 	private static Logger log = LoggerFactory.getLogger(EventService.class);
-	
 
 	@Autowired
 	private EventDao eventDao;
-	
-	
+		
 	@Autowired
 	private EventTypeDao eventTypeDao;
 	
+	@Autowired
+	private ServiceClientDao serviceClientDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	/**
 	 * Delegates to the dao in order to find the specified event from our
@@ -140,6 +150,34 @@ public class EventService {
 	}
 	
 	/**
+	 * Returns all of the current service clients known to our system. This is
+	 * commonly used for populating user interface elements (selection lists).
+	 * Throws an exception if our dao encounters a problem.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ServiceClient> allServiceClients() throws Exception {
+		
+		return serviceClientDao.listAll();
+	}
+	
+	/**
+	 * TODO currently our system has no way of listing only board member users
+	 * so as of now we are displaying the entire list of users
+	 * 
+	 * Returns all the current board members known to our system. This is
+	 * commonly used for populating user interface elements (selection lists).
+	 * Throws an exception if our dao encounters a problem.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> allBoardMembers() throws Exception {
+		
+		return userDao.listAll();
+	}
+	/**
 	 * Given the current event object, we save back to our data store with 
 	 * the help of our DAO.  If any additional data transformations are necessary
 	 * we do them here.   If any application defaults are enforced,  we do that
@@ -180,6 +218,114 @@ public class EventService {
 		
 		return ev;   
 	}
+
+	/**
+	 * 
+	 * Returns a list of events in our system based on the following parameters/filters. 
+	 * Throws an exception if our dao has encountered a problem.
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param eTypeId
+	 * @param scId
+	 * @param bmId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Event> filteredEvents(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
+		
+		
+		if (startDate != null) {
+			
+			// Sets the startDate to the current date
+			if (startDate.equals("now")) 
+				startDate = currentDate().toString();
+
+			/*
+			 * For events in the previous months, sets the startDate to be the current date 
+			 * and sets the endDate to be the current date minus the offset for the month.
+			 */
+			else if (startDate.contains("M")) {
+
+				int offset = Integer.valueOf(startDate.substring(3, startDate.length() - 1));
+				
+				Timestamp lastMonth = effectiveDate(currentDate(), "month", offset);
+
+				startDate = currentDate().toString();
+				endDate = lastMonth.toString();
+			}
+		}	
+		
+		if (endDate != null) {
+			
+			// Sets the endDate to the current date
+			if (endDate.equals("now")) 
+				endDate = currentDate().toString();
+			
+			/*
+			 * For events in the upcoming months, sets the startDate to be the current date plus the
+			 * offset for the month and sets the endDate to be the current date.
+			 */
+			else if (endDate.contains("M")) {
+						
+		        int offset = Integer.valueOf(endDate.substring(3, endDate.length() - 1));
+		
+				Timestamp nextMonth = effectiveDate(currentDate(), "month", offset);//new Timestamp(myCal.getTime().getTime());
+			
+				endDate = currentDate().toString();
+				startDate = nextMonth.toString();			
+			}
+		}
+		
+		if ((eTypeId != null) && (eTypeId <= 0)) {
+			throw new Exception(String.format("Invalid event type id [%d]", eTypeId));
+		}
+		
+		if ((scId != null) && (scId <= 0)) {
+			throw new Exception(String.format("Invalid service client id [%d]", scId));
+		}
+		
+		List<Event> results = eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId); 
+		
+		log.debug("Size of filtered list is: " + results.size());
+		
+		return results;
+	}
 	
+	/**
+	 * Helper getter method for the current date. Separate method in order to provide
+	 * for easy testing.
+	 * 
+	 * @return current date
+	 */
+	public Timestamp currentDate() {
+		return new Timestamp(new Date().getTime());	
+	}
+	
+	/**
+	 * Helper method to calculate the duration of events. As of now
+	 * it is only for last/next month but future implementations can
+	 * include hours, days, weeks, etc. and a variable amount of time
+	 * (i.e. 2 weeks from now, 5 days before).
+	 * 
+	 * @param base current date
+	 * @param duration hours, weeks, months, etc.
+	 * @param offset +/- value based on duration
+	 * 
+	 * @return
+	 */
+	public Timestamp effectiveDate(Timestamp base, String duration, int offset) {
+		
+		Calendar myCal = Calendar.getInstance();
+		myCal.setTime(base);
+	
+		// Setting the new date based off of the month and offset
+		if (duration.equalsIgnoreCase("month")) 
+			myCal.add(Calendar.MONTH, offset);
+			
+		// can add other ifs for weeks, days hours etc
+			
+		return new Timestamp(myCal.getTime().getTime());
+	}
 	
 }

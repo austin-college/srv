@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import srv.controllers.EventController;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
+import srv.domain.serviceclient.ServiceClient;
 import srv.services.EventService;
 import srv.utils.UserUtil;
 
@@ -52,6 +54,7 @@ public class EventControllerTest {
 	
 	private List<Event> testEvents = new ArrayList<Event>();		
 	private List<EventType> testTypes = new ArrayList<EventType>();
+	private List<ServiceClient> testClients = new ArrayList<ServiceClient>();
 
 	private Event e1;
 
@@ -61,7 +64,7 @@ public class EventControllerTest {
 	/**
 	 * Called before each an every test in order to have sufficient
 	 * data for this series of tests.   We make a couple of typical
-	 * events and a couple of typical event types.  
+	 * events, a couple of typical event types and service clients.  
 	 * 
 	 */
 	@Before
@@ -83,12 +86,23 @@ public class EventControllerTest {
 				.setDefClient(null)
 				.setPinHours(false);
 		
+		ServiceClient sc1 = new ServiceClient()
+				.setClientId(1)
+				.setName("Habitat for Humanity")
+				.setCategory("Community");
+		
+		ServiceClient sc2 = new ServiceClient()
+				.setClientId(2)
+				.setName("Meals on Wheels")
+				.setCategory("Seniors");		
+		
 		e1 = new Event()
 				.setEid(1)
 				.setTitle("gds 2020")
 				.setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
+				.setServiceClient(sc1)
 				.setContact(new Contact()
 						.setFirstName("Rusty")
 						.setLastName("Buckle")
@@ -104,6 +118,7 @@ public class EventControllerTest {
 				.setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
+				.setServiceClient(sc2)
 				.setContact(null);
 		
 		
@@ -113,6 +128,8 @@ public class EventControllerTest {
 		testEvents.add(e2);
 		testTypes.add(et1);
 		testTypes.add(et2);
+		testClients.add(sc1);
+		testClients.add(sc2);
 		
 	}
 
@@ -137,10 +154,11 @@ public class EventControllerTest {
 	 */
 	@Test
 	@WithMockUser(username = "admin", password = "admin")
-	public void basicBasePageTest() throws Exception {
+	public void basicBasePageTest_queriesAllNull() throws Exception {
 		
-		Mockito.when(mockService.allEvents()).thenReturn(testEvents);
+		Mockito.when(mockService.filteredEvents(null, null, null, null, null)).thenReturn(testEvents);
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
 
 		mvc.perform(get("/events")
 				.contentType(MediaType.TEXT_HTML))
@@ -380,5 +398,390 @@ public class EventControllerTest {
          Mockito.verify(mockService).createEventOfType(1);
        
     }
+	
+	/**
+	 * Make sure the base page shows a table of 2 events that are before
+	 * the date 2020-09-09 00:00:00 with buttons to allow the user to
+	 *  create a new event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest_query_pastEvents() throws Exception {
+		
+		Mockito.when(mockService.filteredEvents("now", null, null, null, null)).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
+		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-09-09 00:00:00"));
 
+		mvc.perform(get("/events?before=now")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
+			
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+
+			
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+
+			// and that second event better handle null contact just fine... ignoring extra white space around.
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
+			
+			
+						
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 2 events that are after
+	 * the date 2020-04-09 00:00:00 with buttons to allow the user to
+	 *  create a new event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest_query_futureEvents() throws Exception {
+		
+		Mockito.when(mockService.filteredEvents(null, "now", null, null, null)).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
+		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-04-09 00:00:00"));
+
+		mvc.perform(get("/events?after=now")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
+			
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+
+			
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+
+			// and that second event better handle null contact just fine... ignoring extra white space around.
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
+			
+			
+						
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 2 events that were in the last month
+	 * from the date 2020-07-09 00:00:00 with buttons to allow the user to
+	 * create a new event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest_query_lastMonthEvents() throws Exception {
+		
+		Mockito.when(mockService.filteredEvents("now-1M", null, null, null, null)).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
+		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-07-09 00:00:00"));
+
+		mvc.perform(get("/events?before=now-1M")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
+			
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+
+			
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+
+			// and that second event better handle null contact just fine... ignoring extra white space around.
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
+			
+			
+						
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
+			;
+	}
+	/**
+	 * Make sure the base page shows a table of 2 events that were in the next month
+	 * from the date 2020-05-09 00:00:00 with buttons to allow the user to
+	 * create a new event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest_query_nextMonthEvents() throws Exception {
+		
+		Mockito.when(mockService.filteredEvents(null, "now+1M", null, null, null)).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
+		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-05-19 00:00:00"));
+
+		mvc.perform(get("/events?after=now+1M")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
+			
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+
+			
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+
+			// and that second event better handle null contact just fine... ignoring extra white space around.
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
+			
+			
+						
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 1 events with event type ids of 1
+	 * with buttons to allow the user to create a new event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest_query_byEventType_whenIdValid() throws Exception {
+		
+		Mockito.when(mockService.filteredEvents(null, null, 1, null, null)).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
+
+		mvc.perform(get("/events?eType=1")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
+			
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+			
+						
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 1 events with service client ids of 2
+	 * with buttons to allow the user to create a new event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest_query_byServiceClient_whenIdValid() throws Exception {
+		
+		Mockito.when(mockService.filteredEvents(null, null, null, 2, null)).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
+
+		mvc.perform(get("/events?sc=2")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
+						
+			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+
+			// and that second event better handle null contact just fine... ignoring extra white space around.
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
+
+			
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
+			
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+			
+						
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 1 event that is before
+	 * the date 2020-09-09 00:00:00 with event type id of 1 and with
+	 * buttons to allow the user to create a new event.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicBasePageTest_query_pastEventsWithEventType() throws Exception {
+		
+		Mockito.when(mockService.filteredEvents("now", null, 1, null, null)).thenReturn(testEvents);
+		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
+		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
+		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-09-09 00:00:00"));
+
+		mvc.perform(get("/events?before=now&eType=1")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing events
+			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
+			
+			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			
+			// and that same row as a td with a button inside for editing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
+			
+			// and viewing
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvView')]")).exists())
+
+			// and deleting
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvDel')]")).exists())
+
+	
+						
+			// and our page better have a delete dialog defined/hidden
+			.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED EVENT']")).exists())
+			
+			// and a view dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgView' and @title='EVENT DETAILS']")).exists())
+			
+			// and a dialog for showing contact details
+			.andExpect(xpath(dquote("//div[@id='dlgViewContact' and @title='CONTACT DETAILS']")).exists())
+			
+			// and a dialog for for create a new event
+			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
+			;
+	}
 }

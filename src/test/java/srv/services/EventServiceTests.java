@@ -1,10 +1,8 @@
 package srv.services;
 
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +33,7 @@ public class EventServiceTests {
 	
 	@Mock
 	private EventTypeDao eventTypeDao;
-
-
+	
 	@InjectMocks
 	private EventService srv;
 	
@@ -296,6 +293,217 @@ public class EventServiceTests {
 				);
 		
 	}
-
 	
+	/**
+	 * Test to make sure that the service is returning the Timestamp
+	 * of the next month for the date 2020-06-09 00:00:00.
+	 */
+	@Test
+	public void test_effectiveDate_nextMonth() {
+			
+		Timestamp oneMonthAfterNow = srv.effectiveDate(Timestamp.valueOf("2020-06-09 00:00:00"), "month", 1);
+		
+		assertEquals(Timestamp.valueOf("2020-07-09 00:00:00"), oneMonthAfterNow);
+	}
+	
+	/**
+	 * Test to make sure that the service is returning the Timestamp
+	 * of the last month for the date 2020-06-09 00:00:00.
+	 */
+	@Test
+	public void test_effectiveDate_lastMonth() {
+			
+		Timestamp lastMonth = srv.effectiveDate(Timestamp.valueOf("2020-06-09 00:00:00"), "month", -1);
+		
+		assertEquals(Timestamp.valueOf("2020-05-09 00:00:00"), lastMonth);
+	}
+	
+	/**
+	 * Initial test for filteredEvents.  Should delegate to the dao and 
+	 * return whatever the dao provided.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_filter_noFilters() throws Exception {
+
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listByFilter(null, null, null, null, null)).thenReturn(list);
+		
+		List<Event> newList = srv.filteredEvents(null, null, null, null, null);
+		
+		Mockito.verify(eventDao).listByFilter(null, null, null, null, null);		
+	}
+	
+	/**
+	 * Test to make sure that the service is returning a list of events
+	 * from the past based on the date 2020-06-09 00:00:00
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_filter_pastEvents() throws Exception {
+
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listByFilter("2020-06-09 00:00:00.0", null, null, null, null)).thenReturn(list);
+		
+		//TODO
+		// Used a spy to mock the currentDate 
+		EventService srvSpy = Mockito.spy(srv);
+	
+		Mockito.when(srvSpy.currentDate()).thenReturn(Timestamp.valueOf("2020-06-09 00:00:00"));
+	
+		List<Event> newList = srvSpy.filteredEvents("now", null, null, null, null);
+		
+		Mockito.verify(eventDao).listByFilter("2020-06-09 00:00:00.0", null, null, null, null);		
+
+	}
+	
+	/**
+	 * Test to make sure that the service is returning a list of events
+	 * from the last month based on the date 2020-06-09 00:00:00
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_filter_lastMonthEvents() throws Exception {
+
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listByFilter("2020-06-09 00:00:00.0", "2020-05-09 00:00:00.0", null, null, null)).thenReturn(list);
+		
+		//TODO
+		// Used a spy to mock the currentDate 
+		EventService srvSpy = Mockito.spy(srv);
+	
+		Mockito.when(srvSpy.currentDate()).thenReturn(Timestamp.valueOf("2020-06-09 00:00:00"));
+	
+		List<Event> newList = srvSpy.filteredEvents("now-1M", null, null, null, null);
+		
+		Mockito.verify(eventDao).listByFilter("2020-06-09 00:00:00.0", "2020-05-09 00:00:00.0", null, null, null);		
+
+	}
+	
+	/**
+	 * Test to make sure that the service is returning a list of events
+	 * from the future based on the date 2020-06-09 00:00:00
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_filter_futureEvents() throws Exception {
+
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listByFilter(null, "2020-06-09 00:00:00.0", null, null, null)).thenReturn(list);
+		
+		//TODO
+		// Used a spy to mock the currentDate 
+		EventService srvSpy = Mockito.spy(srv);
+	
+		Mockito.when(srvSpy.currentDate()).thenReturn(Timestamp.valueOf("2020-06-09 00:00:00"));
+	
+		List<Event> newList = srvSpy.filteredEvents(null, "now", null, null, null);
+		
+		Mockito.verify(eventDao).listByFilter(null, "2020-06-09 00:00:00.0", null, null, null);		
+
+	}
+	
+	/**
+	 * Test to make sure that the service is returning a list of events
+	 * from the next month based on the date 2020-06-09 00:00:00
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_filter_nextMonthEvents() throws Exception {
+
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listByFilter("2020-07-09 00:00:00.0", "2020-06-09 00:00:00.0", null, null, null)).thenReturn(list);
+		
+		//TODO
+		// Used a spy to mock the currentDate 
+		EventService srvSpy = Mockito.spy(srv);
+	
+		Mockito.when(srvSpy.currentDate()).thenReturn(Timestamp.valueOf("2020-06-09 00:00:00"));
+	
+		List<Event> newList = srvSpy.filteredEvents(null, "now+1M", null, null, null);
+		
+		Mockito.verify(eventDao).listByFilter("2020-07-09 00:00:00.0", "2020-06-09 00:00:00.0", null, null, null);		
+
+	}
+	
+	/**
+	 * Test to make sure that the service is return a list of events based
+	 * on a valid event type id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_filter_byEventType_whenIdValid() throws Exception {
+		
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listByFilter(null, null, 1, null, null)).thenReturn(list);
+		
+		List<Event> newList = srv.filteredEvents(null, null, 1, null, null);
+		
+		Mockito.verify(eventDao).listByFilter(null, null, 1, null, null);
+
+	}
+	
+	/**
+	 * Test to make sure service checks for valid id for event type and 
+	 * throws exception when not valid.
+	 * 
+	 * @throws Exception
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byEventType_whenIdInvalid() throws Exception {
+		
+		srv.filteredEvents(null, null, -1, null, null);
+		
+	}
+	
+	/**
+	 * Test to make sure that the service is return a list of events based
+	 * on a valid service client id.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_filter_byServiceClient_whenIdValid() throws Exception {
+		
+		List<Event> list = new ArrayList<Event>();
+		list.add(e1); list.add(e2);
+		
+		Mockito.when(eventDao.listByFilter(null, null, null, 2, null)).thenReturn(list);
+		
+		List<Event> newList = srv.filteredEvents(null, null, null, 2, null);
+		
+		Mockito.verify(eventDao).listByFilter(null, null, null, 2, null);
+
+	}
+	
+	/**
+	 * Test to make sure service checks for valid id for service client and 
+	 * throws exception when not valid.
+	 * 
+	 * @throws Exception
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byServiceClient_whenIdInvalid() throws Exception {
+		
+		srv.filteredEvents(null, null, null, -1, null);
+		
+	}
 }

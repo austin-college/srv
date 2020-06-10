@@ -49,4 +49,9 @@ a:hover {
 	background-color: #ffffff;
 	
 }
+
+.toggle {
+	padding-right: 0px;
+	padding-left: 0px;
+}
 /* end credit to Lydia for list style*/
