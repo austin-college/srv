@@ -112,51 +112,88 @@
 		<div class="row">
 			<div class='form-group'>
 				<div class='form-row'>
-				<h5><b>Event Information</b></h5>
-			</div>
-			<div class='form-row'>
-				<hr class='col'>
-			</div>
-			<div class="container-fluid">
-					<div class='form-row justify-content-center'>
-						<div class='col-sm-2'>
-							<label for="hrInfoDlg_eventName" ><b>Name of Event:</b></label>
-						</div>
-						<div class='col-sm-4'>
-							<input type="text" id="hrInfoDlg_eventName" value=${eventName! "UNKNOWN"} readonly size = 25>
-						</div>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<div class='col-sm-2'>
-							<label for="hrInfoDlg_date"><b>Date (mm/dd/yy):</b></label> 
-						</div>
-						<div class='col-sm-4'>
-							<input type='text' id="hrInfoDlg_date" value="03/12/20" readonly size='8'>
-						</div>
-					</div>
-				<!--  FOLLOWING IS HARD CODED IN FOR NOW --> <!-- TODO FIX ROW -->
-					<div class='from-row justify-content-center'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<div class='col-sm-2'>
-							<label for="hrInfoDlg_org"><b>Organization:</b></label> 
-						</div>
-						<div class='col-sm-4'>
-							<input type='text' id='hrInfoDlg_org' value="Meals on Wheels" } readonly size='30'>
-						</div>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<div class='col-sm-2'>
-							<label for='hrInfoDlg_hrsServed'><b>Hours Served:</b></label> 
-						</div>
-						<div class='col-sm-4'>
-							<input type='text' id="hrInfoDlg_hrsServed" value=${hrsServed! "UNKNOWN"} readonly size='2'>
-						</div>
-					</div>
-				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-				<div class='form-row row justify-content-center'>
-						<label for="hrInfoDlg_desc"><b>Description of Event:</b></label> 
-						<input type='text' id="hrInfoDlg_desc" value="Did miscellaneous tasks." readonly size='80'>
+					<h5><b>Event Information</b></h5>
 				</div>
-	</div>
-
+				<div class='form-row'>
+					<hr class='col'>
+				</div>
+				<div class="container-fluid">	
+					<div class="row">
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<div class="row-sm">
+								<div class="col">
+									<label for="hrInfoDlg_eventName" ><b>Name of Event:</b></label>
+								</div>
+							</div>
+							<div class="row-sm">
+								<div class="col">
+									<input type="text" id="hrInfoDlg_eventName" value=${eventName! "UNKNOWN"} readonly size = 25>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<div class="row-sm">
+								<div class="col">
+									<label for="hrInfoDlg_date"><b>Date (mm/dd/yy):</b></label>
+								</div>
+							</div>
+							<div class="row-sm">
+								<div class="col">
+									<input type='text' id="hrInfoDlg_date" value="03/12/20" readonly size='8'>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<div class="row-sm">
+								<div class="col">
+									<label for="hrInfoDlg_org"><b>Organization:</b></label> 
+								</div>
+							</div>
+							<div class="row-sm">
+								<div class="col">
+									<input type='text' id='hrInfoDlg_org' value="Meals on Wheels" } readonly size='30'>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<div class="row-sm">
+								<div class="col">
+									<label for='hrInfoDlg_hrsServed'><b>Hours Served:</b></label> 
+								</div>
+							</div>
+							<div class="row-sm">
+								<div class="col">
+									<input type='text' id="hrInfoDlg_hrsServed" value=${hrsServed! "UNKNOWN"} readonly size='2'>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class='col'>
+							<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+							<div class="row-sm">
+								<div class="col">
+									<label for="hrInfoDlg_desc"><b>Description of Event:</b></label>
+								</div>
+							</div>
+							<div class="row-sm">
+								<div class="col">
+									<input type='text' id="hrInfoDlg_desc" value="Did miscellaneous tasks." readonly size='80'>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class='row'>
 					<div class='col'>
 						<h5>
@@ -166,21 +203,53 @@
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-				<div class="form-row">
-					<div class="col-4">
-	      				<input id="hrInfoDlg_address" type="text" class="form-control" value="118 Main Street" readonly>
-				</div>
-    			<div class="col-4">
-      				<input id="hrInfoDlg_city" type="text" class="form-control" value="Sherman" readonly>
-			    </div>
-    			<div class="col">
-      				<input id="hrInfoDlg_zip" type="text" class="form-control" value="75090" readonly>
-    			</div>
-    			<div class="col">
-      				<input id="hrInfoDlg_state" type="text" class="form-control" value="TX" readonly>
-    			</div>
-  			</div>
-
+				<div class="container-fluid">	
+					<div class="form-row">
+						<div class='col'>
+						
+							<div class="row">
+								<div class='col'>
+									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+									<div class="row-sm">
+										<div class="col-sm">
+											<input id="hrInfoDlg_address" type="text" class="form-control" value="118 Main Street" readonly>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class='col'>
+									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+									<div class="row-sm">
+										<div class="col-sm">
+											<input id="hrInfoDlg_city" type="text" class="form-control" value="Sherman" readonly>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class='col'>
+									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+									<div class="row-sm">
+										<div class="col-sm">
+											<input id="hrInfoDlg_zip" type="text" class="form-control" value="75090" readonly>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class='col'>
+									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+									<div class="row-sm">
+										<div class="col-sm">
+											<input id="hrInfoDlg_state" type="text" class="form-control" value="TX" readonly>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+		  			</div>
+	  			</div>
 				<div class='row'>
 					<div class='col'>
 						<h5>
@@ -192,31 +261,56 @@
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 				<div class='form-row'>
 					<div class='col'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="hrInfoDlg_contactName"><b>Name:</b></label>
-					</div>
-					<div class='col-3'>
-						<input type="text" id="hrInfoDlg_contactName" value="Joe Smith" readonly>
-					</div>
-					<div class='col'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="hrInfoDlg_contactNumber"><b> Phone Number:</b></label> 
-					</div>
-					<div class='col-3'>
-						<input type="text" id="hrInfoDlg_contactNumber" value="903-331-1241" readonly size='15'>
-					</div>
-					<div class='col'>
-						<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
-						<label for="hrInfoDlg_contactEmail"><b> Email:</b></label> 
-					</div>	
-					<div class='col-3'>
-					<input type="text" id="hrInfoDlg_contactEmail" value="randomEmail@gmail.com" readonly>
+						<div class="row">
+							<div class='col'>
+								<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+								<div class="row-sm">
+									<div class="col">
+										<label for="hrInfoDlg_contactName"><b>Name:</b></label>
+									</div>
+								</div>
+								<div class="row-sm">
+									<div class="col">
+										<input type="text" id="hrInfoDlg_contactName" value="Joe Smith" readonly>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class='col'>
+								<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+								<div class="row-sm">
+									<div class="col">
+										<label for="hrInfoDlg_contactNumber"><b> Phone Number:</b></label> 
+									</div>
+								</div>
+								<div class="row-sm">
+									<div class="col">
+										<input type="text" id="hrInfoDlg_contactNumber" value="903-331-1241" readonly size='15'>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class='col'>
+								<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
+								<div class="row-sm">
+									<div class="col">
+										<label for="hrInfoDlg_contactEmail"><b> Email:</b></label> 
+									</div>
+								</div>
+								<div class="row-sm">
+									<div class="col">
+										<input type="text" id="hrInfoDlg_contactEmail" value="randomEmail@gmail.com" readonly>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 </div>
 
 <!--  The div below defines the edit dialog for updating a served hour which is hidden by JS and exposed by JQ. -->
@@ -467,10 +561,10 @@
 				<input type="hidden" id="newEvId" value="" />
 				
 				<div class="form-group">
-					<label for="name">Name of Event: </label><br> <input
-						type="text" class="form-control" value="Great Day Of Service" readonly><br>
+					<label for="name">Name of Event: </label><br> 
+					<input id="txtEvTitle" type="text" class="form-control" value="change me" readonly /><br>
 					<label for="date">Date of Event: </label><br> <input
-						type="date" class="form-control" id="date" value="03/05/2020" readonly><br>
+						type="date" class="form-control" id="date" value="03/05/2020" readonly /><br>
 					<label for="organization">Organization: </label><br> <select
 						class="form-control" id="organization"><br>
 						<option>Habitat For Humanity</option>
@@ -495,14 +589,17 @@
 		</div>
 		<div class="col-lg-4">
 			<div class="form-group">
-				<label for="contact-name">Contact Name: </label><br> <input
+				<label for="contact-name">Contact Name: </label><br> 
+				<input id="contact-name"
 					type="text" class="form-control" value="Johanna Smith" readonly><br>
 				<label for="contact-phone">Contact Phone Number: </label><br> <input
 					type="tel" class="form-control" id="contact-phone name="phone" pattern:"[0-9]{3} - [0-9]{2} - [0-9]{3}" value="234-546-7645" readonly><br>
-				<label for="email">Contact Email: </label><br> <input
+				<label for="email">Contact Email: </label><br/> 
+				<input
 					type="email" id="contact-email" class="form-control"
-					name="contact-email" value="email@example.com" readonly><br> <label
-					for="description">Description of Event: </label><br>
+					name="contact-email" value="email@example.com" /><br/>
+					
+				<label for="description">Description of Event: </label><br>
 				<textarea class="form-control" rows="4" id="description"></textarea>
 			</div>
 		</div>

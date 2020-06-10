@@ -1,3 +1,43 @@
+function prepopulateAddDialogue(){
+	
+	//step1 which event did they select
+	
+	var eid= $("#newEvId").val();
+	
+	// step2 retrieve event info
+	$.ajax({
+		method: "GET",
+  	    url: "/srv/events/ajax/event/"+ eid,
+  	    cache: false,
+  	    dataType: "json"
+  	    
+    })
+    /*
+	 * If successful, then remove the selected service hour from the table.
+	 */
+	.done(function(ev) {
+		$("#txtEvTitle").val(ev.title);
+		$("#contact-email").val(ev.contact.email);
+		$("#contact-name").val(ev.contact.firstName);
+		
+		//TODO  finish populating all other fields.   See event domain object.
+		
+		// Also, remember that ev.type 
+		
+		// If the field is a select you must set which "option" is selected.  see jquery help docs.
+		
+		// For input text fields (like above),  you can change their values.  Easy.
+		
+		// for checkbox input fields,  you set or clear the "selected" attribute
+		
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+	});
+}
 /**
  * The delete hour function makes an AJAX call to remove
  * the selected service hour from the table.
@@ -88,7 +128,7 @@ $(document).ready(function() {
 	$("#delDlg").dialog({
 		autoOpen: false,
 		width: $(window).width() * 0.5,
-		height: $(window).height() * 0.1,
+		height: $(window).height() * 0.5,
 		position: {
 			  my: "center top",
 			  at: "center top",
@@ -134,7 +174,7 @@ $(document).ready(function() {
 	$("#hrInfoDlg").dialog({
 		autoOpen: false,
 		 width: $(window).width() * 0.8,
-		 height: $(window).height() * 0.3,
+		 height: $(window).height() * 0.9,
 		modal: true,
 		position: {
 			  my: "center top",
@@ -160,7 +200,7 @@ $(document).ready(function() {
 	 $("#editDlg").dialog({
 		 autoOpen: false,
 		 width: $(window).width() * 0.8,
-		 height: $(window).height() * 0.2,
+		 height: $(window).height() * 0.8,
          modal: true,
 	 		position: {
 				  my: "center top",
@@ -210,13 +250,14 @@ $(document).ready(function() {
 			width: 700,
 			modal: true,
 			open: function(event, ui) {			
-				console.log("WOOOO");	
+				console.log("populating dialogue");	//replace with a javascript function that will put data into the add dialogue
+				prepopulateAddDialogue();
 			}
 		});
 	 $("#etDlg").dialog({
 		 autoOpen: false,
 		 width: $(window).width() * 0.6,
-		 height: $(window).height() * 0.3,
+		 height: $(window).height() * 0.7,
 		 modal: true,
 		 position: {
 			  my: "center top",
