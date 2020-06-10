@@ -14,20 +14,25 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import srv.config.WebSecurityConfig;
+import srv.controllers.EventController;
 import srv.controllers.HoursController;
 import srv.domain.event.Event;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.EventService;
 import srv.services.ServiceHoursService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(HoursController.class)
+@Import(WebSecurityConfig.class)
 public class HoursControllerTest {
 
 	@Autowired
@@ -43,8 +48,9 @@ public class HoursControllerTest {
 	@MockBean
 	JdbcTemplateUserDao uDao;
 	
+	
 	@MockBean
-	JdbcTemplateEventTypeDao eDao;
+	private EventService mockService;
 
 	@Test
 	public void basicHtmlPageTest() throws Exception {
