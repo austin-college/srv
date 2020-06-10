@@ -35,9 +35,9 @@ import srv.services.ServiceHoursService;
 class ServiceHoursDaoTests {
 
 	private static Logger log = LoggerFactory.getLogger(ServiceHoursDaoTests.class);
-	
-	@Autowired
-	ServiceHoursService hrSvc;
+
+	// @Autowired
+	// ServiceHoursService hrSvc;
 
 	@Autowired
 	ServiceHoursDao dao;
@@ -258,60 +258,56 @@ class ServiceHoursDaoTests {
 		assertEquals("House Painting", sh1.getDescription());
 	}
 	
+	/*
+	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests
+	 */
+
 	/**
 	 * Tests the method that calculated the total hours served in the last semester.
 	 * currently cannot differentiate servants, since there is only one. This is
 	 * reflected in this test
 	 */
-	@Test
-	void testSemTot() throws Exception {
-		List<ServiceHours> hours = hrSvc.listHours();
-		double result = hrSvc.getSemTot(hours);
-		double expected = 3.5;
-		assertEquals(result, expected);
-		
-	}
-	
-	/**
-	 * Tests the method that calculated the total hours served in the last term.
-	 * currently cannot differentiate servants, since there is only one. This is
-	 * reflected in this test
-	 */
-	@Test
-	void testTermTot() throws Exception {
-		List<ServiceHours> hours = hrSvc.listHours();
-		double result = hrSvc.getTermTot(hours);
-		double expected = 7.0;
-		assertEquals(result, expected);
-		
-	}
-	
-	/**
-	 * Tests the method that calculated the total hours served in the last term.
-	 * currently cannot differentiate servants, since there is only one. This is
-	 * reflected in this test
-	 */
-	@Test
-	void testTotOrgs() throws Exception {
-		List<ServiceHours> hours = hrSvc.listHours();
-		int result = hrSvc.getTotOrgs(hours);
-		int expected = 4;
-		assertEquals(result, expected);
-		
-	}
-	
-	/**
-	 * Tests the method that calculated the total hours served in the last term.
-	 * currently cannot differentiate servants, since there is only one. This is
-	 * reflected in this test
-	 */
-	@Test
-	void testAvgPerMo() throws Exception {
-		List<ServiceHours> hours = hrSvc.listHours();
-		int result = hrSvc.getAvgPerMo(hours);
-		int expected = 1;
-		assertEquals(result, expected);
-		
-	}
+	/*
+	 * @Test void testSemTot() throws Exception { List<ServiceHours> hours =
+	 * hrSvc.listHours(); double result = hrSvc.getSemTot(hours); double expected =
+	 * 3.5; assertEquals(result, expected);
+	 * 
+	 * }
+	 * 
+	 *//**
+		 * Tests the method that calculated the total hours served in the last term.
+		 * currently cannot differentiate servants, since there is only one. This is
+		 * reflected in this test
+		 */
+	/*
+	 * @Test void testTermTot() throws Exception { List<ServiceHours> hours =
+	 * hrSvc.listHours(); double result = hrSvc.getTermTot(hours); double expected =
+	 * 7.0; assertEquals(result, expected);
+	 * 
+	 * }
+	 * 
+	 *//**
+		 * Tests the method that calculated the total hours served in the last term.
+		 * currently cannot differentiate servants, since there is only one. This is
+		 * reflected in this test
+		 */
+	/*
+	 * @Test void testTotOrgs() throws Exception { List<ServiceHours> hours =
+	 * hrSvc.listHours(); int result = hrSvc.getTotOrgs(hours); int expected = 4;
+	 * assertEquals(result, expected);
+	 * 
+	 * }
+	 * 
+	 *//**
+		 * Tests the method that calculated the total hours served in the last term.
+		 * currently cannot differentiate servants, since there is only one. This is
+		 * reflected in this test
+		 *//*
+			 * @Test void testAvgPerMo() throws Exception { List<ServiceHours> hours =
+			 * hrSvc.listHours(); int result = hrSvc.getAvgPerMo(hours); int expected = 1;
+			 * assertEquals(result, expected);
+			 * 
+			 * }
+			 */
 
 }

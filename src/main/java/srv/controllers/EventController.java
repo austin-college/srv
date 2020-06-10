@@ -16,10 +16,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.user.User;
 import srv.services.EventService;
 
 /**
@@ -43,26 +46,91 @@ public class EventController {
 	@Autowired EventService eventService;
 
 	/**
-	 * displays the admin manage events page
+	 * Displays the admin manage events page. Allows for filtering the events table 
+	 * based off of the query parameters
+	 * 
 	 * @param request
 	 * @param response
+	 * @param before 	query parameter for filtering events before current date
+	 * @param after 	query parameter for filtering events after current date
+	 * @param eType		query parameter for filtering events by event type
+	 * @param sc		query parameter for filtering events by service client
+	 * @param bm		query parameter for filtering events by board member
 	 * @return
 	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("events")
-	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String before,  @RequestParam(required = false) String after,
+			@RequestParam(required = false) String eType, @RequestParam(required = false) String sc, @RequestParam(required = false) String bm) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");
-
+				
 		try {
-
-			// Lists the current events in the event database in a table
-			List<Event> myEvents = eventService.allEvents();
-			List<EventType> types = eventService.allEventTypes();
 			
-			mav.addObject("events", myEvents);
+			List<Event> myEvents;
+			List<EventType> types = eventService.allEventTypes();
+			List<ServiceClient> clients = eventService.allServiceClients();
+			List<User> boardMembers = eventService.allBoardMembers();
+			
 			mav.addObject("evtypes", types);
+			mav.addObject("sClients", clients);
+			mav.addObject("users", boardMembers);
+			
+			String beforeP = null;
+			String afterP = null;
+			Integer eTypeP = null;
+			Integer scP = null;
+			Integer bmP = null;
+			
+			mav.addObject("beforeSelected", 0); // turns the toggle button for before off
+			mav.addObject("afterSelected", 0); // turns the toggle button for after off
+			mav.addObject("monthSelected", 0); // turns the toggle button for last month off
+			mav.addObject("selectedEtid", 0); // sets the combo box for event types to 'List All' 
+			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
+		
+			// Filtering by past events
+			if (before != null) {
+				
+				beforeP = before;
+				mav.addObject("beforeSelected", 1);
+				
+				// Filtering by last month's events
+				if (before.equals("now-1M"))
+					mav.addObject("monthSelected", 1);
+			}
+			
+			// Filtering by future events
+			if (after != null) {
+				
+				afterP = after;
+				mav.addObject("afterSelected", 1);
+				
+				// Filtering by next month's events
+				if (after.equals("now+1M"))
+					mav.addObject("monthSelected", 1);
+			}
+			
+			// Filtering by event type
+			if (eType != null) {
+				eTypeP = Integer.valueOf(eType);
+				mav.addObject("selectedEtid", Integer.valueOf(eType));
+			}
+			
+			// Filtering by service client
+			if (sc != null) {
+				scP = Integer.valueOf(sc);
+				mav.addObject("selectedScid", Integer.valueOf(sc));
+			}
+			
+			// TODO needs board member dao support before this to work
+			if (bm != null) {
+				bmP = Integer.valueOf(bm);
+				mav.addObject("selectedBmid", Integer.valueOf(bm));
+			}
+			
+			myEvents = eventService.filteredEvents(beforeP, afterP, eTypeP, scP, bmP);			
 
+			mav.addObject("events", myEvents);
 
 		} catch (Exception e) {
 
@@ -260,6 +328,6 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-
 	}
+	
 }

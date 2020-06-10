@@ -52,4 +52,6 @@ public interface EventDao {
 	 * @throws Exception
 	 */
 	public Event fetchEventById(int eid) throws Exception;
+	
+	public List<Event> listByFilter(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception;
 }

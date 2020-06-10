@@ -79,12 +79,12 @@ public class H2DatabaseConfig {
 	/*
 	 * Added ServiceHoursService Bean for autowired dependency in HoursController
 	 */
-	@Bean
-	public ServiceHoursService serviceHoursService() {
-		
-		return new ServiceHoursService();
-		
-	}
+//	@Bean
+//	public ServiceHoursService serviceHoursService() {
+//		
+//		return new ServiceHoursService();
+//		
+//	}
 	
 	/*TODO Unsure if this Bean should be made*/
 	@Bean

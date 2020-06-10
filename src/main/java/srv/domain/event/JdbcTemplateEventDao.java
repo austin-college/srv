@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import aj.org.objectweb.asm.Type;
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.JdbcTemplateContactDao;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
@@ -55,7 +57,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	@Override
 	public List<Event> listAll() throws Exception {
 		List<Event> results = getJdbcTemplate().query(
-				"select eventId, title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note from events",
+				"select * from events",
 				new EventRowMapper());
 
 		return results;
@@ -133,7 +135,6 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			ps.setTimestamp(4,  ts);
 		}
 			
-		
 		if (eventTypeId == null)
 			ps.setNull(5, java.sql.Types.INTEGER);
 		else
@@ -241,7 +242,95 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 
 		return results.get(0);
 	}
+	
+	/**
+	 * Filters the list of events by dates, event types, service clients, and
+	 * board members.
+	 * 
+	 */
+	@Override
+	public List<Event> listByFilter(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
+	
+		// Allows for dynamic building of query string based on parameters
+		StringBuffer queryBuff = new StringBuffer("select * from events ");
+		
+		// Flag for if the parameter is first in the query
+		boolean first = true;
+	
+		// Filters for past events
+		if (startDate != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("where ");
+			}
+			else {
+				queryBuff.append("and ");
+			}
+			queryBuff.append("dateOf <= ");
+			queryBuff.append("'");
+			queryBuff.append(startDate);
+			queryBuff.append("' ");
+		}
+		
+		// Filters for future events
+		if (endDate != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("where ");
+			}
+			else
+				queryBuff.append("and ");
+			
+			queryBuff.append("dateOf >= ");
+			queryBuff.append("'");
+			queryBuff.append(endDate);
+			queryBuff.append("' ");
+		}
+		
+		// Filters by event type
+		if (eTypeId != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("where ");
+			}
+			else
+				queryBuff.append("and ");
+			
+			queryBuff.append("eventTypeId = ");
+			queryBuff.append("'");
+			queryBuff.append(eTypeId);
+			queryBuff.append("' ");
+		}
+		
+		// Filters by service client
+		if (scId != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("where ");
+			}
+			else
+				queryBuff.append("and ");
+			
+			queryBuff.append("serviceClientId = ");
+			queryBuff.append("'");
+			queryBuff.append(scId);
+			queryBuff.append("' ");
+		}
+		
+		// TODO wait until there is dao support for board member users
+		// Filters by board member
+		if (bmId != null) {
+			
+		}
+		
+		log.debug(queryBuff.toString());
+		
+		List<Event> results = getJdbcTemplate().query(queryBuff.toString(),	new EventRowMapper());
 
+		return results;	
+	}
+	
+	
 	/**
 	 * This class maps a Event database record to the Event model object by using
 	 * a RowMapper interface to fetch the records for a Event from the database.
@@ -277,4 +366,5 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 			return ev;
 		}
 	}
+
 }
