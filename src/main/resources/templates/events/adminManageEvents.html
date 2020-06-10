@@ -33,7 +33,7 @@
 				<div class="custom-control custom-switch">
 					<!-- Turns before toggle button on after page is reloaded as long as the no other toggles are not on -->
 					<#if afterSelected == 0 && beforeSelected == 1>
-  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="removeQueryUrl(this.id)" checked/> 						
+  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="removeQueryUrl(this.id)" checked="checked"/> 						
   					<!-- Before toggle button is turned off when no other toggles are not on-->
   					<#else>
   						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="queryUrl(this.id)"/>
@@ -49,7 +49,7 @@
 				<div class="custom-control custom-switch">
 					<!-- Turns after toggle button on after page is reloaded as long as the no other toggles are not on-->
 					<#if beforeSelected == 0 && afterSelected == 1>
-  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="removeQueryUrl(this.id)" checked/>
+  						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="removeQueryUrl(this.id)" checked="checked"/>
   					<!-- After toggle button is turned off when no other toggles are not on-->
   					<#else>
   						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="queryUrl(this.id)"/>
@@ -66,7 +66,7 @@
 			<div class="custom-control custom-switch">
 			
 				<#if beforeSelected == 1 && monthSelected == 1>
-					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="removeQueryUrl(this.id)" checked/>
+					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="removeQueryUrl(this.id)" checked="checked"/>
 					<label class="custom-control-label" for="oneMonthBeforeToggle">One Month Duration</label>
   			
 				<#elseif beforeSelected == 1 && monthSelected == 0>
@@ -74,7 +74,7 @@
   					<label class="custom-control-label" for="oneMonthBeforeToggle">One Month Duration</label>
 
 				<#elseif afterSelected == 1 && monthSelected == 1>
-					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="removeQueryUrl(this.id)" checked/>
+					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="removeQueryUrl(this.id)" checked="checked"/>
   					<label class="custom-control-label" for="oneMonthAfterToggle">One Month Duration</label>
   					
 				<#elseif afterSelected == 1 && monthSelected == 0>
@@ -104,7 +104,7 @@
 
 				<#list evtypes as et>
 					<#if et.etid == selectedEtid >
-						<option value="${et.etid}" selected>(${et.name}) ${et.description}</option>
+						<option value="${et.etid}" selected="selected">(${et.name}) ${et.description}</option>
 					<#else>
 						<option value="${et.etid}">(${et.name}) ${et.description}</option>				
 					</#if>
@@ -121,7 +121,7 @@
 				
 				<#list sClients as sc>
 					<#if sc.scid == selectedScid>
-						<option value="${sc.scid}" selected>${sc.name}</option>
+						<option value="${sc.scid}" selected="selected">${sc.name}</option>
 					<#else>
 						<option value="${sc.scid}">${sc.name}</option>
 					</#if>					

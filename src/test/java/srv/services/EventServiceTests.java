@@ -1,13 +1,9 @@
 package srv.services;
 
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -426,7 +422,7 @@ public class EventServiceTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void test_filter_NextMonthEvents() throws Exception {
+	public void test_filter_nextMonthEvents() throws Exception {
 
 		List<Event> list = new ArrayList<Event>();
 		list.add(e1); list.add(e2);
