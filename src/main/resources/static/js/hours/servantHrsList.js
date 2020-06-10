@@ -1,3 +1,30 @@
+function prepopulateAddDialogue(){
+	
+	//step1 which event did they select
+	
+	var eid= $("#newEvId").val();
+	
+	// step2 retrieve event info
+	$.ajax({
+		method: "GET",
+  	    url: "/srv/events/ajax/event/"+ eid,
+  	    cache: false
+  	    
+    })
+    /*
+	 * If successful, then remove the selected service hour from the table.
+	 */
+	.done(function(ev) {
+		$("#txtEvTitle").val(ev); //change name to ev.title to get events title field
+		//ToDo finish populating all other fields
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+	});
+}
 /**
  * The delete hour function makes an AJAX call to remove
  * the selected service hour from the table.
@@ -210,7 +237,8 @@ $(document).ready(function() {
 			width: 700,
 			modal: true,
 			open: function(event, ui) {			
-				console.log("WOOOO");	
+				console.log("populating dialogue");	//replace with a javascript function that will put data into the add dialogue
+				prepopulateAddDialogue();
 			}
 		});
 	 $("#etDlg").dialog({

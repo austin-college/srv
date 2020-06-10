@@ -330,4 +330,24 @@ public class EventController {
 
 	}
 	
+	@GetMapping(value = "/events/ajax/event/{id}")
+	public ResponseEntity<String> ajaxFetchEvent(@PathVariable Integer id) {
+
+    	try {
+    		
+    		System.err.println("fetch "+id);
+    		log.debug("fetch event {}", id);
+    		
+			Event ev = eventService.eventById(id);
+			
+		    return new ResponseEntity<>(ev.getTitle(), HttpStatus.OK);
+		    
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+
+	}
+
+	
 }
