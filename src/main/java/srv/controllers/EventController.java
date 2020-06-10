@@ -46,7 +46,9 @@ public class EventController {
 	@Autowired EventService eventService;
 
 	/**
-	 * displays the admin manage events page
+	 * Displays the admin manage events page. Allows for filtering the events table 
+	 * based off of the query parameters
+	 * 
 	 * @param request
 	 * @param response
 	 * @param before 	query parameter for filtering events before current date
@@ -86,25 +88,35 @@ public class EventController {
 			mav.addObject("selectedEtid", 0); // sets the combo box for event types to 'List All' 
 			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
 		
+			// Filtering by past events
 			if (before != null) {
+				
 				beforeP = before;
 				mav.addObject("beforeSelected", 1);
+				
+				// Filtering by last month's events
 				if (before.equals("now-1M"))
 					mav.addObject("monthSelected", 1);
 			}
 			
+			// Filtering by future events
 			if (after != null) {
+				
 				afterP = after;
 				mav.addObject("afterSelected", 1);
+				
+				// Filtering by next month's events
 				if (after.equals("now+1M"))
 					mav.addObject("monthSelected", 1);
 			}
 			
+			// Filtering by event type
 			if (eType != null) {
 				eTypeP = Integer.valueOf(eType);
 				mav.addObject("selectedEtid", Integer.valueOf(eType));
 			}
 			
+			// Filtering by service client
 			if (sc != null) {
 				scP = Integer.valueOf(sc);
 				mav.addObject("selectedScid", Integer.valueOf(sc));

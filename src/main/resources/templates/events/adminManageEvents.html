@@ -31,15 +31,17 @@
 			<!-- Toggle button for filtering events before current date -->
 			<div class="col-sm-2 text-right toggle" >
 				<div class="custom-control custom-switch">
-					<!-- Turns before toggle button on after page is reloaded as long as the no other toggles are not on -->
+				
+					<!-- Turns past toggle button on after page is reloaded if the future toggle button is not on -->
 					<#if afterSelected == 0 && beforeSelected == 1>
-  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="removeQueryUrl(this.id)" checked="checked"/> 						
-  					<!-- Before toggle button is turned off when no other toggles are not on-->
+  						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="removeQueryUrl(this.id)" checked="checked"/> 	
+  											
+  					<!-- Past toggle button is turned off when not selected or the future toggle button is on -->
   					<#else>
   						<input type="checkbox" class="custom-control-input" id="beforeToggle" onclick="queryUrl(this.id)"/>
-					<!-- Disables toggle button when another toggle button is on -->
-					
+				
   					</#if> 
+  					
   					<label class="custom-control-label" for="beforeToggle">Past Events</label>
 				</div>
 			</div>
@@ -47,40 +49,47 @@
 			<!-- Toggle button for filtering events after current date -->
 			<div class="col-sm-2 text-right toggle" >
 				<div class="custom-control custom-switch">
-					<!-- Turns after toggle button on after page is reloaded as long as the no other toggles are not on-->
+				
+					<!-- Turns future toggle button on after page is reloaded if the past toggle button is not on -->
 					<#if beforeSelected == 0 && afterSelected == 1>
   						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="removeQueryUrl(this.id)" checked="checked"/>
-  					<!-- After toggle button is turned off when no other toggles are not on-->
+  						
+  					<!-- Future toggle button is turned off when not selected or the past toggle button is on -->
   					<#else>
   						<input type="checkbox" class="custom-control-input" id="afterToggle" onclick="queryUrl(this.id)"/>
-  					<!-- Disables toggle button when another toggle button is on -->
   					
   					</#if>
+  					
   					<label class="custom-control-label" for="afterToggle">Future Events</label>
 				</div>
 			</div>
 			
 		
-
+		<!-- Toggle button for filtering events by 1 month duration -->
 		<div class="col-sm-3 text-right toggle" style="padding-right: 15px;">
 			<div class="custom-control custom-switch">
 			
+				<!-- Turns one month duration toggle button on after page is reloaded  and the past toggle button is on -->
 				<#if beforeSelected == 1 && monthSelected == 1>
 					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="removeQueryUrl(this.id)" checked="checked"/>
 					<label class="custom-control-label" for="oneMonthBeforeToggle">One Month Duration</label>
   			
+  				<!-- Turns one month duration toggle button off if the past toggle button is on -->
 				<#elseif beforeSelected == 1 && monthSelected == 0>
 					<input type="checkbox" class="custom-control-input" id="oneMonthBeforeToggle" onclick="queryUrl(this.id)"/>
   					<label class="custom-control-label" for="oneMonthBeforeToggle">One Month Duration</label>
 
+				<!-- Turns the one month duration toggle button on after page is reloaded and the future toggle button is on -->
 				<#elseif afterSelected == 1 && monthSelected == 1>
 					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="removeQueryUrl(this.id)" checked="checked"/>
   					<label class="custom-control-label" for="oneMonthAfterToggle">One Month Duration</label>
   					
+  				<!-- Turns one month duration toggle button on if the future toggle button is on -->
 				<#elseif afterSelected == 1 && monthSelected == 0>
 					<input type="checkbox" class="custom-control-input" id="oneMonthAfterToggle" onclick="queryUrl(this.id)"/>
   					<label class="custom-control-label" for="oneMonthAfterToggle">One Month Duration</label>
-  		
+  				
+  				<!-- Disables the one month duration toggle button as long as the past or future toggles are not on/selected -->
 				<#else>
   					<input type="checkbox" class="custom-control-input" id="monthToggle" disabled="disabled"/>
   					<label class="custom-control-label" for="monthToggle">One Month Duration</label>
@@ -88,11 +97,7 @@
 					
 			</div>
 		</div>
-		
-
-		
-
-		</div>
+	</div>
 
 	<div class="row" style="padding-left:100px;padding-bottom: 20px">
 		

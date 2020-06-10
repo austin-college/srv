@@ -5,7 +5,7 @@ function onNewClick() {
 	$("#dlgNewEvent").dialog("open");
 }
 
-/*
+/**
  * Resets the url to be /srv/events without query parameters. 
  * Occurs when 'Clear All Filters' button is selected.
  */
@@ -13,129 +13,131 @@ function baseUrl() {
 	location.href = location.href.split('?')[0];
 }
 
+/**
+ * When a toggle button is turned off or a combo box selected to
+ * 'List All', this function removes that query/filter's string
+ * parameter in the URL.
+ * 
+ * @param filter
+ * @returns
+ */
 function removeQueryUrl(filter) {
 	
 	var newUrl = location.href;
+	var deleteQuery;
+	var newQuery = "";
 	var currentUrlArray = location.href.split(/[\&,?]+/);
 	
 	console.log(currentUrlArray.length);
 	
+	// If the past toggle button is turned off
 	if (filter == 'beforeToggle') {	
 		
-		if (newUrl.includes("before=now-1M")) {
-		
-			if (currentUrlArray.length == 2)
-				newUrl = newUrl.replace('?before=now-1M', "");
-			else if (currentUrlArray[1] == "before=now-1M")
-				newUrl = newUrl.replace('before=now-1M&', "");
-			else
-				newUrl = newUrl.replace('&before=now-1M', "");	
-			
-		}
-		
-		else {
-			
-			if (currentUrlArray.length == 2)
-				newUrl = newUrl.replace('?before=now', "");
-			else if (currentUrlArray[1] == "before=now")
-				newUrl = newUrl.replace('before=now&', "");
-			else
-				newUrl = newUrl.replace('&before=now', "");
-		}
+		// If the duration button was also selected
+		if (newUrl.includes("before=now-1M")) 
+			deleteQuery = 'before=now-1M';
+
+		else 
+			deleteQuery = "before=now"; 	
 	}
 	
+	// If the future toggle button is turned off
 	else if (filter == 'afterToggle') {
 	
-		if (newUrl.includes("after=now%2B1M")) {
-	
-			if (currentUrlArray.length == 2)
-				newUrl = newUrl.replace('?after=now%2B1M', "");
-			else if (currentUrlArray[1] == "after=now%2B1M")
-				newUrl = newUrl.replace('after=now%2B1M&', "");
-			else
-				newUrl = newUrl.replace('&after=now%2B1M', "");				
-		}
-		
-		else {
-
-			if (currentUrlArray.length == 2)
-				newUrl = newUrl.replace('?after=now', "");
-			else if (currentUrlArray[1] == "after=now")
-				newUrl = newUrl.replace('after=now&', "");
-			else
-				newUrl = newUrl.replace('&after=now', "");
-		}
+		// If the duration button was also selected
+		if (newUrl.includes("after=now%2B1M")) 
+			deleteQuery = 'after=now%2B1M';
+		else
+			deleteQuery = 'after=now';
 	}
 	
+	// If the duration for last month toggle button is turned off
 	else if (filter == 'oneMonthBeforeToggle') {
+	
+		deleteQuery = 'before=now-1M';
+		
 		if (currentUrlArray.length == 2)
-			newUrl = newUrl.replace('?before=now-1M', "?before=now");
-		else if (currentUrlArray[1] == "before=now-1M")
-			newUrl = newUrl.replace('before=now-1M&', "before=now&");
+			newQuery = "?before=now";
 		else
-			newUrl = newUrl.replace('&before=now-1M', "&before=now");	
+			newQuery = "before=now";
 	}
 	
+	// If the duration for next month toggle button is turned off
 	else if (filter == 'oneMonthAfterToggle') {
+		deleteQuery = 'after=now%2B1M';
+		
 		if (currentUrlArray.length == 2)
-			newUrl = newUrl.replace('?after=now%2B1M', "?after=now");
-		else if (currentUrlArray[1] == "after=now%2B1M")
-			newUrl = newUrl.replace('after=now2%B1M&', "after=now&");
+			newQuery = "?after=now";
 		else
-			newUrl = newUrl.replace('&after=now%2B1M', "&after=now");	
+			newQuery = "after=now";
 	}
 	
+	// If the event type combo box is selected to 'List All'
 	else if (filter == 'eTypeComboBox') {
 		
 		deleteQuery = findQuery(currentUrlArray, 1);
-		
-		if (currentUrlArray.length == 2)
-			newUrl = newUrl.replace('?' + deleteQuery, "");
-		else if (currentUrlArray[1].includes('?eType='))
-			newUrl = newUrl.replace(deleteQuery + '&', "");
-		else
-			newUrl = newUrl.replace('&' + deleteQuery, "");	
 	}
 
+	// If the service client combo box is selected to 'List All'
 	else if (filter == 'scComboBox') {
 		
 		deleteQuery = findQuery(currentUrlArray, 2);
-
-		if (currentUrlArray.length == 2)
-			newUrl = newUrl.replace('?' + deleteQuery, "");
-		else if (currentUrlArray[1].includes('?sc='))
-			newUrl = newUrl.replace(deleteQuery + '&', "");
-		else
-			newUrl = newUrl.replace('&' + deleteQuery, "");	
 	}
 	
-	console.log(newUrl);
+	// If the query string was the one and only query in the URL
+	if (currentUrlArray.length == 2)
+		newUrl = newUrl.replace('?'+deleteQuery, newQuery);
 	
+	// If the query string was the first in the URL
+	else if (currentUrlArray[1] == deleteQuery)
+		newUrl = newUrl.replace(deleteQuery+'&', newQuery);
+	
+	// If the query string was elsewhere in the URL
+	else
+		newUrl = newUrl.replace('&'+deleteQuery, newQuery);
+	
+	console.log(newUrl);
+	console.log(deleteQuery);
+	console.log(newQuery);
+
 	location.href = newUrl;
 	
 }
 
+/**
+ * Helper method that finds and returns the specified query in the url.
+ * This is helpful to find the query strings in order to replace them.
+ * Returns the string of the entire query i.e. "before=now-1M"
+ * 
+ * @param urlArray
+ * @param flag
+ * @returns
+ */
 function findQuery(urlArray, flag) {
 	
 	var query;
 	
 	for (var index = 0; index < urlArray.length; index++) {
 		
+		// Specified query is for event type
 		if(flag == 1) {
 			if (urlArray[index].includes("eType="))
 				query = urlArray[index];
 		}
 		
+		// Specified query is for service client
 		else if (flag == 2) {
 			if (urlArray[index].includes("sc="))
 				query = urlArray[index];
 		}
 		
+		// Specified query is for past events
 		else if (flag == 3) {
 			if (urlArray[index].includes("before="))
 				query = urlArray[index];
 		}
 		
+		// Specified query is for future events
 		else if (flag == 4) {
 			if (urlArray[index].includes("after="))
 				query = urlArray[index];		
@@ -145,11 +147,29 @@ function findQuery(urlArray, flag) {
 	return query;
 }
 
+/**
+ * Helper method that verifies if the specified filter/query is already
+ * contained in the URL. This is helpful to avoid repeats in the URL.
+ * 
+ * Returns an array where the first index is the new URL and the second
+ * is a boolean flag for whether or not the query/filter was already in 
+ * the URL.
+ * 
+ * @param filter
+ * @param url
+ * @param comboBoxSelectedId
+ * @returns
+ */
 function urlContains(filter, url, comboBoxSelectedId) {
 	
 	comboBoxSelectedId = comboBoxSelectedId || -1; 
 	contains = false;
 	
+	/*
+	 * If the specified query is for event type and it has been selected before,
+	 * find its location in the URL and replace it with the newly selected event
+	 * type id.
+	 */
 	if ((filter == 'eTypeComboBox') && (url.includes("eType="))) {
 		
 		oldQuery = findQuery(location.href.split(/[\&,?]+/), 1);
@@ -157,6 +177,11 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		contains = true;
 	}
 	
+	/*
+	 * If the specified query is for service client and it has been selected before,
+	 * find its location in the URL and replace it with the newly selected service
+	 * client id.
+	 */
 	else if ((filter == 'scComboBox') && (url.includes("sc="))) {
 		
 		oldQuery = findQuery(location.href.split(/[\&,?]+/), 2);
@@ -164,6 +189,10 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		contains = true;
 	}
 	
+	/*
+	 * If the duration toggle for the last month has been selected, find its
+	 * location in the URL and replace it with 'before=now-1M' 
+	 */
 	else if (filter == 'oneMonthBeforeToggle') {
 		
 		oldQuery = findQuery(location.href.split(/[\&,?]+/), 3);
@@ -171,6 +200,10 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		contains = true;
 	}
 	
+	/*
+	 * If the duration toggle for the next month has been selected, find 
+	 * its location in the URL and replace it with 'after=now+1M'
+	 */
 	else if (filter == 'oneMonthAfterToggle') {
 
 		oldQuery = findQuery(location.href.split(/[\&,?]+/), 4);
@@ -178,8 +211,17 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		contains = true;
 	}
 	
+	/*
+	 * If the past toggle has been selected and the URL previously was
+	 * showing future events, replace the query for future events with the
+	 * query for past events. 
+	 */
 	else if ((filter == 'beforeToggle') && (url.includes("after="))){
 
+		/*
+		 * If the duration toggle was also selected, replace with query for
+		 * last month's events
+		 */
 		if (url.includes("after=now%2B1M")) {
 			oldQuery = findQuery(location.href.split(/[\&,?]+/), 4);
 			url = url.replace(oldQuery, 'before=now-1M');			
@@ -191,8 +233,17 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		contains = true;
 	}
 	
+	/*
+	 * If the future toggle has been selected and the URL previously was
+	 * showing past events, replace the query for past events with the 
+	 * query for future events.
+	 */
 	else if ((filter == 'afterToggle') && (url.includes("before="))) {
 		
+		/*
+		 * If the duration toggle was also selected, replace with query for
+		 * next month's events
+		 */
 		if (url.includes("before=now-1M")) {
 			oldQuery = findQuery(location.href.split(/[\&,?]+/), 3);
 			url = url.replace(oldQuery, 'after=now%2B1M');
@@ -209,6 +260,17 @@ function urlContains(filter, url, comboBoxSelectedId) {
 	return [url, contains];
 
 }
+
+/**
+ * When toggle button or combo box is selected, this function is 
+ * responsible for creating the new URL with the specified query based
+ * on the toggle button/combo box selected. After the URL is created,
+ * reloads the page with that URL. 
+ * 
+ * @param filter
+ * @param comboBoxSelectedId
+ * @returns
+ */
 function queryUrl(filter, comboBoxSelectedId) {
 	
 	comboBoxSelectedId = comboBoxSelectedId || -1; 
@@ -220,23 +282,34 @@ function queryUrl(filter, comboBoxSelectedId) {
 	
 	console.log(currentUrl);
 	
+	/*
+	 * Verifies if the specified query/filter was already in the URL. If so,
+	 * the new URL is already completed due to the helper urlContains() method.
+	 * If not, creates new URL.
+	 */
 	if (!containsArray[1]) {	
 		
+		// If the query is first in the URL
 		if (currentUrl.includes("?")) 
 			currentUrl += "&";
-
+		
+		// If the query is not first in the URL
 		else 
 			currentUrl += "?";
-		
+
+		// If the specified query is for past events
 		if (filter == 'beforeToggle')
 			currentUrl += 'before=now';		
-	
+		 
+		// If the specified query is for future events
 		else if (filter == 'afterToggle')
 			currentUrl += 'after=now';
-		
+
+		// If the specified query is for event types
 		else if (filter == 'eTypeComboBox')
 			currentUrl += 'eType=' + comboBoxSelectedId;
 	
+		// If the specified query is for service clients
 		else if (filter == 'scComboBox')
 			currentUrl += 'sc=' + comboBoxSelectedId;
 	}
