@@ -68,35 +68,30 @@ public class ServiceHoursServiceTests {
 				.setReflection("test 2 reflection")
 				.setDescription("test 2 description");
 	}
-	/**
-	 * Tests the initialize method in the constructor. 
-	 */
 	
-	  @Test 
-	  public void testInitialize() throws Exception {
-	 
-	  
-	  
-	  List<ServiceHours> dummyList = new ArrayList<ServiceHours>();
-	  dummyList.add(sh1); dummyList.add(sh2);
-	  
-	  Mockito.when(dao.listAll()).thenReturn(dummyList);
-	  
-	  shs.initialize();
-	  
-	  List<ServiceHours> testList = shs.hrs;
-	  
-	  assertEquals(dummyList, testList);
-	  assertEquals(2, testList.size());
-	  
-	  Mockito.verify(dao); 
-	  
-	  }
-	 
+	
+	
 	
 	@Test
-	public void testCreateServiceHour_whenServiceHourIdValid() throws Exception {
+
+	public void testListHours() throws Exception {
+
+	
 		
+		ServiceHours sh1 = new ServiceHours().setShid(1).setHours(3.0);
+		ServiceHours sh2 = new ServiceHours().setShid(2).setHours(2.0);
+		
+		List<ServiceHours> dummyList = new ArrayList<ServiceHours>();
+		dummyList.add(sh1);
+		dummyList.add(sh2);
+		
+		Mockito.when(dao.listAll()).thenReturn(dummyList);
+		
+		List<ServiceHours> testList = shs.listHours();
+
+		assertEquals(2, testList.size());
+		
+		Mockito.verify(dao.listAll());
 		
 	}
 

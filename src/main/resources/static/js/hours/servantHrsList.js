@@ -249,6 +249,48 @@ $(document).ready(function() {
 			 }]
 	 });
 
+	 // dialog for selecting the events when creating new.
+	 $("#dlgEvSel").dialog({
+		 autoOpen: false,
+		 width: $(window).width() * 0.6,
+		 height: $(window).height() * 0.6,
+		 modal: true,
+		 position: {
+			  my: "center top",
+			  at: "center top",
+			  of: window
+			},
+		 open: function(event, ui) {			
+			 console.log("open select dialog");	
+		 },
+		 buttons: [
+			 {
+				 text: "Submit", 
+				 "id": "addBtnDlg",
+				 "class": 'btn',
+				 click: function() {		
+					 console.log("submit on select dialog");
+					
+					 
+					 $("#addDlg").dialog("open");
+					 
+					 $(this).dialog("close");
+
+				 }
+			 },
+			 {	
+				 text: "Cancel",
+				 "class": 'btn btn-secondary',
+				 click: function() {
+					 console.log("cancel on select dialog");
+					 $(this).dialog("close");
+
+				 }
+			 }]
+	 });
+	 
+	 
+	 
 	/* 
      * Opens delete service hour dialog and passes in the selected delete button's service hour's id
      * when a user clicks a delete button.
@@ -278,6 +320,35 @@ $(document).ready(function() {
     
     $(".addBtn").on("click", function() {
     	console.log("HERE");
-    	$("#etDlg").dialog("open");
+    	//$("#etDlg").dialog("open");
+    	
+    	$("#dlgEvSel").dialog("open");
     });
+    
+    
+	$('#tblEvents').DataTable({	
+		"paging": false,
+		"searching": true,
+		"info": false
+	});
+	
+	
+	$('#tblEvents').on( 'search.dt', function () {
+		$(".boxSel").prop("checked",false);  // clear all others
+	} );
+	
+	
+	$(".boxSel").click( function() {
+		
+		var state = $(this).prop("checked");
+		
+		if (state) {
+			var eid = $(this).attr("eid");
+			$("#newEvId").val(eid);
+		}
+		
+		$(".boxSel").prop("checked",false);  // clear all others		
+		$(this).prop("checked",state);  // reassert current state on current button  
+	});
+	
 });

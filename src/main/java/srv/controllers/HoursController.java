@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.services.EventService;
 import srv.services.ServiceHoursService;
 
 /**
@@ -32,15 +36,19 @@ import srv.services.ServiceHoursService;
 @Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT"})
 public class HoursController {
 	
+	private static Logger log = LoggerFactory.getLogger(HoursController.class);
+	
 	@Autowired
 	ServiceHoursService hrSvc;
+	
+	@Autowired
+	EventService evSvc;
+	
 	
 	//TODO BAD CODE SEE USER UTIL FOR MORE INFO
 	@Autowired
 	JdbcTemplateUserDao uDao;
 	
-	@Autowired
-	JdbcTemplateEventTypeDao eDao;
 	
 	/**
 	 * Splash action displays the splash page. See splash.html template
@@ -52,33 +60,38 @@ public class HoursController {
 	 * @author Hunter Couturier
 	 */
 	@GetMapping("/viewHours")
-	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
-
-		mav.addObject("hours", hrSvc.listHours());
-		
 		
 		try {
-			List<EventType> eTypes = eDao.listAll();
-			mav.addObject("eventTypes", eTypes);
+		
+			log.debug("fetching hours");
+			List<ServiceHours> hours = hrSvc.listHours();
+			log.debug("...{} hours detected.",hours.size());
+			
+			mav.addObject("hours", hours);
+			
+			log.debug("fetching events");
+			List<Event> events = evSvc.allEvents();
+			log.debug("...{} events detected", events.size());
+			
+			
+			mav.addObject("events", events);
+
+			mav.addObject("semTot", hrSvc.getSemTot(hours)); //total hours served per semester
+			mav.addObject("termTot", hrSvc.getTermTot(hours)); //total hours served per term
+			mav.addObject("totOrgs", hrSvc.getTotOrgs(hours)); //total organizations helped
+			mav.addObject("avgPerMo", hrSvc.getAvgPerMo(hours)); //average hours served per month
+
+			
 		} catch (Exception e1) {
+			
+			log.error(e1.getMessage());
+			
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-	
-		
-		try {
-			mav.addObject("semTot", hrSvc.getSemTot(hrSvc.listHours())); //total hours served per semester
-			mav.addObject("termTot", hrSvc.getTermTot(hrSvc.listHours())); //total hours served per term
-			mav.addObject("totOrgs", hrSvc.getTotOrgs(hrSvc.listHours())); //total organizations helped
-			mav.addObject("avgPerMo", hrSvc.getAvgPerMo(hrSvc.listHours())); //average hours served per month
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-
 		
 		return mav;
 	}
