@@ -35,7 +35,7 @@ public class ServiceHoursServiceTests {
 	 * Tests the initialize method in the constructor. 
 	 */
 	@Test
-	public void testInitialize() throws Exception {
+	public void testListHours() throws Exception {
 		
 		ServiceHours sh1 = new ServiceHours().setShid(1).setHours(3.0);
 		ServiceHours sh2 = new ServiceHours().setShid(2).setHours(2.0);
@@ -46,9 +46,7 @@ public class ServiceHoursServiceTests {
 		
 		Mockito.when(dao.listAll()).thenReturn(dummyList);
 		
-		shs.initialize();
-		
-		List<ServiceHours> testList = shs.hrs;
+		List<ServiceHours> testList = shs.listHours();
 		
 		assertEquals(dummyList, testList);
 		

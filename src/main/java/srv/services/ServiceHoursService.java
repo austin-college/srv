@@ -20,79 +20,34 @@ public class ServiceHoursService {
 	
 	private static org.slf4j.Logger log = LoggerFactory.getLogger(ServiceHoursService.class);
 	
-	public List<ServiceHours> hrs;
 	
-	//autowire
 	@Autowired
 	ServiceHoursDao sHoursDao; 
 	
 	
-	/**
-	 * No argument default constructor that initializes an empty arraylist
-	 * of ServiceHours
-	 */
+	
 	public ServiceHoursService() {
-		
-	hrs = new ArrayList<ServiceHours>();
-	
 	}
 	
-	/**
-	 * Populates a list of ServiceHours using the ServiceHours DAO to retrieve the data.
-	 * Throws an exception if there is an issue with the DAO.
-	 */
-	public void initialize() throws Exception {
-		
-		hrs = sHoursDao.listAll();
-		/*
-		 * ServiceHours a = new ServiceHours() .setShid(1) .setEvent(new
-		 * Event().setTitle("Spending Time with Toys for Tots")) .setHours(6.0)
-		 * .setStatus("Approved"); ServiceHours b = new ServiceHours() .setShid(2)
-		 * .setEvent(new Event().setTitle("Teaching Part Time")) .setHours(2.0)
-		 * .setStatus("Pending"); ServiceHours c = new ServiceHours() .setShid(3)
-		 * .setEvent(new Event().setTitle("Working with Food House")) .setHours(4.0)
-		 * .setStatus("Rejected"); ServiceHours d = new ServiceHours() .setShid(4)
-		 * .setEvent(new Event().setTitle("Volunteering at Service Station"))
-		 * .setHours(2.0) .setStatus("Pending");
-		 * 
-		 * hrs.add(a); hrs.add(b); hrs.add(c); hrs.add(d);
-		 */
+	
+	
+	public List<ServiceHours> listHours() throws Exception{	
+		return sHoursDao.listAll(); 
 	}
 	
-	public List<ServiceHours> listHours(){	return hrs;}
 	
-	public void removeServiceHour(int id)  {
-
 	
-		for(ServiceHours h : hrs) { 
-			if(h.getShid() == id) { 
-			
-				hrs.remove(h);
-				break;
-			 } 
-		  }
+	
+	public void removeServiceHour(int id) throws Exception  {
+		sHoursDao.delete(id);
 	}
+	
 	
 	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, Date date, String desc)   {
-
-		int index = 0;
-		for(ServiceHours h : hrs) {
-			
-			if(h.getShid() == id) {
-				
-				h.setEvent(new Event().setTitle(eName));
-				h.setServedPet(new ServiceClient().setName(org));
-				h.setHours(hrsServed);
-				h.setDate(date);
-				h.setDescription(desc);
-			
-				break;
-			}
-			
-			index++;
-		}
 		
-		return hrs.get(index);
+		//sHoursDao.update(id,  );
+		
+		return null;   
 	}
 	
 	/**
@@ -119,6 +74,8 @@ public class ServiceHoursService {
 		//can't do any of the above because none of the hours have dates and their events don't exist yet
 		//for now just going to average the list of service hours until we can differentiate servants 
 		
+		if (hours.size()==0) return 0.0;
+		
 		//average list
 		for(int i = 0; i < hours.size(); i++) {
 			avg += hours.get(i).getHours();
@@ -131,6 +88,8 @@ public class ServiceHoursService {
 	
 	public double getTermTot(List<ServiceHours> hours) {
 		double avg = 0;
+		
+		if (hours.size()==0) return 0.0;
 		
 		//before this you would make a new list with the dates being from the last term
 		for(int i = 0; i < hours.size(); i++) {
@@ -148,17 +107,21 @@ public class ServiceHoursService {
 		return orgs;
 	}
 	
-	public int getAvgPerMo(List<ServiceHours> hours) {
+	
+	
+	public double getAvgPerMo(List<ServiceHours> hours) {
 		double avg = 0;
+		
+		if (hours.size()==0) return 0.0;
 		
 		//before this you would make a new list with the dates being from the last year
 		for(int i = 0; i < hours.size(); i++) {
 			avg += hours.get(i).getHours();
 		}
-		avg = avg / 12;
-		int refinedAvg = (int) avg;
 		
-		return refinedAvg;
+		avg = avg / 12;
+		
+		return avg;
 	}
 	
 	
