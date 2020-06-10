@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.Event;
@@ -330,8 +331,10 @@ public class EventController {
 
 	}
 	
-	@GetMapping(value = "/events/ajax/event/{id}")
-	public ResponseEntity<String> ajaxFetchEvent(@PathVariable Integer id) {
+	
+	@ResponseBody
+	@GetMapping(value = "/events/ajax/event/{id}", produces="application/json")
+	public ResponseEntity<Event> ajaxFetchEvent(@PathVariable Integer id) {
 
     	try {
     		
@@ -340,7 +343,7 @@ public class EventController {
     		
 			Event ev = eventService.eventById(id);
 			
-		    return new ResponseEntity<>(ev.getTitle(), HttpStatus.OK);
+		    return new ResponseEntity<>(ev, HttpStatus.OK);
 		    
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

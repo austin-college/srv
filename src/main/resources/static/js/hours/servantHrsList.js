@@ -8,15 +8,28 @@ function prepopulateAddDialogue(){
 	$.ajax({
 		method: "GET",
   	    url: "/srv/events/ajax/event/"+ eid,
-  	    cache: false
+  	    cache: false,
+  	    dataType: "json"
   	    
     })
     /*
 	 * If successful, then remove the selected service hour from the table.
 	 */
 	.done(function(ev) {
-		$("#txtEvTitle").val(ev); //change name to ev.title to get events title field
-		//ToDo finish populating all other fields
+		$("#txtEvTitle").val(ev.title);
+		$("#contact-email").val(ev.contact.email);
+		$("#contact-name").val(ev.contact.firstName);
+		
+		//TODO  finish populating all other fields.   See event domain object.
+		
+		// Also, remember that ev.type 
+		
+		// If the field is a select you must set which "option" is selected.  see jquery help docs.
+		
+		// For input text fields (like above),  you can change their values.  Easy.
+		
+		// for checkbox input fields,  you set or clear the "selected" attribute
+		
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.
