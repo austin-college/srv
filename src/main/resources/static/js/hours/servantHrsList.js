@@ -88,7 +88,7 @@ $(document).ready(function() {
 	$("#delDlg").dialog({
 		autoOpen: false,
 		width: $(window).width() * 0.5,
-		height: $(window).height() * 0.1,
+		height: $(window).height() * 0.5,
 		position: {
 			  my: "center top",
 			  at: "center top",
@@ -134,7 +134,7 @@ $(document).ready(function() {
 	$("#hrInfoDlg").dialog({
 		autoOpen: false,
 		 width: $(window).width() * 0.8,
-		 height: $(window).height() * 0.3,
+		 height: $(window).height() * 0.9,
 		modal: true,
 		position: {
 			  my: "center top",
@@ -160,7 +160,7 @@ $(document).ready(function() {
 	 $("#editDlg").dialog({
 		 autoOpen: false,
 		 width: $(window).width() * 0.8,
-		 height: $(window).height() * 0.2,
+		 height: $(window).height() * 0.8,
          modal: true,
 	 		position: {
 				  my: "center top",
@@ -216,7 +216,7 @@ $(document).ready(function() {
 	 $("#etDlg").dialog({
 		 autoOpen: false,
 		 width: $(window).width() * 0.6,
-		 height: $(window).height() * 0.3,
+		 height: $(window).height() * 0.7,
 		 modal: true,
 		 position: {
 			  my: "center top",
