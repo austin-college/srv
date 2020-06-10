@@ -24,6 +24,9 @@ public class ServiceHoursService {
 	@Autowired
 	ServiceHoursDao sHoursDao; 
 	
+	@Autowired
+	EventService eventService; 
+	
 	
 	
 	public ServiceHoursService() {
@@ -53,6 +56,10 @@ public class ServiceHoursService {
 	 * @throws Exception
 	 */
 	public ServiceHours createServiceHour(int eventId) throws Exception {
+		
+		Event e = eventService.eventById(eventId);
+		
+		int scid = e.getServiceClient().getScid();
 		
 		return null;
 		

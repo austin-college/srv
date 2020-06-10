@@ -1,6 +1,7 @@
 package srv.services;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mockitoSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import srv.domain.event.Event;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.user.User;
 
 /**
  * An instance of this class tests the ServiceHoursService class
@@ -71,9 +74,12 @@ public class ServiceHoursServiceTests {
 	
 	
 	
-	
+	/**
+	 * Tests the listHours() method in ServiceHoursService. Should return dummy list. 
+	 * 
+	 * @throws Exception
+	 */
 	@Test
-
 	public void testListHours() throws Exception {
 
 	
@@ -91,8 +97,53 @@ public class ServiceHoursServiceTests {
 
 		assertEquals(2, testList.size());
 		
-		Mockito.verify(dao.listAll());
+		Mockito.verify(dao).listAll();
 		
+	}
+	
+	/**
+	 * Tests the typical case for the createServiceHour method. Should create 
+	 * dummy event based on eventId when it's valid (greater than 0). 
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateServiceHour_whenEventIdIsValid() throws Exception {
+		
+		/*
+		 * Training mock dao to return sh1 regardless of params. 
+		 */
+		Mockito.when(dao.create(
+				Mockito.anyInt(),
+				Mockito.anyInt(), 
+				Mockito.anyInt(),
+				Mockito.anyDouble(),
+				Mockito.any(String.class),
+				Mockito.any(String.class),
+				Mockito.any(String.class)
+				)).thenReturn(sh1);
+		
+		/*
+		 * Exercising serviceHourService create method.
+		 */
+		ServiceHours ns = shs.createServiceHour(1);
+		
+		assertEquals(ns, sh1);
+		
+		/*
+		 * Make sure dao was created with expected parameters. 
+		 */
+		Mockito.verify(dao).create(
+				Mockito.refEq(new ServiceClient()
+							.getScid()),
+				Mockito.refEq(new User()
+							.getUid()),
+				Mockito.refEq(new Event()
+						.getEid()),
+				Mockito.eq(0.0),
+				Mockito.eq("Pending"),
+				Mockito.eq(""),
+				Mockito.eq(""));
 	}
 
 }
