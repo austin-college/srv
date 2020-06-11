@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS serviceClients;
 drop table if exists users;
-drop table if exists reasons;
 drop table if exists eventParticipants;
 drop table if exists eventType;
 drop table if exists events;
