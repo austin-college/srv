@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -171,7 +172,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		 */
 		
 		link = driver.findElement(By.className("btn-primary"));
-		link.click();
+		link.sendKeys(Keys.ENTER);
 		
 	}
 

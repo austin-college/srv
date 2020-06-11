@@ -117,17 +117,13 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		assertEquals(base+"/events", driver.getCurrentUrl());
 
 		/*
-		 * stores the title of the event that will be deleted
+		 * stores the title of the event and the type that will be changed
 		 * for testing purposes
 		 */
+		
+		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();
+		String formerType = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_type']")).getText();
 
-
-		//		Thread.sleep(2000);
-		//		Thread.sleep(2000);
-		//		Thread.sleep(2000);
-		//		Thread.sleep(200000);
-		//		Thread.sleep(2000);
-		//String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
 
 		/*
 		 * clicks on the button to edit the first event in the list
@@ -166,7 +162,31 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		 */
 
 		link = driver.findElement(By.className("btn-primary"));
-		link.click();
+		link.sendKeys(Keys.ENTER);
+		
+		/*
+		 * should lead us back to the manage events page
+		 */
+		assertEquals(base+"/events?userid=admin", driver.getCurrentUrl());
+		
+		/*
+		 * now we check to see if the data updated appropriately
+		 */
+		
+		//checks the title
+		String currentTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
+		assertNotEquals(formerTitle, currentTitle);
+		assertEquals(currentTitle, "testedEvent");
+		
+		
+		/*
+		 * currently update does not retain the type when updating
+		 * whenever it does, uncomment this bit of code to make the test complete
+		 */
+//		//checks the type
+//		String currentType = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_type']")).getText();
+//		assertNotEquals(formerType, currentType);
+//		assertEquals(currentType, "(fws) First We Serve");
 
 
 		/*
