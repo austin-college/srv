@@ -121,32 +121,63 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		 * for testing purposes
 		 */
 
-		
-//		Thread.sleep(2000);
-//		Thread.sleep(2000);
-//		Thread.sleep(2000);
-//		Thread.sleep(200000);
-//		Thread.sleep(2000);
+
+		//		Thread.sleep(2000);
+		//		Thread.sleep(2000);
+		//		Thread.sleep(2000);
+		//		Thread.sleep(200000);
+		//		Thread.sleep(2000);
 		//String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
 
 		/*
-		 * clicks on the button to delete the first event in the list
+		 * clicks on the button to edit the first event in the list
 		 */
 
 		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvEdit']")); 
 		link.sendKeys(Keys.ENTER);
-		
+
+		assertEquals(base+"/events/edit/1", driver.getCurrentUrl());
+
 		//checks to see if the element is no longer visible
 		//assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).size() == 0);
 
-		
+		/*
+		 * inputs a new name into event title
+		 */
+
+		WebElement add = driver.findElement(By.id("evTitle"));
+		add.click();
+		add.clear();
+		add.sendKeys("testedEvent");
+
+		/*
+		 * selects option 2 for event type
+		 * "(fws) First We Serve"
+		 */
+
+		Select selector = new Select(driver.findElement(By.id("evType")));
+		selector.selectByIndex(1);
+
+		//checks to see if the correct option is displayed
+		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
+
+		/*
+		 * finds the submit button and submits the information
+		 */
+
+		link = driver.findElement(By.className("btn-primary"));
+		link.click();
+
+
 		/*
 		 * clicks on the log out button
 		 */
 		link = driver.findElement(By.xpath("//div/a[@href='/srv/logout']"));
 		link.click();
-		
-		 assertEquals(base+"/splash", driver.getCurrentUrl());
+
+		assertEquals(base+"/splash", driver.getCurrentUrl());
+
+
 
 	}
 
