@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import srv.config.WebSecurityConfig;
 import srv.controllers.HomeController;
+import srv.services.EventService;
+import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
 
 
@@ -37,7 +39,14 @@ public class HomeControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
+	
+	@MockBean
+	private ServiceHoursService hrSvc;
+	
+	@MockBean
+	private EventService evSvc;
 
+	
 	@MockBean
 	private UserUtil userUtil;
 

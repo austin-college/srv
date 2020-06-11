@@ -1,5 +1,7 @@
 package srv.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import srv.domain.event.Event;
+import srv.domain.hours.ServiceHours;
+import srv.domain.user.User;
+import srv.services.EventService;
+import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
 
 /**
@@ -34,6 +41,14 @@ public class HomeController {
 	
 	@Autowired
 	UserUtil userUtil;
+	
+	@Autowired
+	ServiceHoursService hrSvc;
+	
+	@Autowired
+	EventService evSvc;
+	
+	
 	
 	
 	/**
@@ -128,6 +143,26 @@ public class HomeController {
 
 		ModelAndView mav = new ModelAndView("home/servant");
 		
+		try {
+			
+			List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
+			User currentUser = userUtil.currentUser();
+			
+			List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
+			double semesterTotalHrs = hrSvc.getSemTot(userHours);
+		
+			
+			mav.addObject("name", currentUser.getContactInfo().fullName());
+			mav.addObject("email", currentUser.getContactInfo().getEmail());
+			mav.addObject("mobilePhone", currentUser.getContactInfo().getPhoneNumMobile());
+			mav.addObject("events", upcomingEvents);
+			mav.addObject("semTot", semesterTotalHrs);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//mav.addObject("semTot", )
 		return mav;
 	}
 }

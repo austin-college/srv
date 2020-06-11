@@ -45,10 +45,6 @@ public class HoursController {
 	EventService evSvc;
 	
 	
-	//TODO BAD CODE SEE USER UTIL FOR MORE INFO
-	@Autowired
-	JdbcTemplateUserDao uDao;
-	
 	
 	/**
 	 * Splash action displays the splash page. See splash.html template

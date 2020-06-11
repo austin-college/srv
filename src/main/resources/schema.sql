@@ -49,13 +49,6 @@ CREATE TABLE serviceClients (
 		REFERENCES users(userId)
 		ON DELETE SET NULL
 	);
-
-CREATE TABLE reasons (
-	rid integer auto_increment,
-	reason VARCHAR(255),
-	primary key (rid)
-	);
-	
 	
 CREATE TABLE serviceGroups (
 	serviceGroupId INTEGER AUTO_INCREMENT,
@@ -173,9 +166,6 @@ INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Habitat for Humanity', 2, 3, 2, 'Community');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 3, 4, 3, 'Crisis Support');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 4, 'Crisis Support');
-
-insert into reasons (reason) values ('Assembly Drawing');
-insert into reasons (reason) values ('Piece Part Drawing');
 
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);

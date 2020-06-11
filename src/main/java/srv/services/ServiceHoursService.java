@@ -35,7 +35,9 @@ public class ServiceHoursService {
 		return sHoursDao.listAll(); 
 	}
 	
-	
+	public List<ServiceHours> userHours(int uid) throws Exception {
+		return sHoursDao.fetchHoursByUserId(uid);
+	}
 	
 	
 	public void removeServiceHour(int id) throws Exception  {
@@ -73,7 +75,7 @@ public class ServiceHoursService {
 //		}
 		//can't do any of the above because none of the hours have dates and their events don't exist yet
 		//for now just going to average the list of service hours until we can differentiate servants 
-		
+
 		if (hours.size()==0) return 0.0;
 		
 		//average list

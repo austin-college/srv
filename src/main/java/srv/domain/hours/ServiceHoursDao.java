@@ -22,5 +22,5 @@ public interface ServiceHoursDao {
 	
 	public ServiceHours fetchHoursById(int shid) throws Exception;
 	
-	
+	public List<ServiceHours> fetchHoursByUserId(int uid) throws Exception;
 }

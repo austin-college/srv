@@ -167,12 +167,28 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		List<ServiceHours> results = getJdbcTemplate().query(sqlStr, new ServiceHourRowMapper());
 		
 		if (results.size() < 1) {
-			log.error("unable to fetch servant client id [{}]", shid);
+			log.error("unable to fetch service hour id [{}]", shid);
 			return null;
 		}
 
 		return results.get(0);
 	}
+	
+	/**
+	 * Fetches the list of service hours by the user id associated with it. An exception is thrown
+	 * if the service hour is unable to be fetched (does not exist).
+	 */
+	@Override
+	public List<ServiceHours> fetchHoursByUserId(int uid) throws Exception {
+		
+		String sqlStr = String.format("SELECT serviceHourId, serviceClientId, userId, eventId, hours,"
+				+ " status, reflection, description FROM serviceHours WHERE userId = %d", uid);
+		log.debug(sqlStr);
+
+		List<ServiceHours> results = getJdbcTemplate().query(sqlStr, new ServiceHourRowMapper());
+
+		return results;
+	}	
 	
 	/**
 	 * This class maps a ServiceHour database record to the ServiceHour model object by using
@@ -206,5 +222,6 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		}
 		
 		
-	}	
+	}
+
 }
