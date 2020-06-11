@@ -15,7 +15,7 @@
 			<h2>Events</h2>
 		</div>
 	</div>
-
+	<#if userAdmin || userBoardMember>
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 			<div class="col">
 				<button id="btnEvNew" href="addHours"
@@ -159,9 +159,9 @@
 				Clear All Filters</button>
 		</div>
 	</div>
+	</#if>
 
-
-
+	
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col">
 
@@ -178,24 +178,26 @@
 						<th class="th-sm">Type</th>
 						<th class="th-sm">Contact</th>
 						<th class="th-sm">Date</th>
+						<#if userAdmin || userBoardMember>
 						<th class="th-sm">Action</th>
+						</#if>
 					</tr>
 				</thead>
 				<tbody>
 					<#if events??>
 					<#list events as ev>
 					<tr id="eid-${ev.eid?c}">
-						<td class="ev_id">${ev.eid!"UNKNOWN"}</td>
-						<td class="ev_title">${ev.title!"UNKNOWN"}</td>
-						<td class="ev_type">${ev.type.name!"UNKNOWN"}</td>
-						<td class="ev_contact" eid="${ev.eid?c}"><#if ev.contact??>
+						<td class="ev_id" class="btnEvView evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>
+						<td class="ev_title" class="btnEvView evView" eid="${ev.eid?c}">${ev.title!"UNKNOWN"}</td>
+						<td class="ev_type" class="btnEvView evView" eid="${ev.eid?c}">${ev.type.name!"UNKNOWN"}</td>
+						<td class="ev_contact" eid="${ev.eid?c}" class="btnEvView evView" eid="${ev.eid?c}"><#if ev.contact??>
 					${ev.contact.fullName()!"UNKNOWN"}
 					<#else>
 					None
 					</#if>
 					</td>
 					<td class="ev_date">${ev.date?datetime}</td>
-
+					<#if userAdmin || userBoardMember>
 					<!--action buttons-->
 					<td class="evActions">
 						<button class="btn edit btnEvEdit" eid="${ev.eid?c}">
@@ -208,7 +210,7 @@
 							<i class="far fa-trash-alt"></i>
 						</button>
 					</td>
-
+					</#if>
 					</tr>
 					</#list>
 					</#if>
@@ -221,6 +223,7 @@
 		</div>
 
 		<!-- back button -->
+	
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 			<a class="btn edit" href="/srv/home/admin"> <i
 				class="icon-trash icon-large"></i> Back

@@ -25,6 +25,7 @@ import srv.domain.event.eventype.EventType;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.User;
 import srv.services.EventService;
+import srv.utils.UserUtil;
 
 /**
  * An instance of this class responds to requests to our server regarding events management. The 
@@ -46,6 +47,9 @@ public class EventController {
 	
 	@Autowired EventService eventService;
 
+	@Autowired
+	UserUtil userUtil;
+	
 	/**
 	 * Displays the admin manage events page. Allows for filtering the events table 
 	 * based off of the query parameters
@@ -72,6 +76,11 @@ public class EventController {
 			List<EventType> types = eventService.allEventTypes();
 			List<ServiceClient> clients = eventService.allServiceClients();
 			List<User> boardMembers = eventService.allBoardMembers();
+			
+			// Checks to see if the current user is an admin or a board member, if so displays the CRUD are gone
+			// otherwise the buttons are gone.
+			mav.addObject("userAdmin",userUtil.userIsAdmin());
+			mav.addObject("userBoardMember", userUtil.userIsBoardMember());
 			
 			mav.addObject("evtypes", types);
 			mav.addObject("sClients", clients);
