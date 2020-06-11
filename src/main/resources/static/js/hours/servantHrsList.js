@@ -1,7 +1,6 @@
 function prepopulateAddDialogue(){
 	
 	//step1 which event did they select
-	
 	var eid= $("#newEvId").val();
 	
 	// step2 retrieve event info
@@ -18,8 +17,14 @@ function prepopulateAddDialogue(){
 	.done(function(ev) {
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-email").val(ev.contact.email);
+		$("#contact-phone").val(ev.contact.phoneNumWork);
 		$("#contact-name").val(ev.contact.firstName);
-		
+		$("#date").val(ev.startDate);
+		$("#hrsSrvd").val(ev.rsvpVolunteerHours);
+		$("#address").val(ev.contact.street);
+		$("#zip-code").val(ev.contact.zipcode);
+		$("#city").val(ev.contact.city);
+		$("#state").val(ev.contact.state);
 		//TODO  finish populating all other fields.   See event domain object.
 		
 		// Also, remember that ev.type 
