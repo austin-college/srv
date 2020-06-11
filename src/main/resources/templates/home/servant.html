@@ -1,6 +1,6 @@
 <#import "/main_layout.html" as layout />
 
-<@layout.stdpage "User Home" "servantHome.css">
+<@layout.stdpage "User Home" "servantHome.css" "servantHome.js">
 
 <!-- The CSS file for this page makes everything grey and dull looking because nothing is functional, all buttons are dead-->
 <div class="container servant-profile">
@@ -44,8 +44,8 @@
 					<div id="announceList" class="list-group" style="padding-top:10px">
 						<#list events as upcoming> 
 						<!--  only show events with volunteers still needed -->
-						<#if upcoming.rsvpVolunteerHours &LT; upcoming.neededVolunteerHours>
-						 <a href="#" class="list-group-item list-group-item-action ">
+						<#if upcoming.rsvpVolunteerHours &lt; upcoming.neededVolunteerHours>
+						 <a class="list-group-item list-group-item-action evView" eid="${upcoming.eid?c}">
 							${upcoming.title!"UNKNOWN EVENT TITLE"} ${upcoming.date?date}
 							<button class="btn btn-md edit float-right">
 							<span class="far fa-calendar-check "></span> RSVP

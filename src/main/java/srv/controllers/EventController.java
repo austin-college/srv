@@ -145,6 +145,13 @@ public class EventController {
 		return mav;
 	}
 	
+	@GetMapping("events/view/{id}")
+	public ModelAndView viewEventPageAction(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+		
+		ModelAndView mav = new ModelAndView("events/viewer");
+		
+		return mav;
+	}
 	
 	/**
 	 * Prepare and load the page that allows the user to edit a single event.  We 
