@@ -1,7 +1,5 @@
 <#import "/main_layout.html" as layout />
-<!-- CSS style for jquery widgets -->
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
 <@layout.stdpage "Service Client Manager" "listStyle.css"
 "serviceclients/listClients.js">
@@ -12,7 +10,6 @@
 	<!-- The row below contains the table's title. -->
 	<div class="row">
 		<div class="col">
-			<h1>Manage Service Clients</h1>
 			<p>Please select the action you would like to take.</p>
 		</div>
 	</div>
@@ -26,18 +23,18 @@
 	</div>
 	
 	<#if userAdmin>
-	<!-- The row below contains the button to add another organization to the table. -->
-	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
-		<div id="addBtnContainer" class="col-sm-3 widget rounded">
-			<span class="	fas fa-plus-circle"></span> <input
-				class="addBtn ui-button ui-widget" type="submit"
-				value="Add Service Client" />
+	<!-- The row below contains the button to add another service client to the table. -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col widget rounded">
+			<button id="btnEvNew" class="btn btn-md addBtn ui-button ui-widget">
+				<span class="fas fa-plus-circle"></span> Create New
+			</button>
 		</div>
 	</div>
 	</#if>
 
 	<!-- The row below contains the table of service clients. -->
-	<div class="row">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col">
 			<div class="container ui-widget table-responsive">
 				<table id="client_tbl"
@@ -46,12 +43,12 @@
 					<!-- Using complex header in order to allow for datatables to sort the columns -->
 					<thead>
 						<tr class="ui-widget-header">
-							<th rowspan="2">ID</th>
-							<th rowspan="2">Name</th>
-							<th rowspan="2">Primary Contact Name</th>
-							<th rowspan="2">Board Member</th>
-							<th rowspan="2">Category</th>
-							<th rowspan="2">Action</th>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Primary Contact Name</th>
+							<th>Board Member</th>
+							<th>Category</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody id="sc_tbl_body">
@@ -85,14 +82,19 @@
 	</div>
 	
 	<#if userAdmin>
-	<!-- The row below contains the button to add another service client to the table. -->
-	<div class="row" style="padding-left: 30px">
-		<div id="addBtnContainer" class="col-sm-3 widget rounded">
-			<span class="	fas fa-plus-circle"></span> <input
-				class="addBtn ui-button ui-corner-all ui-widget" type="submit"
-				value="Add Service Client" />
+		<!-- back button for admin-->
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<a class="btn backBtn" href="/srv/home/admin"> <i
+				class="	fas fa-arrow-left"></i> Back
+			</a>
 		</div>
-	</div>
+	<#else>
+		<!-- back button for board member-->
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<a class="btn backBtn" href="/srv/home/boardMember"> <i
+				class="	fas fa-arrow-left"></i> Back
+			</a>
+		</div>
 	</#if>
 
 	<!-- The div below defines the delete dialog for deleting an service client which is hidden by JS and exposed by JQ. -->
@@ -622,10 +624,9 @@
 
 
 
-<!--  JavaScript file that will allow us to sort the table columns -->
-<script src="/srv/js/datatables.min.js"></script>
-<!-- JavaScript file that will allow us to use jquery widgets -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<!-- JavaScript file that will allow us to sort the table columns -->
+<script src="/srv/js/datatables.min.js"></script>
+<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
 
 </@layout.stdpage>
