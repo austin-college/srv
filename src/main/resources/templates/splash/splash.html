@@ -1,6 +1,6 @@
 <!-- import macro template -->
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Welcome" "splashStyle.css" "icons/all.js">
+<@layout.stdpage "Welcome" "splashStyle.css" "servantHome.js">
 
 	<!-- Container with title, image, and about section -->
 	
@@ -33,15 +33,17 @@
 	  		<!-- Contains list of announcements -->
 	  		<div id="annListCol" class="col-sm">
 	  			<div id="announceList" class="list-group">
-	  				<!-- Links -->
-	  			<a href="#" class="list-group-item list-group-item-action ">Habitat for Humanity Build Next Saturday</a>
-	  			<a href="#" class="list-group-item list-group-item-action ">Meals on Wheels Event - March 17th</a>
-	  			<a href="#" class="list-group-item list-group-item-action ">Lake Texoma Cleanup - March 28th</a>
-	  			<a href="#" class="list-group-item list-group-item-action ">Sherman Animal Shelter Volunteers</a>
-	  			<a href="#" class="list-group-item list-group-item-action ">Crisis Center Volunteers</a>
-	  		</div>
-	  		<div id="seeAllCol" class="col-sm">
-	  			<a id="seeAllLink" href="#">See All</a>
+	  			<#list events as upcoming> 
+						<!--  only show events with volunteers still needed -->
+						<#if upcoming.rsvpVolunteerHours &lt; upcoming.neededVolunteerHours>
+						 <a class="list-group-item list-group-item-action evView" eid="${upcoming.eid?c}">
+							${upcoming.title!"UNKNOWN EVENT TITLE"} ${upcoming.date?date}
+						</#if> 
+						</a> 
+					</#list>
+	  	  		</div>
+	  		<div id="seeAllCol" class="col-sm" style="padding-top:5px; padding-bottom: 20px">
+	  			<a id="seeAllLink" href="/srv/events">See All</a>
 	  		</div>
 	  		</div>
 	  		

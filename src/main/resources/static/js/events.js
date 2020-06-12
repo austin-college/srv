@@ -458,11 +458,11 @@ function onEditClick() {
 
 // launch the action for viewing details given the event id
 function onViewClick() {
-	//alert("view event " + $(this).attr("eid"));
+
 	var site = location.origin
 	var path = site + "/srv/events/view/" + $(this).attr("eid");
 	location.assign(path);
-	// TODO use jquery to open event details viewing dialog
+
 }
 
 // Final preparations once the page is loaded. we hide stuff and attach
