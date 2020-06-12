@@ -28,15 +28,6 @@ function prepopulateAddDialogue(){
 		$("#state").val(ev.contact.state);
 		$("#evSrvClient").val(ev.serviceClient);
 		
-		//TODO  finish populating all other fields.   See event domain object.
-		
-		// Also, remember that ev.type 
-		
-		// If the field is a select you must set which "option" is selected.  see jquery help docs.
-		
-		// For input text fields (like above),  you can change their values.  Easy.
-		
-		// for checkbox input fields,  you set or clear the "selected" attribute
 		
 	})
 	/*
