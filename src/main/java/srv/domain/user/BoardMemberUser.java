@@ -16,91 +16,34 @@ import srv.domain.serviceclient.ServiceClient;
  */
 public class BoardMemberUser extends ServantUser {
 
-	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
-	
 	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, char classification) {
 		super(uid, userID, contactInfo, classification);
 	}
 
-	/**
-	 * On call, this method takes a ServiceClient and allows the BoardMember to edit
-	 * its contents
-	 * <p>
-	 * this will eventually show a prompt to the board member or it will take them
-	 * to another page that will allow them to do the editing
-	 * <p>
-	 * For now this is an unimplemented stub until we have somewhere we can place
-	 * data
-	 * 
-	 * @param editedPet
-	 * @return
-	 */
-	public ServiceClient editPet(ServiceClient editedPet) {
-		return editedPet;
-	}
-
-	/**
-	 * On call, this method takes an Event and adds its content to a list somewhere
-	 * <p>
-	 * For now this is an unimplemented stub until we have somewhere we can place
-	 * data
-	 * 
-	 * @param addedEvent
-	 * @return
-	 */
-	public Event addEvent(Event addedEvent) {
-		return addedEvent;
-	}
-
-	/**
-	 * On call, this method takes an Event and removes its content from a list
-	 * somewhere
-	 * <p>
-	 * For now this is an unimplemented stub until we have somewhere we can place
-	 * data
-	 * 
-	 * @param addedEvent
-	 * @return
-	 */
-	public Event removeEvent(Event removedEvent) {
-		return removedEvent;
-	}
-
-	/**
-	 * On call, this method takes an Event and allows the board member to edit its
-	 * contents. This will either show a pop-up window for the board member or take
-	 * them to another page where they can edit the Event
-	 * <p>
-	 * For now this is an unimplemented stub until we have somewhere we can place
-	 * data
-	 * 
-	 * @param addedEvent
-	 * @return
-	 */
-	public Event editEvent(Event edditedEvent) {
-		return edditedEvent;
-	}
-
-	/**
-	 * On call this method will either display a pop-up or take the board member to
-	 * another page. this method will allow the Board Member to write a summary for
-	 * an Event
-	 * <p>
-	 * For now this is an unimplemented stub until we have somewhere we can place
-	 * data
-	 * 
-	 * @return
-	 */
-	public String writeSummary(Event writtenEven) {
-		return null;
-	}
+	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
+	private Boolean isCoChair;
 
 	public ArrayList<ServiceClient> getManagedGroups() {
 		return managedGroups;
 	}
 
-	public void setManagedGroups(ArrayList<ServiceClient> managedGroups) {
+	public BoardMemberUser setManagedGroups(ArrayList<ServiceClient> managedGroups) {
 		this.managedGroups = managedGroups;
+		return this;
+	}
+
+	public Boolean getIsCoChair() {
+		return isCoChair;
+	}
+
+	public Boolean isCoChair() {
+		if (this.isCoChair == null) return false;
+		return isCoChair.booleanValue();
+	}
+	
+	public BoardMemberUser setIsCoChair(Boolean isCoChair) {
+		this.isCoChair = isCoChair;
+		return this;
 	}
 
 }

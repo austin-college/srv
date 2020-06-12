@@ -176,7 +176,7 @@
 					<tr>
 						<th class="th-sm">ID</th>
 						<th class="th-sm">Title</th>
-						<th class="th-sm">Type</th>
+						<th class="th-sm">Sponsor</th>
 						<th class="th-sm">Contact</th>
 						<th class="th-sm">Date</th>
 						<th class="th-sm">Action</th>
@@ -188,7 +188,11 @@
 					<tr id="eid-${ev.eid?c}">
 						<td class="ev_id">${ev.eid!"UNKNOWN"}</td>
 						<td class="ev_title">${ev.title!"UNKNOWN"}</td>
-						<td class="ev_type">${ev.type.name!"UNKNOWN"}</td>
+						<#if ev.serviceClient??>
+						<td class="ev_sc">${ev.serviceClient.name!"UNKNOWN"}</td>
+						<#else>
+						<td class="ev_sc">No Sponsor</td>
+						</#if>
 						<td class="ev_contact" eid="${ev.eid?c}"><#if ev.contact??>
 					${ev.contact.fullName()!"UNKNOWN"}
 					<#else>

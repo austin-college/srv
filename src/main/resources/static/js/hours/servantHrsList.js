@@ -1,7 +1,6 @@
 function prepopulateAddDialogue(){
 	
 	//step1 which event did they select
-	
 	var eid= $("#newEvId").val();
 	
 	// step2 retrieve event info
@@ -18,17 +17,17 @@ function prepopulateAddDialogue(){
 	.done(function(ev) {
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-email").val(ev.contact.email);
+		$("#contact-phone").val(ev.contact.phoneNumWork);
 		$("#contact-name").val(ev.contact.firstName);
+		$("#evDate").val(ev.startDate); //startDate is not getting serialized, coming up as null
 		
-		//TODO  finish populating all other fields.   See event domain object.
+		$("#hrsSrvd").val(ev.rsvpVolunteerHours);
+		$("#address").val(ev.contact.street);
+		$("#zip-code").val(ev.contact.zipcode);
+		$("#city").val(ev.contact.city);
+		$("#state").val(ev.contact.state);
+		$("#evSrvClient").val(ev.serviceClient);
 		
-		// Also, remember that ev.type 
-		
-		// If the field is a select you must set which "option" is selected.  see jquery help docs.
-		
-		// For input text fields (like above),  you can change their values.  Easy.
-		
-		// for checkbox input fields,  you set or clear the "selected" attribute
 		
 	})
 	/*

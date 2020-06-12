@@ -122,7 +122,7 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		 */
 		
 		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();
-		String formerType = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_type']")).getText();
+		String formerServiceClient = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_sc']")).getText();
 
 
 		/*
