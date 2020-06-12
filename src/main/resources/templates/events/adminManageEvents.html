@@ -18,7 +18,7 @@
 	<#if userAdmin || userBoardMember>
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 			<div class="col">
-				<button id="btnEvNew" href="addHours"
+				<button id="btnEvNew"
 					class="btn btn-md btn-dark addBtn">
 					<span class="fas fa-plus-circle"></span> Create New
 				</button>
@@ -187,16 +187,16 @@
 					<#if events??>
 					<#list events as ev>
 					<tr id="eid-${ev.eid?c}">
-						<td class="ev_id" class="btnEvView evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>
-						<td class="ev_title" class="btnEvView evView" eid="${ev.eid?c}">${ev.title!"UNKNOWN"}</td>
-						<td class="ev_type" class="btnEvView evView" eid="${ev.eid?c}">${ev.type.name!"UNKNOWN"}</td>
-						<td class="ev_contact" eid="${ev.eid?c}" class="btnEvView evView" eid="${ev.eid?c}"><#if ev.contact??>
+						<td class="ev_id btnEvView evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>
+						<td class="ev_title btnEvView evView" eid="${ev.eid?c}">${ev.title!"UNKNOWN"}</td>
+						<td class="ev_type btnEvView evView" eid="${ev.eid?c}">${ev.type.name!"UNKNOWN"}</td>
+						<td class="ev_contact" eid="${ev.eid?c}"><#if ev.contact??>
 					${ev.contact.fullName()!"UNKNOWN"}
 					<#else>
 					None
 					</#if>
 					</td>
-					<td class="ev_date">${ev.date?datetime}</td>
+					<td class="ev_date btnEvView evView" eid="${ev.eid?c}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
 					<#if userAdmin || userBoardMember>
 					<!--action buttons-->
 					<td class="evActions">
@@ -225,9 +225,10 @@
 		<!-- back button -->
 	
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
-			<a class="btn edit" href="/srv/home/admin"> <i
-				class="icon-trash icon-large"></i> Back
-			</a>
+			<button onclick="goBack()"
+					class="btn edit">
+					<span class="fas fa-arrow-left"></span> Back
+			</button>
 		</div>
 
 	<!-- The div below defines the delete dialog.  It is hidden and exposed when needed -->

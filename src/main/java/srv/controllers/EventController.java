@@ -158,6 +158,13 @@ public class EventController {
 	public ModelAndView viewEventPageAction(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		
 		ModelAndView mav = new ModelAndView("events/viewer");
+
+		try {
+			mav.addObject("userAdmin", userUtil.userIsAdmin());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return mav;
 	}

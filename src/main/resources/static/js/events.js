@@ -465,6 +465,14 @@ function onViewClick() {
 
 }
 
+function goBack() {
+	
+	if (document.referrer.includes("/srv/login"))
+		location.href = "/srv/home";
+	else
+		window.history.back();
+}
+
 // Final preparations once the page is loaded. we hide stuff and attach
 // functions to buttons.
 function onPageLoad() {

@@ -1,0 +1,18 @@
+@charset "ISO-8859-1";
+/* Style settings for the edit and add buttons.*/
+.edit{
+	background-color: #db9401;
+	border-color: #db9401;
+	color: white;
+	text-align: center;
+	
+}
+
+p {
+	padding-top:7px;
+}
+
+.row {
+	padding-top:10px; 
+	padding-bottom:10px;
+}
