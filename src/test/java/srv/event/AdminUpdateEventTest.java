@@ -167,7 +167,7 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		/*
 		 * should lead us back to the manage events page
 		 */
-		assertEquals(base+"/events?userid=admin", driver.getCurrentUrl());
+		assertEquals(base+"/events/edit/1?userid=admin", driver.getCurrentUrl());
 		
 		/*
 		 * now we check to see if the data updated appropriately

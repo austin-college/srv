@@ -98,7 +98,7 @@ class EventDaoTests {
 		assertEquals(2, e2.getContact().getContactId());
 		assertEquals("2020-08-08 00:00:00.0", e2.getDate().toString());
 		assertEquals(2, e2.getType().getEtid()); // testing hardcoded example in schema - eventTypeDao not created yet
-		assertFalse(e2.isContinuous());
+		assertTrue(e2.isContinuous());
 		assertEquals(10, e2.getVolunteersNeeded());
 		assertEquals(2, e2.getServiceClient().getScid());
 		assertEquals(3.0, e2.getNeededVolunteerHours());
