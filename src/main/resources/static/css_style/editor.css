@@ -1,0 +1,13 @@
+@charset "ISO-8859-1";
+
+.ev-contact, .ev-contact-address{
+	font-weight: bold
+}
+
+.ev-contact{
+	font-size: 24px;
+}
+
+.ev-contact-address{
+	font-size: 18px;
+}

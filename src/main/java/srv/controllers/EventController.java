@@ -1,5 +1,7 @@
 package srv.controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -213,23 +215,160 @@ public class EventController {
 			 */
 			Event theEvent = eventService.eventById(id.intValue());
 			
+			// Harvesting the data
 			String titleStr = request.getParameter("evTitle");
+			
+			// Verifying the data
 			log.debug(titleStr);
 			if (titleStr != null) {
 				titleStr = titleStr.trim();
+				// case when the title is not empty
 				if (titleStr.length()>0) {
 					log.debug("updating event {} title from [{}] to [{}]",theEvent.getTitle(), titleStr);
 					theEvent.setTitle(titleStr);
+				}  // case when the title is empty
+				else {
+					throw new Exception("Event Title is required");
 				}
 			}
-
 			
+			/*
+			 * Following the same steps above for rest of the fields:
+			 * Harvest each variables, verify each variables, set with new value
+			 */
+			String addressStr = request.getParameter("evAddress");
+			
+			log.debug(addressStr);
+			if(addressStr != null) {
+				addressStr = addressStr.trim();
+				if(addressStr.length()>0) {
+					log.debug("updating event {} address from [{}] to [{}]",theEvent.getAddress(), addressStr);
+					theEvent.setAddress(addressStr);
+				} else {
+					throw new Exception("Event Address is required");
+				}
+			}
+			
+			String dateStr = request.getParameter("evDate");
+			
+			log.debug(dateStr);
+			if(dateStr != null) {
+				dateStr = dateStr.trim();
+				if(dateStr.length()>0) {
+					log.debug("updating event {} date from [{}] to [{}]",theEvent.getDate(), dateStr);
+					Date tempDate = new SimpleDateFormat("yyyy/MM/dd hh:mm").parse(dateStr);
+					theEvent.setDate(tempDate);
+				} else {
+					throw new Exception("Event Date is required");
+				}
+			}
+			
+			
+			int numVN = Integer.parseInt(request.getParameter("evVN"));
+			
+			if(numVN > 0) {
+				log.debug("updating event {} VN from [{}] to [{}]",theEvent.getVolunteersNeeded(), numVN);
+					theEvent.setVolunteersNeeded(numVN);
+			}	else {
+				throw new Exception("Number of Volunteers Needed field is empty");
+			}
+			
+			
+			double volHr = Double.parseDouble(request.getParameter("evNVH"));
+			
+			if(volHr > 0) {
+				log.debug("updating event {} NVH from [{}] to [{}]",theEvent.getNeededVolunteerHours(), volHr);
+					theEvent.setNeededVolunteerHours(volHr);
+			}	else {
+				throw new Exception("Needed Volunteer Hours field is empty");
+			}
+			
+			double rsvp = Double.parseDouble(request.getParameter("evRsvp"));
+			
+			if(rsvp > 0) {
+				log.debug("updating event {} rsvp from [{}] to [{}]",theEvent.getRsvpVolunteerHours(), rsvp);
+					theEvent.setRsvpVolunteerHours(rsvp);
+			}	else {
+				throw new Exception("Registerd Hours field is empty");
+			}	
+			
+			String noteStr = request.getParameter("evNote");
+			
+			if(noteStr != null) {
+				noteStr = noteStr.trim();
+				if(noteStr.length()>0) {
+					log.debug("updating event {} note from [{}] to [{}]",theEvent.getNote(), noteStr);
+					theEvent.setNote(noteStr);
+				} else {
+					throw new Exception("Note is required");
+				}
+			}
+			
+			String contStr = request.getParameter("evContinuous");
+			
+			log.debug("evContinuous " + contStr);
+			if(contStr != null) {
+				contStr = contStr.trim();
+				if(contStr.length()>0) {
+					log.debug("updating event {} continuous from [{}] to [{}]",theEvent.isContinuous(), contStr);
+					boolean isCon = contStr.equals("on");
+					theEvent.setContinous(isCon);
+				} else {
+					throw new Exception("Continuous is required");
+				}
+			} else {
+				theEvent.setContinous(false);
+			}
+//			
+//			// To apply each variable changes, we will call harvest each variables in contact object
+//			String contactFNStr = request.getParameter("evContact_firstName");
+//
+//			log.debug(contactFNStr);
+//			if(contactFNStr != null) {
+//				contactFNStr = contactFNStr.trim();
+//				if(contactFNStr.length()>0) {
+//					log.debug("updating event {} contact first name from [{}] to [{}]",
+//							theEvent.getContact().getFirstName(), contactFNStr);
+//					theEvent.getContact().setFirstName(contactFNStr);
+//				} else {
+//					throw new Exception("Contact's first name is required");
+//				}
+//			}
+//			
+//			String contactLNStr = request.getParameter("evContact_lastName");
+//			
+//			if(contactLNStr != null) {
+//				contactLNStr = contactLNStr.trim();
+//				if(contactLNStr.length()>0) {
+//					log.debug("updating event {} contact first name from [{}] to [{}]",
+//							theEvent.getContact().getLastName(), contactLNStr);
+//					theEvent.getContact().setLastName(contactLNStr);
+//				} else {
+//					throw new Exception("Contact's Last name is required");
+//				}
+//			}
+//			
+//			String contactEmailStr = request.getParameter("evContact_email");
+//			
+//			if(contactEmailStr != null) {
+//				contactEmailStr = contactEmailStr.trim();
+//				if(contactEmailStr.length()>0) {
+//					log.debug("updating event {} contact first name from [{}] to [{}]",
+//							theEvent.getContact().getEmail(), contactEmailStr);
+//					theEvent.getContact().setEmail(contactEmailStr);
+//				} else {
+//					throw new Exception("Contact's email is required");
+//				}
+//			}
+			
+
+			// update the finalized event
 			theEvent = eventService.updateEvent(theEvent);
 			
 			// everything is fine.... back to the event management base page
 			return new ModelAndView("redirect:/events");
 
-		} catch (Exception e) {
+		} catch (Exception e) {	
 
 			// TODO:  flash error on page to user.
 			
