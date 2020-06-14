@@ -2,8 +2,7 @@
  * 
  */
 
-function onSubmit(e) {
-	//	e.preventDefault();
+function onSubmit() {
 	console.log("hello");
 }
 
@@ -17,20 +16,7 @@ function onPageLoad() {
 		mask : true,
 		formatTime : "h:i a",
 		step : 15
-	});
-	
-	$('#evContinuous').click(function(e){
-		if (e.target.checked) {
-	  	localStorage.checked = true;
-	  } else {
-	  	localStorage.checked = false;
-	  }
-	})
-	//	$(function(){
-	//		$("#evTitle").on('change', function(){
-	//			console.log("hello");
-	//		})
-	//	})
+	});	
 
 	$("#btnEvEdit").click(function(e) {
 		onSubmit(e);
