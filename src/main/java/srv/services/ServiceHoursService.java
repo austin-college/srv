@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import srv.domain.event.Event;
+import srv.domain.event.eventype.EventType;
 import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.user.JdbcTemplateUserDao;
+import srv.utils.UserUtil;
+
 import org.slf4j.LoggerFactory;
 
 @Service
@@ -26,6 +30,10 @@ public class ServiceHoursService {
 	
 	@Autowired
 	EventService eventService; 
+	@Autowired 
+	UserUtil uu; 
+	@Autowired 
+	JdbcTemplateUserDao userDao; 
 	
 	
 	
@@ -57,11 +65,49 @@ public class ServiceHoursService {
 	 */
 	public ServiceHours createServiceHour(int eventId) throws Exception {
 		
+		if(eventId <= 0) {
+			
+			throw new Exception(String.format("Invalid event id [%d]", eventId));
+		}
+		
+		/*
+		 * Fetching event using EventService and the eventId to 
+		 * pre-populate the fields with default dummy values.
+		 * 
+		 */
 		Event e = eventService.eventById(eventId);
+		System.out.println(eventId);
+		System.out.println(e);
 		
-		int scid = e.getServiceClient().getScid();
+		/*
+		 * Using UserUtil to get the currentUser and the id
+		 */
+		uu = new UserUtil();
 		
-		return null;
+		EventType et = e.getType();
+		
+		/*
+		 * Use EventType and Event to populate fields in dummy 
+		 * service hour from DB 
+		 */
+		Integer scid = et.getDefClient().getScid();
+		Integer uid = uu.currentUser().getUid();
+		Integer eid = e.getEid();
+		Double hrs = (double) et.getDefHours();
+		Date date = e.getDate();
+		String reflect = "Type your reflection here.";
+		String descrip = et.getDescription();
+		String status = "Pending";
+		
+		/*
+		 * Create a default dummy service hour.
+		 */
+		ServiceHours sh = sHoursDao.create(scid, uid, eid, hrs, reflect, descrip, status);
+				
+		
+		log.debug("back with new service hour {}", sh.getShid());
+		
+		return sh;
 		
 	}
 
