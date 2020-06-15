@@ -224,13 +224,13 @@ public class EventController {
 				titleStr = titleStr.trim();
 				// case when the title is not empty
 				if (titleStr.length()>0) {
-					log.debug("updating event {} title from [{}] to [{}]",theEvent.getTitle(), titleStr);
+					log.debug("updating event title from {} to [{}]",theEvent.getTitle(), titleStr);
 					theEvent.setTitle(titleStr);
 				}  // case when the title is empty
 				else {
 					throw new Exception("Event Title is required");
 				}
-			}
+			} 
 			
 			/*
 			 * Following the same steps above for rest of the fields:
@@ -242,11 +242,13 @@ public class EventController {
 			if(addressStr != null) {
 				addressStr = addressStr.trim();
 				if(addressStr.length()>0) {
-					log.debug("updating event {} address from [{}] to [{}]",theEvent.getAddress(), addressStr);
+					log.debug("updating event address from {} to [{}]",theEvent.getAddress(), addressStr);
 					theEvent.setAddress(addressStr);
 				} else {
 					throw new Exception("Event Address is required");
 				}
+			} else {
+				throw new Exception("Event Address is required");
 			}
 			
 			String dateStr = request.getParameter("evDate");
@@ -255,53 +257,74 @@ public class EventController {
 			if(dateStr != null) {
 				dateStr = dateStr.trim();
 				if(dateStr.length()>0) {
-					log.debug("updating event {} date from [{}] to [{}]",theEvent.getDate(), dateStr);
 					Date tempDate = new SimpleDateFormat("yyyy/MM/dd hh:mm").parse(dateStr);
+					log.debug("updating event date from {} to [{}]",theEvent.getDate(), tempDate);
 					theEvent.setDate(tempDate);
 				} else {
 					throw new Exception("Event Date is required");
 				}
+			} else {
+				throw new Exception("Event Date is required");
 			}
+
 			
+			String numVNStr = request.getParameter("evVN");
 			
-			int numVN = Integer.parseInt(request.getParameter("evVN"));
-			
-			if(numVN > 0) {
-				log.debug("updating event {} VN from [{}] to [{}]",theEvent.getVolunteersNeeded(), numVN);
-					theEvent.setVolunteersNeeded(numVN);
-			}	else {
+			if(numVNStr != null) {
+				int numVN = Integer.parseInt(numVNStr);
+				if(numVN > 0) {
+					log.debug("updating event VN from {} to [{}]",theEvent.getVolunteersNeeded(), numVN);
+						theEvent.setVolunteersNeeded(numVN);
+				}	else {
+					throw new Exception("Number of Volunteers Needed field should not be 0.");
+				}
+			} else {
 				throw new Exception("Number of Volunteers Needed field is empty");
 			}
 			
 			
-			double volHr = Double.parseDouble(request.getParameter("evNVH"));
+			String volHrStr = request.getParameter("evNVH");
 			
-			if(volHr > 0) {
-				log.debug("updating event {} NVH from [{}] to [{}]",theEvent.getNeededVolunteerHours(), volHr);
-					theEvent.setNeededVolunteerHours(volHr);
-			}	else {
-				throw new Exception("Needed Volunteer Hours field is empty");
+			if(volHrStr != null) {
+				double volHr = Double.parseDouble(volHrStr);
+				if(volHr > 0) {
+					log.debug("updating event NVH from {} to [{}]",theEvent.getNeededVolunteerHours(), volHr);
+						theEvent.setNeededVolunteerHours(volHr);
+				}	else {
+					throw new Exception("Needed Volunteer Hours field is 0.");
+				}
+			} else {
+				throw new Exception("Number of Volunteer Hours field is empty");
 			}
 			
-			double rsvp = Double.parseDouble(request.getParameter("evRsvp"));
 			
-			if(rsvp > 0) {
-				log.debug("updating event {} rsvp from [{}] to [{}]",theEvent.getRsvpVolunteerHours(), rsvp);
-					theEvent.setRsvpVolunteerHours(rsvp);
-			}	else {
-				throw new Exception("Registerd Hours field is empty");
-			}	
+			String rsvpStr = request.getParameter("evRsvp");
+			
+			if (rsvpStr != null	) {
+				double rsvp = Double.parseDouble(rsvpStr);
+				if(rsvp > 0) {
+					log.debug("updating event rsvp from {} to [{}]",theEvent.getRsvpVolunteerHours(), rsvp);
+						theEvent.setRsvpVolunteerHours(rsvp);
+				}	else {
+					throw new Exception("Registerd Hours field is 0.");
+				}	
+			} else {
+				throw new Exception("Registered Hours field is empty");
+			}
+			
 			
 			String noteStr = request.getParameter("evNote");
 			
 			if(noteStr != null) {
 				noteStr = noteStr.trim();
 				if(noteStr.length()>0) {
-					log.debug("updating event {} note from [{}] to [{}]",theEvent.getNote(), noteStr);
+					log.debug("updating event note from {} to [{}]",theEvent.getNote(), noteStr);
 					theEvent.setNote(noteStr);
 				} else {
-					throw new Exception("Note is required");
+					theEvent.setNote("");
 				}
+			} else {
+				theEvent.setNote("");
 			}
 			
 			String contStr = request.getParameter("evContinuous");
@@ -310,7 +333,7 @@ public class EventController {
 			if(contStr != null) {
 				contStr = contStr.trim();
 				if(contStr.length()>0) {
-					log.debug("updating event {} continuous from [{}] to [{}]",theEvent.isContinuous(), contStr);
+					log.debug("updating event continuous from {} to [{}]",theEvent.isContinuous(), contStr);
 					boolean isCon = contStr.equals("on");
 					theEvent.setContinous(isCon);
 				} else {
@@ -370,7 +393,8 @@ public class EventController {
 
 		} catch (Exception e) {	
 
-			// TODO:  flash error on page to user.
+			log.error(e.getMessage());
+			e.printStackTrace();
 			
 			return new ModelAndView("redirect:/events/edit/"+id);
 

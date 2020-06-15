@@ -40,7 +40,7 @@ page instructions here
   </div>
   
   <p>
-  Date: <input type="text" id="evDate" name="evDate" aria-describedby="dateHelp" placeholder="event date" value="${event.date?string['yyyy-MM-dd, HH:mm']}">
+  Date: <input type="text" id="evDate" name="evDate" aria-describedby="dateHelp" placeholder="event date" value="${event.date?string['yyyy/MM/dd HH:mm']}">
   </p>
   
    <div class="form-group">
@@ -76,6 +76,7 @@ page instructions here
     <label class="form-check-label" for="evContinuous">Ongoing/Continuous event.</label>
   </div>
   
+ <#if event.contact??>
  <div class="form-group">
     <label for="ev-contact" class="ev-contact">Contact</label>
     <br/>
@@ -116,6 +117,9 @@ page instructions here
     <label for="evContact_zipcode">Zip Code</label>
     <input type="text" class="form-control" id="evContact_zipcode" name="evContact_zipcode" aria-describedby="contactHelp" placeholder="contact address zip code" value="${event.contact.zipcode}" readonly>
   </div>
+<#else>
+NO CONTACT
+</#if>
   
   <br/>
   <br/>
