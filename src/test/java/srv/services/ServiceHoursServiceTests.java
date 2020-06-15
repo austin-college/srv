@@ -65,7 +65,6 @@ public class ServiceHoursServiceTests {
 	@Before 
 	public void setUp() throws Exception	{
 		
-		MockitoAnnotations.initMocks(this);
 		
 		sc1 = new ServiceClient()
 				.setClientId(1)
@@ -154,6 +153,8 @@ public class ServiceHoursServiceTests {
 			.setStatus("Pending")
 			.setReflection("test 2 reflection")
 			.setDescription("test 2 description");
+		
+		MockitoAnnotations.initMocks(this);
 	}
 	
 	
@@ -224,24 +225,19 @@ public class ServiceHoursServiceTests {
 		 * Make sure dao was created with expected parameters. 
 		 */
 		
-		Mockito.verify(dao.create(
-				Mockito.any(Integer.class),
-				Mockito.any(Integer.class),
-				Mockito.any(Integer.class),
-				Mockito.anyDouble(),
+		Mockito.verify(dao).create(
+				Mockito.anyInt(),
+				Mockito.eq(1),
+				Mockito.eq(1),
+				Mockito.eq(0.0),
 				Mockito.eq("Pending"),
-				Mockito.eq("Type your reflection here"),
-				Mockito.any(String.class)));
+				Mockito.eq("Type your reflection here."),
+				Mockito.eq(et1.getDescription()));
 		
-	//	Mockito.verify(dao).create(
-	//			null, null, null, null, null, null, null);
+		Mockito.verify(eventService).eventById(1);
+		Mockito.verify(userUtil).currentUser();
 		
 		
-		/*
-		 * Mockito.refEq(new ServiceClient() .getScid()), Mockito.refEq(new User()
-		 * .getUid()), Mockito.refEq(new Event() .getEid()), Mockito.eq(0.0),
-		 * Mockito.eq("Pending"), Mockito.eq(""), Mockito.eq(""));
-		 */
 	}
 
 }

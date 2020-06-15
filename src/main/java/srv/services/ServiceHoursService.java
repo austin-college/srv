@@ -15,6 +15,7 @@ import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.domain.user.User;
 import srv.utils.UserUtil;
 
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,7 @@ public class ServiceHoursService {
 	EventService eventService; 
 	@Autowired 
 	UserUtil uu; 
-	@Autowired 
-	JdbcTemplateUserDao userDao; 
+	
 	
 	
 	
@@ -82,7 +82,9 @@ public class ServiceHoursService {
 		/*
 		 * Using UserUtil to get the currentUser and the id
 		 */
-		uu = new UserUtil();
+		
+		User servant = uu.currentUser();
+		System.out.println(servant.getUid());
 		
 		EventType et = e.getType();
 		
@@ -91,18 +93,31 @@ public class ServiceHoursService {
 		 * service hour from DB 
 		 */
 		Integer scid = et.getDefClient().getScid();
-		Integer uid = uu.currentUser().getUid();
+		log.debug("scid [{}]", scid);
+		
+		Integer uid = servant.getUid();
+		log.debug("uid [{}]", uid);
+		
 		Integer eid = e.getEid();
-		Double hrs = (double) et.getDefHours();
-		Date date = e.getDate();
+		log.debug("eid [{}]", eid);
+		
+		Double hrs = Double.valueOf(et.getDefHours());
+		log.debug("hrs [{}]", hrs);
+		
 		String reflect = "Type your reflection here.";
+		log.debug("reflect [{}]", reflect);
+		
 		String descrip = et.getDescription();
+		log.debug("descrip [{}]", descrip);
+		
 		String status = "Pending";
+		log.debug("status [{}]", status);
 		
 		/*
 		 * Create a default dummy service hour.
 		 */
-		ServiceHours sh = sHoursDao.create(scid, uid, eid, hrs, reflect, descrip, status);
+		// Integer scid, Integer uid, Integer eid, Double hours, String stat, String reflection,String description
+		ServiceHours sh = sHoursDao.create(scid, uid, eid, hrs, status, reflect, descrip);
 				
 		
 		log.debug("back with new service hour {}", sh.getShid());
