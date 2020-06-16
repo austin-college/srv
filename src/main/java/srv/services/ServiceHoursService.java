@@ -127,7 +127,16 @@ public class ServiceHoursService {
 	}
 
 	
-	public ServiceHours updateHour(int id, String eName, String org, double hrsServed, Date date, String desc)   {
+	/**
+	 * Given the current ServiceHours object, we save it back to our DB with 
+	 * the help of the ServiceHoursDao. Any additional data transformations are done here, 
+	 * and application defaults are also applied here. 
+	 * 
+	 * @param sh
+	 * @return
+	 * @throws Exception
+	 */
+	public ServiceHours updateHour(ServiceHours sh)  throws Exception {
 		
 		//sHoursDao.update(id,  );
 		
