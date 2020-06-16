@@ -121,8 +121,8 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		 * for testing purposes
 		 */
 		
-		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();
-		String formerServiceClient = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_sc']")).getText();
+		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title evView']")).getText();
+		String formerServiceClient = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_sc evView']")).getText();
 
 
 		/*
@@ -173,7 +173,7 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		 */
 		
 		//checks the title
-		String currentTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
+		String currentTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title evView']")).getText();	
 		assertNotEquals(formerTitle, currentTitle);
 		assertEquals(currentTitle, "testedEvent");
 		

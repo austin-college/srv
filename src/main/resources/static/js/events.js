@@ -507,6 +507,11 @@ function goBack() {
 		window.history.back();
 }
 
+function onSignUpClick() {
+	alert("Feature is not functional yet");
+
+}
+
 // Final preparations once the page is loaded. we hide stuff and attach
 // functions to buttons.
 function onPageLoad() {

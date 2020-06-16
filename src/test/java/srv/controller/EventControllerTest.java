@@ -159,7 +159,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.filteredEvents(null, null, null, null, null)).thenReturn(testEvents);
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -168,7 +170,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title evView' and text()='gds 2020']")).exists())
 			
 			// and that same row as a td with a button inside for editing
 			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
@@ -181,7 +183,7 @@ public class EventControllerTest {
 
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title evView' and text()='fws 2020']")).exists())
 
 			// and that second event better handle null contact just fine... ignoring extra white space around.
 			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
@@ -414,7 +416,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
 		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-09-09 00:00:00"));
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events?before=now")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -423,7 +427,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title evView' and text()='gds 2020']")).exists())
 			
 			// and that same row as a td with a button inside for editing
 			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
@@ -437,7 +441,7 @@ public class EventControllerTest {
 			
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title evView' and text()='fws 2020']")).exists())
 
 			// and that second event better handle null contact just fine... ignoring extra white space around.
 			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
@@ -473,7 +477,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
 		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-04-09 00:00:00"));
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events?after=now")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -482,7 +488,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title evView' and text()='gds 2020']")).exists())
 			
 			// and that same row as a td with a button inside for editing
 			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
@@ -496,7 +502,7 @@ public class EventControllerTest {
 			
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title evView' and text()='fws 2020']")).exists())
 
 			// and that second event better handle null contact just fine... ignoring extra white space around.
 			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
@@ -532,7 +538,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
 		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-07-09 00:00:00"));
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events?before=now-1M")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -541,7 +549,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title evView' and text()='gds 2020']")).exists())
 			
 			// and that same row as a td with a button inside for editing
 			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
@@ -555,7 +563,7 @@ public class EventControllerTest {
 			
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title evView' and text()='fws 2020']")).exists())
 
 			// and that second event better handle null contact just fine... ignoring extra white space around.
 			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
@@ -590,7 +598,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
 		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-05-19 00:00:00"));
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events?after=now+1M")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -599,7 +609,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title evView' and text()='gds 2020']")).exists())
 			
 			// and that same row as a td with a button inside for editing
 			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
@@ -613,7 +623,7 @@ public class EventControllerTest {
 			
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title evView' and text()='fws 2020']")).exists())
 
 			// and that second event better handle null contact just fine... ignoring extra white space around.
 			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
@@ -647,7 +657,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.filteredEvents(null, null, 1, null, null)).thenReturn(testEvents);
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events?eType=1")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -656,7 +668,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title evView' and text()='gds 2020']")).exists())
 			
 			// and that same row as a td with a button inside for editing
 			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())
@@ -695,7 +707,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.filteredEvents(null, null, null, 2, null)).thenReturn(testEvents);
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events?sc=2")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -704,7 +718,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 						
 			// and there's a row in our table that has a ev_title td inside whose text better be 'fws 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title' and text()='fws 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_title evView' and text()='fws 2020']")).exists())
 
 			// and that second event better handle null contact just fine... ignoring extra white space around.
 			.andExpect(xpath(dquote("//tr[@id='eid-2']/td[@class='ev_contact' and normalize-space(text())='None']")).exists())
@@ -749,7 +763,9 @@ public class EventControllerTest {
 		Mockito.when(mockService.allEventTypes()).thenReturn(testTypes);
 		Mockito.when(mockService.allServiceClients()).thenReturn(testClients);
 		Mockito.when(mockService.currentDate()).thenReturn(Timestamp.valueOf("2020-09-09 00:00:00"));
-
+		Mockito.when(userUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(userUtil.userIsBoardMember()).thenReturn(true);
+		
 		mvc.perform(get("/events?before=now&eType=1")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
@@ -758,7 +774,7 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//table[@id='tblEvents']")).exists())
 			
 			// and there's a row in our table that has a ev_title td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='ev_title evView' and text()='gds 2020']")).exists())
 			
 			// and that same row as a td with a button inside for editing
 			.andExpect(xpath(dquote("//tr[@id='eid-1']/td[@class='evActions']/button[contains(@class, 'btnEvEdit')]")).exists())

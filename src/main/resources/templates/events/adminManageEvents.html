@@ -15,17 +15,17 @@
 			<h2>Events</h2>
 		</div>
 	</div>
-	<#if userAdmin || userBoardMember>
+	
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 			<div class="col">
+			<#if userAdmin || userBoardMember>
 				<button id="btnEvNew"
 					class="btn btn-md btn-dark addBtn">
 					<span class="fas fa-plus-circle"></span> Create New
 				</button>
+			</#if>	
 			</div>
-		
-		
-			
+				
 			<!-- Toggle button for filtering events before current date -->
 			<div class="col-sm-2 text-right toggle" >
 				<div class="custom-control custom-switch">
@@ -139,7 +139,7 @@
 		<!-- Combo box for filtering events by board member -->
 		<div class="col text-right comboBox">
 			<label>By Board Member</label> 
-			<select style="width:235px;">
+			<select style="width:235px;" onclick='alert("Feature is not functional yet");'>
 				<option value='0'>List All</option>
 				<#list users as bm>
 				<option value='${bm.uid}'>${bm.contactInfo.firstName} ${bm.contactInfo.lastName}</option>
@@ -159,7 +159,7 @@
 				Clear All Filters</button>
 		</div>
 	</div>
-	</#if>
+
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col">
 

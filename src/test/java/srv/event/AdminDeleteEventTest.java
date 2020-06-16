@@ -126,7 +126,7 @@ public class AdminDeleteEventTest extends SeleniumTest {
 //		Thread.sleep(2000);
 //		Thread.sleep(2000);
 //		Thread.sleep(2000);
-		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
+		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title evView']")).getText();	
 
 		/*
 		 * clicks on the button to delete the first event in the list
@@ -150,7 +150,7 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		Thread.sleep(2000);
 		
 		//checks to see if the element is no longer visible
-		assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).size() == 0);
+		assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title evView']")).size() == 0);
 
 		/*
 		 * clicks on the log out button

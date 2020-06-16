@@ -81,8 +81,9 @@ public class EventController {
 			
 			// Checks to see if the current user is an admin or a board member, if so displays the CRUD are gone
 			// otherwise the buttons are gone.
-			mav.addObject("userAdmin",userUtil.userIsAdmin());
+			mav.addObject("userAdmin", userUtil.userIsAdmin());
 			mav.addObject("userBoardMember", userUtil.userIsBoardMember());
+
 			
 			mav.addObject("evtypes", types);
 			mav.addObject("sClients", clients);
