@@ -5,16 +5,18 @@ function onViewClick() {
 	location.assign(path);
 }
 
+// pop up to warn that the user can't rsvp/sign up for an event yet
 function onSignUpClick() {
 	alert("Feature is not functional yet");
 
 }
 
+// pop up to warn that the user can't edit their profile yet
 function onEditProfileClick() {
 	alert("Feature is not functional yet");
 }
 
-//Final preparations once the page is loaded. we hide stuff and attach
+//Final preparations once the page is loaded. attach
 //functions to buttons.
 function onPageLoad() {
 	

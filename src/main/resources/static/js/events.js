@@ -456,10 +456,11 @@ function onEditClick() {
 	location.assign(path);
 }
 
+
 // launch the action for viewing details given the event id
 function onViewClick() {
 	
-	$("#dlgView").dialog("open");
+	$("#dlgView").dialog("open"); // opens the view dialog for admin users
 	
 	var idStr = $(this).attr("eid"); // The ID of the selected event to be viewed	
 		
@@ -470,7 +471,8 @@ function onViewClick() {
 	})
 	/*
 	 * If successful, then request browser to move to view event page on the 
-	 * selected event.
+	 * selected event if the user is a board member or servant. If user is an admin,
+	 * shows the view dialog with the event's details.
 	 */
 	.done(function(eventDetailsHtml) {
 		
@@ -482,7 +484,6 @@ function onViewClick() {
 		console.log(path);
 		
 		$("#dlgView").html(eventDetailsHtml);
-	//	$("#evDetails").html(eventSelected);
 		
 		if (document.getElementById("dlgView") == null) 
 			location.assign(path);
@@ -499,6 +500,11 @@ function onViewClick() {
 
 }
 
+/**
+ * When the back button is clicked on returns the user to the previous page.
+ * If the previous page is the login page, the user is directed to their home page.
+ * @returns
+ */ 
 function goBack() {
 
 	if (document.referrer.includes("/srv/login"))
@@ -507,6 +513,7 @@ function goBack() {
 		window.history.back();
 }
 
+// pop up to inform the user that they can't sign up/rsvp for an event
 function onSignUpClick() {
 	alert("Feature is not functional yet");
 
