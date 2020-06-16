@@ -902,7 +902,17 @@ public class EventControllerTest {
                   .andExpect(content().string(containsString("Habitat for Humanity")))
                   .andExpect(content().string(containsString("Rusty Buckle")))
                   .andExpect(content().string(containsString("903-813-5555")))
-         		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
+         		  .andExpect(content().string(containsString("rbuckle@helpful.org")))
+         		  
+         		  // and there's a button inside for going back to the previous page
+                  .andExpect(xpath(dquote("//button[contains(@id, 'backBtn')]")).exists())
+      			
+                  // and viewing all the events
+                  .andExpect(xpath(dquote("//button[contains(@id, 'viewAllBtn')]")).exists())
+
+                  // and signing up for the event
+                  .andExpect(xpath(dquote("//button[contains(@id, 'rsvpBtn')]")).exists())
+         		  ;
         
          Mockito.verify(mockService).eventById(1);
     }
@@ -939,10 +949,20 @@ public class EventControllerTest {
                   
                   // whose contact info is none
                   .andExpect(content().string(containsString("None")))
-         		  ;
-
                   
+                  // and there's a button inside for going back to the previous page
+                  .andExpect(xpath(dquote("//button[contains(@id, 'backBtn')]")).exists())
+      			
+                  // and viewing all the events
+                  .andExpect(xpath(dquote("//button[contains(@id, 'viewAllBtn')]")).exists())
+
+                  // and signing up for the event
+                  .andExpect(xpath(dquote("//button[contains(@id, 'rsvpBtn')]")).exists())
+                  ;
+          
         
          Mockito.verify(mockService).eventById(1);
+         
+         
     }
 }

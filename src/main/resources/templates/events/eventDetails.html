@@ -1,3 +1,4 @@
+<!-- Contains the contents of an event -->
 <form id="evDetails">
 	<p hidden="hidden" id="evId" eid="${eid!'UNKNOWN ID'}"></p>
 	<div class="form-group">
@@ -99,13 +100,13 @@
 	<#if !userAdmin>
 	<div class="row" style="padding-bottom:50px;">
 		<div class="col-sm-2" style="padding-top:10px">
-			<button type="button" class="btn edit" onclick="goBack()"><span class="fas fa-arrow-left"></span>Back</button>
+			<button id="backBtn" type="button" class="btn edit" onclick="goBack()"><span class="fas fa-arrow-left"></span>Back</button>
 		</div>
 		<div class="col-sm-2" style="padding-top:10px;">
-			<button type="button" class="btn edit" onclick="window.location.href='/srv/events'">View All Events</button>
+			<button id="viewAllBtn" type="button" class="btn edit" onclick="window.location.href='/srv/events'">View All Events</button>
 		</div>
 		<div class="col-sm">
-			<button type="button" class="btn btn-primary float-right"  onclick="onSignUpClick()">Sign Up</button>
+			<button id="rsvpBtn" type="button" class="btn btn-primary float-right"  onclick="onSignUpClick()">Sign Up</button>
 		</div>
 	</div>
 	</#if>

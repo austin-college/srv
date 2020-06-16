@@ -158,6 +158,17 @@ public class EventController {
 		return mav;
 	}
 	
+	/**
+	 * Prepare and load the page that displays the details of a single event.  We 
+	 * fetch the current event (it must exist) and any ancillary data that is required
+	 * to configured the page form inputs. For servant and board member users. Admin
+	 * users can also come here but are also displayed a dialog on the events manager page.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("events/view/{id}")
 	public ModelAndView viewEventPageAction(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		
@@ -560,6 +571,15 @@ public class EventController {
 
 	}
 	
+	/**
+	 * Ajax method to view the details of a single event. This controller prepares and returns
+	 * the html of the event's detail for the dialog. For admin users.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("events/ajax/event/{id}/html")
 	public ModelAndView ajaxViewEventHtml(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		
