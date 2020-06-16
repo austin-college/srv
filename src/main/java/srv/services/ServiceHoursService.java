@@ -143,10 +143,20 @@ public class ServiceHoursService {
 			throw new Exception(String.format("service hour is null", sh)); 
 		}
 		
-		log.debug("updat");
-		//sHoursDao.update(id,  );
+		log.debug("updating service hour [{}]", sh.getShid());
 		
-		return null;   
+		sHoursDao.update(
+				sh.getShid(),
+				sh.getServedPet().getScid(),
+				sh.getServant().getUid(),
+				sh.getEvent().getEid(),
+				sh.getHours(),
+				sh.getStatus(),
+				sh.getReflection(),
+				sh.getDescription());
+		
+		log.debug("scid [{}]", sh.getServedPet().getScid());
+		return sh;   
 	}
 	
 	/**
