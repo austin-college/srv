@@ -50,7 +50,7 @@ class ServiceHoursDaoTests {
 	 */
 
 	@Test
-	void testFetchById_whenUsingJdbcTemplate() throws Exception {
+	void testFetchById() throws Exception {
 
 		log.warn("\n\n\n");
 
@@ -70,7 +70,7 @@ class ServiceHoursDaoTests {
 	 * Tests the listAll method in the ServiceHoursDao.
 	 */
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception {
+	void testListAll() throws Exception {
 
 		List<ServiceHours> serviceHours = dao.listAll();
 
@@ -116,7 +116,7 @@ class ServiceHoursDaoTests {
 	}
 
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception {
+	void testCreate() throws Exception {
 
 		List<ServiceHours> hoursBefore = dao.listAll();
 		int numBeforeInsert = hoursBefore.size();
@@ -187,7 +187,7 @@ class ServiceHoursDaoTests {
 	 * 
 	 */
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception {
+	void testDelete() throws Exception {
 
 		log.warn("\n\n\n");
 
@@ -240,7 +240,7 @@ class ServiceHoursDaoTests {
 	 * Tests the update method, should update the query with specified id.
 	 */
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+	void testUpdate() throws Exception {
 
 		log.warn("\n\n\n");
 
@@ -258,6 +258,16 @@ class ServiceHoursDaoTests {
 		assertEquals("House Painting", sh1.getDescription());
 	}
 	
+	/**
+	 * Tests the fetch hours by the current user's id.
+	 */
+	@Test
+	void testFetchByUserId() throws Exception {
+		
+		List<ServiceHours> userHours = dao.fetchHoursByUserId(2);
+		
+		assertEquals(3, userHours.size());
+	}
 	/*
 	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests
 	 */

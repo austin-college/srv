@@ -298,5 +298,30 @@ public class ServiceHoursServiceTests {
 				Mockito.eq(sh1.getDescription()));
 		
 	}
+	
+	/**
+	 * Tests the userHours method...fetches the current
+	 * user's service hours.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_hoursById() throws Exception {
+		
+		ServiceHours sh1 = new ServiceHours().setShid(1).setHours(3.0).setServant(user);
+		ServiceHours sh2 = new ServiceHours().setShid(2).setHours(2.0).setServant(user);
+		
+		List<ServiceHours> dummyList = new ArrayList<ServiceHours>();
+		dummyList.add(sh1);
+		dummyList.add(sh2);
+		
+		Mockito.when(dao.fetchHoursByUserId(1)).thenReturn(dummyList);
+		
+		List<ServiceHours> testList = shs.userHours(1);
+
+		assertEquals(2, testList.size());
+		
+		Mockito.verify(dao).fetchHoursByUserId(1);
+	}
 
 }

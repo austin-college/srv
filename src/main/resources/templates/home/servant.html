@@ -12,12 +12,12 @@
 
 			<div class="col-md-6">
 				<div class="profile-head">
-					<div class=row>
+					<div class="row">
 						<div class="col">
 							<h5>${name!"UNKOWN NAME"}</h5>
 						</div>	
 						<div class="col">
-							<button class="btn btn-md edit float-right"  onclick="onEditProfileClick()">
+							<button id="editProfileBtn" class="btn btn-md edit float-right"  onclick="onEditProfileClick()">
 							<span class="fas fa-pencil-alt"></span> Edit Profile
 							</button>
 						</div>
@@ -47,7 +47,7 @@
 						<#if upcoming.rsvpVolunteerHours &lt; upcoming.neededVolunteerHours>
 						 <a class="list-group-item list-group-item-action btnEvView" eid="${upcoming.eid?c}">
 							${upcoming.title!"UNKNOWN EVENT TITLE"} ${upcoming.date?date}
-							<button class="btn btn-md edit float-right" type="button" onclick="onSignUpClick()">
+							<button id="rsvpBtn" class="btn btn-md edit float-right" type="button" onclick="onSignUpClick()">
 							<span class="far fa-calendar-check "></span> RSVP
 							</button>
 							

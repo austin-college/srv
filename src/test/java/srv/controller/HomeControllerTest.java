@@ -1,11 +1,16 @@
 package srv.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import srv.config.WebSecurityConfig;
 import srv.controllers.HomeController;
+import srv.domain.contact.Contact;
+import srv.domain.event.Event;
+import srv.domain.user.User;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
@@ -49,6 +57,20 @@ public class HomeControllerTest {
 	
 	@MockBean
 	private UserUtil userUtil;
+	
+	
+	private String dquote(String anyStr) {
+		if (anyStr == null) return null;
+		return anyStr.replaceAll("[']", "\"");
+	}
+	
+	@Test
+	public void test_replace_single_quotes_function() {
+		String str = "tr/td[@id='xyz']";
+		System.err.println(dquote(str));
+		assertEquals("tr/td[@id=\"xyz\"]",dquote(str));
+	}
+	
 
 	/**
 	 * This test ensures that when the user is just a servant user, the /home page
@@ -62,11 +84,78 @@ public class HomeControllerTest {
 
 		when(userUtil.userIsServant()).thenReturn(true);
 
-		mvc.perform(get("/home").contentType(MediaType.TEXT_HTML)).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/srv/home/servant?userid=user"));
+		mvc.perform(get("/home")
+				
+				.contentType(MediaType.TEXT_HTML))
+				
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/srv/home/servant?userid=user"))
+				;
 
 	}
+	
+	/**
+	 * Test to verify the controller prepares and loads the servant user's home page.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "user", password = "user")
+	public void servantHome() throws Exception {
+		
+		// Create dependencies
+		Event e1 = new Event()
+				.setEid(1)
+				.setTitle("gds 2020")
+				.setDate(new java.util.Date())
+				.setAddress("900 N. Grand Ave")
+				.setType(null)
+				.setNeededVolunteerHours(25.0)
+				.setRsvpVolunteerHours(2.5)
+				.setServiceClient(null)
+				.setContact(null);
+		
+		User user = new User()
+				.setUid(1)
+				.setContactInfo(new Contact()
+						.setFirstName("Rusty")
+						.setLastName("Buckle")
+						.setContactId(1)
+						.setEmail("rbuckle@helpful.org")
+						.setPhoneNumMobile("903-813-5555")
+						.setCity("Sherman"));
+	
+		List<Event> upcomingEventDummy = new ArrayList<Event>();
+		upcomingEventDummy.add(e1);
+		
+		// Mock dependencies
+		when(evSvc.filteredEvents(null, "now+1M", null, null, null)).thenReturn(upcomingEventDummy);
+		when(userUtil.currentUser()).thenReturn(user);
+		when(hrSvc.userHours(1)).thenReturn(null);
+		when(hrSvc.getSemTot(null)).thenReturn(0.0);
 
+		mvc.perform(get("/home/servant/")
+				.contentType(MediaType.TEXT_HTML))
+		
+				// there should be a div for announcements
+        		.andExpect(xpath(dquote("//div[@id='announceList']")).exists())
+        
+        		// should contain the current user's information
+        		.andExpect(content().string(containsString("user")))				
+        		.andExpect(content().string(containsString("Rusty Buckle")))
+        		.andExpect(content().string(containsString("rbuckle@helpful.org")))
+        		.andExpect(content().string(containsString("903-813-5555")))		
+        		
+                // and there's a button inside for editing profile
+                .andExpect(xpath(dquote("//button[contains(@id, 'editProfileBtn')]")).exists())
+
+                // and signing up for the event
+                .andExpect(xpath(dquote("//button[contains(@id, 'rsvpBtn')]")).exists())
+                ;
+        		
+		
+	}
+	
 	@Test
 	@WithMockUser(username = "boardmember", password = "boardmember")
 	public void bmHomeRedirectionTest() throws Exception {

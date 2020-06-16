@@ -151,7 +151,6 @@ public class HomeController {
 			List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
 			double semesterTotalHrs = hrSvc.getSemTot(userHours);
 		
-			
 			mav.addObject("name", currentUser.getContactInfo().fullName());
 			mav.addObject("email", currentUser.getContactInfo().getEmail());
 			mav.addObject("mobilePhone", currentUser.getContactInfo().getPhoneNumMobile());

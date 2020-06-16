@@ -1,0 +1,2 @@
+[0605/212537.130:ERROR:file_io_win.cc(161)] CreateFile C:\Users\LYDIAH~1\AppData\Local\Temp\scoped_dir3344_1606734624\Crashpad\settings.dat: The system cannot find the file specified. (0x2)
+[0605/212750.129:ERROR:file_io_win.cc(161)] CreateFile C:\Users\LYDIAH~1\AppData\Local\Temp\scoped_dir6256_182220439\Crashpad\settings.dat: The system cannot find the file specified. (0x2)

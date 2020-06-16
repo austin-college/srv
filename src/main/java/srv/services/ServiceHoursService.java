@@ -46,6 +46,13 @@ public class ServiceHoursService {
 		return sHoursDao.listAll(); 
 	}
 	
+	/**
+	 * Get the current user's service hours.
+	 * 
+	 * @param uid
+	 * @return
+	 * @throws Exception
+	 */
 	public List<ServiceHours> userHours(int uid) throws Exception {
 		return sHoursDao.fetchHoursByUserId(uid);
 	}
