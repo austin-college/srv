@@ -800,4 +800,149 @@ public class EventControllerTest {
 			.andExpect(xpath(dquote("//div[@id='dlgNewEvent' and @title='CREATE NEW EVENT']")).exists())
 			;
 	}
+	
+	/**
+	 * Test that the controller returns HTML to present the event's info. For dialog.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxViewEvent_whenContactExists() throws Exception {
+        
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		// ready to test....
+         mvc.perform(get("/events/ajax/event/1/html")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+          
+                  // should contain a form 
+                  .andExpect(xpath(dquote("//form[@id='evDetails']")).exists())
+                  
+                  // should contain the events' details
+                  .andExpect(content().string(containsString("gds 2020")))
+                  .andExpect(content().string(containsString("900 N. Grand Ave")))
+                  .andExpect(content().string(containsString("gds")))
+                  .andExpect(content().string(containsString("Habitat for Humanity")))
+                  .andExpect(content().string(containsString("Rusty Buckle")))
+                  .andExpect(content().string(containsString("903-813-5555")))
+         		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
+        
+         Mockito.verify(mockService).eventById(1);
+    }
+	
+	/**
+	 * Also test that the controller handles the case when the event's contact
+	 * information is missing. For dialog.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void testAjaxViewEvent_whenContactMissing() throws Exception {
+  		 
+		e1.setContact(null);
+		
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(get("/events/ajax/event/1/html")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // // should contain a form 
+                  .andExpect(xpath(dquote("//form[@id='evDetails']")).exists())
+                  
+                  // should contain the events' details
+                  .andExpect(content().string(containsString("gds 2020")))
+                  .andExpect(content().string(containsString("900 N. Grand Ave")))
+                  .andExpect(content().string(containsString("gds")))
+                  .andExpect(content().string(containsString("Habitat for Humanity")))
+                  
+                  // whose contact info is none
+                  .andExpect(content().string(containsString("None")))
+         		  ;
+
+                  
+        
+         Mockito.verify(mockService).eventById(1);
+    }
+	
+	/**
+	 * Test that the controller returns HTML to present the event's info.
+	 * For viewing the event details page.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "user", password = "user")
+    public void testViewEventAction_whenContactExists() throws Exception {
+        
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		// ready to test....
+         mvc.perform(get("/events/view/1/")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+          
+                  // should contain a div 
+                  .andExpect(xpath(dquote("//div[@id='evDetails']")).exists())
+                  
+                  // should contain the events' details
+                  .andExpect(content().string(containsString("gds 2020")))
+                  .andExpect(content().string(containsString("900 N. Grand Ave")))
+                  .andExpect(content().string(containsString("gds")))
+                  .andExpect(content().string(containsString("Habitat for Humanity")))
+                  .andExpect(content().string(containsString("Rusty Buckle")))
+                  .andExpect(content().string(containsString("903-813-5555")))
+         		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
+        
+         Mockito.verify(mockService).eventById(1);
+    }
+	
+	/**
+	 * Also test that the controller handles the case when the event's contact
+	 * information is missing. For viewing the event details page.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "user", password = "user")
+    public void testViewEventAction_whenContactMissing() throws Exception {
+  		 
+		e1.setContact(null);
+		
+		Mockito.when(mockService.eventById(Mockito.anyInt())).thenReturn(e1);
+		
+		 // ready to test....
+         mvc.perform(get("/events/view/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().isOk())
+                 
+                  // // should contain a div 
+                  .andExpect(xpath(dquote("//div[@id='evDetails']")).exists())
+                  
+                  // should contain the events' details
+                  .andExpect(content().string(containsString("gds 2020")))
+                  .andExpect(content().string(containsString("900 N. Grand Ave")))
+                  .andExpect(content().string(containsString("gds")))
+                  .andExpect(content().string(containsString("Habitat for Humanity")))
+                  
+                  // whose contact info is none
+                  .andExpect(content().string(containsString("None")))
+         		  ;
+
+                  
+        
+         Mockito.verify(mockService).eventById(1);
+    }
 }

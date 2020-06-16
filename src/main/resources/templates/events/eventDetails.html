@@ -1,76 +1,96 @@
-<form>
-	<p hidden="hidden" id="evId" eid="${eid!'UNKNOWN ID'}">This paragraph should be hidden.</p>
+<form id="evDetails">
+	<p hidden="hidden" id="evId" eid="${eid!'UNKNOWN ID'}"></p>
 	<div class="form-group">
-		<label for="evName"><h1>${evName!"UNKNOWN EVENT NAME"}</h1></label>
+		<h1>
+			<label for="evName">${evName!"UNKNOWN EVENT NAME"}</label>
+		</h1>
 	</div>
 	<div class="row">
 		<div class="col-sm">
 			<div class="form-group">
-				<label for="evDescription"><h3>Description:</h3></label>
+				<h3>
+					<label for="evDescription">Description:</label>
+				</h3>
 				<textarea id="evDescription" rows="3" class="form-control-plaintext" placeholder='${evDescr!"UNKNOWN EVENT DESCRIPTION"}' readonly="readonly"></textarea>
 			</div>
 			<div class="form-group row">
-				<label for="volunteersNeeded" class="col-form-label"><h3>Volunteers Needed:</h3></label>
+				<h3>
+					<label for="volunteersNeeded" class="col-form-label">Volunteers Needed:</label>
+				</h3>
 				<div class="col-sm">
-					<input id="volunteersNeeded" type="text" class="form-control-plaintext" placeholder='${volunteersNeeded!"0"}' readonly="readonly">
+					<input id="volunteersNeeded" type="text" class="form-control-plaintext" placeholder='${volunteersNeeded!"0"}' readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="hrsNeeded" class="col-form-label"><h3>Hours Needed:</h3></label>
+				<h3>
+					<label for="hrsNeeded" class="col-form-label">Hours Needed:</label>
+				</h3>
 				<div class="col-sm">
-					<input id="hrsNeeded" type="text" class="form-control-plaintext" placeholder='${hrsNeeded!"0"}' readonly="readonly">
+					<input id="hrsNeeded" type="text" class="form-control-plaintext" placeholder='${hrsNeeded!"0"}' readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="rsvpHrs" class="col-form-label"><h3>RSVPed Hours:</h3></label>
+				<h3>
+					<label for="rsvpHrs" class="col-form-label">RSVPed Hours:</label>
+				</h3>
 				<div class="col-sm">
-					<input id="rsvpHrs" type="text" class="form-control-plaintext" placeholder='${rsvpHrs!"0"}' readonly="readonly">
+					<input id="rsvpHrs" type="text" class="form-control-plaintext" placeholder='${rsvpHrs!"0"}' readonly="readonly"/>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm">
 			<div class="form-group row">
-				<label for="location" class="col-form-label"><h3>Location:</h3></label>
+				<h3>
+					<label for="location" class="col-form-label">Location:</label>
+				</h3>
 				<div class="col-sm">
-					<input id="location" type="text" class="form-control-plaintext" placeholder='${location!"UNKNOWN ADDRESS"}' readonly="readonly">
+					<input id="location" type="text" class="form-control-plaintext" placeholder='${location!"UNKNOWN ADDRESS"}' readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="date" class="col-form-label"><h3>Date:</h3></label>
+				<h3>
+					<label for="date" class="col-form-label">Date:</label>
+				</h3>
 				<div class="col-sm">
-					<input id="date" type="text" class="form-control-plaintext" placeholder='${date?string["MMM d, yyyy h:mm a"]}' readonly="readonly">
+					<input id="date" type="text" class="form-control-plaintext" placeholder='${date?string["MMM d, yyyy h:mm a"]}' readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="sponsor" class="col-form-label"><h3>Event Sponsor:</h3></label>
+				<h3>
+					<label for="sponsor" class="col-form-label">Event Sponsor:</label>
+				</h3>
 				<div class="col-sm">
-					<input id="sponsor" type="text" class="form-control-plaintext" placeholder='(${sponsorName!"UNKNOWN"}) ${sponsorDescr!"EVENT SPONSOR"}' readonly="readonly">
+					<input id="sponsor" type="text" class="form-control-plaintext" placeholder='(${sponsorName!"UNKNOWN"}) ${sponsorDescr!"EVENT SPONSOR"}' readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="srvClient" class="col-form-label"><h3>Service Client:</h3></label>
+				<h3>
+					<label for="srvClient" class="col-form-label">Service Client:</label>
+				</h3>
 				<div class="col-sm">
-					<input id="srvClient" type="text" class="form-control-plaintext" placeholder='${srvClient!"UNKNOWN SERVICE CLIENT"}' readonly="readonly">
+					<input id="srvClient" type="text" class="form-control-plaintext" placeholder='${srvClient!"UNKNOWN SERVICE CLIENT"}' readonly="readonly"/>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="contactName" class="col-form-label"><h3>Contact:</h3></label>
+				<h3>
+					<label for="contactName" class="col-form-label">Contact:</label>
+				</h3>
 				<div class="col-sm">
 				<#if contact??>
-					<input id="contactName" type="text" class="form-control-plaintext" placeholder='${name!"None"}' readonly="readonly">
+					<input id="contactName" type="text" class="form-control-plaintext" placeholder='${name!"None"}' readonly="readonly"/>
 					<div class="row">
 						<div class="col">
 							<label for="mainNumber"><b>Main Number:</b></label>
-							<input id="mainNumber" type="text" class="form-control-plaintext" placeholder='${mainPhoneNum}' readonly="readonly"/>
+							<input id="mainNumber" type="text" class="form-control-plaintext" placeholder='${mainPhoneNum!"None"}' readonly="readonly"/>
 						</div>
 						<div class="col">
 							<label for="otherNumber"><b>Other Number:</b></label>
-							<input id="otherNumber" type="text" class="form-control-plaintext" placeholder='${otherPhoneNum}' readonly="readonly"/>
+							<input id="otherNumber" type="text" class="form-control-plaintext" placeholder='${otherPhoneNum!"None"}' readonly="readonly"/>
 						</div>						
 					</div>
-					<input id="contactEmail" type="text" class="form-control-plaintext" placeholder='${email}' readonly="readonly">
+					<input id="contactEmail" type="text" class="form-control-plaintext" placeholder='${email!"None"}' readonly="readonly"/>
 				<#else>
-					<input id="contactName" type="text" class="form-control-plaintext" placeholder='None' readonly="readonly">
+					<input id="contactName" type="text" class="form-control-plaintext" placeholder='None' readonly="readonly"/>
 				</#if>
 				</div>
 			</div>
@@ -79,23 +99,16 @@
 	<#if !userAdmin>
 	<div class="row" style="padding-bottom:50px;">
 		<div class="col-sm-2" style="padding-top:10px">
-			<button type="button" class="btn edit" onclick="goBack()">
-					<span class="fas fa-arrow-left"></span> Back
-			</button>
+			<button type="button" class="btn edit" onclick="goBack()"><span class="fas fa-arrow-left"></span>Back</button>
 		</div>
 		<div class="col-sm-2" style="padding-top:10px;">
-			<button type="button" class="btn edit" onclick="window.location.href='/srv/events'">
-					View All Events
-			</button>
+			<button type="button" class="btn edit" onclick="window.location.href='/srv/events'">View All Events</button>
 		</div>
 		<div class="col-sm">
-			<button type="button" class="btn btn-primary float-right"  onclick="onSignUpClick()">
-					Sign Up
-			</button>
+			<button type="button" class="btn btn-primary float-right"  onclick="onSignUpClick()">Sign Up</button>
 		</div>
-		</#if>
 	</div>
+	</#if>
 </form>
-<link rel="stylesheet" href="/srv/css_style/eventDetails.css" />
 
 	

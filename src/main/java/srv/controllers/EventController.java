@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
 import srv.domain.serviceclient.ServiceClient;
@@ -585,7 +586,7 @@ public class EventController {
 			mav.addObject("mainPhoneNum", theEvent.getContact().getPhoneNumMobile());
 			mav.addObject("otherPhoneNum", theEvent.getContact().getPhoneNumWork());
 			mav.addObject("email", theEvent.getContact().getEmail());
-//			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -593,5 +594,6 @@ public class EventController {
 		
 		return mav;
 	}
+
 	
 }
