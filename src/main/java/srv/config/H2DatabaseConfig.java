@@ -87,10 +87,10 @@ public class H2DatabaseConfig {
 //	}
 	
 	/*TODO Unsure if this Bean should be made*/
-	@Bean
-	public BoardMemberHoursListService bmHrListSrv() {
-		return new BoardMemberHoursListService();
-	}
+//	@Bean
+//	public BoardMemberHoursListService bmHrListSrv() {
+//		return new BoardMemberHoursListService();
+//	}
 	
 	
 	@Bean

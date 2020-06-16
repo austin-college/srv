@@ -113,6 +113,14 @@ public class Event implements Serializable {
 	public Boolean isContinuous() {
 		return continuous;
 	}
+	
+	public boolean getContinuous() {
+		if(this.continuous == null) {
+			return false;
+		} else {
+			return this.continuous.booleanValue();
+		}
+	}
 
 	public Event setContinous(Boolean continous) {
 		this.continuous = continous;
