@@ -458,15 +458,49 @@ function onEditClick() {
 
 // launch the action for viewing details given the event id
 function onViewClick() {
-
-	var site = location.origin
-	var path = site + "/srv/events/view/" + $(this).attr("eid");
-	location.assign(path);
+	
+	$("#dlgView").dialog("open");
+	
+	var idStr = $(this).attr("eid"); // The ID of the selected event to be viewed	
+		
+	$.ajax({
+		method : "GET",
+		url : "/srv/events/ajax/event/" + idStr + "/html",
+		cache : false
+	})
+	/*
+	 * If successful, then request browser to move to view event page on the 
+	 * selected event.
+	 */
+	.done(function(eventDetailsHtml) {
+		
+		console.log(eventDetailsHtml);
+	
+	
+		var site = location.origin
+		var path = site + "/srv/events/view/" + idStr;
+		console.log(path);
+		
+		$("#dlgView").html(eventDetailsHtml);
+	//	$("#evDetails").html(eventSelected);
+		
+		if (document.getElementById("dlgView") == null) 
+			location.assign(path);
+		
+		
+	})
+	/*
+	 * If unsuccessful, display error message and
+	 * reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+	});
 
 }
 
 function goBack() {
-	
+
 	if (document.referrer.includes("/srv/login"))
 		location.href = "/srv/home";
 	else
@@ -488,7 +522,7 @@ function onPageLoad() {
 	$(".btnEvEdit").click(onEditClick);
 
 	// connect the view action to all view buttons
-	$(".btnEvView").click(onViewClick);
+	$(".btnEvView, .evView").click(onViewClick);
 
 	// connect the view action to all view buttons
 	$("td.ev_contact").click(onContactClick);
@@ -572,7 +606,7 @@ function onPageLoad() {
 	$("#dlgViewContact").dialog({
 		autoOpen : false, // hide it at first
 		height : 400,
-		width : 400,
+		width : 300,
 		position : {
 			my : "center top",
 			at : "center top",
@@ -581,6 +615,29 @@ function onPageLoad() {
 		modal : true,
 		// dialogClass: "newDlgClass",
 		show : {
+			effect : "blind",
+			duration : 300
+		},
+		buttons : [ {
+			text : "CANCEL",
+			"class" : 'cancBtnClass',
+			click : function() {
+				$(this).dialog("close");
+			}
+		} ]
+	});
+	
+	// setup the create event details dialog....
+	$("#dlgView").dialog({
+		autoOpen : false, // hide it at first
+		height : 550,
+		width : 950,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		modal : true,		show : {
 			effect : "blind",
 			duration : 300
 		},

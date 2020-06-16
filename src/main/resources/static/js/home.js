@@ -10,7 +10,7 @@ function onViewClick() {
 function onPageLoad() {
 	
 	// connect the view action to links in the list group
-	$(".evView").click(onViewClick);
+	$(".btnEvView").click(onViewClick);
 }
 
 //when the DOM is completely loaded, do final preparations by calling

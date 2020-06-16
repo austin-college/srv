@@ -1,0 +1,101 @@
+<form>
+	<p hidden="hidden" id="evId" eid="${eid!'UNKNOWN ID'}">This paragraph should be hidden.</p>
+	<div class="form-group">
+		<label for="evName"><h1>${evName!"UNKNOWN EVENT NAME"}</h1></label>
+	</div>
+	<div class="row">
+		<div class="col-sm">
+			<div class="form-group">
+				<label for="evDescription"><h3>Description:</h3></label>
+				<textarea id="evDescription" rows="3" class="form-control-plaintext" placeholder='${evDescr!"UNKNOWN EVENT DESCRIPTION"}' readonly="readonly"></textarea>
+			</div>
+			<div class="form-group row">
+				<label for="volunteersNeeded" class="col-form-label"><h3>Volunteers Needed:</h3></label>
+				<div class="col-sm">
+					<input id="volunteersNeeded" type="text" class="form-control-plaintext" placeholder='${volunteersNeeded!"0"}' readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="hrsNeeded" class="col-form-label"><h3>Hours Needed:</h3></label>
+				<div class="col-sm">
+					<input id="hrsNeeded" type="text" class="form-control-plaintext" placeholder='${hrsNeeded!"0"}' readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="rsvpHrs" class="col-form-label"><h3>RSVPed Hours:</h3></label>
+				<div class="col-sm">
+					<input id="rsvpHrs" type="text" class="form-control-plaintext" placeholder='${rsvpHrs!"0"}' readonly="readonly">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm">
+			<div class="form-group row">
+				<label for="location" class="col-form-label"><h3>Location:</h3></label>
+				<div class="col-sm">
+					<input id="location" type="text" class="form-control-plaintext" placeholder='${location!"UNKNOWN ADDRESS"}' readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="date" class="col-form-label"><h3>Date:</h3></label>
+				<div class="col-sm">
+					<input id="date" type="text" class="form-control-plaintext" placeholder='${date!"UNKNOWN DATE"}' readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="sponsor" class="col-form-label"><h3>Event Sponsor:</h3></label>
+				<div class="col-sm">
+					<input id="sponsor" type="text" class="form-control-plaintext" placeholder='(${sponsorName!"UNKNOWN"}) ${sponsorDescr!"EVENT SPONSOR"}' readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="srvClient" class="col-form-label"><h3>Service Client:</h3></label>
+				<div class="col-sm">
+					<input id="srvClient" type="text" class="form-control-plaintext" placeholder='${srvClient!"UNKNOWN SERVICE CLIENT"}' readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="contactName" class="col-form-label"><h3>Contact:</h3></label>
+				<div class="col-sm">
+				<#if contact??>
+					<input id="contactName" type="text" class="form-control-plaintext" placeholder='${name!"None"}' readonly="readonly">
+					<div class="row">
+						<div class="col">
+							<label for="mainNumber"><b>Main Number:</b></label>
+							<input id="mainNumber" type="text" class="form-control-plaintext" placeholder='${mainPhoneNum}' readonly="readonly"/>
+						</div>
+						<div class="col">
+							<label for="otherNumber"><b>Other Number:</b></label>
+							<input id="otherNumber" type="text" class="form-control-plaintext" placeholder='${otherPhoneNum}' readonly="readonly"/>
+						</div>						
+					</div>
+					<input id="contactEmail" type="text" class="form-control-plaintext" placeholder='${email}' readonly="readonly">
+				<#else>
+					<input id="contactName" type="text" class="form-control-plaintext" placeholder='None' readonly="readonly">
+				</#if>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#if !userAdmin>
+	<div class="row" style="padding-bottom:50px;">
+		<div class="col-sm-2" style="padding-top:10px">
+			<button type="button" class="btn edit" onclick="goBack()">
+					<span class="fas fa-arrow-left"></span> Back
+			</button>
+		</div>
+		<div class="col-sm-2" style="padding-top:10px;">
+			<button type="button" class="btn edit" onclick="window.location.href='/srv/events'">
+					View All Events
+			</button>
+		</div>
+		<div class="col-sm">
+			<button type="button" class="btn btn-secondary float-right" disabled>
+					Sign Up
+			</button>
+		</div>
+		</#if>
+	</div>
+</form>
+<link rel="stylesheet" href="/srv/css_style/eventDetails.css" />
+
+	

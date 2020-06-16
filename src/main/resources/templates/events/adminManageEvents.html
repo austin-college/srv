@@ -23,7 +23,7 @@
 					<span class="fas fa-plus-circle"></span> Create New
 				</button>
 			</div>
-			
+		
 		
 			
 			<!-- Toggle button for filtering events before current date -->
@@ -160,8 +160,6 @@
 		</div>
 	</div>
 	</#if>
-
-	
 		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col">
 
@@ -187,9 +185,9 @@
 					<#if events??>
 					<#list events as ev>
 					<tr id="eid-${ev.eid?c}">
-						<td class="ev_id btnEvView evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>
-						<td class="ev_title btnEvView evView" eid="${ev.eid?c}">${ev.title!"UNKNOWN"}</td>
-						<td class="ev_type btnEvView evView" eid="${ev.eid?c}">${ev.type.name!"UNKNOWN"}</td>
+						<td class="ev_id evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>
+						<td class="ev_title evView" eid="${ev.eid?c}">${ev.title!"UNKNOWN"}</td>
+						<td class="ev_type evView" eid="${ev.eid?c}">${ev.type.name!"UNKNOWN"}</td>
 						<td class="ev_contact" eid="${ev.eid?c}"><#if ev.contact??>
 					${ev.contact.fullName()!"UNKNOWN"}
 					<#else>
@@ -244,11 +242,12 @@
 		
 	</div>
 
+	<#if userAdmin>
 	<div id="dlgView" title="EVENT DETAILS" class="ui-widget"
 		style="display: none">
-		<p>Show event details here.</p>
 	</div>
-
+	</#if>
+	
 	<div id="dlgViewContact" title="CONTACT DETAILS" class="ui-widget"
 		style="display: none">
 		<p>Show event contact here.</p>
@@ -266,5 +265,5 @@
 	<!-- JavaScript file that will allow us to sort the table columns -->
 	<script src="/srv/js/datatables.min.js"></script>
 	<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
-		
+
 	</@layout.stdpage>

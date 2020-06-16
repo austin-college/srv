@@ -1,5 +1,6 @@
 @charset "ISO-8859-1";
-/* Style settings for the edit and add buttons.*/
+
+/* Style settings for the back and view buttons.*/
 .edit{
 	background-color: #db9401;
 	border-color: #db9401;
@@ -8,10 +9,17 @@
 	
 }
 
-p {
-	padding-top:7px;
+h3 {
+	font-weight: bold;
 }
 
+.form-control-plaintext {
+	padding-top:12px;
+}
+
+.col-form-label {
+	padding-left: 15px;
+}
 .row {
 	padding-top:10px; 
 	padding-bottom:10px;

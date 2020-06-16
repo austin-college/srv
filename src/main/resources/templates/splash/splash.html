@@ -1,6 +1,6 @@
 <!-- import macro template -->
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Welcome" "splashStyle.css" "servantHome.js">
+<@layout.stdpage "Welcome" "splashStyle.css" "home.js">
 
 	<!-- Container with title, image, and about section -->
 	
@@ -36,7 +36,7 @@
 	  			<#list events as upcoming> 
 						<!--  only show events with volunteers still needed -->
 						<#if upcoming.rsvpVolunteerHours &lt; upcoming.neededVolunteerHours>
-						 <a class="list-group-item list-group-item-action evView" eid="${upcoming.eid?c}">
+						 <a class="list-group-item list-group-item-action btnEvView" eid="${upcoming.eid?c}">
 							${upcoming.title!"UNKNOWN EVENT TITLE"} ${upcoming.date?date}
 						</#if> 
 						</a> 

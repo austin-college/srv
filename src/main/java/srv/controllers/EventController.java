@@ -160,7 +160,27 @@ public class EventController {
 		ModelAndView mav = new ModelAndView("events/viewer");
 
 		try {
+			// fetch the event
+			Event theEvent = eventService.eventById(id.intValue());
+			
+			mav.addObject("contact", theEvent.getContact());
+			mav.addObject("eid", theEvent.getEid());
 			mav.addObject("userAdmin", userUtil.userIsAdmin());
+			mav.addObject("evName", theEvent.getTitle());
+			mav.addObject("evDescr", theEvent.getNote());
+			mav.addObject("volunteersNeeded", theEvent.getVolunteersNeeded());
+			mav.addObject("hrsNeeded", theEvent.getNeededVolunteerHours());
+			mav.addObject("rsvpHrs", theEvent.getRsvpVolunteerHours());
+			mav.addObject("location", theEvent.getAddress());
+			mav.addObject("date", theEvent.getDate());
+			mav.addObject("sponsorName", theEvent.getType().getName());
+			mav.addObject("sponsorDescr", theEvent.getType().getDescription());
+			mav.addObject("srvClient", theEvent.getServiceClient().getName());
+			mav.addObject("name", theEvent.getContact().fullName());
+			mav.addObject("mainPhoneNum", theEvent.getContact().getPhoneNumMobile());
+			mav.addObject("otherPhoneNum", theEvent.getContact().getPhoneNumWork());
+			mav.addObject("email", theEvent.getContact().getEmail());
+//			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -358,7 +378,7 @@ public class EventController {
 	@ResponseBody
 	@GetMapping(value = "/events/ajax/event/{id}", produces="application/json")
 	public ResponseEntity<Event> ajaxFetchEvent(@PathVariable Integer id) {
-
+		
     	try {
     		
     		System.err.println("fetch "+id);
@@ -374,6 +394,40 @@ public class EventController {
 
 
 	}
+	
+	@GetMapping("events/ajax/event/{id}/html")
+	public ModelAndView ajaxViewEventHtml(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+		
+		ModelAndView mav = new ModelAndView("events/eventDetails");
 
+		try {
+			// fetch the event
+			Event theEvent = eventService.eventById(id.intValue());
+			
+			mav.addObject("contact", theEvent.getContact());
+			mav.addObject("eid", theEvent.getEid());
+			mav.addObject("userAdmin", userUtil.userIsAdmin());
+			mav.addObject("evName", theEvent.getTitle());
+			mav.addObject("evDescr", theEvent.getNote());
+			mav.addObject("volunteersNeeded", theEvent.getVolunteersNeeded());
+			mav.addObject("hrsNeeded", theEvent.getNeededVolunteerHours());
+			mav.addObject("rsvpHrs", theEvent.getRsvpVolunteerHours());
+			mav.addObject("location", theEvent.getAddress());
+			mav.addObject("date", theEvent.getDate());
+			mav.addObject("sponsorName", theEvent.getType().getName());
+			mav.addObject("sponsorDescr", theEvent.getType().getDescription());
+			mav.addObject("srvClient", theEvent.getServiceClient().getName());
+			mav.addObject("name", theEvent.getContact().fullName());
+			mav.addObject("mainPhoneNum", theEvent.getContact().getPhoneNumMobile());
+			mav.addObject("otherPhoneNum", theEvent.getContact().getPhoneNumWork());
+			mav.addObject("email", theEvent.getContact().getEmail());
+//			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
 	
 }
