@@ -239,5 +239,23 @@ public class ServiceHoursServiceTests {
 		
 		
 	}
+	
+	/**
+	 * Tests to make sure the service checks for a valid eventId. Throws
+	 * an exception if the id is not valid. 
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_createServiceHour_whenIdIsNotValid() throws Exception {
+		
+		//expect an exception to complain about eventId
+		exceptionRule.expect(Exception.class);
+		exceptionRule.expectMessage("Invalid event id");
+		
+		// test
+		ServiceHours s = shs.createServiceHour(-1);
+		
+	}
 
 }
