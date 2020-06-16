@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.EventTypeDao;
+import srv.utils.UserUtil;
 
 @Controller
 @EnableWebSecurity
@@ -26,6 +27,13 @@ public class EventTypeController {
 	@Autowired
 	EventTypeDao etDao;
 	
+	/**
+	 * Displays the admin manage event types page.
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("eventTypes")
 	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response) {
@@ -35,18 +43,14 @@ public class EventTypeController {
 		try {
 			
 			List<EventType> currentEvTypes = etDao.listAll();
-			
-			System.out.println(currentEvTypes.get(0).getDefClient().getName());
+
 			mav.addObject("evTypes", currentEvTypes);
 
-			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return mav;
-		
-		
+		return mav;		
 	}
 }
