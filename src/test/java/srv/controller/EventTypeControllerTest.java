@@ -11,9 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +58,7 @@ class EventTypeControllerTest {
 	 * event types and service clients.  
 	 * 
 	 */
-	@Before
+	@BeforeEach
 	public void setupTestFixture() {
 	
 		ServiceClient sc1 = new ServiceClient()
@@ -118,7 +117,7 @@ class EventTypeControllerTest {
 	
 		// Mock dependencies
 		Mockito.when(mockEtDao.listAll()).thenReturn(testTypes);
-		System.out.println(testTypes.get(0).getEtid());
+
 		mvc.perform(get("/eventTypes")
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isOk())
