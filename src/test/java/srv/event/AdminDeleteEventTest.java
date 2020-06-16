@@ -33,23 +33,6 @@ import srv.SeleniumTest;
 public class AdminDeleteEventTest extends SeleniumTest {
 
 
-	private void clickAndWaitForPage(WebDriver driver, By by, int waitTime) {
-
-		final String currentUrl = driver.getCurrentUrl();
-		driver.findElement(by).click();
-
-		WebDriverWait wait = new WebDriverWait(driver, waitTime);
-
-		wait.until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return (!d.getCurrentUrl().equals(currentUrl));
-			}
-		});
-
-	}
-
-
-
 	@Test
 	public void testAdminDeleteEvent() throws Exception {
 

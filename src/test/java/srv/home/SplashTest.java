@@ -1,4 +1,4 @@
-package srv;
+package srv.home;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -13,10 +13,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import srv.SeleniumTest;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SplashTest extends SeleniumTest {
 	
+	
+	/**
+	 * Test to ensure that the incomplete "/" endpoint redirects to
+	 * a more proper "/splash" ....which is really our site landing URL.
+	 * 
+	 * @throws Exception
+	 */
     @Test
     public void testRedirectToSplash() throws Exception {
         driver.get(base + "/");
@@ -26,33 +35,23 @@ public class SplashTest extends SeleniumTest {
     }
     
     
-	private void clickAndWaitForPage(WebDriver driver, By by, int waitTime) {
-
-		final String currentUrl = driver.getCurrentUrl();
-		driver.findElement(by).click();
-
-		WebDriverWait wait = new WebDriverWait(driver, waitTime);
-
-		wait.until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return (!d.getCurrentUrl().equals(currentUrl));
-			}
-		});
-		
-	}
-
-    
-    
+    /**
+     * Test to ensure that authenticating as an admin really does
+     * navigate us to the admin's home page.
+     * 
+     * @throws Exception
+     */
     @Test
     public void testAdminLogin() throws Exception {
     	
         driver.get(base + "/splash");
-        
+
+        String oldPageURL = driver.getCurrentUrl();
         WebElement link = driver.findElement(By.linkText("Log In"));
         link.click();
         
-        //clickAndWaitForPage(driver, By.id("nav-login"), 4);
-         Thread.sleep(2000);
+        waitForPage(driver, oldPageURL, 4);
+         
         
         /*
          * should be at the login page now
@@ -68,8 +67,6 @@ public class SplashTest extends SeleniumTest {
         txtUser.sendKeys("admin");
         
         
-        // Thread.sleep(000);
-        
         /*
          * find and populate password text element
          */
@@ -80,8 +77,6 @@ public class SplashTest extends SeleniumTest {
         txtPw.clear();
         txtPw.sendKeys("admin");
 
-        //Thread.sleep(5000);
-        
         /*
          * submit the form
          */
