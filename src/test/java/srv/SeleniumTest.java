@@ -157,6 +157,31 @@ public abstract class SeleniumTest {
 
 	}
 
+	
+	/**
+	 * Waits for a page to change;
+	 * 
+	 * @param driver
+	 * @param oldPageUrl
+	 * @param waitTime
+	 */
+	protected void waitForPage(WebDriver driver, String oldPageUrl, int waitTime) {
+
+		WebDriverWait wait = new WebDriverWait(driver, waitTime);
+
+		wait.until(new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver driver) {
+
+				boolean same = driver.getCurrentUrl().equals(oldPageUrl);
+				return !same;
+
+			}
+		});
+
+	}
+
 
 
 }

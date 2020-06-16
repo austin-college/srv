@@ -22,31 +22,6 @@ import srv.SeleniumTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AdminAddEventTest extends SeleniumTest {
 
-	@Test
-	public void testRedirectToSplash() throws Exception {
-		driver.get(base + "/");
-
-		assertEquals("Welcome",driver.getTitle());
-		assertEquals(base+"/splash", driver.getCurrentUrl());
-	}
-
-
-	private void clickAndWaitForPage(WebDriver driver, By by, int waitTime) {
-
-		final String currentUrl = driver.getCurrentUrl();
-		driver.findElement(by).click();
-
-		WebDriverWait wait = new WebDriverWait(driver, waitTime);
-
-		wait.until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return (!d.getCurrentUrl().equals(currentUrl));
-			}
-		});
-
-	}
-
-
 
 	@Test
 	public void testAdminAddEvent() throws Exception {

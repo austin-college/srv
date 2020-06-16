@@ -15,13 +15,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -33,33 +30,18 @@ import srv.SeleniumTest;
 public class AdminUpdateEventTest extends SeleniumTest {
 
 
-	private void clickAndWaitForPage(WebDriver driver, By by, int waitTime) {
-
-		final String currentUrl = driver.getCurrentUrl();
-		driver.findElement(by).click();
-
-		WebDriverWait wait = new WebDriverWait(driver, waitTime);
-
-		wait.until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return (!d.getCurrentUrl().equals(currentUrl));
-			}
-		});
-
-	}
-
-
-
 	@Test
 	public void testAdminUpdateEvent() throws Exception {
 
 		driver.get(base + "/splash");
 
+		String url = driver.getCurrentUrl();
+		
 		WebElement link = driver.findElement(By.linkText("Log In"));
 		link.click();
 
-		//clickAndWaitForPage(driver, By.id("nav-login"), 4);
-		Thread.sleep(2000);
+		waitForPage(driver, url, 4);
+		//Thread.sleep(2000);
 
 		/*
 		 * should be at the login page now
