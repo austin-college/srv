@@ -1,6 +1,7 @@
 package srv.services;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mockitoSession;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.util.Assert;
 
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
@@ -110,7 +112,7 @@ public class ServiceHoursServiceTests {
 		.setEtid(2)
 		.setName("fws")
 		.setDescription("first we serve for test")
-		.setDefHours(0)
+		.setDefHours(1)
 		.setDefClient(sc2)
 		.setPinHours(false);
 
@@ -255,6 +257,46 @@ public class ServiceHoursServiceTests {
 		
 		// test
 		ServiceHours s = shs.createServiceHour(-1);
+		
+	}
+	
+	/**
+	 * Tests the updateHour method in ServiceHourService. 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_updateHour() throws Exception {
+		
+		// change some value for sh1
+		sh1.setEvent(e2);
+		
+		// tell service to update the service hour
+		// after setting event to e2
+		ServiceHours s = shs.updateHour(sh1);
+		
+		// make assertions to make sure fields updated
+		assertEquals(1, s.getShid());
+		assertEquals(2, s.getServedPet().getScid());
+		assertEquals(1, s.getServant().getUid());
+		assertEquals(2, s.getEvent().getEid());
+		assertEquals(1.0, s.getHours());
+		assertEquals("Approved", s.getStatus());
+		assertEquals("test reflection", s.getReflection());
+		assertEquals("first we serve for test", s.getDescription());
+		
+		
+		
+		//verify that the dao was involved
+		
+		Mockito.verify(dao).update(
+				Mockito.eq(1),
+				Mockito.eq(sh1.getServedPet().getScid()),
+				Mockito.eq(sh1.getServant().getUid()), 
+				Mockito.eq(sh1.getEvent().getEid()),
+				Mockito.eq(sh1.getHours()),
+				Mockito.eq(sh1.getStatus()),
+				Mockito.eq(sh1.getReflection()),
+				Mockito.eq(sh1.getDescription()));
 		
 	}
 

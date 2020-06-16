@@ -138,6 +138,12 @@ public class ServiceHoursService {
 	 */
 	public ServiceHours updateHour(ServiceHours sh)  throws Exception {
 		
+		if(sh == null) {
+			
+			throw new Exception(String.format("service hour is null", sh)); 
+		}
+		
+		log.debug("updat");
 		//sHoursDao.update(id,  );
 		
 		return null;   
