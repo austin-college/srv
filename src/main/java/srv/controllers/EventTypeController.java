@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.EventTypeDao;
+import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
 import srv.utils.UserUtil;
 
 @Controller
@@ -26,6 +28,9 @@ public class EventTypeController {
 	
 	@Autowired
 	EventTypeDao etDao;
+	
+	@Autowired
+	ServiceClientDao scDao;
 	
 	/**
 	 * Displays the admin manage event types page.
@@ -43,8 +48,10 @@ public class EventTypeController {
 		try {
 			
 			List<EventType> currentEvTypes = etDao.listAll();
-
+			List<ServiceClient> currentClients = scDao.listAll();
+			
 			mav.addObject("evTypes", currentEvTypes);
+			mav.addObject("clients", currentClients);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

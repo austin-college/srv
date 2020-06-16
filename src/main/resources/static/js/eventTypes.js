@@ -1,6 +1,10 @@
-// alert the user that this feature is dead
+/**
+ * open the dialog to start to create an event type.
+ * 
+ * @returns
+ */
 function onNewClick() {
-	alert("Feature is not functional yet");
+	$("#dlgScSel").dialog("open")
 }
 
 //alert the user that this feature is dead
@@ -47,6 +51,93 @@ function onPageLoad() {
 
 	// connect the view action to all view buttons
 	$(".btnEtView, .etView").click(onViewClick);
+	
+	 // dialog for selecting the service client when creating new.
+	 $("#dlgScSel").dialog({
+		 autoOpen: false,
+		 width: $(window).width() * 0.6,
+		 height: $(window).height() * 0.6,
+		 modal: true,
+		 position: {
+			  my: "center top",
+			  at: "center top",
+			  of: window
+			},
+		 open: function(event, ui) {			
+			 console.log("open select dialog");	
+		 },
+		 buttons: [
+			 {
+				 text: "Submit", 
+				 "id": "addBtnDlg",
+				 "class": 'btn',
+				 click: function() {		
+					 console.log("submit on select dialog");
+					
+					 
+					 $("#addDlg").dialog("open");
+					 
+					 $(this).dialog("close");
+
+				 }
+			 },
+			 {	
+				 text: "Cancel",
+				 "class": 'btn btn-secondary',
+				 click: function() {
+					 console.log("cancel on select dialog");
+					 $(this).dialog("close");
+
+				 }
+			 }]
+	 });
+	 
+	 // Add event type dialog
+	 $("#addDlg").dialog({
+			autoOpen: false,
+			height: 525,
+			width: 700,
+			modal: true,
+			open: function(event, ui) {			
+				console.log("open add dialog");	
+			},
+			 buttons: [
+				 {
+					 text: "Submit", 
+					 "id": "addBtnDlg",
+					 "class": 'btn',
+					 click: function() {		
+						 console.log("submit on select dialog");
+						
+						 
+						 $("#addDlg").dialog("open");
+						 
+						 $(this).dialog("close");
+
+					 }
+				 },
+				 {	
+					 text: "Cancel",
+					 "class": 'btn btn-secondary',
+					 click: function() {
+						 console.log("cancel on select dialog");
+						 $(this).dialog("close");
+
+					 }
+				 }]
+		});
+	 
+	 // Allows for sorting service client table in dialog
+	 $('#tblSrvClients').DataTable({	
+		 "paging": false,
+		 "searching": true,
+		 "info": false
+	 });
+
+	 // Allows for searching the service client table in dialog
+	 $('#tblSrvClients').on( 'search.dt', function () {
+		 $(".boxSel").prop("checked",false);  // clear all others
+	 } );
 }
 
 

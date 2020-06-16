@@ -1,6 +1,5 @@
 @charset "ISO-8859-1";
 
-/* credit to Lydia for making the list style in listStyle1*/
 /* Style settings for the table. */
 .table{
 	text-align: center;
@@ -19,16 +18,18 @@ thead th {
 	color: white;
 	text-align: center;
 }
-/* Hover effect for the add buttons.*/
-#addBtnContainer:hover{
-     background-color: #db9401;
-     opacity: 0.5;
+/* Style settings for the view buttons in a table */
+.btnView {
+	background-color: #427dc6;
+	color: white;
+	text-align: center;
 }
-.addBtn:hover{
-	background-color:#db9401;
-}
-.addBtn:focus{
-	background-color:#db9401;
+
+/* Style settings for the delete buttons.*/
+.del{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
 }
 /* Style settings for the edit and add buttons.*/
 .edit, .addBtn{
@@ -39,14 +40,15 @@ thead th {
 	
 }
 
-
-a:hover {
-	background-color: #ffffff;
-	
+/* Style settings for submit button in create new event type dialog */
+#addBtnDlg  {
+	background-color: #db9401;
+	color: white;
 }
 
-.toggle {
-	padding-right: 0px;
-	padding-left: 0px;
+/* Style setting for dialog headers. */
+.ui-dialog-titlebar{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
 }
-/* end credit to Lydia for list style*/

@@ -1,6 +1,6 @@
 <#import "/main_layout.html" as layout />
 
-<@layout.stdpage "Manage Event Types" "home.css" "eventTypes.js">
+<@layout.stdpage "Manage Event Types" "eventTypeManager.css" "eventTypes.js">
 
 <div id="mainContainer" class="container">
 	
@@ -84,4 +84,89 @@
 	</div>
 	
 </div>
+
+<div id="dlgScSel" title="Select Default Service Client..." style="display:none">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+			<!-- Service Client table -->
+			<table id="tblSrvClients" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>&#xA0;</th>
+						<th>ID</th>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#list clients as sc>
+					<tr id="scid-${sc.scid?c}">
+						<td class="sc_sel"><input class="boxSel" type="checkbox" scid="${sc.scid}" /></td>
+						<td class="sc_id">${sc.scid!"UNKNOWN ID"}</td>
+						<td class="sc_name">${sc.name!"UNKNOWN NAME"}</td>
+					</tr>
+					</#list>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div id="addDlg" title="Add Event Type" class="ui-widget">
+	<div class="container-fluid">
+		<form id="newEt">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="etName">Abbreviated Name:</label>
+						<input id="etName" type="text" class="form-control"/>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">
+					<div class="form-group">
+						<label for="etDescr">Full Name/Description:</label>
+						<textarea id="etDescr" rows="2" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="defHrs">Default Hours:</label>
+						<input id="defHrs" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm">
+					<div class="row" style="padding-bottom:0px">
+						<div class="form-group">
+							<label for="radio-inline" style="padding-right:10px">Do you wish to pin hours?</label>
+							<label class="radio-inline" style="padding-right:10px">
+      							<input id="yesPinHrs" type="radio" name="optradio" checked> Yes
+    						</label>
+				    		<label class="radio-inline" style="padding-right:10px">
+      							<input id="noPinHrs" type="radio" name="optradio"> No
+    						</label>
+						</div>
+					</div>
+					<div class="row" style="padding-top:-0px">
+						<p style="font-size:12px">*By pinning hours, a user must report using the default hours.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">
+					<div class="form-group">
+						<label for="etSc">Service Client:</label>
+						<input id="etSc" type="text" class="form-control" readonly="readonly" value="sel sc"/>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="/srv/js/datatables.min.js"></script>
+<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
+
 </@layout.stdpage>
