@@ -160,14 +160,13 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		/*
 		 * finds the submit button and submits the information
 		 */
-
 		link = driver.findElement(By.className("btn-primary"));
 		link.sendKeys(Keys.ENTER);
 		
 		/*
 		 * should lead us back to the manage events page
 		 */
-		assertEquals(base+"/events/edit/1?userid=admin", driver.getCurrentUrl());
+		assertEquals(base+"/events?userid=admin", driver.getCurrentUrl());
 		
 		/*
 		 * now we check to see if the data updated appropriately
