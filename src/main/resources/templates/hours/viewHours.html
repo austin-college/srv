@@ -16,7 +16,7 @@
 
 						<!-- container thats creating a table that will hold our data-->
 						<div class="container ui-widget">
-							<div Id="table" class="row">
+							<div class="row">
 								<table
 									class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 									<thead>
@@ -40,7 +40,7 @@
 			<!-- Button that prompts the user to enter their service hours -->
 			<button type="button" class="btn btn-md btn-dark addBtn"
 			>
-				<span class="fas fa-plus-circle"></span>Add Hours
+				<span class="fas fa-plus-circle"></span> Add Hours
 			</button>
 
 	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
@@ -53,7 +53,7 @@
 			</div>
 			<!-- container thats creating a table that will hold our data-->
 			<div class="container ui-widget table-responsive">
-				<div Id="table" class="row">
+				<div class="row">
 					<table id="hrs_tbl"
 						class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 						<thead>
@@ -62,7 +62,7 @@
 								<th>Service Event</th>
 								<th>Hours Served</th>
 								<th>Status</th>
-								<th colspan='2'>Edit/Delete</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody id="hrs_tbl_body">
@@ -73,18 +73,16 @@
 									<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.event.title!"UNKNOWN"}</td>
 									<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
 									<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
-									<td>
-										<!-- Buttons to open edit/delete hours dialog  -->
-										<button type="button" class="edit btn" onEditClick="${hrs.shid?c}">
-											<span class="fas fa-pencil-alt"></span> 
-						  					Edit
+									<!-- action buttons: edit/delete -->
+									<td class="hrActions">
+										<#if hrs.status != "Approved">
+										<button type="button" class="btnHrEdit edit btn" onEditClick="${hrs.shid?c}">
+											<i class="fas fa-pencil-alt"></i> 
 										</button>
-									</td>
-									<td>
-				   						 <button type="button" class="del btn" onDelClick="${hrs.shid?c}">
-											<span class="fas fa-trash-alt"></span>  
-						  					Delete 
+				   						<button type="button" class=" btnHrDel del btn" onDelClick="${hrs.shid?c}">
+											<i class="fas fa-trash-alt"></i>  
 										</button>
+										</#if>
 									</td>
 								</tr>
 							</#list>
@@ -96,13 +94,14 @@
 		</div>
 	</div>
 </div>
-
+</div>
+</div>
 <!-- The div below defines the delete dialog for deleting a served hour which is hidden by JS and exposed by JQ. -->
 <div id="delDlg" title="DELETE SELECTED HOURS" class="ui-widget delWid">
 	<p id="del_confirm">
-		<br>
-		<br> <span id="delMsg1"></span> <br>
-		<br> <span id="delMsg2"></span>
+		<br/>
+		<br/> <span id="delMsg1"></span>
+		<br/> <span id="delMsg2"></span>
 	</p>
 </div>
 
@@ -115,7 +114,7 @@
 					<h5><b>Event Information</b></h5>
 				</div>
 				<div class='form-row'>
-					<hr class='col'>
+					<hr class='col'/>
 				</div>
 				<div class="container-fluid">	
 					<div class="row">
@@ -128,7 +127,7 @@
 							</div>
 							<div class="row-sm">
 								<div class="col">
-									<input type="text" id="hrInfoDlg_eventName" value=${eventName! "UNKNOWN"} readonly size = 25>
+									<input type="text" id="hrInfoDlg_eventName" value='${eventName! "UNKNOWN"}'  readonly="readonly" size = '25'/>
 								</div>
 							</div>
 						</div>
@@ -143,7 +142,7 @@
 							</div>
 							<div class="row-sm">
 								<div class="col">
-									<input type='text' id="hrInfoDlg_date" value="03/12/20" readonly size='8'>
+									<input type='text' id="hrInfoDlg_date" value="03/12/20"  readonly="readonly" size='8'/>
 								</div>
 							</div>
 						</div>
@@ -158,7 +157,7 @@
 							</div>
 							<div class="row-sm">
 								<div class="col">
-									<input type='text' id='hrInfoDlg_org' value="Meals on Wheels" } readonly size='30'>
+									<input type='text' id='hrInfoDlg_org' value="Meals on Wheels"   readonly="readonly" size='30'/>
 								</div>
 							</div>
 						</div>
@@ -173,7 +172,8 @@
 							</div>
 							<div class="row-sm">
 								<div class="col">
-									<input type='text' id="hrInfoDlg_hrsServed" value=${hrsServed! "UNKNOWN"} readonly size='2'>
+									<input type='text' id="hrInfoDlg_hrsServed" value='${hrsServed! "UNKNOWN"}' readonly="readonly" size='2'/>
+									
 								</div>
 							</div>
 						</div>
@@ -188,7 +188,7 @@
 							</div>
 							<div class="row-sm">
 								<div class="col">
-									<input type='text' id="hrInfoDlg_desc" value="Did miscellaneous tasks." readonly size='80'>
+									<input type='text' id="hrInfoDlg_desc" value="Did miscellaneous tasks."  readonly="readonly" size='80'/>
 								</div>
 							</div>
 						</div>
@@ -199,7 +199,7 @@
 						<h5>
 							<b>Address Information</b>
 						</h5>
-						<hr class=".col-md-11-auto">
+						<hr class=".col-md-11-auto"/>
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
@@ -212,7 +212,7 @@
 									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 									<div class="row-sm">
 										<div class="col-sm">
-											<input id="hrInfoDlg_address" type="text" class="form-control" value="118 Main Street" readonly>
+											<input id="hrInfoDlg_address" type="text" class="form-control" value="118 Main Street"  readonly="readonly"/>
 										</div>
 									</div>
 								</div>
@@ -222,7 +222,7 @@
 									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 									<div class="row-sm">
 										<div class="col-sm">
-											<input id="hrInfoDlg_city" type="text" class="form-control" value="Sherman" readonly>
+											<input id="hrInfoDlg_city" type="text" class="form-control" value="Sherman"  readonly="readonly"/>
 										</div>
 									</div>
 								</div>
@@ -232,7 +232,7 @@
 									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 									<div class="row-sm">
 										<div class="col-sm">
-											<input id="hrInfoDlg_zip" type="text" class="form-control" value="75090" readonly>
+											<input id="hrInfoDlg_zip" type="text" class="form-control" value="75090"  readonly="readonly"/>
 										</div>
 									</div>
 								</div>
@@ -242,7 +242,7 @@
 									<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
 									<div class="row-sm">
 										<div class="col-sm">
-											<input id="hrInfoDlg_state" type="text" class="form-control" value="TX" readonly>
+											<input id="hrInfoDlg_state" type="text" class="form-control" value="TX"  readonly="readonly"/>
 										</div>
 									</div>
 								</div>
@@ -255,7 +255,7 @@
 						<h5>
 							<b>Contact Information</b>
 						</h5>
-						<hr class=".col-md-11-auto">
+						<hr class=".col-md-11-auto"/>
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
@@ -271,7 +271,7 @@
 								</div>
 								<div class="row-sm">
 									<div class="col">
-										<input type="text" id="hrInfoDlg_contactName" value="Joe Smith" readonly>
+										<input type="text" id="hrInfoDlg_contactName" value="Joe Smith"  readonly="readonly"/>
 									</div>
 								</div>
 							</div>
@@ -286,7 +286,7 @@
 								</div>
 								<div class="row-sm">
 									<div class="col">
-										<input type="text" id="hrInfoDlg_contactNumber" value="903-331-1241" readonly size='15'>
+										<input type="text" id="hrInfoDlg_contactNumber" value="903-331-1241"  readonly="readonly" size='15'/>
 									</div>
 								</div>
 							</div>
@@ -301,7 +301,7 @@
 								</div>
 								<div class="row-sm">
 									<div class="col">
-										<input type="text" id="hrInfoDlg_contactEmail" value="randomEmail@gmail.com" readonly>
+										<input type="text" id="hrInfoDlg_contactEmail" value="randomEmail@gmail.com"  readonly="readonly"/>
 									</div>
 								</div>
 							</div>
@@ -324,7 +324,7 @@
 						<h5>
 							<b>Event Information</b>
 						</h5>
-						<hr class=".col-md-11-auto">
+						<hr class=".col-md-11-auto"/>
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
@@ -338,7 +338,7 @@
 						</div>
 						<div class="row-sm">
 							<div class="col">
-								<input type="text" id="editDlg_eventName" value=${eventName!"UNKNOWN"}  size="30">
+								<input type="text" id="editDlg_eventName" value='${eventName!"UNKNOWN"}'  size="30"/>
 							</div>
 						</div>
 					</div>
@@ -353,7 +353,7 @@
 						</div>
 						<div class="row-sm">
 							<div class="col">
-								<input type='text' id="editDlg_date" value=${date!"03/12/20"}  size='10'>
+								<input type='text' id="editDlg_date" value='${date!"03/12/20"}'  size='10'/>
 							</div>
 						</div>
 					</div>
@@ -368,7 +368,7 @@
 							</div>
 							<div class="row-sm">
 								<div class="col">
-									<input type='text' id='editDlg_org' value=${org!"Meals_on_Wheels"}  size='30'>
+									<input type='text' id='editDlg_org' value='${org!"Meals_on_Wheels"}'  size='30'/>
 								</div>
 							</div>
 					</div>
@@ -383,7 +383,7 @@
 						</div>
 						<div class="row-sm">
 							<div class="col">
-								<input type='text' id="editDlg_hrsServed" value=${hrsServed!"UNKNOWN"}  size='10'>
+								<input type='text' id="editDlg_hrsServed" value='${hrsServed!"UNKNOWN"}'  size='10'/>
 							</div>
 						</div>
 					</div>
@@ -398,7 +398,7 @@
 						</div>
 						<div class="row-sm">
 							<div class="col">
-								<input type='text' id="editDlg_desc" value=${desc!"Did_miscellaneous_tasks."} size='80'>
+								<input type='text' id="editDlg_desc" value='${desc!"Did_miscellaneous_tasks."}' size='80'/>
 							</div>
 						</div>
 					</div>
@@ -408,7 +408,7 @@
 						<h5>
 							<b>Address Information</b>
 						</h5>
-						<hr class=".col-md-11-auto">
+						<hr class=".col-md-11-auto"/>
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
@@ -422,8 +422,8 @@
 						</div>
 						<div class="row-sm">
 							<div class="col">
-								<input type="text" id="editDlg_address" value=${address! "118 Main
-									Street"} size='15'>	
+								<input type="text" id="editDlg_address" value='${address! "118 Main
+									Street"}' size='15'/>	
 							</div>
 						</div>
 					</div>
@@ -439,7 +439,7 @@
 						<div class="row-sm">
 							<div class="col">
 								<input type="text"
-									id="editDlg_city" " value=${city! "Sherman"} size='15'>
+									id="editDlg_city"  value='${city! "Sherman"}' size='15'/>
 							</div>
 						</div>
 					</div>
@@ -455,7 +455,7 @@
 						<div class="row-sm">
 							<div class="col">
 								<input
-									type="text" id="editDlg_zip" value=${zip! "75090"} size='5'>
+									type="text" id="editDlg_zip" value='${zip! "75090"}' size='5'/>
 							</div>
 						</div>
 					</div>
@@ -471,7 +471,7 @@
 						<div class="row-sm">
 							<div class="col">
 								<input
-									type="text" id="editDlg_state" value=${state! "TX"} size='5'>
+									type="text" id="editDlg_state" value='${state! "TX"}' size='5'/>
 							</div>
 						</div>
 					</div>
@@ -481,7 +481,7 @@
 						<h5>
 							<b>Contact Information</b>
 						</h5>
-						<hr class=".col-md-11-auto">
+						<hr class=".col-md-11-auto"/>
 					</div>
 				</div>
 				<!--  FOLLOWING IS HARD CODED IN FOR NOW -->
@@ -495,7 +495,7 @@
 						</div>
 						<div class="row-sm">
 							<div class="col">
-								<input type="text" id="editDlg_contactName" value=${conName!"Joe_Smith"}>
+								<input type="text" id="editDlg_contactName" value='${conName!"Joe_Smith"}'/>
 							</div>
 						</div>
 					</div>
@@ -512,7 +512,7 @@
 						<div class="row-sm">
 							<div class="col">
 								<input type="text" id="editDlg_contactNumber"
-									" value=${conNumber! "903-331-1241"} size='15'>
+									 value='${conNumber! "903-331-1241"}' size='15'/>
 							</div>
 						</div>
 					</div>
@@ -527,8 +527,8 @@
 						</div>
 						<div class="row-sm">
 							<div class="col">
-								<input type="text" id="editDlg_contactEmail" value=${conEmail!
-									"randomEmail@gmail.com"}>
+								<input type="text" id="editDlg_contactEmail" value='${conEmail!
+									"randomEmail@gmail.com"}'/>
 							</div>
 						</div>
 					</div>
@@ -551,55 +551,55 @@
 
 <div id="addDlg" title="Add Service Hour"
 		class="ui-widget delWid">
-		<p>HOWDY</p>
 		
 <div class="container-fluid">
+<form action="/srv/viewHours.html">
 	<div class="row">
 		<div class="col-lg-4">
-			<form action="/srv/viewHours.html">
+			
 			
 				<input type="hidden" id="newEvId" value="" />
 				
 				<div class="form-group">
-					<label for="name">Name of Event: </label><br> 
-					<input id="txtEvTitle" type="text" class="form-control" value="change me" readonly /><br>
-					<label for="date">Date of Event: </label><br> <input
-						id="evDate" type="text" class="form-control"  value="03/05/2020" readonly /><br>
-					<label for="organization">Organization: </label><br> <select
-						id= "evSrvClient" class="form-control" id="organization"><br>
+					<label for="name">Name of Event: </label><br/> 
+					<input id="txtEvTitle" type="text" class="form-control" value="change me"  readonly="readonly" /></div><br/>
+					<label for="date">Date of Event: </label><br/> <input
+						id="evDate" type="text" class="form-control"  value="03/05/2020"  readonly="readonly" /><br/>
+					<label for="organization">Organization: </label><br/> <select
+						id= "evSrvClient" class="form-control">
 						<option>Habitat For Humanity</option>
 						<option>Meals On Wheels</option>
 						<option>Other</option>
-					</select><br> <label for="hours">Hours Served: </label><br> <input
-						id="hrsSrvd" type="text" class="form-control" value="3.5" readonly><br>
+					</select><br/> <label for="hours">Hours Served: </label><br/> <input
+						id="hrsSrvd" type="text" class="form-control" value="3.5"  readonly="readonly"/><br/>
 
-				</div>
+				
 		</div>
 		<div class="col-lg-4">
 			<div class="form-group">
-				<label for="location">Address: </label><br> <input id="address" type="text"
-					class="form-control" value="1235 Left Ln" readonly><br> <label
-					for="zip">Zip Code: </label><br> <input id="zip-code" type="text"
-					class="form-control" value="23456" readonly><br> <label
-					for="city">City: </label><br> <input id= "city" type="text"
-					class="form-control" value="Sherman" readonly><br> <label
-					for="state">State: </label><br> <input id="state" type="text"
-					class="form-control" value="TX" readonly><br>
+				<label for="location">Address: </label><br/> <input id="address" type="text"
+					class="form-control" value="1235 Left Ln"  readonly="readonly"/><br/> <label
+					for="zip">Zip Code: </label><br/> <input id="zip-code" type="text"
+					class="form-control" value="23456"  readonly="readonly"/><br/> <label
+					for="city">City: </label><br/> <input id= "city" type="text"
+					class="form-control" value="Sherman"  readonly="readonly"/><br/> <label
+					for="state">State: </label><br/> <input id="state" type="text"
+					class="form-control" value="TX"  readonly="readonly"/><br/>
 			</div>
 		</div>
 		<div class="col-lg-4">
 			<div class="form-group">
-				<label for="contact-name">Contact Name: </label><br> 
+				<label for="contact-name">Contact Name: </label><br/> 
 				<input id="contact-name"
-					type="text" class="form-control" value="Johanna Smith" readonly><br>
-				<label for="contact-phone">Contact Phone Number: </label><br> <input
-					type="tel" class="form-control" id="contact-phone" name="phone" pattern:"[0-9]{3} - [0-9]{2} - [0-9]{3}" value="234-546-7645" readonly><br>
+					type="text" class="form-control" value="Johanna Smith"  readonly="readonly"/><br/>
+				<label for="contact-phone">Contact Phone Number: </label><br/> <input
+					type="tel" class="form-control" id="contact-phone" name="phone" pattern="[0-9]{3} - [0-9]{2} - [0-9]{3}" value="234-546-7645"  readonly="readonly"/><br/>
 				<label for="email">Contact Email: </label><br/> 
 				<input
 					type="email" id="contact-email" class="form-control"
 					name="contact-email" value="email@example.com" /><br/>
 					
-				<label for="description">Description of Event: </label><br>
+				<label for="description">Description of Event: </label><br/>
 				<textarea class="form-control" rows="4" id="description"></textarea>
 			</div>
 		</div>
@@ -622,7 +622,7 @@
 					<!-- these columns are not final. If anyone thinks different information would be better
 				feel free to change these -->
 					<tr>
-						<th class="th-sm">&nbsp;</th>
+						<th class="th-sm">&#xA0;;</th>
 						<th class="th-sm">Id</th>
 						<th class="th-sm">Title</th>
 						<th class="th-sm">Date</th>
