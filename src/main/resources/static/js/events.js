@@ -533,7 +533,7 @@ function onPageLoad() {
 	// connect the edit action to all edit buttons
 	$(".btnEvEdit").click(onEditClick);
 
-	// connect the view action to all view buttons
+	// connect the view action to all view buttons/row click
 	$(".btnEvView, .evView").click(onViewClick);
 
 	// connect the view action to all view buttons

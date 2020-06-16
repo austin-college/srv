@@ -39,6 +39,13 @@ thead th {
 	
 }
 
+/* Style settings for the view buttons in a table */
+.btnView {
+	background-color: #427dc6;
+	color: white;
+	text-align: center;
+}
+
 /* Style settings for the delete buttons.*/
 .del{
 	background-color: #a41e34;
