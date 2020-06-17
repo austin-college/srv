@@ -64,7 +64,7 @@ CREATE TABLE eventTypes (
 	eventTypeId INTEGER AUTO_INCREMENT,
 	name VARCHAR(255),
 	description VARCHAR(255),
-	defaultHours INT,
+	defaultHours DOUBLE,
 	pinHours boolean,
 	serviceClientId INT,
 	primary key (eventTypeId),

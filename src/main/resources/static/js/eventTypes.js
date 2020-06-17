@@ -1,3 +1,96 @@
+/**
+ * The following function verifies that none of the add or edit event type dialogues 
+ * have empty fields
+ * 
+ * @param etName
+ * @param etDescr
+ * @param etDefHrs
+ * @returns
+ */
+function checkForEmptyFields(etName, etDescr, etDefHrs) {
+	
+	var valid = true;
+	var msg = "Please complete the selected fields."; // error message
+	var counter = 0; // for the invalid message/effect not to occur several times.
+	
+	/*
+	 * removes previous error messages on the fields for the add event type dialogue
+	 */
+	$("#etName").removeClass("is-invalid");
+	$("#etDescr").removeClass("is-invalid");
+	$("#defHrs").removeClass("is-invalid");
+	
+	// Checks to see if the event type's name field is empty.
+	if (!$(etName).val()) {
+		$(etName).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+	
+	// Checks to see if the event type's full name/description field is empty.
+	if (!$(etDescr).val()) {
+		$(etDescr).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+
+	// Checks to see if the event type's default hours field is empty.
+	if (!$(etDefHrs).val()) {
+		$(etDefHrs).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+
+	return valid;
+}
+
+/**
+ * The following function verifies that the fields for the add and edit
+ * event type dialogs are numeric.
+ * 
+ * @param etDefHrs
+ * @returns
+ */
+function validateFields(etDefHrs) {
+	
+	var valid = true;
+	
+	// harvests the data values from the form
+	var defHrsStr = $(etDefHrs).val();
+	
+	// Validates that the event type's default hours are numeric and positive
+	if (!$.isNumeric(defHrsStr) || parseFloat(defHrsStr) <= 0) {
+		
+		$(defHrsStr).addClass("is-invalid");
+		updateTips("Default Hours must be a positive double/decimal (0.0)")
+		
+		valid = false;
+	}
+	
+	return valid;
+}
+/**
+ * The following function replaces a HTML paragraph's text with error
+ * messages to the user on the invalid fields in the add and edit
+ * edit event type dialogs.
+ * 
+ * @param msg
+ * @returns
+ */
+function updateTips(msg) {
+	$(".ui-dialog").effect("shake");
+	$(".validationTips").text(msg).addClass("alert alert-danger");
+}
+
 /** 
  * pre-populate the add dialog by setting the selected
  * service client from the previous dialog value 
@@ -191,6 +284,14 @@ function onPageLoad() {
 				$("#etName").val("");
 				$("#etDescr").val("");
 				$("#defHrs").val("");
+				
+				/*
+				 * Removes previous error messages from the fields.
+				 */
+				$("#etName").removeClass("is-invalid");
+				$("#etDescr").removeClass("is-invalid");
+				$("#defHrs").removeClass("is-invalid");
+				$(".validationTips" ).removeClass("alert alert-danger").text("");
 			},
 			 buttons: [
 				 {
@@ -209,10 +310,20 @@ function onPageLoad() {
 						 else
 							 pinHrs = false;
 						 
-						 //harvest the values from the form 
-						 addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId");
-						 
-						 $(this).dialog("close");
+
+						 /*
+						  * Validates that the fields of the add event type dialogue are not empty and valid.
+						  * If all the fields are valid, adds the new event type to the table and closes the dialog.
+						  */
+						 if (checkForEmptyFields("#etName", "#etDescr", "#defHrs")) {
+							 
+							 if(validateFields("#defHrs")) {
+								 
+								 addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId");
+
+								 $(this).dialog("close");
+							 }
+						 }
 
 					 }
 				 },
