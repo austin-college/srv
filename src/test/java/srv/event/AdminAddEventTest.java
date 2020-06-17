@@ -26,13 +26,15 @@ public class AdminAddEventTest extends SeleniumTest {
 	@Test
 	public void testAdminAddEvent() throws Exception {
 
+		int waitTime = 2;
 		driver.get(base + "/splash");
-
+		
+		String oldPageUrl = driver.getCurrentUrl();
+		
 		WebElement link = driver.findElement(By.linkText("Log In"));
 		link.click();
 
-		//clickAndWaitForPage(driver, By.id("nav-login"), 4);
-		Thread.sleep(2000);
+		waitForPage(driver, oldPageUrl, waitTime);
 
 		/*
 		 * should be at the login page now
@@ -48,8 +50,6 @@ public class AdminAddEventTest extends SeleniumTest {
 		txtUser.sendKeys("admin");
 
 
-		// Thread.sleep(000);
-
 		/*
 		 * find and populate password text element
 		 */
@@ -60,7 +60,6 @@ public class AdminAddEventTest extends SeleniumTest {
 		txtPw.clear();
 		txtPw.sendKeys("admin");
 
-		//Thread.sleep(5000);
 
 		/*
 		 * submit the form
@@ -96,10 +95,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		link = driver.findElement(By.id("btnEvNew")); 
 		link.click();
 
-		Thread.sleep(2000);
-
-		//this checks the dialog box to see if its visible
-		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-2']")).isDisplayed());
+		clickAndWaitForDialogByXpath(driver, waitTime, "//div/span[@id='ui-id-2']");
 
 		/*
 		 * clicks on the combo box to open a list of options
@@ -117,14 +113,15 @@ public class AdminAddEventTest extends SeleniumTest {
 		//checks to see if the correct option is displayed
 		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
 
-
+		oldPageUrl = driver.getCurrentUrl();
+		
 		/*
 		 * finds the add new button and clicks it
 		 */
 		link = driver.findElement(By.className("newBtnClass"));
 		link.click();
 
-		Thread.sleep(2000);
+		waitForPage(driver, oldPageUrl, waitTime);
 
 
 		/*

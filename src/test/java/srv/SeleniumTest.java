@@ -94,19 +94,15 @@ public abstract class SeleniumTest {
 	}
 
 	/**
-	 * On run, this method will click on the button that makes the dialog box visible (based on the given ID for said button)
-	 * and will cause the test system to wait until the dialog box is fully visible (based on the given ID for said Dialog box)
+	 * On run, this method cause the test system to wait until the dialog box is fully visible (based on the given ID for said Dialog box)
 	 * before allowing the code following it to run
 	 * 
 	 * 
 	 * @param driver
 	 * @param waitTime
-	 * @param clickedItemId
 	 * @param dialogId
 	 */
-	public void clickAndWaitForDialogById(WebDriver driver, int waitTime, String clickedItemId, String dialogId) {
-
-		driver.findElement(By.id(clickedItemId)).click();
+	public void clickAndWaitForDialogById(WebDriver driver, int waitTime, String dialogId) {
 
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);
 
@@ -126,19 +122,16 @@ public abstract class SeleniumTest {
 	}
 	
 	/**
-	 * On run, this method will click on the button that makes the dialog box visible (based on the given xpath for said button)
-	 * and will cause the test system to wait until the dialog box is fully visible (based on the given xpath for said Dialog box)
+	 * On run, this method will cause the test system to wait until the dialog box is fully visible (based on the given xpath for said Dialog box)
 	 * before allowing the code following it to run
 	 * 
 	 * 
 	 * @param driver
 	 * @param waitTime
-	 * @param clickedItemXpath
 	 * @param dialogXpath
 	 */
-	public void clickAndWaitForDialogByXpath(WebDriver driver, int waitTime, String clickedItemXpath, String dialogXpath) {
+	public void clickAndWaitForDialogByXpath(WebDriver driver, int waitTime, String dialogXpath) {
 
-		driver.findElement(By.xpath(clickedItemXpath)).click();
 
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);
 
