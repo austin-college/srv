@@ -102,7 +102,7 @@ public abstract class SeleniumTest {
 	 * @param waitTime
 	 * @param dialogId
 	 */
-	public void clickAndWaitForDialogById(WebDriver driver, int waitTime, String dialogId) {
+	public void WaitForDialogById(WebDriver driver, int waitTime, String dialogId) {
 
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);
 
@@ -130,7 +130,7 @@ public abstract class SeleniumTest {
 	 * @param waitTime
 	 * @param dialogXpath
 	 */
-	public void clickAndWaitForDialogByXpath(WebDriver driver, int waitTime, String dialogXpath) {
+	public void WaitForDialogByXpath(WebDriver driver, int waitTime, String dialogXpath) {
 
 
 		WebDriverWait wait = new WebDriverWait(driver, waitTime);

@@ -95,7 +95,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		link = driver.findElement(By.id("btnEvNew")); 
 		link.click();
 
-		clickAndWaitForDialogByXpath(driver, waitTime, "//div/span[@id='ui-id-2']");
+		WaitForDialogByXpath(driver, waitTime, "//div/span[@id='ui-id-2']");
 
 		/*
 		 * clicks on the combo box to open a list of options

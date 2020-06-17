@@ -109,7 +109,7 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvDel']")); 
 		link.sendKeys(Keys.ENTER);
 
-		clickAndWaitForDialogByXpath(driver, waitTime, "//div/span[@id='ui-id-1']");
+		WaitForDialogByXpath(driver, waitTime, "//div/span[@id='ui-id-1']");
 
 		/*
 		 * clicks on the confirm delete button
