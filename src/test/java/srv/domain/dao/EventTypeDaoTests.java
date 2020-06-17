@@ -96,7 +96,7 @@ class EventTypeDaoTests {
 			System.err.println(et.getName());
 		}
 		
-		EventType newET = dao.create("et04", "Event Type 4 Description", 2, true, 2);
+		EventType newET = dao.create("et04", "Event Type 4 Description", 2.0, true, 2);
 		
 		assertNotNull(newET);
 		

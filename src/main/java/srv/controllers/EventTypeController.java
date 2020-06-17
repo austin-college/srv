@@ -151,6 +151,7 @@ public class EventTypeController {
 			mav.addObject("etName", newEvType.getName());
 			mav.addObject("description", newEvType.getDescription());
 			mav.addObject("defHours", newEvType.getDefHours());
+			mav.addObject("defClient", newEvType.getDefClient());
 			mav.addObject("name", newEvType.getDefClient().getName());
 
 		} catch (Exception e) {

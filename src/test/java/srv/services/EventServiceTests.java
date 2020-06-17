@@ -57,7 +57,7 @@ public class EventServiceTests {
 				.setEtid(1)
 				.setName("gds")
 				.setDescription("great day of service for test")
-				.setDefHours(0)
+				.setDefHours(0.0)
 				.setDefClient(null)
 				.setPinHours(false);
 				
@@ -65,7 +65,7 @@ public class EventServiceTests {
 				.setEtid(2)
 				.setName("fws")
 				.setDescription("first we serve for test")
-				.setDefHours(0)
+				.setDefHours(0.0)
 				.setDefClient(null)
 				.setPinHours(false);
 		

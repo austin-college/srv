@@ -85,7 +85,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 		
 	     Number num = keyHolder.getKey();
 	     
-		if (num == null ) {
+		if (num == null) {
 			String msg = String.format("Unable to insert new eventType [%s]", name);
 			log.warn(msg);
 			throw new Exception("Unable to insert new unique eventType.");

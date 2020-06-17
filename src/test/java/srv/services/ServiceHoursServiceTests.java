@@ -104,7 +104,7 @@ public class ServiceHoursServiceTests {
 		.setEtid(1)
 		.setName("gds")
 		.setDescription("great day of service for test")
-		.setDefHours(0)
+		.setDefHours(0.0)
 		.setDefClient(sc1)
 		.setPinHours(false);
 		
@@ -112,7 +112,7 @@ public class ServiceHoursServiceTests {
 		.setEtid(2)
 		.setName("fws")
 		.setDescription("first we serve for test")
-		.setDefHours(1)
+		.setDefHours(1.0)
 		.setDefClient(sc2)
 		.setPinHours(false);
 
