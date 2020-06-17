@@ -144,7 +144,7 @@ public class ServiceHoursServiceTests {
 			.setHours(2.0)
 			.setStatus("Approved")
 			.setReflection("test reflection")
-			.setDescription("test description");
+			.setDescription(e1.getType().getDescription());
 
 		sh2 = new ServiceHours()
 			.setShid(2)
@@ -268,34 +268,35 @@ public class ServiceHoursServiceTests {
 	public void test_updateHour() throws Exception {
 		
 		// change some value for sh1
-		sh1.setEvent(e2);
+		sh1.setHours(3.0);
+		sh1.setReflection("reflection");
 		
 		// tell service to update the service hour
 		// after setting event to e2
 		ServiceHours s = shs.updateHour(sh1);
 		
 		// make assertions to make sure fields updated
-		/*
-		 * assertEquals(1, s.getShid()); assertEquals(1, s.getServedPet().getScid());
-		 * assertEquals(1, s.getServant().getUid()); assertEquals(2,
-		 * s.getEvent().getEid()); assertEquals(1.0, s.getHours());
-		 * assertEquals("Approved", s.getStatus()); assertEquals("test reflection",
-		 * s.getReflection()); assertEquals("first we serve for test",
-		 * s.getDescription());
-		 */
 		
+		assertEquals(1, s.getShid());
+		assertEquals(1, s.getServedPet().getScid());
+		assertEquals(1, s.getServant().getUid());
+		assertEquals(1, s.getEvent().getEid());
+		assertEquals(3.0, s.getHours());
+		assertEquals("Approved", s.getStatus());
+		assertEquals("reflection", s.getReflection());
+		assertEquals("great day of service for test", s.getDescription());
 		
 		//verify that the dao was involved
 		
 		Mockito.verify(dao).update(
 				Mockito.eq(1),
-				Mockito.eq(sh1.getServedPet().getScid()),
+				Mockito.eq(sh1.getEvent().getType().getDefClient().getScid()),
 				Mockito.eq(sh1.getServant().getUid()), 
 				Mockito.eq(sh1.getEvent().getEid()),
-				Mockito.eq(sh1.getHours()),
-				Mockito.eq(sh1.getStatus()),
+				Mockito.anyDouble(),
+				Mockito.anyString(),
 				Mockito.eq(sh1.getReflection()),
-				Mockito.eq(sh1.getDescription()));
+				Mockito.eq(sh1.getEvent().getType().getDescription()));
 		
 	}
 	
