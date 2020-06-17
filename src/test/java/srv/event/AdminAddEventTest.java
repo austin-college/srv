@@ -18,6 +18,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.SeleniumTest;
 
+/**
+ * This end-to-end functional tests implements the use case "admin adds a new
+ * event". 
+ * 
+ * @author hcourturier
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AdminAddEventTest extends SeleniumTest {
@@ -26,7 +33,6 @@ public class AdminAddEventTest extends SeleniumTest {
 	@Test
 	public void testAdminAddEvent() throws Exception {
 
-		int waitTime = 2;
 		driver.get(base + "/splash");
 		
 		String oldPageUrl = driver.getCurrentUrl();
@@ -34,7 +40,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		WebElement link = driver.findElement(By.linkText("Log In"));
 		link.click();
 
-		waitForPage(driver, oldPageUrl, waitTime);
+		waitForPage(driver, oldPageUrl, this.MAX_PAGE_WAIT_SECONDS);
 
 		/*
 		 * should be at the login page now
@@ -95,7 +101,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		link = driver.findElement(By.id("btnEvNew")); 
 		link.click();
 
-		WaitForDialogByXpath(driver, waitTime, "//div/span[@id='ui-id-2']");
+		WaitForDialogByXpath(driver, this.MAX_PAGE_WAIT_SECONDS, "//div/span[@id='ui-id-2']");
 
 		/*
 		 * clicks on the combo box to open a list of options
@@ -121,7 +127,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		link = driver.findElement(By.className("newBtnClass"));
 		link.click();
 
-		waitForPage(driver, oldPageUrl, waitTime);
+		waitForPage(driver, oldPageUrl, this.MAX_PAGE_WAIT_SECONDS);
 
 
 		/*

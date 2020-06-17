@@ -1,30 +1,27 @@
 package srv.event;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import java.io.File;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.SeleniumTest;
 
+
+/**
+ * This end-to-end functional tests implements the use case "admin updates an existing 
+ * event". 
+ * 
+ * @author hcourturier
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AdminUpdateEventTest extends SeleniumTest {
@@ -33,61 +30,15 @@ public class AdminUpdateEventTest extends SeleniumTest {
 	@Test
 	public void testAdminUpdateEvent() throws Exception {
 
-		driver.get(base + "/splash");
+		String url;
+		WebElement link;
 		
-		int waitTime = 2;
+		/*
+		 * first login as the the administrator.   might fail inside. 
+		 */
+		loginAsAdmin();
 
-		String url = driver.getCurrentUrl();
 		
-		WebElement link = driver.findElement(By.linkText("Log In"));
-		link.click();
-
-		waitForPage(driver, url, 4);
-
-		/*
-		 * should be at the login page now
-		 */
-		assertEquals(base+"/login", driver.getCurrentUrl());
-
-		/*
-		 * find and populate user text element
-		 */
-		WebElement txtUser = driver.findElement(By.id("username"));
-		txtUser.click();
-		txtUser.clear();
-		txtUser.sendKeys("admin");
-
-
-		/*
-		 * find and populate password text element
-		 */
-		WebElement txtPw = driver.findElement(By.id("password"));
-		assertNotNull(txtPw);
-
-		txtPw.click();
-		txtPw.clear();
-		txtPw.sendKeys("admin");
-
-
-		/*
-		 * submit the form
-		 */
-		WebElement form = driver.findElement(By.className("form-signin"));
-		assertNotNull(form);
-		form.submit();
-
-
-		/*
-		 * should lead us to the admin's home page.
-		 */
-		assertEquals(base+"/home/admin?userid=admin", driver.getCurrentUrl());
-
-		/*
-		 * from this point on we should be logged in as an admin
-		 * -credit to Professor Higgs for the code above
-		 */
-
-
 		/*
 		 * should lead us to the manage events page
 		 */
@@ -112,7 +63,8 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvEdit']")); 
 		link.sendKeys(Keys.ENTER);
 		
-		waitForPage(driver, url, waitTime);
+		
+		waitForPage(driver, url, this.MAX_PAGE_WAIT_SECONDS);
 
 		assertEquals(base+"/events/edit/1", driver.getCurrentUrl());
 
@@ -143,7 +95,7 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		link = driver.findElement(By.className("btn-primary"));
 		link.sendKeys(Keys.ENTER);
 		
-		waitForPage(driver, url, waitTime);
+		waitForPage(driver, url, this.MAX_PAGE_WAIT_SECONDS);
 		
 		/*
 		 * should lead us back to the manage events page
@@ -171,18 +123,12 @@ public class AdminUpdateEventTest extends SeleniumTest {
 
 
 		/*
-		 * clicks on the log out button
+		 * Now logout from the site.
 		 */
-		link = driver.findElement(By.xpath("//div/a[@href='/srv/logout']"));
-		url = driver.getCurrentUrl();
-		link.click();
-		
-		waitForPage(driver, url, waitTime);
-
-		assertEquals(base+"/splash", driver.getCurrentUrl());
-
-
+		logout();
 
 	}
+
+
 
 }

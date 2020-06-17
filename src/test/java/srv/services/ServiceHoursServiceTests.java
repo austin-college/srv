@@ -296,7 +296,7 @@ public class ServiceHoursServiceTests {
 				Mockito.anyDouble(),
 				Mockito.anyString(),
 				Mockito.eq(sh1.getReflection()),
-				Mockito.eq(sh1.getEvent().getType().getDescription()));
+				Mockito.eq(sh1.getDescription()));
 		
 	}
 	
