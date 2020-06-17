@@ -17,6 +17,7 @@ function prepopulateAddDialogue(){
 	.done(function(ev) {
 		
 		console.log(ev);
+		
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-email").val(ev.contact.email);
 		$("#contact-phone").val(ev.contact.phoneNumWork);

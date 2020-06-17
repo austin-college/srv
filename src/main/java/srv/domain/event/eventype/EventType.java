@@ -18,7 +18,7 @@ public class EventType implements Serializable {
 	private Integer etid; // unique id for each event type
 	private String name; // name of the event type
 	private String description; // description of event type
-	private Integer defHours; // use to populate the hours served as user  
+	private Double defHours; // use to populate the hours served as user  
 	private boolean pinHours; // true -> user must report using the defHours value
 	private ServiceClient defClient; //  identifies the default ServiceClient
 
@@ -27,7 +27,7 @@ public class EventType implements Serializable {
 		super();
 	}
 	
-	public EventType(Integer etid, String name, String description, Integer defHours, boolean pinHours, ServiceClient sc) {
+	public EventType(Integer etid, String name, String description, Double defHours, boolean pinHours, ServiceClient sc) {
 		this.etid = etid;
 		this.name = name;
 		this.description = description;
@@ -63,11 +63,11 @@ public class EventType implements Serializable {
 		return this;
 	}
 
-	public Integer getDefHours() {
+	public Double getDefHours() {
 		return defHours;
 	}
 
-	public EventType setDefHours(Integer defHours) {
+	public EventType setDefHours(Double defHours) {
 		this.defHours = defHours;
 		return this;
 	}

@@ -63,7 +63,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	 * An exception is thrown if the new EventType is a duplicate. 
 	 */
 	@Override
-	public EventType create(String name, String description, Integer defHours, boolean pinHours, Integer scid) throws Exception {
+	public EventType create(String name, String description, Double defHours, boolean pinHours, Integer scid) throws Exception {
 
 		// SQL statement that is to be executed
 		final String sql = "INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) "
@@ -77,7 +77,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"eventTypeId"});
 	                  ps.setString(1, name);
 	                  ps.setString(2, description);
-	                  ps.setInt(3, defHours);
+	                  ps.setDouble(3, defHours);
 	                  ps.setBoolean(4, pinHours);
 	                  ps.setInt(5, scid);
 	                  return ps;
@@ -169,7 +169,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	    			et.setEtid(rs.getInt("eventTypeId"))
 	    			.setName(rs.getString("name"))
 	    			.setDescription(rs.getString("description"))
-	    			.setDefHours(rs.getInt("defaultHours"))
+	    			.setDefHours(rs.getDouble("defaultHours"))
 	    			.setPinHours(rs.getBoolean("pinHours"));
 	    
 	    			int cid = rs.getInt("serviceClientId");

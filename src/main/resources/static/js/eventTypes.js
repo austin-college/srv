@@ -15,11 +15,12 @@ function prepopulateAddDialogue() {
 	})
 	/*
 	 * If successful, then prepopulate the service client's name field in the add
-	 * event type dialogue
+	 * event type dialogue and hides its id
 	 */
 	.done(function(sc) {
 		
 		$("#etSc").val(sc.name);
+		$("#scId").val(sc.scid);
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.
@@ -28,6 +29,57 @@ function prepopulateAddDialogue() {
 		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
 	});
 }
+
+/** 
+ * Ajax call to add a new event type
+ */
+function addEventType(etName, etDescr, etDefHrs, etPinHrs, etScid) {
+	
+	// get the forms values as strings
+	var etNameStr = $(etName).val();
+	var etDescrStr = $(etDescr).val();
+	var etDefHrsStr = $(etDefHrs).val();
+	var etScidStr = $(etScid).val();
+
+	// peek at values to verify
+	console.log("Name:" + etNameStr + " Descr: " + etDescrStr + " hrs: " + etDefHrsStr + " pin: " + etPinHrs + " scid: " + etScidStr)
+
+	$.ajax({
+		method: "POST",
+		url: "/srv/eventTypes/ajax/addEt",
+		cache: false,
+		data: {name: etNameStr, descr: etDescrStr, defHrs: etDefHrsStr, pinHrs: etPinHrs, scid: etScidStr},
+	})
+	/*
+	 * If successful then add the event type to the list with the new values.
+	 */
+	.done(function(et) {
+		console.log("added event type");
+		console.log(et);
+		
+		var id = $(et)[0]; // Obtains the new event type's ID from the AJAX response
+
+		console.log(id); // Verifies the  ID
+
+
+		$("#etTblBody").append(id);
+		
+		// Appends the buttons and their functionality to the new service client
+		$(".btnEtDel").click(onDeleteClick);
+
+		$(".btnEtEdit").click(onEditClick);
+
+		$(".btnEtView, .etView").click(onViewClick);
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+	});
+	
+}
+
 /**
  * open the dialog to start to create an event type.
  * 
@@ -130,7 +182,15 @@ function onPageLoad() {
 			modal: true,
 			open: function(event, ui) {			
 				console.log("open add dialog");
-				prepopulateAddDialogue();
+				
+				prepopulateAddDialogue(); // sets the service client's name
+				
+				/*
+				 * Resets all the fields of the add dialog to empty.
+				 */
+				$("#etName").val("");
+				$("#etDescr").val("");
+				$("#defHrs").val("");
 			},
 			 buttons: [
 				 {
@@ -138,8 +198,19 @@ function onPageLoad() {
 					 "id": "addBtnDlg",
 					 "class": 'btn',
 					 click: function() {		
-						 
+
 						 console.log("submit on add dialog");
+						 
+						 var pinHrs;
+						 
+						 // get the radio button values
+						 if($('#yesPinHrs').is(':checked'))
+							 pinHrs = true;
+						 else
+							 pinHrs = false;
+						 
+						 //harvest the values from the form 
+						 addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId");
 						 
 						 $(this).dialog("close");
 

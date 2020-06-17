@@ -169,7 +169,7 @@ public class ServiceClientController {
 
 		try {
 			
-			// Creates the a new service client in the service client database. Then we hold onto a
+			// Creates a new service client in the service client database. Then we hold onto a
 			// handle of the newly created service client to aid with preparing the MAV response.
 			ServiceClient newClient = dao.create(clientName, cid1, cid2, bmId, category); 
 			

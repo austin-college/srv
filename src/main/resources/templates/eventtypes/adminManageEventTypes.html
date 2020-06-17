@@ -41,7 +41,7 @@
 						<th class="th-sm">Action</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="etTblBody">
 					<#if evTypes??>
 					<#list evTypes as et>
 					<tr id="etid-${et.etid?c}">
@@ -160,6 +160,7 @@
 				<div class="col-sm">
 					<div class="form-group">
 						<label for="etSc">Service Client:</label>
+						<input type="hidden" id="scId" value="" />
 						<input id="etSc" type="text" class="form-control" readonly="readonly" value="sel sc"/>
 					</div>
 				</div>

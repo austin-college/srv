@@ -13,7 +13,7 @@ public interface EventTypeDao {
 
 	public List<EventType> listAll() throws Exception;
 	
-	public EventType create(String name, String description, Integer defHours,
+	public EventType create(String name, String description, Double defHours,
 			boolean pinHours, Integer scid) throws Exception;
 
 	/**

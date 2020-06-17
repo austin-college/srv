@@ -1,0 +1,23 @@
+<tr id="etid-${etid?c}">
+	<td class="et_id etView" etid="${etid?c}">${etid!"UNKNOWN ID"}</td>
+	<td class="et_name_descr etView" etid="${etid?c}">(${etName!"UNKNOWN NAME"}) ${description!"UNKNOWN DESCRIPTION"}</td>
+	<td class="et_hr etView" etid="${etid?c}">${defHours!"0"}</td>
+	<#if defClient??>
+		<td class="et_sc etView" etid="${etid?c}">${defClient.name}</td>
+	<#else>
+		<td class="et_sc evView" eid="${etid?c}">No Service Client</td>
+	</#if>
+				
+	<!--action buttons-->
+	<td class="etActions">
+		<button class="btn edit btnEtEdit" etid="${etid?c}">
+			<i class="fas fa-pencil-alt"></i>
+		</button>
+		<button class="btn btnView btnEtView" etid="${etid?c}">
+			<i class="fas fa-search"></i>
+		</button>
+		<button class="btn del btnEtDel" etid="${etid?c}">
+			<i class="far fa-trash-alt"></i>
+		</button>
+	</td>
+</tr>
