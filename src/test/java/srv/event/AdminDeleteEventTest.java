@@ -36,13 +36,14 @@ public class AdminDeleteEventTest extends SeleniumTest {
 	@Test
 	public void testAdminDeleteEvent() throws Exception {
 
+		int waitTime = 2;
+		String oldPageUrl = driver.getCurrentUrl();
 		driver.get(base + "/splash");
 
 		WebElement link = driver.findElement(By.linkText("Log In"));
 		link.click();
 
-		//clickAndWaitForPage(driver, By.id("nav-login"), 4);
-		Thread.sleep(2000);
+		waitForPage(driver, oldPageUrl, waitTime);
 
 		/*
 		 * should be at the login page now
@@ -57,9 +58,6 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		txtUser.clear();
 		txtUser.sendKeys("admin");
 
-
-		// Thread.sleep(000);
-
 		/*
 		 * find and populate password text element
 		 */
@@ -70,7 +68,6 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		txtPw.clear();
 		txtPw.sendKeys("admin");
 
-		//Thread.sleep(5000);
 
 		/*
 		 * submit the form
@@ -78,7 +75,6 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		WebElement form = driver.findElement(By.className("form-signin"));
 		assertNotNull(form);
 		form.submit();
-
 
 		/*
 		 * should lead us to the admin's home page.
@@ -103,12 +99,7 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		 * stores the title of the event that will be deleted
 		 * for testing purposes
 		 */
-//		Thread.sleep(2000);
-//		Thread.sleep(2000);
-//		Thread.sleep(2000);
-//		Thread.sleep(2000);
-//		Thread.sleep(2000);
-//		Thread.sleep(2000);
+
 		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title evView']")).getText();	
 
 		/*
@@ -118,10 +109,7 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvDel']")); 
 		link.sendKeys(Keys.ENTER);
 
-		Thread.sleep(2000);
-
-		//this checks the dialog box to see if its visible
-		assertEquals(true, link.findElement(By.xpath("//div/span[@id='ui-id-1']")).isDisplayed());
+		clickAndWaitForDialogByXpath(driver, waitTime, "//div/span[@id='ui-id-1']");
 
 		/*
 		 * clicks on the confirm delete button
