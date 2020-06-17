@@ -32,7 +32,17 @@ function prepopulateAddDialogue(){
 		$("#evSrvClient").val(ev.serviceClient.name).change();
 		$("#scId").val(ev.serviceClient.scid);
 		$("#newEvId").val(eid);
-		
+		console.log("test: " + ev.type.pinHours)
+
+		if (ev.type.pinHours) {
+			console.log("true");
+			document.getElementById("hrsSrvd").setAttribute("readonly", true);
+		}
+		else {
+			console.log("false");
+			document.getElementById("hrsSrvd").removeAttribute("readonly");
+		}
+
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.
