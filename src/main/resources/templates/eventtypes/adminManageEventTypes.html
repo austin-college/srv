@@ -87,6 +87,7 @@
 
 <div id="dlgScSel" title="Select Default Service Client..." style="display:none">
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<input type="hidden" id="newScId" value="" />
 		<div class="col">
 			<!-- Service Client table -->
 			<table id="tblSrvClients" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
@@ -102,7 +103,7 @@
 					<tr id="scid-${sc.scid?c}">
 						<td class="sc_sel"><input class="boxSel" type="checkbox" scid="${sc.scid}" /></td>
 						<td class="sc_id">${sc.scid!"UNKNOWN ID"}</td>
-						<td class="sc_name">${sc.name!"UNKNOWN NAME"}</td>
+						<td class="sc_name text-left" style="padding-left:15px">${sc.name!"UNKNOWN NAME"}</td>
 					</tr>
 					</#list>
 				</tbody>

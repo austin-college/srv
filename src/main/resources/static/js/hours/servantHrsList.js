@@ -15,11 +15,13 @@ function prepopulateAddDialogue(){
 	 * If successful, then remove the selected service hour from the table.
 	 */
 	.done(function(ev) {
+		
+		console.log(ev);
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-email").val(ev.contact.email);
 		$("#contact-phone").val(ev.contact.phoneNumWork);
 		$("#contact-name").val(ev.contact.firstName);
-		$("#evDate").val(ev.startDate); //startDate is not getting serialized, coming up as null
+		$("#evDate").val(ev.date); //startDate is not getting serialized, coming up as null
 		
 		$("#hrsSrvd").val(ev.rsvpVolunteerHours);
 		$("#address").val(ev.contact.street);

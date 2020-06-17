@@ -1,3 +1,33 @@
+/** 
+ * pre-populate the add dialog by setting the selected
+ * service client from the previous dialog value 
+ */
+function prepopulateAddDialogue() {
+	
+	var scid= $("#newScId").val(); // get the selected service client 
+	
+	// retrieve the service client's info
+	$.ajax({
+		method: "GET",
+		url: "/srv/eventTypes/ajax/serviceClient/"+scid,
+		cache: false,
+		dataType: "json"
+	})
+	/*
+	 * If successful, then prepopulate the service client's name field in the add
+	 * event type dialogue
+	 */
+	.done(function(sc) {
+		
+		$("#etSc").val(sc.name);
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+	});
+}
 /**
  * open the dialog to start to create an event type.
  * 
@@ -72,9 +102,9 @@ function onPageLoad() {
 				 "id": "addBtnDlg",
 				 "class": 'btn',
 				 click: function() {		
+
 					 console.log("submit on select dialog");
 					
-					 
 					 $("#addDlg").dialog("open");
 					 
 					 $(this).dialog("close");
@@ -99,7 +129,8 @@ function onPageLoad() {
 			width: 700,
 			modal: true,
 			open: function(event, ui) {			
-				console.log("open add dialog");	
+				console.log("open add dialog");
+				prepopulateAddDialogue();
 			},
 			 buttons: [
 				 {
@@ -107,10 +138,8 @@ function onPageLoad() {
 					 "id": "addBtnDlg",
 					 "class": 'btn',
 					 click: function() {		
-						 console.log("submit on select dialog");
-						
 						 
-						 $("#addDlg").dialog("open");
+						 console.log("submit on add dialog");
 						 
 						 $(this).dialog("close");
 
@@ -138,6 +167,20 @@ function onPageLoad() {
 	 $('#tblSrvClients').on( 'search.dt', function () {
 		 $(".boxSel").prop("checked",false);  // clear all others
 	 } );
+	 
+	 // gets the selected service client's id
+	 $(".boxSel").click( function() {
+			
+			var state = $(this).prop("checked");
+			
+			if (state) {
+				var scid = $(this).attr("scid");
+				$("#newScId").val(scid);
+			}
+			
+			$(".boxSel").prop("checked",false);  // clear all others		
+			$(this).prop("checked",state);  // reassert current state on current button  
+		});
 }
 
 
