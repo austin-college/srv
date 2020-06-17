@@ -156,13 +156,15 @@ public class ServiceHoursService {
 		
 		sHoursDao.update(
 				sh.getShid(),
-				sh.getServedPet().getScid(),
+				sh.getEvent().getType().getDefClient().getScid(),
 				sh.getServant().getUid(),
 				sh.getEvent().getEid(),
-				sh.getHours(),
+				
+				Double.valueOf(sh.getEvent().getType().getDefHours()),
+				
 				sh.getStatus(),
 				sh.getReflection(),
-				sh.getDescription());
+				sh.getEvent().getType().getDescription());
 		
 		log.debug("scid [{}]", sh.getServedPet().getScid());
 		return sh;   
