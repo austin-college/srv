@@ -96,6 +96,14 @@
 </div>
 </div>
 </div>
+
+	<!-- back button -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<button onclick="goBack()" class="btn edit">
+			<span class="fas fa-arrow-left"></span> Back
+		</button>
+	</div>
+	
 <!-- The div below defines the delete dialog for deleting a served hour which is hidden by JS and exposed by JQ. -->
 <div id="delDlg" title="DELETE SELECTED HOURS" class="ui-widget delWid">
 	<p id="del_confirm">
@@ -553,6 +561,7 @@
 		class="ui-widget delWid">
 		
 <div class="container-fluid">
+<p class="validationTips"></p>
 <form>
 	<div class="row">
 		<div class="col-lg-4">

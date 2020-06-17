@@ -1,3 +1,74 @@
+/**
+ * Verifies that none of the add or edit service hour dialogs have empty fields
+ */
+function checkForEmptyFields(hrField) {
+	
+	var valid = true;
+	var msg = "Please complete the selected fields."; // error message
+	var counter = 0; // for the invalid message/effect not to occur several times.
+	
+	/*
+	 * removes previous error messages on the fields for the add service hour dialog
+	 */
+	$("#hrsSrvd").removeClass("is-invalid");
+	
+	// Checks to see if the event type's name field is empty.
+	if (!$(hrField).val()) {
+		$(hrField).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+	
+	return valid;
+}
+
+/**
+ * The following function verifies that the fields for the add and edit
+ * service horus dialogs are numeric.
+ * 
+ * @param hrField
+ * @returns
+ */
+function validateFields(hrField) {
+	
+	var valid = true;
+	
+	// harvests the data values from the form
+	var hrsStr = $(hrField).val();
+	
+	// Validates that the service hours' hours served are numeric and positive
+	if (!$.isNumeric(hrsStr) || parseFloat(hrsStr) <= 0) {
+		
+		$(hrsStr).addClass("is-invalid");
+		updateTips("Hours Served must be a positive double/decimal (0.0)")
+		
+		valid = false;
+	}
+	
+	return valid;
+}
+
+/**
+ * The following function replaces a HTML paragraph's text with error
+ * messages to the user on the invalid fields in the add and edit
+ * edit event type dialogs.
+ * 
+ * @param msg
+ * @returns
+ */
+function updateTips(msg) {
+	$(".ui-dialog").effect("shake");
+	$(".validationTips").text(msg).addClass("alert alert-danger");
+}
+
+
+/**
+ * prepopulates the add dialog given the selected event
+ * @returns
+ */
 function prepopulateAddDialogue(){
 	
 	//step1 which event did they select
@@ -34,6 +105,7 @@ function prepopulateAddDialogue(){
 		$("#newEvId").val(eid);
 		console.log("test: " + ev.type.pinHours)
 
+		// if true, the user must use the default service hours, otherwise they can edit
 		if (ev.type.pinHours) {
 			console.log("true");
 			document.getElementById("hrsSrvd").setAttribute("readonly", true);
@@ -193,6 +265,20 @@ function editHr(hours_id, eName, date, org, hrs, desc, address, city, zip, st, c
 		alert("Request failed: " + textStatus + " : "+jqXHR.responseText);
 	});
 }
+
+/**
+ * When the back button is clicked on returns the user to the previous page.
+ * If the previous page is the login page, the user is directed to their home page.
+ * @returns
+ */ 
+function goBack() {
+
+	if (document.referrer.includes("/srv/login"))
+		location.href = "/srv/home";
+	else
+		window.history.back();
+}
+
 /* When the DOM is completed loaded and ready, hide the dialogs and
  * create the functionality of the buttons.
  */
@@ -331,6 +417,17 @@ $(document).ready(function() {
 			open: function(event, ui) {			
 				console.log("populating dialogue");	//replace with a javascript function that will put data into the add dialogue
 				prepopulateAddDialogue();
+				
+				/*
+				 * Resets all the fields of the add dialog to empty.
+				 */
+				$("#hrsSrvd").val("");
+				
+				/*
+				 * Removes previous error messages from the fields.
+				 */
+				$("#hrsSrvd").removeClass("is-invalid");
+				$(".validationTips" ).removeClass("alert alert-danger").text("");
 
 			},
 			 buttons: [
@@ -341,12 +438,19 @@ $(document).ready(function() {
 					 click: function() {		
 						
 						 console.log("submit add dialog");
+						 /*
+						  * Validates that the fields of the add service hour dialog are not empty and valid.
+						  * If all the fields are valid, adds the new service hour to the table and closes the dialog.
+						  */
+						 if (checkForEmptyFields("#hrsSrvd")) {
+							 
+							 if (validateFields("#hrsSrvd")) {
+								 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");
+									
+								 $(this).dialog("close");
+							 }
+						 }
 						 
-						 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");
-						
-						 $("#addDlg").dialog("close");
-						
-
 					 }
 				 },
 				 {	
