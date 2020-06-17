@@ -29,8 +29,9 @@ function prepopulateAddDialogue(){
 		$("#zip-code").val(ev.contact.zipcode);
 		$("#city").val(ev.contact.city);
 		$("#state").val(ev.contact.state);
-		$("#evSrvClient").val(ev.serviceClient);
-		
+		$("#evSrvClient").val(ev.serviceClient.name).change();
+		$("#scId").val(ev.serviceClient.scid);
+		$("#newEvId").val(eid);
 		
 	})
 	/*
@@ -40,6 +41,67 @@ function prepopulateAddDialogue(){
 		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
 	});
 }
+
+
+/** Ajax call to add a new service hour
+ * 
+ */					//	 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");
+
+function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
+	
+	// get the forms values as strings
+	var hrScidStr = $(hrScid).val();
+	var hrEidStr = $(hrEid).val();
+	var hrServedStr = $(hrServed).val();
+	var hrReflectionStr = $(hrReflection).val();
+	var hrDescriptionStr = $(hrDescription).val();
+	
+	// peek at values to verify
+	console.log("scid: " + hrScidStr + " eid: " + hrEidStr + " served: " + hrServedStr + " " +
+				"ref: " + hrReflectionStr + " descr: " + hrDescriptionStr);
+	
+	$.ajax({
+		method: "POST",
+		url: "/srv/hours/ajax/addHr",
+		cache: false,
+		data: {scid: hrScidStr, eid: hrEidStr, hrServed: hrServedStr, reflect: hrReflectionStr, descr: hrDescriptionStr},
+	})
+	/*
+	 * If successful then add the service hour to the list with the new values
+	 */
+	.done(function(srvHr) {
+		
+		console.log("added srv hr");
+		console.log(srvHr);
+		
+		var id = $(srvHr)[0] // obtains the new srv hr's id from the ajax response
+		
+		console.log(id); // verifies the id
+		
+		$("#hrs_tbl_body").append(id);
+		
+		
+		// Append the buttons and their functionality to the new service hour
+	    $(".del").on("click", function() {
+	    	var selected_shid = $(this).attr('onDelClick');
+	    	$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
+	    });
+	    
+	
+	    $(".hrRow").on("click", function() {
+	    	var selected_shid = $(this).attr('onRowClick');
+	    	$("#hrInfoDlg").data("selectedHoursID", selected_shid).dialog("open");
+	    });
+	    
+	    
+	    $(".edit").on("click", function() {
+	    	var selected_shid = $(this).attr('onEditClick');    	
+	    	$("#editDlg").data("selectedHoursID", selected_shid).dialog("open");
+	    });   
+	})
+
+}
+
 /**
  * The delete hour function makes an AJAX call to remove
  * the selected service hour from the table.
@@ -248,13 +310,43 @@ $(document).ready(function() {
 	 
 	 $("#addDlg").dialog({
 			autoOpen: false,
-			height: 500,
-			width: 700,
+			height: 600,
+			width: 850,
 			modal: true,
+			 position: {
+				  my: "center top",
+				  at: "center top",
+				  of: window
+				},
 			open: function(event, ui) {			
 				console.log("populating dialogue");	//replace with a javascript function that will put data into the add dialogue
 				prepopulateAddDialogue();
-			}
+
+			},
+			 buttons: [
+				 {
+					 text: "Submit", 
+					 "id": "addBtnDlg",
+					 "class": 'btn',
+					 click: function() {		
+						
+						 console.log("submit add dialog");
+						 
+						 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");
+						
+						 $("#addDlg").dialog("close");
+						
+
+					 }
+				 },
+				 {	
+					 text: "Cancel",
+					 "class": 'btn btn-secondary',
+					 click: function() {
+						 $("#addDlg").dialog("close");
+
+					 }
+				 }]
 		});
 	 $("#etDlg").dialog({
 		 autoOpen: false,

@@ -177,35 +177,75 @@ public class HoursController {
 	}
 	
 	/** 
-	    * This request handle renders an entire page useful for testing only.   This
-	    * is not part of our actual site.
-	    */
-	   @GetMapping("/test/hours")
-	   public ModelAndView handleReasonRequest(HttpServletRequest request, HttpServletResponse response) {
-		   
-		   ModelAndView mav = new ModelAndView("test/hoursTestView");
+	 * This request handle renders an entire page useful for testing only.   This
+	 * is not part of our actual site.
+	 */
+	@GetMapping("/test/hours")
+	public ModelAndView handleReasonRequest(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("test/hoursTestView");
 
 
-		   try {
-			   
+		try {
+
 			int cnt = hrSvc.listHours().size();
-			
+
 			mav.addObject("count",cnt);
-			
+
 			List<ServiceHours> myHours = hrSvc.listHours();
-			
+
 			mav.addObject("serviceHours", myHours );
+
+		} catch (Exception e) {
+
+			System.err.println("\n\n ERROR ");
+			System.err.println(e.getMessage());
+
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		return mav;
+	}
+	
+	/**
+	 * Ajax call to create and return the new ServiceHour to the database
+	 * 
+	 */
+	@PostMapping("/hours/ajax/addHr")
+	public ModelAndView ajaxAddServiceHour(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("/hours/ajax_singleHourRow");
+
+		response.setContentType("text/html");
+		
+		// fetch the data sent from the JavaScript function and turn it into the appropriate data types
+		Integer scid = Integer.valueOf(request.getParameter("scid"));
+		Integer eid = Integer.valueOf(request.getParameter("eid"));
+		Double hrs = Double.valueOf(request.getParameter("hrServed"));
+		String reflection = request.getParameter("reflect");
+		String descr = request.getParameter("descr");
+		
+		try {
 			
-			} catch (Exception e) {
-				
-				System.err.println("\n\n ERROR ");
-				System.err.println(e.getMessage());
-				
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		   
-		   
-		   return mav;
-	   }
+			// create a new service hr in the database then return it back to the callback function
+			ServiceHours newSrvHr = hrSvc.createServiceHour(scid,  eid, hrs,  reflection, descr);
+			
+			mav.addObject("shid", newSrvHr.getShid());
+			mav.addObject("title", newSrvHr.getEvent().getTitle());
+			mav.addObject("hours", newSrvHr.getHours());
+			mav.addObject("status", newSrvHr.getStatus());
+			
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return mav;
+
+	}
+	
 }

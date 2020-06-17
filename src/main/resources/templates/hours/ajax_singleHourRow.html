@@ -1,19 +1,18 @@
-<tr id="row${hrs.shid?c}">
-	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
-	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.eventName.title!"UNKNOWN"}</td>
-	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
-	<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
-	<td>
-		<!-- Buttons to open edit/delete hours dialog  -->
-		<button type="button" class="edit btn" onEditClick="${hrs.shid?c}">
-			<span class="fas fa-pencil-alt"></span> 
-			Edit
-		</button>
-	</td>
-	<td>
-		 <button type="button" class="del btn" onDelClick="${hrs.shid?c}">
-			<span class="fas fa-trash-alt"></span>  
-			Delete 
-		</button>
+<tr id="row${shid?c}">
+	<td class='hrRow' onRowClick="${shid?c}" name='hrs_id'>${shid!"UNKOWN"}</td>
+	<td class='hrRow' onRowClick="${shid?c}" name='hrs_eventName'>${title!"UNKNOWN"}</td>
+	<td class='hrRow' onRowClick="${shid?c}" name='hrs_hrsServed'>${hours!"UNKNOWN"}</td>
+	<td class='hrRow' onRowClick="${shid?c}" name='hrs_status'>${status!"UNKNOWN"}</td>
+	
+	<!-- action buttons: edit/delete -->
+	<td class="hrActions">
+		<#if status != "Approved">
+			<button type="button" class="btnHrEdit edit btn" onEditClick="${shid?c}">
+				<i class="fas fa-pencil-alt"></i> 
+			</button>
+			<button type="button" class=" btnHrDel del btn" onDelClick="${shid?c}">
+				<i class="fas fa-trash-alt"></i>  
+			</button>
+		</#if>
 	</td>
 </tr>

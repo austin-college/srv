@@ -59,7 +59,7 @@
 						<thead>
 							<tr class="ui-widget-header">
 								<th>ID</th>
-								<th>Service Event</th>
+								<th>Event</th>
 								<th>Hours Served</th>
 								<th>Status</th>
 								<th>Action</th>
@@ -553,24 +553,22 @@
 		class="ui-widget delWid">
 		
 <div class="container-fluid">
-<form action="/srv/viewHours.html">
+<form>
 	<div class="row">
 		<div class="col-lg-4">
 			
 			
 				<input type="hidden" id="newEvId" value="" />
+				<input type="hidden" id="scId" value=""/>
 				
 				<div class="form-group">
 					<label for="name">Name of Event: </label><br/> 
 					<input id="txtEvTitle" type="text" class="form-control" value="change me"  readonly="readonly" /></div><br/>
 					<label for="date">Date of Event: </label><br/> <input
 						id="evDate" type="text" class="form-control"  value="03/05/2020"  readonly="readonly" /><br/>
-					<label for="organization">Organization: </label><br/> <select
-						id= "evSrvClient" class="form-control">
-						<option>Habitat For Humanity</option>
-						<option>Meals On Wheels</option>
-						<option>Other</option>
-					</select><br/> <label for="hours">Hours Served: </label><br/> <input
+					<label for="organization">Sponsor: </label><br/>
+					 <input id= "evSrvClient" class="form-control" disabled="disabled"/>
+						<br/> <label for="hours">Hours Served: </label><br/> <input
 						id="hrsSrvd" type="text" class="form-control" value="3.5"  readonly="readonly"/><br/>
 
 				
@@ -600,7 +598,9 @@
 					name="contact-email" value="email@example.com" /><br/>
 					
 				<label for="description">Description of Event: </label><br/>
-				<textarea class="form-control" rows="4" id="description"></textarea>
+				<textarea class="form-control" rows="3" id="description"></textarea>
+				<label for="reflection" style="padding-top:10px">Reflection:</label><br/>
+				<textarea class="form-control" rows="4" id="reflection"></textarea>
 			</div>
 		</div>
 	</div>

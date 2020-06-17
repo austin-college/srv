@@ -40,7 +40,15 @@ public class ServiceHoursService {
 	public ServiceHoursService() {
 	}
 	
-	
+	/**
+	 * fetches the current user's id 
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public int currentUserId() throws Exception {
+		return uu.currentUser().getUid();
+	}
 	
 	public List<ServiceHours> listHours() throws Exception{	
 		return sHoursDao.listAll(); 
@@ -64,7 +72,7 @@ public class ServiceHoursService {
 	
 
 	/**
-	 * Creates a dummy service hour with default values so user can eventually configure them to taste. 
+	 * Creates a service hour 
 	 * 
 	 * @param serviceHourId id of ServiceHour (cannot be null)
 	 * 
@@ -72,62 +80,30 @@ public class ServiceHoursService {
 	 * 
 	 * @throws Exception
 	 */
-	public ServiceHours createServiceHour(int eventId) throws Exception {
+	public ServiceHours createServiceHour(Integer scid, Integer eid, Double hours, String reflection, String description) throws Exception {
 		
-		if(eventId <= 0) {
+		if(eid <= 0) {
 			
-			throw new Exception(String.format("Invalid event id [%d]", eventId));
+			throw new Exception(String.format("Invalid event id [%d]", eid));
 		}
 		
-		/*
-		 * Fetching event using EventService and the eventId to 
-		 * pre-populate the fields with default dummy values.
-		 * 
-		 */
-		Event e = eventService.eventById(eventId);
-		System.out.println(eventId);
-		System.out.println(e);
+		if (scid <= 0 ) {
+			throw new Exception(String.format("Invalid service client id [%d]", scid));
+
+		}
 		
 		/*
 		 * Using UserUtil to get the currentUser and the id
 		 */
 		
 		User servant = uu.currentUser();
-		System.out.println(servant.getUid());
+		log.debug("current user id is: " + servant.getUid());
 		
-		EventType et = e.getType();
-		
+
 		/*
-		 * Use EventType and Event to populate fields in dummy 
-		 * service hour from DB 
+		 * Create a service hour.
 		 */
-		Integer scid = et.getDefClient().getScid();
-		log.debug("scid [{}]", scid);
-		
-		Integer uid = servant.getUid();
-		log.debug("uid [{}]", uid);
-		
-		Integer eid = e.getEid();
-		log.debug("eid [{}]", eid);
-		
-		Double hrs = Double.valueOf(et.getDefHours());
-		log.debug("hrs [{}]", hrs);
-		
-		String reflect = "Type your reflection here.";
-		log.debug("reflect [{}]", reflect);
-		
-		String descrip = et.getDescription();
-		log.debug("descrip [{}]", descrip);
-		
-		String status = "Pending";
-		log.debug("status [{}]", status);
-		
-		/*
-		 * Create a default dummy service hour.
-		 */
-		// Integer scid, Integer uid, Integer eid, Double hours, String stat, String reflection,String description
-		ServiceHours sh = sHoursDao.create(scid, uid, eid, hrs, status, reflect, descrip);
-				
+		ServiceHours sh = sHoursDao.create(scid, servant.getUid(), eid, hours, "Pending", reflection, description);	
 		
 		log.debug("back with new service hour {}", sh.getShid());
 		
