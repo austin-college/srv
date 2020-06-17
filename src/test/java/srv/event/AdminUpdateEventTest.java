@@ -34,6 +34,8 @@ public class AdminUpdateEventTest extends SeleniumTest {
 	public void testAdminUpdateEvent() throws Exception {
 
 		driver.get(base + "/splash");
+		
+		int waitTime = 2;
 
 		String url = driver.getCurrentUrl();
 		
@@ -41,7 +43,6 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		link.click();
 
 		waitForPage(driver, url, 4);
-		//Thread.sleep(2000);
 
 		/*
 		 * should be at the login page now
@@ -57,8 +58,6 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		txtUser.sendKeys("admin");
 
 
-		// Thread.sleep(000);
-
 		/*
 		 * find and populate password text element
 		 */
@@ -69,7 +68,6 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		txtPw.clear();
 		txtPw.sendKeys("admin");
 
-		//Thread.sleep(5000);
 
 		/*
 		 * submit the form
@@ -106,18 +104,17 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		String formerTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title evView']")).getText();
 		String formerServiceClient = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_sc evView']")).getText();
 
-
+		url = driver.getCurrentUrl();
 		/*
 		 * clicks on the button to edit the first event in the list
 		 */
-
+		
 		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvEdit']")); 
 		link.sendKeys(Keys.ENTER);
+		
+		waitForPage(driver, url, waitTime);
 
 		assertEquals(base+"/events/edit/1", driver.getCurrentUrl());
-
-		//checks to see if the element is no longer visible
-		//assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).size() == 0);
 
 		/*
 		 * inputs a new name into event title
@@ -142,8 +139,11 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		/*
 		 * finds the submit button and submits the information
 		 */
+		url = driver.getCurrentUrl();
 		link = driver.findElement(By.className("btn-primary"));
 		link.sendKeys(Keys.ENTER);
+		
+		waitForPage(driver, url, waitTime);
 		
 		/*
 		 * should lead us back to the manage events page
@@ -174,7 +174,10 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		 * clicks on the log out button
 		 */
 		link = driver.findElement(By.xpath("//div/a[@href='/srv/logout']"));
+		url = driver.getCurrentUrl();
 		link.click();
+		
+		waitForPage(driver, url, waitTime);
 
 		assertEquals(base+"/splash", driver.getCurrentUrl());
 
