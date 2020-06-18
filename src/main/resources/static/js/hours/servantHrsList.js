@@ -381,6 +381,18 @@ $(document).ready(function() {
 	} );
 	
 	
+	/*
+	 *  Allows for the table columns to be sorted disables the extra features such as 'searching'
+	 */
+	$('#hrs_tbl').DataTable({	
+		"paging": false,
+		"searching": false,
+		"info": false,
+		"columns": [
+		    {"width": "100%"}
+		  ]
+	});
+	
 	$(".boxSel").click( function() {
 		
 		var state = $(this).prop("checked");
