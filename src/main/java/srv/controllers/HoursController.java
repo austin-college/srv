@@ -181,56 +181,6 @@ public class HoursController {
 	}
 
 	/**
-	 * Action to display add hours page. See addHours.html
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * 
-	 * @author Sameeha Khaled
-	 */
-	@GetMapping("/addHours")
-	public ModelAndView addHoursAction(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView mav = new ModelAndView("hours/addHours");
-
-		return mav;
-	}
-	
-	/** 
-	 * This request handle renders an entire page useful for testing only.   This
-	 * is not part of our actual site.
-	 */
-	@GetMapping("/test/hours")
-	public ModelAndView handleReasonRequest(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView mav = new ModelAndView("test/hoursTestView");
-
-
-		try {
-
-			int cnt = hrSvc.listHours().size();
-
-			mav.addObject("count",cnt);
-
-			List<ServiceHours> myHours = hrSvc.listHours();
-
-			mav.addObject("serviceHours", myHours );
-
-		} catch (Exception e) {
-
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		return mav;
-	}
-	
-	/**
 	 * Ajax call to create and return the new ServiceHour to the database
 	 * 
 	 */
@@ -296,5 +246,38 @@ public class HoursController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	/** 
+	 * This request handle renders an entire page useful for testing only.   This
+	 * is not part of our actual site.
+	 */
+	@GetMapping("/test/hours")
+	public ModelAndView handleReasonRequest(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("test/hoursTestView");
+
+
+		try {
+
+			int cnt = hrSvc.listHours().size();
+
+			mav.addObject("count",cnt);
+
+			List<ServiceHours> myHours = hrSvc.listHours();
+
+			mav.addObject("serviceHours", myHours );
+
+		} catch (Exception e) {
+
+			System.err.println("\n\n ERROR ");
+			System.err.println(e.getMessage());
+
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		return mav;
 	}
 }

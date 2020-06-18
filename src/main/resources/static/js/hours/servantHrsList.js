@@ -2,17 +2,17 @@
  * Verifies that none of the add or edit service hour dialogs have empty fields
  */
 function checkForEmptyFields(hrField) {
-	
+
 	var valid = true;
 	var msg = "Please complete the selected fields."; // error message
 	var counter = 0; // for the invalid message/effect not to occur several times.
-	
+
 	/*
 	 * removes previous error messages on the fields for the add service hour dialog
 	 */
 	$("#hrsSrvd").removeClass("is-invalid");
 	$("#editDlgHrsSrvd").removeClass("is-invalid");
-	
+
 	// Checks to see if the event type's name field is empty.
 	if (!$(hrField).val()) {
 		$(hrField).addClass("is-invalid");
@@ -22,7 +22,7 @@ function checkForEmptyFields(hrField) {
 		}
 		valid = false;
 	}
-	
+
 	return valid;
 }
 
@@ -34,21 +34,21 @@ function checkForEmptyFields(hrField) {
  * @returns
  */
 function validateFields(hrField) {
-	
+
 	var valid = true;
-	
+
 	// harvests the data values from the form
 	var hrsStr = $(hrField).val();
-	
+
 	// Validates that the service hours' hours served are numeric and positive
 	if (!$.isNumeric(hrsStr) || parseFloat(hrsStr) <= 0) {
-		
+
 		$(hrsStr).addClass("is-invalid");
 		updateTips("Hours Served must be a positive double/decimal (0.0)")
-		
+
 		valid = false;
 	}
-	
+
 	return valid;
 }
 
@@ -69,9 +69,9 @@ function updateTips(msg) {
  * prepopulates the edit dialog given the selected service hour
  */
 function prepopulateEditDialog(selShid) {
-	
+
 	console.log(selShid);
-	
+
 	// retrieve service hour info
 	$.ajax({
 		method: "GET",
@@ -83,9 +83,9 @@ function prepopulateEditDialog(selShid) {
 	 * If successful, then prepopulate the selected service hour's fields in the edit dialog.
 	 */
 	.done(function(sh) {
-		
+
 		console.log(sh);
-		
+
 		$("#editDlgTxtEvTitle").val(sh.event.title);
 		$("#editDlgcontact-email").val(sh.event.contact.email);
 		$("#editDlgContact-phone").val(sh.event.contact.phoneNumWork);
@@ -101,7 +101,6 @@ function prepopulateEditDialog(selShid) {
 		$("#editDlgEvId").val(sh.event.eid);
 		$("#editDlgDescription").val(sh.description);
 		$("#editDlgReflection").val(sh.reflection);
-	
 
 		// if true, the user must use the default service hours, otherwise they can edit
 		if (sh.event.type.pinHours) {
@@ -120,7 +119,64 @@ function prepopulateEditDialog(selShid) {
 	.fail(function(jqXHR, textStatus) {
 		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
 	});
+
+}
+
+/**
+ * prepopulates the view dialog given the selected service hour
+ */
+function prepopulateViewDialog(selShid) {
+
+	console.log(selShid);
+
+	// retrieve service hour info
+	$.ajax({
+		method: "GET",
+		url: "/srv/hours/ajax/hour/" + selShid,
+		cache: false,
+		dataType: "json"
+	})
+	/*
+	 * If successful, then prepopulate the selected service hour's fields in the edit dialog.
+	 */
+	.done(function(sh) {
+
+		console.log(sh);
+
+		$("#viewDlgTxtEvTitle").val(sh.event.title);
+		$("#viewDlgcontact-email").val(sh.event.contact.email);
+		$("#viewDlgContact-phone").val(sh.event.contact.phoneNumWork);
+		$("#viewDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
+		$("#viewDlgEvDate").val(sh.event.date);;
+		$("#viewDlgHrsSrvd").val(sh.hours);
+		$("#viewDlgAddress").val(sh.event.contact.street);
+		$("#viewDlgZip-code").val(sh.event.contact.zipcode);
+		$("#viewDlgCity").val(sh.event.contact.city);
+		$("#viewDlgState").val(sh.event.contact.state);
+		$("#viewDlgEvSrvClient").val(sh.event.serviceClient.name).change();
+		$("#viewDlgScId").val(sh.event.serviceClient.scid);
+		$("#viewDlgEvId").val(sh.event.eid);
+		$("#viewDlgDescription").val(sh.description);
+		$("#viewDlgReflection").val(sh.reflection);
+
+		
+		if (sh.status == "Approved")
+			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>!").addClass("alert alert-success");
+		else if(sh.status == "Pending")
+			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>").addClass("alert alert-info");
+		else 
+			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>!").addClass("alert alert-danger");
 	
+		document.getElementById("viewDlgHrsSrvd").setAttribute("readonly", true);
+	
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+	});
+
 }
 
 /**
@@ -128,25 +184,25 @@ function prepopulateEditDialog(selShid) {
  * @returns
  */
 function prepopulateAddDialogue(){
-	
+
 	//step1 which event did they select
 	var eid= $("#newEvId").val();
-	
+
 	// step2 retrieve event info
 	$.ajax({
 		method: "GET",
-  	    url: "/srv/events/ajax/event/"+ eid,
-  	    cache: false,
-  	    dataType: "json"
-  	    
-    })
-    /*
+		url: "/srv/events/ajax/event/"+ eid,
+		cache: false,
+		dataType: "json"
+
+	})
+	/*
 	 * If successful, then prepopulate the selected event's fields in the add dialog.
 	 */
 	.done(function(ev) {
-		
+
 		console.log(ev);
-		
+
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-email").val(ev.contact.email);
 		$("#contact-phone").val(ev.contact.phoneNumWork);
@@ -160,7 +216,7 @@ function prepopulateAddDialogue(){
 		$("#evSrvClient").val(ev.serviceClient.name).change();
 		$("#scId").val(ev.serviceClient.scid);
 		$("#newEvId").val(eid);
-	
+
 
 		// if true, the user must use the default service hours, otherwise they can edit
 		if (ev.type.pinHours) {
@@ -187,18 +243,18 @@ function prepopulateAddDialogue(){
  */					//	 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");
 
 function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
-	
+
 	// get the forms values as strings
 	var hrScidStr = $(hrScid).val();
 	var hrEidStr = $(hrEid).val();
 	var hrServedStr = $(hrServed).val();
 	var hrReflectionStr = $(hrReflection).val();
 	var hrDescriptionStr = $(hrDescription).val();
-	
+
 	// peek at values to verify
 	console.log("scid: " + hrScidStr + " eid: " + hrEidStr + " served: " + hrServedStr + " " +
-				"ref: " + hrReflectionStr + " descr: " + hrDescriptionStr);
-	
+			"ref: " + hrReflectionStr + " descr: " + hrDescriptionStr);
+
 	$.ajax({
 		method: "POST",
 		url: "/srv/hours/ajax/addHr",
@@ -209,36 +265,36 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 	 * If successful then add the service hour to the list with the new values
 	 */
 	.done(function(srvHr) {
-		
+
 		console.log("added srv hr");
 		console.log(srvHr);
-		
+
 		var id = $(srvHr)[0] // obtains the new srv hr's id from the ajax response
-		
+
 		console.log(id); // verifies the id
-		
+
 		$("#hrs_tbl_body").append(id);
-		
-		
+
+
 		// Append the buttons and their functionality to the new service hour
-	    $(".del").on("click", function() {
-	    	var selected_shid = $(this).attr('onDelClick');
-	    	$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
-	    });
-	    
-	
-	    $(".hrRow").on("click", function() {
-	    	var selected_shid = $(this).attr('onRowClick');
-	    	$("#hrInfoDlg").data("selectedHoursID", selected_shid).dialog("open");
-	    });
-	    
-	        
-	    $(".edit").on("click", function() {
-	    	var selShid = $(this).attr('onEditClick');    	
-	    	$("#editDlg").data("selHoursId", selShid).dialog("open");
-	    });   
-	    
-	    $("#addDlg").dialog("close");
+		$(".del").on("click", function() {
+			var selected_shid = $(this).attr('onDelClick');
+			$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
+		});
+
+
+		$(".hrRow").on("click", function() {
+			var selected_shid = $(this).attr('onRowClick');
+			$("#hrInfoDlg").data("selectedHoursID", selected_shid).dialog("open");
+		});
+
+
+		$(".edit").on("click", function() {
+			var selShid = $(this).attr('onEditClick');    	
+			$("#editDlg").data("selHoursId", selShid).dialog("open");
+		});   
+
+		$("#addDlg").dialog("close");
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.
@@ -263,11 +319,11 @@ function delHr(hours_id){
 
 	$.ajax({
 		method: "POST",
-  	    url: "/srv/ajax/delHour",
-  	    cache: false,
-  	    data: {ID: idStr}
-    })
-    /*
+		url: "/srv/ajax/delHour",
+		cache: false,
+		data: {ID: idStr}
+	})
+	/*
 	 * If successful, then remove the selected service hour from the table.
 	 */
 	.done(function(data) {
@@ -290,10 +346,10 @@ function delHr(hours_id){
  * @returns
  */
 
-//	editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
+//editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
 
 function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, descrField) {
-	
+
 	// Harvests the data values from the form
 	var shidStr = selShid;
 	var scidStr = $(hrScid).val();
@@ -301,17 +357,17 @@ function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, desc
 	var hrSrvedStr = $(hrSrvedField).val();
 	var reflectStr = $(reflectField).val();
 	var descrStr = $(descrField).val();
-	
+
 	// peek at values to verify
 	console.log("shid: " + selShid +  " scid: " + scidStr + " eid: " + evidStr + " served: " + hrSrvedStr + " " +
-				"ref: " + reflectStr + " descr: " + descrStr);
-	
+			"ref: " + reflectStr + " descr: " + descrStr);
+
 
 	$.ajax({
 		method: "POST",
 		url: "/srv/hours/ajax/editHr",
 		cache: false,
-	    data: {shid: shidStr, scid: scidStr, eid: evidStr, hrSrved: hrSrvedStr, reflect: reflectStr, descr: descrStr}
+		data: {shid: shidStr, scid: scidStr, eid: evidStr, hrSrved: hrSrvedStr, reflect: reflectStr, descr: descrStr}
 	})
 	/*
 	 * If successful (no invalid data values), then update the selected service hour 
@@ -319,15 +375,15 @@ function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, desc
 	 */
 	.done(function(sh) {
 		console.log("updated service hour");
-		
+
 		console.log(sh);
-		
+
 		// Updates the edited service hour's row with the new values
 		$("#row" + selShid + " td[name ='hrs_hrsServed']").html($(hrSrvedField).val());
 		$("#row" + selShid + " td[name ='hrs_status']").html("Pending");
-		
+
 		$("#editDlg").dialog("close");
-		
+
 
 	})
 	/*
@@ -355,17 +411,17 @@ function goBack() {
  * create the functionality of the buttons.
  */
 $(document).ready(function() {	
-	
+
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen: false,
 		width: $(window).width() * 0.5,
 		height: $(window).height() * 0.5,
 		position: {
-			  my: "center top",
-			  at: "center top",
-			  of: window //"#srv-page"
-			},
+			my: "center top",
+			at: "center top",
+			of: window //"#srv-page"
+		},
 		show: { effect: "blind", duration: 500 },
 		modal: true,
 		dialogClass: "delDlgClass",
@@ -376,280 +432,287 @@ $(document).ready(function() {
 		open: function(event, ui) {
 			/*
 			 * Prompt on the delete service hour dialog, verifying if they want to delete the selected service hour.
-			*/ 
+			 */ 
 			$("#delMsg1").html("The following service hours will be permanently deleted and cannot be recovered.");
 			$("#delMsg2").html("Are you sure you want to delete?");
 		},							
 		buttons: [
-		{
-			text: "DELETE", 
-    			  "class": 'delBtnClass',
-    		click: function() {
-    			delHr($("#delDlg").data('selectedHoursID'));
-    			$("#delDlg").dialog("close");
-    			$("#delMsg1").empty();
-    			$("#delMsg2").empty();
-    		}
-		},
-        {	
-			text: "CANCEL",
-        	      "class": 'cancBtnClass',
-        	click: function() {
-        		$("#delDlg").dialog("close");
-        		$("#delMsg1").empty();
-        		$("#delMsg2").empty();
-        	}
-        }]
+			{
+				text: "DELETE", 
+				"class": 'delBtnClass',
+				click: function() {
+					delHr($("#delDlg").data('selectedHoursID'));
+					$("#delDlg").dialog("close");
+					$("#delMsg1").empty();
+					$("#delMsg2").empty();
+				}
+			},
+			{	
+				text: "CANCEL",
+				"class": 'cancBtnClass',
+				click: function() {
+					$("#delDlg").dialog("close");
+					$("#delMsg1").empty();
+					$("#delMsg2").empty();
+				}
+			}]
 	});	 
-	
+
 	// Register and hide the service hour information dialog div until a row is clicked on
-	$("#hrInfoDlg").dialog({
+	$("#viewDlg").dialog({
 		autoOpen: false,
-		 width: $(window).width() * 0.8,
-		 height: $(window).height() * 0.9,
+		width: $(window).width() * 0.6,
+		height: $(window).height() * 0.9,
 		modal: true,
 		position: {
-			  my: "center top",
-			  at: "center top",
-			  of: window
-			},
-		show: { effect: "blind", duration: 500 },
+			my: "center top",
+			at: "center top",
+			of: window
+		},
 		open: function(event, ui) {
-			
-			// Harvests the selected service hour's values from the table.
-			var selected_shid = $("#hrInfoDlg").data('selectedHoursID');
-			var set_eventName =  $("#row" + selected_shid + " td[name = 'hrs_eventName']").text();
-			var set_hrs = $("#row" + selected_shid + " td[name = 'hrs_hrsServed']").text();
-			
-			$("#hrInfoDlg_eventName").val(set_eventName);
-			$("#hrInfoDlg_hrsServed").val(set_hrs);
-		}
-		
+			console.log("open view hour dialog");
+
+			var selShid = $("#viewDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
+
+			prepopulateViewDialog(selShid);
+
+		},
+		buttons: [
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					$(this).dialog("close");
+
+				}
+			}]
+
+
 	});
-	
-	
+
+
 	// Register and hide the edit dialog div until an edit button is clicked on.
-	 $("#editDlg").dialog({
-		 autoOpen: false,
-		 width: $(window).width() * 0.8,
-		 height: $(window).height() * 0.8,
-         modal: true,
-	 		position: {
-				  my: "center top",
-				  at: "center top",
-				  of: window
-				},			
-	     open: function(event, ui) {  
-	    	  
-	    	console.log("edit dialog open");
-	    	
-	    	var selShid = $("#editDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
-	    	
-	    	prepopulateEditDialog(selShid);
-	    	
-	    	/*
+	$("#editDlg").dialog({
+		autoOpen: false,
+		width: $(window).width() * 0.6,
+		height: $(window).height() * 0.9,
+		modal: true,
+		position: {
+			my: "center top",
+			at: "center top",
+			of: window
+		},
+		open: function(event, ui) {  
+
+			console.log("edit dialog open");
+
+			var selShid = $("#editDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
+
+			prepopulateEditDialog(selShid);
+
+			/*
 			 * Removes previous error messages from the fields.
 			 */
 			$("#editDlgHrsSrvd").removeClass("is-invalid");
 			$(".validationTips" ).removeClass("alert alert-danger").text("");
 
-	      },
-	      buttons: [
-				 {
-					 text: "Update", 
-					 "id": "addBtnDlg",
-					 "class": 'btn',
-					 click: function() {		
-						
-						 	console.log("submit edit dialog");
-					    	var selShid = $("#editDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
-					    	
-					    	/*
-					    	 * Validates that the fields of the edit service hour dialog are not empty and valid.
-					    	 * If all the fields are valid, adds the new service hour to the table and closes the dialog.
-					    	 */
-					    	if (checkForEmptyFields("#editDlgHrsSrvd")) {
-							 
-							 if (validateFields("#editDlgHrsSrvd")) {
-								 
-								 editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
-								
-							 }
-						 }
-						 
-					 }
-				 },
-				 {	
-					 text: "Cancel",
-					 "class": 'btn btn-secondary',
-					 click: function() {
-						 $(this).dialog("close");
+		},
+		buttons: [
+			{
+				text: "Update", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
 
-					 }
-				 }]
-	
-	  });
-	 
-	 $("#addDlg").dialog({
-			autoOpen: false,
-			height: 600,
-			width: 850,
-			modal: true,
-			 position: {
-				  my: "center top",
-				  at: "center top",
-				  of: window
-				},
-			open: function(event, ui) {			
-				console.log("populating dialogue");	//replace with a javascript function that will put data into the add dialogue
-				prepopulateAddDialogue();
-				
-				/*
-				 * Resets all the fields of the add dialog to empty.
-				 */
-				$("#hrsSrvd").val("");
-				$("#reflection").val("");				
-				$("#description").val("");
-				
-				/*
-				 * Removes previous error messages from the fields.
-				 */
-				$("#hrsSrvd").removeClass("is-invalid");
-				$(".validationTips" ).removeClass("alert alert-danger").text("");
+					console.log("submit edit dialog");
+					var selShid = $("#editDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
 
+					/*
+					 * Validates that the fields of the edit service hour dialog are not empty and valid.
+					 * If all the fields are valid, adds the new service hour to the table and closes the dialog.
+					 */
+					if (checkForEmptyFields("#editDlgHrsSrvd")) {
+
+						if (validateFields("#editDlgHrsSrvd")) {
+
+							editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
+
+						}
+					}
+
+				}
 			},
-			 buttons: [
-				 {
-					 text: "Submit", 
-					 "id": "addBtnDlg",
-					 "class": 'btn',
-					 click: function() {		
-						
-						 console.log("submit add dialog");
-						 /*
-						  * Validates that the fields of the add service hour dialog are not empty and valid.
-						  * If all the fields are valid, adds the new service hour to the table and closes the dialog.
-						  */
-						 if (checkForEmptyFields("#hrsSrvd")) {
-							 
-							 if (validateFields("#hrsSrvd")) {
-								 
-								 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");								
-								
-							 }
-						 }
-						 
-					 }
-				 },
-				 {	
-					 text: "Cancel",
-					 "class": 'btn btn-secondary',
-					 click: function() {
-						 $("#addDlg").dialog("close");
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					$(this).dialog("close");
 
-					 }
-				 }]
-		});
-	
+				}
+			}]
 
-	 // dialog for selecting the events when creating new.
-	 $("#dlgEvSel").dialog({
-		 autoOpen: false,
-		 width: $(window).width() * 0.6,
-		 height: $(window).height() * 0.6,
-		 modal: true,
-		 position: {
-			  my: "center top",
-			  at: "center top",
-			  of: window
+	});
+
+	$("#addDlg").dialog({
+		autoOpen: false,
+		width: $(window).width() * 0.6,
+		height: $(window).height() * 0.9,
+		modal: true,
+		position: {
+			my: "center top",
+			at: "center top",
+			of: window
+		},
+		open: function(event, ui) {			
+			console.log("populating dialogue");	//replace with a javascript function that will put data into the add dialogue
+			prepopulateAddDialogue();
+
+			/*
+			 * Resets all the fields of the add dialog to empty.
+			 */
+			$("#hrsSrvd").val("");
+			$("#reflection").val("");				
+			$("#description").val("");
+
+			/*
+			 * Removes previous error messages from the fields.
+			 */
+			$("#hrsSrvd").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
+
+		},
+		buttons: [
+			{
+				text: "Submit", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+
+					console.log("submit add dialog");
+					/*
+					 * Validates that the fields of the add service hour dialog are not empty and valid.
+					 * If all the fields are valid, adds the new service hour to the table and closes the dialog.
+					 */
+					if (checkForEmptyFields("#hrsSrvd")) {
+
+						if (validateFields("#hrsSrvd")) {
+
+							addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");								
+
+						}
+					}
+
+				}
 			},
-		 open: function(event, ui) {			
-			 console.log("open select dialog");	
-		 },
-		 buttons: [
-			 {
-				 text: "Submit", 
-				 "id": "addBtnDlg",
-				 "class": 'btn',
-				 click: function() {		
-					 console.log("submit on select dialog");
-					
-					 
-					 $("#addDlg").dialog("open");
-					 
-					 $(this).dialog("close");
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					$("#addDlg").dialog("close");
 
-				 }
-			 },
-			 {	
-				 text: "Cancel",
-				 "class": 'btn btn-secondary',
-				 click: function() {
-					 console.log("cancel on select dialog");
-					 $(this).dialog("close");
+				}
+			}]
+	});
 
-				 }
-			 }]
-	 });
-	 
-	 
-	 
+
+	// dialog for selecting the events when creating new.
+	$("#dlgEvSel").dialog({
+		autoOpen: false,
+		width: $(window).width() * 0.6,
+		height: $(window).height() * 0.6,
+		modal: true,
+		position: {
+			my: "center top",
+			at: "center top",
+			of: window
+		},
+		open: function(event, ui) {			
+			console.log("open select dialog");	
+		},
+		buttons: [
+			{
+				text: "Submit", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+					console.log("submit on select dialog");
+
+
+					$("#addDlg").dialog("open");
+
+					$(this).dialog("close");
+
+				}
+			},
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					console.log("cancel on select dialog");
+					$(this).dialog("close");
+
+				}
+			}]
+	});
+
+
+
 	/* 
-     * Opens delete service hour dialog and passes in the selected delete button's service hour's id
-     * when a user clicks a delete button.
-     */
-    $(".del").on("click", function() {
-    	var selected_shid = $(this).attr('onDelClick');
-    	$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
-    });
-    
-    /*
-     * Opens a service hour dialog and passes in the selected row's service hour's id when a user
-     * clicks on a row in the service hours table.
-     */
-    $(".hrRow").on("click", function() {
-    	var selected_shid = $(this).attr('onRowClick');
-    	$("#hrInfoDlg").data("selectedHoursID", selected_shid).dialog("open");
-    });
-    
-    /* 
-     * Opens edit service hour dialog and passes in the selected edit button's service hour's id
-     * when user clicks an edit button.
-     */    
-    $(".edit").on("click", function() {
-    	var selShid = $(this).attr('onEditClick');    	
-    	$("#editDlg").data("selHoursId", selShid).dialog("open");
-    });   
-    
-    $(".addBtn").on("click", function() {
-    	
-    	$("#dlgEvSel").dialog("open");
-    });
-    
-    
+	 * Opens delete service hour dialog and passes in the selected delete button's service hour's id
+	 * when a user clicks a delete button.
+	 */
+	$(".del").on("click", function() {
+		var selected_shid = $(this).attr('onDelClick');
+		$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
+	});
+
+	/*
+	 * Opens a service hour dialog and passes in the selected row's service hour's id when a user
+	 * clicks on a row in the service hours table.
+	 */
+	$(".hrRow").on("click", function() {
+		var selShid = $(this).attr('onRowClick');    	
+		$("#viewDlg").data("selHoursId", selShid).dialog("open");
+	});
+
+	/* 
+	 * Opens edit service hour dialog and passes in the selected edit button's service hour's id
+	 * when user clicks an edit button.
+	 */    
+	$(".edit").on("click", function() {
+		var selShid = $(this).attr('onEditClick');    	
+		$("#editDlg").data("selHoursId", selShid).dialog("open");
+	});   
+
+	$(".addBtn").on("click", function() {
+
+		$("#dlgEvSel").dialog("open");
+	});
+
+
 	$('#tblEvents').DataTable({	
 		"paging": false,
 		"searching": true,
 		"info": false
 	});
-	
-	
+
+
 	$('#tblEvents').on( 'search.dt', function () {
 		$(".boxSel").prop("checked",false);  // clear all others
 	} );
-	
-	
+
+
 	$(".boxSel").click( function() {
-		
+
 		var state = $(this).prop("checked");
-		
+
 		if (state) {
 			var eid = $(this).attr("eid");
 			$("#newEvId").val(eid);
 		}
-		
+
 		$(".boxSel").prop("checked",false);  // clear all others		
 		$(this).prop("checked",state);  // reassert current state on current button  
 	});
-	
+
 });
