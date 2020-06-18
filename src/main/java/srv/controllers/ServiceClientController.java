@@ -212,7 +212,6 @@ public class ServiceClientController {
 		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
 		int bmId = Integer.parseInt(request.getParameter("bmID"));
 		
-		System.out.println(bmId);
 		String category = request.getParameter("cat");
 
 		/*

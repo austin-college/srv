@@ -131,33 +131,49 @@ public class HoursController {
 	 * @param response
 	 * @return MAV of the updated service hour row to the table
 	 */
-	@PostMapping("/ajax/editHour")
+	@PostMapping("/hours/ajax/editHr")
 	public ModelAndView ajaxServiceHourUpdate(HttpServletRequest request, HttpServletResponse response) {
-			
+		
+		ModelAndView mav = new ModelAndView("/hours/ajax_singleHourRow");
+		
 		response.setContentType("text/html"); 
 		
-		// Getting the data from function call in the javascript file so we can pass it to the update method in the service class
-		int id = Integer.parseInt(request.getParameter("ID")); 
-		String eventName = request.getParameter("eventName"); 
-		double hrs = Double.parseDouble(request.getParameter("hrsServed"));
-		String orgName = request.getParameter("org");
-		String date = request.getParameter("hrDate");
-		String description = request.getParameter("desc");
-
-		
-	
-		// Delegates to the Committee Service object for help on updating a committee.
-	//	ServiceHours updatedHour = hrSvc.updateHour(id, eventName, orgName, hrs, date, description);
-	
+		try {
 			
-		/*
-		 * Prepare and render the response of the template's model for the HTTP response
-		 */
-		ModelAndView mav = new ModelAndView("/hours/ajax_singleHourRow");
-
-//		mav.addObject("shid", updatedHour.getShid() );
-//		mav.addObject("title", updatedHour.getEventName().getTitle());
-//		mav.addObject("hours", updatedHour.getHours());
+			// fetch the data sent from the JavaScript function and verify the fields
+			Integer shid = ParamUtil.requiredIntegerParam(request.getParameter("shid"), "Service Hours must be selected.");
+			Integer scid = ParamUtil.requiredIntegerParam(request.getParameter("scid"), "Service Client must be selected.");
+			Integer eid = ParamUtil.requiredIntegerParam(request.getParameter("eid"), "Event must be selected.");
+			Double hrs = ParamUtil.requiredDoubleParam(request.getParameter("hrSrved"), "Hours Served must be filled and be numeric.");
+			String reflection = request.getParameter("reflect");
+			String descr = request.getParameter("descr");
+			
+			// create a new service hr in the database then return it back to the callback function
+			hrSvc.updateHour(shid, scid,  eid, hrs,  reflection, descr);
+			
+			ServiceHours updatedSrvHr = hrSvc.serviceHourById(shid);
+			
+			mav.addObject("shid", updatedSrvHr.getShid());
+			mav.addObject("title", updatedSrvHr.getEvent().getTitle());
+			mav.addObject("hours", updatedSrvHr.getHours());
+			mav.addObject("status", updatedSrvHr.getStatus());
+			
+			
+			
+		} catch (Exception e) {
+			log.error("\n\n ERROR ");
+			log.error(e.getMessage());
+			
+			e.printStackTrace();
+			
+			response.setStatus(410);
+			
+			
+			mav = new ModelAndView("/error");
+			
+			mav.addObject("errMsg", e.getMessage());
+		}
+		
 
 	
 		return mav;

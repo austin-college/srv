@@ -138,29 +138,26 @@ public class ServiceHoursService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ServiceHours updateHour(ServiceHours sh)  throws Exception {
+	public void updateHour(Integer shid, Integer scid, Integer eid, Double hrsSrved, String reflection, String descr)  throws Exception {
 		
-		if(sh == null) {
+		if(shid == null) {
 			
-			throw new Exception(String.format("service hour is null", sh)); 
+			throw new Exception(String.format("service hour is null", shid)); 
 		}
 		
-		log.debug("updating service hour [{}]", sh.getShid());
+		log.debug("updating service hour [{}]", shid);
 		
 		sHoursDao.update(
-				sh.getShid(),
-				sh.getEvent().getType().getDefClient().getScid(),
-				sh.getServant().getUid(),
-				sh.getEvent().getEid(),
+				shid,
+				scid,
+				uu.currentUser().getUid(),
+				eid,
+				hrsSrved,
+				"Pending",
+				reflection,
+				descr);
 				
-				Double.valueOf(sh.getEvent().getType().getDefHours()),
-				
-				sh.getStatus(),
-				sh.getReflection(),
-				sh.getEvent().getType().getDescription());
 		
-		log.debug("scid [{}]", sh.getServedPet().getScid());
-		return sh;   
 	}
 	
 	/**

@@ -11,6 +11,7 @@ function checkForEmptyFields(hrField) {
 	 * removes previous error messages on the fields for the add service hour dialog
 	 */
 	$("#hrsSrvd").removeClass("is-invalid");
+	$("#editDlgHrsSrvd").removeClass("is-invalid");
 	
 	// Checks to see if the event type's name field is empty.
 	if (!$(hrField).val()) {
@@ -231,10 +232,10 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 	    	$("#hrInfoDlg").data("selectedHoursID", selected_shid).dialog("open");
 	    });
 	    
-	    
+	        
 	    $(".edit").on("click", function() {
-	    	var selected_shid = $(this).attr('onEditClick');    	
-	    	$("#editDlg").data("selectedHoursID", selected_shid).dialog("open");
+	    	var selShid = $(this).attr('onEditClick');    	
+	    	$("#editDlg").data("selHoursId", selShid).dialog("open");
 	    });   
 	    
 	    $("#addDlg").dialog("close");
@@ -288,39 +289,45 @@ function delHr(hours_id){
  * 
  * @returns
  */
-function editHr(hours_id, eName, date, org, hrs, desc, address, city, zip, st, conName, conNumber, conEmail) {
+
+//	editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
+
+function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, descrField) {
 	
 	// Harvests the data values from the form
-	var idStr = hours_id;
-	var eNameStr  = $(eName).val();
-	var dateStr  = $(date).val();
-	var orgStr = $(org).val();
-	var hrsStr = $(hrs).val();
-	var descStr = $(desc).val();
-	var addressStr = $(address).val();
-	var cityStr = $(city).val();
-	var zipStr = $(zip).val();
-	var stStr = $(st).val();
-	var conNameStr = $(conName).val();
-	var conNumberStr = $(conNumber).val();
-	var conEmailStr = $(conEmail).val();
+	var shidStr = selShid;
+	var scidStr = $(hrScid).val();
+	var evidStr = $(hrEvid).val();
+	var hrSrvedStr = $(hrSrvedField).val();
+	var reflectStr = $(reflectField).val();
+	var descrStr = $(descrField).val();
+	
+	// peek at values to verify
+	console.log("shid: " + selShid +  " scid: " + scidStr + " eid: " + evidStr + " served: " + hrSrvedStr + " " +
+				"ref: " + reflectStr + " descr: " + descrStr);
+	
 
 	$.ajax({
 		method: "POST",
-		url: "/srv/ajax/editHour",
+		url: "/srv/hours/ajax/editHr",
 		cache: false,
-		//data: {ID: idStr, eventName: eNameStr, org: orgStr, hrsServed: hrsStr}
-	    data: {ID: idStr, eventName: eNameStr, hrDate: dateStr, org: orgStr, hrsServed: hrsStr,
-			   desc: descStr, address: addressStr, city: cityStr, zipCode: zipStr, state: stStr,
-			   contactName: conNameStr, contactNumber: conNumberStr, contactEmail: conEmailStr}
+	    data: {shid: shidStr, scid: scidStr, eid: evidStr, hrSrved: hrSrvedStr, reflect: reflectStr, descr: descrStr}
 	})
 	/*
 	 * If successful (no invalid data values), then update the selected service hour 
 	 * with the new values.
 	 */
-	.done(function(data) {
-		$("#row" + hours_id + " td[name ='hrs_eventName']").html($(eName).val());
-		$("#row" + hours_id + " td[name ='hrs_hrsServed']").html($(hrs).val());
+	.done(function(sh) {
+		console.log("updated service hour");
+		
+		console.log(sh);
+		
+		// Updates the edited service hour's row with the new values
+		$("#row" + selShid + " td[name ='hrs_hrsServed']").html($(hrSrvedField).val());
+		$("#row" + selShid + " td[name ='hrs_status']").html("Pending");
+		
+		$("#editDlg").dialog("close");
+		
 
 	})
 	/*
@@ -439,8 +446,47 @@ $(document).ready(function() {
 	    	var selShid = $("#editDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
 	    	
 	    	prepopulateEditDialog(selShid);
+	    	
+	    	/*
+			 * Removes previous error messages from the fields.
+			 */
+			$("#editDlgHrsSrvd").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
 
-	      }
+	      },
+	      buttons: [
+				 {
+					 text: "Update", 
+					 "id": "addBtnDlg",
+					 "class": 'btn',
+					 click: function() {		
+						
+						 	console.log("submit edit dialog");
+					    	var selShid = $("#editDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
+					    	
+					    	/*
+					    	 * Validates that the fields of the edit service hour dialog are not empty and valid.
+					    	 * If all the fields are valid, adds the new service hour to the table and closes the dialog.
+					    	 */
+					    	if (checkForEmptyFields("#editDlgHrsSrvd")) {
+							 
+							 if (validateFields("#editDlgHrsSrvd")) {
+								 
+								 editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
+								
+							 }
+						 }
+						 
+					 }
+				 },
+				 {	
+					 text: "Cancel",
+					 "class": 'btn btn-secondary',
+					 click: function() {
+						 $(this).dialog("close");
+
+					 }
+				 }]
 	
 	  });
 	 
