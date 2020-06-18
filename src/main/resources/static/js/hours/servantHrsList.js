@@ -387,10 +387,7 @@ $(document).ready(function() {
 	$('#hrs_tbl').DataTable({	
 		"paging": false,
 		"searching": false,
-		"info": false,
-		"columns": [
-		    {"width": "100%"}
-		  ]
+		"info": false
 	});
 	
 	$(".boxSel").click( function() {
