@@ -7,7 +7,7 @@
  * @param etDefHrs
  * @returns
  */
-function checkForEmptyFields(etName, etDescr, etDefHrs) {
+function checkForEmptyFields(etName, etDescr) {
 	
 	var valid = true;
 	var msg = "Please complete the selected fields."; // error message
@@ -18,7 +18,6 @@ function checkForEmptyFields(etName, etDescr, etDefHrs) {
 	 */
 	$("#etName").removeClass("is-invalid");
 	$("#etDescr").removeClass("is-invalid");
-	$("#defHrs").removeClass("is-invalid");
 	
 	// Checks to see if the event type's name field is empty.
 	if (!$(etName).val()) {
@@ -33,16 +32,6 @@ function checkForEmptyFields(etName, etDescr, etDefHrs) {
 	// Checks to see if the event type's full name/description field is empty.
 	if (!$(etDescr).val()) {
 		$(etDescr).addClass("is-invalid");
-		if(counter == 0) {
-			counter++;
-			updateTips(msg);
-		}
-		valid = false;
-	}
-
-	// Checks to see if the event type's default hours field is empty.
-	if (!$(etDefHrs).val()) {
-		$(etDefHrs).addClass("is-invalid");
 		if(counter == 0) {
 			counter++;
 			updateTips(msg);
@@ -78,6 +67,7 @@ function validateFields(etDefHrs) {
 	
 	return valid;
 }
+
 /**
  * The following function replaces a HTML paragraph's text with error
  * messages to the user on the invalid fields in the add and edit
@@ -163,12 +153,16 @@ function addEventType(etName, etDescr, etDefHrs, etPinHrs, etScid) {
 		$(".btnEtEdit").click(onEditClick);
 
 		$(".btnEtView, .etView").click(onViewClick);
+		
+  	    $("#addDlg").dialog("close");
+
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.
 	 */
 	.fail(function(jqXHR, textStatus) {
-		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+		alert("Error");
+		updateTips(jqXHR.responseText);
 	});
 	
 }
@@ -315,16 +309,19 @@ function onPageLoad() {
 						  * Validates that the fields of the add event type dialogue are not empty and valid.
 						  * If all the fields are valid, adds the new event type to the table and closes the dialog.
 						  */
-						 if (checkForEmptyFields("#etName", "#etDescr", "#defHrs")) {
+						 if (checkForEmptyFields("#etName", "#etDescr")) {
 							 
-							 if(validateFields("#defHrs")) {
-								 
-								 addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId");
+							 // since default hours is not required and can be left blank, don't need to verify it's
+							 // non-numeric if empty/blank
+							 if ($("#defHrs").val() == "") { 	addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId");  }
+							 
+							 else {
 
-								 $(this).dialog("close");
+								if (validateFields("#defHrs")) {	addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId"); }
+
 							 }
-						 }
 
+						 }
 					 }
 				 },
 				 {	

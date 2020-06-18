@@ -13,8 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ import srv.domain.serviceclient.ServiceClientDao;
 @WebMvcTest(EventTypeController.class)
 @Import(WebSecurityConfig.class)
 
-class EventTypeControllerTest {
+public class EventTypeControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -66,7 +66,7 @@ class EventTypeControllerTest {
 	 * event types and service clients.  
 	 * 
 	 */
-	@BeforeEach
+	@Before
 	public void setupTestFixture() {
 	
 		sc1 = new ServiceClient()
@@ -91,7 +91,7 @@ class EventTypeControllerTest {
 				.setEtid(2)
 				.setName("fws")
 				.setDescription("first we serve for test")
-				.setDefHours(3.0)
+				.setDefHours(3.5)
 				.setDefClient(sc2)
 				.setPinHours(false);
 
@@ -138,7 +138,7 @@ class EventTypeControllerTest {
 			// and there's a row in our table that has a et name/description td inside whose text better be '(gds) great day of service for test' 
 			.andExpect(xpath(dquote("//tr[@id='etid-1']/td[@class='et_name_descr etView' and text()='(gds) great day of service for test']")).exists())
 			
-			// and there's a row in our table that has a et default hour td inside whose text better be '5.0' 
+			// and there's a row in our table that has a et default hour td inside whose text better be '5' 
 			.andExpect(xpath(dquote("//tr[@id='etid-1']/td[@class='et_hr etView' and text()='5']")).exists())
 	
 			// and there's a row in our table that has a et default service client name td inside whose text better be 'Habitat for Humanity' 
@@ -158,8 +158,8 @@ class EventTypeControllerTest {
 			// and there's a row in our table that has a et name/description td inside whose text better be '(fws) first we serve for test' 
 			.andExpect(xpath(dquote("//tr[@id='etid-2']/td[@class='et_name_descr etView' and text()='(fws) first we serve for test']")).exists())
 			
-			// and there's a row in our table that has a et default hour td inside whose text better be '3.0' 
-			.andExpect(xpath(dquote("//tr[@id='etid-2']/td[@class='et_hr etView' and text()='3']")).exists())
+			// and there's a row in our table that has a et default hour td inside whose text better be '3.5' 
+			.andExpect(xpath(dquote("//tr[@id='etid-2']/td[@class='et_hr etView' and text()='3.5']")).exists())
 	
 			// and there's a row in our table that has a et default service client name td inside whose text better be 'Meals on Wheels' 
 			.andExpect(xpath(dquote("//tr[@id='etid-2']/td[@class='et_sc etView' and text()='Meals on Wheels']")).exists())

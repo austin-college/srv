@@ -3,6 +3,8 @@ package srv.domain.event.eventype;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -70,14 +72,20 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 				+ "VALUES(?, ?, ?, ?, ?)";
 		
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
-
+		
 		// fills in the SQL statements ?'s
 	    getJdbcTemplate().update(
 	              connection -> {
 	                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"eventTypeId"});
+	                  
+	                  // nullify default hours
+	                  if (defHours == null)
+	                	  ps.setNull(3, java.sql.Types.DOUBLE);
+	                  else
+	                	  ps.setDouble(3, defHours);
+	               
 	                  ps.setString(1, name);
 	                  ps.setString(2, description);
-	                  ps.setDouble(3, defHours);
 	                  ps.setBoolean(4, pinHours);
 	                  ps.setInt(5, scid);
 	                  return ps;
@@ -97,6 +105,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	   
 	}
 	
+
 	/*
 	 * Removes the desired EventType (by id) from the schema.sql database. 
 	 * An exception is thrown if the eventType is unable to be removed (does not exist).

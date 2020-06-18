@@ -24,6 +24,7 @@ import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.EventTypeDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.utils.ParamUtil;
 import srv.utils.UserUtil;
 
 @Controller
@@ -98,33 +99,6 @@ public class EventTypeController {
 	 * Ajax call to create and return the new EventType to the database.
 	 * 
 	 */
-//	@ResponseBody
-//	@PostMapping(value="/eventTypes/ajax/addEt", produces="application/json")
-//	public ResponseEntity<EventType> ajaxAddEventType(HttpServletRequest request, HttpServletResponse response) {
-//		
-//		// fetch the data sent from the JavaScript function and turns it into the appropriate datatypes
-//		String etName = request.getParameter("name");
-//		String etDescr = request.getParameter("descr");
-//		Double etDefHrs = Double.parseDouble(request.getParameter("defHrs"));
-//		boolean pinHrs = Boolean.parseBoolean(request.getParameter("pinHrs"));
-//		Integer scid = Integer.parseInt(request.getParameter("scid"));
-//		
-//		// Make sure everything is coming okay
-//		log.debug(etName + " " +  etDescr + " " + etDefHrs + " " + pinHrs + " " + scid);
-//		
-//		try {
-//			
-//			// Create a new event type in the database then return it back to the callback function
-//			EventType newEvType = etDao.create(etName, etDescr, etDefHrs, pinHrs, scid);
-//			
-//			return new ResponseEntity<>(newEvType, HttpStatus.OK);
-//		
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//	
-//	}
-//	
 	@PostMapping("/eventTypes/ajax/addEt")
 	public ModelAndView ajaxAddEventType(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -132,21 +106,25 @@ public class EventTypeController {
 
 		response.setContentType("text/html");
 
-		// fetch the data sent from the JavaScript function and turns it into the appropriate datatypes
-		String etName = request.getParameter("name");
-		String etDescr = request.getParameter("descr");
-		Double etDefHrs = Double.parseDouble(request.getParameter("defHrs"));
-		boolean pinHrs = Boolean.parseBoolean(request.getParameter("pinHrs"));
-		Integer scid = Integer.parseInt(request.getParameter("scid"));
-
-		// Make sure everything is coming okay
-		log.debug(etName + " " +  etDescr + " " + etDefHrs + " " + pinHrs + " " + scid);
-
 		try {
-
+			
+			// fetch the data sent from the JavaScript function and verify the fields 
+			String etName = request.getParameter("name");
+			String etDescr = request.getParameter("descr");
+		
+			Double etDefHrs = ParamUtil.optionalDoubleParam(request.getParameter("defHrs"), "Default Hours must be numeric.");
+			
+			boolean pinHrs = ParamUtil.requiredBooleanParam(request.getParameter("pinHrs"), "Pin Hours must be selected.");
+			Integer scid = ParamUtil.requiredIntegerParam(request.getParameter("scid"), "Service Client must be selected and be numeric.");
+			
+			// Make sure everything is coming okay
+			log.debug(etName + " " +  etDescr + " " + etDefHrs + " " + pinHrs + " " + scid);
+			
 			// Create a new event type in the database then return it back to the callback function
 			EventType newEvType = etDao.create(etName, etDescr, etDefHrs, pinHrs, scid);
-
+			
+			System.out.println(newEvType.getDefHours());
+			
 			mav.addObject("etid", newEvType.getEtid());
 			mav.addObject("etName", newEvType.getName());
 			mav.addObject("description", newEvType.getDescription());
@@ -155,10 +133,22 @@ public class EventTypeController {
 			mav.addObject("name", newEvType.getDefClient().getName());
 
 		} catch (Exception e) {
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
+			log.error("\n\n ERROR ");
+			log.error(e.getMessage());
+			
+			e.printStackTrace();
+			
+			response.setStatus(410);
+			
+			
+			mav = new ModelAndView("/eventTypes/error");
+			
+			mav.addObject("errMsg", e.getMessage());
+		
 		}
 		
 		return mav;
 	}
+
+	
 }

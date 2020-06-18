@@ -2,7 +2,7 @@
 <tr id="etid-${etid?c}">
 	<td class="et_id etView" etid="${etid?c}">${etid!"UNKNOWN ID"}</td>
 	<td class="et_name_descr etView" etid="${etid?c}">(${etName!"UNKNOWN NAME"}) ${description!"UNKNOWN DESCRIPTION"}</td>
-	<td class="et_hr etView" etid="${etid?c}">${defHours!"0"}</td>
+	<td class="et_hr etView" etid="${etid?c}">${defHours!"None"}</td>
 	<#if defClient??>
 		<td class="et_sc etView" etid="${etid?c}">${defClient.name}</td>
 	<#else>
