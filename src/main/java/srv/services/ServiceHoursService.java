@@ -55,6 +55,23 @@ public class ServiceHoursService {
 	}
 	
 	/**
+	 * Delegates to the dao in order to find the specified service
+	 * hour from our data store.
+	 * 
+	 * @param shid
+	 * @return
+	 * @throws Exception
+	 */
+	public ServiceHours serviceHourById(int shid) throws Exception {
+		
+		if (shid <= 0) {
+			throw new Exception(String.format("Invalid service hour id [%d]", shid));
+		}
+		
+		return sHoursDao.fetchHoursById(shid);
+	}
+
+	/**
 	 * Get the current user's service hours.
 	 * 
 	 * @param uid
