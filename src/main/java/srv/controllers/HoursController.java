@@ -23,6 +23,7 @@ import srv.domain.hours.ServiceHours;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
+import srv.utils.ParamUtil;
 
 /**
  * This is the algorithm that prepares the response.
@@ -219,15 +220,15 @@ public class HoursController {
 		ModelAndView mav = new ModelAndView("/hours/ajax_singleHourRow");
 
 		response.setContentType("text/html");
-		
-		// fetch the data sent from the JavaScript function and turn it into the appropriate data types
-		Integer scid = Integer.valueOf(request.getParameter("scid"));
-		Integer eid = Integer.valueOf(request.getParameter("eid"));
-		Double hrs = Double.valueOf(request.getParameter("hrServed"));
-		String reflection = request.getParameter("reflect");
-		String descr = request.getParameter("descr");
-		
+				
 		try {
+		
+			// fetch the data sent from the JavaScript function and verify the fields
+			Integer scid = ParamUtil.requiredIntegerParam(request.getParameter("scid"), "Service Client must be selected.");
+			Integer eid = ParamUtil.requiredIntegerParam(request.getParameter("eid"), "Event must be selected.");
+			Double hrs = ParamUtil.requiredDoubleParam(request.getParameter("hrServed"), "Hours Served must be filled and be numeric.");
+			String reflection = request.getParameter("reflect");
+			String descr = request.getParameter("descr");
 			
 			// create a new service hr in the database then return it back to the callback function
 			ServiceHours newSrvHr = hrSvc.createServiceHour(scid,  eid, hrs,  reflection, descr);
@@ -240,8 +241,17 @@ public class HoursController {
 			
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.error("\n\n ERROR ");
+			log.error(e.getMessage());
+			
 			e.printStackTrace();
+			
+			response.setStatus(410);
+			
+			
+			mav = new ModelAndView("/error");
+			
+			mav.addObject("errMsg", e.getMessage());
 		}
 		
 		return mav;

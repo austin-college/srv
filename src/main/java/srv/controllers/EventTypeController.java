@@ -141,7 +141,7 @@ public class EventTypeController {
 			response.setStatus(410);
 			
 			
-			mav = new ModelAndView("/eventTypes/error");
+			mav = new ModelAndView("/error");
 			
 			mav.addObject("errMsg", e.getMessage());
 		

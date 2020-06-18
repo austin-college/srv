@@ -93,8 +93,8 @@ function prepopulateAddDialogue(){
 		$("#contact-email").val(ev.contact.email);
 		$("#contact-phone").val(ev.contact.phoneNumWork);
 		$("#contact-name").val(ev.contact.firstName);
-		$("#evDate").val(ev.date); //startDate is not getting serialized, coming up as null
-		
+		$("#evDate").val(ev.date);
+		console.log(ev.date);
 		$("#hrsSrvd").val(ev.rsvpVolunteerHours);
 		$("#address").val(ev.contact.street);
 		$("#zip-code").val(ev.contact.zipcode);
@@ -103,7 +103,7 @@ function prepopulateAddDialogue(){
 		$("#evSrvClient").val(ev.serviceClient.name).change();
 		$("#scId").val(ev.serviceClient.scid);
 		$("#newEvId").val(eid);
-		console.log("test: " + ev.type.pinHours)
+	
 
 		// if true, the user must use the default service hours, otherwise they can edit
 		if (ev.type.pinHours) {
@@ -180,7 +180,16 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 	    	var selected_shid = $(this).attr('onEditClick');    	
 	    	$("#editDlg").data("selectedHoursID", selected_shid).dialog("open");
 	    });   
+	    
+	    $("#addDlg").dialog("close");
 	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
 
 }
 
@@ -422,6 +431,8 @@ $(document).ready(function() {
 				 * Resets all the fields of the add dialog to empty.
 				 */
 				$("#hrsSrvd").val("");
+				$("#reflection").val("");				
+				$("#description").val("");
 				
 				/*
 				 * Removes previous error messages from the fields.
@@ -445,9 +456,9 @@ $(document).ready(function() {
 						 if (checkForEmptyFields("#hrsSrvd")) {
 							 
 							 if (validateFields("#hrsSrvd")) {
-								 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");
-									
-								 $(this).dialog("close");
+								 
+								 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");								
+								
 							 }
 						 }
 						 
@@ -568,8 +579,6 @@ $(document).ready(function() {
     });   
     
     $(".addBtn").on("click", function() {
-    	console.log("HERE");
-    	//$("#etDlg").dialog("open");
     	
     	$("#dlgEvSel").dialog("open");
     });
