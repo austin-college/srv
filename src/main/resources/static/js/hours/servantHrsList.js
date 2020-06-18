@@ -375,42 +375,12 @@ $(document).ready(function() {
 				  my: "center top",
 				  at: "center top",
 				  of: window
-				},
-		 show: { effect: "blind", duration: 500 },				
+				},			
 	     open: function(event, ui) {  
-	    	  
-	    	 // Harvests the selected service hour's old values from the table.
-	    	 var selected_shid = $("#editDlg").data('selectedHoursID');
-	    	 var set_eventName = $("#row" + selected_shid + " td[name ='hrs_eventName']").text();
-	    	 var set_hrs = $("#row" + selected_shid + " td[name ='hrs_hrsServed']").text();
-	  
-	    	// Sets the dialog's fields to the selected service hour's old values upon opening.
-	    	 $("#editDlg_eventName").val(set_eventName);
-	    	 $("#editDlg_hrsServed").val(set_hrs);
-	      },
-	      buttons: [
-	      {
-	    	  text: "Update",
-	    		   "class": "editBtnClass",
-	    	  click: function() {
-	    			  
-	           var selected_shid = $("#editDlg").data('selectedHoursID'); // The selected service hour's ID
-	           
-	           editHr(selected_shid, "#editDlg_eventName", "#editDlg_date", "#editDlg_org", "#editDlg_hrsServed", "#editDlg_desc",
-	        		   "#editDlg_address", '#editDlg_city', '#editDlg_zip', '#editDlg_state', '#editDlg_contactName', '#editDlg_contactNumber',
-	        		   '#editDlg_contactEmail');
-		    	        	     
-		    	$("#editDlg").dialog("close");
-	    	  }	
-	      },
-	      {
-	    		text: "Cancel",
-	    		      "class": "cancelBtnClass",
-	    		click: function() {	
-	    			$("#editDlg").dialog("close");  
-	    		}
-	    	
-	     }]
+	    	  console.log("edit dialog open")
+
+	      }
+	
 	  });
 	 
 	 $("#addDlg").dialog({
@@ -473,41 +443,7 @@ $(document).ready(function() {
 					 }
 				 }]
 		});
-	 $("#etDlg").dialog({
-		 autoOpen: false,
-		 width: $(window).width() * 0.6,
-		 height: $(window).height() * 0.7,
-		 modal: true,
-		 position: {
-			  my: "center top",
-			  at: "center top",
-			  of: window
-			},
-		 open: function(event, ui) {			
-			 console.log("boop");	
-		 },
-		 buttons: [
-			 {
-				 text: "Submit", 
-				 "id": "addBtnDlg",
-				 "class": 'btn',
-				 click: function() {		
-					 console.log("FIE");
-					
-					 $("#etDlg").dialog("close");
-					 $("#addDlg").dialog("open");
-
-				 }
-			 },
-			 {	
-				 text: "Cancel",
-				 "class": 'btn btn-secondary',
-				 click: function() {
-					 $("#etDlg").dialog("close");
-
-				 }
-			 }]
-	 });
+	
 
 	 // dialog for selecting the events when creating new.
 	 $("#dlgEvSel").dialog({
