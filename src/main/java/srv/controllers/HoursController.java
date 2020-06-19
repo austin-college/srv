@@ -96,32 +96,32 @@ public class HoursController {
 		
 		return mav;
 	}
-	
+
 	/**
-	 * Ajax renders a new page removing the selected service hour from the table.
-	 * 
-	 * @param request
-	 * @param response
-	 * @return MAV of the deleted service hour row to the table
+	 * When the client needs to delete a service hour, this controller action will
+	 * handle the request.  Note: we are using the DELETE HTTP method and embedding
+	 * the item id as part of the URL (not a query parameter).   
+	 *  
+	 * @param id
+	 * @return
 	 */
-	@PostMapping("/ajax/delHour")
-	public ModelAndView ajaxServiceHourDelete(HttpServletRequest request, HttpServletResponse response)	{
-		
-		response.setContentType("text/html");  // Ajax responses will be html snippets.
-		
-		int id = Integer.parseInt(request.getParameter("ID")); // Holds the service hour's ID parameter
-		
-		//hrSvc.removeServiceHour(id);
-		
-		//System.out.println(hrSvc.listHours().size());
-		/*
-		 * Prepare and render the response of the template's model for the HTTP response
-		 */
-		ModelAndView mav = new ModelAndView("/hours/ajax_delServiceHr");
-		mav.addObject("shid", id);
-	
-		return mav;
-			
+	@PostMapping(value = "/hours/ajax/del/{id}")
+	public ResponseEntity<Integer> ajaxDeleteServiceHour(@PathVariable Integer id) {
+
+		try {
+    		
+    		log.error("delete "+ id);
+    		log.debug("deleting service hour {}", id);
+    		
+    		hrSvc.removeServiceHour(id);
+		    
+    		return new ResponseEntity<>(id, HttpStatus.OK);
+		    
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+
 	}
 	
 	/**

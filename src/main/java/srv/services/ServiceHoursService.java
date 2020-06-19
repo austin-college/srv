@@ -83,7 +83,7 @@ public class ServiceHoursService {
 	}
 	
 	
-	public void removeServiceHour(int id) throws Exception  {
+	public void removeServiceHour(int id) throws Exception  {		
 		sHoursDao.delete(id);
 	}
 	

@@ -278,16 +278,15 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 
 		// Append the buttons and their functionality to the new service hour
 		$(".del").on("click", function() {
-			var selected_shid = $(this).attr('onDelClick');
-			$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
+			var selShid = $(this).attr('onDelClick');
+			$("#delDlg").data("selHoursId", selShid).dialog("open");
 		});
 
-
+				
 		$(".hrRow").on("click", function() {
-			var selected_shid = $(this).attr('onRowClick');
-			$("#hrInfoDlg").data("selectedHoursID", selected_shid).dialog("open");
+			var selShid = $(this).attr('onRowClick');    	
+			$("#viewDlg").data("selHoursId", selShid).dialog("open");
 		});
-
 
 		$(".edit").on("click", function() {
 			var selShid = $(this).attr('onEditClick');    	
@@ -306,35 +305,39 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 
 }
 
-/**
- * The delete hour function makes an AJAX call to remove
- * the selected service hour from the table.
- * 
- * @param hours_id - to be deleted/removed service hour ID
- * @returns
+/*
+ * makes the request back to our server to delete the service id whose id we extract
+ * from the confirmation dialog
  */
-function delHr(hours_id){
-	// The ID of the selected service hour to be deleted
-	var idStr = hours_id;
+function ajaxDeleteEventNow() {
+
+	// The ID of the selected service id to be deleted...from the dialog
+	var idStr = $("#delShId").html();
+
+	// alert(idStr);
 
 	$.ajax({
-		method: "POST",
-		url: "/srv/ajax/delHour",
-		cache: false,
-		data: {ID: idStr}
+		method : "POST",
+		url : "/srv/hours/ajax/del/" + idStr,
+		cache : false
 	})
 	/*
-	 * If successful, then remove the selected service hour from the table.
+	 * If successful, then remove the selected event row from the table.
 	 */
-	.done(function(data) {
-		$("#row" + hours_id).remove();
+	.done(function(eid) {
+		// alert("done "+eid);
+		$("#eid-" + eid).remove(); // remove row from table.
+		$("#dlgDelete").dialog("close");
 	})
 	/*
-	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 * If unsuccessful (invalid data values), display error message and
+	 * reasoning.
 	 */
 	.fail(function(jqXHR, textStatus) {
-		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		$("#dlgDelete").dialog("close");
 	});
+
 }
 /**
  * The edit service hour function makes an AJAX call to update
@@ -394,6 +397,43 @@ function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, desc
 	});
 }
 
+/*
+ * makes the request back to our server to delete the service hour whose id we extract
+ * from the confirmation dialog
+ */
+function ajaxDeleteEventNow() {
+
+	// The ID of the selected service hour to be deleted...from the dialog
+	var idStr = $("#delShId").html();
+	
+	console.log("srv hr id is: " + idStr);
+
+	$.ajax({
+		method : "POST",
+		url : "/srv/hours/ajax/del/" + idStr,
+		cache : false
+	})
+	/*
+	 * If successful, then remove the selected service hour row from the table.
+	 */
+	.done(function(shid) {
+		
+		console.log("deleting service hour " + shid);
+		
+		$("#row" + shid).remove(); // remove row from table.
+		$("#delDlg").dialog("close");
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and
+	 * reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		$("#delDlg").dialog("close");
+	});
+
+}
+
 /**
  * When the back button is clicked on returns the user to the previous page.
  * If the previous page is the login page, the user is directed to their home page.
@@ -414,48 +454,54 @@ $(document).ready(function() {
 
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
-		autoOpen: false,
-		width: $(window).width() * 0.5,
-		height: $(window).height() * 0.5,
-		position: {
-			my: "center top",
-			at: "center top",
-			of: window //"#srv-page"
+		autoOpen : false, // hide it at first
+		height : 300,
+		width : 400,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
 		},
-		show: { effect: "blind", duration: 500 },
-		modal: true,
-		dialogClass: "delDlgClass",
-		create: function(event, ui) { 
-			$(".delBtnClass").addClass("btn btn-danger");
-			$(".cancBtnClass").addClass("btn btn-secondary");
+		modal : true,
+		dialogClass : "delDlgClass",
+		show : {
+			effect : "blind",
+			duration : 500
 		},
 		open: function(event, ui) {
-			/*
-			 * Prompt on the delete service hour dialog, verifying if they want to delete the selected service hour.
-			 */ 
-			$("#delMsg1").html("The following service hours will be permanently deleted and cannot be recovered.");
-			$("#delMsg2").html("Are you sure you want to delete?");
-		},							
-		buttons: [
-			{
-				text: "DELETE", 
-				"class": 'delBtnClass',
-				click: function() {
-					delHr($("#delDlg").data('selectedHoursID'));
-					$("#delDlg").dialog("close");
-					$("#delMsg1").empty();
-					$("#delMsg2").empty();
-				}
-			},
-			{	
-				text: "CANCEL",
-				"class": 'cancBtnClass',
-				click: function() {
-					$("#delDlg").dialog("close");
-					$("#delMsg1").empty();
-					$("#delMsg2").empty();
-				}
-			}]
+			console.log("open delete hour dialog");
+
+			var selShid = $("#delDlg").data('selHoursId'); // Harvests the selected service hour's id from the table to pass to js function
+			
+			console.log(selShid);
+			
+			var row_evTitle = $("#row" + selShid + " td[name = hrs_eventName]").html(); // value of event title cell in row
+			var row_hrsSrved = $("#row" + selShid + " td[name = hrs_hrsServed]").html(); 
+			var row_status = $("#row" + selShid + " td[name = hrs_status]").html(); 
+			
+			// fill in the dialog with data from the current row event.
+			$("#delShId").html(selShid);
+			$("#delEvTitle").html("Event Title: " + row_evTitle);
+			$("#delHrsSrved").html("Hours Served: " + row_hrsSrved);
+			$("#delStatus").html("Status: " + row_status);
+
+
+		},
+		buttons : [ {
+			text : "DELETE",
+			"class" : 'delBtnClass',
+			click : function() {
+				ajaxDeleteEventNow();
+			}
+		},
+
+		{
+			text : "CANCEL",
+			"class" : 'cancBtnClass',
+			click : function() {
+				$(this).dialog("close");
+			}
+		} ]
 	});	 
 
 	// Register and hide the service hour information dialog div until a row is clicked on
@@ -662,8 +708,8 @@ $(document).ready(function() {
 	 * when a user clicks a delete button.
 	 */
 	$(".del").on("click", function() {
-		var selected_shid = $(this).attr('onDelClick');
-		$("#delDlg").data("selectedHoursID", selected_shid).dialog("open");
+		var selShid = $(this).attr('onDelClick');
+		$("#delDlg").data("selHoursId", selShid).dialog("open");
 	});
 
 	/*

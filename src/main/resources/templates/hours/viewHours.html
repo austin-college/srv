@@ -107,10 +107,14 @@
 <!-- The div below defines the delete dialog for deleting a served hour which is hidden by JS and exposed by JQ. -->
 <div id="delDlg" title="DELETE SELECTED HOURS" class="ui-widget delWid">
 	<p id="del_confirm">
-		<br/>
-		<br/> <span id="delMsg1"></span>
-		<br/> <span id="delMsg2"></span>
-	</p>
+			Are you sure you want to delete this service hour? <br />
+		</p>
+		
+		<div id="delShId">Id</div>
+		<div id="delEvTitle">Event Title</div>
+		<div id="delHrsSrved">hrs srved</div>
+		<div id="delStatus">status</div>
+		
 </div>
 
 <!--  The div below shows a modal view of the service hour information (contact, date, etc) when the row was selected -->
