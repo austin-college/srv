@@ -175,10 +175,13 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	    	EventType et = new EventType();
 	    	
 	    	try {
-	    			et.setEtid(rs.getInt("eventTypeId"))
+	    		
+	   			et.setEtid(rs.getInt("eventTypeId"))
 	    			.setName(rs.getString("name"))
 	    			.setDescription(rs.getString("description"))
-	    			.setDefHours(rs.getDouble("defaultHours"))
+	    			
+	    			// if the default hours is null, set it to null. Otherwise set it with the double value
+	    			.setDefHours(rs.getObject("defaultHours") != null ? rs.getDouble("defaultHours") : null)
 	    			.setPinHours(rs.getBoolean("pinHours"));
 	    
 	    			int cid = rs.getInt("serviceClientId");
