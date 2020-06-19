@@ -156,6 +156,54 @@ public abstract class SeleniumTest {
 				);
 
 	}
+	
+	public void WaitForDialogToCloseByXpath(WebDriver driver, int waitTime, String dialogXpath) {
+
+
+		WebDriverWait wait = new WebDriverWait(driver, waitTime);
+
+		wait.until(new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver driver) {
+
+				Boolean isPresent;
+				if(driver.findElement(By.xpath(dialogXpath)).isDisplayed() == true) {
+					isPresent = false;
+				} else {
+					isPresent = true;
+				}
+				
+				return isPresent;
+			}
+		}
+				);
+
+	}
+	
+	public void WaitForDialogToCloseById(WebDriver driver, int waitTime, String dialogId) {
+
+
+		WebDriverWait wait = new WebDriverWait(driver, waitTime);
+
+		wait.until(new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver driver) {
+
+				Boolean isPresent;
+				if(driver.findElement(By.id(dialogId)).isDisplayed() == true) {
+					isPresent = false;
+				} else {
+					isPresent = true;
+				}
+				
+				return isPresent;
+			}
+		}
+				);
+
+	}
 
 	
 	/**
