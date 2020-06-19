@@ -194,111 +194,115 @@ public class ServiceHoursServiceTests {
 	 * 
 	 * @throws Exception
 	 */
-	//@Test
-//	public void testCreateServiceHour_whenEventIdIsValid() throws Exception {
-//		
-//		/*
-//		 * Training mock dao to return sh1 regardless of params. 
-//		 */
-//		Mockito.when(dao.create(
-//				Mockito.anyInt(),
-//				Mockito.anyInt(), 
-//				Mockito.anyInt(),
-//				Mockito.anyDouble(),
-//				Mockito.any(String.class),
-//				Mockito.any(String.class),
-//				Mockito.any(String.class)
-//				)).thenReturn(sh1);
-//		
-//		/*
-//		 * Training mock objects 
-//		 */
-//		Mockito.when(eventService.eventById(1)).thenReturn(e1);
-//		Mockito.when(userUtil.currentUser()).thenReturn(user);
-//		
-//		
-//		ServiceHours ns = shs.createServiceHour(1);
-//		
-//		assertEquals(ns, sh1);
-//		
-//	
-//		
-//		/*
-//		 * Make sure dao was created with expected parameters. 
-//		 */
-//		
-//		Mockito.verify(dao).create(
-//				Mockito.anyInt(),
-//				Mockito.eq(1),
-//				Mockito.eq(1),
-//				Mockito.eq(0.0),
-//				Mockito.eq("Pending"),
-//				Mockito.eq("Type your reflection here."),
-//				Mockito.eq(et1.getDescription()));
-//		
-//		Mockito.verify(eventService).eventById(1);
-//		Mockito.verify(userUtil).currentUser();
-//		
-//		
-//	}
-//	
+	@Test
+	public void testCreateServiceHour_whenEventIdIsValid() throws Exception {
+		
+		/*
+		 * Training mock dao to return sh1 regardless of params. 
+		 */
+		Mockito.when(dao.create(
+				Mockito.anyInt(),
+				Mockito.anyInt(), 
+				Mockito.anyInt(),
+				Mockito.anyDouble(),
+				Mockito.any(String.class),
+				Mockito.any(String.class),
+				Mockito.any(String.class)
+				)).thenReturn(sh1);
+		
+		/*
+		 * Training mock objects 
+		 */
+		Mockito.when(userUtil.currentUser()).thenReturn(user);
+		
+		// param are Integer service client id, Integer event id, Double hours, String reflection, String description
+		ServiceHours ns = shs.createServiceHour(1, 1, 4.0, "Was fun.", "a description");
+		
+		assertEquals(ns, sh1);
+		
+		/*
+		 * Make sure dao was created with expected parameters. 
+		 */
+		Mockito.verify(dao).create(
+				Mockito.eq(1),
+				Mockito.eq(1),
+				Mockito.eq(1),
+				Mockito.eq(4.0),
+				Mockito.eq("Pending"),
+				Mockito.eq("Was fun."),
+				Mockito.eq("a description"));
+		
+		Mockito.verify(userUtil).currentUser();
+		
+		
+	}
+	
 	/**
 	 * Tests to make sure the service checks for a valid eventId. Throws
 	 * an exception if the id is not valid. 
 	 * 
 	 * @throws Exception
 	 */
-//	@Test
-//	public void test_createServiceHour_whenIdIsNotValid() throws Exception {
-//		
-//		//expect an exception to complain about eventId
-//		exceptionRule.expect(Exception.class);
-//		exceptionRule.expectMessage("Invalid event id");
-//		
-//		// test
-//		ServiceHours s = shs.createServiceHour(-1);
-//		
-//	}
+	@Test
+	public void test_createServiceHour_whenIdIsNotValid() throws Exception {
+		
+		//expect an exception to complain about eventId
+		exceptionRule.expect(Exception.class);
+		exceptionRule.expectMessage("Invalid event id");
+		
+		// param are Integer service client id, Integer event id, Double hours, String reflection, String description
+		ServiceHours s = shs.createServiceHour(
+				-1, 
+				-1, 
+				Mockito.anyDouble(),
+				Mockito.any(String.class),
+				Mockito.any(String.class));
+		
+	}
 	
 	/**
 	 * Tests the updateHour method in ServiceHourService. 
 	 * @throws Exception
 	 */
-//	@Test
-//	public void test_updateHour() throws Exception {
+	@Test
+	public void test_updateHour() throws Exception {
+		
+		/*
+		 * Training mock objects 
+		 */
+		Mockito.when(userUtil.currentUser()).thenReturn(user);
+		Mockito.doNothing().when(dao).update(1, 1, 1, 1, 2.5, "Pending", "a reflection", "a description");
+
+		// tell service to update the service hour
+		// after setting event to e2
+		// param are Integer service hour id, Integer service client id, Integer event id, Double hours, String reflection, String description
+		shs.updateHour(1, 1, 1, 2.5, "a reflection", "a description");
+		
+		// make assertions to make sure fields updated 
+		//TODO
 //		
-//		// change some value for sh1
-//		sh1.setHours(3.0);
-//		sh1.setReflection("reflection");
-//		
-//		// tell service to update the service hour
-//		// after setting event to e2
-//		ServiceHours s = shs.updateHour(sh1);
-//		
-//		// make assertions to make sure fields updated
-//		
-//		assertEquals(1, s.getShid());
-//		assertEquals(1, s.getServedPet().getScid());
-//		assertEquals(1, s.getServant().getUid());
-//		assertEquals(1, s.getEvent().getEid());
-//		assertEquals(3.0, s.getHours());
-//		assertEquals("Approved", s.getStatus());
-//		assertEquals("reflection", s.getReflection());
-//		assertEquals("great day of service for test", s.getDescription());
-//		
-//		//verify that the dao was involved
-//		
-//		Mockito.verify(dao).update(
-//				Mockito.eq(1),
-//				Mockito.eq(sh1.getEvent().getType().getDefClient().getScid()),
-//				Mockito.eq(sh1.getServant().getUid()), 
-//				Mockito.eq(sh1.getEvent().getEid()),
-//				Mockito.anyDouble(),
-//				Mockito.anyString(),
-//				Mockito.eq(sh1.getReflection()),
-//				Mockito.eq(sh1.getEvent().getType().getDescription()));
-//		
-//	}
+//		assertEquals(1, sh1.getShid());
+//		assertEquals(1, sh1.getServedPet().getScid());
+//		assertEquals(1, sh1.getServant().getUid());
+//		assertEquals(1, sh1.getEvent().getEid());
+//		assertEquals(2.5, sh1.getHours());
+//		assertEquals("Pending", sh1.getStatus());
+//		assertEquals("a reflection", sh1.getReflection());
+//		assertEquals("a description", sh1.getDescription());
+		
+		//verify that the dao was involved
+		
+		Mockito.verify(dao).update(
+				Mockito.eq(1),
+				Mockito.eq(1),
+				Mockito.eq(1), 
+				Mockito.eq(1),
+				Mockito.eq(2.5),
+				Mockito.eq("Pending"),
+				Mockito.eq("a reflection"),
+				Mockito.eq("a description"));
+		
+	}
 	
 	/**
 	 * Tests the userHours method...fetches the current
