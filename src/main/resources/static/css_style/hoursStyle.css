@@ -3,8 +3,7 @@
 /* Style for the container containing the stats info*/
 .container-statsBackground {
  background-color: white;
- width: 25%;
- height 100%;
+ width: 100%;
 }
 
 /* style for Stats heading Text*/
@@ -26,7 +25,7 @@
 .container-tableBackground {
 	background-color: white;
 	height: 100%;
-	width: 75%
+	width: 100%
 }
 
 /* style for section headings */

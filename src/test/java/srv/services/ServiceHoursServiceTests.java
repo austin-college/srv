@@ -294,6 +294,7 @@ public class ServiceHoursServiceTests {
 		
 		Mockito.verify(dao).update(
 				Mockito.eq(1),
+
 				Mockito.eq(1),
 				Mockito.eq(1), 
 				Mockito.eq(1),
@@ -301,6 +302,7 @@ public class ServiceHoursServiceTests {
 				Mockito.eq("Pending"),
 				Mockito.eq("a reflection"),
 				Mockito.eq("a description"));
+
 		
 	}
 	

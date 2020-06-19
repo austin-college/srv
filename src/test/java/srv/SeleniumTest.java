@@ -1,5 +1,8 @@
 package srv;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 
 import org.junit.After;
@@ -9,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -22,6 +26,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SeleniumTest {
 
+	protected static final int MAX_PAGE_WAIT_SECONDS = 4;
+	protected static final int MAX_DIALOG_WAIT_SECONDS = 4;
+	
 	public static final String WINDRIVERPATH = "src/main/resources/chromedriver.exe";
 	public static final String MACDRIVERPATH = "src/main/resources/chromedriver";
 
@@ -155,12 +162,12 @@ public abstract class SeleniumTest {
 	 * Waits for a page to change;
 	 * 
 	 * @param driver
-	 * @param oldPageUrl
-	 * @param waitTime
+	 * @param oldPageUrl the URL of old page
+	 * @param waitTime max time to wait in seconds
 	 */
-	protected void waitForPage(WebDriver driver, String oldPageUrl, int waitTime) {
+	protected void waitForPage(WebDriver driver, String oldPageUrl, int waitTimeOutSecs) {
 
-		WebDriverWait wait = new WebDriverWait(driver, waitTime);
+		WebDriverWait wait = new WebDriverWait(driver, waitTimeOutSecs);
 
 		wait.until(new ExpectedCondition<Boolean>() {
 
@@ -175,6 +182,110 @@ public abstract class SeleniumTest {
 
 	}
 
+	/**
+	 * Convenient wrapper function for logging in as admin user.
+	 */
+	protected void loginAsAdmin() {
+		loginAs("admin","admin","/home/admin?userid=admin");
+	}
 
+	/**
+	 * Convenient wrapper function for logging in as boardmember.
+	 */
+	protected void loginAsBoardmember() {
+		loginAs("boardmember","boardmember","/home/boardmember?userid=boardmember");
+	}
+
+	/**
+	 * Convenient wrapper function for logging in as servant user.
+	 */
+	protected void loginAsUser() {
+		loginAs("user","user","/home/user");
+	}
+	
+
+	/**
+	 * Performs authentication on our site starting at the site splash
+	 * page.  Given the userid and password and 
+	 * @param userid
+	 * @param password
+	 * @param home
+	 */
+	protected void loginAs(String userid, String password, String homeURL) {
+		
+		driver.get(base + "/splash");
+		
+		int waitTime = 2;
+	
+		String url = driver.getCurrentUrl();
+		
+		WebElement link = driver.findElement(By.linkText("Log In"));
+		link.click();
+	
+		waitForPage(driver, url, MAX_PAGE_WAIT_SECONDS);
+	
+		/*
+		 * should be at the login page now
+		 */
+		assertEquals(base+"/login", driver.getCurrentUrl());
+	
+		/*
+		 * find and populate user text element
+		 */
+		WebElement txtUser = driver.findElement(By.id("username"));
+		txtUser.click();
+		txtUser.clear();
+		
+		txtUser.sendKeys(userid);
+	
+	
+		/*
+		 * find and populate password text element
+		 */
+		WebElement txtPw = driver.findElement(By.id("password"));
+		assertNotNull(txtPw);
+	
+		txtPw.click();
+		txtPw.clear();
+		txtPw.sendKeys(password);
+	
+	
+		/*
+		 * submit the form
+		 */
+		WebElement form = driver.findElement(By.className("form-signin"));
+		assertNotNull(form);
+		form.submit();
+	
+	
+		/*
+		 * should lead us to the admin's home page.
+		 */
+		assertEquals(base+homeURL, driver.getCurrentUrl());
+	
+	}
+
+
+	/**
+	 * Logs user out of site.  Assumes the current page has a navigation bar
+	 * with a logout link.   Also assumes logout leads us back to the public 
+	 * splash page.
+	 * 	 
+	 */
+	protected void logout() {
+
+		/*
+		 * locaate clicks on the log out button
+		 */
+		WebElement link = driver.findElement(By.xpath("//div/a[@href='/srv/logout']"));
+		
+		String url = driver.getCurrentUrl();   // before we click...lets save the page
+		
+		link.click();
+		
+		waitForPage(driver, url, MAX_PAGE_WAIT_SECONDS);
+
+		assertEquals(base+"/splash", driver.getCurrentUrl());
+	}
 
 }

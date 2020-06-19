@@ -17,8 +17,7 @@
 						<!-- container thats creating a table that will hold our data-->
 						<div class="container ui-widget">
 							<div class="row">
-								<table
-									class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+								<table class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
 									<thead>
 										<tr class="ui-widget-header">
 											<th>Hours Served This Semester</th>
@@ -43,11 +42,11 @@
 				<span class="fas fa-plus-circle"></span> Add Hours
 			</button>
 
-	<div class="row" style="padding-left: 30px; padding-bottom: 20px">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<!-- BIG credit to Lydia for the most of the elements in this table, and for making the style -->
 		<!-- a container for the table container
 			will be used for background colors eventually  -->
-		<div class="container-tableBackground">
+		<div class="container-fluid">
 			<div>
 				<h1>Service Hours</h1>
 			</div>
@@ -55,14 +54,16 @@
 			<div class="container ui-widget table-responsive">
 				<div class="row">
 					<table id="hrs_tbl"
-						class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+						class="table table-md table-striped table-bordered table-hover" style="width: 100%">
 						<thead>
-							<tr class="ui-widget-header">
-								<th>ID</th>
-								<th>Event</th>
-								<th>Hours Served</th>
-								<th>Status</th>
-								<th>Action</th>
+
+							<tr>
+								<th class="th-sm">ID</th>
+								<th class="th-sm">Service Event</th>
+								<th class="th-sm">Hours Served</th>
+								<th class="th-sm">Status</th>
+								<th class="th-sm">Action</th>
+
 							</tr>
 						</thead>
 						<tbody id="hrs_tbl_body">
