@@ -4,8 +4,8 @@ drop table if exists eventParticipants;
 drop table if exists eventType;
 drop table if exists events;
 drop table if exists serviceGroups;
-DROP TABLE IF EXISTS contacts;
 DROP TABLE IF EXISTS servantUsers;
+DROP TABLE IF EXISTS contacts;
 
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
