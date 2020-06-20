@@ -22,6 +22,7 @@ import srv.domain.user.User;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
+import srv.domain.spotlight.SpotLightDao;
 
 /**
  * 
@@ -48,7 +49,7 @@ public class HomeController {
 	@Autowired
 	EventService evSvc;
 	
-	
+
 	
 	
 	/**

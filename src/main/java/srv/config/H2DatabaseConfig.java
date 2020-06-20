@@ -10,6 +10,7 @@ import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.servicegroup.JdbcTemplateServiceGroupDao;
+import srv.domain.spotlight.JdbcTemplateSpotLightDao;
 import srv.domain.user.JdbcTemplateServantUserDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.BoardMemberHoursListService;
@@ -36,7 +37,12 @@ public class H2DatabaseConfig {
 	 * DAO beans 
 	 */
 	
-
+	@Bean
+	public JdbcTemplateSpotLightDao splotLightDao() {
+		return new JdbcTemplateSpotLightDao();
+	}
+	
+	
 	@Bean
 	public JdbcTemplateServiceClientDao serviceClientDao() {
 		return new JdbcTemplateServiceClientDao();

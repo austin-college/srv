@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); // uncommented this for ajax requests
       
     	http.authorizeRequests()
-    		.antMatchers("/", "/splash",  "/login", "/test/**", "/logout", "/css_style/**", "/js/**", "/images/**", "**/favicon.ico", "/about/**" ).permitAll()
+    		.antMatchers("/", "/splash/**",  "/login", "/test/**", "/logout", "/css_style/**", "/js/**", "/images/**", "**/favicon.ico", "/about/**" ).permitAll()
     		.antMatchers("/**").hasRole(AppConstants.ROLE_SERVANT);
     		
     	http.authorizeRequests()
