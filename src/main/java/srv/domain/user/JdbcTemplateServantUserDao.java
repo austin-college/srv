@@ -49,11 +49,13 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	}
 	
 	/*
+	 * Creates and returns a new ServantUser by the given username.
 	 * 
-	 * if given userid (rbuckle19). create new User if not already created with userid (rbuckle19) with 
-	 * new contact email (rbuckle19@austincollege.edu) and user’s first name might also be same as userid 
-	 * until they edit someday. Once new user created, use to finish creating new ServantUser based on exiting
-	 *  or newly created user 
+	 * If the username does not already exist, create a new User with new contact email and first name
+	 * that are the same as the username. Then, finishes creating new ServantUSer based on existing
+	 * or newly created user.
+	 * 
+	 * Throws an exception if the username was not specified since it is required.
 	 */
 	@Override
 	public ServantUser create(String username, Integer sgid, Integer expectedGradYr) throws Exception {
@@ -95,12 +97,42 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	}
 	
 	/*
+	 * Updates the specified ServantUser (by userId) with the given values.
+	 */
+	@Override
+	public void update(int userId, Integer sgid, Integer expectedGradYr) throws Exception {
+		
+		// SQL statement that is to be executed
+		final String sql = "UPDATE servantUsers SET sgid = ?, expectedGradYear = ? WHERE userId = ?"; 
+		
+		final KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		// fills in the SQL statements ?'s
+		getJdbcTemplate().update(connection -> {
+			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "userId" });
+			
+			fillInTheBlanks(sgid, expectedGradYr, ps);
+			
+			ps.setInt(3, userId);
+			return ps;
+		}, keyHolder);
+		
+		Number num = keyHolder.getKey();
+
+		if (num == null) {
+			log.error("Unable to update [{}]", userId);
+			throw new Exception("Unable to update servant user " + userId);
+		}
+		
+	}
+	
+	/*
 	 * Returns the ServantUser from the database with the specified user id.
 	 */
 	@Override
 	public ServantUser fetchServantUserById(int userId) throws Exception {
 		
-		String sqlStr = String.format("select * from servantUsers where userId = %d", userId);
+		String sqlStr = String.format("SELECT * FROM servantUsers WHERE userId = %d", userId);
 		log.debug(sqlStr);
 		
 		List<ServantUser> specifiedSrvUser = getJdbcTemplate().query(sqlStr, new ServantUserRowMapper());
@@ -114,15 +146,21 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 		
 	}
 	
-	/*
-	 * Returns the ServantUser from the database with the specified username.
+	/**
+	 * Helper method used to set or nullify the blanks in a prepared statement. You must refer to the
+	 * SQL schema to ensure we are using the right types when nullifying.
 	 */
-	@Override
-	public ServantUser fetchServantUserByUsername(String username) throws Exception {
+	private void fillInTheBlanks(Integer sgid, Integer expectedGradYr, PreparedStatement ps) throws SQLException {
 		
-	//	String sqlStr
+		if (sgid == null)
+			ps.setNull(1, java.sql.Types.INTEGER);
+		else
+			ps.setInt(1, sgid);
 		
-		return null;
+		if (expectedGradYr == null)
+			ps.setNull(2, java.sql.Types.INTEGER);
+		else
+			ps.setInt(2, expectedGradYr);
 	}
 	
 	/**

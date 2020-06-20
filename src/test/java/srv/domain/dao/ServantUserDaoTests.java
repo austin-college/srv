@@ -189,11 +189,13 @@ class ServantUserDaoTests {
 		assertEquals("DummyName03", newUser.getAffiliation().getShortName());
 	}
 	
+	/*
+	 * Testing create() when the username is null. Should throw an exception
+	 * whose error message states that the username is now allowed to be null.
+	 */
 	@Test
 	void test_create_whenUsernameNull_throwsException() throws Exception {
-		
-		
-		
+			
 		Exception exception = assertThrows(Exception.class, () -> {
 			srvUserDao.create(null, null, 2021);
 		});
@@ -202,5 +204,66 @@ class ServantUserDaoTests {
 	    String actualMessage = exception.getMessage();
 	 
 	    assertTrue(actualMessage.contains(expectedMessage));		
+	}
+	
+	/*
+	 * Testing update() when the userId is valid (exists in the data table)
+	 * and none of the updated values are null. Should update the ServantUser
+	 * with the new values.
+	 */
+	@Test
+	void test_update_whenIdValidNoNull() throws Exception {
+		
+		srvUserDao.update(4, 3, 2025);
+		
+		// Assuming the fetchById is okay even though smelly code
+		ServantUser testSrvUser = srvUserDao.fetchServantUserById(4);
+		
+		// Verifying updated values
+		assertEquals(3, testSrvUser.getAffiliation().getSgid());
+		assertEquals(2025, testSrvUser.getExpectedGradYear());
+		
+		// Verifying the new service group short name
+		assertEquals("DummyName03", testSrvUser.getAffiliation().getShortName());
+		
+	}
+	
+	/*
+	 * Testing update() when the userId is valid (exists in the data table)
+	 * and some of the updated values are null. Should update the ServantUser
+	 * with the new values.
+	 */
+	@Test
+	void test_update_whenIdValidNull() throws Exception {
+		
+		srvUserDao.update(1, null, 2020);
+		
+		// Assuming the fetchById is okay even though smelly code
+		ServantUser testSrvUser = srvUserDao.fetchServantUserById(1);
+		
+		// Verifying updated values
+		assertEquals(2020, testSrvUser.getExpectedGradYear());
+		assertNull(testSrvUser.getAffiliation());	
+	}
+	
+	/*
+	 * Testing update() when the userId is invalid (does not exist in the data table).
+	 * Should throw an exception stating that the specified ServantUser was not
+	 * able to update.
+	 */
+	@Test
+	void test_update_whenIdInvalid() throws Exception {
+		
+		Exception exception = assertThrows(Exception.class, () -> {
+			srvUserDao.update(-1, 2, 2024);
+		});
+	 
+	    String expectedMessage = "Unable to update servant user -1";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));		
+		
+		
+		
 	}
 }

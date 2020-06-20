@@ -18,7 +18,8 @@ public interface ServantUserDao {
 	
 	public ServantUser fetchServantUserById(int userId) throws Exception;
 	
-	public ServantUser fetchServantUserByUsername(String username) throws Exception;
-
+	public void update(int userId, Integer sgid, Integer expectedGradYr) throws Exception;
+	
+	//public void delete(int userId) throws Exception;
 
 }
