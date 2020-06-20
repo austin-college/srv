@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.servicegroup.ServiceGroup;
 
 /**
  * An instance of this class represents the Board Member User base. These
@@ -16,8 +17,8 @@ import srv.domain.serviceclient.ServiceClient;
  */
 public class BoardMemberUser extends ServantUser {
 
-	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, Integer expectedGradYear) {
-		super(uid, userID, contactInfo, expectedGradYear);
+	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, Integer expectedGradYear, ServiceGroup aff) {
+		super(uid, userID, contactInfo, expectedGradYear, aff);
 	}
 
 	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
