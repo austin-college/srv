@@ -83,6 +83,8 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 
 	/*
 	 * Deletes the given uid
+	 * 
+	 * NOTE: Also deletes the associated ServantUser
 	 */
 	@Override
 	public void delete(int uid) throws Exception {

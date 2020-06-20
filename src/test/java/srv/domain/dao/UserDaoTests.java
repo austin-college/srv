@@ -1,6 +1,7 @@
 package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import srv.domain.user.ServantUser;
+import srv.domain.user.ServantUserDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 
@@ -22,6 +25,9 @@ class UserDaoTests {
 	@Autowired
 	UserDao dao;
 
+	@Autowired
+	ServantUserDao srvUserDao;
+	
 	/*
 	 * Testing fetchUserById(int i) should return the user info for the user with id
 	 * i.
@@ -203,5 +209,27 @@ class UserDaoTests {
 		assertEquals(uname3, u3.getUsername());
 
 		assertEquals("eDriscoll", u3.getUsername());
+	}
+	
+	/*
+	 * Delete method to verify the ServantUser associated with the
+	 * specified User to be deleted is also removed.
+	 */
+	@Test
+	void test_delete_ServantUserDeleted() throws Exception {
+		
+		dao.delete(1);
+		
+		// Should be null since deleted
+		assertNull(srvUserDao.fetchServantUserById(1));
+		
+		// Size of ServantUsers should be decreased by one
+		List<ServantUser> srvUsers = srvUserDao.listAllServantUsers();
+		
+		assertEquals(1, srvUsers.size());
+		
+		// with the ServantUserId of 4
+		assertEquals(4, srvUsers.get(0).getUid());
+		
 	}
 }
