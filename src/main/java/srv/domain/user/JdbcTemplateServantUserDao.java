@@ -127,6 +127,22 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	}
 	
 	/*
+	 * Removes the specified ServantUser (by userId) from the database. An exception 
+	 * is thrown if the ServantUser is unable to be removed (does not exist).
+	 */
+	@Override
+	public void delete(int userId) throws Exception {
+		
+		int rc = getJdbcTemplate().update("DELETE FROM servantUsers WHERE userId = ?", new Object[] { userId} );
+		
+		if (rc != 1) {
+			String errMsg = String.format("Unable to delete servant user [%d]", userId);
+			log.error(errMsg);
+			throw new Exception(errMsg);
+		}
+	}
+	
+	/*
 	 * Returns the ServantUser from the database with the specified user id.
 	 */
 	@Override

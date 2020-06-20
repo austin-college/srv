@@ -20,6 +20,6 @@ public interface ServantUserDao {
 	
 	public void update(int userId, Integer sgid, Integer expectedGradYr) throws Exception;
 	
-	//public void delete(int userId) throws Exception;
+	public void delete(int userId) throws Exception;
 
 }

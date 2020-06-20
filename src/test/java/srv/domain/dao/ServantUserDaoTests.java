@@ -9,11 +9,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.domain.user.ServantUser;
 import srv.domain.user.ServantUserDao;
 
+// needed this annotation to roll back test
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ComponentScan("srv.config")
@@ -21,7 +24,7 @@ class ServantUserDaoTests {
 
 	@Autowired
 	ServantUserDao srvUserDao;
-	
+		
 	/*
 	 * Testing listAll(), should return 2 current servant users
 	 */
@@ -263,7 +266,44 @@ class ServantUserDaoTests {
 	 
 	    assertTrue(actualMessage.contains(expectedMessage));		
 		
+	}
+	
+	/*
+	 * Testing delete when the userId is valid (exists in the data table).
+	 * Should delete the ServantUser.
+	 */
+	@Test
+	void test_delete_whenIdValid() throws Exception {
 		
+		srvUserDao.delete(4);
 		
+		// Deleted values should now be null
+		assertNull(srvUserDao.fetchServantUserById(4));
+		
+		List<ServantUser> allSrvUsers = srvUserDao.listAllServantUsers(); 
+		
+		// Should only have 1 ServantUser in the servantUsers table
+		assertEquals(1, allSrvUsers.size());
+		
+		// who has user id is 1
+		assertEquals(1, allSrvUsers.get(0).getUid());
+	}
+	
+	/*
+	 * Testing delete() when the userId is invalid (does not exist
+	 * in the data table). Should throw an exception stating that
+	 * the specified servant user was not able to be deleted.
+	 */
+	@Test
+	 void test_delete_whenIdInvalid() throws Exception {
+		
+		Exception exception = assertThrows(Exception.class, () -> {
+			srvUserDao.delete(-1);
+		});
+	 
+	    String expectedMessage = "Unable to delete servant user [-1]";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));		
 	}
 }
