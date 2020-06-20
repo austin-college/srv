@@ -122,9 +122,7 @@ public class EventTypeController {
 			
 			// Create a new event type in the database then return it back to the callback function
 			EventType newEvType = etDao.create(etName, etDescr, etDefHrs, pinHrs, scid);
-			
-			System.out.println(newEvType.getDefHours());
-			
+					
 			mav.addObject("etid", newEvType.getEtid());
 			mav.addObject("etName", newEvType.getName());
 			mav.addObject("description", newEvType.getDescription());
@@ -139,7 +137,6 @@ public class EventTypeController {
 			e.printStackTrace();
 			
 			response.setStatus(410);
-			
 			
 			mav = new ModelAndView("/error");
 			

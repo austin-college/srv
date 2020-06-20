@@ -1,0 +1,206 @@
+package srv.domain.dao;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import srv.domain.user.ServantUser;
+import srv.domain.user.ServantUserDao;
+
+@RunWith(SpringRunner.class)
+@JdbcTest
+@ComponentScan("srv.config")
+class ServantUserDaoTests {
+
+	@Autowired
+	ServantUserDao srvUserDao;
+	
+	/*
+	 * Testing listAll(), should return 2 current servant users
+	 */
+	@Test
+	void test_listAllServantUsers() throws Exception {
+		
+		List<ServantUser> testSrvUsers = srvUserDao.listAllServantUsers();
+		
+		assertEquals(2, testSrvUsers.size());
+		
+		ServantUser su1 = testSrvUsers.get(0);
+		ServantUser su2 = testSrvUsers.get(1);
+		
+		assertEquals(1, su1.getUid());
+		assertEquals(4, su2.getUid());
+		
+		// Verifying the contents of one ServantUser
+		assertEquals(2024, su2.getExpectedGradYear());
+		
+		// Verifying the ServiceGroup
+		assertEquals(2, su2.getAffiliation().getSgid());
+		assertEquals("DummyName02", su2.getAffiliation().getShortName());
+		assertEquals("DummyTitle02", su2.getAffiliation().getTitle());
+		assertEquals(2, su2.getAffiliation().getContactInfo().getContactId());
+		
+		// Verifying User contents
+		assertEquals("user", su2.getUsername());
+		assertEquals(1, su2.getContactInfo().getContactId());
+		assertEquals("Tom", su2.getContactInfo().getFirstName());
+		assertEquals("USER", su2.getRoll());	
+		
+	}
+	
+	/*
+	 * Testing fetchServantUserById when the specified id is valid (in the database).
+	 * Should return the specified user
+	 */
+	@Test
+	void test_fetchById_whenIdValid() throws Exception {
+		
+		ServantUser testSrvUser = srvUserDao.fetchServantUserById(1);
+		
+		// Verifying User contents
+		assertEquals(1, testSrvUser.getUid());
+		assertEquals("apritchard", testSrvUser.getUsername());
+		assertEquals("USER", testSrvUser.getRoll());
+		
+		// Verifying some Contact info 
+		assertEquals(5, testSrvUser.getContactInfo().getContactId());
+		assertEquals("apritchard18@austincollege.edu", testSrvUser.getContactInfo().getEmail());
+		
+		// Verifying ServantUser contents
+		assertEquals(2021, testSrvUser.getExpectedGradYear());
+		assertEquals(1, testSrvUser.getAffiliation().getSgid());
+		
+		// Verifying some ServiceGroup contents
+		assertEquals("DummyName01", testSrvUser.getAffiliation().getShortName());
+	}
+	
+	/*
+	 * Testing fetchServantUserById when the specified id is invalid (not in the database).
+	 * Should return null.
+	 */
+	@Test
+	void test_fetchById_whenIdInvalid() throws Exception {
+		
+		ServantUser testNullUser = srvUserDao.fetchServantUserById(-1);
+		
+		assertNull(testNullUser);
+	
+	}
+	
+	/*
+	 * Testing create() when the specified username does not exist yet in the
+	 * users datatable, requiring a new user to be made. None of the other values
+	 * (affilation, grad year) are null. Should create a new user, servant user and contact
+	 * in the data store. 
+	 */
+	@Test
+	void test_create_whenNewUserNoNullValues() throws Exception {
+		
+		ServantUser newUser = srvUserDao.create("rbuckle19", 1, 2021);
+		
+		// Verifying the User contents
+		assertEquals(5, newUser.getUid());
+		assertEquals("rbuckle19", newUser.getUsername());
+		assertEquals(8, newUser.getContactInfo().getContactId());
+		
+		// Verifying the User's contact info
+		assertEquals("rbuckle19", newUser.getContactInfo().getFirstName());
+		assertNull(newUser.getContactInfo().getLastName());
+		assertEquals("rbuckle19@austincollege.edu", newUser.getContactInfo().getEmail());
+		assertNull(newUser.getContactInfo().getPhoneNumWork());
+		assertNull(newUser.getContactInfo().getPhoneNumMobile());
+		assertNull(newUser.getContactInfo().getCity());
+		assertNull(newUser.getContactInfo().getState());
+		assertNull(newUser.getContactInfo().getZipcode());
+		assertNull(newUser.getContactInfo().getStreet());
+		
+		// Verifying the ServantUser contents
+		assertEquals(2021, newUser.getExpectedGradYear());
+
+		// Verifying ServiceGroup Contents
+		assertEquals(1, newUser.getAffiliation().getSgid());
+		assertEquals("DummyName01", newUser.getAffiliation().getShortName());
+		
+	}
+	
+	/*
+	 * Testing create() when the specified username does not exist yet in the users
+	 * datatable, requiring a new user to be made. The other values (affiliation, 
+	 * grad year) are null. Should create a new user, servant user, and cotnact in 
+	 * the data store and handle the null values just fine.
+	 * 
+	 */
+	@Test
+	void test_create_whenNewUserWithNullValues() throws Exception {
+		
+		ServantUser newUser = srvUserDao.create("bruckle21", null, null);
+		
+		// Verifying the User contents
+		assertEquals(5, newUser.getUid());
+		assertEquals("bruckle21", newUser.getUsername());
+		assertEquals(8, newUser.getContactInfo().getContactId());
+		
+		// Verifying the User's contact info
+		assertEquals("bruckle21", newUser.getContactInfo().getFirstName());
+		assertNull(newUser.getContactInfo().getLastName());
+		assertEquals("bruckle21@austincollege.edu", newUser.getContactInfo().getEmail());
+		assertNull(newUser.getContactInfo().getPhoneNumWork());
+		assertNull(newUser.getContactInfo().getPhoneNumMobile());
+		assertNull(newUser.getContactInfo().getCity());
+		assertNull(newUser.getContactInfo().getState());
+		assertNull(newUser.getContactInfo().getZipcode());
+		assertNull(newUser.getContactInfo().getStreet());
+		
+		// Verifying the ServantUser contents
+		assertNull(newUser.getExpectedGradYear());
+		assertNull(newUser.getAffiliation());
+	}
+	
+	/*
+	 * Testing create when the specified username exists already in the users datatable.
+	 * Should create a new servant user without having to create a new user. None of the
+	 * other values (affiliation, grad year) are null.
+	 */
+	@Test
+	void test_create_whenExistingUser() throws Exception {
+		
+		ServantUser newUser = srvUserDao.create("hCouturier", 3, 2022);
+		
+		// Verifying the User contents
+		assertEquals(2, newUser.getUid());
+		assertEquals(6, newUser.getContactInfo().getContactId());
+		
+		// Verifying some of the User's contact info
+		assertEquals("Hunter", newUser.getContactInfo().getFirstName());
+		assertEquals("hCouturier@gmail.com", newUser.getContactInfo().getEmail());
+		
+		// Verifying the Servant contents
+		assertEquals(2022, newUser.getExpectedGradYear());
+		assertEquals(3, newUser.getAffiliation().getSgid());
+		
+		// Verifying some of the ServiceGroup contents
+		assertEquals("DummyName03", newUser.getAffiliation().getShortName());
+	}
+	
+	@Test
+	void test_create_whenUsernameNull_throwsException() throws Exception {
+		
+		
+		
+		Exception exception = assertThrows(Exception.class, () -> {
+			srvUserDao.create(null, null, 2021);
+		});
+	 
+	    String expectedMessage = "Thy username shall not be null.";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));		
+	}
+}

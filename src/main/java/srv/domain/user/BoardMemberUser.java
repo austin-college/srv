@@ -16,8 +16,8 @@ import srv.domain.serviceclient.ServiceClient;
  */
 public class BoardMemberUser extends ServantUser {
 
-	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, char classification) {
-		super(uid, userID, contactInfo, classification);
+	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, Integer expectedGradYear) {
+		super(uid, userID, contactInfo, expectedGradYear);
 	}
 
 	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
