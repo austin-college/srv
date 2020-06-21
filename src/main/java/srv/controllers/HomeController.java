@@ -18,6 +18,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import srv.domain.event.Event;
 import srv.domain.hours.ServiceHours;
+import srv.domain.user.ServantUser;
+import srv.domain.user.ServantUserDao;
 import srv.domain.user.User;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
@@ -49,7 +51,8 @@ public class HomeController {
 	@Autowired
 	EventService evSvc;
 	
-
+	@Autowired
+	ServantUserDao srvUserDao;
 	
 	
 	/**
@@ -149,12 +152,18 @@ public class HomeController {
 			List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
 			User currentUser = userUtil.currentUser();
 			
+			ServantUser currentSrvUser = srvUserDao.fetchServantUserById(currentUser.getUid());
+			
 			List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
 			double semesterTotalHrs = hrSvc.getSemTot(userHours);
-		
-			mav.addObject("name", currentUser.getContactInfo().fullName());
-			mav.addObject("email", currentUser.getContactInfo().getEmail());
-			mav.addObject("mobilePhone", currentUser.getContactInfo().getPhoneNumMobile());
+						
+			mav.addObject("name", currentSrvUser.getContactInfo().fullName());
+			mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
+			mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
+			mav.addObject("gradYear", currentSrvUser.getExpectedGradYear());
+			mav.addObject("affiliation", currentSrvUser.getAffiliation());
+			mav.addObject("hasCar", currentSrvUser.getHasCar());
+			mav.addObject("capacity", currentSrvUser.getCarCapacity());
 			mav.addObject("events", upcomingEvents);
 			mav.addObject("semTot", semesterTotalHrs);
 
@@ -162,7 +171,6 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//mav.addObject("semTot", )
 		return mav;
 	}
 }

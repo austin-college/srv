@@ -356,12 +356,12 @@ public class ServiceHoursServiceTests {
 	public void test_filter_byServiceClient_whenIdValid() throws Exception {
 		
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
-		list.add(sh1);	list.add(sh2);
+		list.add(sh2);
 		
 		Mockito.when(dao.listByFilter(2)).thenReturn(list);
 		
 		List<ServiceHours> newList = shs.filteredHours(2);
-		
+	
 		assertEquals(1, newList.size());
 		assertEquals(2, newList.get(0).getShid());
 		
