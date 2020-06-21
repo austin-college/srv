@@ -36,6 +36,27 @@ public class JdbcTemplateAdminUserDao extends JdbcTemplateAbstractDao implements
 		return currentAdminUsers;
 	}
 	
+	/*
+	 * Returns the AdminUser from the database with the specified user id.
+	 */
+	@Override
+	public AdminUser fetchAdminUserById(int userId) throws Exception {
+		
+		// SQL statement that is to be executed
+		String sql = String.format("SELECT * FROM adminUsers WHERE userId = %d", userId);
+		log.debug(sql);
+		
+		List<AdminUser> specifiedAdminUser = getJdbcTemplate().query(sql, new AdminUserRowMapper());
+		
+		if (specifiedAdminUser.size() != 1) {
+			log.error("Unable to fetch admin user with id [{}]", userId);
+			return null;
+		}
+		
+		return specifiedAdminUser.get(0);
+		
+	}
+	
 	/**
 	 * This class maps an AdminUser database record to the AdminUser model object by using
 	 * a RowMapper interface to fetch the records for an Admin user from the data table.

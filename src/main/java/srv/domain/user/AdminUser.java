@@ -1,6 +1,5 @@
 package srv.domain.user;
 import srv.domain.contact.Contact;
-import srv.domain.serviceclient.ServiceClient;
 
 /**
  * An instance of this class represents our Admins for the system,

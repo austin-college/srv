@@ -44,4 +44,31 @@ class AdminUserDaoTests {
 		assertEquals("Emma", au1.getContactInfo().getFirstName());
 	}
 
+	/*
+	 * Testing fetchAdminUserById() when the specified is id valid
+	 * (in the database). Should return the specified AdminUser.
+	 */
+	@Test
+	void test_fetchById_whenIdValid() throws Exception {
+		
+		AdminUser testAdminUser = adminUserDao.fetchAdminUserById(3);
+		
+		// Verifying the contents of the AdminUser
+		assertEquals(3, testAdminUser.getUid());
+		assertEquals("eDriscoll", testAdminUser.getUsername());
+		assertEquals(7, testAdminUser.getContactInfo().getContactId());
+		assertEquals("Emma", testAdminUser.getContactInfo().getFirstName());
+	}
+	
+	/*
+	 * Testing fetchAdminUserById() when the specified is is invalid
+	 * (not in the database). Should return null.
+	 */
+	@Test
+	void test_fetchById_whenIdInvalid() throws Exception {
+		
+		AdminUser testAdminUser = adminUserDao.fetchAdminUserById(-1);
+		
+		assertNull(testAdminUser);
+	}
 }

@@ -12,4 +12,6 @@ import java.util.List;
 public interface AdminUserDao {
 
 	public List<AdminUser> listAllAdminUsers() throws Exception;
+	
+	public AdminUser fetchAdminUserById(int userId) throws Exception;
 }
