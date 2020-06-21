@@ -20,4 +20,6 @@ public interface BoardMemberUserDao {
 	
 	public void update(int userId, Boolean coChair, Integer sgid, Integer expectedGradYr, 
 			Boolean hasCar, Integer carCap, Integer contactId) throws Exception;
+	
+	public void delete(int userId) throws Exception;
 }

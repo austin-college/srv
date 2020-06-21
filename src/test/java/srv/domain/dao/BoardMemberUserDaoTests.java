@@ -278,4 +278,44 @@ class BoardMemberUserDaoTests {
 
 	    assertTrue(actualMessage.contains(expectedMessage));		
 	}
+	
+	/*
+	 * Tseting delete when the userId is valid (exists in the data table).
+	 * Should delete the BoardMemberUser.
+	 */
+	@Test
+	void test_delete_whenIdValid() throws Exception {
+		
+		bmUserDao.delete(2);
+		
+		// Deleted values should now be null
+		assertNull(bmUserDao.fetchBoardMemberUserById(2));
+		
+		List<BoardMemberUser> allBmUsers = bmUserDao.listAllBoardMemberUsers();
+		
+		// Should only have 1 BoardMember user in the boardMemberUsers table
+		assertEquals(1, allBmUsers.size());
+		
+		// who has a userId of 4
+		assertEquals(4, allBmUsers.get(0).getUid());
+	}
+	
+	/*
+	 * Testing delete() when the userId is invalid (does not exist in
+	 * the data table). Should throw an exception stating that the
+	 * specified board member user was not able to be deleted.
+	 */
+	@Test
+	void test_delete_whenIdInvalid() throws Exception {
+		
+		Exception exception = assertThrows(Exception.class, () -> {
+			bmUserDao.delete(-1);
+		});
+	 
+	    String expectedMessage = "Unable to delete board member user [-1]";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));	
+	}
+	
 }

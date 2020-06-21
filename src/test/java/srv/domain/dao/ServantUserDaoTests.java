@@ -12,6 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import srv.domain.user.BoardMemberUser;
+import srv.domain.user.BoardMemberUserDao;
 import srv.domain.user.ServantUser;
 import srv.domain.user.ServantUserDao;
 
@@ -24,6 +26,9 @@ class ServantUserDaoTests {
 
 	@Autowired
 	ServantUserDao srvUserDao;
+	
+	@Autowired
+	BoardMemberUserDao bmUserDao;
 		
 	/*
 	 * Testing listAll(), should return 3 current servant users
@@ -333,5 +338,26 @@ class ServantUserDaoTests {
 	    String actualMessage = exception.getMessage();
 	 
 	    assertTrue(actualMessage.contains(expectedMessage));		
+	}
+	
+	/*
+	 * Delete method to verify the BoardMember associated with the
+	 * specified ServantUser to be deleted is also removed.
+	 */
+	@Test
+	void test_delete_boardMemberUser() throws Exception {
+		
+		srvUserDao.delete(2);
+		
+		//  Should be null since deleted
+		assertNull(bmUserDao.fetchBoardMemberUserById(2));
+		
+		// Size of BoardMemberUsers should be decreased by one
+		List<BoardMemberUser> bmUsers = bmUserDao.listAllBoardMemberUsers();
+		
+		assertEquals(1, bmUsers.size());
+		
+		// with the following ids
+		assertEquals(4, bmUsers.get(0).getUid());
 	}
 }

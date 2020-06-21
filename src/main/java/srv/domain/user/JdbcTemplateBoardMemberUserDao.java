@@ -146,6 +146,22 @@ public class JdbcTemplateBoardMemberUserDao extends JdbcTemplateAbstractDao impl
 		}
 	}
 	
+	/*
+	 * Removes the specified BoardMemberUser (by userId) from the database. An exception
+	 * is thrown if the BoardMemberUser is unable to be removed (does not exist).
+	 */
+	@Override
+	public void delete(int userId) throws Exception {
+		
+		int rc = getJdbcTemplate().update("DELETE FROM boardMemberUsers WHERE userId = ?", new Object[] { userId } );
+		
+		if (rc != 1) {
+			String errMsg = String.format("Unable to delete board member user [%d]", userId);
+			log.error(errMsg);
+			throw new Exception(errMsg);
+		}
+	}
+	
 		
 	/**
 	 * This class maps a BoardMemberUser database record to the BoardMemberUser model object by using
