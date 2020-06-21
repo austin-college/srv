@@ -43,6 +43,8 @@ class ServantUserDaoTests {
 		
 		// Verifying the contents of one ServantUser
 		assertEquals(2024, su2.getExpectedGradYear());
+		assertEquals(true, su2.getHasCar());
+		assertEquals(3, su2.getCarCapacity());
 		
 		// Verifying the ServiceGroup
 		assertEquals(2, su2.getAffiliation().getSgid());
@@ -79,6 +81,8 @@ class ServantUserDaoTests {
 		// Verifying ServantUser contents
 		assertEquals(2021, testSrvUser.getExpectedGradYear());
 		assertEquals(1, testSrvUser.getAffiliation().getSgid());
+		assertEquals(false, testSrvUser.getHasCar());
+		assertEquals(0, testSrvUser.getCarCapacity());
 		
 		// Verifying some ServiceGroup contents
 		assertEquals("DummyName01", testSrvUser.getAffiliation().getShortName());
@@ -100,13 +104,13 @@ class ServantUserDaoTests {
 	/*
 	 * Testing create() when the specified username does not exist yet in the
 	 * users datatable, requiring a new user to be made. None of the other values
-	 * (affilation, grad year) are null. Should create a new user, servant user and contact
-	 * in the data store. 
+	 * (affilation, grad year, etc) are null. Should create a new user, servant user
+	 * and contact in the data store. 
 	 */
 	@Test
 	void test_create_whenNewUserNoNullValues() throws Exception {
 		
-		ServantUser newUser = srvUserDao.create("rbuckle19", 1, 2021);
+		ServantUser newUser = srvUserDao.create("rbuckle19", 1, 2021, true, 2);
 		
 		// Verifying the User contents
 		assertEquals(5, newUser.getUid());
@@ -126,6 +130,8 @@ class ServantUserDaoTests {
 		
 		// Verifying the ServantUser contents
 		assertEquals(2021, newUser.getExpectedGradYear());
+		assertEquals(true, newUser.getHasCar());
+		assertEquals(2, newUser.getCarCapacity());
 
 		// Verifying ServiceGroup Contents
 		assertEquals(1, newUser.getAffiliation().getSgid());
@@ -136,14 +142,14 @@ class ServantUserDaoTests {
 	/*
 	 * Testing create() when the specified username does not exist yet in the users
 	 * datatable, requiring a new user to be made. The other values (affiliation, 
-	 * grad year) are null. Should create a new user, servant user, and cotnact in 
-	 * the data store and handle the null values just fine.
+	 * grad year, etc) are null. Should create a new user, servant user, and contact 
+	 * in the data store and handle the null values just fine.
 	 * 
 	 */
 	@Test
 	void test_create_whenNewUserWithNullValues() throws Exception {
 		
-		ServantUser newUser = srvUserDao.create("bruckle21", null, null);
+		ServantUser newUser = srvUserDao.create("bruckle21", null, null, null, null);
 		
 		// Verifying the User contents
 		assertEquals(5, newUser.getUid());
@@ -164,6 +170,8 @@ class ServantUserDaoTests {
 		// Verifying the ServantUser contents
 		assertNull(newUser.getExpectedGradYear());
 		assertNull(newUser.getAffiliation());
+		assertNull(newUser.getHasCar());
+		assertNull(newUser.getCarCapacity());
 	}
 	
 	/*
@@ -174,7 +182,7 @@ class ServantUserDaoTests {
 	@Test
 	void test_create_whenExistingUser() throws Exception {
 		
-		ServantUser newUser = srvUserDao.create("hCouturier", 3, 2022);
+		ServantUser newUser = srvUserDao.create("hCouturier", 3, 2022, false, 0);
 		
 		// Verifying the User contents
 		assertEquals(2, newUser.getUid());
@@ -186,6 +194,8 @@ class ServantUserDaoTests {
 		
 		// Verifying the Servant contents
 		assertEquals(2022, newUser.getExpectedGradYear());
+		assertEquals(false, newUser.getHasCar());
+		assertEquals(0, newUser.getCarCapacity());
 		assertEquals(3, newUser.getAffiliation().getSgid());
 		
 		// Verifying some of the ServiceGroup contents
@@ -200,7 +210,7 @@ class ServantUserDaoTests {
 	void test_create_whenUsernameNull_throwsException() throws Exception {
 			
 		Exception exception = assertThrows(Exception.class, () -> {
-			srvUserDao.create(null, null, 2021);
+			srvUserDao.create(null, null, 2021, false, 0);
 		});
 	 
 	    String expectedMessage = "Thy username shall not be null.";
@@ -212,12 +222,12 @@ class ServantUserDaoTests {
 	/*
 	 * Testing update() when the userId is valid (exists in the data table)
 	 * and none of the updated values are null. Should update the ServantUser
-	 * with the new values.
+	 * with the new values and change the User's contact info.
 	 */
 	@Test
 	void test_update_whenIdValidNoNull() throws Exception {
 		
-		srvUserDao.update(4, 3, 2025);
+		srvUserDao.update(4, 3, 2025, false, 0, 4);
 		
 		// Assuming the fetchById is okay even though smelly code
 		ServantUser testSrvUser = srvUserDao.fetchServantUserById(4);
@@ -225,9 +235,20 @@ class ServantUserDaoTests {
 		// Verifying updated values
 		assertEquals(3, testSrvUser.getAffiliation().getSgid());
 		assertEquals(2025, testSrvUser.getExpectedGradYear());
+		assertEquals(false, testSrvUser.getHasCar());
+		assertEquals(0, testSrvUser.getCarCapacity());
 		
 		// Verifying the new service group short name
 		assertEquals("DummyName03", testSrvUser.getAffiliation().getShortName());
+		
+		// Verifying User contents
+		assertEquals(4, testSrvUser.getUid());
+		assertEquals("user", testSrvUser.getUsername());
+		
+		// Verifying some Contact contents
+		assertEquals(4, testSrvUser.getContactInfo().getContactId());
+		assertEquals("Susan", testSrvUser.getContactInfo().getFirstName());
+		assertEquals("Atkins", testSrvUser.getContactInfo().getLastName());
 		
 	}
 	
@@ -239,14 +260,18 @@ class ServantUserDaoTests {
 	@Test
 	void test_update_whenIdValidNull() throws Exception {
 		
-		srvUserDao.update(1, null, 2020);
+		srvUserDao.update(1, null, 2020, true, 1, null);
 		
 		// Assuming the fetchById is okay even though smelly code
 		ServantUser testSrvUser = srvUserDao.fetchServantUserById(1);
 		
 		// Verifying updated values
 		assertEquals(2020, testSrvUser.getExpectedGradYear());
+		assertEquals(true, testSrvUser.getHasCar());
+		assertEquals(1, testSrvUser.getCarCapacity());
 		assertNull(testSrvUser.getAffiliation());	
+		assertNull(testSrvUser.getContactInfo());
+	
 	}
 	
 	/*
@@ -258,7 +283,7 @@ class ServantUserDaoTests {
 	void test_update_whenIdInvalid() throws Exception {
 		
 		Exception exception = assertThrows(Exception.class, () -> {
-			srvUserDao.update(-1, 2, 2024);
+			srvUserDao.update(-1, 2, 2024, false, 0, 1);
 		});
 	 
 	    String expectedMessage = "Unable to update servant user -1";

@@ -140,6 +140,8 @@ CREATE TABLE servantUsers (
 	userId INT,
 	sgid INT,
 	expectedGradYear INT,
+	hasCar BOOLEAN,
+	carCapacity INT,
 	PRIMARY KEY (userId),
 	FOREIGN KEY (userId)
 		REFERENCES users(userId)
@@ -207,5 +209,5 @@ INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, refle
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
 
-INSERT INTO servantUsers (userId, sgid, expectedGradYear) VALUES (1, 1, 2021);
-INSERT INTO servantUsers (userId, sgid, expectedGradYear) VALUES (4, 2, 2024);
+INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (1, 1, 2021, false, 0);
+INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (4, 2, 2024, true, 3);

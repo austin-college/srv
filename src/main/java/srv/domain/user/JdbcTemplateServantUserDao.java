@@ -58,7 +58,7 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	 * Throws an exception if the username was not specified since it is required.
 	 */
 	@Override
-	public ServantUser create(String username, Integer sgid, Integer expectedGradYr) throws Exception {
+	public ServantUser create(String username, Integer sgid, Integer expectedGradYr, Boolean hasCar, Integer carCap) throws Exception {
 		
 		int userId;
 		
@@ -87,10 +87,10 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 		}
 		
 		// SQL statement that is to be executed
-		String sql = "INSERT INTO servantUsers (userId, sgid, expectedGradYear) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (?, ?, ?, ?, ?)";
 
 
-		getJdbcTemplate().update(sql, userId, sgid, expectedGradYr);
+		getJdbcTemplate().update(sql, userId, sgid, expectedGradYr, hasCar, carCap);
 
 		return fetchServantUserById(userId);
 
@@ -98,12 +98,16 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	
 	/*
 	 * Updates the specified ServantUser (by userId) with the given values.
+	 * 
+	 * Allowed to also update the contact id from User
 	 */
 	@Override
-	public void update(int userId, Integer sgid, Integer expectedGradYr) throws Exception {
+	public void update(int userId, Integer sgid, Integer expectedGradYr, Boolean hasCar, Integer carCap, Integer contactId) throws Exception {
+		
+		uDao.update(userId, contactId);
 		
 		// SQL statement that is to be executed
-		final String sql = "UPDATE servantUsers SET sgid = ?, expectedGradYear = ? WHERE userId = ?"; 
+		final String sql = "UPDATE servantUsers SET sgid = ?, expectedGradYear = ?, hasCar = ?, carCapacity = ? WHERE userId = ?"; 
 		
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 		
@@ -111,9 +115,9 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "userId" });
 			
-			fillInTheBlanks(sgid, expectedGradYr, ps);
+			fillInTheBlanks(sgid, expectedGradYr, hasCar, carCap, ps);
 			
-			ps.setInt(3, userId);
+			ps.setInt(5, userId);
 			return ps;
 		}, keyHolder);
 		
@@ -166,7 +170,7 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	 * Helper method used to set or nullify the blanks in a prepared statement. You must refer to the
 	 * SQL schema to ensure we are using the right types when nullifying.
 	 */
-	private void fillInTheBlanks(Integer sgid, Integer expectedGradYr, PreparedStatement ps) throws SQLException {
+	private void fillInTheBlanks(Integer sgid, Integer expectedGradYr, Boolean hasCar, Integer carCap, PreparedStatement ps) throws SQLException {
 		
 		if (sgid == null)
 			ps.setNull(1, java.sql.Types.INTEGER);
@@ -177,6 +181,16 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 			ps.setNull(2, java.sql.Types.INTEGER);
 		else
 			ps.setInt(2, expectedGradYr);
+		
+		if (hasCar == null)
+			ps.setNull(3, java.sql.Types.BOOLEAN);
+		else
+			ps.setBoolean(3, hasCar);
+		
+		if (carCap == null)
+			ps.setNull(4, java.sql.Types.INTEGER);
+		else
+			ps.setInt(4, carCap);
 	}
 	
 	/**
@@ -211,9 +225,13 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 					srvUser.setAffiliation(null);
 				
 				Integer currentExpectedGradYr = rs.getObject("expectedGradYear") != null ? rs.getInt("expectedGradYear") : null;
+				Boolean currentHasCar = rs.getObject("hasCar") != null ? rs.getBoolean("hasCar") : null;
+				Integer currentCarCap = rs.getObject("carCapacity") != null ? rs.getInt("carCapacity") : null;
 				Contact currentContactInfo = currentUser.getContactInfo() != null ? currentUser.getContactInfo() : null;
-				
+								
 				srvUser.setExpectedGradYear(currentExpectedGradYr)
+					.setHasCar(currentHasCar)
+					.setCarCapcity(currentCarCap)
 					.setUid(currentUser.getUid())
 					.setContactInfo(currentContactInfo)
 					.setUsername(currentUser.getUsername())

@@ -17,6 +17,9 @@ public class ServantUser extends User {
 	
 	private Integer expectedGradYear; 
 	private ServiceGroup affiliation; // a group that they serve with
+	private Boolean hasCar; 
+	private Integer carCapacity;
+	
 	//TODO Add favorite categories for events
 
 	// Default Constructor
@@ -24,13 +27,14 @@ public class ServantUser extends User {
 		
 	}
 	
-	public ServantUser(Integer uid, String userID, Contact contactInfo, Integer expectedGradYear, ServiceGroup aff) {
+	public ServantUser(Integer uid, String userID, Contact contactInfo, Integer expectedGradYear, ServiceGroup aff, Boolean hasCar, Integer carCapacity) {
 		super(uid, userID, contactInfo);
 		this.affiliation = aff;
 		this.expectedGradYear = expectedGradYear;
+		this.hasCar = hasCar;
+		this.carCapacity = carCapacity;
 	}
 	
-
 	public Integer getExpectedGradYear() {
 		return expectedGradYear;
 	}
@@ -38,7 +42,15 @@ public class ServantUser extends User {
 	public ServiceGroup getAffiliation() {
 		return affiliation;
 	}
-
+	
+	public Boolean getHasCar() {
+		return hasCar;
+	}
+	
+	public Integer getCarCapacity() {
+		return carCapacity;
+	}
+	
 	public ServantUser setExpectedGradYear(Integer newExpectedGradYear) {
 		this.expectedGradYear = newExpectedGradYear;
 		return this;
@@ -49,16 +61,28 @@ public class ServantUser extends User {
 		return this;
 	}
 	
+	public ServantUser setHasCar(Boolean hasCar) {
+		this.hasCar = hasCar;
+		return this;
+	}
+	
+	public ServantUser setCarCapcity(Integer carCapacity) {
+		this.carCapacity = carCapacity;
+		return this;
+	}
+	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((affiliation == null) ? 0 : affiliation.hashCode());
+		result = prime * result + ((carCapacity == null) ? 0 : carCapacity.hashCode());
 		result = prime * result + ((expectedGradYear == null) ? 0 : expectedGradYear.hashCode());
+		result = prime * result + ((hasCar == null) ? 0 : hasCar.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

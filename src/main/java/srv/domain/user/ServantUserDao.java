@@ -14,11 +14,11 @@ public interface ServantUserDao {
 	
 	public List<ServantUser> listAllServantUsers() throws Exception;
 	
-	public ServantUser create(String username, Integer sgid, Integer expectedGradYr) throws Exception;
+	public ServantUser create(String username, Integer sgid, Integer expectedGradYr, Boolean hasCar, Integer carCap) throws Exception;
 	
 	public ServantUser fetchServantUserById(int userId) throws Exception;
 	
-	public void update(int userId, Integer sgid, Integer expectedGradYr) throws Exception;
+	public void update(int userId, Integer sgid, Integer expectedGradYr, Boolean hasCar, Integer carCap, Integer contactId) throws Exception;
 	
 	public void delete(int userId) throws Exception;
 
