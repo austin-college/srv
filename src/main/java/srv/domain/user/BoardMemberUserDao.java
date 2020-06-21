@@ -13,4 +13,8 @@ import java.util.List;
 public interface BoardMemberUserDao {
 	
 	public List<BoardMemberUser> listAllBoardMemberUsers() throws Exception;
+	
+	public BoardMemberUser fetchBoardMemberUserById(int userId) throws Exception;
+	
+	public BoardMemberUser create(String username, Boolean coChair) throws Exception;
 }

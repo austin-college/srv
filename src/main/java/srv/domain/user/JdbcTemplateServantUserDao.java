@@ -52,7 +52,7 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	 * Creates and returns a new ServantUser by the given username.
 	 * 
 	 * If the username does not already exist, create a new User with new contact email and first name
-	 * that are the same as the username. Then, finishes creating new ServantUSer based on existing
+	 * that are the same as the username. Then, finishes creating new ServantUser based on existing
 	 * or newly created user.
 	 * 
 	 * Throws an exception if the username was not specified since it is required.
@@ -88,7 +88,6 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 		
 		// SQL statement that is to be executed
 		String sql = "INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (?, ?, ?, ?, ?)";
-
 
 		getJdbcTemplate().update(sql, userId, sgid, expectedGradYr, hasCar, carCap);
 

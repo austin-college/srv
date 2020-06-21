@@ -19,6 +19,9 @@ public class JdbcTemplateBoardMemberUserDao extends JdbcTemplateAbstractDao impl
 	@Autowired
 	private JdbcTemplateServantUserDao srvUserDao;
 	
+	@Autowired
+	private JdbcTemplateUserDao uDao;
+	
 	public JdbcTemplateBoardMemberUserDao() {
 		super();
 	}
@@ -32,6 +35,75 @@ public class JdbcTemplateBoardMemberUserDao extends JdbcTemplateAbstractDao impl
 		List<BoardMemberUser> currentBmUsers = getJdbcTemplate().query("SELECT * FROM boardMemberUsers", new BoardMemberUserRowMapper());
 		
 		return currentBmUsers;
+	}
+	
+	/*
+	 * Returns the BoardMemberUser from the database with the specified user id.
+	 */
+	@Override
+	public BoardMemberUser fetchBoardMemberUserById(int userId) throws Exception {
+		
+		String sql = String.format("SELECT * FROM boardMemberUsers WHERE userId = %d", userId);
+		log.debug(sql);
+		
+		List<BoardMemberUser> specifiedBmUser = getJdbcTemplate().query(sql, new BoardMemberUserRowMapper());
+		
+		if (specifiedBmUser.size() != 1) {
+			log.error("Unable to fetch board member user with id [{}]", userId);
+			return null;
+		}
+		
+		return specifiedBmUser.get(0);
+	}
+	
+	/* 
+	 * Creates and returns a new BoardMemberUser by the given username.
+	 * 
+	 * If the username does not already exist, create a new Servant User with null values for its
+	 * variables Then, finish creating new BoardMemberUser based on existing or newly created user.
+	 * 
+	 * Throws an exception if the username was not specified since it is required.
+	 */
+	@Override
+	public BoardMemberUser create(String username, Boolean coChair) throws Exception {
+		
+		int userId;
+		
+		// username shall not be null
+		if (username == null)
+			throw new Exception("Username shall not be null.");
+		
+		// first get the user from the user data table
+		User user = uDao.fetchUserByUsername(username);
+		
+		// verify if the user already exists in the users table
+		if (user != null) {
+			
+			userId = user.getUid();
+			
+			// verify if the user already exists in the servantUsers table, if not 
+			// creates a new servant user
+			if (srvUserDao.fetchServantUserById(userId) == null) {
+				
+				ServantUser newSrvUser = srvUserDao.create(username, null, null, null, null);
+				userId = newSrvUser.getUid();
+			}
+		}
+		else {
+			
+			// Create and get a handle on a new servant user for our new board member 
+			// user by delegating to the ServantUserDao
+			ServantUser newSrvUser = srvUserDao.create(username, null, null, null, null);
+			userId = newSrvUser.getUid();
+		}
+		
+		// SQL statement that is to be executed
+		String sql = "INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (?, ?)";
+		
+		getJdbcTemplate().update(sql, userId, coChair);
+		
+		return fetchBoardMemberUserById(userId);
+		
 	}
 	
 	/**
