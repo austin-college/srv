@@ -1,4 +1,5 @@
 package srv.domain.user;
+import srv.domain.contact.Contact;
 import srv.domain.serviceclient.ServiceClient;
 
 /**
@@ -10,5 +11,28 @@ import srv.domain.serviceclient.ServiceClient;
  *
  */
 public class AdminUser extends User {
+	
+	// Default Constructor
+	public AdminUser() { }
+	
+	public AdminUser(Integer uid, String username, Contact contactInfo) {
+		super(uid, username, contactInfo);
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+				
+		AdminUser other = (AdminUser) obj;
+		
+		if(other.getUid() == this.getUid())
+			return true;
+		return false;
+		
+	}	
 }

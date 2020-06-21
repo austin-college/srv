@@ -6,6 +6,7 @@ drop table if exists events;
 drop table if exists serviceGroups;
 DROP TABLE IF EXISTS servantUsers;
 DROP TABLE IF EXISTS boardMemberUsers;
+DROP TABLE IF EXISTS adminUsers;
 DROP TABLE IF EXISTS contacts;
 
 CREATE TABLE contacts (
@@ -161,6 +162,14 @@ CREATE TABLE boardMemberUsers (
 		ON DELETE CASCADE
 ); 
 
+CREATE TABLE adminUsers (
+	userId INT,
+	PRIMARY KEY (userId),
+	FOREIGN KEY (userId)
+		REFERENCES users(userId)
+		ON DELETE CASCADE
+);
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 
@@ -224,4 +233,6 @@ INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) V
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (4, 2, 2024, true, 3);
 
 INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (2, true);
-INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (4, false); 
+INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (4, false);
+
+INSERT INTO adminUsers (userId) VALUES (3); 
