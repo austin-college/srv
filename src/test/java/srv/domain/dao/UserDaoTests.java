@@ -1,6 +1,7 @@
 package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -11,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import srv.domain.user.AdminUserDao;
+import srv.domain.user.ServantUser;
+import srv.domain.user.ServantUserDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 
@@ -22,12 +26,18 @@ class UserDaoTests {
 	@Autowired
 	UserDao dao;
 
+	@Autowired
+	ServantUserDao srvUserDao;
+	
+	@Autowired
+	AdminUserDao adminUserDao;
+	
 	/*
 	 * Testing fetchUserById(int i) should return the user info for the user with id
 	 * i.
 	 */
 	@Test
-	void testFetchById_whenUsingJdbcTemplate() throws Exception {
+	void testFetchById() throws Exception {
 
 		// test that u1 can be fetched
 		int id1 = 1;
@@ -56,7 +66,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception {
+	void testListAll() throws Exception {
 
 		List<User> users = dao.listAll();
 
@@ -75,12 +85,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception {
-
-		// if this isn't here i get a null pointer exception so i have no idea whats up
-		// User u = dao.fetchUserById(1);
-
-		// System.err.println("Size of list before create is " + dao.listAll().size());
+	void testCreate() throws Exception {
 
 		User u1 = dao.create("lHouse", 4);
 		User u3 = dao.create("mHiggs", 5);
@@ -96,7 +101,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception {
+	void testDelete() throws Exception {
 
 		// checks to see that user with id 1 exists then
 		User u1 = dao.fetchUserById(1);
@@ -132,7 +137,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testDeleteNewlyCreated_whenUsingJdbcTemplate() throws Exception {
+	void testDeleteNewlyCreated() throws Exception {
 
 		int originalSizeOfUserArray = dao.listAll().size();
 
@@ -156,7 +161,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+	void testUpdate() throws Exception {
 
 		int id = 1;
 		User u1 = dao.fetchUserById(id);
@@ -165,20 +170,18 @@ class UserDaoTests {
 
 		assertEquals("apritchard", u1.getUsername());
 
-		String newUsername = "new username";
 		int newContact = 5;
 
 		// update each item
-		dao.update(id, newUsername, newContact);
+		dao.update(id, newContact);
 
 		u1 = dao.fetchUserById(id);
 
-		assertEquals(newUsername, u1.getUsername());
-
+		assertEquals(5, u1.getContactInfo().getContactId());
 	}
 
 	@Test
-	void testFetchByUserName_whenUsingJdbcTemplate() throws Exception {
+	void testFetchByUserName() throws Exception {
 
 		// test that u1 can be fetched
 		String uname1 = "apritchard";
@@ -203,5 +206,44 @@ class UserDaoTests {
 		assertEquals(uname3, u3.getUsername());
 
 		assertEquals("eDriscoll", u3.getUsername());
+	}
+	
+	/*
+	 * Delete method to verify the ServantUser associated with the
+	 * specified User to be deleted is also removed.
+	 */
+	@Test
+	void test_delete_ServantUser() throws Exception {
+		
+		dao.delete(1);
+		
+		// Should be null since deleted
+		assertNull(srvUserDao.fetchServantUserById(1));
+		
+		// Size of ServantUsers should be decreased by one
+		List<ServantUser> srvUsers = srvUserDao.listAllServantUsers();
+		
+		assertEquals(2, srvUsers.size());
+		
+		// with the following ids
+		assertEquals(2, srvUsers.get(0).getUid());
+		assertEquals(4, srvUsers.get(1).getUid());
+		
+	}
+	
+	/*
+	 * Delete method to verify the AdminUser associated with the
+	 * specified User to be deleted is also removed.
+	 */
+	@Test
+	void test_delete_AdminUser() throws Exception {
+		
+		dao.delete(3);
+		
+		// Should be null since deleted
+		assertNull(adminUserDao.fetchAdminUserById(3));
+		
+		// Should be an empty list
+		assertEquals(0, adminUserDao.listAllAdminUsers().size());
 	}
 }

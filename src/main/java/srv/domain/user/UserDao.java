@@ -39,7 +39,6 @@ public interface UserDao {
 	
 	public User fetchUserByUsername(String uName) throws Exception;
 	
-	public void update(int uid, String newUsername, int newContact) throws Exception;
+	public void update(int uid, Integer newContact) throws Exception;
 	
-	public void changeUsername(int uid, String newUsername) throws Exception;
 }

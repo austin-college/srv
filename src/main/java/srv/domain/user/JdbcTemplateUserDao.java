@@ -83,6 +83,8 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 
 	/*
 	 * Deletes the given uid
+	 * 
+	 * NOTE: Also deletes the associated ServantUser
 	 */
 	@Override
 	public void delete(int uid) throws Exception {
@@ -99,19 +101,24 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 	 * Asks for a new version of every variable to update
 	 */
 	@Override
-	public void update(int uid, String newUsername, int newContact) throws Exception {
+	public void update(int uid, Integer newContact) throws Exception {
 
 		// the sequel statement
-		final String sql = "update users set username = ?, contactId = ? where userId = ?";
+		final String sql = "update users set contactId = ? where userId = ?";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		// this prepared statement fills in the ?'s in the sql statement with our data
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "userId" });
-			ps.setString(1, newUsername);
-			ps.setInt(2, newContact);
-			ps.setInt(3, uid);
+			
+			// allow for contact to be null
+			if (newContact == null)
+				ps.setNull(1, java.sql.Types.INTEGER);
+			else
+				ps.setInt(1, newContact);
+			
+			ps.setInt(2, uid);
 			return ps;
 		}, keyHolder);
 
@@ -157,19 +164,6 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		return results.get(0);
 	}
 
-	/*
-	 * Changes the username
-	 */
-	@Override
-	public void changeUsername(int uid, String newUsername) throws Exception {
-		int rc = getJdbcTemplate().update("update users set username = ? where userId = ?",
-				new Object[] { newUsername, uid });
-
-		if (rc < 1) {
-			log.error("unable to update username [{}]", uid);
-		}
-
-	}
 
 	/**
 	 * This class maps a User database record to the User model object by using

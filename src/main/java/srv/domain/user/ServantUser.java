@@ -15,29 +15,89 @@ import srv.domain.servicegroup.ServiceGroup;
  */
 public class ServantUser extends User {
 	
-	private char classification; // The year in school they are
+	private Integer expectedGradYear; 
 	private ServiceGroup affiliation; // a group that they serve with
+	private Boolean hasCar; 
+	private Integer carCapacity;
+	
 	//TODO Add favorite categories for events
 
-	public ServantUser(Integer uid, String userID,Contact contactInfo, char classification) {
-		super(uid, userID, contactInfo);
-		this.classification = classification;
+	// Default Constructor
+	public ServantUser() {
+		
 	}
 	
-	public char getClassification() {
-		return classification;
+	public ServantUser(Integer uid, String userID, Contact contactInfo, Integer expectedGradYear, ServiceGroup aff, Boolean hasCar, Integer carCapacity) {
+		super(uid, userID, contactInfo);
+		this.affiliation = aff;
+		this.expectedGradYear = expectedGradYear;
+		this.hasCar = hasCar;
+		this.carCapacity = carCapacity;
+	}
+	
+	public Integer getExpectedGradYear() {
+		return expectedGradYear;
 	}
 
 	public ServiceGroup getAffiliation() {
 		return affiliation;
 	}
-
-	public void setClassification(char classification) {
-		this.classification = classification;
+	
+	public Boolean getHasCar() {
+		return hasCar;
+	}
+	
+	public Integer getCarCapacity() {
+		return carCapacity;
+	}
+	
+	public ServantUser setExpectedGradYear(Integer newExpectedGradYear) {
+		this.expectedGradYear = newExpectedGradYear;
+		return this;
 	}
 
-	public void setAffiliation(ServiceGroup affiliation) {
+	public ServantUser setAffiliation(ServiceGroup affiliation) {
 		this.affiliation = affiliation;
+		return this;
 	}
+	
+	public ServantUser setHasCar(Boolean hasCar) {
+		this.hasCar = hasCar;
+		return this;
+	}
+	
+	public ServantUser setCarCapacity(Integer carCapacity) {
+		this.carCapacity = carCapacity;
+		return this;
+	}
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((affiliation == null) ? 0 : affiliation.hashCode());
+		result = prime * result + ((carCapacity == null) ? 0 : carCapacity.hashCode());
+		result = prime * result + ((expectedGradYear == null) ? 0 : expectedGradYear.hashCode());
+		result = prime * result + ((hasCar == null) ? 0 : hasCar.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+				
+		ServantUser other = (ServantUser) obj;
+		
+		if(other.getUid() == this.getUid())
+			return true;
+		return false;
+		
+	}	
 
 }

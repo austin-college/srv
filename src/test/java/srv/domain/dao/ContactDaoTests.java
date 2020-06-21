@@ -10,11 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
 
+//needed this annotation to roll back test
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ComponentScan("srv.config")

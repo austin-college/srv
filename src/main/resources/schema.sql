@@ -4,7 +4,21 @@ drop table if exists eventParticipants;
 drop table if exists eventType;
 drop table if exists events;
 drop table if exists serviceGroups;
+DROP TABLE IF EXISTS servantUsers;
+DROP TABLE IF EXISTS boardMemberUsers;
+DROP TABLE IF EXISTS adminUsers;
 DROP TABLE IF EXISTS contacts;
+
+CREATE TABLE spotlight (
+	sid INTEGER AUTO_INCREMENT,
+	img BLOB,
+	imgtype VARCHAR(10),
+	imgsize INTEGER,
+	spottxt VARCHAR,
+	PRIMARY KEY (sid)
+);
+
+INSERT into spotlight (spottxt) values ('First Spot Light Text');
 
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
@@ -29,6 +43,7 @@ CREATE TABLE users (
 		references contacts(contactId)
 		on delete set NULL
 	);
+
 
 CREATE TABLE serviceClients (
 	serviceClientId INTEGER AUTO_INCREMENT,
@@ -134,6 +149,37 @@ CREATE TABLE serviceHours (
 		on delete set NULL
 	);
 
+CREATE TABLE servantUsers (
+	userId INT,
+	sgid INT,
+	expectedGradYear INT,
+	hasCar BOOLEAN,
+	carCapacity INT,
+	PRIMARY KEY (userId),
+	FOREIGN KEY (userId)
+		REFERENCES users(userId)
+		ON DELETE CASCADE,
+	FOREIGN KEY (sgid)
+		REFERENCES serviceGroups(serviceGroupId)
+		ON DELETE SET NULL
+);
+
+CREATE TABLE boardMemberUsers (
+	userId INT,
+	isCoChair BOOLEAN,
+	PRIMARY KEY (userId),
+	FOREIGN KEY (userId)
+		REFERENCES servantUsers(userId)
+		ON DELETE CASCADE
+); 
+
+CREATE TABLE adminUsers (
+	userId INT,
+	PRIMARY KEY (userId),
+	FOREIGN KEY (userId)
+		REFERENCES users(userId)
+		ON DELETE CASCADE
+);
 
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
@@ -192,3 +238,12 @@ INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, refle
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
+
+INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (1, 1, 2021, false, 0);
+INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (2, 3, 2023, true, 1);
+INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (4, 2, 2024, true, 3);
+
+INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (2, true);
+INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (4, false);
+
+INSERT INTO adminUsers (userId) VALUES (3); 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.servicegroup.ServiceGroup;
 
 /**
  * An instance of this class represents the Board Member User base. These
@@ -16,34 +17,48 @@ import srv.domain.serviceclient.ServiceClient;
  */
 public class BoardMemberUser extends ServantUser {
 
-	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, char classification) {
-		super(uid, userID, contactInfo, classification);
-	}
-
-	private ArrayList<ServiceClient> managedGroups; // Organizations the Board Member can Manage
 	private Boolean isCoChair;
 
-	public ArrayList<ServiceClient> getManagedGroups() {
-		return managedGroups;
+	// Default constructor
+	public BoardMemberUser() {
+		
 	}
-
-	public BoardMemberUser setManagedGroups(ArrayList<ServiceClient> managedGroups) {
-		this.managedGroups = managedGroups;
-		return this;
+	public BoardMemberUser(Integer uid, String userID, Contact contactInfo, Integer expectedGradYear, ServiceGroup aff, Boolean hasCar, Integer carCapacity) {
+		super(uid, userID, contactInfo, expectedGradYear, aff, hasCar, carCapacity);
 	}
 
 	public Boolean getIsCoChair() {
 		return isCoChair;
 	}
-
-	public Boolean isCoChair() {
-		if (this.isCoChair == null) return false;
-		return isCoChair.booleanValue();
-	}
 	
 	public BoardMemberUser setIsCoChair(Boolean isCoChair) {
 		this.isCoChair = isCoChair;
 		return this;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((isCoChair == null) ? 0 : isCoChair.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		
+		BoardMemberUser other = (BoardMemberUser) obj;
+		
+		if(other.getUid() == this.getUid())
+			return true;
+		return false;
 	}
 
 }

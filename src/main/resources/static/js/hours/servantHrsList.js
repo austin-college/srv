@@ -747,19 +747,6 @@ $(document).ready(function() {
 		$(".boxSel").prop("checked",false);  // clear all others
 	} );
 
-	
-	
-	/*TODO making table tiny 
-	 *  Allows for the table columns to be sorted disables the extra features such as 'searching'
-	 */
-//	$('#hrs_tbl').DataTable({	
-//		"paging": false,
-//		"searching": false,
-//		"info": false
-//	});
-//	$('.dataTables_length').addClass('bs-select');
-
-
 	$(".boxSel").click( function() {
 
 		var state = $(this).prop("checked");
@@ -772,5 +759,16 @@ $(document).ready(function() {
 		$(".boxSel").prop("checked",false);  // clear all others		
 		$(this).prop("checked",state);  // reassert current state on current button  
 	});
+	
+	/*
+	 *  Allows for the table columns to be sorted disables the extra features such as 'searching'
+	 */
+	$('#hrs_tbl').DataTable({	
+		"paging": false,
+		"searching": false,
+		"info": false
+	});
+	$('.dataTables_length').addClass('bs-select');
+
 
 });

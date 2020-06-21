@@ -69,7 +69,7 @@ class ServiceClientDaoTests {
 
 	/*
 	 * Testing listAll(), should return the current 2 service client entries that
-	 * are in the data.sql database.
+	 * are in the schema.sql database.
 	 */
 	@Test
 	void testListAll() throws Exception {

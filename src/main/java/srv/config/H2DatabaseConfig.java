@@ -10,6 +10,13 @@ import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.servicegroup.JdbcTemplateServiceGroupDao;
+
+import srv.domain.user.JdbcTemplateAdminUserDao;
+import srv.domain.user.JdbcTemplateBoardMemberUserDao;
+
+import srv.domain.spotlight.JdbcTemplateSpotLightDao;
+
+import srv.domain.user.JdbcTemplateServantUserDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.BoardMemberHoursListService;
 import srv.services.ServiceHoursService;
@@ -35,7 +42,12 @@ public class H2DatabaseConfig {
 	 * DAO beans 
 	 */
 	
-
+	@Bean
+	public JdbcTemplateSpotLightDao splotLightDao() {
+		return new JdbcTemplateSpotLightDao();
+	}
+	
+	
 	@Bean
 	public JdbcTemplateServiceClientDao serviceClientDao() {
 		return new JdbcTemplateServiceClientDao();
@@ -97,10 +109,21 @@ public class H2DatabaseConfig {
 	public JdbcTemplateServiceGroupDao serviceGroupDao() {
 		return new JdbcTemplateServiceGroupDao();
 	}
-
 	
-	
+	@Bean
+	public JdbcTemplateServantUserDao servantUserDao() {
+		return new JdbcTemplateServantUserDao();
+	}
 
+	@Bean
+	public JdbcTemplateBoardMemberUserDao boardMemberUserDao() {
+		return new JdbcTemplateBoardMemberUserDao();
+	}
+	
+	@Bean
+	public JdbcTemplateAdminUserDao adminUserDao() {
+		return new JdbcTemplateAdminUserDao();
+	}
 	
 
 

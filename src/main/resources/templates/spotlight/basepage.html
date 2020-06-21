@@ -1,0 +1,83 @@
+<#import "/main_layout.html" as layout />
+<@layout.stdpage "SplotLight" "home.css" "spotlight.js">
+
+<div id="mainContainer" class="container">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<p>Use this page to manage the current spot light image and welcome text.  This
+			is the text that appears on our site's splash page.  
+			</p>
+	</div>
+
+	<div class="container-fluid">
+	
+
+		<h3>Spot Light Image</h3>
+		<div class="border">
+		<img src="/srv/spotlight/img/${spotId}" style="width:50%"/>
+		</div>				
+		<form method="POST" action="/srv/spotlight/img/uploadFile" enctype="multipart/form-data">
+		     <div class="form-group border" style="padding: 10px">
+	            <label path="file">Select a new image: </label>
+		        <input type="file" name="file" />
+		    </div>
+		    <button type="submit" class="btn btn-primary">Replace Image</button>
+		</form>
+		
+		<br/>
+		<br/>
+		
+		
+			<h3>Spot Light Text</h3>
+			<div id="editor" style="padding: 10px">
+			  <p>${spotTxt}</p>
+			</div>
+			
+			<div class="form-group" style="padding: 10px">
+			<form id="frmText" method="POST" action="/srv/spotlight/txt">
+				<input type="textarea" name="spotTxt" id="spotTxt" style="display:none" value=""></input>
+			    <button type="submit" class="btn btn-primary">Replace Text</button>
+			</form>
+			</div>
+		
+		
+	</div>
+
+</div>
+
+<!-- Main Quill library -->
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" >
+
+<script>
+var toolbarOptions = [
+	  ['bold', 'italic', 'underline'],        // toggled buttons
+	  ['blockquote', 'code-block'],
+             
+	  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+	  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+	  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+
+	  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+	  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+	  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+	  [{ 'font': [] }],
+	  [{ 'align': [] }],
+
+	];
+
+	var quill = new Quill('#editor', {
+	  modules: {
+	    toolbar: toolbarOptions
+	  },
+	  theme: 'snow'
+	});
+	
+    $("#frmText").submit(function() {
+        $("#spotTxt").val(quill.root.innerHTML);
+    });
+</script>
+
+</@layout.stdpage>

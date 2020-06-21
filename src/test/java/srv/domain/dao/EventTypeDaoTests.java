@@ -96,7 +96,7 @@ class EventTypeDaoTests {
 			System.err.println(et.getName());
 		}
 		
-		EventType newET = dao.create("et04", "Event Type 4 Description", 2.0, true, 2);
+		EventType newET = dao.create("et04", "Event Type 4 Description", null, true, 2);
 		
 		assertNotNull(newET);
 		
@@ -117,7 +117,7 @@ class EventTypeDaoTests {
 		assertEquals(numAfterInsert, et4.getEtid());
 		assertEquals("et04", et4.getName());
 		assertEquals("Event Type 4 Description", et4.getDescription());
-		assertEquals(2, et4.getDefHours());
+		assertEquals(null, et4.getDefHours());
 		assertEquals(true, et4.isPinHours());
 		assertEquals(2, et4.getDefClient().getScid());
 
