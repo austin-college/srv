@@ -5,6 +5,7 @@ drop table if exists eventType;
 drop table if exists events;
 drop table if exists serviceGroups;
 DROP TABLE IF EXISTS servantUsers;
+DROP TABLE IF EXISTS boardMemberUsers;
 DROP TABLE IF EXISTS contacts;
 
 CREATE TABLE contacts (
@@ -151,6 +152,15 @@ CREATE TABLE servantUsers (
 		ON DELETE SET NULL
 );
 
+CREATE TABLE boardMemberUsers (
+	userId INT,
+	isCoChair BOOLEAN,
+	PRIMARY KEY (userId),
+	FOREIGN KEY (userId)
+		REFERENCES servantUsers(userId)
+		ON DELETE CASCADE
+); 
+
 INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 
@@ -210,4 +220,8 @@ INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, refle
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
 
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (1, 1, 2021, false, 0);
+INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (2, 3, 2023, true, 1);
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (4, 2, 2024, true, 3);
+
+INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (2, true);
+INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (4, false); 

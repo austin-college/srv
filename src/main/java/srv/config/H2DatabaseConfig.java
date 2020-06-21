@@ -10,6 +10,7 @@ import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.servicegroup.JdbcTemplateServiceGroupDao;
+import srv.domain.user.JdbcTemplateBoardMemberUserDao;
 import srv.domain.user.JdbcTemplateServantUserDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.BoardMemberHoursListService;
@@ -104,8 +105,10 @@ public class H2DatabaseConfig {
 		return new JdbcTemplateServantUserDao();
 	}
 
-	
-	
+	@Bean
+	public JdbcTemplateBoardMemberUserDao boardMemberUserDao() {
+		return new JdbcTemplateBoardMemberUserDao();
+	}
 
 	
 

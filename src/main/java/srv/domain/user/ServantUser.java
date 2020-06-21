@@ -66,7 +66,7 @@ public class ServantUser extends User {
 		return this;
 	}
 	
-	public ServantUser setCarCapcity(Integer carCapacity) {
+	public ServantUser setCarCapacity(Integer carCapacity) {
 		this.carCapacity = carCapacity;
 		return this;
 	}
@@ -91,8 +91,7 @@ public class ServantUser extends User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		
-		
+				
 		ServantUser other = (ServantUser) obj;
 		
 		if(other.getUid() == this.getUid())

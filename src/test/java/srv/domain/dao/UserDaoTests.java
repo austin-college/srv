@@ -219,10 +219,11 @@ class UserDaoTests {
 		// Size of ServantUsers should be decreased by one
 		List<ServantUser> srvUsers = srvUserDao.listAllServantUsers();
 		
-		assertEquals(1, srvUsers.size());
+		assertEquals(2, srvUsers.size());
 		
-		// with the ServantUserId of 4
-		assertEquals(4, srvUsers.get(0).getUid());
+		// with the following ids
+		assertEquals(2, srvUsers.get(0).getUid());
+		assertEquals(4, srvUsers.get(1).getUid());
 		
 	}
 }

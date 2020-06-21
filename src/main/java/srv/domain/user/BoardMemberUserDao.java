@@ -1,0 +1,16 @@
+package srv.domain.user;
+
+import java.util.List;
+
+/**
+ * Data Access Object Interface for BoardMemberUser.java that defines
+ * the standard operations (CRUD) to be performed on the BoardMemberUser
+ * model object as well as fetching a board member user by their unique id.
+ * 
+ * @author Lydia House
+ *
+ */
+public interface BoardMemberUserDao {
+	
+	public List<BoardMemberUser> listAllBoardMemberUsers() throws Exception;
+}

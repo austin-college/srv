@@ -43,7 +43,7 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 	@Override
 	public List<ServantUser> listAllServantUsers() throws Exception {
 		
-		List<ServantUser> currentSrvUsers = getJdbcTemplate().query("select * from servantUsers", new ServantUserRowMapper());
+		List<ServantUser> currentSrvUsers = getJdbcTemplate().query("SELECT * FROM servantUsers", new ServantUserRowMapper());
 		
 		return currentSrvUsers;
 	}
@@ -204,9 +204,7 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 		 */
 		@Override
 		public ServantUser mapRow(ResultSet rs, int rowNum) throws SQLException {
-			
-			
-			
+				
 			ServantUser srvUser = new ServantUser();
 			
 			try {
@@ -231,7 +229,7 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 								
 				srvUser.setExpectedGradYear(currentExpectedGradYr)
 					.setHasCar(currentHasCar)
-					.setCarCapcity(currentCarCap)
+					.setCarCapacity(currentCarCap)
 					.setUid(currentUser.getUid())
 					.setContactInfo(currentContactInfo)
 					.setUsername(currentUser.getUsername())

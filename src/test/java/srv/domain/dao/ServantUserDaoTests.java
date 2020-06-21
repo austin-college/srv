@@ -26,37 +26,39 @@ class ServantUserDaoTests {
 	ServantUserDao srvUserDao;
 		
 	/*
-	 * Testing listAll(), should return 2 current servant users
+	 * Testing listAll(), should return 3 current servant users
 	 */
 	@Test
 	void test_listAllServantUsers() throws Exception {
 		
 		List<ServantUser> testSrvUsers = srvUserDao.listAllServantUsers();
 		
-		assertEquals(2, testSrvUsers.size());
+		assertEquals(3, testSrvUsers.size());
 		
 		ServantUser su1 = testSrvUsers.get(0);
 		ServantUser su2 = testSrvUsers.get(1);
+		ServantUser su3 = testSrvUsers.get(2);
 		
 		assertEquals(1, su1.getUid());
-		assertEquals(4, su2.getUid());
+		assertEquals(2, su2.getUid());
+		assertEquals(4, su3.getUid());
 		
 		// Verifying the contents of one ServantUser
-		assertEquals(2024, su2.getExpectedGradYear());
-		assertEquals(true, su2.getHasCar());
-		assertEquals(3, su2.getCarCapacity());
+		assertEquals(2024, su3.getExpectedGradYear());
+		assertEquals(true, su3.getHasCar());
+		assertEquals(3, su3.getCarCapacity());
 		
 		// Verifying the ServiceGroup
-		assertEquals(2, su2.getAffiliation().getSgid());
-		assertEquals("DummyName02", su2.getAffiliation().getShortName());
-		assertEquals("DummyTitle02", su2.getAffiliation().getTitle());
-		assertEquals(2, su2.getAffiliation().getContactInfo().getContactId());
+		assertEquals(2, su3.getAffiliation().getSgid());
+		assertEquals("DummyName02", su3.getAffiliation().getShortName());
+		assertEquals("DummyTitle02", su3.getAffiliation().getTitle());
+		assertEquals(2, su3.getAffiliation().getContactInfo().getContactId());
 		
 		// Verifying User contents
-		assertEquals("user", su2.getUsername());
-		assertEquals(1, su2.getContactInfo().getContactId());
-		assertEquals("Tom", su2.getContactInfo().getFirstName());
-		assertEquals("USER", su2.getRoll());	
+		assertEquals("user", su3.getUsername());
+		assertEquals(1, su3.getContactInfo().getContactId());
+		assertEquals("Tom", su3.getContactInfo().getFirstName());
+		assertEquals("USER", su3.getRoll());	
 		
 	}
 	
@@ -182,15 +184,15 @@ class ServantUserDaoTests {
 	@Test
 	void test_create_whenExistingUser() throws Exception {
 		
-		ServantUser newUser = srvUserDao.create("hCouturier", 3, 2022, false, 0);
+		ServantUser newUser = srvUserDao.create("eDriscoll", 3, 2022, false, 0);
 		
 		// Verifying the User contents
-		assertEquals(2, newUser.getUid());
-		assertEquals(6, newUser.getContactInfo().getContactId());
+		assertEquals(3, newUser.getUid());
+		assertEquals(7, newUser.getContactInfo().getContactId());
 		
 		// Verifying some of the User's contact info
-		assertEquals("Hunter", newUser.getContactInfo().getFirstName());
-		assertEquals("hCouturier@gmail.com", newUser.getContactInfo().getEmail());
+		assertEquals("Emma", newUser.getContactInfo().getFirstName());
+		assertEquals("eDriscoll@gmail.com", newUser.getContactInfo().getEmail());
 		
 		// Verifying the Servant contents
 		assertEquals(2022, newUser.getExpectedGradYear());
@@ -307,11 +309,12 @@ class ServantUserDaoTests {
 		
 		List<ServantUser> allSrvUsers = srvUserDao.listAllServantUsers(); 
 		
-		// Should only have 1 ServantUser in the servantUsers table
-		assertEquals(1, allSrvUsers.size());
+		// Should only have 2 ServantUser in the servantUsers table
+		assertEquals(2, allSrvUsers.size());
 		
 		// who has user id is 1
 		assertEquals(1, allSrvUsers.get(0).getUid());
+		assertEquals(2, allSrvUsers.get(1).getUid());
 	}
 	
 	/*
