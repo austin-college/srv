@@ -2,90 +2,118 @@
 
 <@layout.stdpage "Hours Served" "hoursStyle.css" "hours/servantHrsList.js">
 
-<div>
+<div id ="mainContainer" class="container">
+	
+	<!--  this container holds onto all information regarding Stats and has the button as well located at the bottom -->	
+	<!-- hide hour stat div from admins -->
+	<#if !userAdmin>
 	<div class="row" style="padding-left: 30px; padding-bottom: 30px">
-			<!--  this container holds onto all information regarding Stats
-		and has the button as well located at the bottom -->
+		
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 			<div>
-				<div>
-				<!-- TODO To be replaced with live servant Name -->
-					<h2>Service Stats</h2>
-				</div>
-				
-
-						<!-- container thats creating a table that will hold our data-->
-						<div class="container ui-widget">
-							<div class="row">
-								<table class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
-									<thead>
-										<tr class="ui-widget-header">
-											<th>Hours Served This Semester</th>
-											<th class="wtTh">${semTot!"UNKNOWN"}</th>
-											<th>Hours Served This Term</th>
-											<th class="wtTh">${termTot!"UNKNOWN"}</th>
-											<th>Organizations Helped</th>
-											<th class="wtTh">${totOrgs!"UNKNOWN"}</th>
-											<th>Average Hours Served per Month</th>
-											<th class="wtTh">${avgPerMo!"UNKNOWN"}</th>
-										</tr>
-
-									</thead>
-								</table>
-							</div>
-						</div>
-
+				<h2>Service Stats</h2>
+			</div>
+		</div>
 					
-			<!-- Button that prompts the user to enter their service hours -->
+		<!-- container thats creating a table that will hold our data-->
+		<div class="row">
+			<table class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
+				<thead>
+					<tr class="ui-widget-header">
+						<th>Hours Served This Semester</th>
+						<th class="wtTh">${semTot!"UNKNOWN"}</th>
+						<th>Hours Served This Term</th>
+						<th class="wtTh">${termTot!"UNKNOWN"}</th>
+						<th>Organizations Helped</th>
+						<th class="wtTh">${totOrgs!"UNKNOWN"}</th>
+						<th>Average Hours Served per Month</th>
+						<th class="wtTh">${avgPerMo!"UNKNOWN"}</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	</#if>					
+					
+
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+	
+		<!-- Button that prompts the user to enter their service hours -->
+		<div class="col">
 			<button type="button" class="btn btn-md btn-dark addBtn" style="padding-top:10px">
 				<span class="fas fa-plus-circle"></span> Add Hours
 			</button>
+		</div>
+		
+		<!-- Combo box for filtering hours by sponsor (service client) -->
+		<div class="col text-right comboBox">
+			<label>By Sponsor</label>
+			<select id="scComboBox" data-prev-selected="${selectedScid}" onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
+				<option value='0'>List All</option>
+				
+				<#list sClients as sc>
+					<#if sc.scid == selectedScid>
+						<option value="${sc.scid}" selected="selected">${sc.name}</option>
+					<#else>
+						<option value="${sc.scid}">${sc.name}</option>
+					</#if>
+				</#list>
+			</select>
+		</div>
+		
+	</div>
+	<div class="row text-right" style="padding-bottom: 20px">
+		<!-- Clears all filters -->
+		<div class="col">
+			<button id="btnClearFilters" class="btn btn-md addBtn" type="button"
+				onclick="baseUrl()">
+				Clear All Filters</button>
+		</div>
+	</div>
 	
 	<!-- Service Hours table -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px; padding-top: 20px">
-
-				<div class="col">
-					<table id="hrs_tbl"
-						class="table table-striped table-bordered table-sm" style="width: 100%">
-						<thead>
-
-							<tr>
-								<th class="th-sm">ID</th>
-								<th class="th-sm">Service Event</th>
-								<th class="th-sm">Hours Served</th>
-								<th class="th-sm">Status</th>
-								<th class="th-sm">Action</th>
-
-							</tr>
-						</thead>
-						<tbody id="hrs_tbl_body">
-							<#if hours??>
-								<#list hours as hrs>
-									<tr id="row${hrs.shid?c}">
-									<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
-									<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.event.title!"UNKNOWN"}</td>
-									<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
-									<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
-									<!-- action buttons: edit/delete -->
-									<td class="hrActions">
-										<#if hrs.status != "Approved">
-										<button type="button" class="btnHrEdit edit btn" onEditClick="${hrs.shid?c}">
-											<i class="fas fa-pencil-alt"></i> 
-										</button>
-				   						<button type="button" class=" btnHrDel del btn" onDelClick="${hrs.shid?c}">
-											<i class="fas fa-trash-alt"></i>  
-										</button>
-										</#if>
-									</td>
-								</tr>
-							</#list>
-							</#if>
-						</tbody>
-					</table>
-				</div>
-			</div>
+		<div class="col">
+			<table id="hrs_tbl"	class="table table-striped table-bordered table-sm" style="width: 100%">
+				<thead>
+					<tr>
+						<th class="th-sm">ID</th>
+						<th class="th-sm">Service Event</th>
+						<th class="th-sm">Hours Served</th>
+						<th class="th-sm">Status</th>
+						<th class="th-sm">Action</th>
+					</tr>
+				</thead>
+				<tbody id="hrs_tbl_body">
+					<#if hours??>
+					<#list hours as hrs>
+						<tr id="row${hrs.shid?c}">
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.event.title!"UNKNOWN"}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
+							
+							<!-- action buttons: edit/delete -->
+							<td class="hrActions">
+								<#if hrs.status != "Approved">
+									<button type="button" class="btnHrEdit edit btn" onEditClick="${hrs.shid?c}">
+										<i class="fas fa-pencil-alt"></i> 
+									</button>
+				   					<button type="button" class=" btnHrDel del btn" onDelClick="${hrs.shid?c}">
+										<i class="fas fa-trash-alt"></i>  
+									</button>
+								</#if>
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
-</div>
+
+
 
 	<!-- back button -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">

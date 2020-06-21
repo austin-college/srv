@@ -14,6 +14,7 @@ import srv.domain.hours.JdbcTemplateServiceHoursDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;
 import srv.utils.UserUtil;
@@ -31,10 +32,12 @@ public class ServiceHoursService {
 	
 	@Autowired
 	EventService eventService; 
+	
 	@Autowired 
-	UserUtil uu; 
+	UserUtil uu;
 	
-	
+	@Autowired
+	ServiceClientDao sClientDao;	
 	
 	
 	public ServiceHoursService() {
@@ -87,7 +90,36 @@ public class ServiceHoursService {
 		sHoursDao.delete(id);
 	}
 	
-
+	/**
+	 * Returns a list of service clients/sponsors in the database
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ServiceClient> listCurrentSponsors() throws Exception {
+		return sClientDao.listAll();
+	}
+	
+	/**
+	 * Returns a list of service hours in our system based on the following parameters/filters.
+	 * Throws an exception if our dao has encountered a problem
+	 * 
+	 * @param scId
+	 * @throws Exception
+	 */
+	public List<ServiceHours> filteredHours(Integer scId) throws Exception {
+		
+		if ((scId != null) && (scId <= 0)) {
+			throw new Exception(String.format("Invalid service client id [%d]", scId));
+		}
+		
+		List<ServiceHours> results = sHoursDao.listByFilter(scId);
+		
+		log.debug("Size of filtered hours list is: " + results.size());
+		
+		return results;
+	}
+	
+	
 	/**
 	 * Creates a service hour 
 	 * 

@@ -268,56 +268,32 @@ class ServiceHoursDaoTests {
 		
 		assertEquals(3, userHours.size());
 	}
-	/*
-	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests
-	 */
-
+	
 	/**
-	 * Tests the method that calculated the total hours served in the last semester.
-	 * currently cannot differentiate servants, since there is only one. This is
-	 * reflected in this test
+	 * Filters the list of hours by service client/sponsor id.
 	 */
-	/*
-	 * @Test void testSemTot() throws Exception { List<ServiceHours> hours =
-	 * hrSvc.listHours(); double result = hrSvc.getSemTot(hours); double expected =
-	 * 3.5; assertEquals(result, expected);
-	 * 
-	 * }
-	 * 
-	 *//**
-		 * Tests the method that calculated the total hours served in the last term.
-		 * currently cannot differentiate servants, since there is only one. This is
-		 * reflected in this test
-		 */
-	/*
-	 * @Test void testTermTot() throws Exception { List<ServiceHours> hours =
-	 * hrSvc.listHours(); double result = hrSvc.getTermTot(hours); double expected =
-	 * 7.0; assertEquals(result, expected);
-	 * 
-	 * }
-	 * 
-	 *//**
-		 * Tests the method that calculated the total hours served in the last term.
-		 * currently cannot differentiate servants, since there is only one. This is
-		 * reflected in this test
-		 */
-	/*
-	 * @Test void testTotOrgs() throws Exception { List<ServiceHours> hours =
-	 * hrSvc.listHours(); int result = hrSvc.getTotOrgs(hours); int expected = 4;
-	 * assertEquals(result, expected);
-	 * 
-	 * }
-	 * 
-	 *//**
-		 * Tests the method that calculated the total hours served in the last term.
-		 * currently cannot differentiate servants, since there is only one. This is
-		 * reflected in this test
-		 *//*
-			 * @Test void testAvgPerMo() throws Exception { List<ServiceHours> hours =
-			 * hrSvc.listHours(); int result = hrSvc.getAvgPerMo(hours); int expected = 1;
-			 * assertEquals(result, expected);
-			 * 
-			 * }
-			 */
-
+	@Test
+	void listByFilter_byServiceClient() throws Exception {
+		
+		// fetches the list of hours with service client id 1
+		List <ServiceHours> hoursByScid1 = dao.listByFilter(1);
+		
+		assertEquals(3, hoursByScid1.size());
+		assertEquals(1, hoursByScid1.get(0).getShid());
+		assertEquals(4, hoursByScid1.get(1).getShid());
+		assertEquals(5, hoursByScid1.get(2).getShid());
+		
+	}
+	
+	/**
+	 * Verifies that the entire list of events is return when all parameters are null
+	 */
+	@Test
+	void listByFilter_allNullParam() throws Exception {
+		
+		// Fetches the list of hours with all nulls
+		List <ServiceHours> allHours = dao.listByFilter(null);
+		
+		assertEquals(5, allHours.size());
+	}
 }

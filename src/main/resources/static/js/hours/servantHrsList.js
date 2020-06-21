@@ -65,6 +65,164 @@ function updateTips(msg) {
 	$(".validationTips").text(msg).addClass("alert alert-danger");
 }
 
+
+/**
+ * Resets the url to be /srv/hours without query parameters. 
+ * Occurs when 'Clear All Filters' button is selected.
+ */
+function baseUrl() {
+	location.href = location.href.split('?')[0];
+}
+
+/**
+ * When a combo box selected to 'List All', this function removes 
+ * that query/filter's string parameter in the URL.
+ * 
+ * @param filter
+ * @returns
+ */
+function removeQueryUrl(filter) {
+	
+	var newUrl = location.href;
+	var deleteQuery;
+	var newQuery = "";
+	var currentUrlArray = location.href.split(/[\&,?]+/);
+	
+	console.log(currentUrlArray.length);
+	
+	
+	// If the service client combo box is selected to 'List All'
+	if (filter == 'scComboBox') {
+		
+		deleteQuery = findQuery(currentUrlArray, 2);
+	}
+	
+	// If the query string was the one and only query in the URL
+	if (currentUrlArray.length == 2)
+		newUrl = newUrl.replace('?'+deleteQuery, newQuery);
+	
+	// If the query string was the first in the URL
+	else if (currentUrlArray[1] == deleteQuery)
+		newUrl = newUrl.replace(deleteQuery+'&', newQuery);
+	
+	// If the query string was elsewhere in the URL
+	else
+		newUrl = newUrl.replace('&'+deleteQuery, newQuery);
+	
+	console.log(newUrl);
+	console.log(deleteQuery);
+	console.log(newQuery);
+
+	location.href = newUrl;
+	
+}
+
+/**
+ * Helper method that finds and returns the specified query in the url.
+ * This is helpful to find the query strings in order to replace them.
+ * Returns the string of the entire query i.e. "sc=1"
+ * 
+ * @param urlArray
+ * @param flag
+ * @returns
+ */
+function findQuery(urlArray, flag) {
+	
+	var query;
+	
+	for (var index = 0; index < urlArray.length; index++) {	
+		
+		// Specified query is for service client
+		if (flag == 2) {
+			if (urlArray[index].includes("sc="))
+				query = urlArray[index];
+		}
+	}
+	
+	return query;
+}
+
+/**
+ * When combo box is selected, this function is 
+ * responsible for creating the new URL with the specified query based
+ * on the combo box selected. After the URL is created,
+ * reloads the page with that URL. 
+ * 
+ * @param filter
+ * @param comboBoxSelectedId
+ * @returns
+ */
+function queryUrl(filter, comboBoxSelectedId) {
+	
+	comboBoxSelectedId = comboBoxSelectedId || -1; 
+	
+	var currentUrl = location.href;
+		
+	containsArray = urlContains(filter, currentUrl, comboBoxSelectedId); 
+	currentUrl =  containsArray[0];
+	
+	console.log(currentUrl);
+	
+	/*
+	 * Verifies if the specified query/filter was already in the URL. If so,
+	 * the new URL is already completed due to the helper urlContains() method.
+	 * If not, creates new URL.
+	 */
+	if (!containsArray[1]) {	
+		
+		// If the query is first in the URL
+		if (currentUrl.includes("?")) 
+			currentUrl += "&";
+		
+		// If the query is not first in the URL
+		else 
+			currentUrl += "?";
+
+		// If the specified query is for service clients
+		if (filter == 'scComboBox')
+			currentUrl += 'sc=' + comboBoxSelectedId;
+	}
+
+	console.log(currentUrl);
+	
+	location.href = currentUrl;
+}
+
+/**
+ * Helper method that verifies if the specified filter/query is already
+ * contained in the URL. This is helpful to avoid repeats in the URL.
+ * 
+ * Returns an array where the first index is the new URL and the second
+ * is a boolean flag for whether or not the query/filter was already in 
+ * the URL.
+ * 
+ * @param filter
+ * @param url
+ * @param comboBoxSelectedId
+ * @returns
+ */
+function urlContains(filter, url, comboBoxSelectedId) {
+	
+	comboBoxSelectedId = comboBoxSelectedId || -1; 
+	contains = false;
+		
+	/*
+	 * If the specified query is for service client and it has been selected before,
+	 * find its location in the URL and replace it with the newly selected service
+	 * client id.
+	 */
+	if ((filter == 'scComboBox') && (url.includes("sc="))) {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 2);
+		url = url.replace(oldQuery, 'sc=' + comboBoxSelectedId);
+		contains = true;
+	}
+		
+	return [url, contains];
+
+}
+
+
 /**
  * prepopulates the edit dialog given the selected service hour
  */

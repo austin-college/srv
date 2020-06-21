@@ -32,6 +32,7 @@ import srv.domain.hours.ServiceHoursDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
+import srv.utils.UserUtil;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(HoursController.class)
@@ -50,6 +51,9 @@ public class HoursControllerTest {
 	// TODO this will need to be fixed/removed when UserUtil and HoursController is fixed
 	@MockBean
 	JdbcTemplateUserDao uDao;
+	
+	@MockBean
+	UserUtil mockUserUtil;
 	
 	
 	@MockBean
@@ -106,10 +110,10 @@ public class HoursControllerTest {
 		dummyList.add(h2);
 		dummyList.add(h3);
 			
-		Mockito.when(hrSvc.listHours()).thenReturn(dummyList);
+		Mockito.when(hrSvc.filteredHours(null)).thenReturn(dummyList);
 		
 		// now perform the test
-		mvc.perform(get("/viewHours")
+		mvc.perform(get("/hours")
 				.contentType(MediaType.TEXT_HTML))
 		.andExpect(status().isOk())
 		

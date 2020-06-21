@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,10 +25,12 @@ import srv.domain.event.Event;
 import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
+import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
 import srv.utils.ParamUtil;
+import srv.utils.UserUtil;
 
 /**
  * This is the algorithm that prepares the response.
@@ -49,6 +52,9 @@ public class HoursController {
 	@Autowired
 	EventService evSvc;
 	
+	@Autowired
+	UserUtil userUtil;
+	
 	
 	
 	/**
@@ -60,26 +66,43 @@ public class HoursController {
 	 * 
 	 * @author Hunter Couturier
 	 */
-	@GetMapping("/viewHours")
-	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response) {
+	@GetMapping("/hours")
+	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String sc) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 		
 		try {
-		
-			log.debug("fetching hours");
-			List<ServiceHours> hours = hrSvc.listHours();
-			log.debug("...{} hours detected.",hours.size());
-			
-			mav.addObject("hours", hours);
 			
 			log.debug("fetching events");
 			List<Event> events = evSvc.allEvents();
 			log.debug("...{} events detected", events.size());
 			
+			List<ServiceHours> filteredHours;
+			List<ServiceClient> sponsors = hrSvc.listCurrentSponsors();
 			
+			mav.addObject("sClients", sponsors);
 			mav.addObject("events", events);
+			mav.addObject("userAdmin", userUtil.userIsAdmin());
 
+			log.debug("fetching hours");
+			List<ServiceHours> hours = hrSvc.listHours();
+			log.debug("...{} hours detected.",hours.size());
+			
+			Integer scP = null;
+			
+			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
+			
+			// Filtering by service client
+			if (sc != null) {
+				scP = Integer.valueOf(sc);
+				mav.addObject("selectedScid", Integer.valueOf(sc));
+			}
+	//		mav.addObject("hours", hours);		
+			
+			filteredHours = hrSvc.filteredHours(scP);
+			
+			mav.addObject("hours", filteredHours);
+			
 			mav.addObject("semTot", hrSvc.getSemTot(hours)); //total hours served per semester
 			mav.addObject("termTot", hrSvc.getTermTot(hours)); //total hours served per term
 			mav.addObject("totOrgs", hrSvc.getTotOrgs(hours)); //total organizations helped
