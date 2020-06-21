@@ -14,4 +14,6 @@ public interface AdminUserDao {
 	public List<AdminUser> listAllAdminUsers() throws Exception;
 	
 	public AdminUser fetchAdminUserById(int userId) throws Exception;
+	
+	public AdminUser create(String username) throws Exception;
 }

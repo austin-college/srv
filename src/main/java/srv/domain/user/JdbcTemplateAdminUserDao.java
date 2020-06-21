@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import srv.AppConstants;
 import srv.domain.JdbcTemplateAbstractDao;
 import srv.domain.contact.Contact;
+import srv.domain.contact.JdbcTemplateContactDao;
 
 public class JdbcTemplateAdminUserDao extends JdbcTemplateAbstractDao implements AdminUserDao {
 	
@@ -19,6 +20,9 @@ public class JdbcTemplateAdminUserDao extends JdbcTemplateAbstractDao implements
 		
 	@Autowired
 	private JdbcTemplateUserDao uDao;
+	
+	@Autowired 
+	private JdbcTemplateContactDao contactDao;
 	
 	public JdbcTemplateAdminUserDao() {
 		super();
@@ -55,6 +59,48 @@ public class JdbcTemplateAdminUserDao extends JdbcTemplateAbstractDao implements
 		
 		return specifiedAdminUser.get(0);
 		
+	}
+	
+	/*
+	 * Creates and returns a new AdminUser by the given username.
+	 * 
+	 * If the username does not already exist, create a new User with new contact email
+	 * and first name that are the same as the username. Then, finishes creating new AdminUser
+	 * based on existing or newly created user.
+	 * 
+	 * Throws an exception if the username was not specified since it is required.
+	 */
+	@Override
+	public AdminUser create(String username) throws Exception {
+		
+		int userId;
+		
+		// username shall not be null
+		if (username == null)
+			throw new Exception("Username shall not be null.");
+		
+		// first get the user from the users data table
+		User user = uDao.fetchUserByUsername(username);
+		
+		// verify if the user already exists or if a new one needs to be created
+		if (user != null)
+			userId = user.getUid();
+		else {
+
+			// Create and get a handle on a new contact for our new user
+			String email = username + "@austincollege.edu";
+			Contact newContact = contactDao.create(username, null, email, null, null, null, null, null, null);
+
+			User newUser = uDao.create(username, newContact.getContactId());
+			userId = newUser.getUid();
+		}
+		
+		// SQL statement that is to be executed
+		String sql = "INSERT INTO adminUsers (userId) VALUES (?)";
+		
+		getJdbcTemplate().update(sql, userId);
+		
+		return fetchAdminUserById(userId);
 	}
 	
 	/**
