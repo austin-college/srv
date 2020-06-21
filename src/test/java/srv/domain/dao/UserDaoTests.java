@@ -166,16 +166,14 @@ class UserDaoTests {
 
 		assertEquals("apritchard", u1.getUsername());
 
-		String newUsername = "new username";
 		int newContact = 5;
 
 		// update each item
-		dao.update(id, newUsername, newContact);
+		dao.update(id, newContact);
 
 		u1 = dao.fetchUserById(id);
 
-		assertEquals(newUsername, u1.getUsername());
-
+		assertEquals(5, u1.getContactInfo().getContactId());
 	}
 
 	@Test

@@ -101,19 +101,18 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 	 * Asks for a new version of every variable to update
 	 */
 	@Override
-	public void update(int uid, String newUsername, int newContact) throws Exception {
+	public void update(int uid, int newContact) throws Exception {
 
 		// the sequel statement
-		final String sql = "update users set username = ?, contactId = ? where userId = ?";
+		final String sql = "update users set contactId = ? where userId = ?";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		// this prepared statement fills in the ?'s in the sql statement with our data
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "userId" });
-			ps.setString(1, newUsername);
-			ps.setInt(2, newContact);
-			ps.setInt(3, uid);
+			ps.setInt(1, newContact);
+			ps.setInt(2, uid);
 			return ps;
 		}, keyHolder);
 
