@@ -1,5 +1,6 @@
 package srv.domain.user;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -8,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import srv.AppConstants;
 import srv.domain.JdbcTemplateAbstractDao;
@@ -103,9 +106,47 @@ public class JdbcTemplateBoardMemberUserDao extends JdbcTemplateAbstractDao impl
 		getJdbcTemplate().update(sql, userId, coChair);
 		
 		return fetchBoardMemberUserById(userId);
-		
 	}
 	
+	/*
+	 * Updates the specified BoardMemberUser (by userId) with the given values.
+	 * 
+	 * Allowed to also update the ServantUser and User values.
+	 */
+	@Override
+	public void update(int userId, Boolean coChair, Integer sgid, Integer expectedGradYr, 
+			Boolean hasCar, Integer carCap, Integer contactId) throws Exception {
+		
+		// Delegate to ServantUserDao to update ServantUser and User values
+		srvUserDao.update(userId, sgid, expectedGradYr, hasCar, carCap, contactId);
+		
+		// SQL statement that is to be executed
+		final String sql = "UPDATE boardMemberUsers SET isCoChair = ? WHERE userId = ?";
+		
+		final KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		// fills in the SQL statements ?'s
+		getJdbcTemplate().update(connection -> {
+			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "userId" });
+			
+			if (coChair == null)
+				ps.setNull(1, java.sql.Types.BOOLEAN);
+			else
+				ps.setBoolean(1,  coChair);
+			
+			ps.setInt(2, userId);
+			return ps;
+		}, keyHolder);
+		
+		Number num = keyHolder.getKey();
+		
+		if (num == null) {
+			log.error("Unable to update board member user [{}]", userId);
+			throw new Exception("Unable to update board member user " + userId);
+		}
+	}
+	
+		
 	/**
 	 * This class maps a BoardMemberUser database record to the BoardMemberUser model object by using
 	 * a RowMapper interface to fetch the records for a BoardMember user from the data store.
@@ -142,8 +183,6 @@ public class JdbcTemplateBoardMemberUserDao extends JdbcTemplateAbstractDao impl
 					.setContactInfo(srvUser.getContactInfo())
 					.setRoll(AppConstants.ROLE_BOARDMEMBER);
 					;
-			
-				
 				 
 			} catch (Exception e) {
 				e.printStackTrace();

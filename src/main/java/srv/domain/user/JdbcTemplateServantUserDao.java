@@ -123,7 +123,7 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 		Number num = keyHolder.getKey();
 
 		if (num == null) {
-			log.error("Unable to update [{}]", userId);
+			log.error("Unable to update servant user [{}]", userId);
 			throw new Exception("Unable to update servant user " + userId);
 		}
 		

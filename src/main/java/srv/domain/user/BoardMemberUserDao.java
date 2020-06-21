@@ -17,4 +17,7 @@ public interface BoardMemberUserDao {
 	public BoardMemberUser fetchBoardMemberUserById(int userId) throws Exception;
 	
 	public BoardMemberUser create(String username, Boolean coChair) throws Exception;
+	
+	public void update(int userId, Boolean coChair, Integer sgid, Integer expectedGradYr, 
+			Boolean hasCar, Integer carCap, Integer contactId) throws Exception;
 }

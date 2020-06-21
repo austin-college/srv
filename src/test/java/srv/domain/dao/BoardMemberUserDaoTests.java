@@ -203,4 +203,79 @@ class BoardMemberUserDaoTests {
 	 
 	    assertTrue(actualMessage.contains(expectedMessage));		
 	}
+	
+	/*
+	 * Testing update() when the userId is valid (exists in the data table)
+	 * and none of the updated values are null. Should update the BoardMemberUser
+	 * with the new values as well as the ServantUser and User's values.
+	 */
+	@Test
+	void test_update_whenIdValid_noNullValues() throws Exception {
+		
+		bmUserDao.update(4, true, 1, 2025, false, 0, 3);
+		
+		// Assuming the fetchById is okay even though smelly code
+		BoardMemberUser testBmUser = bmUserDao.fetchBoardMemberUserById(4);
+		
+		// Verifying updated values for board member
+		assertEquals(true, testBmUser.getIsCoChair());
+		
+		// and for ServantUser
+		assertEquals(1, testBmUser.getAffiliation().getSgid());
+		assertEquals("DummyName01", testBmUser.getAffiliation().getShortName());
+		assertEquals(2025, testBmUser.getExpectedGradYear());
+		assertEquals(false, testBmUser.getHasCar());
+		assertEquals(0, testBmUser.getCarCapacity());
+		
+		// and for User's contact info
+		assertEquals(3, testBmUser.getContactInfo().getContactId());
+		assertEquals("Joe", testBmUser.getContactInfo().getFirstName());	
+	}
+	
+	/* 
+	 * Testing update() when the userId is valid (exists in the data table)
+	 * and some of the updated values are null. Should update the BoardMemberUser
+	 * with the new values.
+	 */
+	@Test
+	void test_update_whenIdValid_nullValues() throws Exception {
+		
+		bmUserDao.update(2, null, null, 2024, false, 0, null);
+		
+		// Assuming the fetchById is okay even though smelly code
+		BoardMemberUser testBmUser = bmUserDao.fetchBoardMemberUserById(2);
+		
+		// Verifying updated values for board member
+		assertNull(testBmUser.getIsCoChair());
+		
+		// and for ServantUser
+		assertNull(testBmUser.getAffiliation());
+		assertEquals(2024, testBmUser.getExpectedGradYear());
+		assertEquals(false, testBmUser.getHasCar());
+		assertEquals(0, testBmUser.getCarCapacity());
+		
+		// and for Users contact info
+		assertNull(testBmUser.getContactInfo());
+	}
+	
+	/*
+	 * Testing update() when the userId is invalid (does not exist in the data table).
+	 * Should throw an exception stating that the specified BoardMemberUser was not
+	 * able to be updated.
+	 * 
+	 * NOTE: needs to be a value that is in the ServantUser tables but not BoardMember table
+	 * othewise the update() for the ServantUserDao will throw the exception.
+	 */
+	@Test
+	void test_update_whenIdInvalid() throws Exception {
+	
+		Exception exception = assertThrows(Exception.class, () -> {
+			bmUserDao.update(1, false, 2, 2021, false, 0, null);
+		});
+	 
+	    String expectedMessage = "Unable to update board member user 1";
+	    String actualMessage = exception.getMessage();
+
+	    assertTrue(actualMessage.contains(expectedMessage));		
+	}
 }
