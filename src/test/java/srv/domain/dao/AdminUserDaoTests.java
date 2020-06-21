@@ -134,4 +134,71 @@ class AdminUserDaoTests {
 	 
 	    assertTrue(actualMessage.contains(expectedMessage));		
 	}
+	
+	/*
+	 * Testing update() when the userId is valid (exists in the data table)
+	 * and none of the updated values are null. Should update the AdminUser
+	 * and User's contact info.
+	 */
+	@Test
+	void test_update_whenIdValid_noNullVals() throws Exception {
+		
+		adminUserDao.update(3, 3);
+		
+		// Assuming the fetchById is okay even though smelly code
+		AdminUser testAdminUser = adminUserDao.fetchAdminUserById(3);
+		
+		// Verifying updated values
+		assertEquals(3, testAdminUser.getContactInfo().getContactId());
+		assertEquals("Joe", testAdminUser.getContactInfo().getFirstName());
+		assertEquals("Smith", testAdminUser.getContactInfo().getLastName());
+		
+		// User's values should still be the same
+		assertEquals(3, testAdminUser.getUid());
+		assertEquals("eDriscoll", testAdminUser.getUsername());
+	}
+	
+	/*
+	 * Testing update() when the userID is valid (exists in the data table)
+	 * and the contact id is null. Should update the AdminUser/User with the 
+	 * new value.
+	 */
+	@Test
+	void test_update_whenIdValid_nullVals() throws Exception {
+		
+		adminUserDao.update(3, null);
+		
+		// Assuming the fetchById is okay even though smelly code
+		AdminUser testAdminUser = adminUserDao.fetchAdminUserById(3);
+		
+		// Verifying updated values
+		assertNull(testAdminUser.getContactInfo());
+
+		// User's values should still be the same
+		assertEquals(3, testAdminUser.getUid());
+		assertEquals("eDriscoll", testAdminUser.getUsername());
+
+	}
+	
+	/*
+	 * Testing update() when the userId is invalid (does not exist in the data table).
+	 * Should throw an exception stating that the specified AdminUser was not
+	 * able to update.
+	 * 
+	 * NOTE: Has to be a userId that is not in the adminUsers table, otherwise
+	 * the UserDao will throw the exception.
+	 */
+	@Test
+	void test_update_whenIdInvalid() throws Exception {
+		
+		Exception exception = assertThrows(Exception.class, () -> {
+			adminUserDao.update(4, 1);
+		});
+	 
+	    String expectedMessage = "Unable to update admin user 4";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));		
+		
+	}
 }

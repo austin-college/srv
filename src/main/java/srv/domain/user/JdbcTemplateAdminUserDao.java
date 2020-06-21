@@ -103,6 +103,24 @@ public class JdbcTemplateAdminUserDao extends JdbcTemplateAbstractDao implements
 		return fetchAdminUserById(userId);
 	}
 	
+	/*
+	 * Updates the specified AdminUser (by userId) with the given values.
+	 * 
+	 * Allowed to also update the contact id for User.
+	 */
+	@Override
+	public void update(int userId, Integer contactId) throws Exception {
+		
+		uDao.update(userId,  contactId);
+		
+		// Verifies if the admin user exists in the adminUsers table
+		if (fetchAdminUserById(userId) == null) {
+			
+			log.error("Unable to update admin user [{}]", userId);
+			throw new Exception("Unable to update admin user " + userId);
+		}
+		
+	}
 	/**
 	 * This class maps an AdminUser database record to the AdminUser model object by using
 	 * a RowMapper interface to fetch the records for an Admin user from the data table.
