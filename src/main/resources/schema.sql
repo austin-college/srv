@@ -9,6 +9,17 @@ DROP TABLE IF EXISTS boardMemberUsers;
 DROP TABLE IF EXISTS adminUsers;
 DROP TABLE IF EXISTS contacts;
 
+CREATE TABLE spotlight (
+	sid INTEGER AUTO_INCREMENT,
+	img BLOB,
+	imgtype VARCHAR(10),
+	imgsize INTEGER,
+	spottxt VARCHAR,
+	PRIMARY KEY (sid)
+);
+
+INSERT into spotlight (spottxt) values ('First Spot Light Text');
+
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
 	firstName VARCHAR(255),
