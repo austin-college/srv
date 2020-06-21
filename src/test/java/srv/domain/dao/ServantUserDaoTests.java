@@ -331,10 +331,10 @@ class ServantUserDaoTests {
 	 void test_delete_whenIdInvalid() throws Exception {
 		
 		Exception exception = assertThrows(Exception.class, () -> {
-			srvUserDao.delete(-1);
+			srvUserDao.delete(3);
 		});
 	 
-	    String expectedMessage = "Unable to delete servant user [-1]";
+	    String expectedMessage = "Unable to delete servant user [3]";
 	    String actualMessage = exception.getMessage();
 	 
 	    assertTrue(actualMessage.contains(expectedMessage));		

@@ -121,6 +121,23 @@ public class JdbcTemplateAdminUserDao extends JdbcTemplateAbstractDao implements
 		}
 		
 	}
+	
+	/*
+	 * Removes the specified AdminUser (by userId) from the database. An
+	 * exception is thrown if the AdminUser is unable to be removed (does not exist).
+	 */
+	@Override
+	public void delete(int userId) throws Exception {
+		
+		int rc = getJdbcTemplate().update("DELETE FROM adminUsers WHERE userId =?", new Object[] { userId } );
+		
+		if (rc != 1) {
+			String errMsg = String.format("Unable to delete admin user [%d]", userId);
+			log.error(errMsg);
+			throw new Exception(errMsg);
+		}
+	}
+	
 	/**
 	 * This class maps an AdminUser database record to the AdminUser model object by using
 	 * a RowMapper interface to fetch the records for an Admin user from the data table.

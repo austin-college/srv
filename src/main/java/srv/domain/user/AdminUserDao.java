@@ -18,4 +18,6 @@ public interface AdminUserDao {
 	public AdminUser create(String username) throws Exception;
 	
 	public void update(int userId, Integer contactId) throws Exception;
+	
+	public void delete(int userId) throws Exception;
 }

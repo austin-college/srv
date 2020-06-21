@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import srv.domain.user.AdminUserDao;
 import srv.domain.user.ServantUser;
 import srv.domain.user.ServantUserDao;
 import srv.domain.user.User;
@@ -27,6 +28,9 @@ class UserDaoTests {
 
 	@Autowired
 	ServantUserDao srvUserDao;
+	
+	@Autowired
+	AdminUserDao adminUserDao;
 	
 	/*
 	 * Testing fetchUserById(int i) should return the user info for the user with id
@@ -209,7 +213,7 @@ class UserDaoTests {
 	 * specified User to be deleted is also removed.
 	 */
 	@Test
-	void test_delete() throws Exception {
+	void test_delete_ServantUser() throws Exception {
 		
 		dao.delete(1);
 		
@@ -225,5 +229,21 @@ class UserDaoTests {
 		assertEquals(2, srvUsers.get(0).getUid());
 		assertEquals(4, srvUsers.get(1).getUid());
 		
+	}
+	
+	/*
+	 * Delete method to verify the AdminUser associated with the
+	 * specified User to be deleted is also removed.
+	 */
+	@Test
+	void test_delete_AdminUser() throws Exception {
+		
+		dao.delete(3);
+		
+		// Should be null since deleted
+		assertNull(adminUserDao.fetchAdminUserById(3));
+		
+		// Should be an empty list
+		assertEquals(0, adminUserDao.listAllAdminUsers().size());
 	}
 }

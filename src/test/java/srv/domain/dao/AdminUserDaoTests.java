@@ -199,6 +199,43 @@ class AdminUserDaoTests {
 	    String actualMessage = exception.getMessage();
 	 
 	    assertTrue(actualMessage.contains(expectedMessage));		
-		
 	}
+	
+	/*
+	 * Testing delete when the userId is valid (exists in the data table).
+	 * Should delete the AdminUser.
+	 */
+	@Test
+	void test_delete_whenIdValid() throws Exception {
+		
+		adminUserDao.delete(3);
+		
+		// Deleted values should now be null
+		assertNull(adminUserDao.fetchAdminUserById(3));
+		
+		List<AdminUser> allAdminUsers = adminUserDao.listAllAdminUsers(); 
+		
+		// Should have an empty list
+		assertEquals(0, allAdminUsers.size());
+
+	}
+	
+	/*
+	 * Testing delete() when the userId is invalid (does not exist
+	 * in the data table). Should throw an exception stating that
+	 * the specified admin user was not able to be deleted.
+	 */
+	@Test
+	 void test_delete_whenIdInvalid() throws Exception {
+		
+		Exception exception = assertThrows(Exception.class, () -> {
+			adminUserDao.delete(1);
+		});
+	 
+	    String expectedMessage = "Unable to delete admin user [1]";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));		
+	}
+	
 }
