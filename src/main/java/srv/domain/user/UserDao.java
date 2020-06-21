@@ -41,5 +41,4 @@ public interface UserDao {
 	
 	public void update(int uid, String newUsername, int newContact) throws Exception;
 	
-	public void changeUsername(int uid, String newUsername) throws Exception;
 }

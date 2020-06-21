@@ -33,7 +33,7 @@ class UserDaoTests {
 	 * i.
 	 */
 	@Test
-	void testFetchById_whenUsingJdbcTemplate() throws Exception {
+	void testFetchById() throws Exception {
 
 		// test that u1 can be fetched
 		int id1 = 1;
@@ -62,7 +62,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testListAll_whenUsingJdbcTemplate() throws Exception {
+	void testListAll() throws Exception {
 
 		List<User> users = dao.listAll();
 
@@ -81,12 +81,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testCreate_whenUsingJdbcTemplate() throws Exception {
-
-		// if this isn't here i get a null pointer exception so i have no idea whats up
-		// User u = dao.fetchUserById(1);
-
-		// System.err.println("Size of list before create is " + dao.listAll().size());
+	void testCreate() throws Exception {
 
 		User u1 = dao.create("lHouse", 4);
 		User u3 = dao.create("mHiggs", 5);
@@ -102,7 +97,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testDelete_whenUsingJdbcTemplate() throws Exception {
+	void testDelete() throws Exception {
 
 		// checks to see that user with id 1 exists then
 		User u1 = dao.fetchUserById(1);
@@ -138,7 +133,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testDeleteNewlyCreated_whenUsingJdbcTemplate() throws Exception {
+	void testDeleteNewlyCreated() throws Exception {
 
 		int originalSizeOfUserArray = dao.listAll().size();
 
@@ -162,7 +157,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testUpdate_whenUsingJdbcTemplate() throws Exception {
+	void testUpdate() throws Exception {
 
 		int id = 1;
 		User u1 = dao.fetchUserById(id);
@@ -184,7 +179,7 @@ class UserDaoTests {
 	}
 
 	@Test
-	void testFetchByUserName_whenUsingJdbcTemplate() throws Exception {
+	void testFetchByUserName() throws Exception {
 
 		// test that u1 can be fetched
 		String uname1 = "apritchard";
@@ -216,7 +211,7 @@ class UserDaoTests {
 	 * specified User to be deleted is also removed.
 	 */
 	@Test
-	void test_delete_ServantUserDeleted() throws Exception {
+	void test_delete() throws Exception {
 		
 		dao.delete(1);
 		

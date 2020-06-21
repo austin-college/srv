@@ -159,19 +159,6 @@ public class JdbcTemplateUserDao extends JdbcTemplateAbstractDao implements User
 		return results.get(0);
 	}
 
-	/*
-	 * Changes the username
-	 */
-	@Override
-	public void changeUsername(int uid, String newUsername) throws Exception {
-		int rc = getJdbcTemplate().update("update users set username = ? where userId = ?",
-				new Object[] { newUsername, uid });
-
-		if (rc < 1) {
-			log.error("unable to update username [{}]", uid);
-		}
-
-	}
 
 	/**
 	 * This class maps a User database record to the User model object by using
