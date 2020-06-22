@@ -119,7 +119,14 @@ public class ServiceHoursService {
 		if ((monthName != null) && (monthName.length() <= 0)) {
 			throw new Exception(String.format("Invalid month name [%s]", monthName));
 		}
-
+		
+		/*
+		 * When the 'List All' value is selected, we make the month name null in
+		 * order to display all months
+		 */
+		if ((monthName != null) && (monthName.equals("List All")))
+			monthName = null;
+		
 		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId, monthName);
 		
 		log.debug("Size of filtered hours list is: " + results.size());

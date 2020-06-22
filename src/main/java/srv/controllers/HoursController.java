@@ -94,7 +94,7 @@ public class HoursController {
 			String monthNameP = null;
 			
 			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
-			mav.addObject("selectedMonth", 0); // sets the combo box for months to 'List All'
+			mav.addObject("selectedMonth", "List All"); // sets the combo box for months to 'List All'
 			
 			// Filtering by service client
 			if (sc != null) {

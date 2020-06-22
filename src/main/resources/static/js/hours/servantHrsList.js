@@ -621,6 +621,33 @@ function ajaxDeleteEventNow() {
 
 }
 
+/* 
+ * Prepares the month combo box
+ */
+function setMonthComboBox() {
+	
+	const monthNames = ["List All", "January", "February", "March", "April", "May", "June",
+		  "July", "August", "September", "October", "November", "December"
+		];
+
+	/*
+	 * Populates the month combo box with the above month names
+	 */
+	var selectMonth = $("#monthComboBox");
+
+	for(m = 0; m <= 12; m++) {
+	    var optn = document.createElement("OPTION");
+	    optn.text = monthNames[m];
+	    document.getElementById('monthComboBox').options.add(optn);
+	}
+	
+	var selectedMonth = $("#monthComboBox").attr("data-prev-selected");
+	
+	// set the selected month as selected
+	document.getElementById('monthComboBox').value = selectedMonth;
+}
+
+
 /**
  * When the back button is clicked on returns the user to the previous page.
  * If the previous page is the login page, the user is directed to their home page.
@@ -639,23 +666,8 @@ function goBack() {
  */
 $(document).ready(function() {	
 	
-	const monthNames = ["List All", "January", "February", "March", "April", "May", "June",
-		  "July", "August", "September", "October", "November", "December"
-		];
+	setMonthComboBox();
 
-	/*
-	 * Populates the month combo box with the above month names
-	 */
-	var selectMonth = $("#monthComboBox");
-
-	for(m = 0; m <= 12; m++) {
-	    var optn = document.createElement("OPTION");
-	    optn.text = monthNames[m];
-	 	 
-	    document.getElementById('monthComboBox').options.add(optn);
-	}
-	
-	
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen : false, // hide it at first
