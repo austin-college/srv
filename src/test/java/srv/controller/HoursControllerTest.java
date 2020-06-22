@@ -115,7 +115,7 @@ public class HoursControllerTest {
 		dummyList.add(h2);
 		dummyList.add(h3);
 			
-		Mockito.when(hrSvc.filteredHours(1, null)).thenReturn(dummyList);
+		Mockito.when(hrSvc.filteredHours(1, null, null)).thenReturn(dummyList);
 		Mockito.when(mockUserUtil.currentUser()).thenReturn(testUser);
 		
 		// now perform the test

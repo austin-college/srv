@@ -195,13 +195,29 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 * Filters the list of service hours by users, sponsors (service clients), year, and month.
 	 */
 	@Override
-	public List<ServiceHours> listByFilter(Integer userId, Integer scId) throws Exception {
+	public List<ServiceHours> listByFilter(Integer userId, Integer scId, String monthName) throws Exception {
 		
 		// Allows for dynamic building of query string based on parameters
-		StringBuffer queryBuff = new StringBuffer("SELECT * from serviceHours ");
+		StringBuffer queryBuff = new StringBuffer("SELECT * FROM serviceHours ");
 		
 		// Flag for if the parameter is first in the query
 		boolean first = true;
+		
+		// Filters by month name, put month in front to avoid BadSQLGrammar exceptions
+		if (monthName != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("WHERE ");
+			}
+			else
+				queryBuff.append("AND ");
+
+			// Query date by service hour's event's date
+			queryBuff.append("eventId = (SELECT eventId FROM events WHERE MONTHNAME(events.dateOf) = ");
+			queryBuff.append("'");
+			queryBuff.append(monthName);
+			queryBuff.append("') ");
+		}
 		
 		// Filters by users
 		if (userId != null) {
@@ -233,8 +249,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 			queryBuff.append("' ");
 		}
 		
-		log.debug(queryBuff.toString());
 		
+		log.debug(queryBuff.toString());
+
 		List<ServiceHours> results = getJdbcTemplate().query(queryBuff.toString(),	new ServiceHourRowMapper());
 
 		return results;	

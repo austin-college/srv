@@ -341,12 +341,12 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh1);	list.add(sh2);
 		
-		Mockito.when(dao.listByFilter(null, null)).thenReturn(list);
+		Mockito.when(dao.listByFilter(null, null, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(null, null);
+		List<ServiceHours> newList = shs.filteredHours(null, null, null);
 		assertEquals(2, newList.size());
 		
-		Mockito.verify(dao).listByFilter(null, null);
+		Mockito.verify(dao).listByFilter(null, null, null);
 	}
 	/**
 	 * Test to make sure that the service returns a list of hours based on a
@@ -358,14 +358,14 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh2);
 		
-		Mockito.when(dao.listByFilter(null, 2)).thenReturn(list);
+		Mockito.when(dao.listByFilter(null, 2, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(null, 2);
+		List<ServiceHours> newList = shs.filteredHours(null, 2, null);
 	
 		assertEquals(1, newList.size());
 		assertEquals(2, newList.get(0).getShid());
 		
-		Mockito.verify(dao).listByFilter(null, 2);
+		Mockito.verify(dao).listByFilter(null, 2, null);
 	}
 	
 	/**
@@ -375,7 +375,7 @@ public class ServiceHoursServiceTests {
 	@Test(expected=Exception.class)
 	public void test_filter_byServiceClient_whenIdInvalid() throws Exception {
 		
-		shs.filteredHours(null, -1);
+		shs.filteredHours(null, -1, null);
 	}
 	
 	/**
@@ -388,14 +388,14 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh1);
 		
-		Mockito.when(dao.listByFilter(1, null)).thenReturn(list);
+		Mockito.when(dao.listByFilter(1, null, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(1, null);
+		List<ServiceHours> newList = shs.filteredHours(1, null, null);
 	
 		assertEquals(1, newList.size());
 		assertEquals(1, newList.get(0).getShid());
 		
-		Mockito.verify(dao).listByFilter(1, null);
+		Mockito.verify(dao).listByFilter(1, null, null);
 		
 	}
 	
@@ -407,7 +407,26 @@ public class ServiceHoursServiceTests {
 	@Test(expected=Exception.class)
 	public void test_filter_byUser_whenIdInvalid() throws Exception {
 		
-		shs.filteredHours(-1, null);
+		shs.filteredHours(-1, null, null);
+	}
+	
+	/**TODO this test will fail come July.. need to mock date
+	 * 
+	 * Test to make sure that the service returns a list of hours based
+	 * on a valid month name.
+	 */
+	@Test
+	public void test_filter_byMonth_whenNameValid() throws Exception {
+		
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);	list.add(sh2);
+		
+		Mockito.when(dao.listByFilter(null, null, "June")).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, null, "June");
+		assertEquals(2, newList.size());
+		
+		Mockito.verify(dao).listByFilter(null, null, "June");
 	}
 	/*
 	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests

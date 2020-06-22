@@ -94,6 +94,12 @@ function removeQueryUrl(filter) {
 	// If the service client combo box is selected to 'List All'
 	if (filter == 'scComboBox') {
 		
+		deleteQuery = findQuery(currentUrlArray, 1);
+	}
+	
+	// If the month combo box is selected to 'List All'
+	else if (filter == 'monthComboBox') {
+		
 		deleteQuery = findQuery(currentUrlArray, 2);
 	}
 	
@@ -133,8 +139,14 @@ function findQuery(urlArray, flag) {
 	for (var index = 0; index < urlArray.length; index++) {	
 		
 		// Specified query is for service client
-		if (flag == 2) {
+		if (flag == 1) {
 			if (urlArray[index].includes("sc="))
+				query = urlArray[index];
+		}
+		
+		// Specified query is for month
+		else if (flag == 2) {
+			if(urlArray[index].includes("month="))
 				query = urlArray[index];
 		}
 	}
@@ -161,6 +173,7 @@ function queryUrl(filter, comboBoxSelectedId) {
 	containsArray = urlContains(filter, currentUrl, comboBoxSelectedId); 
 	currentUrl =  containsArray[0];
 	
+	console.log(comboBoxSelectedId);
 	console.log(currentUrl);
 	
 	/*
@@ -181,6 +194,10 @@ function queryUrl(filter, comboBoxSelectedId) {
 		// If the specified query is for service clients
 		if (filter == 'scComboBox')
 			currentUrl += 'sc=' + comboBoxSelectedId;
+		
+		// If the specified query is for months
+		if (filter == 'monthComboBox')
+			currentUrl += 'month=' + comboBoxSelectedId;
 	}
 
 	console.log(currentUrl);
@@ -213,8 +230,20 @@ function urlContains(filter, url, comboBoxSelectedId) {
 	 */
 	if ((filter == 'scComboBox') && (url.includes("sc="))) {
 		
-		oldQuery = findQuery(location.href.split(/[\&,?]+/), 2);
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 1);
 		url = url.replace(oldQuery, 'sc=' + comboBoxSelectedId);
+		contains = true;
+	}
+	
+	/*
+	 * If the specified query is for month and it has been selected before,
+	 * find its location in the URL and replace it with the newly selected 
+	 * month name
+	 */
+	if ((filter == 'monthComboBox') && (url.includes("month="))) {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 2);
+		url = url.replace(oldQuery, 'month=' + comboBoxSelectedId);
 		contains = true;
 	}
 		
@@ -609,7 +638,24 @@ function goBack() {
  * create the functionality of the buttons.
  */
 $(document).ready(function() {	
+	
+	const monthNames = ["List All", "January", "February", "March", "April", "May", "June",
+		  "July", "August", "September", "October", "November", "December"
+		];
 
+	/*
+	 * Populates the month combo box with the above month names
+	 */
+	var selectMonth = $("#monthComboBox");
+
+	for(m = 0; m <= 12; m++) {
+	    var optn = document.createElement("OPTION");
+	    optn.text = monthNames[m];
+	 	 
+	    document.getElementById('monthComboBox').options.add(optn);
+	}
+	
+	
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen : false, // hide it at first

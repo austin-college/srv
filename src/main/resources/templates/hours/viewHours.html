@@ -61,6 +61,12 @@
 			</select>
 		</div>
 		
+		<div class="col text-right comboBox">
+			<label>By Month:</label>
+			<select id="monthComboBox" data-prev-selected="${selectedMonth}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
+			</select>		
+		</div>
+		
 	</div>
 	<div class="row text-right" style="padding-bottom: 20px">
 		<!-- Clears all filters -->

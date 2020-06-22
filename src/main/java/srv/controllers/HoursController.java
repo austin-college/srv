@@ -67,7 +67,8 @@ public class HoursController {
 	 * @author Hunter Couturier
 	 */
 	@GetMapping("/hours")
-	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String sc) {
+	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String sc,
+			@RequestParam(required = false) String month) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 		
@@ -90,16 +91,23 @@ public class HoursController {
 			log.debug("...{} hours detected.",hours.size());
 			
 			Integer scP = null;
+			String monthNameP = null;
 			
 			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
+			mav.addObject("selectedMonth", 0); // sets the combo box for months to 'List All'
 			
 			// Filtering by service client
 			if (sc != null) {
 				scP = Integer.valueOf(sc);
 				mav.addObject("selectedScid", Integer.valueOf(sc));
 			}
-	//		mav.addObject("hours", hours);		
 			
+			// Filtering by month
+			if (month != null) {
+				monthNameP = month;
+				mav.addObject("selectedMonth", monthNameP);
+			}
+				
 			/*
 			 * Get the current user's id. If they are an admin set it to null
 			 * so they can see all service hours
@@ -109,7 +117,7 @@ public class HoursController {
 			else
 				userId = userUtil.currentUser().getUid();
 			
-			filteredHours = hrSvc.filteredHours(userId, scP);
+			filteredHours = hrSvc.filteredHours(userId, scP, monthNameP);
 			
 			mav.addObject("hours", filteredHours);
 			

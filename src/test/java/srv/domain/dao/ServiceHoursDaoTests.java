@@ -276,7 +276,7 @@ class ServiceHoursDaoTests {
 	void listByFilter_byUserId() throws Exception {
 		
 		// fetches the list of hours with user id of 4
-		List <ServiceHours> hoursByUid4 = dao.listByFilter(4, null);
+		List <ServiceHours> hoursByUid4 = dao.listByFilter(4, null, null);
 		
 		assertEquals(2, hoursByUid4.size());
 		assertEquals(4, hoursByUid4.get(0).getShid());
@@ -289,7 +289,7 @@ class ServiceHoursDaoTests {
 	void listByFilter_byServiceClient() throws Exception {
 		
 		// fetches the list of hours with service client id 1
-		List <ServiceHours> hoursByScid1 = dao.listByFilter(null, 1);
+		List <ServiceHours> hoursByScid1 = dao.listByFilter(null, 1, null);
 		
 		assertEquals(3, hoursByScid1.size());
 		assertEquals(1, hoursByScid1.get(0).getShid());
@@ -304,8 +304,21 @@ class ServiceHoursDaoTests {
 	void listByFilter_allNullParam() throws Exception {
 		
 		// Fetches the list of hours with all nulls
-		List <ServiceHours> allHours = dao.listByFilter(null, null);
+		List <ServiceHours> allHours = dao.listByFilter(null, null, null);
 		
 		assertEquals(5, allHours.size());
+	}
+	
+	/**
+	 * Filters the list of hours by month name.
+	 */
+	@Test
+	void listByFilter_byMonth() throws Exception {
+		
+		// fetches the list of hours for March
+		List <ServiceHours> allMarchHours = dao.listByFilter(null, null, "March");
+		
+		assertEquals(1, allMarchHours.size());
+		assertEquals(2, allMarchHours.get(0).getShid());
 	}
 }

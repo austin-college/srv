@@ -106,7 +106,7 @@ public class ServiceHoursService {
 	 * @param scId
 	 * @throws Exception
 	 */
-	public List<ServiceHours> filteredHours(Integer userId, Integer scId) throws Exception {
+	public List<ServiceHours> filteredHours(Integer userId, Integer scId, String monthName) throws Exception {
 		
 		if ((userId != null) && (userId <= 0)) {
 			throw new Exception(String.format("Invalid user id [%d]", userId));
@@ -116,7 +116,11 @@ public class ServiceHoursService {
 			throw new Exception(String.format("Invalid service client id [%d]", scId));
 		}
 		
-		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId);
+		if ((monthName != null) && (monthName.length() <= 0)) {
+			throw new Exception(String.format("Invalid month name [%s]", monthName));
+		}
+
+		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId, monthName);
 		
 		log.debug("Size of filtered hours list is: " + results.size());
 		
