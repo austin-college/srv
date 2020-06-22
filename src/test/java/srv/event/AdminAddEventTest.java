@@ -22,7 +22,7 @@ import srv.SeleniumTest;
  * This end-to-end functional tests implements the use case "admin adds a new
  * event". 
  * 
- * @author hcourturier
+ * @author hcouturier
  *
  */
 @RunWith(SpringRunner.class)
