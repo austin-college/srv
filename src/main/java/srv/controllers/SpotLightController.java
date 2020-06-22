@@ -115,8 +115,16 @@ public class SpotLightController {
     	s.setImgSize((int)file.getSize());
     	s.setImg(file.getBytes());
     	
+    	/*
+    	 * commit the results to our database
+    	 */
     	spotLightDao.update(s);
     	
+    	
+    	/*
+    	 * Return to our base page to refresh the page with the selected,
+    	 * uploaded,committed image.
+    	 */
         return new RedirectView("/srv/spotlight");
     }
     
@@ -130,6 +138,8 @@ public class SpotLightController {
     	
     	String htmlStr = request.getParameter("spotTxt");
     	log.debug(htmlStr);
+    	
+    	if (htmlStr == null) htmlStr = "MISSING SPOTLIGHT TEXT";
     	
     	s.setSpotText(htmlStr);
     	
