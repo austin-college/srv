@@ -33,7 +33,7 @@ import srv.SeleniumTest;
  * This end-to-end functional tests implements the use case "admin deletes an existing 
  * event". 
  * 
- * @author hcourturier
+ * @author hcouturier
  *
  */
 @RunWith(SpringRunner.class)
@@ -77,7 +77,9 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		link = driver.findElement(By.xpath("//div/div/div/button[@class='delBtnClass']"));
 		link.click();
 		
-		Thread.sleep(2000);
+		WaitForDialogToCloseByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/div/div/button[@class='delBtnClass']");
+		
+//		Thread.sleep(2000);
 		
 		//checks to see if the element is no longer visible
 		assertTrue(driver.findElements(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title evView']")).size() == 0);

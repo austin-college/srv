@@ -19,7 +19,7 @@ import srv.SeleniumTest;
  * This end-to-end functional tests implements the use case "admin updates an existing 
  * event". 
  * 
- * @author hcourturier
+ * @author hcouturier
  *
  */
 @RunWith(SpringRunner.class)

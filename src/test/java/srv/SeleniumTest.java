@@ -146,10 +146,8 @@ public abstract class SeleniumTest {
 
 			@Override
 			public Boolean apply(WebDriver driver) {
-
 				Boolean isPresent;
 				isPresent = driver.findElement(By.xpath(dialogXpath)).isDisplayed();
-
 				return isPresent;
 			}
 		}
@@ -157,6 +155,15 @@ public abstract class SeleniumTest {
 
 	}
 	
+	/**
+	 * On run, this method will cause the test system to wait until the dialog box is closed (based on the given xpath for said Dialog box)
+	 * before allowing the code following it to run
+	 * 
+	 * 
+	 * @param driver
+	 * @param waitTime
+	 * @param dialogXpath
+	 */
 	public void WaitForDialogToCloseByXpath(WebDriver driver, int waitTime, String dialogXpath) {
 
 
@@ -166,14 +173,12 @@ public abstract class SeleniumTest {
 
 			@Override
 			public Boolean apply(WebDriver driver) {
-
-				Boolean isPresent;
+				Boolean isPresent = null;
 				if(driver.findElement(By.xpath(dialogXpath)).isDisplayed() == true) {
 					isPresent = false;
 				} else {
 					isPresent = true;
 				}
-				
 				return isPresent;
 			}
 		}
@@ -181,6 +186,15 @@ public abstract class SeleniumTest {
 
 	}
 	
+	/**
+	 * On run, this method cause the test system to wait until the dialog box is fully closed (based on the given ID for said Dialog box)
+	 * before allowing the code following it to run
+	 * 
+	 * 
+	 * @param driver
+	 * @param waitTime
+	 * @param dialogId
+	 */
 	public void WaitForDialogToCloseById(WebDriver driver, int waitTime, String dialogId) {
 
 
