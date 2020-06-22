@@ -92,16 +92,18 @@ function removeQueryUrl(filter) {
 	
 	
 	// If the service client combo box is selected to 'List All'
-	if (filter == 'scComboBox') {
-		
+	if (filter == 'scComboBox') 
 		deleteQuery = findQuery(currentUrlArray, 1);
-	}
+	
 	
 	// If the month combo box is selected to 'List All'
-	else if (filter == 'monthComboBox') {
-		
+	else if (filter == 'monthComboBox') 
 		deleteQuery = findQuery(currentUrlArray, 2);
-	}
+	
+	
+	// If the status combo box is selected to 'List All'
+	else if (filter == 'statusComboBox') 
+		deleteQuery = findQuery(currentUrlArray, 3);
 	
 	// If the query string was the one and only query in the URL
 	if (currentUrlArray.length == 2)
@@ -146,7 +148,13 @@ function findQuery(urlArray, flag) {
 		
 		// Specified query is for month
 		else if (flag == 2) {
-			if(urlArray[index].includes("month="))
+			if (urlArray[index].includes("month="))
+				query = urlArray[index];
+		}
+		
+		// Specified query is for status
+		else if (flag == 3) {
+			if (urlArray[index].includes("status="))
 				query = urlArray[index];
 		}
 	}
@@ -198,6 +206,10 @@ function queryUrl(filter, comboBoxSelectedId) {
 		// If the specified query is for months
 		if (filter == 'monthComboBox')
 			currentUrl += 'month=' + comboBoxSelectedId;
+		
+		// If the specified query is for status
+		if (filter == 'statusComboBox')
+			currentUrl += 'status=' + comboBoxSelectedId;
 	}
 
 	console.log(currentUrl);
@@ -244,6 +256,18 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		
 		oldQuery = findQuery(location.href.split(/[\&,?]+/), 2);
 		url = url.replace(oldQuery, 'month=' + comboBoxSelectedId);
+		contains = true;
+	}
+	
+	/*
+	 * If the specified query is for status and it has been selected before,
+	 * find its location in the URL and replace it with the newly selected
+	 * status
+	 */
+	if ((filter == 'statusComboBox') && (url.includes("status="))) {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 3);
+		url = url.replace(oldQuery, 'status=' + comboBoxSelectedId);
 		contains = true;
 	}
 		
@@ -981,7 +1005,7 @@ $(document).ready(function() {
 	 */
 	$('#hrs_tbl').DataTable({	
 		"paging": false,
-		"searching": false,
+		"searching": true,
 		"info": false
 	});
 	$('.dataTables_length').addClass('bs-select');

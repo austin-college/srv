@@ -68,7 +68,7 @@ public class HoursController {
 	 */
 	@GetMapping("/hours")
 	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String sc,
-			@RequestParam(required = false) String month) {
+			@RequestParam(required = false) String month, @RequestParam(required = false) String status) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 		
@@ -92,9 +92,11 @@ public class HoursController {
 			
 			Integer scP = null;
 			String monthNameP = null;
+			String statusP = "Pending"; // Default shows all 'Pending' hours
 			
 			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
 			mav.addObject("selectedMonth", "List All"); // sets the combo box for months to 'List All'
+			mav.addObject("selectedStatus", "Pending"); // sets the combo box for status to 'Pending'
 			
 			// Filtering by service client
 			if (sc != null) {
@@ -107,6 +109,12 @@ public class HoursController {
 				monthNameP = month;
 				mav.addObject("selectedMonth", monthNameP);
 			}
+			
+			// Filtering by status
+			if (status != null) {
+				statusP = status;
+				mav.addObject("selectedStatus", status);
+			}
 				
 			/*
 			 * Get the current user's id. If they are an admin set it to null
@@ -117,7 +125,7 @@ public class HoursController {
 			else
 				userId = userUtil.currentUser().getUid();
 			
-			filteredHours = hrSvc.filteredHours(userId, scP, monthNameP);
+			filteredHours = hrSvc.filteredHours(userId, scP, monthNameP, statusP);
 			
 			mav.addObject("hours", filteredHours);
 			

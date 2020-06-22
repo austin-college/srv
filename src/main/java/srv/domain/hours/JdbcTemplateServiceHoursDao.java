@@ -195,7 +195,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 * Filters the list of service hours by users, sponsors (service clients), year, and month.
 	 */
 	@Override
-	public List<ServiceHours> listByFilter(Integer userId, Integer scId, String monthName) throws Exception {
+	public List<ServiceHours> listByFilter(Integer userId, Integer scId, String monthName, String status) throws Exception {
 		
 		// Allows for dynamic building of query string based on parameters
 		StringBuffer queryBuff = new StringBuffer("SELECT * FROM serviceHours ");
@@ -249,6 +249,21 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 			queryBuff.append("' ");
 		}
 		
+		// Filters by hours' status (i.e. pending)
+		if (status != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("WHERE ");
+			}
+			else
+				queryBuff.append("AND ");
+			
+			queryBuff.append("status = ");
+			queryBuff.append("'");
+			queryBuff.append(status);
+			queryBuff.append("' ");
+			
+		}
 		
 		log.debug(queryBuff.toString());
 

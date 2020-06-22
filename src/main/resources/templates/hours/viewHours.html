@@ -44,8 +44,55 @@
 				<span class="fas fa-plus-circle"></span> Add Hours
 			</button>
 		</div>
+			
+		<!-- Filter by year -->
+		<div class="col text-right comboBox">
+			<label>By Year:</label>
+			<select>
+				<option>2020</option>
+			</select>		
+		</div>
+				
+		<!-- Filter by month -->
+		<div class="col text-right comboBox">
+			<label>By Month:</label>
+			<select id="monthComboBox" data-prev-selected="${selectedMonth}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
+			</select>		
+		</div>		
 		
-		<!-- Combo box for filtering hours by sponsor (service client) -->
+		<!-- Filter by status -->
+		<div class="col text-right comboBox">
+			<label>By Status:</label>
+			<select id="statusComboBox" data-prev-selected="${selectedStatus}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
+				
+				<#if selectedStatus == "List All">
+					<option value='List All' selected="selected">List All</option>
+					<option value='Pending'>Pending</option>
+					<option value='Rejected'>Rejected</option>
+					<option value='Approved'>Approved</option>
+				<#elseif selectedStatus == "Pending">
+					<option value='Pending' selected="selected">Pending</option>
+					<option value='Rejected'>Rejected</option>
+					<option value='Approved'>Approved</option>
+					<option value='List All'>List All</option>
+				<#elseif selectedStatus == "Rejected">
+					<option value='Rejected' selected="selected">Rejected</option>
+					<option value='Pending'>Pending</option>
+					<option value='Approved'>Approved</option>
+					<option value='List All'>List All</option>
+				<#else>
+					<option value='Approved' selected="selected">Approved</option>
+					<option value='Pending'>Pending</option>
+					<option value='Rejected'>Rejected</option>
+					<option value='List All'>List All</option>
+				</#if>
+			</select>		
+		</div>
+		
+	</div>
+	
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<!-- Filter sponsor (service client) -->
 		<div class="col text-right comboBox">
 			<label>By Sponsor</label>
 			<select id="scComboBox" data-prev-selected="${selectedScid}" onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
@@ -60,14 +107,8 @@
 				</#list>
 			</select>
 		</div>
-		
-		<div class="col text-right comboBox">
-			<label>By Month:</label>
-			<select id="monthComboBox" data-prev-selected="${selectedMonth}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
-			</select>		
-		</div>
-		
 	</div>
+	
 	<div class="row text-right" style="padding-bottom: 20px">
 		<!-- Clears all filters -->
 		<div class="col">
@@ -85,6 +126,8 @@
 					<tr>
 						<th class="th-sm">ID</th>
 						<th class="th-sm">Service Event</th>
+						<th class="th-sm">Sponsor</th>
+						<th class="th-sm">Date</th>
 						<th class="th-sm">Hours Served</th>
 						<th class="th-sm">Status</th>
 						<th class="th-sm">Action</th>
@@ -96,6 +139,8 @@
 						<tr id="row${hrs.shid?c}">
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.event.title!"UNKNOWN"}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_sponsor'>${hrs.servedPet.name!"UNKNOWN"}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_date'>${hrs.event.date?string["MMM d, yyyy h:mm a"]}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
 							
