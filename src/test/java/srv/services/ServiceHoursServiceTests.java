@@ -341,12 +341,12 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh1);	list.add(sh2);
 		
-		Mockito.when(dao.listByFilter(null)).thenReturn(list);
+		Mockito.when(dao.listByFilter(null, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(null);
+		List<ServiceHours> newList = shs.filteredHours(null, null);
 		assertEquals(2, newList.size());
 		
-		Mockito.verify(dao).listByFilter(null);
+		Mockito.verify(dao).listByFilter(null, null);
 	}
 	/**
 	 * Test to make sure that the service returns a list of hours based on a
@@ -358,17 +358,57 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh2);
 		
-		Mockito.when(dao.listByFilter(2)).thenReturn(list);
+		Mockito.when(dao.listByFilter(null, 2)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(2);
+		List<ServiceHours> newList = shs.filteredHours(null, 2);
 	
 		assertEquals(1, newList.size());
 		assertEquals(2, newList.get(0).getShid());
 		
-		Mockito.verify(dao).listByFilter(2);
+		Mockito.verify(dao).listByFilter(null, 2);
+	}
+	
+	/**
+	 * Test to make sure that the service checks for valid id for service
+	 * client/sponsor and throws exception when not valid.
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byServiceClient_whenIdInvalid() throws Exception {
+		
+		shs.filteredHours(null, -1);
+	}
+	
+	/**
+	 * Test to make sure that the service returns a list of hours based
+	 * on a valid user id.
+	 */
+	@Test
+	public void test_filter_byUser_whenIdValid() throws Exception {
+		
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);
+		
+		Mockito.when(dao.listByFilter(1, null)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(1, null);
+	
+		assertEquals(1, newList.size());
+		assertEquals(1, newList.get(0).getShid());
+		
+		Mockito.verify(dao).listByFilter(1, null);
+		
 	}
 	
 	
+	/**
+	 * Test to make sure that the service checks for valid id for
+	 * user and throws an exception when not valid.
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byUser_whenIdInvalid() throws Exception {
+		
+		shs.filteredHours(-1, null);
+	}
 	/*
 	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests
 	 */

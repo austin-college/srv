@@ -77,6 +77,7 @@ public class HoursController {
 			List<Event> events = evSvc.allEvents();
 			log.debug("...{} events detected", events.size());
 			
+			Integer userId;
 			List<ServiceHours> filteredHours;
 			List<ServiceClient> sponsors = hrSvc.listCurrentSponsors();
 			
@@ -99,7 +100,16 @@ public class HoursController {
 			}
 	//		mav.addObject("hours", hours);		
 			
-			filteredHours = hrSvc.filteredHours(scP);
+			/*
+			 * Get the current user's id. If they are an admin set it to null
+			 * so they can see all service hours
+			 */
+			if (userUtil.userIsAdmin())
+				userId = null;
+			else
+				userId = userUtil.currentUser().getUid();
+			
+			filteredHours = hrSvc.filteredHours(userId, scP);
 			
 			mav.addObject("hours", filteredHours);
 			

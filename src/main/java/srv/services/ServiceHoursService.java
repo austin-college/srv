@@ -106,13 +106,17 @@ public class ServiceHoursService {
 	 * @param scId
 	 * @throws Exception
 	 */
-	public List<ServiceHours> filteredHours(Integer scId) throws Exception {
+	public List<ServiceHours> filteredHours(Integer userId, Integer scId) throws Exception {
+		
+		if ((userId != null) && (userId <= 0)) {
+			throw new Exception(String.format("Invalid user id [%d]", userId));
+		}
 		
 		if ((scId != null) && (scId <= 0)) {
 			throw new Exception(String.format("Invalid service client id [%d]", scId));
 		}
 		
-		List<ServiceHours> results = sHoursDao.listByFilter(scId);
+		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId);
 		
 		log.debug("Size of filtered hours list is: " + results.size());
 		

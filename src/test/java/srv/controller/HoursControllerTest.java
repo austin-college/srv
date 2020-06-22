@@ -30,6 +30,7 @@ import srv.domain.event.eventype.JdbcTemplateEventTypeDao;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.user.JdbcTemplateUserDao;
+import srv.domain.user.User;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
 import srv.utils.UserUtil;
@@ -101,16 +102,21 @@ public class HoursControllerTest {
 	public void hoursPageTest() throws Exception {
 		
 		// train the dao to ask for these when asked to listAll reasons.
-		ServiceHours h1 = new ServiceHours().setShid(1).setEvent(new Event().setTitle("Spending Time with Toys for Tots")).setHours((double) 6).setStatus("Approved");
-		ServiceHours h2 = new ServiceHours().setShid(2).setEvent(new Event().setTitle("Teaching Part Time")).setHours((double) 2).setStatus("Pending");
-		ServiceHours h3 = new ServiceHours().setShid(3).setEvent(new Event().setTitle("Some Name")).setHours(1.0).setStatus("Rejected");
+		User testUser = new User().setUid(1);
+		ServiceHours h1 = new ServiceHours().setShid(1).setEvent(new Event().setTitle("Spending Time with Toys for Tots")).setHours((double) 6).setStatus("Approved")
+				.setServant(testUser);
+		ServiceHours h2 = new ServiceHours().setShid(2).setEvent(new Event().setTitle("Teaching Part Time")).setHours((double) 2).setStatus("Pending")
+				.setServant(testUser);
+		ServiceHours h3 = new ServiceHours().setShid(3).setEvent(new Event().setTitle("Some Name")).setHours(1.0).setStatus("Rejected")
+				.setServant(testUser);
 
 		List<ServiceHours> dummyList = new ArrayList<ServiceHours>();
 		dummyList.add(h1);
 		dummyList.add(h2);
 		dummyList.add(h3);
 			
-		Mockito.when(hrSvc.filteredHours(null)).thenReturn(dummyList);
+		Mockito.when(hrSvc.filteredHours(1, null)).thenReturn(dummyList);
+		Mockito.when(mockUserUtil.currentUser()).thenReturn(testUser);
 		
 		// now perform the test
 		mvc.perform(get("/hours")

@@ -106,7 +106,7 @@ class ServiceHoursDaoTests {
 
 		// testing contents of sHour4
 		assertEquals(1, sHour4.getServedPet().getScid());
-		assertEquals(2, sHour4.getServant().getUid());
+		assertEquals(4, sHour4.getServant().getUid());
 		assertEquals(1, sHour4.getEvent().getEid());
 		assertEquals(2.3, sHour4.getHours());
 		assertEquals("Approved", sHour4.getStatus());
@@ -228,7 +228,7 @@ class ServiceHoursDaoTests {
 		// Verifying third service hour info
 
 		assertEquals(1, sh3.getServedPet().getScid());
-		assertEquals(2, sh3.getServant().getUid());
+		assertEquals(4, sh3.getServant().getUid());
 		assertEquals(1, sh3.getEvent().getEid());
 		assertEquals(2.3, sh3.getHours());
 		assertEquals("Approved", sh3.getStatus());
@@ -266,9 +266,22 @@ class ServiceHoursDaoTests {
 		
 		List<ServiceHours> userHours = dao.fetchHoursByUserId(2);
 		
-		assertEquals(3, userHours.size());
+		assertEquals(1, userHours.size());
 	}
 	
+	/**
+	 * Filters the list of hours by user id.
+	 */
+	@Test
+	void listByFilter_byUserId() throws Exception {
+		
+		// fetches the list of hours with user id of 4
+		List <ServiceHours> hoursByUid4 = dao.listByFilter(4, null);
+		
+		assertEquals(2, hoursByUid4.size());
+		assertEquals(4, hoursByUid4.get(0).getShid());
+		assertEquals(5, hoursByUid4.get(1).getShid());		
+	}
 	/**
 	 * Filters the list of hours by service client/sponsor id.
 	 */
@@ -276,13 +289,12 @@ class ServiceHoursDaoTests {
 	void listByFilter_byServiceClient() throws Exception {
 		
 		// fetches the list of hours with service client id 1
-		List <ServiceHours> hoursByScid1 = dao.listByFilter(1);
+		List <ServiceHours> hoursByScid1 = dao.listByFilter(null, 1);
 		
 		assertEquals(3, hoursByScid1.size());
 		assertEquals(1, hoursByScid1.get(0).getShid());
 		assertEquals(4, hoursByScid1.get(1).getShid());
-		assertEquals(5, hoursByScid1.get(2).getShid());
-		
+		assertEquals(5, hoursByScid1.get(2).getShid());		
 	}
 	
 	/**
@@ -292,7 +304,7 @@ class ServiceHoursDaoTests {
 	void listByFilter_allNullParam() throws Exception {
 		
 		// Fetches the list of hours with all nulls
-		List <ServiceHours> allHours = dao.listByFilter(null);
+		List <ServiceHours> allHours = dao.listByFilter(null, null);
 		
 		assertEquals(5, allHours.size());
 	}
