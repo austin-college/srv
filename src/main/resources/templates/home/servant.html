@@ -110,12 +110,46 @@
 								<label><b>Mobile Phone Number:</b></label>
 							</div>
 							<div class="col-md-6">
-								<p>${mobilePhone!"UNKNWON MOBILE PHONE NUMBER"}</p>
+								<p>${mobilePhone!"UNKNOWN MOBILE PHONE NUMBER"}</p>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Expected Graduation Year:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>${gradYear?c!"UNKNOWN GRAD YEAR"}</p>
+							</div>
+						</div>
+						<#if affiliation??>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Affiliation:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>${affiliation.shortName!"UNKNOWN AFF NAME"}</p>
+							</div>
+						</div>
+						</#if>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Do you have a car?</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>${hasCar?string('Yes', 'No')}</p>
+							</div>
+						</div>
+						<#if hasCar>
+						<div class="row">
+							<div class="col-md-6">
+								<label><b>Car Capacity:</b></label>
+							</div>
+							<div class="col-md-6">
+								<p>${capacity!"UNKNOWN"}</p>
+							</div>
+						</div>
+						</#if>
 					</div>
-
-
 				</div>
 			</div>
 		</div>

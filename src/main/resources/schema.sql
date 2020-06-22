@@ -236,8 +236,8 @@ insert into eventParticipants(eventId, userId) values (3, 1);
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 2, 1, '2.0', 'Pending', 'Made food', 'Crisis Center');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center');
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 2, 1, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 4, 1, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 4, 1, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
 
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (1, 1, 2021, false, 0);
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (2, 3, 2023, true, 1);

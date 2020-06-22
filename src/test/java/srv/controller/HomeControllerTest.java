@@ -27,6 +27,8 @@ import srv.config.WebSecurityConfig;
 import srv.controllers.HomeController;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
+import srv.domain.user.ServantUser;
+import srv.domain.user.ServantUserDao;
 import srv.domain.user.User;
 import srv.services.EventService;
 import srv.services.ServiceHoursService;
@@ -58,7 +60,8 @@ public class HomeControllerTest {
 	@MockBean
 	private UserUtil userUtil;
 	
-	
+	@MockBean
+	private ServantUserDao mockSrvUserDao;
 	private String dquote(String anyStr) {
 		if (anyStr == null) return null;
 		return anyStr.replaceAll("[']", "\"");
@@ -124,13 +127,16 @@ public class HomeControllerTest {
 						.setEmail("rbuckle@helpful.org")
 						.setPhoneNumMobile("903-813-5555")
 						.setCity("Sherman"));
-	
+		
+		ServantUser srvUser = new ServantUser(1, "user", user.getContactInfo(), 2020, null, true, 2);
+		
 		List<Event> upcomingEventDummy = new ArrayList<Event>();
 		upcomingEventDummy.add(e1);
 		
 		// Mock dependencies
 		when(evSvc.filteredEvents(null, "now+1M", null, null, null)).thenReturn(upcomingEventDummy);
 		when(userUtil.currentUser()).thenReturn(user);
+		when(mockSrvUserDao.fetchServantUserById(1)).thenReturn(srvUser);
 		when(hrSvc.userHours(1)).thenReturn(null);
 		when(hrSvc.getSemTot(null)).thenReturn(0.0);
 
@@ -144,7 +150,10 @@ public class HomeControllerTest {
         		.andExpect(content().string(containsString("user")))				
         		.andExpect(content().string(containsString("Rusty Buckle")))
         		.andExpect(content().string(containsString("rbuckle@helpful.org")))
-        		.andExpect(content().string(containsString("903-813-5555")))		
+        		.andExpect(content().string(containsString("903-813-5555")))	
+        		.andExpect(content().string(containsString("2020")))
+        		.andExpect(content().string(containsString("Yes")))
+        		.andExpect(content().string(containsString("2")))
         		
                 // and there's a button inside for editing profile
                 .andExpect(xpath(dquote("//button[contains(@id, 'editProfileBtn')]")).exists())

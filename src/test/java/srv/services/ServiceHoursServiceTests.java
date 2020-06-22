@@ -330,5 +330,135 @@ public class ServiceHoursServiceTests {
 		
 		Mockito.verify(dao).fetchHoursByUserId(1);
 	}
+	
+	/**
+	 * Initial test for filteredHours. Should delegate to the dao and
+	 * return whatever the dao provided.
+	 */
+	@Test
+	public void test_filter_noFilters() throws Exception {
+		
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);	list.add(sh2);
+		
+		Mockito.when(dao.listByFilter(null, null)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, null);
+		assertEquals(2, newList.size());
+		
+		Mockito.verify(dao).listByFilter(null, null);
+	}
+	/**
+	 * Test to make sure that the service returns a list of hours based on a
+	 * valid service client/sponsor id.
+	 */
+	@Test
+	public void test_filter_byServiceClient_whenIdValid() throws Exception {
+		
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh2);
+		
+		Mockito.when(dao.listByFilter(null, 2)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, 2);
+	
+		assertEquals(1, newList.size());
+		assertEquals(2, newList.get(0).getShid());
+		
+		Mockito.verify(dao).listByFilter(null, 2);
+	}
+	
+	/**
+	 * Test to make sure that the service checks for valid id for service
+	 * client/sponsor and throws exception when not valid.
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byServiceClient_whenIdInvalid() throws Exception {
+		
+		shs.filteredHours(null, -1);
+	}
+	
+	/**
+	 * Test to make sure that the service returns a list of hours based
+	 * on a valid user id.
+	 */
+	@Test
+	public void test_filter_byUser_whenIdValid() throws Exception {
+		
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);
+		
+		Mockito.when(dao.listByFilter(1, null)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(1, null);
+	
+		assertEquals(1, newList.size());
+		assertEquals(1, newList.get(0).getShid());
+		
+		Mockito.verify(dao).listByFilter(1, null);
+		
+	}
+	
+	
+	/**
+	 * Test to make sure that the service checks for valid id for
+	 * user and throws an exception when not valid.
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byUser_whenIdInvalid() throws Exception {
+		
+		shs.filteredHours(-1, null);
+	}
+	/*
+	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests
+	 */
+
+	/**
+	 * Tests the method that calculated the total hours served in the last semester.
+	 * currently cannot differentiate servants, since there is only one. This is
+	 * reflected in this test
+	 */
+	/*
+	 * @Test void testSemTot() throws Exception { List<ServiceHours> hours =
+	 * hrSvc.listHours(); double result = hrSvc.getSemTot(hours); double expected =
+	 * 3.5; assertEquals(result, expected);
+	 * 
+	 * }
+	 * 
+	 *//**
+		 * Tests the method that calculated the total hours served in the last term.
+		 * currently cannot differentiate servants, since there is only one. This is
+		 * reflected in this test
+		 */
+	/*
+	 * @Test void testTermTot() throws Exception { List<ServiceHours> hours =
+	 * hrSvc.listHours(); double result = hrSvc.getTermTot(hours); double expected =
+	 * 7.0; assertEquals(result, expected);
+	 * 
+	 * }
+	 * 
+	 *//**
+		 * Tests the method that calculated the total hours served in the last term.
+		 * currently cannot differentiate servants, since there is only one. This is
+		 * reflected in this test
+		 */
+	/*
+	 * @Test void testTotOrgs() throws Exception { List<ServiceHours> hours =
+	 * hrSvc.listHours(); int result = hrSvc.getTotOrgs(hours); int expected = 4;
+	 * assertEquals(result, expected);
+	 * 
+	 * }
+	 * 
+	 *//**
+		 * Tests the method that calculated the total hours served in the last term.
+		 * currently cannot differentiate servants, since there is only one. This is
+		 * reflected in this test
+		 *//*
+			 * @Test void testAvgPerMo() throws Exception { List<ServiceHours> hours =
+			 * hrSvc.listHours(); int result = hrSvc.getAvgPerMo(hours); int expected = 1;
+			 * assertEquals(result, expected);
+			 * 
+			 * }
+			 */
 
 }

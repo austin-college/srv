@@ -148,10 +148,6 @@ public class EventController {
 
 		} catch (Exception e) {
 
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

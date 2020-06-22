@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import srv.domain.JdbcTemplateAbstractDao;
+import srv.domain.event.Event;
 import srv.domain.event.JdbcTemplateEventDao;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
@@ -189,6 +190,56 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 
 		return results;
 	}	
+	
+	/**
+	 * Filters the list of service hours by users, sponsors (service clients), year, and month.
+	 */
+	@Override
+	public List<ServiceHours> listByFilter(Integer userId, Integer scId) throws Exception {
+		
+		// Allows for dynamic building of query string based on parameters
+		StringBuffer queryBuff = new StringBuffer("SELECT * from serviceHours ");
+		
+		// Flag for if the parameter is first in the query
+		boolean first = true;
+		
+		// Filters by users
+		if (userId != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("WHERE ");
+			}
+			else
+				queryBuff.append("AND ");
+			
+			queryBuff.append("userId = ");
+			queryBuff.append("'");
+			queryBuff.append(userId);
+			queryBuff.append("' ");
+		}
+		
+		// Filters by sponsors (service clients)
+		if (scId != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("WHERE ");
+			}
+			else
+				queryBuff.append("AND ");
+			
+			queryBuff.append("serviceClientId = ");
+			queryBuff.append("'");
+			queryBuff.append(scId);
+			queryBuff.append("' ");
+		}
+		
+		log.debug(queryBuff.toString());
+		
+		List<ServiceHours> results = getJdbcTemplate().query(queryBuff.toString(),	new ServiceHourRowMapper());
+
+		return results;	
+		
+	}
 	
 	/**
 	 * This class maps a ServiceHour database record to the ServiceHour model object by using
