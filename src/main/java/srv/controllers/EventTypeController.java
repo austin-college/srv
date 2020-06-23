@@ -62,7 +62,7 @@ public class EventTypeController {
 			mav.addObject("clients", currentClients);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 		

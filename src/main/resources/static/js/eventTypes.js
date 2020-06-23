@@ -188,7 +188,16 @@ function onDeleteClick() {
 
 //alert the user that this feature is dead
 function onViewClick() {
-	alert("Feature is not functional yet");
+	
+	$("#viewDlg").dialog("open"); // opens the view dialog for admin users
+	
+	var idStr = $(this).attr("etid"); // The ID of the selected event type to be viewed	
+	
+//	$.ajax({
+//		method : "GET",
+//		url : "/srv/eventsTypes/ajax/eventType/" + idStr + "/html",
+//		cache : false
+//	})
 }
 
 /**
@@ -221,132 +230,160 @@ function onPageLoad() {
 	// connect the view action to all view buttons
 	$(".btnEtView, .etView").click(onViewClick);
 	
-	 // dialog for selecting the service client when creating new.
-	 $("#dlgScSel").dialog({
-		 autoOpen: false,
-		 width: $(window).width() * 0.6,
-		 height: $(window).height() * 0.6,
-		 modal: true,
-		 position: {
-			  my: "center top",
-			  at: "center top",
-			  of: window
+	// dialog for selecting the service client when creating new.
+	$("#dlgScSel").dialog({
+		autoOpen: false,
+		width: $(window).width() * 0.6,
+		height: $(window).height() * 0.6,
+		modal: true,
+		position: {
+			my: "center top",
+			at: "center top",
+			of: window
+		},
+		open: function(event, ui) {			
+			console.log("open select dialog");	
+		},
+		buttons: [
+			{
+				text: "Submit", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+
+					console.log("submit on select dialog");
+
+					$("#addDlg").dialog("open");
+
+					$(this).dialog("close");
+
+				}
 			},
-		 open: function(event, ui) {			
-			 console.log("open select dialog");	
-		 },
-		 buttons: [
-			 {
-				 text: "Submit", 
-				 "id": "addBtnDlg",
-				 "class": 'btn',
-				 click: function() {		
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					console.log("cancel on select dialog");
+					$(this).dialog("close");
 
-					 console.log("submit on select dialog");
-					
-					 $("#addDlg").dialog("open");
-					 
-					 $(this).dialog("close");
+				}
+			}]
+	});
 
-				 }
-			 },
-			 {	
-				 text: "Cancel",
-				 "class": 'btn btn-secondary',
-				 click: function() {
-					 console.log("cancel on select dialog");
-					 $(this).dialog("close");
+	// Add event type dialog
+	$("#addDlg").dialog({
+		autoOpen: false,
+		height: 525,
+		width: 700,
+		modal: true,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		open: function(event, ui) {			
+			console.log("open add dialog");
 
-				 }
-			 }]
-	 });
-	 
-	 // Add event type dialog
-	 $("#addDlg").dialog({
-			autoOpen: false,
-			height: 525,
-			width: 700,
-			modal: true,
-			open: function(event, ui) {			
-				console.log("open add dialog");
-				
-				prepopulateAddDialogue(); // sets the service client's name
-				
-				/*
-				 * Resets all the fields of the add dialog to empty.
-				 */
-				$("#etName").val("");
-				$("#etDescr").val("");
-				$("#defHrs").val("");
-				
-				/*
-				 * Removes previous error messages from the fields.
-				 */
-				$("#etName").removeClass("is-invalid");
-				$("#etDescr").removeClass("is-invalid");
-				$("#defHrs").removeClass("is-invalid");
-				$(".validationTips" ).removeClass("alert alert-danger").text("");
+			prepopulateAddDialogue(); // sets the service client's name
+
+			/*
+			 * Resets all the fields of the add dialog to empty.
+			 */
+			$("#etName").val("");
+			$("#etDescr").val("");
+			$("#defHrs").val("");
+
+			/*
+			 * Removes previous error messages from the fields.
+			 */
+			$("#etName").removeClass("is-invalid");
+			$("#etDescr").removeClass("is-invalid");
+			$("#defHrs").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
+		},
+		buttons: [
+			{
+				text: "Submit", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+
+					console.log("submit on add dialog");
+
+					var pinHrs;
+
+					// get the radio button values
+					if($('#yesPinHrs').is(':checked'))
+						pinHrs = true;
+					else
+						pinHrs = false;
+
+
+					/*
+					 * Validates that the fields of the add event type dialogue are not empty and valid.
+					 * If all the fields are valid, adds the new event type to the table and closes the dialog.
+					 */
+					if (checkForEmptyFields("#etName", "#etDescr")) {
+
+						// since default hours is not required and can be left blank, don't need to verify it's
+						// non-numeric if empty/blank
+						if ($("#defHrs").val() == "") { 	addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId");  }
+
+						else {
+
+							if (validateFields("#defHrs")) {	addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId"); }
+
+						}
+
+					}
+				}
 			},
-			 buttons: [
-				 {
-					 text: "Submit", 
-					 "id": "addBtnDlg",
-					 "class": 'btn',
-					 click: function() {		
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					console.log("cancel on select dialog");
+					$(this).dialog("close");
 
-						 console.log("submit on add dialog");
-						 
-						 var pinHrs;
-						 
-						 // get the radio button values
-						 if($('#yesPinHrs').is(':checked'))
-							 pinHrs = true;
-						 else
-							 pinHrs = false;
-						 
+				}
+			}]
+	});
 
-						 /*
-						  * Validates that the fields of the add event type dialogue are not empty and valid.
-						  * If all the fields are valid, adds the new event type to the table and closes the dialog.
-						  */
-						 if (checkForEmptyFields("#etName", "#etDescr")) {
-							 
-							 // since default hours is not required and can be left blank, don't need to verify it's
-							 // non-numeric if empty/blank
-							 if ($("#defHrs").val() == "") { 	addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId");  }
-							 
-							 else {
+	// View event type dialog
+	$("#viewDlg").dialog({
+		autoOpen: false,
+		height: 525,
+		width: 700,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		modal: true,
+		open: function(event, ui) {			
+			console.log("open view dialog");
+		},
+		buttons : [ {
+			text : "CANCEL",
+			"class" : 'cancBtnClass',
+			click : function() {
+				$(this).dialog("close");
+			}
+		} ]
+	});
 
-								if (validateFields("#defHrs")) {	addEventType("#etName", "#etDescr", "#defHrs", pinHrs, "#scId"); }
+	// Allows for sorting service client table in dialog
+	$('#tblSrvClients').DataTable({	
+		"paging": false,
+		"searching": true,
+		"info": false
+	});
 
-							 }
+	// Allows for searching the service client table in dialog
+	$('#tblSrvClients').on( 'search.dt', function () {
+		$(".boxSel").prop("checked",false);  // clear all others
+	} );
 
-						 }
-					 }
-				 },
-				 {	
-					 text: "Cancel",
-					 "class": 'btn btn-secondary',
-					 click: function() {
-						 console.log("cancel on select dialog");
-						 $(this).dialog("close");
-
-					 }
-				 }]
-		});
-	 
-	 // Allows for sorting service client table in dialog
-	 $('#tblSrvClients').DataTable({	
-		 "paging": false,
-		 "searching": true,
-		 "info": false
-	 });
-
-	 // Allows for searching the service client table in dialog
-	 $('#tblSrvClients').on( 'search.dt', function () {
-		 $(".boxSel").prop("checked",false);  // clear all others
-	 } );
-	 
 	 // gets the selected service client's id
 	 $(".boxSel").click( function() {
 			

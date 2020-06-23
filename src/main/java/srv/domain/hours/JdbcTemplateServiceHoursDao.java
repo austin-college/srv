@@ -240,7 +240,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 		if (year != null) {
 			if (first) {
 				first = false;
-				queryBuff.append("WHERE ");
+				queryBuff.append("WHERE eventId IN ");
 			}
 						
 			if (eventsFirst) {
@@ -258,10 +258,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 			eventsQueryBuff.append(year);
 			eventsQueryBuff.append(") ");
 			
-			if (eventsFirst)
-				queryBuff.append("eventId IN " + eventsQueryBuff.toString());
-			else
-				queryBuff.append(eventsQueryBuff.toString());
+			queryBuff.append(eventsQueryBuff.toString());
 		}
 		
 		// Filters by users
