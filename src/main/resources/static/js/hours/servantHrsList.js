@@ -586,9 +586,6 @@ function ajaxDeleteEventNow() {
  * 
  * @returns
  */
-
-//editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
-
 function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, descrField) {
 
 	// Harvests the data values from the form

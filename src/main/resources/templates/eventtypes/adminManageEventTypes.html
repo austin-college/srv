@@ -45,13 +45,13 @@
 					<#if evTypes??>
 					<#list evTypes as et>
 					<tr id="etid-${et.etid?c}">
-						<td class="et_id etView" etid="${et.etid?c}">${et.etid!"UNKNOWN ID"}</td>
-						<td class="et_name_descr etView" etid="${et.etid?c}">(${et.name!"UNKNOWN NAME"}) ${et.description!"UNKNOWN DESCRIPTION"}</td>
-						<td class="et_hr etView" etid="${et.etid?c}">${et.defHours!"None"}</td>
+						<td class="etView" etid="${et.etid?c}" name="et_id">${et.etid!"UNKNOWN ID"}</td>
+						<td class="etView" etid="${et.etid?c}" name="et_name_descr">(${et.name!"UNKNOWN NAME"}) ${et.description!"UNKNOWN DESCRIPTION"}</td>
+						<td class="etView" etid="${et.etid?c}" name="et_hr">${et.defHours!"None"}</td>
 						<#if et.defClient??>
-							<td class="et_sc etView" etid="${et.etid?c}">${et.defClient.name}</td>
+							<td class="etView" etid="${et.etid?c}" name="et_sc">${et.defClient.name}</td>
 						<#else>
-							<td class="et_sc evView" eid="${et.etid?c}">No Service Client</td>
+							<td class="evView" eid="${et.etid?c}" name="et_sc">No Service Client</td>
 						</#if>
 						
 						<!--action buttons-->
@@ -120,6 +120,11 @@
 <!-- Dialog for viewing an event type -->
 <div id="viewDlg" title="Event Type Details" class="ui-widget">
 	<#include "/eventtypes/eventTypeDetails.html"/>
+</div>
+
+<!-- Dialog for editing an event type -->
+<div id="editDlg" title="Edit Event Type" class="ui-widget">
+	<#include "/eventtypes/editEventType.html"/>
 </div>
 
 <script src="/srv/js/datatables.min.js"></script>

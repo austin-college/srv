@@ -207,13 +207,15 @@ public class HoursController {
 			String reflection = request.getParameter("reflect");
 			String descr = request.getParameter("descr");
 			
-			// create a new service hr in the database then return it back to the callback function
+			// update the service hr in the database then return it back to the callback function
 			hrSvc.updateHour(shid, scid,  eid, hrs,  reflection, descr);
 			
 			ServiceHours updatedSrvHr = hrSvc.serviceHourById(shid);
 			
 			mav.addObject("shid", updatedSrvHr.getShid());
 			mav.addObject("title", updatedSrvHr.getEvent().getTitle());
+			mav.addObject("name", updatedSrvHr.getServedPet().getName());
+			mav.addObject("date", updatedSrvHr.getEvent().getDate());			
 			mav.addObject("hours", updatedSrvHr.getHours());
 			mav.addObject("status", updatedSrvHr.getStatus());
 			
@@ -264,6 +266,8 @@ public class HoursController {
 			
 			mav.addObject("shid", newSrvHr.getShid());
 			mav.addObject("title", newSrvHr.getEvent().getTitle());
+			mav.addObject("name", newSrvHr.getServedPet().getName());
+			mav.addObject("date", newSrvHr.getEvent().getDate());	
 			mav.addObject("hours", newSrvHr.getHours());
 			mav.addObject("status", newSrvHr.getStatus());
 			

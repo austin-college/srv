@@ -19,6 +19,12 @@ function checkForEmptyFields(etName, etDescr) {
 	$("#etName").removeClass("is-invalid");
 	$("#etDescr").removeClass("is-invalid");
 	
+	/*
+	 * removes previous error messages on the fields for the edit event type dialogue
+	 */
+	$("#editEtName").removeClass("is-invalid");
+	$("#editEtDescr").removeClass("is-invalid");
+	
 	// Checks to see if the event type's name field is empty.
 	if (!$(etName).val()) {
 		$(etName).addClass("is-invalid");
@@ -167,18 +173,139 @@ function addEventType(etName, etDescr, etDefHrs, etPinHrs, etScid) {
 	
 }
 
+
+/** 
+ * Ajax call to edit an event type
+ */
+function editEventType(etid, etName, etDescr, etDefHrs, etPinHrs, etScid) {
+	
+	// get the forms values as strings
+	var etidStr = $(etid).val();
+	var etNameStr = $(etName).val();
+	var etDescrStr = $(etDescr).val();
+	var etDefHrsStr = $(etDefHrs).val();
+	var etScidStr = $(etScid).val();
+
+	// peek at values to verify
+	console.log("Id:" + etidStr, "Name:" + etNameStr + " Descr: " + etDescrStr + " hrs: " + etDefHrsStr + " pin: " + etPinHrs + " scid: " + etScidStr)
+
+	$.ajax({
+		method: "POST",
+		url: "/srv/eventTypes/ajax/editEt",
+		cache: false,
+		data: {etid: etidStr, name: etNameStr, descr: etDescrStr, defHrs: etDefHrsStr, pinHrs: etPinHrs, scid: etScidStr},
+	})
+	/*
+	 * If successful then update the event type to the list with the new values.
+	 */
+	.done(function(et) {
+		console.log("udpated event type");
+		console.log(et);
+		
+		// get the id of the updated event
+		var id = $(etid).val();
+		
+		console.log(id);
+
+		// Updates the edited event type's row with the new values
+		$("#etid-" + id + " td[name = 'et_name_descr']").html("(" + $(etName).val() + ") " + $(etDescr).val());
+		$("#etid-" + id + " td[name ='et_hr']").html($(etDefHrs).val());
+		$("#etid-" + id + " td[name ='et_sc']").html($(etDefHrs).val());
+	
+
+		
+  	    $("#editDlg").dialog("close");
+
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+	
+}
+
 /**
  * open the dialog to start to create an event type.
  * 
  * @returns
  */
 function onNewClick() {
-	$("#dlgScSel").dialog("open")
+	// here we pass in data to specify what function made the call
+	// for the dialog to be opened
+	$("#dlgScSel").data("functionCall", "onNewClick").dialog("open");
 }
 
-//alert the user that this feature is dead
+/**
+ * opens and populates the fields of event type to be
+ * updated.
+ * 
+ * @returns
+ */
 function onEditClick() {
-	alert("Feature is not functional yet");
+	
+	$("#editDlg").dialog("open"); // opens the edit dialog for admin users
+	
+	var selEvType = $(this).attr("etid"); // The ID of the selected event type to be updated	
+	
+	console.log("Selected updated/edit event type: " + selEvType);
+	
+	// retrieve event type details
+	$.ajax({
+		method : "GET",
+		url : "/srv/eventTypes/ajax/eventType/" + selEvType,
+		cache : false,
+		dataType: "json"
+	})
+	/*
+	 * If success, then prepopulate the selected event type's fields in the edit dialog
+	 */
+	.done(function(evType) {
+		
+		console.log(evType);
+		
+		$("#editDlgEtid").val(evType.etid);				
+		$("#editEtName").val(evType.name);
+		$("#editEtDescr").val(evType.description);
+		$("#editDefHrs").val(evType.defHours);
+		$("#editEtSc").val(evType.defClient.name);
+		$("#editScId").val(evType.defClient.scid);
+		
+		// toggles the radio button based on value of pin hours
+		if (evType.pinHours) {
+			radiobtn = document.getElementById("editYesPinHrs");
+			radiobtn.checked = true;
+		}
+		else {
+			radiobtn = document.getElementById("editNoPinHrs");
+			radiobtn.checked = true;
+		}
+			
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+}
+
+/*
+ * when editing/updating an event type and the user wishes to change the
+ * service client, reopen the dialog for selecting the service client.
+ */ 
+function onChangeClientClick() {
+	console.log("here");
+
+	// here we pass in data to specify what function made the call
+	// for the dialog to be opened
+	$("#dlgScSel").data("functionCall", "onChangeClientClick").dialog("open");
+	
+	// return false otherwise the dialog above will immediately close.
+	return false;
 }
 
 //alert the user that this feature is dead
@@ -251,7 +378,7 @@ function goBack() {
 // Final preparations once the page is loaded. we hide stuff and attach
 // functions to buttons.
 function onPageLoad() {
-	
+		
 	// connection action to unique create button
 	$("#btnEvNew").click(onNewClick);
 	
@@ -264,6 +391,9 @@ function onPageLoad() {
 
 	// connect the view action to all view buttons
 	$(".btnEtView, .etView").click(onViewClick);
+	
+	// connect the change service client button to its action
+	$("#updateClientBtn").click(onChangeClientClick);
 	
 	// dialog for selecting the service client when creating new.
 	$("#dlgScSel").dialog({
@@ -287,8 +417,19 @@ function onPageLoad() {
 				click: function() {		
 
 					console.log("submit on select dialog");
-
-					$("#addDlg").dialog("open");
+					
+					var functionCall = $(this).data("functionCall");
+					console.log(functionCall);
+					
+					/* 
+					 * find the function that made the call in order to
+					 * open the right dialog
+					 */					
+					if (functionCall == "onNewClick")
+						$("#addDlg").dialog("open");
+					
+					else if (functionCall = "onChangeClientClick")
+						$("#editDlg").data("idk", "idk");
 
 					$(this).dialog("close");
 
@@ -348,7 +489,7 @@ function onPageLoad() {
 					var pinHrs;
 
 					// get the radio button values
-					if($('#yesPinHrs').is(':checked'))
+					if($('#editYesPinHrs').is(':checked'))
 						pinHrs = true;
 					else
 						pinHrs = false;
@@ -405,6 +546,77 @@ function onPageLoad() {
 				$(this).dialog("close");
 			}
 		} ]
+	});
+
+
+	// Edit event type dialog
+	$("#editDlg").dialog({
+		autoOpen: false,
+		height: 525,
+		width: 700,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		modal: true,
+		open: function(event, ui) {			
+			console.log("open view dialog");
+			
+			/*
+			 * Removes previous error messages from the fields.
+			 */
+			$("#editEtName").removeClass("is-invalid");
+			$("#editEtDescr").removeClass("is-invalid");
+			$("#editDefHrs").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
+		},
+		buttons: [
+			{
+				text: "Update", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+
+					console.log("submit on edit dialog");
+
+					var pinHrs;
+
+					// get the radio button values
+					if($('#editYesPinHrs').is(':checked'))
+						pinHrs = true;
+					else
+						pinHrs = false;
+
+
+					/*
+					 * Validates that the fields of the edit event type dialogue are not empty and valid.
+					 * If all the fields are valid, updates the event type to the table and closes the dialog.
+					 */
+					if (checkForEmptyFields("#editEtName", "#editEtDescr")) {
+
+						// since default hours is not required and can be left blank, don't need to verify it's
+						// non-numeric if empty/blank
+						if ($("#editDefHrs").val() == "") { editEventType("#editDlgEtid", "#editEtName", "#editEtDescr", "#editDefHrs", pinHrs, "#editScId"); }
+
+						else {
+
+							if (validateFields("#editDefHrs")) { editEventType("#editDlgEtid", "#editEtName", "#editEtDescr", "#editDefHrs", pinHrs, "#editScId"); }
+
+						}
+
+					}
+				}
+			},
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					console.log("cancel on select dialog");
+					$(this).dialog("close");
+
+				}
+			}]
 	});
 
 	// Allows for sorting service client table in dialog
