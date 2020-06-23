@@ -151,7 +151,7 @@ public class EventTypeController {
 	 * Ajax call to retrieve and return selected event type from the database.
 	 */
 	@ResponseBody
-	@GetMapping(value="/eventsTypes/ajax/eventType/{id}", produces="application/json")
+	@GetMapping(value="/eventTypes/ajax/eventType/{id}", produces="application/json")
 	public ResponseEntity<EventType> ajaxFetchEventType(@PathVariable Integer id) {
 		
 		try {

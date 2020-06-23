@@ -60,6 +60,7 @@ public class EventTypeControllerTest {
 	private EventType et2;	
 	private ServiceClient sc1;
 	private ServiceClient sc2;
+	
 	/**
 	 * Called before each an every test in order to have sufficient
 	 * data for this series of tests.   We make a couple of typical
@@ -246,8 +247,43 @@ public class EventTypeControllerTest {
        
     }
 	
-	
 	/**
+	 * Test that the controller returns HTML to present the selected event type details
+	 */
+	@Test
+	@WithMockUser(username= "admin", password="admin")
+	public void testAjaxEventType() throws Exception {
+		
+		Mockito.when(mockEtDao.fetchEventTypeById(Mockito.anyInt())).thenReturn(et1);
+		
+		// ready to test
+		mvc.perform(get("/eventTypes/ajax/eventType/1")
+				
+				.contentType(MediaType.TEXT_HTML))
+				
+				.andExpect(status().isOk())
+				
+				// should contain a form whose id better be 'viewEt'
+                .andExpect(xpath(dquote("//form[@id='viewEt']")).exists())
+                
+                // should contain the event type's short name which better be 'gds'
+                .andExpect(content().string(containsString("gds")))
+                
+                // and with the longer name/description of 'great day of service for test'
+                .andExpect(content().string(containsString("great day of service for test")))
+                
+                // and with default hours of 5.0
+                .andExpect(content().string(containsString("5.0")))
+                
+                // and with default client name of 'Habitat for Humanity'
+                .andExpect(content().string(containsString("Habitat for Humanity")))
+				;
+		
+		// verify the dao got involved
+		Mockito.verify(mockEtDao).fetchEventTypeById(1);
+		
+	}
+	/**TODO exception handling?
 	 * Make sure the controller is handling the case where the service client
 	 * is invalid (the dao throws an exception). 
 	 * 
@@ -284,4 +320,6 @@ public class EventTypeControllerTest {
          //Mockito.verify(mockEtDao).create(1);
        
 //    }
+	
+	
 }

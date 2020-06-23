@@ -198,7 +198,7 @@ function onViewClick() {
 	// retrieve event type details
 	$.ajax({
 		method : "GET",
-		url : "/srv/eventsTypes/ajax/eventType/" + selEvType,
+		url : "/srv/eventTypes/ajax/eventType/" + selEvType,
 		cache : false,
 		dataType: "json"
 	})
