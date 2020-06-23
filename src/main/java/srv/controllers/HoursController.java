@@ -1,6 +1,7 @@
 package srv.controllers;
 
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +68,8 @@ public class HoursController {
 	 * @author Hunter Couturier
 	 */
 	@GetMapping("/hours")
-	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String sc) {
+	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String sc,
+			@RequestParam(required = false) String month, @RequestParam(required = false) String status, @RequestParam(required = false) String year) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 		
@@ -80,6 +82,7 @@ public class HoursController {
 			Integer userId;
 			List<ServiceHours> filteredHours;
 			List<ServiceClient> sponsors = hrSvc.listCurrentSponsors();
+			String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			
 			mav.addObject("sClients", sponsors);
 			mav.addObject("events", events);
@@ -90,16 +93,39 @@ public class HoursController {
 			log.debug("...{} hours detected.",hours.size());
 			
 			Integer scP = null;
+			String monthNameP = null;
+			String statusP = "Pending"; // Default shows all 'Pending' hours
+			String yearP = currentYear; // Default show current year
 			
 			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
+			mav.addObject("selectedMonth", "List All"); // sets the combo box for months to 'List All'
+			mav.addObject("selectedStatus", "Pending"); // sets the combo box for status to 'Pending'
+			mav.addObject("selectedYear", currentYear); // sets the combo box for year to the current year
 			
 			// Filtering by service client
 			if (sc != null) {
 				scP = Integer.valueOf(sc);
 				mav.addObject("selectedScid", Integer.valueOf(sc));
 			}
-	//		mav.addObject("hours", hours);		
 			
+			// Filtering by month
+			if (month != null) {
+				monthNameP = month;
+				mav.addObject("selectedMonth", monthNameP);
+			}
+			
+			// Filtering by status
+			if (status != null) {
+				statusP = status;
+				mav.addObject("selectedStatus", statusP);
+			}
+			
+			// Filtering by year
+			if (year != null) {
+				yearP = year;
+				mav.addObject("selectedYear", yearP);
+			}
+				
 			/*
 			 * Get the current user's id. If they are an admin set it to null
 			 * so they can see all service hours
@@ -109,8 +135,10 @@ public class HoursController {
 			else
 				userId = userUtil.currentUser().getUid();
 			
-			filteredHours = hrSvc.filteredHours(userId, scP);
-			
+			log.debug("user id {} client id {} month {} status {} year {}", userId, scP, monthNameP, statusP, yearP);
+
+			filteredHours = hrSvc.filteredHours(userId, scP, monthNameP, statusP, yearP);
+			log.debug("detected {} hours" , filteredHours.size());
 			mav.addObject("hours", filteredHours);
 			
 			mav.addObject("semTot", hrSvc.getSemTot(hours)); //total hours served per semester
@@ -181,13 +209,15 @@ public class HoursController {
 			String reflection = request.getParameter("reflect");
 			String descr = request.getParameter("descr");
 			
-			// create a new service hr in the database then return it back to the callback function
+			// update the service hr in the database then return it back to the callback function
 			hrSvc.updateHour(shid, scid,  eid, hrs,  reflection, descr);
 			
 			ServiceHours updatedSrvHr = hrSvc.serviceHourById(shid);
 			
 			mav.addObject("shid", updatedSrvHr.getShid());
 			mav.addObject("title", updatedSrvHr.getEvent().getTitle());
+			mav.addObject("name", updatedSrvHr.getServedPet().getName());
+			mav.addObject("date", updatedSrvHr.getEvent().getDate());			
 			mav.addObject("hours", updatedSrvHr.getHours());
 			mav.addObject("status", updatedSrvHr.getStatus());
 			
@@ -238,6 +268,8 @@ public class HoursController {
 			
 			mav.addObject("shid", newSrvHr.getShid());
 			mav.addObject("title", newSrvHr.getEvent().getTitle());
+			mav.addObject("name", newSrvHr.getServedPet().getName());
+			mav.addObject("date", newSrvHr.getEvent().getDate());	
 			mav.addObject("hours", newSrvHr.getHours());
 			mav.addObject("status", newSrvHr.getStatus());
 			

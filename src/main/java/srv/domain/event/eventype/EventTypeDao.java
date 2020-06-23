@@ -22,7 +22,7 @@ public interface EventTypeDao {
 	 */
 	public void delete(int etid) throws Exception;
 
-	public void update(int etid, String name, String description, Integer defHours,
+	public void update(int etid, String name, String description, Double defHours,
 			boolean pinHours, Integer scid) throws Exception;
 
 	/**

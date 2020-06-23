@@ -62,7 +62,7 @@ public class EventTypeController {
 			mav.addObject("clients", currentClients);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 		
@@ -129,6 +129,82 @@ public class EventTypeController {
 			mav.addObject("defHours", newEvType.getDefHours());
 			mav.addObject("defClient", newEvType.getDefClient());
 			mav.addObject("name", newEvType.getDefClient().getName());
+
+
+		} catch (Exception e) {
+			log.error("\n\n ERROR ");
+			log.error(e.getMessage());
+			
+			e.printStackTrace();
+			
+			response.setStatus(410);
+			
+			mav = new ModelAndView("/error");
+			
+			mav.addObject("errMsg", e.getMessage());
+		
+		}
+		
+		return mav;
+	}
+	
+	/**
+	 * Ajax call to retrieve and return selected event type from the database.
+	 */
+	@ResponseBody
+	@GetMapping(value="/eventTypes/ajax/eventType/{id}", produces="application/json")
+	public ResponseEntity<EventType> ajaxFetchEventType(@PathVariable Integer id) {
+		
+		try {
+			log.debug("fetch event type " + id);
+			
+			EventType evType = etDao.fetchEventTypeById(id);
+			
+			return new ResponseEntity<>(evType, HttpStatus.OK);
+		
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	/**
+	 * Ajax call to update the specified EventType in the database.
+	 * 
+	 */
+	@PostMapping("/eventTypes/ajax/editEt")
+	public ModelAndView ajaxEditEventType(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView("/eventtypes/ajax_singleEtRow");
+
+		response.setContentType("text/html");
+
+		try {
+			
+			// fetch the data sent from the JavaScript function and verify the fields 
+			String etName = request.getParameter("name");
+			String etDescr = request.getParameter("descr");
+			
+			Double etDefHrs = ParamUtil.optionalDoubleParam(request.getParameter("defHrs"), "Default Hours must be numeric.");
+			
+			boolean pinHrs = ParamUtil.requiredBooleanParam(request.getParameter("pinHrs"), "Pin Hours must be selected.");
+			Integer scid = ParamUtil.requiredIntegerParam(request.getParameter("scid"), "Service Client must be selected and be numeric.");
+			Integer etid = ParamUtil.requiredIntegerParam(request.getParameter("etid"), "Event type id is required.");
+			
+			// Make sure everything is coming okay
+			log.debug(etid + " " + etName + " " +  etDescr + " " + etDefHrs + " " + pinHrs + " " + scid);
+			
+			// Create update event type in the database then return it back to the callback function
+			etDao.update(etid, etName, etDescr, etDefHrs, pinHrs, scid);
+			
+			EventType updatedEvType = etDao.fetchEventTypeById(etid);
+			
+			mav.addObject("etid", updatedEvType.getEtid());
+			mav.addObject("etName", updatedEvType.getName());
+			mav.addObject("description", updatedEvType.getDescription());
+			mav.addObject("defHours", updatedEvType.getDefHours());
+			mav.addObject("defClient", updatedEvType.getDefClient());
+			mav.addObject("name", updatedEvType.getDefClient().getName());
+		
 
 		} catch (Exception e) {
 			log.error("\n\n ERROR ");

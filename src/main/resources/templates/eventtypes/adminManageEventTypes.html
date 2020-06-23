@@ -45,13 +45,13 @@
 					<#if evTypes??>
 					<#list evTypes as et>
 					<tr id="etid-${et.etid?c}">
-						<td class="et_id etView" etid="${et.etid?c}">${et.etid!"UNKNOWN ID"}</td>
-						<td class="et_name_descr etView" etid="${et.etid?c}">(${et.name!"UNKNOWN NAME"}) ${et.description!"UNKNOWN DESCRIPTION"}</td>
-						<td class="et_hr etView" etid="${et.etid?c}">${et.defHours!"None"}</td>
+						<td class="etView" etid="${et.etid?c}" name="et_id">${et.etid!"UNKNOWN ID"}</td>
+						<td class="etView" etid="${et.etid?c}" name="et_name_descr">(${et.name!"UNKNOWN NAME"}) ${et.description!"UNKNOWN DESCRIPTION"}</td>
+						<td class="etView" etid="${et.etid?c}" name="et_hr">${et.defHours!"None"}</td>
 						<#if et.defClient??>
-							<td class="et_sc etView" etid="${et.etid?c}">${et.defClient.name}</td>
+							<td class="etView" etid="${et.etid?c}" name="et_sc">${et.defClient.name}</td>
 						<#else>
-							<td class="et_sc evView" eid="${et.etid?c}">No Service Client</td>
+							<td class="evView" eid="${et.etid?c}" name="et_sc">No Service Client</td>
 						</#if>
 						
 						<!--action buttons-->
@@ -112,63 +112,21 @@
 	</div>
 </div>
 
+<!-- Dialog for adding an event type -->
 <div id="addDlg" title="Add Event Type" class="ui-widget">
-	<div class="container-fluid">
-		<p class="validationTips"></p>
-		<form id="newEt">
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="etName">Abbreviated Name:</label>
-						<input id="etName" type="text" class="form-control"/>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm">
-					<div class="form-group">
-						<label for="etDescr">Full Name/Description:</label>
-						<textarea id="etDescr" rows="2" class="form-control"></textarea>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-3">
-					<div class="form-group">
-						<label for="defHrs">Default Hours:</label>
-						<input id="defHrs" type="text" class="form-control"/>
-					</div>
-				</div>
-				<div class="col-sm-2"></div>
-				<div class="col-sm">
-					<div class="row" style="padding-bottom:0px">
-						<div class="form-group">
-							<label for="radio-inline" style="padding-right:10px">Do you wish to pin hours?</label>
-							<label class="radio-inline" style="padding-right:10px">
-      							<input id="yesPinHrs" type="radio" name="optradio" checked="checked"/> Yes
-    						</label>
-				    		<label class="radio-inline" style="padding-right:10px">
-      							<input id="noPinHrs" type="radio" name="optradio"/> No
-    						</label>
-						</div>
-					</div>
-					<div class="row" style="padding-top:-0px">
-						<p style="font-size:12px">*By pinning hours, a user must report using the default hours.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm">
-					<div class="form-group">
-						<label for="etSc">Service Client:</label>
-						<input type="hidden" id="scId" value="" />
-						<input id="etSc" type="text" class="form-control" readonly="readonly" value="sel sc"/>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
+	<#include "/eventtypes/addEventType.html"/>
 </div>
+
+<!-- Dialog for viewing an event type -->
+<div id="viewDlg" title="Event Type Details" class="ui-widget">
+	<#include "/eventtypes/eventTypeDetails.html"/>
+</div>
+
+<!-- Dialog for editing an event type -->
+<div id="editDlg" title="Edit Event Type" class="ui-widget">
+	<#include "/eventtypes/editEventType.html"/>
+</div>
+
 <script src="/srv/js/datatables.min.js"></script>
 <link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
 

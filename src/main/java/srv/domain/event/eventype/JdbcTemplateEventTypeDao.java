@@ -128,7 +128,7 @@ public class JdbcTemplateEventTypeDao extends JdbcTemplateAbstractDao implements
 	 * An exception is thrown if the EventType is unable to be updates (does not exist).
 	 */
 	@Override
-	public void update(int etid,  String name, String description, Integer defHours, boolean pinHours, Integer scid) throws Exception {
+	public void update(int etid,  String name, String description, Double defHours, boolean pinHours, Integer scid) throws Exception {
 		
 		int rc = getJdbcTemplate().update(
 				"UPDATE eventTypes SET name = ?, description = ?, defaultHours = ?, "

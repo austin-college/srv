@@ -106,17 +106,46 @@ public class ServiceHoursService {
 	 * @param scId
 	 * @throws Exception
 	 */
-	public List<ServiceHours> filteredHours(Integer userId, Integer scId) throws Exception {
+	public List<ServiceHours> filteredHours(Integer userId, Integer scId, String monthName, String status, String year) throws Exception {
 		
-		if ((userId != null) && (userId <= 0)) {
+		
+		if ((userId != null) && (userId <= 0)) 
 			throw new Exception(String.format("Invalid user id [%d]", userId));
-		}
-		
-		if ((scId != null) && (scId <= 0)) {
+				
+		if ((scId != null) && (scId <= 0)) 
 			throw new Exception(String.format("Invalid service client id [%d]", scId));
-		}
 		
-		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId);
+		if ((monthName != null) && (monthName.length() <= 0)) 
+			throw new Exception(String.format("Invalid month name [%s]", monthName));
+			
+		/*
+		 * When the 'List All' value is selected, we make the month name null in
+		 * order to display all months
+		 */
+		if ((monthName != null) && (monthName.equals("List All")))
+			monthName = null;
+		
+		if ((status != null) && (status.length() <= 0))
+			throw new Exception(String.format("Invalid status [%s]", status));
+		
+		/*
+		 * When the 'List All' value is selected, we make the status null in order
+		 * to display all status
+		 */
+		if ((status != null) && (status.equals("List All")))
+			status = null;
+		
+		if ((year != null) && (year.length() <= 0))
+			throw new Exception(String.format("Invalid year [%s]", year));
+		
+		/* 
+		 * When the 'List All' value is selected, we make the year null in
+		 * order to display all years
+		 */
+		if ((year != null) && (year.equals("List All")))
+			year = null;
+		
+		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId, monthName, status, year);
 		
 		log.debug("Size of filtered hours list is: " + results.size());
 		

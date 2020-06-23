@@ -1,0 +1,55 @@
+<div class="container-fluid">
+		<p class="validationTips"></p>
+		<form id="newEt">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="etName">Abbreviated Name:</label>
+						<input id="etName" type="text" class="form-control"/>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">
+					<div class="form-group">
+						<label for="etDescr">Full Name/Description:</label>
+						<textarea id="etDescr" rows="2" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						<label for="defHrs">Default Hours:</label>
+						<input id="defHrs" type="text" class="form-control"/>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm">
+					<div class="row" style="padding-bottom:0px">
+						<div class="form-group">
+							<label for="radio-inline" style="padding-right:10px">Do you wish to pin hours?</label>
+							<label class="radio-inline" style="padding-right:10px">
+      							<input id="yesPinHrs" type="radio" name="optradio" checked="checked"/> Yes
+    						</label>
+				    		<label class="radio-inline" style="padding-right:10px">
+      							<input id="noPinHrs" type="radio" name="optradio"/> No
+    						</label>
+						</div>
+					</div>
+					<div class="row" style="padding-top:-0px">
+						<p style="font-size:12px">*By pinning hours, a user must report using the default hours.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">
+					<div class="form-group">
+						<label for="etSc">Service Client:</label>
+						<input type="hidden" id="scId" value="" />
+						<input id="etSc" type="text" class="form-control" readonly="readonly" value="sel sc"/>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
