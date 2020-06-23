@@ -108,6 +108,7 @@ public class ServiceHoursService {
 	 */
 	public List<ServiceHours> filteredHours(Integer userId, Integer scId, String monthName, String status, String year) throws Exception {
 		
+		
 		if ((userId != null) && (userId <= 0)) 
 			throw new Exception(String.format("Invalid user id [%d]", userId));
 				

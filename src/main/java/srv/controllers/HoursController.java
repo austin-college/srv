@@ -135,8 +135,10 @@ public class HoursController {
 			else
 				userId = userUtil.currentUser().getUid();
 			
+			log.debug("user id {} client id {} month {} status {} year {}", userId, scP, monthNameP, statusP, yearP);
+
 			filteredHours = hrSvc.filteredHours(userId, scP, monthNameP, statusP, yearP);
-			
+			log.debug("detected {} hours" , filteredHours.size());
 			mav.addObject("hours", filteredHours);
 			
 			mav.addObject("semTot", hrSvc.getSemTot(hours)); //total hours served per semester

@@ -115,7 +115,7 @@ public class FilterHoursControllerTest {
 		Event e1 = new Event()
 				.setEid(1)
 				.setTitle("gds 2020")
-				.setDate(new java.util.Date())
+				.setDate(date)
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
 				.setServiceClient(sc1)
@@ -131,7 +131,7 @@ public class FilterHoursControllerTest {
 		 Event e2 = new Event()
 				.setEid(2)
 				.setTitle("fws 2020")
-				.setDate(new java.util.Date())
+				.setDate(date)
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
 				.setServiceClient(sc2)
@@ -161,8 +161,6 @@ public class FilterHoursControllerTest {
 		testTypes.add(et2);
 		testClients.add(sc1);
 		testClients.add(sc2);
-		testHours.add(sh1);
-		testHours.add(sh2);
 		
 	}
 		
@@ -186,11 +184,15 @@ public class FilterHoursControllerTest {
 	@WithMockUser(username = "user", password = "user")
 	public void byUserId_whenIdValid() throws Exception {
 		
+		testHours.add(sh1);
+		testHours.add(sh2);
+		
 		Mockito.when(eventSvc.allEvents()).thenReturn(testEvents);
 		Mockito.when(hrSvc.listCurrentSponsors()).thenReturn(testClients);
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(false);
+		Mockito.when(mockUserUtil.currentUser()).thenReturn(new User().setUid(1));
 		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
-		Mockito.when(hrSvc.filteredHours(1, null, null, null, null)).thenReturn(testHours);
+		Mockito.when(hrSvc.filteredHours(Mockito.eq(1), Mockito.refEq(null), Mockito.refEq(null), Mockito.anyString(), Mockito.anyString())).thenReturn(testHours);
 		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
 		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
 		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
@@ -204,10 +206,149 @@ public class FilterHoursControllerTest {
 			.andExpect(xpath(dquote("//table[@id='hrs_tbl']")).exists())
 			
 			// and there's a row in our table that has a event name td inside whose text better be 'gds 2020' 
-			.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrs_eventName' and text()='gds 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_eventName' and text()='gds 2020']")).exists())
 			
 			// and there's a row in our table that has a event name td inside whose text better be 'fws 2020' 
-	//		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrs_eventName' and text()='fws 2020']")).exists())
+			.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 1 hour with
+	 * service client/sponsors ids of 1
+	 */
+	@Test
+	@WithMockUser(username = "user", password = "user")
+	public void byServiceClientId_whenIdValid() throws Exception {
+		
+		testHours.add(sh1);
+
+		Mockito.when(eventSvc.allEvents()).thenReturn(testEvents);
+		Mockito.when(hrSvc.listCurrentSponsors()).thenReturn(testClients);
+		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
+		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(1), Mockito.refEq(null), Mockito.anyString(), Mockito.anyString())).thenReturn(testHours);
+		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		
+		mvc.perform(get("/hours?sc=1")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing hours
+			.andExpect(xpath(dquote("//table[@id='hrs_tbl']")).exists())
+			
+			// and there's a row in our table that has a service client/sponsor name td inside whose text better be 'Habitat for Humanity' 
+			.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_sponsor' and text()='Habitat for Humanity']")).exists())
+			
+			// and there's not a row in our table that has a service client/sponsor name td inside whose text better be 'Meals on Wheels' 
+			.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_sponsor' and text()='Meals on Wheels']")).doesNotExist())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 2 hours with
+	 * month 'June'
+	 */
+	@Test
+	@WithMockUser(username = "user", password = "user")
+	public void byMonthName_whenNameValid() throws Exception {
+		
+		testHours.add(sh1);
+		testHours.add(sh2);
+
+		Mockito.when(eventSvc.allEvents()).thenReturn(testEvents);
+		Mockito.when(hrSvc.listCurrentSponsors()).thenReturn(testClients);
+		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
+		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(null), Mockito.eq("June"), Mockito.anyString(), Mockito.anyString())).thenReturn(testHours);
+		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		
+		mvc.perform(get("/hours?month=June")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing hours
+			.andExpect(xpath(dquote("//table[@id='hrs_tbl']")).exists())
+			
+			// and there's a row in our table that has a date td inside whose text better be 'Jun 12, 2020 12:00 AM' aka have the month of 'June'
+			.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_date' and text()='Jun 12, 2020 12:00 AM']")).exists())
+			
+			// and there's not a row in our table that has a date td inside whose text better be 'Jun 12, 2020 12:00 AM' aka have the month of 'June'
+			.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_date' and text()='Jun 12, 2020 12:00 AM']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 2 hours with
+	 * year 2020
+	 */
+	@Test
+	@WithMockUser(username = "user", password = "user")
+	public void byYear_whenYearValid() throws Exception {
+		
+		testHours.add(sh1);
+		testHours.add(sh2);
+
+		Mockito.when(eventSvc.allEvents()).thenReturn(testEvents);
+		Mockito.when(hrSvc.listCurrentSponsors()).thenReturn(testClients);
+		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
+		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(null), Mockito.refEq(null), Mockito.anyString(), Mockito.eq("2020"))).thenReturn(testHours);
+		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		
+		mvc.perform(get("/hours?year=2020")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing hours
+			.andExpect(xpath(dquote("//table[@id='hrs_tbl']")).exists())
+			
+			// and there's a row in our table that has a date td inside whose text better be 'Jun 12, 2020 12:00 AM' aka have the year '2020'
+			.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_date' and text()='Jun 12, 2020 12:00 AM']")).exists())
+			
+			// and there's not a row in our table that has a date td inside whose text better be 'Jun 12, 2020 12:00 AM' aka have the year '2020'
+			.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_date' and text()='Jun 12, 2020 12:00 AM']")).exists())
+			;
+	}
+	
+	/**
+	 * Make sure the base page shows a table of 1 hour with
+	 * status 'Approved'
+	 */
+	@Test
+	@WithMockUser(username = "user", password = "user")
+	public void byStatus_whenStatusValid() throws Exception {
+		
+		testHours.add(sh2);
+
+		Mockito.when(eventSvc.allEvents()).thenReturn(testEvents);
+		Mockito.when(hrSvc.listCurrentSponsors()).thenReturn(testClients);
+		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
+		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
+		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(null), Mockito.refEq(null), Mockito.eq("Approved"), Mockito.anyString())).thenReturn(testHours);
+		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		
+		mvc.perform(get("/hours?status=Approved")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isOk())
+			
+			// our page displays a table somewhere inside for showing hours
+			.andExpect(xpath(dquote("//table[@id='hrs_tbl']")).exists())
+					
+			// and there's not a row in our table that has an hours status td inside whose text better be 'Approved'
+			.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_status' and text()='Approved']")).exists())
 			;
 	}
 }
