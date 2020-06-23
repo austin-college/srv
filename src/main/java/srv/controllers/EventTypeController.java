@@ -146,6 +146,25 @@ public class EventTypeController {
 		
 		return mav;
 	}
+	
+	/**
+	 * Ajax call to retrieve and return selected event type from the database.
+	 */
+	@ResponseBody
+	@GetMapping(value="/eventsTypes/ajax/eventType/{id}", produces="application/json")
+	public ResponseEntity<EventType> ajaxFetchEventType(@PathVariable Integer id) {
+		
+		try {
+			log.debug("fetch event type " + id);
+			
+			EventType evType = etDao.fetchEventTypeById(id);
+			
+			return new ResponseEntity<>(evType, HttpStatus.OK);
+		
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	
 }

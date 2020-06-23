@@ -5,7 +5,7 @@
 				<div class="col-sm-4">
 					<div class="form-group">
 						<label for="viewEtName">Abbreviated Name:</label>
-						<input id="viewEtName" type="text" class="form-control"/>
+						<input id="viewEtName" type="text" class="form-control" readonly="readonly"/>
 					</div>
 				</div>
 			</div>
@@ -13,7 +13,7 @@
 				<div class="col-sm">
 					<div class="form-group">
 						<label for="viewEtDescr">Full Name/Description:</label>
-						<textarea id="viewEtDescr" rows="2" class="form-control"></textarea>
+						<textarea id="viewEtDescr" rows="2" class="form-control" readonly="readonly"></textarea>
 					</div>
 				</div>
 			</div>
@@ -21,7 +21,7 @@
 				<div class="col-sm-3">
 					<div class="form-group">
 						<label for="viewDefHrs">Default Hours:</label>
-						<input id="viewDefHrs" type="text" class="form-control"/>
+						<input id="viewDefHrs" type="text" class="form-control" readonly="readonly"/>
 					</div>
 				</div>
 				<div class="col-sm-2"></div>
@@ -30,10 +30,10 @@
 						<div class="form-group">
 							<label for="radio-inline" style="padding-right:10px">Do you wish to pin hours?</label>
 							<label class="radio-inline" style="padding-right:10px">
-      							<input id="viewYesPinHrs" type="radio" name="optradio" checked="checked"/> Yes
+      							<input id="viewYesPinHrs" type="radio" name="optradio" checked="checked" disabled="disabled"/> Yes
     						</label>
 				    		<label class="radio-inline" style="padding-right:10px">
-      							<input id="viewNoPinHrs" type="radio" name="optradio"/> No
+      							<input id="viewNoPinHrs" type="radio" name="optradio" disabled="disabled"/> No
     						</label>
 						</div>
 					</div>

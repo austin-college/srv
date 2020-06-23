@@ -191,13 +191,48 @@ function onViewClick() {
 	
 	$("#viewDlg").dialog("open"); // opens the view dialog for admin users
 	
-	var idStr = $(this).attr("etid"); // The ID of the selected event type to be viewed	
+	var selEvType = $(this).attr("etid"); // The ID of the selected event type to be viewed	
 	
-//	$.ajax({
-//		method : "GET",
-//		url : "/srv/eventsTypes/ajax/eventType/" + idStr + "/html",
-//		cache : false
-//	})
+	console.log("Selected view event type: " + selEvType);
+	
+	// retrieve event type details
+	$.ajax({
+		method : "GET",
+		url : "/srv/eventsTypes/ajax/eventType/" + selEvType,
+		cache : false,
+		dataType: "json"
+	})
+	/*
+	 * If success, then prepopulate the selected event type's fields in the view dialog
+	 */
+	.done(function(evType) {
+		
+		console.log(evType);
+		
+		$("#viewEtName").val(evType.name);
+		$("#viewEtDescr").val(evType.description);
+		$("#viewDefHrs").val(evType.defHours);
+		$("#viewEtSc").val(evType.defClient.name);
+		$("#viewScId").val(evType.defClient.scid);
+		
+		// toggles the radio button based on value of pin hours
+		if (evType.pinHours) {
+			radiobtn = document.getElementById("viewYesPinHrs");
+			radiobtn.checked = true;
+		}
+		else {
+			radiobtn = document.getElementById("viewNoPinHrs");
+			radiobtn.checked = true;
+		}
+			
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
 }
 
 /**

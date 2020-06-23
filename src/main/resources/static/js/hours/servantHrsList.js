@@ -375,7 +375,7 @@ function prepopulateViewDialog(selShid) {
 		dataType: "json"
 	})
 	/*
-	 * If successful, then prepopulate the selected service hour's fields in the edit dialog.
+	 * If successful, then prepopulate the selected service hour's fields in the view dialog.
 	 */
 	.done(function(sh) {
 
