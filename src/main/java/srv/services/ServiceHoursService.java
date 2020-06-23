@@ -2,7 +2,9 @@ package srv.services;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,12 +192,37 @@ public class ServiceHoursService {
 				uu.currentUser().getUid(),
 				eid,
 				hrsSrved,
-				"Pending",
+				ServiceHours.STATUS_PENDING,
 				reflection,
 				descr);
 				
 		
 	}
+	
+	
+	/**
+	 * Given a generic list of service hours, we filter down to a list of approved, non-null
+	 * hours.
+	 * 
+	 * @param hoursList
+	 * @return
+	 */
+	public List<ServiceHours>  approvedHours(List<ServiceHours> hoursList) {
+		
+		List<ServiceHours> results = new ArrayList<ServiceHours>(hoursList.size());
+		
+		for (ServiceHours h : hoursList) {
+			
+			if (!ServiceHours.STATUS_APPROVED.equals(h.getStatus())) continue;  // skip if not approved. 
+				
+			if (h.getDate() == null) continue;  // skip if no date.   should not happen
+			
+			results.add(h);
+		}
+
+		return results;
+	}
+	
 	
 	/**
 	 * returns the total hours served in the current semester.  We 
@@ -209,12 +236,11 @@ public class ServiceHoursService {
 	public double totalSemesterHours(List<ServiceHours> hours) {
 
 		String semId = SemesterUtil.currentSemester();
+		log.debug("current semester: [{}]", semId);
 		
 		double total = 0.0;
-		for (ServiceHours h : hours) {
+		for (ServiceHours h : approvedHours(hours)) {
 			
-			if (!ServiceHours.STATUS_APPROVED.equals(h.getStatus())) continue;  // skip if not approved. 
-				
 			if (semId.equals(SemesterUtil.semesterID(h.getDate()))) {
 				total += h.getHours();
 			}
@@ -227,31 +253,53 @@ public class ServiceHoursService {
 	
 	
 	public double totalAcademicYearHours(List<ServiceHours> hours) {
-		return 0.0;
 		
+		String ayid = SemesterUtil.currentAcadYear();
+		log.debug("current academic year: [{}]", ayid);
+		
+		double total = 0.0;
+		for (ServiceHours h : approvedHours(hours)) {
+			
+			if (ayid.equals(SemesterUtil.acadYear(h.getDate()))) {
+				total += h.getHours();
+			}
+		}
+		
+		return total;
 	}
+
+	
 	
 	public int totalSponsorsCount(List<ServiceHours> hours) {
-		//before this there should be loop that weeds out all the duplicate orgs
-		int orgs = hours.size();
-		return orgs;
+		
+		Set<ServiceClient> clients = new HashSet<ServiceClient>();
+		
+		for (ServiceHours h : approvedHours(hours)) {
+			
+			clients.add(h.getServedPet());
+		}
+		
+		return clients.size();
 	}
+	
+
+	
 	
 	
 	
 	public double averageHoursPerMonth(List<ServiceHours> hours) {
-		double avg = 0;
 		
-		if (hours.size()==0) return 0.0;
+		// get date of earliest hour
+		// get date of latest hour
+
+		// empty list of double
 		
-		//before this you would make a new list with the dates being from the last year
-		for(int i = 0; i < hours.size(); i++) {
-			avg += hours.get(i).getHours();
-		}
+		// for each yr/month between earliest and latest
+		// add hours for that month
 		
-		avg = avg / 12;
+		// average hours per month
 		
-		return avg;
+		return 0;
 	}
 	
 	

@@ -9,7 +9,7 @@
 	<#if !userAdmin>
 	<div class="row" style="padding-left: 30px; padding-bottom: 30px">
 		
-		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="row col-12" style="padding-left: 20px; padding-bottom: 20px">
 			<div>
 				<h2>Service Stats</h2>
 			</div>
@@ -17,20 +17,42 @@
 					
 		<!-- container thats creating a table that will hold our data-->
 		<div class="row">
-			<table class="table table-striped ui-widget ui-widget-content table-bordered table-hover">
-				<thead>
-					<tr class="ui-widget-header">
-						<th>Hours Served This Semester</th>
-						<th class="wtTh">${semTot!"UNKNOWN"}</th>
-						<th>Hours Served This Term</th>
-						<th class="wtTh">${termTot!"UNKNOWN"}</th>
-						<th>Organizations Helped</th>
-						<th class="wtTh">${totOrgs!"UNKNOWN"}</th>
-						<th>Average Hours Served per Month</th>
-						<th class="wtTh">${avgPerMo!"UNKNOWN"}</th>
-					</tr>
-				</thead>
-			</table>
+		
+		  <div class="col-3">
+		    <label for="semTot" style="width:100%">Hours Served This Semester</label>
+		  </div>
+
+		  <div class="col-3">
+		    <label for="termTot"  style="width:100%">Hours Served This Acad Year</label>
+		  </div>
+
+		  <div class="col-3">
+		    <label for="totOrgs"  style="width:100%">Number of Groups Helped</label>
+		  </div>
+
+		  <div class="col-3">
+		    <label for="avgPerMo"  style="width:100%">Average Hours Per Month</label>
+		  </div>
+		  		  
+		</div>
+		<div class="row">
+		
+		  <div class="col-3">
+		    <input type="text" class="form-control" id="semTot" name="semTot" value="${semTot!"UNKNOWN"}" readonly="readonly"/>
+		  </div>
+
+		  <div class="col-3">
+		    <input type="text" class="form-control" id="termTot" name="termTot" value="${termTot!"UNKNOWN"}" readonly="readonly"/>
+		  </div>
+
+		  <div class="col-3">
+		    <input type="text" class="form-control" id="totOrgs" name="totOrgs" value="${totOrgs!"UNKNOWN"}" readonly="readonly"/>
+		  </div>
+
+		  <div class="col-3">
+		    <input type="text" class="form-control" id="avgPerMo" name="avgPerMo" value="${avgPerMo!"UNKNOWN"}" readonly="readonly"/>
+		  </div>
+		  		  
 		</div>
 	</div>
 	</#if>					
