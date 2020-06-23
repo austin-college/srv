@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mockitoSession;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -341,12 +343,12 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh1);	list.add(sh2);
 		
-		Mockito.when(dao.listByFilter(null, null, null)).thenReturn(list);
+		Mockito.when(dao.listByFilter(null, null, null, null, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(null, null, null);
+		List<ServiceHours> newList = shs.filteredHours(null, null, null, null, null);
 		assertEquals(2, newList.size());
 		
-		Mockito.verify(dao).listByFilter(null, null, null);
+		Mockito.verify(dao).listByFilter(null, null, null, null, null);
 	}
 	/**
 	 * Test to make sure that the service returns a list of hours based on a
@@ -358,14 +360,14 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh2);
 		
-		Mockito.when(dao.listByFilter(null, 2, null)).thenReturn(list);
+		Mockito.when(dao.listByFilter(null, 2, null, null, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(null, 2, null);
+		List<ServiceHours> newList = shs.filteredHours(null, 2, null, null, null);
 	
 		assertEquals(1, newList.size());
 		assertEquals(2, newList.get(0).getShid());
 		
-		Mockito.verify(dao).listByFilter(null, 2, null);
+		Mockito.verify(dao).listByFilter(null, 2, null, null, null);
 	}
 	
 	/**
@@ -375,7 +377,7 @@ public class ServiceHoursServiceTests {
 	@Test(expected=Exception.class)
 	public void test_filter_byServiceClient_whenIdInvalid() throws Exception {
 		
-		shs.filteredHours(null, -1, null);
+		shs.filteredHours(null, -1, null, null, null);
 	}
 	
 	/**
@@ -388,17 +390,16 @@ public class ServiceHoursServiceTests {
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh1);
 		
-		Mockito.when(dao.listByFilter(1, null, null)).thenReturn(list);
+		Mockito.when(dao.listByFilter(1, null, null, null, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(1, null, null);
+		List<ServiceHours> newList = shs.filteredHours(1, null, null, null, null);
 	
 		assertEquals(1, newList.size());
 		assertEquals(1, newList.get(0).getShid());
 		
-		Mockito.verify(dao).listByFilter(1, null, null);
+		Mockito.verify(dao).listByFilter(1, null, null, null, null);
 		
 	}
-	
 	
 	/**
 	 * Test to make sure that the service checks for valid id for
@@ -407,27 +408,185 @@ public class ServiceHoursServiceTests {
 	@Test(expected=Exception.class)
 	public void test_filter_byUser_whenIdInvalid() throws Exception {
 		
-		shs.filteredHours(-1, null, null);
+		shs.filteredHours(-1, null, null, null, null);
 	}
 	
-	/**TODO this test will fail come July.. need to mock date
-	 * 
+	/** 
 	 * Test to make sure that the service returns a list of hours based
 	 * on a valid month name.
 	 */
 	@Test
 	public void test_filter_byMonth_whenNameValid() throws Exception {
 		
+		// Creating new Date object
+		String sDate = "2020-06-12 00:00:00";
+		String pattern = "yyyy-MM-dd HH:mm:ss";
+
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Date date = sdf.parse(sDate);
+		
+		// to avoid future tests failing, sets the date.
+		sh1.setDate(date);	sh2.setDate(date);
+		
 		List<ServiceHours> list = new ArrayList<ServiceHours>();
 		list.add(sh1);	list.add(sh2);
 		
-		Mockito.when(dao.listByFilter(null, null, "June")).thenReturn(list);
+		Mockito.when(dao.listByFilter(null, null, "June", null, null)).thenReturn(list);
 		
-		List<ServiceHours> newList = shs.filteredHours(null, null, "June");
+		List<ServiceHours> newList = shs.filteredHours(null, null, "June", null, null);
 		assertEquals(2, newList.size());
 		
-		Mockito.verify(dao).listByFilter(null, null, "June");
+		Mockito.verify(dao).listByFilter(null, null, "June", null, null);
 	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on an invalid month name.
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byMonth_whenNameInvalid() throws Exception {
+		
+		shs.filteredHours(null, null, "", null, null);
+	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on when 'List All'. Should return the entire list.
+	 */
+	@Test
+	public void test_filter_byMonth_whenNameListAll() throws Exception {
+			
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);	list.add(sh2);
+		
+		Mockito.when(dao.listByFilter(null, null, null, null, null)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, null, "List All", null, null);
+		assertEquals(2, newList.size());
+		
+		Mockito.verify(dao).listByFilter(null, null, null, null, null);
+	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on a valid status.
+	 */
+	@Test
+	public void test_filter_byStatus_whenStatusValid() throws Exception {
+		
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);	
+		
+		Mockito.when(dao.listByFilter(null, null, null, "Approved", null)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, null, null, "Approved", null);
+		assertEquals(1, newList.size());
+		
+		Mockito.verify(dao).listByFilter(null, null, null, "Approved", null);
+	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on an invalid status.
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byStatus_whenStatusInvalid() throws Exception {
+		
+		shs.filteredHours(null, null, null, "", null);
+	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on when 'List All'. Should return the entire list.
+	 */
+	@Test
+	public void test_filter_byStatus_whenStatusListAll() throws Exception {
+			
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);	list.add(sh2);
+		
+		Mockito.when(dao.listByFilter(null, null, null, null, null)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, null, null, "List All", null);
+		assertEquals(2, newList.size());
+		
+		Mockito.verify(dao).listByFilter(null, null, null, null, null);
+	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on a valid year.
+	 */
+	@Test
+	public void test_filter_byYear_whenYearValid() throws Exception {
+		
+		// Creating new Date object
+		String sDate = "2020-06-12 00:00:00";
+		String pattern = "yyyy-MM-dd HH:mm:ss";
+
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		Date date = sdf.parse(sDate);
+		
+		// to avoid future tests failing, sets the date.
+		sh1.setDate(date);	sh2.setDate(date);
+		
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);	list.add(sh2);
+		
+		Mockito.when(dao.listByFilter(null, null, null, null, "2020")).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, null, null, null, "2020");
+		assertEquals(2, newList.size());
+		
+		Mockito.verify(dao).listByFilter(null, null, null, null, "2020");
+	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on an invalid year.
+	 */
+	@Test(expected=Exception.class)
+	public void test_filter_byYear_whenYearInvalid() throws Exception {
+		
+		shs.filteredHours(null, null, null, null, "");
+	}
+	
+	/** 
+	 * Test to make sure that the service returns a list of hours based
+	 * on when 'List All'. Should return the entire list.
+	 */
+	@Test
+	public void test_filter_byYear_whenYearListAll() throws Exception {
+			
+		List<ServiceHours> list = new ArrayList<ServiceHours>();
+		list.add(sh1);	list.add(sh2);
+		
+		Mockito.when(dao.listByFilter(null, null, null, null, null)).thenReturn(list);
+		
+		List<ServiceHours> newList = shs.filteredHours(null, null, null, null, "List All");
+		assertEquals(2, newList.size());
+		
+		Mockito.verify(dao).listByFilter(null, null, null, null, null);
+	}
+	
+	/**
+	 * Test to make sure that the service returns a list of hours when
+	 * all the parameters are valid. Should return an empty list since no
+	 * hours satisfy all the parameters.
+	 */
+	@Test
+	public void test_filter_byAllParam() throws Exception {
+		
+		List <ServiceHours> dummyList = new ArrayList<ServiceHours>();
+		
+		Mockito.when(dao.listByFilter(1, 2, "May", "Approved", "2020")).thenReturn(dummyList);
+		
+		List<ServiceHours> newList = shs.filteredHours(1, 2, "May", "Approved", "2020");
+		assertEquals(0, newList.size());
+		
+		Mockito.verify(dao).listByFilter(1, 2, "May", "Approved", "2020");
+	}
+	
 	/*
 	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests
 	 */
