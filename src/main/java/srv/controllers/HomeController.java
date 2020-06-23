@@ -156,6 +156,9 @@ public class HomeController {
 			if(srvUserDao.fetchServantUserById(userUtil.currentUser().getUid()) == null) {
 				
 				srvUserDao.create(userUtil.currentUser().getUsername(), userUtil.currentUser().getUid(), 2020, false, 0);
+				mav.clear();
+				mav = new ModelAndView("home/servantProfileUpdate");
+				
 				
 			} else {
 				List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
