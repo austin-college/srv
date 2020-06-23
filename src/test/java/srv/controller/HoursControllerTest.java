@@ -49,10 +49,6 @@ public class HoursControllerTest {
 	@MockBean
 	ServiceHoursDao dao;
 	
-	// TODO this will need to be fixed/removed when UserUtil and HoursController is fixed
-	@MockBean
-	JdbcTemplateUserDao uDao;
-	
 	@MockBean
 	UserUtil mockUserUtil;
 	
@@ -115,7 +111,7 @@ public class HoursControllerTest {
 		dummyList.add(h2);
 		dummyList.add(h3);
 			
-		Mockito.when(hrSvc.filteredHours(1, null, null)).thenReturn(dummyList);
+		Mockito.when(hrSvc.filteredHours(1, null, null, null, null)).thenReturn(dummyList);
 		Mockito.when(mockUserUtil.currentUser()).thenReturn(testUser);
 		
 		// now perform the test
@@ -128,7 +124,7 @@ public class HoursControllerTest {
 
 		// and there's a row in our table that has a hrs_eventName td inside whose text better be 'Spending Time with Toys for Tots' 
 		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_eventName' and text()='Spending Time with Toys for Tots']")).exists())
-
+		
 		// and that same row should not have a td with a button inside for editing (since hour is approved)
 		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]")).doesNotExist())
 
