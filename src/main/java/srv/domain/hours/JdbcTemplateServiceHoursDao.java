@@ -195,13 +195,71 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 * Filters the list of service hours by users, sponsors (service clients), year, and month.
 	 */
 	@Override
-	public List<ServiceHours> listByFilter(Integer userId, Integer scId) throws Exception {
+	public List<ServiceHours> listByFilter(Integer userId, Integer scId, String monthName, String status, String year) throws Exception {
 		
 		// Allows for dynamic building of query string based on parameters
-		StringBuffer queryBuff = new StringBuffer("SELECT * from serviceHours ");
+		StringBuffer queryBuff = new StringBuffer("SELECT * FROM serviceHours ");
+		
+		
+		// Allows for dynamic building of query string based on parameters that access events table
+		StringBuffer eventsQueryBuff = new StringBuffer("(SELECT eventID FROM events ");
 		
 		// Flag for if the parameter is first in the query
 		boolean first = true;
+		
+		// Flag for it the parameter is first in the events query
+		boolean eventsFirst = true;
+		
+		// Filters by month name, put month in front to avoid BadSQLGrammar exceptions
+		if (monthName != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("WHERE ");
+			}
+			else
+				queryBuff.append("AND ");
+			
+			if (eventsFirst) {
+				eventsFirst = false;
+				eventsQueryBuff.append("WHERE ");
+			}
+			else
+				eventsQueryBuff.append("AND ");
+
+			// Query date by service hour's event's date
+			eventsQueryBuff.append("MONTHNAME(events.dateOf) = ");
+			eventsQueryBuff.append("'");
+			eventsQueryBuff.append(monthName);
+			eventsQueryBuff.append("') ");
+			
+			queryBuff.append("eventId IN " + eventsQueryBuff.toString());
+			
+		}
+		
+		// Filters by year, put year up above to avoid BADSQLGrammar exceptions
+		if (year != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("WHERE eventId IN ");
+			}
+						
+			if (eventsFirst) {
+				eventsFirst = false;
+				eventsQueryBuff.append("WHERE ");
+			}
+			// clear out the event query buffer
+			else {
+				eventsQueryBuff = eventsQueryBuff.delete(0, eventsQueryBuff.length());
+				queryBuff.deleteCharAt(queryBuff.length() - 2); // remove the ')'
+				eventsQueryBuff.append("AND ");
+			}
+			// Query date by service hour's event's date
+			eventsQueryBuff.append("YEAR(events.dateOf) = ");
+			eventsQueryBuff.append(year);
+			eventsQueryBuff.append(") ");
+			
+			queryBuff.append(eventsQueryBuff.toString());
+		}
 		
 		// Filters by users
 		if (userId != null) {
@@ -233,8 +291,27 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 			queryBuff.append("' ");
 		}
 		
+		// Filters by hours' status (i.e. pending)
+		if (status != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("WHERE ");
+			}
+			else
+				queryBuff.append("AND ");
+			
+			queryBuff.append("status = ");
+			queryBuff.append("'");
+			queryBuff.append(status);
+			queryBuff.append("' ");
+			
+		}
+		
 		log.debug(queryBuff.toString());
 		
+		log.info(eventsQueryBuff.toString());
+		log.info(queryBuff.toString());
+
 		List<ServiceHours> results = getJdbcTemplate().query(queryBuff.toString(),	new ServiceHourRowMapper());
 
 		return results;	

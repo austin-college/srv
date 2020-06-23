@@ -153,7 +153,7 @@ class EventTypeDaoTests {
 	@Test
 	void testUpdate() throws Exception{
 		
-		dao.update(1, "GreatDayOfService", "Austin College Hosted Event", 4, false, 2);
+		dao.update(1, "GreatDayOfService", "Austin College Hosted Event", 4.0, false, 2);
 		
 		EventType et1 = dao.fetchEventTypeById(1);
 		

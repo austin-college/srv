@@ -61,13 +61,67 @@
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 	
 		<!-- Button that prompts the user to enter their service hours -->
+		<!-- Hide button from admin users -->
 		<div class="col">
+			<#if !userAdmin>
 			<button type="button" class="btn btn-md btn-dark addBtn" style="padding-top:10px">
 				<span class="fas fa-plus-circle"></span> Add Hours
 			</button>
+			</#if>
+		</div>
+			
+		<!-- Filter by year -->
+		<div class="col text-right comboBox">
+			<label>By Year:</label>
+			<select  id="yearComboBox" data-prev-selected="${selectedYear}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
+			</select>		
+		</div>
+				
+		<!-- Filter by month -->
+		<div class="col text-right comboBox">
+			<label>By Month:</label>
+			<select id="monthComboBox" data-prev-selected="${selectedMonth}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
+			</select>		
+		</div>		
+		
+		<!-- Filter by status -->
+		<div class="col text-right comboBox">
+			<label>By Status:</label>
+			<select id="statusComboBox" data-prev-selected="${selectedStatus}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
+				
+				<#if selectedStatus == "List All">
+					<option value='List All' selected="selected">List All</option>
+					<option value='Pending'>Pending</option>
+					<option value='Rejected'>Rejected</option>
+					<option value='Approved'>Approved</option>
+				<#elseif selectedStatus == "Pending">
+					<option value='Pending' selected="selected">Pending</option>
+					<option value='Rejected'>Rejected</option>
+					<option value='Approved'>Approved</option>
+					<option value='List All'>List All</option>
+				<#elseif selectedStatus == "Rejected">
+					<option value='Rejected' selected="selected">Rejected</option>
+					<option value='Pending'>Pending</option>
+					<option value='Approved'>Approved</option>
+					<option value='List All'>List All</option>
+				<#else>
+					<option value='Approved' selected="selected">Approved</option>
+					<option value='Pending'>Pending</option>
+					<option value='Rejected'>Rejected</option>
+					<option value='List All'>List All</option>
+				</#if>
+			</select>		
 		</div>
 		
-		<!-- Combo box for filtering hours by sponsor (service client) -->
+	</div>
+	
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+	
+		<!-- Empty column for style/layout -->
+		<div class="col" style="padding-right:40px">
+		</div>
+
+		<!-- Filter sponsor (service client) -->
 		<div class="col text-right comboBox">
 			<label>By Sponsor</label>
 			<select id="scComboBox" data-prev-selected="${selectedScid}" onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
@@ -83,16 +137,14 @@
 			</select>
 		</div>
 		
-	</div>
-	<div class="row text-right" style="padding-bottom: 20px">
 		<!-- Clears all filters -->
-		<div class="col">
+		<div class="col text-right">
 			<button id="btnClearFilters" class="btn btn-md addBtn" type="button"
 				onclick="baseUrl()">
 				Clear All Filters</button>
 		</div>
 	</div>
-	
+		
 	<!-- Service Hours table -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px; padding-top: 20px">
 		<div class="col">
@@ -100,7 +152,15 @@
 				<thead>
 					<tr>
 						<th class="th-sm">ID</th>
+						
+						<!-- Display the hour's servant's username only for admins -->
+						<#if userAdmin>
+							<th class="th-sm">Servant's Username</th>
+						</#if>
+						
 						<th class="th-sm">Service Event</th>
+						<th class="th-sm">Sponsor</th>
+						<th class="th-sm">Date</th>
 						<th class="th-sm">Hours Served</th>
 						<th class="th-sm">Status</th>
 						<th class="th-sm">Action</th>
@@ -111,7 +171,14 @@
 					<#list hours as hrs>
 						<tr id="row${hrs.shid?c}">
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+							
+							<!-- Display the hour's servant's username only for admins -->
+							<#if userAdmin>
+								<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_srvUsername'>${hrs.servant.username!"UNKNOWN"}</td>
+							</#if>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.event.title!"UNKNOWN"}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_sponsor'>${hrs.servedPet.name!"UNKNOWN"}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_date'>${hrs.event.date?string["MMM d, yyyy h:mm a"]}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
 							

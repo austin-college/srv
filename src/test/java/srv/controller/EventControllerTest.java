@@ -938,7 +938,7 @@ public class EventControllerTest {
         
                   .andExpect(status().isOk())
                  
-                  // // should contain a div 
+                  // should contain a div 
                   .andExpect(xpath(dquote("//div[@id='evDetails']")).exists())
                   
                   // should contain the events' details
