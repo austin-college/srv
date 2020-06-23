@@ -104,7 +104,7 @@ function prepopulateAddDialogue() {
 	})
 	/*
 	 * If successful, then prepopulate the service client's name field in the add
-	 * event type dialogue and hides its id
+	 * event type dialog and hides its id
 	 */
 	.done(function(sc) {
 		
@@ -119,6 +119,39 @@ function prepopulateAddDialogue() {
 	});
 }
 
+/**
+ * Updates the client name and id for the edit dialog
+ * @returns
+ */
+function updateClient(scid) {
+	
+	console.log(scid);
+	
+	// retrieve the service client's info
+	$.ajax({
+		method: "GET",
+		url: "/srv/eventTypes/ajax/serviceClient/"+scid,
+		cache: false,
+		dataType: "json"
+	})
+	/*
+	 * If successful, then prepopulate the service client's name field in the edit
+	 * event type dialog and hides its id
+	 */
+	.done(function(sc) {
+		
+		console.log(sc);
+		
+		$("#editEtSc").val(sc.name);
+		$("#editScId").val(sc.scid);
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+	});
+}
 /** 
  * Ajax call to add a new event type
  */
@@ -177,7 +210,7 @@ function addEventType(etName, etDescr, etDefHrs, etPinHrs, etScid) {
 /** 
  * Ajax call to edit an event type
  */
-function editEventType(etid, etName, etDescr, etDefHrs, etPinHrs, etScid) {
+function editEventType(etid, etName, etDescr, etDefHrs, etPinHrs, etScid, etScName) {
 	
 	// get the forms values as strings
 	var etidStr = $(etid).val();
@@ -210,9 +243,8 @@ function editEventType(etid, etName, etDescr, etDefHrs, etPinHrs, etScid) {
 		// Updates the edited event type's row with the new values
 		$("#etid-" + id + " td[name = 'et_name_descr']").html("(" + $(etName).val() + ") " + $(etDescr).val());
 		$("#etid-" + id + " td[name ='et_hr']").html($(etDefHrs).val());
-		$("#etid-" + id + " td[name ='et_sc']").html($(etDefHrs).val());
+		$("#etid-" + id + " td[name ='et_sc']").html($(etScName).val());
 	
-
 		
   	    $("#editDlg").dialog("close");
 
@@ -428,9 +460,10 @@ function onPageLoad() {
 					if (functionCall == "onNewClick")
 						$("#addDlg").dialog("open");
 					
-					else if (functionCall = "onChangeClientClick")
-						$("#editDlg").data("idk", "idk");
-
+					else if (functionCall = "onChangeClientClick") 
+						updateClient($("#newScId").val());
+					
+					
 					$(this).dialog("close");
 
 				}
@@ -597,11 +630,11 @@ function onPageLoad() {
 
 						// since default hours is not required and can be left blank, don't need to verify it's
 						// non-numeric if empty/blank
-						if ($("#editDefHrs").val() == "") { editEventType("#editDlgEtid", "#editEtName", "#editEtDescr", "#editDefHrs", pinHrs, "#editScId"); }
+						if ($("#editDefHrs").val() == "") { editEventType("#editDlgEtid", "#editEtName", "#editEtDescr", "#editDefHrs", pinHrs, "#editScId", "#editEtSc"); }
 
 						else {
 
-							if (validateFields("#editDefHrs")) { editEventType("#editDlgEtid", "#editEtName", "#editEtDescr", "#editDefHrs", pinHrs, "#editScId"); }
+							if (validateFields("#editDefHrs")) { editEventType("#editDlgEtid", "#editEtName", "#editEtDescr", "#editDefHrs", pinHrs, "#editScId", "#editEtSc"); }
 
 						}
 
