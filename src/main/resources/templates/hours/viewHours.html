@@ -39,17 +39,19 @@
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 	
 		<!-- Button that prompts the user to enter their service hours -->
+		<!-- Hide button from admin users -->
 		<div class="col">
+			<#if !userAdmin>
 			<button type="button" class="btn btn-md btn-dark addBtn" style="padding-top:10px">
 				<span class="fas fa-plus-circle"></span> Add Hours
 			</button>
+			</#if>
 		</div>
 			
 		<!-- Filter by year -->
 		<div class="col text-right comboBox">
 			<label>By Year:</label>
-			<select>
-				<option>2020</option>
+			<select  id="yearComboBox" data-prev-selected="${selectedYear}"  onchange="if(this.value != 0) { queryUrl(this.id, this.value) } else { removeQueryUrl(this.id) }">
 			</select>		
 		</div>
 				
@@ -92,6 +94,11 @@
 	</div>
 	
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+	
+		<!-- Empty column for style/layout -->
+		<div class="col" style="padding-right:40px">
+		</div>
+
 		<!-- Filter sponsor (service client) -->
 		<div class="col text-right comboBox">
 			<label>By Sponsor</label>
@@ -107,17 +114,15 @@
 				</#list>
 			</select>
 		</div>
-	</div>
-	
-	<div class="row text-right" style="padding-bottom: 20px">
+		
 		<!-- Clears all filters -->
-		<div class="col">
+		<div class="col text-right">
 			<button id="btnClearFilters" class="btn btn-md addBtn" type="button"
 				onclick="baseUrl()">
 				Clear All Filters</button>
 		</div>
 	</div>
-	
+		
 	<!-- Service Hours table -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px; padding-top: 20px">
 		<div class="col">

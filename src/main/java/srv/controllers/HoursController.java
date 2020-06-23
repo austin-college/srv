@@ -1,6 +1,7 @@
 package srv.controllers;
 
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +69,7 @@ public class HoursController {
 	 */
 	@GetMapping("/hours")
 	public ModelAndView handleBasePageRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String sc,
-			@RequestParam(required = false) String month, @RequestParam(required = false) String status) {
+			@RequestParam(required = false) String month, @RequestParam(required = false) String status, @RequestParam(required = false) String year) {
 
 		ModelAndView mav = new ModelAndView("hours/viewHours");
 		
@@ -81,6 +82,7 @@ public class HoursController {
 			Integer userId;
 			List<ServiceHours> filteredHours;
 			List<ServiceClient> sponsors = hrSvc.listCurrentSponsors();
+			String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			
 			mav.addObject("sClients", sponsors);
 			mav.addObject("events", events);
@@ -93,10 +95,12 @@ public class HoursController {
 			Integer scP = null;
 			String monthNameP = null;
 			String statusP = "Pending"; // Default shows all 'Pending' hours
+			String yearP = currentYear; // Default show current year
 			
 			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
 			mav.addObject("selectedMonth", "List All"); // sets the combo box for months to 'List All'
 			mav.addObject("selectedStatus", "Pending"); // sets the combo box for status to 'Pending'
+			mav.addObject("selectedYear", currentYear); // sets the combo box for year to the current year
 			
 			// Filtering by service client
 			if (sc != null) {
@@ -113,7 +117,13 @@ public class HoursController {
 			// Filtering by status
 			if (status != null) {
 				statusP = status;
-				mav.addObject("selectedStatus", status);
+				mav.addObject("selectedStatus", statusP);
+			}
+			
+			// Filtering by year
+			if (year != null) {
+				yearP = year;
+				mav.addObject("selectedYear", yearP);
 			}
 				
 			/*
@@ -125,7 +135,7 @@ public class HoursController {
 			else
 				userId = userUtil.currentUser().getUid();
 			
-			filteredHours = hrSvc.filteredHours(userId, scP, monthNameP, statusP);
+			filteredHours = hrSvc.filteredHours(userId, scP, monthNameP, statusP, yearP);
 			
 			mav.addObject("hours", filteredHours);
 			

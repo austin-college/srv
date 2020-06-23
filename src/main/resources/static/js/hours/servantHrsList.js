@@ -105,6 +105,11 @@ function removeQueryUrl(filter) {
 	else if (filter == 'statusComboBox') 
 		deleteQuery = findQuery(currentUrlArray, 3);
 	
+	
+	// If the year combo box is selected to 'List All'
+	else if (filter == 'yearComboBox')
+		deleteQuery = findQuery(currentUrlArray, 4);
+	
 	// If the query string was the one and only query in the URL
 	if (currentUrlArray.length == 2)
 		newUrl = newUrl.replace('?'+deleteQuery, newQuery);
@@ -155,6 +160,12 @@ function findQuery(urlArray, flag) {
 		// Specified query is for status
 		else if (flag == 3) {
 			if (urlArray[index].includes("status="))
+				query = urlArray[index];
+		}
+		
+		// Specified query is for year
+		else if (flag == 4) {
+			if (urlArray[index].includes("year="))
 				query = urlArray[index];
 		}
 	}
@@ -210,6 +221,10 @@ function queryUrl(filter, comboBoxSelectedId) {
 		// If the specified query is for status
 		if (filter == 'statusComboBox')
 			currentUrl += 'status=' + comboBoxSelectedId;
+		
+		// If the specified query is for year
+		if (filter == 'yearComboBox') 
+			currentUrl += 'year=' + comboBoxSelectedId;
 	}
 
 	console.log(currentUrl);
@@ -268,6 +283,18 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		
 		oldQuery = findQuery(location.href.split(/[\&,?]+/), 3);
 		url = url.replace(oldQuery, 'status=' + comboBoxSelectedId);
+		contains = true;
+	}
+	
+	/*
+	 * If the specified query is for year and it has been selected before,
+	 * find its location in the URL and replace it with the newly selected
+	 * year
+	 */
+	if ((filter == 'yearComboBox') && (url.includes("year="))) {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 4);
+		url = url.replace(oldQuery, 'year=' + comboBoxSelectedId);
 		contains = true;
 	}
 		
@@ -657,21 +684,44 @@ function setMonthComboBox() {
 	/*
 	 * Populates the month combo box with the above month names
 	 */
-	var selectMonth = $("#monthComboBox");
-
-	for(m = 0; m <= 12; m++) {
+	for (m = 0; m <= 12; m++) {
 	    var optn = document.createElement("OPTION");
 	    optn.text = monthNames[m];
 	    document.getElementById('monthComboBox').options.add(optn);
 	}
 	
-	var selectedMonth = $("#monthComboBox").attr("data-prev-selected");
-	
 	// set the selected month as selected
+	var selectedMonth = $("#monthComboBox").attr("data-prev-selected");	
 	document.getElementById('monthComboBox').value = selectedMonth;
 }
 
-
+/*
+ * Prepares the year combo box.
+ * 
+ * Only showing 5 years ahead of the current year.
+ */
+function setYearComboBox() {
+	
+	// Get the current date's year
+	var currentDate = new Date();
+	var currentYear = currentDate.getFullYear();
+	
+	// populates options
+	for (y = currentYear; y <= currentYear + 5; y++) {
+	    var optn = document.createElement("OPTION");
+	    optn.text = y;
+	    document.getElementById('yearComboBox').options.add(optn);
+	}
+	
+	// add the list all option to the bottom of the list
+	allOptn = document.createElement("OPTION");
+	allOptn.text = "List All";
+    document.getElementById('yearComboBox').options.add(allOptn);
+    
+    // set the selected month as selected
+	var selectedYear = $("#yearComboBox").attr("data-prev-selected");
+	document.getElementById('yearComboBox').value = selectedYear;
+}
 /**
  * When the back button is clicked on returns the user to the previous page.
  * If the previous page is the login page, the user is directed to their home page.
@@ -691,7 +741,8 @@ function goBack() {
 $(document).ready(function() {	
 	
 	setMonthComboBox();
-
+	setYearComboBox();
+	
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#delDlg").dialog({
 		autoOpen : false, // hide it at first

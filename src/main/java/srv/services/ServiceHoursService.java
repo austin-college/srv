@@ -106,7 +106,7 @@ public class ServiceHoursService {
 	 * @param scId
 	 * @throws Exception
 	 */
-	public List<ServiceHours> filteredHours(Integer userId, Integer scId, String monthName, String status) throws Exception {
+	public List<ServiceHours> filteredHours(Integer userId, Integer scId, String monthName, String status, String year) throws Exception {
 		
 		if ((userId != null) && (userId <= 0)) 
 			throw new Exception(String.format("Invalid user id [%d]", userId));
@@ -134,7 +134,17 @@ public class ServiceHoursService {
 		if ((status != null) && (status.equals("List All")))
 			status = null;
 		
-		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId, monthName, status);
+		if ((year != null) && (year.length() <= 0))
+			throw new Exception(String.format("Invalid year [%s]", year));
+		
+		/* 
+		 * When the 'List All' value is selected, we make the year null in
+		 * order to display all years
+		 */
+		if ((year != null) && (year.equals("List All")))
+			year = null;
+		
+		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId, monthName, status, year);
 		
 		log.debug("Size of filtered hours list is: " + results.size());
 		
