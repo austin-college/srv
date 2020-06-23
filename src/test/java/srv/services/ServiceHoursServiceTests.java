@@ -26,6 +26,7 @@ import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.User;
+import srv.utils.SemesterUtil;
 import srv.utils.UserUtil;
 
 /**
@@ -44,6 +45,10 @@ public class ServiceHoursServiceTests {
 	private EventService eventService; 
 	@Mock
 	private UserUtil userUtil; 
+
+	@Mock
+	private SemesterUtil semUtil; 
+
 	
 	@InjectMocks
 	private ServiceHoursService shs; 
@@ -409,56 +414,13 @@ public class ServiceHoursServiceTests {
 		
 		shs.filteredHours(-1, null);
 	}
-	/*
-	 *  !!!! TO DO !!! move these tests into the ServiceHoursServiceTests
-	 */
-
-	/**
-	 * Tests the method that calculated the total hours served in the last semester.
-	 * currently cannot differentiate servants, since there is only one. This is
-	 * reflected in this test
-	 */
-	/*
-	 * @Test void testSemTot() throws Exception { List<ServiceHours> hours =
-	 * hrSvc.listHours(); double result = hrSvc.getSemTot(hours); double expected =
-	 * 3.5; assertEquals(result, expected);
-	 * 
-	 * }
-	 * 
-	 *//**
-		 * Tests the method that calculated the total hours served in the last term.
-		 * currently cannot differentiate servants, since there is only one. This is
-		 * reflected in this test
-		 */
-	/*
-	 * @Test void testTermTot() throws Exception { List<ServiceHours> hours =
-	 * hrSvc.listHours(); double result = hrSvc.getTermTot(hours); double expected =
-	 * 7.0; assertEquals(result, expected);
-	 * 
-	 * }
-	 * 
-	 *//**
-		 * Tests the method that calculated the total hours served in the last term.
-		 * currently cannot differentiate servants, since there is only one. This is
-		 * reflected in this test
-		 */
-	/*
-	 * @Test void testTotOrgs() throws Exception { List<ServiceHours> hours =
-	 * hrSvc.listHours(); int result = hrSvc.getTotOrgs(hours); int expected = 4;
-	 * assertEquals(result, expected);
-	 * 
-	 * }
-	 * 
-	 *//**
-		 * Tests the method that calculated the total hours served in the last term.
-		 * currently cannot differentiate servants, since there is only one. This is
-		 * reflected in this test
-		 *//*
-			 * @Test void testAvgPerMo() throws Exception { List<ServiceHours> hours =
-			 * hrSvc.listHours(); int result = hrSvc.getAvgPerMo(hours); int expected = 1;
-			 * assertEquals(result, expected);
-			 * 
-			 * }
-			 */
-
+	
+	
+	
+	@Test
+	public void test_totalAcademicYearHours() throws Exception {
+		
+		
+		
+	}
 }

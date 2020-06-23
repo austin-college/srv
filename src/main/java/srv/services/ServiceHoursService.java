@@ -42,6 +42,9 @@ public class ServiceHoursService {
 	@Autowired
 	ServiceClientDao sClientDao;	
 	
+	@Autowired
+	SemesterUtil semUtil;
+	
 	
 	public ServiceHoursService() {
 	}
@@ -235,13 +238,13 @@ public class ServiceHoursService {
 	 */
 	public double totalSemesterHours(List<ServiceHours> hours) {
 
-		String semId = SemesterUtil.currentSemester();
+		String semId = currentSemester();
 		log.debug("current semester: [{}]", semId);
 		
 		double total = 0.0;
 		for (ServiceHours h : approvedHours(hours)) {
 			
-			if (semId.equals(SemesterUtil.semesterID(h.getDate()))) {
+			if (semId.equals(semUtil.semesterID(h.getDate()))) {
 				total += h.getHours();
 			}
 		}
@@ -250,17 +253,39 @@ public class ServiceHoursService {
 	}
 	
 	
+	/**
+	 * Returns the current semester,  can be overridden in testing
+	 * to return a date good for our testing fixtures.
+	 * 
+	 * @return  current semester id string, like "2020FA"
+	 */
+	protected String currentSemester() {
+		return semUtil.currentSemester();
+	}
 	
 	
+	/**
+	 * @return current academic year id string, like "AY2020/2021"
+	 */
+	protected String currentAcadYear() {
+		return semUtil.currentAcadYear();
+	}
+	
+	
+	/**
+	 * 
+	 * @param hours
+	 * @return
+	 */
 	public double totalAcademicYearHours(List<ServiceHours> hours) {
 		
-		String ayid = SemesterUtil.currentAcadYear();
+		String ayid = currentAcadYear();
 		log.debug("current academic year: [{}]", ayid);
 		
 		double total = 0.0;
 		for (ServiceHours h : approvedHours(hours)) {
 			
-			if (ayid.equals(SemesterUtil.acadYear(h.getDate()))) {
+			if (ayid.equals(semUtil.acadYear(h.getDate()))) {
 				total += h.getHours();
 			}
 		}
