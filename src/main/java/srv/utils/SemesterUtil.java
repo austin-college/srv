@@ -97,11 +97,13 @@ public class SemesterUtil {
 
 	
 	/**
-	 * Should return the current termID in "FA" form
+	 * Should return the current termID in "2020FA" form.
+	 * 
+	 * @see srv.utils.SemesterUtil.semesterID(Date);
 	 * 
 	 * @return the current semester/term based on today's date.
 	 */
-	public static String currentTerm() {
+	public static String currentSemester() {
 		Date now = new Date();
 		return semesterID(now);
 	}// end of currentTerm

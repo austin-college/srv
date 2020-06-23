@@ -17,6 +17,7 @@ import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;
+import srv.utils.SemesterUtil;
 import srv.utils.UserUtil;
 
 import org.slf4j.LoggerFactory;
@@ -197,57 +198,40 @@ public class ServiceHoursService {
 	}
 	
 	/**
-	 * returns the total hours served in a semester. 
+	 * returns the total hours served in the current semester.  We 
+	 * use the semesterId as the basis.   We iterate over all hours
+	 * specified and total only those that were performed on a date
+	 * with the same semester id.
+	 *  
 	 * @param id
 	 * @return
 	 */
-	public double getSemTot(List<ServiceHours> hours) {
-		double avg = 0;
-		
-		
-		//get current month and date
-//		Date date = new Date();
-//		SimpleDateFormat yForm = new SimpleDateFormat("yyyy");
-//		SimpleDateFormat mForm = new SimpleDateFormat("MM");
-//		int year = Integer.parseInt(yForm.format(date));
-//		int month = Integer.parseInt(mForm.format(date));
-//		System.out.println(hours.get(0).getDate());
-		//create a new list that only includes hours from the last semester
-//		List<ServiceHours> refHours;
-//		for(int i = 0; i < hours.size(); i++) {
-//			if(hours.get(i).getDate())
-//		}
-		//can't do any of the above because none of the hours have dates and their events don't exist yet
-		//for now just going to average the list of service hours until we can differentiate servants 
+	public double totalSemesterHours(List<ServiceHours> hours) {
 
-		if (hours.size()==0) return 0.0;
+		String semId = SemesterUtil.currentSemester();
 		
-		//average list
-		for(int i = 0; i < hours.size(); i++) {
-			avg += hours.get(i).getHours();
+		double total = 0.0;
+		for (ServiceHours h : hours) {
+			
+			if (!ServiceHours.STATUS_APPROVED.equals(h.getStatus())) continue;  // skip if not approved. 
+				
+			if (semId.equals(SemesterUtil.semesterID(h.getDate()))) {
+				total += h.getHours();
+			}
 		}
-		avg = avg / hours.size();
 		
-		
-		return avg;
+		return total;
 	}
 	
-	public double getTermTot(List<ServiceHours> hours) {
-		double avg = 0;
+	
+	
+	
+	public double totalAcademicYearHours(List<ServiceHours> hours) {
+		return 0.0;
 		
-		if (hours.size()==0) return 0.0;
-		
-		//before this you would make a new list with the dates being from the last term
-		for(int i = 0; i < hours.size(); i++) {
-			avg += hours.get(i).getHours();
-		}
-		avg = avg / hours.size();
-		
-		
-		return avg * 2;
 	}
 	
-	public int getTotOrgs(List<ServiceHours> hours) {
+	public int totalSponsorsCount(List<ServiceHours> hours) {
 		//before this there should be loop that weeds out all the duplicate orgs
 		int orgs = hours.size();
 		return orgs;
@@ -255,7 +239,7 @@ public class ServiceHoursService {
 	
 	
 	
-	public double getAvgPerMo(List<ServiceHours> hours) {
+	public double averageHoursPerMonth(List<ServiceHours> hours) {
 		double avg = 0;
 		
 		if (hours.size()==0) return 0.0;

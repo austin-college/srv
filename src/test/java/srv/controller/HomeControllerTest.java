@@ -138,7 +138,7 @@ public class HomeControllerTest {
 		when(userUtil.currentUser()).thenReturn(user);
 		when(mockSrvUserDao.fetchServantUserById(1)).thenReturn(srvUser);
 		when(hrSvc.userHours(1)).thenReturn(null);
-		when(hrSvc.getSemTot(null)).thenReturn(0.0);
+		when(hrSvc.totalSemesterHours(null)).thenReturn(0.0);
 
 		mvc.perform(get("/home/servant/")
 				.contentType(MediaType.TEXT_HTML))

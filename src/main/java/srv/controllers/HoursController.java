@@ -113,10 +113,10 @@ public class HoursController {
 			
 			mav.addObject("hours", filteredHours);
 			
-			mav.addObject("semTot", hrSvc.getSemTot(hours)); //total hours served per semester
-			mav.addObject("termTot", hrSvc.getTermTot(hours)); //total hours served per term
-			mav.addObject("totOrgs", hrSvc.getTotOrgs(hours)); //total organizations helped
-			mav.addObject("avgPerMo", hrSvc.getAvgPerMo(hours)); //average hours served per month
+			mav.addObject("semTot", hrSvc.totalSemesterHours(hours)); //total hours served per semester
+			mav.addObject("termTot", hrSvc.totalAcademicYearHours(hours)); //total hours served per term
+			mav.addObject("totOrgs", hrSvc.totalSponsorsCount(hours)); //total organizations helped
+			mav.addObject("avgPerMo", hrSvc.averageHoursPerMonth(hours)); //average hours served per month
 
 			
 		} catch (Exception e1) {

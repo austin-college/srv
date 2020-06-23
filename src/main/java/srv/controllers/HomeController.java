@@ -155,7 +155,7 @@ public class HomeController {
 			ServantUser currentSrvUser = srvUserDao.fetchServantUserById(currentUser.getUid());
 			
 			List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
-			double semesterTotalHrs = hrSvc.getSemTot(userHours);
+			double semesterTotalHrs = hrSvc.totalSemesterHours(userHours);
 						
 			mav.addObject("name", currentSrvUser.getContactInfo().fullName());
 			mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
