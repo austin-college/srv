@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mockitoSession;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -56,17 +58,26 @@ public class ServiceHoursServiceTests {
 	@Rule 
 	public ExpectedException exceptionRule = ExpectedException.none();
 	
+	/*
+	 * Test Fixture Handles...see before/setup method 
+	 */
 	private ServiceHours sh1; 
 	private ServiceHours sh2; 
 	private ServiceHours sh3; 
+	private ServiceHours sh4; 
 	
 	private EventType et1;
 	private EventType et2;
+
 	private Event e1;
 	private Event e2;
+	private Event e3;
+	private Event e4; 
+
 	private ServiceClient sc1; 
 	private ServiceClient sc2; 
-	private User user; 
+	
+	private User user;
 	
 	
 	@Before 
@@ -124,7 +135,7 @@ public class ServiceHoursServiceTests {
 		e1 = new Event()
 		.setEid(1)
 		.setTitle("gds 2020")
-		.setDate(new java.util.Date())
+		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("05/01/2020"))
 		.setAddress("900 N. Grand Ave")
 		.setType(et1)
 		.setContact(new Contact()
@@ -136,30 +147,73 @@ public class ServiceHoursServiceTests {
 		e2 = new Event()
 		.setEid(2)
 		.setTitle("fws 2020")
-		.setDate(new java.util.Date())
+		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("05/01/2020"))
 		.setAddress("900 N. Grand Ave")
 		.setType(et2)
 		.setContact(null);
 
 		sh1 = new ServiceHours()
-			.setShid(1)
+			.setShid(3)
 			.setServedPet(sc1)
 			.setServant(user)
 			.setEvent(e1)
 			.setHours(2.0)
 			.setStatus("Approved")
 			.setReflection("test reflection")
+			.setDate(e1.getDate())
 			.setDescription(e1.getType().getDescription());
 
 		sh2 = new ServiceHours()
-			.setShid(2)
+			.setShid(4)
 			.setServedPet(sc2)
 			.setServant(user)
 			.setEvent(e2)
+			.setDate(e2.getDate())
 			.setHours(3.5)
 			.setStatus("Pending")
 			.setReflection("test 2 reflection")
 			.setDescription("test 2 description");
+		
+		
+
+		e3 = new Event()
+		.setEid(3)
+		.setTitle("really old event")
+		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("11/2/1998"))
+		.setAddress("900 N. Grand Ave")
+		.setType(et2)
+		.setContact(null);
+
+		e4 = new Event()
+		.setEid(4)
+		.setTitle("old event")
+		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("12/5/2000"))
+		.setAddress("900 N. Grand Ave")
+		.setType(et2)
+		.setContact(null);
+		
+		sh3 = new ServiceHours()
+			.setShid(1)
+			.setServedPet(sc1)
+			.setServant(user)
+			.setEvent(e3)
+			.setDate(e3.getDate())
+			.setHours(2.0)
+			.setStatus("Approved")
+			.setReflection("test reflection")
+			.setDescription(e1.getType().getDescription());
+
+		sh4 = new ServiceHours()
+			.setShid(2)
+			.setServedPet(sc2)
+			.setServant(user)
+			.setEvent(e4)
+			.setDate(e4.getDate())
+			.setHours(3.5)
+			.setStatus("Pending")
+			.setReflection("test 2 reflection")
+			.setDescription("test 2 description");
+		
 		
 		MockitoAnnotations.initMocks(this);
 	}
@@ -418,8 +472,30 @@ public class ServiceHoursServiceTests {
 	
 	
 	@Test
-	public void test_totalAcademicYearHours() throws Exception {
+	public void test_totalSemesterHours() throws Exception {
 		
+		Mockito.when(semUtil.currentSemester()).thenReturn("2020SP");
+		
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_APPROVED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		sh4.setStatus(ServiceHours.STATUS_REJECTED);
+		
+		Mockito.when(semUtil.semesterID(Mockito.any(Date.class)))
+			.thenReturn("2020SP")
+			.thenReturn("2020SP")
+			.thenReturn("2020FA")
+			.thenReturn("2020SP");
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1);  // should match
+		hours.add(sh2);  // should match
+		hours.add(sh3);  // should not match due to semester id
+		hours.add(sh4);  // should not match due to rejection status
+		
+		
+		assertEquals(5.5, shs.totalSemesterHours(hours),0.000001);
 		
 		
 	}

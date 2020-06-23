@@ -215,7 +215,7 @@ public class ServiceHoursService {
 		List<ServiceHours> results = new ArrayList<ServiceHours>(hoursList.size());
 		
 		for (ServiceHours h : hoursList) {
-			
+
 			if (!ServiceHours.STATUS_APPROVED.equals(h.getStatus())) continue;  // skip if not approved. 
 				
 			if (h.getDate() == null) continue;  // skip if no date.   should not happen
@@ -244,7 +244,10 @@ public class ServiceHoursService {
 		double total = 0.0;
 		for (ServiceHours h : approvedHours(hours)) {
 			
-			if (semId.equals(semUtil.semesterID(h.getDate()))) {
+			String semtag =  semUtil.semesterID(h.getDate());
+			log.debug("id=[{}], status=[{}], hours=[{}], semester=[{}]",h.getShid(), h.getStatus(), h.getHours(), semtag);
+			if (semId.equals(semtag)) {
+				log.debug("valid hours [{}]", h.getHours());
 				total += h.getHours();
 			}
 		}
