@@ -59,8 +59,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	public List<ServiceHours> listAll() throws Exception {
 		
 		List<ServiceHours> results = getJdbcTemplate()
-				.query("select serviceHourId, serviceClientId, userId, eventId, hours, "
-						+ "status, reflection, description from serviceHours", new ServiceHourRowMapper());
+				.query("select * from serviceHours", new ServiceHourRowMapper());
 		
 		return results;
 	}
@@ -161,8 +160,7 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	@Override
 	public ServiceHours fetchHoursById(int shid) throws Exception {
 		
-		String sqlStr = String.format("SELECT serviceHourId, serviceClientId, userId, eventId, hours,"
-				+ " status, reflection, description FROM serviceHours WHERE serviceHourId = %d", shid);
+		String sqlStr = String.format("SELECT * FROM serviceHours WHERE serviceHourId = %d", shid);
 		log.debug(sqlStr);
 
 		List<ServiceHours> results = getJdbcTemplate().query(sqlStr, new ServiceHourRowMapper());
@@ -319,6 +317,36 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 	
 	/**
+	 * Allows for admin and board member users to change the status of the specified service hour and provide
+	 * feedback to the user.
+	 * 
+	 * Throws an exception if an invalid service hour id.
+	 */
+	@Override
+	public void changeHourStatusWithFeedback(Integer shid, String status, String feedback) throws Exception {
+		
+		// first fetch the desired service hour and verify it was returned correctly, otherwise throw an exception
+		if (fetchHoursById(shid) == null)
+			throw new Exception("Unable to change hour status. Could not find service hour " + shid);
+		
+		// make sure the status is of 'Approved', 'Pending', or 'Rejected' throw exception if something else
+		else if ((!status.equals("Approved")) && (!status.equals("Pending")) && (!status.equals("Rejected")))
+			throw new Exception("Unable to change hour status. Invalid status '" + status + "'");
+		
+		else {
+
+			// Change the hour's status and feedback in the database
+			int rc = getJdbcTemplate().update("UPDATE servicehours SET status = ?, feedback = ? WHERE serviceHourId = ?", 
+					new Object[] { status, feedback, shid});
+			
+			// in case something goes wonky while updating
+			if (rc < 1) {
+				log.error("Unable to update service hour [{}]", shid);
+			}
+		}
+	}
+	
+	/**
 	 * This class maps a ServiceHour database record to the ServiceHour model object by using
 	 * a RowMapper interface to fetch the records for a ServiceHour from the database.
 	 */
@@ -338,9 +366,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 				.setHours(rs.getDouble("hours"))
 				.setStatus(rs.getString("status"))
 				.setReflection(rs.getString("reflection"))
-				.setDescription(rs.getString("description"));
-				
-				
+				.setDescription(rs.getString("description"))
+				.setFeedback(rs.getString("feedback"))
+				;
 			}	catch (Exception e) {
 				
 				e.printStackTrace();

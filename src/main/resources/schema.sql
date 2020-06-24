@@ -137,6 +137,7 @@ CREATE TABLE serviceHours (
 	status VARCHAR(255),
 	reflection VARCHAR(255),
 	description VARCHAR(255),
+	feedback VARCHAR(255),
 	primary key (serviceHourId),
 	foreign key (serviceClientId)
 		references serviceClients(serviceClientId)
@@ -233,11 +234,11 @@ insert into eventParticipants(eventId, userId) values (3, 2);
 insert into eventParticipants(eventId, userId) values (1, 1);
 insert into eventParticipants(eventId, userId) values (3, 1);
 
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building');
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 2, 3, '2.0', 'Pending', 'Made food', 'Crisis Center');
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center');
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 4, 4, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping');
-INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES (1, 4, 5, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (1, 1, 1, '3.0', 'Approved', 'I hated it', 'House building', 'Good work!');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (2, 2, 3, '2.0', 'Pending', 'Made food', 'Crisis Center', '');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center', 'Thanks for the help!');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (1, 4, 4, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping', 'Keep up the good work');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (1, 4, 5, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping', '');
 
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (1, 1, 2021, false, 0);
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (2, 3, 2023, true, 1);

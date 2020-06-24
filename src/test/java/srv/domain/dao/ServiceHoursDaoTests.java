@@ -2,6 +2,9 @@ package srv.domain.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -357,5 +360,83 @@ class ServiceHoursDaoTests {
 		List <ServiceHours> dummyList = dao.listByFilter(1, 2, "June", "Pending", "2020");
 		
 		assertEquals(0, dummyList.size());
+	}
+	
+	/**
+	 * Changes the service status from 'Pending' to 'Rejected' with feedback for 
+	 * a valid service hour id (is in the database) 
+	 */
+	@Test
+	void changeHourStatus_withFeedback_whenIdValid() throws Exception {
+		
+		ServiceHours beforeChangeHr = dao.fetchHoursById(2);
+		
+		// before changing status
+		assertEquals("Pending", beforeChangeHr.getStatus());
+		assertEquals("", beforeChangeHr.getFeedback());
+		
+		dao.changeHourStatusWithFeedback(2, "Rejected", "Invalid hours");
+		
+		ServiceHours rejectedHr = dao.fetchHoursById(2);
+		
+		// after changing status
+		assertEquals("Rejected", rejectedHr.getStatus());
+		assertEquals("Invalid hours", rejectedHr.getFeedback());
+	}
+	
+	/**
+	 * Changes the service status from 'Pending' to 'Approved' without feedback
+	 * for a valid service hour id (is in the database)
+	 */
+	@Test
+	void changeHourStatus_withoutFeedback_whenIdValid() throws Exception {
+				
+		ServiceHours beforeChangeHr = dao.fetchHoursById(5);
+		
+		// before changing status
+		assertEquals("Pending", beforeChangeHr.getStatus());
+		assertEquals("", beforeChangeHr.getFeedback());
+		
+		dao.changeHourStatusWithFeedback(5, "Approved", null);
+		
+		ServiceHours rejectedHr = dao.fetchHoursById(5);
+		
+		// after changing status
+		assertEquals("Approved", rejectedHr.getStatus());
+		assertNull(rejectedHr.getFeedback());
+	}
+	
+	/**
+	 * Test to verify that an exception is thrown when the service hour
+	 * is invalid. 
+	 */
+	@Test
+	void changeHourStatus_whenIdInvalid() throws Exception {
+			
+		Exception exception = assertThrows(Exception.class, () -> {
+			dao.changeHourStatusWithFeedback(-1, "Rejected", "Reasons here");
+		});
+	 
+	    String expectedMessage = "Unable to change hour status. Could not find service hour -1";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));		
+	}
+	
+	/**
+	 * Test to verify that an exception is thrown when the service hour
+	 * status is something other than "Approved", "Pending", "Rejected"
+	 */
+	@Test
+	void changeHourStatus_whenStatusInvalid() throws Exception {
+			
+		Exception exception = assertThrows(Exception.class, () -> {
+			dao.changeHourStatusWithFeedback(2, "rejected", "Reasons here");
+		});
+	 
+	    String expectedMessage = "Unable to change hour status. Invalid status 'rejected'";
+	    String actualMessage = exception.getMessage();
+	 
+	    assertTrue(actualMessage.contains(expectedMessage));		
 	}
 }
