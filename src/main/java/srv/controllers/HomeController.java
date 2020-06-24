@@ -148,6 +148,7 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("home/servant");
 
 		try {
+
 			/*
 			 *This block of code is meant to figure out if the user is new to our system
 			 *If they are not new, they pass by this check, but if they are new to the system
@@ -161,23 +162,24 @@ public class HomeController {
 				
 				
 			} else {
-				List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
-				User currentUser = userUtil.currentUser();
-
-				ServantUser currentSrvUser = srvUserDao.fetchServantUserById(currentUser.getUid());
-
-				List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
-				double semesterTotalHrs = hrSvc.getSemTot(userHours);
-
-				mav.addObject("name", currentSrvUser.getContactInfo().fullName());
-				mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
-				mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
-				mav.addObject("gradYear", currentSrvUser.getExpectedGradYear());
-				mav.addObject("affiliation", currentSrvUser.getAffiliation());
-				mav.addObject("hasCar", currentSrvUser.getHasCar());
-				mav.addObject("capacity", currentSrvUser.getCarCapacity());
-				mav.addObject("events", upcomingEvents);
-				mav.addObject("semTot", semesterTotalHrs);
+			
+			List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
+			User currentUser = userUtil.currentUser();
+			
+			ServantUser currentSrvUser = srvUserDao.fetchServantUserById(currentUser.getUid());
+			
+			List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
+			double semesterTotalHrs = hrSvc.totalSemesterHours(userHours);
+						
+			mav.addObject("name", currentSrvUser.getContactInfo().fullName());
+			mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
+			mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
+			mav.addObject("gradYear", currentSrvUser.getExpectedGradYear());
+			mav.addObject("affiliation", currentSrvUser.getAffiliation());
+			mav.addObject("hasCar", currentSrvUser.getHasCar());
+			mav.addObject("capacity", currentSrvUser.getCarCapacity());
+			mav.addObject("events", upcomingEvents);
+			mav.addObject("semTot", semesterTotalHrs);
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

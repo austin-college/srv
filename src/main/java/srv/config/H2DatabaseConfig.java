@@ -20,6 +20,7 @@ import srv.domain.user.JdbcTemplateServantUserDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.services.BoardMemberHoursListService;
 import srv.services.ServiceHoursService;
+import srv.utils.SemesterUtil;
 
 /**
  * This class is the home for runtime configuration for our database. It creates
@@ -38,9 +39,10 @@ import srv.services.ServiceHoursService;
 public class H2DatabaseConfig {
 
 	
-	/*
-	 * DAO beans 
-	 */
+	@Bean
+	public SemesterUtil semUtil() {
+		return new SemesterUtil();
+	}
 	
 	@Bean
 	public JdbcTemplateSpotLightDao splotLightDao() {
@@ -79,30 +81,12 @@ public class H2DatabaseConfig {
 		return new JdbcTemplateEventTypeDao();
 	}
 	
-	/*
-	 * Added ServiceHourDao bean for autowired dependency 
-	 */
+
 	@Bean
 	public JdbcTemplateServiceHoursDao serviceHoursDao() {
 		
 		return new JdbcTemplateServiceHoursDao();
 	}
-	
-	/*
-	 * Added ServiceHoursService Bean for autowired dependency in HoursController
-	 */
-//	@Bean
-//	public ServiceHoursService serviceHoursService() {
-//		
-//		return new ServiceHoursService();
-//		
-//	}
-	
-	/*TODO Unsure if this Bean should be made*/
-//	@Bean
-//	public BoardMemberHoursListService bmHrListSrv() {
-//		return new BoardMemberHoursListService();
-//	}
 	
 	
 	@Bean

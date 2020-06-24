@@ -4,20 +4,31 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 /**
  * converts from date to string that identifies semester
  * 
  * @author Nadia Hannon
  */
+
+@Component
 public class SemesterUtil {
 
+	/**
+	 * Default contructor needed to qualify as a bean.
+	 */
+	public SemesterUtil() {
+		
+	}
+	
 	/**
 	 * Derives the semester term (FA, JA, SP, SU) from a date.
 	 * 
 	 * @param anyDate 
 	 * @return one of "FA","JA","SP","SU"
 	 */
-	public static String term(Date anyDate) {
+	public String term(Date anyDate) {
 		/**
 		 * Should return term in form FA
 		 */
@@ -45,7 +56,7 @@ public class SemesterUtil {
 	/**
 	 * Should return a unique semester label in form "2020SP"
 	 */
-	public static String semesterID(Date anyDate) {
+	public String semesterID(Date anyDate) {
 		String returnString = new String();
 
 		String idFormat = "yyyy";
@@ -64,7 +75,7 @@ public class SemesterUtil {
 	 * @param anyDate
 	 * @return
 	 */
-	public static String acadYear(Date anyDate) {
+	public String acadYear(Date anyDate) {
 
 		String term = term(anyDate);
 
@@ -90,18 +101,20 @@ public class SemesterUtil {
 	 * 
 	 * @return the current academic year based on today's date.
 	 */
-	public static String currentAcadYear() {
+	public String currentAcadYear() {
 		Date now = new Date();
 		return acadYear(now);
 	}// end of currentAcadYear
 
 	
 	/**
-	 * Should return the current termID in "FA" form
+	 * Should return the current termID in "2020FA" form.
+	 * 
+	 * @see srv.utils.SemesterUtil.semesterID(Date);
 	 * 
 	 * @return the current semester/term based on today's date.
 	 */
-	public static String currentTerm() {
+	public  String currentSemester() {
 		Date now = new Date();
 		return semesterID(now);
 	}// end of currentTerm

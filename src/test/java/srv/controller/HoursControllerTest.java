@@ -226,9 +226,9 @@ public class HoursControllerTest {
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
 		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
 		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(null), Mockito.refEq(null), Mockito.anyString(), Mockito.anyString())).thenReturn(testHours);
-		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.totalSemesterHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalAcademicYearHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSponsorsCount(testHours)).thenReturn(0);
 		Mockito.when(hrSvc.filteredHours(1, null, null, null, null)).thenReturn(testHours);
 
 		

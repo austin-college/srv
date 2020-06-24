@@ -1,20 +1,23 @@
 package srv.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import srv.utils.SemesterUtil;
+public class SemesterUtilTest {
 
-class SemesterUtilTest {
-
+	
+	SemesterUtil semUtil;
+	
+	@BeforeEach
+	public void setUp() {
+		semUtil = new SemesterUtil();
+	}
 	
 	/*
 	 * Any date in the fall should return FA
@@ -24,7 +27,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("11/2/1998");
 
-		Assert.assertEquals("FA", SemesterUtil.term(date));
+		Assert.assertEquals("FA", semUtil.term(date));
 	}//end of test
 
 	/*
@@ -35,7 +38,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("1/2/1998");
 
-		Assert.assertEquals("JA", SemesterUtil.term(date));
+		Assert.assertEquals("JA", semUtil.term(date));
 	}//end of test
 
 	/*
@@ -46,7 +49,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("3/2/1998");
 
-		Assert.assertEquals("SP", SemesterUtil.term(date));
+		Assert.assertEquals("SP", semUtil.term(date));
 	}//end of test
 
 	/*
@@ -57,7 +60,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("6/2/1998");
 
-		Assert.assertEquals("SU", SemesterUtil.term(date));
+		Assert.assertEquals("SU", semUtil.term(date));
 	}//end of test
 	
 	
@@ -69,7 +72,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("11/2/1998");
 
-		Assert.assertEquals("1998FA", SemesterUtil.semesterID(date));
+		Assert.assertEquals("1998FA", semUtil.semesterID(date));
 		
 		
 	}//end of test
@@ -87,7 +90,7 @@ class SemesterUtilTest {
 
 		Matcher matcher = Pattern.compile("^(AY)([0-9]{4})[//]([0-9]{4})$")
 				
-				.matcher(SemesterUtil.acadYear(date));
+				.matcher(semUtil.acadYear(date));
 		Assert.assertTrue(matcher.matches());
 		Assert.assertEquals("AY",matcher.group(1));
 		Assert.assertEquals("1998",matcher.group(2));
@@ -104,7 +107,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("11/2/1998");
 
-		Assert.assertEquals("AY1998/1999", SemesterUtil.acadYear(date));
+		Assert.assertEquals("AY1998/1999", semUtil.acadYear(date));
 	}//end of test
 
 	@Test
@@ -112,7 +115,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("1/2/1998");
 
-		Assert.assertEquals("AY1997/1998", SemesterUtil.acadYear(date));
+		Assert.assertEquals("AY1997/1998", semUtil.acadYear(date));
 	}//end of test
 
 	@Test
@@ -120,7 +123,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("3/2/1998");
 
-		Assert.assertEquals("AY1997/1998", SemesterUtil.acadYear(date));
+		Assert.assertEquals("AY1997/1998", semUtil.acadYear(date));
 	}//end of test
 
 	@Test
@@ -128,7 +131,7 @@ class SemesterUtilTest {
 
 		Date date =new SimpleDateFormat("MM/dd/yyyy").parse("6/2/1998");
 
-		Assert.assertEquals("AY1997/1998", SemesterUtil.acadYear(date));
+		Assert.assertEquals("AY1997/1998", semUtil.acadYear(date));
 	}//end of test
 
 }//end of class

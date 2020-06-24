@@ -15,6 +15,11 @@ import srv.domain.user.User;
  *	Associated service client, Servant(or Board Member), Event, and hours served.
  */
 public class ServiceHours implements Serializable{
+	
+	public static final String STATUS_APPROVED = "Approved";
+	public static final String STATUS_REJECTED = "Rejected";
+	public static final String STATUS_PENDING = "Pending";
+	
 
 	private Integer shid; // Unique id for each hour, given by database
 	private ServiceClient servedSc; // Associated service client

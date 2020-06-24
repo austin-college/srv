@@ -1,8 +1,12 @@
 package srv.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;
+import srv.utils.SemesterUtil;
 import srv.utils.UserUtil;
 
 import org.slf4j.LoggerFactory;
@@ -38,6 +43,9 @@ public class ServiceHoursService {
 	
 	@Autowired
 	ServiceClientDao sClientDao;	
+	
+	@Autowired
+	SemesterUtil semUtil;
 	
 	
 	public ServiceHoursService() {
@@ -145,6 +153,12 @@ public class ServiceHoursService {
 		if ((year != null) && (year.equals("List All")))
 			year = null;
 		
+		log.debug("userid:[{}]",userId);
+		log.debug("scid:[{}]",scId);
+		log.debug("month:[{}]",monthName);
+		log.debug("status:[{}]",status);
+		log.debug("year:[{}]",year);
+		
 		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId, monthName, status, year);
 		
 		log.debug("Size of filtered hours list is: " + results.size());
@@ -218,85 +232,181 @@ public class ServiceHoursService {
 				uu.currentUser().getUid(),
 				eid,
 				hrsSrved,
-				"Pending",
+				ServiceHours.STATUS_PENDING,
 				reflection,
 				descr);
 				
 		
 	}
 	
+	
 	/**
-	 * returns the total hours served in a semester. 
+	 * Given a generic list of service hours, we filter down to a list of approved, non-null
+	 * hours.
+	 * 
+	 * @param hoursList
+	 * @return
+	 */
+	public List<ServiceHours>  approvedHours(List<ServiceHours> hoursList) {
+		
+		List<ServiceHours> results = new ArrayList<ServiceHours>(hoursList.size());
+		
+		for (ServiceHours h : hoursList) {
+
+			if (!ServiceHours.STATUS_APPROVED.equals(h.getStatus())) continue;  // skip if not approved. 
+				
+			if (h.getDate() == null) continue;  // skip if no date.   should not happen
+			
+			results.add(h);
+		}
+
+		return results;
+	}
+	
+	
+	/**
+	 * returns the total hours served in the current semester.  We 
+	 * use the semesterId as the basis.   We iterate over all hours
+	 * specified and total only those that were performed on a date
+	 * with the same semester id.
+	 *  
 	 * @param id
 	 * @return
 	 */
-	public double getSemTot(List<ServiceHours> hours) {
-		double avg = 0;
-		
-		
-		//get current month and date
-//		Date date = new Date();
-//		SimpleDateFormat yForm = new SimpleDateFormat("yyyy");
-//		SimpleDateFormat mForm = new SimpleDateFormat("MM");
-//		int year = Integer.parseInt(yForm.format(date));
-//		int month = Integer.parseInt(mForm.format(date));
-//		System.out.println(hours.get(0).getDate());
-		//create a new list that only includes hours from the last semester
-//		List<ServiceHours> refHours;
-//		for(int i = 0; i < hours.size(); i++) {
-//			if(hours.get(i).getDate())
-//		}
-		//can't do any of the above because none of the hours have dates and their events don't exist yet
-		//for now just going to average the list of service hours until we can differentiate servants 
+	public double totalSemesterHours(List<ServiceHours> hours) {
 
-		if (hours.size()==0) return 0.0;
+		String semId = currentSemester();
+		log.debug("current semester: [{}]", semId);
 		
-		//average list
-		for(int i = 0; i < hours.size(); i++) {
-			avg += hours.get(i).getHours();
+		double total = 0.0;
+		for (ServiceHours h : approvedHours(hours)) {
+			
+			String semtag =  semUtil.semesterID(h.getDate());
+			log.debug("id=[{}], status=[{}], hours=[{}], semester=[{}]",h.getShid(), h.getStatus(), h.getHours(), semtag);
+			if (semId.equals(semtag)) {
+				log.debug("valid hours [{}]", h.getHours());
+				total += h.getHours();
+			}
 		}
-		avg = avg / hours.size();
 		
-		
-		return avg;
-	}
-	
-	public double getTermTot(List<ServiceHours> hours) {
-		double avg = 0;
-		
-		if (hours.size()==0) return 0.0;
-		
-		//before this you would make a new list with the dates being from the last term
-		for(int i = 0; i < hours.size(); i++) {
-			avg += hours.get(i).getHours();
-		}
-		avg = avg / hours.size();
-		
-		
-		return avg * 2;
-	}
-	
-	public int getTotOrgs(List<ServiceHours> hours) {
-		//before this there should be loop that weeds out all the duplicate orgs
-		int orgs = hours.size();
-		return orgs;
+		return total;
 	}
 	
 	
+	/**
+	 * Returns the current semester,  can be overridden in testing
+	 * to return a date good for our testing fixtures.
+	 * 
+	 * @return  current semester id string, like "2020FA"
+	 */
+	protected String currentSemester() {
+		return semUtil.currentSemester();
+	}
 	
-	public double getAvgPerMo(List<ServiceHours> hours) {
-		double avg = 0;
+	
+	/**
+	 * @return current academic year id string, like "AY2020/2021"
+	 */
+	protected String currentAcadYear() {
+		return semUtil.currentAcadYear();
+	}
+	
+	
+	/**
+	 * 
+	 * @param hours
+	 * @return
+	 */
+	public double totalAcademicYearHours(List<ServiceHours> hours) {
 		
-		if (hours.size()==0) return 0.0;
+		String ayid = currentAcadYear();
+		log.debug("current academic year: [{}]", ayid);
 		
-		//before this you would make a new list with the dates being from the last year
-		for(int i = 0; i < hours.size(); i++) {
-			avg += hours.get(i).getHours();
+		double total = 0.0;
+		for (ServiceHours h : approvedHours(hours)) {
+			
+			if (ayid.equals(semUtil.acadYear(h.getDate()))) {
+				total += h.getHours();
+			}
 		}
 		
-		avg = avg / 12;
+		return total;
+	}
+
+	
+	
+	public int totalSponsorsCount(List<ServiceHours> hours) {
 		
-		return avg;
+		Set<ServiceClient> clients = new HashSet<ServiceClient>();
+		
+		for (ServiceHours h : approvedHours(hours)) {
+			
+			clients.add(h.getServedPet());
+		}
+		
+		return clients.size();
+	}
+	
+
+	
+	
+	
+	/**
+	 * Computes the monthly average of hours in the specified list. We
+	 * build a hash table of summed totals for each unique month.  A
+	 * month is identified by (YYYY, MM). As we iterate over our list
+	 * of hours, we fetch from total from the table.  If absent, we 
+	 * start a new totaling sum (double).   If existing, we add to the
+	 * existing.  Either way, we store back into the hash table. 
+	 * <p>
+	 * After which, we can average the monthly totals.  
+	 *  
+	 * @param hours
+	 * @return the mean/average monthly total hours.
+	 */
+	public double averageHoursPerMonth(List<ServiceHours> hours) {
+		
+		HashMap<String, Double> map = new HashMap<String, Double>(); 
+				
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM");
+
+		for (ServiceHours h : approvedHours(hours)) {
+			
+			String key = fmt.format(h.getDate());
+
+			// if this is the first encounter, then initialize our
+			// associated double total to the hours
+			Double d = Double.valueOf(h.getHours());
+			
+			// if we've seen it before,  add to the double total
+			// in hour hash table.
+			if (map.containsKey(key)) {
+				d = map.get(key) + h.getHours();
+			} 
+			
+			// either way, put it back into the table for this month.
+			map.put(key, d);
+		}
+		
+		
+		/*
+		 * Ok...so now we have all approved hours partitioned into separate monthly totals
+		 * in our hash table... the key is the month id string "yyyy-MM" and the value the 
+		 * total hours for that month.   Time to average..... 
+		 */
+		
+		int count = 0;
+		double total = 0.0;
+		
+		// for each key in the map, fetch the value and add to our averaging total
+		for (String k : map.keySet()) {
+			count++;
+			total += map.get(k).doubleValue();
+		}
+
+		if (count == 0) return 0.0;
+		return total/count;
+		
 	}
 	
 	
