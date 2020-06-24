@@ -87,6 +87,7 @@ public class HoursController {
 			mav.addObject("sClients", sponsors);
 			mav.addObject("events", events);
 			mav.addObject("userAdmin", userUtil.userIsAdmin());
+			mav.addObject("userBm", userUtil.userIsBoardMember());
 
 			
 			Integer scP = null;

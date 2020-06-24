@@ -113,7 +113,6 @@ th {
 #editDlg_desc {
 	line-height: 75px;
 }
-/* End credit to lydia, thanks lydia */
 
 /* Style setting for the edit and add dialog headers. */
 .ui-dialog-titlebar{
@@ -151,3 +150,18 @@ td a:hover {
 	color: white;
 }
 
+/* Style settings for action drop down menu */
+.dropdown:hover>.dropdown-menu {
+  display: block;
+  	position: {
+			my: "center top",
+			at: "center top",
+			of: window
+		},
+
+}
+
+.dropdown>.dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}

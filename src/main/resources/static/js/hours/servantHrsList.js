@@ -515,18 +515,18 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 
 
 		// Append the buttons and their functionality to the new service hour
-		$(".del").on("click", function() {
+		$(".btnHrDel").on("click", function() {
 			var selShid = $(this).attr('onDelClick');
 			$("#delDlg").data("selHoursId", selShid).dialog("open");
 		});
 
 				
-		$(".hrRow").on("click", function() {
+		$(".hrRow, .btnHrView").on("click", function() {
 			var selShid = $(this).attr('onRowClick');    	
 			$("#viewDlg").data("selHoursId", selShid).dialog("open");
 		});
 
-		$(".edit").on("click", function() {
+		$(".btnHrEdit").on("click", function() {
 			var selShid = $(this).attr('onEditClick');    	
 			$("#editDlg").data("selHoursId", selShid).dialog("open");
 		});   
@@ -719,6 +719,7 @@ function setYearComboBox() {
 	var selectedYear = $("#yearComboBox").attr("data-prev-selected");
 	document.getElementById('yearComboBox').value = selectedYear;
 }
+
 /**
  * When the back button is clicked on returns the user to the previous page.
  * If the previous page is the login page, the user is directed to their home page.
@@ -731,6 +732,15 @@ function goBack() {
 	else
 		window.history.back();
 }
+
+/**TODO bleh better explantion/comments after done
+ *  changing hours...
+ */
+function onChangeStatusClick() {
+	
+	console.log($(this).hasClass("btnApprove"));
+}
+
 
 /* When the DOM is completed loaded and ready, hide the dialogs and
  * create the functionality of the buttons.
@@ -995,7 +1005,7 @@ $(document).ready(function() {
 	 * Opens delete service hour dialog and passes in the selected delete button's service hour's id
 	 * when a user clicks a delete button.
 	 */
-	$(".del").on("click", function() {
+	$(".btnHrDel").on("click", function() {
 		var selShid = $(this).attr('onDelClick');
 		$("#delDlg").data("selHoursId", selShid).dialog("open");
 	});
@@ -1004,7 +1014,7 @@ $(document).ready(function() {
 	 * Opens a service hour dialog and passes in the selected row's service hour's id when a user
 	 * clicks on a row in the service hours table.
 	 */
-	$(".hrRow").on("click", function() {
+	$(".hrRow, .btnHrView").on("click", function() {
 		var selShid = $(this).attr('onRowClick');    	
 		$("#viewDlg").data("selHoursId", selShid).dialog("open");
 	});
@@ -1013,11 +1023,14 @@ $(document).ready(function() {
 	 * Opens edit service hour dialog and passes in the selected edit button's service hour's id
 	 * when user clicks an edit button.
 	 */    
-	$(".edit").on("click", function() {
+	$(".btnHrEdit").on("click", function() {
 		var selShid = $(this).attr('onEditClick');    	
 		$("#editDlg").data("selHoursId", selShid).dialog("open");
 	});   
 
+	// connect the approve/reject actions to all approve/rejects buttons tagged with btnApprove and btnReject
+	$(".btnApprove, .btnReject").click(onChangeStatusClick)
+	
 	$(".addBtn").on("click", function() {
 
 		$("#dlgEvSel").dialog("open");
@@ -1058,5 +1071,19 @@ $(document).ready(function() {
 	});
 	$('.dataTables_length').addClass('bs-select');
 
-
+	// for drop down action menu 
+	var ref = $('#dropdownMenu');        
+	var popup = $('#ddMenuActions');
+	
+	var popper = new Popper(ref,popup,{
+		 placement: 'bottom',
+		onCreate: function(data){
+			console.log(data);
+		},
+		modifiers: {
+			flip: {
+				behavior: ['top','bottom']
+			}
+		}
+	});
 });

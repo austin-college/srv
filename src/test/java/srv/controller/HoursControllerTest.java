@@ -244,30 +244,30 @@ public class HoursControllerTest {
 		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_eventName' and text()='gds 2020']")).exists())
 		
 		// and that same row should not have a td with a button inside for editing (since hour is approved)
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).exists())
 
 		// and deleting
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).exists())
 
 	
 		// and there's a row in our table that has a hrs_eventName td inside whose text better be 'fws 2020' 
 		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
 
 		// and that same row better have a td with a button inside for editing (since hour is pending)
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]")).doesNotExist())
+		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).doesNotExist())
 
 		// and deleting
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]")).doesNotExist())
+		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).doesNotExist())
 		
 		
 		// and there's a row in our table that has a hrs_eventName td inside whose text better be 'fws 2020' 
 		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
 
 		// and that same row better have a td with a button inside for editing (since hour is rejected)
-		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).exists())
 
 		// and deleting
-		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).exists())
 
 		;
 	}
