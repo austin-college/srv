@@ -18,7 +18,7 @@ CREATE TABLE spotlight (
 	PRIMARY KEY (sid)
 );
 
-INSERT into spotlight (spottxt) values ('First Spot Light Text');
+INSERT into spotlight (spottxt) values ('Welcome to the Austin College Service Station! <b>We help you help others</b>.');
 
 CREATE TABLE contacts (
 	contactId INTEGER AUTO_INCREMENT,
@@ -239,6 +239,8 @@ INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, refle
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (2, 3, 2, '1.5', 'Approved', 'Made friends', 'Crisis Center', 'Thanks for the help!');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (1, 4, 4, '2.3', 'Approved', 'Met a guy named Randy', 'Landscaping', 'Keep up the good work');
 INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (1, 4, 5, '69', 'Pending', 'Met a MAN named Sandy', 'Landscoping', '');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (1, 1, 5, '5.25', 'Approved', '', 'kitchen trim', '');
+INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, feedback) VALUES (1, 1, 5, '4.5', 'Approved', '', 'clean up site', '');
 
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (1, 1, 2021, false, 0);
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (2, 3, 2023, true, 1);

@@ -369,6 +369,11 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 				.setDescription(rs.getString("description"))
 				.setFeedback(rs.getString("feedback"))
 				;
+				
+				if (sh.getEvent()!=null) {
+					sh.setDate(sh.getEvent().getDate());   // by default copy event date to service date.
+				}
+				
 			}	catch (Exception e) {
 				
 				e.printStackTrace();

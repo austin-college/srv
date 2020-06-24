@@ -299,7 +299,7 @@ public class ServiceHoursService {
 	 * 
 	 * @return  current semester id string, like "2020FA"
 	 */
-	protected String currentSemester() {
+	public String currentSemester() {
 		return semUtil.currentSemester();
 	}
 	
@@ -307,7 +307,7 @@ public class ServiceHoursService {
 	/**
 	 * @return current academic year id string, like "AY2020/2021"
 	 */
-	protected String currentAcadYear() {
+	public String currentAcadYear() {
 		return semUtil.currentAcadYear();
 	}
 	

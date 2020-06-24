@@ -77,7 +77,7 @@ class ServiceHoursDaoTests {
 
 		List<ServiceHours> serviceHours = dao.listAll();
 
-		assertEquals(5, serviceHours.size());
+		assertEquals(7, serviceHours.size());
 
 		ServiceHours sHour1 = serviceHours.get(0);
 		ServiceHours sHour2 = serviceHours.get(1);
@@ -197,7 +197,7 @@ class ServiceHoursDaoTests {
 
 		List<ServiceHours> serviceHours = dao.listAll();
 
-		assertEquals(4, serviceHours.size());
+		assertEquals(6, serviceHours.size());
 
 		ServiceHours sh1 = serviceHours.get(0);
 		ServiceHours sh2 = serviceHours.get(1);
@@ -280,7 +280,7 @@ class ServiceHoursDaoTests {
 		// Fetches the list of hours with all nulls
 		List <ServiceHours> allHours = dao.listByFilter(null, null, null, null, null);
 		
-		assertEquals(5, allHours.size());
+		assertEquals(7, allHours.size());
 	}
 	
 	/**
@@ -305,7 +305,7 @@ class ServiceHoursDaoTests {
 		// fetches the list of hours with service client id 1
 		List <ServiceHours> hoursByScid1 = dao.listByFilter(null, 1, null, null, null);
 		
-		assertEquals(3, hoursByScid1.size());
+		assertEquals(5, hoursByScid1.size());
 		assertEquals(1, hoursByScid1.get(0).getShid());
 		assertEquals(4, hoursByScid1.get(1).getShid());
 		assertEquals(5, hoursByScid1.get(2).getShid());		
