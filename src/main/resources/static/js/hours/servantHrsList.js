@@ -520,7 +520,6 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 			$("#delDlg").data("selHoursId", selShid).dialog("open");
 		});
 
-				
 		$(".hrRow, .btnHrView").on("click", function() {
 			var selShid = $(this).attr('onRowClick');    	
 			$("#viewDlg").data("selHoursId", selShid).dialog("open");
@@ -530,6 +529,8 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 			var selShid = $(this).attr('onEditClick');    	
 			$("#editDlg").data("selHoursId", selShid).dialog("open");
 		});   
+		
+		$(".btnApprove, .btnReject").click(onChangeStatusClick);
 
 		$("#addDlg").dialog("close");
 	})
@@ -738,7 +739,58 @@ function goBack() {
  */
 function onChangeStatusClick() {
 	
-	console.log($(this).hasClass("btnApprove"));
+	var newStatus;
+	
+	var shid = $(this).attr("shid"); // get the id of the hour selected
+	
+	console.log(shid);
+	
+	/*
+	 * Change the new status to whatever button was clicked
+	 */
+	if ($(this).hasClass("btnApprove"))
+		newStatus = "Approved";
+	else
+		newStatus = "Rejected";
+	
+
+	// then update the service hour in our db
+	$.ajax({
+		method: "GET",
+		url: "/srv/hours/ajax/updateStatus/hour/"+ shid,
+		cache: false,
+		dataType: "json",
+		data: {status: newStatus}
+	})
+	
+	/*
+	 * If successful, then update the hour's status in the column
+	 */
+	.done(function(sh) {
+
+		console.log(sh);
+
+		$("#row" + sh.shid + " td[name ='hrs_status']").html(sh.status);
+		
+		// Remove the approve button if status is approved
+		if (sh.status == 'Approved') {
+			$('.btnApprove[shid="' + sh.shid + '"]').remove();
+			console.log('approve');
+		}
+		// Remove the reject button if status is rejected
+		else if (sh.status == 'Rejected'){
+			console.log('reject');
+			$('.btnReject[shid="' + sh.shid + '"]').remove();
+		}
+
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
+	});
+		
 }
 
 
@@ -1029,7 +1081,7 @@ $(document).ready(function() {
 	});   
 
 	// connect the approve/reject actions to all approve/rejects buttons tagged with btnApprove and btnReject
-	$(".btnApprove, .btnReject").click(onChangeStatusClick)
+	$(".btnApprove, .btnReject").click(onChangeStatusClick);
 	
 	$(".addBtn").on("click", function() {
 

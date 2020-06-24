@@ -201,10 +201,22 @@
    									<!-- Menu options -->
    									<div class="dropdown-menu" id="ddMenuActions" style="border: 1px solid">
    									
-   										<!-- Show the Approve/reject for admin/board member users and the hours' status isn't approved -->
-   										<#if (userAdmin || userBm) &&  hrs.status != "Approved">
-   											<a class="dropdown-item btnApprove" onApproveClick="${hrs.shid?c}" href="#"><i class="fas fa-check-circle" style='color:#638b19'></i>&#xA0;&#xA0;Approve</a>
-    										<a class="dropdown-item btnReject" onRejectClick="${hrs.shid?c}" href="#"><i class="fas fa-times-circle" style='color:#a41e34'></i>&#xA0;&#xA0;Reject</a>
+   										<!-- Show the Approve/reject for admin/board member users -->
+   										<#if userAdmin || userBm>
+   										
+   											<!-- Hide the 'Approve' buttons for hours that are already approved -->
+   											<#if hrs.status == "Approved">
+   												<a class="dropdown-item btnReject" shid="${hrs.shid?c}" href="#"><i class="fas fa-times-circle" style='color:#a41e34'></i>&#xA0;&#xA0;Reject</a>
+   											
+   											<!-- Hide the 'Reject' button for hours that are already rejected -->
+   											<#elseif hrs.status == "Rejected">
+   												<a class="dropdown-item btnApprove" shid="${hrs.shid?c}" href="#"><i class="fas fa-check-circle" style='color:#638b19'></i>&#xA0;&#xA0;Approve</a>
+   											
+   											<!-- Show both the 'Approve' and 'Reject' buttons for hours that are pending -->
+   											<#else>
+   												<a class="dropdown-item btnApprove" shid="${hrs.shid?c}" href="#"><i class="fas fa-check-circle" style='color:#638b19'></i>&#xA0;&#xA0;Approve</a>
+    											<a class="dropdown-item btnReject" shid="${hrs.shid?c}" href="#"><i class="fas fa-times-circle" style='color:#a41e34'></i>&#xA0;&#xA0;Reject</a>
+    										</#if>
     									</#if>
     									
     									<!-- Only show edit, delete buttons for hours that are not approved -->

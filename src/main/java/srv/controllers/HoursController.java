@@ -325,6 +325,31 @@ public class HoursController {
 		}
 	}
 	
+	
+	/**
+	 * Ajax call to update and return the selected service hour's status in the database.
+	 */
+	@ResponseBody
+	@GetMapping(value="/hours/ajax/updateStatus/hour/{id}", produces="application/json")
+	public ResponseEntity<ServiceHours> ajaxChangeServiceHourStatus(@PathVariable Integer id, HttpServletRequest request) {
+		
+		try {
+			System.err.println("fetch service hour " + id);
+			log.debug("fetch service hour {}", id);
+			
+			
+			// fetch the data sent from the JavaScript function and verify the fields 
+			String status = request.getParameter("status");
+
+			ServiceHours updatedHour = hrSvc.changeStatus(id, status, "");
+
+			return new ResponseEntity<>(updatedHour, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	/** 
 	 * This request handle renders an entire page useful for testing only.   This
 	 * is not part of our actual site.

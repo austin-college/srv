@@ -93,6 +93,17 @@ public class ServiceHoursService {
 		return sHoursDao.fetchHoursByUserId(uid);
 	}
 	
+	/**
+	 * Change the hour's status and return it back
+	 * @param id
+	 * @throws Exception
+	 */
+	public ServiceHours  changeStatus(int shid, String status, String feedback) throws Exception {
+		
+		sHoursDao.changeHourStatusWithFeedback(shid, status, feedback);
+		
+		return serviceHourById(shid);
+	}
 	
 	public void removeServiceHour(int id) throws Exception  {		
 		sHoursDao.delete(id);
