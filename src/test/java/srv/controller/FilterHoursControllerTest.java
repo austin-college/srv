@@ -193,10 +193,10 @@ public class FilterHoursControllerTest {
 		Mockito.when(mockUserUtil.currentUser()).thenReturn(new User().setUid(1));
 		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
 		Mockito.when(hrSvc.filteredHours(Mockito.eq(1), Mockito.refEq(null), Mockito.refEq(null), Mockito.anyString(), Mockito.anyString())).thenReturn(testHours);
-		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
-		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSemesterHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalAcademicYearHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSponsorsCount(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.averageHoursPerMonth(testHours)).thenReturn(0.0);
 		
 		mvc.perform(get("/hours")
 				.contentType(MediaType.TEXT_HTML))
@@ -228,10 +228,10 @@ public class FilterHoursControllerTest {
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
 		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
 		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(1), Mockito.refEq(null), Mockito.anyString(), Mockito.anyString())).thenReturn(testHours);
-		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
-		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSemesterHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalAcademicYearHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSponsorsCount(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.averageHoursPerMonth(testHours)).thenReturn(0.0);
 		
 		mvc.perform(get("/hours?sc=1")
 				.contentType(MediaType.TEXT_HTML))
@@ -264,10 +264,10 @@ public class FilterHoursControllerTest {
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
 		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
 		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(null), Mockito.eq("June"), Mockito.anyString(), Mockito.anyString())).thenReturn(testHours);
-		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
-		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSemesterHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalAcademicYearHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSponsorsCount(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.averageHoursPerMonth(testHours)).thenReturn(0.0);
 		
 		mvc.perform(get("/hours?month=June")
 				.contentType(MediaType.TEXT_HTML))
@@ -300,10 +300,10 @@ public class FilterHoursControllerTest {
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
 		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
 		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(null), Mockito.refEq(null), Mockito.anyString(), Mockito.eq("2020"))).thenReturn(testHours);
-		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
-		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSemesterHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalAcademicYearHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSponsorsCount(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.averageHoursPerMonth(testHours)).thenReturn(0.0);
 		
 		mvc.perform(get("/hours?year=2020")
 				.contentType(MediaType.TEXT_HTML))
@@ -335,10 +335,10 @@ public class FilterHoursControllerTest {
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
 		Mockito.when(hrSvc.listHours()).thenReturn(testHours);
 		Mockito.when(hrSvc.filteredHours(Mockito.refEq(null), Mockito.refEq(null), Mockito.refEq(null), Mockito.eq("Approved"), Mockito.anyString())).thenReturn(testHours);
-		Mockito.when(hrSvc.getSemTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTermTot(testHours)).thenReturn(0.0);
-		Mockito.when(hrSvc.getTotOrgs(testHours)).thenReturn(0);
-		Mockito.when(hrSvc.getAvgPerMo(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSemesterHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalAcademicYearHours(testHours)).thenReturn(0.0);
+		Mockito.when(hrSvc.totalSponsorsCount(testHours)).thenReturn(0);
+		Mockito.when(hrSvc.averageHoursPerMonth(testHours)).thenReturn(0.0);
 		
 		mvc.perform(get("/hours?status=Approved")
 				.contentType(MediaType.TEXT_HTML))

@@ -1,8 +1,8 @@
 package srv.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mockitoSession;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.util.Assert;
 
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
@@ -78,6 +77,8 @@ public class ServiceHoursServiceTests {
 	private ServiceClient sc2; 
 	
 	private User user;
+	private ServiceClient sc3;
+	private EventType et3;
 	
 	
 	@Before 
@@ -112,6 +113,20 @@ public class ServiceHoursServiceTests {
 				.setCurrentBoardMember(null)
 				.setCategory("NOHELP");
 						
+		sc3 = new ServiceClient()
+				.setClientId(3)
+				.setName("yaml")
+				.setMainContact(new Contact()
+						.setContactId(3)
+						.setEmail("yaml@helpful.org")
+						.setCity("Sherman"))
+				.setOtherContact(new Contact()
+						.setContactId(4)
+						.setEmail("rbuckle@helpful.org")
+						.setCity("Sherman"))
+				.setCurrentBoardMember(null)
+				.setCategory("NOHELP");
+		
 		user = new User()
 				.setUid(1);
 				
@@ -132,6 +147,14 @@ public class ServiceHoursServiceTests {
 		.setDefClient(sc2)
 		.setPinHours(false);
 
+		et3 = new EventType()
+		.setEtid(3)
+		.setName("test et")
+		.setDescription("only for testing")
+		.setDefHours(1.0)
+		.setDefClient(sc3)
+		.setPinHours(false);
+		
 		e1 = new Event()
 		.setEid(1)
 		.setTitle("gds 2020")
@@ -147,13 +170,31 @@ public class ServiceHoursServiceTests {
 		e2 = new Event()
 		.setEid(2)
 		.setTitle("fws 2020")
-		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("05/01/2020"))
+		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("05/05/2020"))
 		.setAddress("900 N. Grand Ave")
 		.setType(et2)
 		.setContact(null);
 
+
+		e3 = new Event()
+		.setEid(3)
+		.setTitle("really old event")
+		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("11/2/1998"))
+		.setAddress("900 N. Grand Ave")
+		.setType(et3)
+		.setContact(null);
+
+		e4 = new Event()
+		.setEid(4)
+		.setTitle("old event")
+		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("12/5/2000"))
+		.setAddress("900 N. Grand Ave")
+		.setType(et3)
+		.setContact(null);
+		
+		
 		sh1 = new ServiceHours()
-			.setShid(3)
+			.setShid(1)
 			.setServedPet(sc1)
 			.setServant(user)
 			.setEvent(e1)
@@ -164,7 +205,7 @@ public class ServiceHoursServiceTests {
 			.setDescription(e1.getType().getDescription());
 
 		sh2 = new ServiceHours()
-			.setShid(4)
+			.setShid(2)
 			.setServedPet(sc2)
 			.setServant(user)
 			.setEvent(e2)
@@ -176,25 +217,11 @@ public class ServiceHoursServiceTests {
 		
 		
 
-		e3 = new Event()
-		.setEid(3)
-		.setTitle("really old event")
-		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("11/2/1998"))
-		.setAddress("900 N. Grand Ave")
-		.setType(et2)
-		.setContact(null);
 
-		e4 = new Event()
-		.setEid(4)
-		.setTitle("old event")
-		.setDate(new SimpleDateFormat("MM/dd/yyyy").parse("12/5/2000"))
-		.setAddress("900 N. Grand Ave")
-		.setType(et2)
-		.setContact(null);
 		
 		sh3 = new ServiceHours()
-			.setShid(1)
-			.setServedPet(sc1)
+			.setShid(3)
+			.setServedPet(sc3)
 			.setServant(user)
 			.setEvent(e3)
 			.setDate(e3.getDate())
@@ -204,8 +231,8 @@ public class ServiceHoursServiceTests {
 			.setDescription(e1.getType().getDescription());
 
 		sh4 = new ServiceHours()
-			.setShid(2)
-			.setServedPet(sc2)
+			.setShid(4)
+			.setServedPet(sc3)
 			.setServant(user)
 			.setEvent(e4)
 			.setDate(e4.getDate())
@@ -421,8 +448,10 @@ public class ServiceHoursServiceTests {
 		
 		List<ServiceHours> newList = shs.filteredHours(null, 2, null, null, null);
 	
+		assertSame(list,newList);
+		
 		assertEquals(1, newList.size());
-		assertEquals(2, newList.get(0).getShid());
+		assertEquals(sh2.getShid().intValue(), newList.get(0).getShid().intValue());
 		
 		Mockito.verify(dao).listByFilter(null, 2, null, null, null);
 	}
@@ -451,8 +480,9 @@ public class ServiceHoursServiceTests {
 		
 		List<ServiceHours> newList = shs.filteredHours(1, null, null, null, null);
 	
+		assertSame(list,newList);
 		assertEquals(1, newList.size());
-		assertEquals(1, newList.get(0).getShid());
+		assertEquals(sh1.getShid(), newList.get(0).getShid());
 		
 		Mockito.verify(dao).listByFilter(1, null, null, null, null);
 		
@@ -543,6 +573,102 @@ public class ServiceHoursServiceTests {
 	}
 	
 	
+	/**
+	 * Test our helper algorithm for filtering down to just 
+	 * approved hours.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_approvedHours_whenAllApproved() throws Exception {
+		
+		Mockito.when(semUtil.currentSemester()).thenReturn("2020SP");
+		
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_APPROVED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		sh4.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1);  // should match
+		hours.add(sh2);  // should match
+		hours.add(sh3);  // should not match due to semester id
+		hours.add(sh4);  // should not match due to rejection status
+		
+		List<ServiceHours> results = shs.approvedHours(hours);
+		
+		// make sure all hours are present
+		assertEquals(4, results.size());
+		for (ServiceHours h : hours) {
+			assertTrue(results.contains(h));
+			results.remove(h);
+		}
+		
+		// and no more 
+		assertTrue(results.isEmpty());
+		
+	}
+	
+	@Test
+	public void test_approvedHours_whenNoneApproved() throws Exception {
+		
+		Mockito.when(semUtil.currentSemester()).thenReturn("2020SP");
+		
+		sh1.setStatus(ServiceHours.STATUS_REJECTED);
+		sh2.setStatus(ServiceHours.STATUS_REJECTED);
+		sh3.setStatus(ServiceHours.STATUS_PENDING);
+		
+		sh4.setStatus(ServiceHours.STATUS_REJECTED);
+		
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1);  // should match
+		hours.add(sh2);  // should match
+		hours.add(sh3);  // should not match due to semester id
+		hours.add(sh4);  // should not match due to rejection status
+		
+		List<ServiceHours> results = shs.approvedHours(hours);
+
+		// should be an empty list
+		assertTrue(results.isEmpty());
+		
+	}
+
+	
+	@Test
+	public void test_approvedHours_whenSomeApproved() throws Exception {
+		
+		Mockito.when(semUtil.currentSemester()).thenReturn("2020SP");
+		
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_REJECTED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		sh4.setStatus(ServiceHours.STATUS_PENDING);
+		
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1);  // should match
+		hours.add(sh2);  // should match
+		hours.add(sh3);  // should not match due to semester id
+		hours.add(sh4);  // should not match due to rejection status
+		
+		List<ServiceHours> results = shs.approvedHours(hours);
+		
+		// make sure all approved hours are present  sh1, sh3 only.
+		assertEquals(2, results.size());
+		assertTrue(results.contains(sh1));
+		assertTrue(results.contains(sh3));
+
+		results.remove(sh1);
+		results.remove(sh3);
+		
+		// and no more 
+		assertTrue(results.isEmpty());
+		
+	}
 	
 	@Test
 	public void test_totalSemesterHours() throws Exception {
@@ -570,8 +696,168 @@ public class ServiceHoursServiceTests {
 		
 		assertEquals(5.5, shs.totalSemesterHours(hours),0.000001);
 		
+	}
+	
+	
+	@Test
+	public void test_totalSemesterHours_NoneApproved() throws Exception {
+		
+		Mockito.when(semUtil.currentSemester()).thenReturn("2020SP");
+		
+		sh1.setStatus(ServiceHours.STATUS_REJECTED);
+		sh2.setStatus(ServiceHours.STATUS_REJECTED);
+		sh3.setStatus(ServiceHours.STATUS_REJECTED);
+		
+		sh4.setStatus(ServiceHours.STATUS_REJECTED);
+		
+		Mockito.when(semUtil.semesterID(Mockito.any(Date.class)))
+			.thenReturn("2020SP")
+			.thenReturn("2020SP")
+			.thenReturn("2020FA")
+			.thenReturn("2020SP");
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1);  // should match
+		hours.add(sh2);  // should match
+		hours.add(sh3);  // should not match due to semester id
+		hours.add(sh4);  // should not match due to rejection status
+		
+		
+		assertEquals(0.0, shs.totalSemesterHours(hours),0.000001);
 		
 	}
+	
+	
+	@Test
+	public void test_totalAcadYearHours_AllApproved() throws Exception {
+		
+		Mockito.when(semUtil.currentAcadYear()).thenReturn("AY2020/2021");
+		
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_APPROVED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		sh4.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		Mockito.when(semUtil.acadYear(Mockito.any(Date.class)))
+			.thenReturn("AY2020/2021")
+			.thenReturn("AY2020/2021")
+			.thenReturn("AY2020/2021")
+			.thenReturn("XXXXXX");
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1);  // should match (2.0)
+		hours.add(sh2);  // should match (3.5)
+		hours.add(sh3);  // should match (2.0)
+		hours.add(sh4);  // should not match due to acad year  (3.5)
+		
+		assertEquals(7.5, shs.totalAcademicYearHours(hours),0.000001);
+		
+	}
+	
+	
+	@Test
+	public void test_totalSponsorCount_WithDuplicates() throws Exception {
+		
+				
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_APPROVED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		sh4.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1);  // should match scid=1
+		hours.add(sh2);  // should match scid=2
+		hours.add(sh3);  // should not scid=3
+		hours.add(sh4);  // should match scid=3; duplicate; not counted
+		
+		assertEquals(3, shs.totalSponsorsCount(hours));
+		
+	}
+	
+	
+	/**
+	 * Tests average per month when a couple of the hours are
+	 * in the same month.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_averageHoursPerMonth() throws Exception {
+		
+				
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_APPROVED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		sh4.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1); // 2.0 on 2020-05
+		hours.add(sh2); // 3.5 on 2020-05 
+		hours.add(sh3); // 2.0 on 1998-11
+		hours.add(sh4);  // 3.5 on 2000-12 
+		
+		// 5.5 + 2.0 + 3.5 / 3 == 3.66666666
+		
+		assertEquals(3.666666, shs.averageHoursPerMonth(hours), 0.00001);
+		
+		
+	}
+	
+	
+	/**
+	 * Make sure we handle the empty list case.
+	 * @throws Exception
+	 */
+	@Test
+	public void test_averageHoursPerMonth_whenEmpty() throws Exception {
+		
+				
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_APPROVED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		sh4.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		
+		
+		assertEquals(0.0, shs.averageHoursPerMonth(hours), 0.00001);
+		
+		
+	}
+	
+	/**
+	 * Strictly not needed, but what if all hours are in the same
+	 * month?
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void test_averageHoursPerMonth_whenAllInSameMonth() throws Exception {
+		
+				
+		sh1.setStatus(ServiceHours.STATUS_APPROVED);
+		sh2.setStatus(ServiceHours.STATUS_APPROVED);
+		sh3.setStatus(ServiceHours.STATUS_APPROVED);
+		sh4.setStatus(ServiceHours.STATUS_APPROVED);
+		
+		sh3.setDate(sh1.getDate());
+		sh4.setDate(sh2.getDate());  // now should all be in 2020-05
+		
+		List<ServiceHours> hours = new ArrayList<ServiceHours>();
+		hours.add(sh1); // 2.0 on 2020-05
+		hours.add(sh2); // 3.5 on 2020-05 
+		hours.add(sh3); // 2.0 on 2020-05 
+		hours.add(sh4);  // 3.5 on 2020-05  
+		
+		assertEquals(11.0, shs.averageHoursPerMonth(hours), 0.00001);
+		
+		
+	}
+	
 
 	/** 
 	 * Test to make sure that the service returns a list of hours based

@@ -1,7 +1,9 @@
 package srv.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -150,6 +152,12 @@ public class ServiceHoursService {
 		 */
 		if ((year != null) && (year.equals("List All")))
 			year = null;
+		
+		log.debug("userid:[{}]",userId);
+		log.debug("scid:[{}]",scId);
+		log.debug("month:[{}]",monthName);
+		log.debug("status:[{}]",status);
+		log.debug("year:[{}]",year);
 		
 		List<ServiceHours> results = sHoursDao.listByFilter(userId, scId, monthName, status, year);
 		
@@ -343,20 +351,62 @@ public class ServiceHoursService {
 	
 	
 	
-	
+	/**
+	 * Computes the monthly average of hours in the specified list. We
+	 * build a hash table of summed totals for each unique month.  A
+	 * month is identified by (YYYY, MM). As we iterate over our list
+	 * of hours, we fetch from total from the table.  If absent, we 
+	 * start a new totaling sum (double).   If existing, we add to the
+	 * existing.  Either way, we store back into the hash table. 
+	 * <p>
+	 * After which, we can average the monthly totals.  
+	 *  
+	 * @param hours
+	 * @return the mean/average monthly total hours.
+	 */
 	public double averageHoursPerMonth(List<ServiceHours> hours) {
 		
-		// get date of earliest hour
-		// get date of latest hour
+		HashMap<String, Double> map = new HashMap<String, Double>(); 
+				
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM");
 
-		// empty list of double
+		for (ServiceHours h : approvedHours(hours)) {
+			
+			String key = fmt.format(h.getDate());
+
+			// if this is the first encounter, then initialize our
+			// associated double total to the hours
+			Double d = Double.valueOf(h.getHours());
+			
+			// if we've seen it before,  add to the double total
+			// in hour hash table.
+			if (map.containsKey(key)) {
+				d = map.get(key) + h.getHours();
+			} 
+			
+			// either way, put it back into the table for this month.
+			map.put(key, d);
+		}
 		
-		// for each yr/month between earliest and latest
-		// add hours for that month
 		
-		// average hours per month
+		/*
+		 * Ok...so now we have all approved hours partitioned into separate monthly totals
+		 * in our hash table... the key is the month id string "yyyy-MM" and the value the 
+		 * total hours for that month.   Time to average..... 
+		 */
 		
-		return 0;
+		int count = 0;
+		double total = 0.0;
+		
+		// for each key in the map, fetch the value and add to our averaging total
+		for (String k : map.keySet()) {
+			count++;
+			total += map.get(k).doubleValue();
+		}
+
+		if (count == 0) return 0.0;
+		return total/count;
+		
 	}
 	
 	
