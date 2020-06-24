@@ -1,8 +1,67 @@
 <#import "/main_layout.html" as layout />
 
 <@layout.stdpage "User Home" "servantHome.css" "home.js">
- <p>
- Hellow World
- </p>
 
+<div class="container-fluid">
+	<p class="validationTips"></p>
+	<form id="newEt">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="Name">Name:</label> <input id="Name" type="text"
+						class="form-control" />
+				</div class="form-group">
+				<label for="Email">Email:</label> <input id="Email" type="text"
+					class="form-control" />
+				<div></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm">
+				<div class="form-group">
+					<label for="PhoneNumber">Phone Number:</label> <input
+						id="PhoneNumber" class="form-control"></input>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="gradYears">Expected Graduation Date:</label> <input
+						id="gradYears" type="text" class="form-control" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm">
+				<div class="form-group">
+					<label for="Affiliation">Please Enter Group Affiliations:</label> <input
+						id="Affiliation" type="text" class="form-control" value="" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm">
+				<div class="form-group">
+					<label for="HasCar">Do you own a car and are Willing to
+						Drive Others?</label> <select id="Affiliation" class="form-control">
+						<option value=Yes>Yes</option>
+						<option value=No>No</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm">
+				<div class="form-group">
+					<label for="Capacity">If so, how many people does your car
+						hold?</label> <input id="Capacity" type="text" class="form-control"
+						value="" />
+				</div>
+			</div>
+		</div>
+		<p></p>
+		<input type="submit" value="Submit">
+	</form>
+</div>
 </@layout.stdpage>
