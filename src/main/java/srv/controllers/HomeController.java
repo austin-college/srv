@@ -38,23 +38,23 @@ import srv.domain.spotlight.SpotLightDao;
 @Controller
 @EnableWebSecurity
 public class HomeController {
-	
+
 	private static Logger log = LoggerFactory.getLogger(HomeController.class);
 
-	
+
 	@Autowired
 	UserUtil userUtil;
-	
+
 	@Autowired
 	ServiceHoursService hrSvc;
-	
+
 	@Autowired
 	EventService evSvc;
-	
+
 	@Autowired
 	ServantUserDao srvUserDao;
-	
-	
+
+
 	/**
 	 * All requests to /home are protected.  The user must authenticate successfully.
 	 * We check the kind of user and redirect the client request to the proper home
@@ -64,39 +64,39 @@ public class HomeController {
 	 * @param attributes
 	 * @return
 	 */
-	
-    @GetMapping("/home")
-    public RedirectView redirectAll ( RedirectAttributes attributes) {
-          	
-      String destUrl = "/unknown";
-      
-      try {
-		/*
-		   * Order of evaluation is important since an ADMIN has all three roles
-		   * and the boardMember has two roles.        
-		   */
-		  if (userUtil.userIsServant()) destUrl = "/srv/home/servant";
-		  
-		  if (userUtil.userIsBoardMember()) destUrl = "/srv/home/boardMember";
-		  
-		  if (userUtil.userIsAdmin()) destUrl = "/srv/home/admin";
-		  
+
+	@GetMapping("/home")
+	public RedirectView redirectAll ( RedirectAttributes attributes) {
+
+		String destUrl = "/unknown";
+
+		try {
+			/*
+			 * Order of evaluation is important since an ADMIN has all three roles
+			 * and the boardMember has two roles.        
+			 */
+			if (userUtil.userIsServant()) destUrl = "/srv/home/servant";
+
+			if (userUtil.userIsBoardMember()) destUrl = "/srv/home/boardMember";
+
+			if (userUtil.userIsAdmin()) destUrl = "/srv/home/admin";
+
 		} catch (Exception e) {
 			log.error("Unknown user.  We cannot determine the user role."); 
 			// do nothing. we will go to the /unknown destination.  But this 
 			// is currently missing. 
 		} 
-      
-      
-      return new RedirectView(destUrl);
-    }
-    
-    /**
-     * displays the board member home page
-     * @param request
-     * @param response
-     * @return
-     */
+
+
+		return new RedirectView(destUrl);
+	}
+
+	/**
+	 * displays the board member home page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN"})
 	@GetMapping("/home/boardMember")
 	public ModelAndView boardMemberAction(HttpServletRequest request, HttpServletResponse response) {
@@ -105,7 +105,7 @@ public class HomeController {
 
 		return mav;
 	}
-	
+
 	/**
 	 * displays the admin edit board member/co chair page
 	 * @param request
@@ -120,7 +120,7 @@ public class HomeController {
 
 		return mav;
 	}
-	
+
 	/**
 	 * displays the admin home page
 	 * @param request
@@ -135,7 +135,7 @@ public class HomeController {
 
 		return mav;
 	}
-	
+
 	/**
 	 * displays the default home page for servants
 	 * @param request
@@ -146,8 +146,22 @@ public class HomeController {
 	public ModelAndView servantAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("home/servant");
-		
+
 		try {
+
+			/*
+			 *This block of code is meant to figure out if the user is new to our system
+			 *If they are not new, they pass by this check, but if they are new to the system
+			 *we create a profile for this new user and send them to the edit profile page 
+			 */
+			if(srvUserDao.fetchServantUserById(userUtil.currentUser().getUid()) == null) {
+				
+				srvUserDao.create(userUtil.currentUser().getUsername(), userUtil.currentUser().getUid(), 2020, false, 0);
+				mav.clear();
+				mav = new ModelAndView("home/servantProfileUpdate");
+				
+				
+			} else {
 			
 			List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
 			User currentUser = userUtil.currentUser();
@@ -166,11 +180,27 @@ public class HomeController {
 			mav.addObject("capacity", currentSrvUser.getCarCapacity());
 			mav.addObject("events", upcomingEvents);
 			mav.addObject("semTot", semesterTotalHrs);
-
-		} catch (Exception e) {
+			}
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+
+		return mav;
+	}
+	
+	/**
+	 * displays the servant update profile page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT"})
+	@GetMapping("/home/servant/servantProfileUpdate")
+	public ModelAndView servantUpdateProfile(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("home/servantProfileUpdate");
+
 		return mav;
 	}
 }

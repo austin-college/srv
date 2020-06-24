@@ -88,9 +88,6 @@ public class HoursController {
 			mav.addObject("events", events);
 			mav.addObject("userAdmin", userUtil.userIsAdmin());
 
-			log.debug("fetching hours");
-			List<ServiceHours> hours = hrSvc.listHours();
-			log.debug("...{} hours detected.",hours.size());
 			
 			Integer scP = null;
 			String monthNameP = null;
@@ -141,10 +138,24 @@ public class HoursController {
 			log.debug("detected {} hours" , filteredHours.size());
 			mav.addObject("hours", filteredHours);
 			
-			mav.addObject("semTot", hrSvc.totalSemesterHours(hours)); //total hours served per semester
-			mav.addObject("termTot", hrSvc.totalAcademicYearHours(hours)); //total hours served per term
-			mav.addObject("totOrgs", hrSvc.totalSponsorsCount(hours)); //total organizations helped
-			mav.addObject("avgPerMo", hrSvc.averageHoursPerMonth(hours)); //average hours served per month
+			
+			List<ServiceHours> statHours = null;
+			log.debug("fetching stat hours");
+			if (userUtil.userIsAdmin())
+			{
+				statHours = hrSvc.listHours();
+			} else {
+				statHours = hrSvc.filteredHours(userId, null, null, null, null);
+			}
+			log.debug("...{} hours detected.",statHours.size());
+			
+			mav.addObject("semester", hrSvc.currentSemester());
+			mav.addObject("acadYr", hrSvc.currentAcadYear());
+			
+			mav.addObject("semTot", hrSvc.totalSemesterHours(statHours)); //total hours served per semester
+			mav.addObject("termTot", hrSvc.totalAcademicYearHours(statHours)); //total hours served per term
+			mav.addObject("totOrgs", hrSvc.totalSponsorsCount(statHours)); //total organizations helped
+			mav.addObject("avgPerMo", hrSvc.averageHoursPerMonth(statHours)); //average hours served per month
 
 			
 		} catch (Exception e1) {
