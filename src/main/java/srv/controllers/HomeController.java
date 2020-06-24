@@ -186,4 +186,19 @@ public class HomeController {
 
 		return mav;
 	}
+	
+	/**
+	 * displays the servant update profile page
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN", "ROLE_SERVANT"})
+	@GetMapping("/home/servant/servantProfileUpdate")
+	public ModelAndView servantUpdateProfile(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("home/servantProfileUpdate");
+
+		return mav;
+	}
 }

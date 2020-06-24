@@ -11,9 +11,11 @@ function onSignUpClick() {
 
 }
 
-// pop up to warn that the user can't edit their profile yet
+// launch the action for viewing the profile for giving updates
 function onEditProfileClick() {
-	alert("Feature is not functional yet");
+	var site = location.origin
+	var path = site + "/srv/home/servant/servantProfileUpdate";
+	location.assign(path);
 }
 
 //Final preparations once the page is loaded. attach
