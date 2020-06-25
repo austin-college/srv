@@ -339,6 +339,8 @@ function prepopulateEditDialog(selShid) {
 		$("#editDlgEvId").val(sh.event.eid);
 		$("#editDlgDescription").val(sh.description);
 		$("#editDlgReflection").val(sh.reflection);
+		$("#editDlgFeedback").val(sh.feedback);
+
 
 		// if true, the user must use the default service hours, otherwise they can edit
 		if (sh.event.type.pinHours) {
@@ -349,6 +351,11 @@ function prepopulateEditDialog(selShid) {
 			console.log("false");
 			document.getElementById("editDlgHrsSrvd").removeAttribute("readonly");
 		}
+		
+		// also hide the feedback dialog for pending hours
+		if(sh.status == "Pending") 
+			$("#editDlgFeedback").hide();
+		
 
 	})
 	/*
@@ -396,12 +403,17 @@ function prepopulateViewDialog(selShid) {
 		$("#viewDlgEvId").val(sh.event.eid);
 		$("#viewDlgDescription").val(sh.description);
 		$("#viewDlgReflection").val(sh.reflection);
+		$("#viewDlgFeedback").val(sh.feedback);
 
 		
 		if (sh.status == "Approved")
 			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>!").addClass("alert alert-success");
-		else if(sh.status == "Pending")
+		
+		// also hide the feedback field for pending hours
+		else if(sh.status == "Pending") {
 			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>").addClass("alert alert-info");
+			$("#viewDlgFeedback").hide();
+		}
 		else 
 			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>!").addClass("alert alert-danger");
 	
@@ -734,8 +746,11 @@ function goBack() {
 		window.history.back();
 }
 
-/**TODO bleh better explantion/comments after done
- *  changing hours...
+/**
+ * When a user clicks on the 'Approve' or 'Reject' action, we obtain the
+ * selected hour's id and whether the hour is to be approved or rejected.
+ * Then, we open the dialog asking the user for feedback on the updated
+ * status change.
  */
 function onChangeStatusClick() {
 	
@@ -761,7 +776,10 @@ function onChangeStatusClick() {
 }
 
 /**
- * TODO better comments... >:c
+ * After the user provides feedback on whether the selected hour was
+ * approved or reject, we make an ajax request in order for us
+ * to update the hour in the database. Afterwards, we update
+ * the html to display the new status
  */
 function onFeedbackSubmit(newStatus, feedbackMsg, shid) {
 
@@ -1107,6 +1125,7 @@ $(document).ready(function() {
 					
 					console.log("new status: "+ newStatus + " feedback msg: " + feedback + " hr id: " + shid);
 
+				
 					onFeedbackSubmit(newStatus, feedback, shid);
 
 					$(this).dialog("close");
