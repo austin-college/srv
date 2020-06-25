@@ -340,8 +340,11 @@ function prepopulateEditDialog(selShid) {
 		$("#editDlgDescription").val(sh.description);
 		$("#editDlgReflection").val(sh.reflection);
 		$("#editDlgFeedback").val(sh.feedback);
-
-
+		
+		// if there was no feedback given, state so 
+		if (sh.feedback.length == 0) 
+			$("#editDlgFeedback").val("No feedback was given.");
+		
 		// if true, the user must use the default service hours, otherwise they can edit
 		if (sh.event.type.pinHours) {
 			console.log("true");
@@ -353,8 +356,10 @@ function prepopulateEditDialog(selShid) {
 		}
 		
 		// also hide the feedback dialog for pending hours
-		if(sh.status == "Pending") 
+		if(sh.status == "Pending") {
 			$("#editDlgFeedback").hide();
+			$("#editDlgFeedbackLabel").hide();
+		}
 		
 
 	})
@@ -405,6 +410,9 @@ function prepopulateViewDialog(selShid) {
 		$("#viewDlgReflection").val(sh.reflection);
 		$("#viewDlgFeedback").val(sh.feedback);
 
+		// if there was no feedback given, state so 
+		if (sh.feedback.length == 0) 
+			$("#viewDlgFeedback").val("No feedback was given.");
 		
 		if (sh.status == "Approved")
 			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>!").addClass("alert alert-success");
@@ -413,6 +421,7 @@ function prepopulateViewDialog(selShid) {
 		else if(sh.status == "Pending") {
 			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>").addClass("alert alert-info");
 			$("#viewDlgFeedback").hide();
+			$("#viewDlgFeedbackLabel").hide();
 		}
 		else 
 			$("#viewDlgHrStatus").html("Status:  <strong>" + sh.status + "</strong>!").addClass("alert alert-danger");
