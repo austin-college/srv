@@ -8,8 +8,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
 import srv.AppConstants;
+import srv.domain.user.JdbcTemplateServantUserDao;
 import srv.domain.user.JdbcTemplateUserDao;
 import srv.domain.user.User;
 
@@ -28,19 +30,22 @@ import srv.domain.user.User;
 
 @Component
 public class UserUtil {
-	
+
 
 	@Autowired
 	JdbcTemplateUserDao userDao;
 	
+	@Autowired
+	JdbcTemplateServantUserDao servantDao;
 
-	
+
+
 	public UserUtil() {
 		super();
 	}
 
-	
-	
+
+
 	public JdbcTemplateUserDao getUserDao() {
 		return userDao;
 	}
@@ -63,20 +68,26 @@ public class UserUtil {
 	 */
 	public User currentUser() throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		String auth_user_id = auth.getName();
 		
+		if(userIsNewToSystem()) {
+			
+			servantDao.create(auth_user_id, null, null, null, null);
+		}
 		User usr = userDao.fetchUserByUsername(auth_user_id);
-		
+
+
 		if (this.userIsServant()) usr.setRoll(AppConstants.ROLE_SERVANT);
 		if (this.userIsBoardMember()) usr.setRoll(AppConstants.ROLE_BOARDMEMBER);
 		if (this.userIsAdmin()) usr.setRoll(AppConstants.ROLE_ADMIN);
-		
+
 		return usr;
-		
+
 	}
-	
-	
+
+
+
 
 
 	/**
@@ -87,13 +98,13 @@ public class UserUtil {
 	 */
 	public  Collection<GrantedAuthority> userAuthorities() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		/*
 		 * current authenticated users.
 		 */
 		UserDetails usrDetails = (UserDetails) auth.getPrincipal();
 		if (usrDetails == null) return null;
-		
+
 		/*
 		 * what roles for current user?
 		 */
@@ -101,7 +112,7 @@ public class UserUtil {
 
 		return authorities;
 	}
-	
+
 	/**
 	 * @param roles
 	 * @return true if any of the specified string roles are granted to the
@@ -115,30 +126,30 @@ public class UserUtil {
 	 * 
 	 */
 	public  boolean hasAnyRole(String ... roles) throws Exception {
-		
+
 		/*
 		 * what roles for current user?
 		 */
 		Collection<GrantedAuthority> authorities = userAuthorities();
-		
+
 		if (authorities == null) throw new Exception("no user authorities");
-		
+
 		/**
 		 * 
 		 */
 		for (String role : roles) {
-			
+
 			for (GrantedAuthority ga : authorities) {
 				if (ga.getAuthority().equals("ROLE_"+role)) return true;
 			}
-				
+
 		}
-		
+
 		return false;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * @return true if user has the ADMIN authority/role.
 	 * @throws Exception
@@ -147,7 +158,7 @@ public class UserUtil {
 		return hasAnyRole(AppConstants.ROLE_ADMIN);
 	}
 
-	
+
 	/**
 	 * @return true if user has the BOARDMEMBER authority/role.
 	 * @throws Exception
@@ -155,13 +166,26 @@ public class UserUtil {
 	public  boolean userIsBoardMember() throws Exception {
 		return hasAnyRole(AppConstants.ROLE_BOARDMEMBER);
 	}
-	
+
 	/**
 	 * @return true if user has the SERVANT authority/role.
 	 * @throws Exception
 	 */
 	public  boolean userIsServant() throws Exception {
 		return hasAnyRole(AppConstants.ROLE_SERVANT);
+	}
+
+	public boolean userIsNewToSystem() throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		String auth_user_id = auth.getName();
+
+		User usr = userDao.fetchUserByUsername(auth_user_id);
+		if(userDao.fetchUserByUsername(auth_user_id) == null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
