@@ -1,10 +1,14 @@
 package srv.controller;
 
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
@@ -253,15 +257,26 @@ public class HoursControllerTest {
 
 	}
 
+	/**
+	 * tests the fetch by service hour ID function
+	 * @throws Exception
+	 */
 	@Test
 	@WithMockUser(username = "user", password = "user")
 	public void ajaxFetchServiceHour() throws Exception {
-		Mockito.when(hrSvc.serviceHourById(1)).thenReturn(sh1);
+		Mockito.when(hrSvc.serviceHourById(Mockito.anyInt())).thenReturn(sh1);
 
-//		mvc.perform(get("test/hours/ajax/1/").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
-//				.andExpect(content().string(containsString(" 1")));
+		// ready to test....
+		mvc.perform(get("/hours/ajax/hour/1")
 
-//		Mockito.verify(hrSvc).serviceHourById(1);
+				.contentType(MediaType.TEXT_HTML))
+
+				.andExpect(status().isOk())
+
+				// checks if id matches
+				.andExpect(jsonPath("$.shid", is(1)));
+
+		Mockito.verify(hrSvc).serviceHourById(1);
 	}
 
 	/**
@@ -272,19 +287,34 @@ public class HoursControllerTest {
 	@Test
 	@WithMockUser(username = "user", password = "user")
 	public void ajaxAddServiceHour() throws Exception {
-		double testHr = 3.5;
-		int testScid = 1;
-		int testInt = 2;
-		String testStr = "Reflection";
-		String otherTestStr = "Description";
-		Mockito.when(sh1 = hrSvc.createServiceHour(testScid, testInt, testHr, testStr, otherTestStr)).thenReturn(sh1);
+		int scid =1;
+		int eid = 2;
+		double hrs = 3.5;
+		String reflect= "great day for service";
+		String descrip= "love the community";
+ 
+		sh1.setReflection(reflect)
+				.setDescription(descrip)
+				.setHours(hrs)
+				.setShid(1);
+		Mockito.when( hrSvc.createServiceHour(scid, eid, hrs, reflect, descrip)).thenReturn(sh1);
 
-//		mvc.perform(get("test/hours/ajax/1").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
-//				.andExpect(content().string(containsString("1")));
+		// ready to test....
+//		mvc.perform(post("/hours/ajax/addHr")
+//
+//				.contentType(MediaType.TEXT_HTML))
+//
+//				.andExpect(status().isOk())
+//
+//				// it should have the client's name
+//				.andExpect(content().string(containsString("great day for service")))
+//		.andExpect(content().string(containsString("1")));
+//		
+//				.andExpect(content().string(containsString("great day of service for test")));
 
 		// other expectations here...
 
-//		Mockito.verify(hrSvc).createServiceHour(testScid, testInt, testHr, testStr, otherTestStr);
+//		Mockito.verify(hrSvc).createServiceHour(scid, eid, hrs, reflect, descrip);
 
 	}
 
