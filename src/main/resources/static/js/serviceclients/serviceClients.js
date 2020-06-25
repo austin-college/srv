@@ -40,18 +40,20 @@
  */
 function onDeleteClick() {
 
-	var shid = $(this).attr("shid"); // there better be a shid attr on this button 
+	var scid = $(this).attr("scid"); // there better be a shid attr on this button 
 
 	// value of the service client's name in the name cell of the row
-	var row_name = $("#scid-" + shid + " td[name = 'sc_title']").html(); 
+	var row_name = $("#scid-" + scid + " td[name = 'sc_title']").html(); 
 
 	// fill in the dialog with data from the current row service client.
-	$("#delScId").html("Sponsor ID: " + shid);
+	$("#delScId").html("Sponsor ID: " + scid);
 	$("#delScName").html("Sponsor Name: " + row_name);
 
 	// open the dialog...let it take over
 	$("#deleteDlg").dialog("open");
 }
+
+
 /** 
  * Makes the request back to our server to delete the service client
  * whose id we extract from the confirmation dialog
@@ -84,7 +86,68 @@ function ajaxDeleteClientNow() {
 	});
 }
 
+/**
+ * Makes the request back to our server to fetch the selected service client
+ * to present its details in the view dialog.
+ */
+function onViewClick() {
+	
+	$("#viewDlg").dialog("open"); // opens the view dialog
+	
+	var selSc = $(this).attr("scid"); // The ID of the selected service client to be viewed	
+	
+	console.log("Selected view service client: " + selSc);
+	
+	// retrieve service client details
+	$.ajax({
+		method : "GET",
+		url : "/srv/sc/ajax/sc/" + selSc,
+		cache : false,
+		dataType: "json"
+	})
+	/*
+	 * If success, then prepopulate the selected service client's fields in the view dialog
+	 */
+	.done(function(sc) {
+		
+		console.log(sc);
+		
+		var boardMemberFullName = sc.currentBoardMember.contactInfo.firstName + " " + sc.currentBoardMember.contactInfo.lastName;
+		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;
+		var otherContactFullName = sc.otherContact.firstName + " " + sc.otherContact.lastName;
+		
+		$("#viewDlg_name").val(sc.name);
+		$("#viewDlg_boardMemberName").val(boardMemberFullName);
+		$("#viewDlg_category").val(sc.category);
+		$("#viewDlg_mainContactName").val(mainContactFullName);
+		$("#viewDlg_mainContactEmail").val(sc.mainContact.email);
+		$("#viewDlg_mainContactWorkPhone").val(sc.mainContact.phoneNumWork);
+		$("#viewDlg_mainContactMobilePhone").val(sc.mainContact.phoneNumMobile);
+		$("#viewDlg_mainContactStreet").val(sc.mainContact.street);
+		$("#viewDlg_mainContactCity").val(sc.mainContact.city);
+		$("#viewDlg_mainContactState").val(sc.mainContact.state);
+		$("#viewDlg_mainContactZip").val(sc.mainContact.zipcode);
+		$("#viewDlg_mainContactID").val(sc.mainContact.contactId);
+		$("#viewDlg_otherContactName").val(otherContactFullName);
+		$("#viewDlg_otherContactEmail").val(sc.otherContact.email);
+		$("#viewDlg_otherContactWorkPhone").val(sc.otherContact.phoneNumWork);
+		$("#viewDlg_otherContactMobilePhone").val(sc.otherContact.phoneNumMobile);
+		$("#viewDlg_otherContactStreet").val(sc.otherContact.street);
+		$("#viewDlg_otherContactCity").val(sc.otherContact.city);
+		$("#viewDlg_otherContactState").val(sc.otherContact.state);
+		$("#viewDlg_otherContactZip").val(sc.otherContact.zipcode);
+		$("#viewDlg_otherContactID").val(sc.otherContact.contactId);
+					
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
 
+}
 /**
  * Updates an existing service client in the table with the new values. The parameters follow the update method
  * in the ServiceClientDao except that the main contact's name is also passed in, in order to update the table 
@@ -185,7 +248,7 @@ function ajaxDeleteClientNow() {
 //
 //			$(".scRow").on("click", function() {
 //				var selected_scid = $(this).attr('onRowClick');
-//				$("#scInfoDlg").data("selectedClientID", selected_scid).dialog("open");
+//				$("#viewDlg").data("selectedClientID", selected_scid).dialog("open");
 //			});
 //		},
 //		/*
@@ -499,12 +562,15 @@ function onPageLoad() {
 
 	// connect the delete action to all delete buttons tagged with btnScDel class
 	$(".btnScDel").click(onDeleteClick);
-
+	
+	// connect the view action to all view buttons
+	$(".btnScView, .scRow").click(onViewClick);
+	
 	/*
 	 * Dialog functions defined below
 	 */
 
-	//Register and hide the delete dialog div until a delete button is clicked on.
+	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#deleteDlg").dialog({
 		autoOpen: false,
 		height: 250,
@@ -540,6 +606,31 @@ function onPageLoad() {
 				}
 			}]
 	});
+	
+	// Register and hide the view dialog div until a row or view button is clicked on.
+	// displays the service client's info
+	$("#viewDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 700,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		modal: true,
+		open: function(event, ui) {			
+			console.log("open view dialog");
+		},
+		buttons : [ {
+			text : "CANCEL",
+			"class" : 'cancBtnClass',
+			click : function() {
+				$(this).dialog("close");
+			}
+		} ]
+	});
+
 }
 
 /**

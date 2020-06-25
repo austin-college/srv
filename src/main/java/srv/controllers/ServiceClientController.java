@@ -16,10 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
+import srv.domain.event.eventype.EventType;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.User;
@@ -115,7 +117,26 @@ public class ServiceClientController {
 		}
 
 	}
-
+	
+	/**
+	 * Ajax call to retrieve and return selected service client from the database.
+	 */
+	@ResponseBody
+	@GetMapping(value="/sc/ajax/sc/{id}", produces="application/json")
+	public ResponseEntity<ServiceClient> ajaxFetchServiceClient(@PathVariable Integer id) {
+		
+		try {
+			log.debug("fetch service client " + id);
+			
+			ServiceClient srvClient = srvClientDao.fetchClientById(id);
+			
+			return new ResponseEntity<>(srvClient, HttpStatus.OK);
+		
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	/**
 	 * Adding a new row to the service client for service client list. The parameters follow
 	 * the parameters of the create method in the ServiceClientDao.

@@ -99,3 +99,10 @@ td a:hover {
 	text-align: center;
 }
 
+/* Style settings for the view buttons in a table */
+.btnView {
+	background-color: #427dc6;
+	color: white;
+	text-align: center;
+}
+

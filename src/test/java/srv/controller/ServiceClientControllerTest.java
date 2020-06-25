@@ -1,10 +1,12 @@
 package srv.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -61,14 +63,22 @@ public class ServiceClientControllerTest {
 	private ServiceClient sc2;
 
 	/**
+	 * 
+	 * TODO will need to refactor the users to be board member users
+	 * 
 	 * Called before each an every test in order to have sufficient
 	 * data for this series of tests.   We make a couple of typical
-	 * service clients, a couple of typical contacts.  
+	 * service clients, a couple of typical contacts, a couple of
+	 * users.  
 	 * 
 	 */
 	@Before
 	public void setupTestFixture() {
-
+		
+		User bm1 = new User()
+				.setUid(1)
+				;
+		
 		Contact con1 = new Contact()
 				.setFirstName("Joe")
 				.setLastName("Smith")
@@ -101,6 +111,7 @@ public class ServiceClientControllerTest {
 				.setCategory("Community")
 				.setMainContact(con1)
 				.setOtherContact(con2)
+				.setCurrentBoardMember(bm1)
 				;
 
 		sc2 = new ServiceClient()
@@ -144,6 +155,50 @@ public class ServiceClientControllerTest {
 		Mockito.verify(mockSrvClientDao).delete(1);
 
 	}
+	
+	/** 
+	 * Note: must use jsonpath as opposed to xpath since returning an json and
+	 * not html
+	 * 
+	 * Test that the controller returns JSON to present the selected service client details
+	 */
+	@Test
+	@WithMockUser(username= "admin", password="admin")
+	public void ajaxViewServiceClientTest() throws Exception {
+
+		Mockito.when(mockSrvClientDao.fetchClientById(Mockito.anyInt())).thenReturn(sc1);
+
+		// ready to test
+		mvc.perform(get("/sc/ajax/sc/1")
+
+				.contentType(MediaType.APPLICATION_JSON))
+
+		.andExpect(status().isOk())
+
+		// expecting a json object whose service client id better be 1
+		.andExpect(jsonPath("$.scid", is(1)))
+
+		// and short name better be "Habitat for Humanity" 
+		.andExpect(jsonPath("$.name", is("Habitat for Humanity")))
+
+		// and with the category of 'Community'
+		.andExpect(jsonPath("$.category", is("Community")))
+
+		// and with a current board member with id 1
+		.andExpect(jsonPath("$.currentBoardMember.uid", is(1)))
+
+		// and with a main contact with id 1
+		.andExpect(jsonPath("$.mainContact.contactId", is(1)))
+
+		// and with an other contact with id 2
+		.andExpect(jsonPath("$.otherContact.contactId", is(2)))
+		;
+
+		// verify the dao got involved
+		Mockito.verify(mockSrvClientDao).fetchClientById(1);
+
+	}
+
 	
 	/**
 	 * Test how our controller responds when an exception is thrown

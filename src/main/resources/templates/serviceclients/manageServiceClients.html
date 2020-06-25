@@ -51,22 +51,24 @@
 					<tbody id="sc_tbl_body">
 						<#list clients as sc>
 						<tr id="scid-${sc.scid?c}">
-							<td name='sc_id' class='scRow' onRowClick="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
-							<td name='sc_title' class='scRow' onRowClick="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
+							<td name='sc_id' class='scRow' scid="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
+							<td name='sc_title' class='scRow' scid="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
 							<td name='sc_contact_name' class='scRow'
-								onRowClick="${sc.scid?c}">${sc.mainContact.firstName!"UNKNOWN"}
+								scid="${sc.scid?c}">${sc.mainContact.firstName!"UNKNOWN"}
 								${sc.mainContact.lastName!"UNKNOWN"}</td>
-							<td name='sc_bm_name' class='scRow' onRowClick="${sc.scid?c}">${sc.currentBoardMember.contactInfo.firstName!"UNKNOWN"} ${sc.currentBoardMember.contactInfo.lastName!"UNKNOWN"}</td>
-							<td name='sc_category' class='scRow' onRowClick="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
+							<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.firstName!"UNKNOWN"} ${sc.currentBoardMember.contactInfo.lastName!"UNKNOWN"}</td>
+							<td name='sc_category' class='scRow' scid="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
 							
 							<!-- action buttons -->
 							<td class="text-center scActions">
-								<button type="button" class="edit btn" shid="${sc.scid?c}">
+								<button type="button" class="edit btn" scid="${sc.scid?c}">
 									<span class="fas fa-pencil-alt"></span> 
 								</button>
-								
+								<button class="btn btnView btnScView" scid="${sc.scid?c}">
+									<i class="fas fa-search"></i>
+								</button>
 								<#if userAdmin>
-								<button type="button" class="btnScDel btn" shid="${sc.scid?c}">
+								<button type="button" class="btnScDel btn" scid="${sc.scid?c}">
 									<span class="fas fa-trash-alt"></span> 
 								</button>
 								</#if>
@@ -118,7 +120,7 @@
 
 	<!--  The div below shows a modal view of the service client information (contacts, names, etc) when the row was selected 
 	      Does not allow for the user to edit any of the fields or provide any buttons to do so. -->
-	<div id="scInfoDlg" title="Sponsor Details"	class="ui-widget">
+	<div id="viewDlg" title="Sponsor Details"	class="ui-widget">
 		<#include "/serviceclients/clientDetails.html"/>
 	</div>
 

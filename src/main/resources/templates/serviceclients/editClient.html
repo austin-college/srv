@@ -9,7 +9,7 @@
 				<p class="validationTips"></p>
 					<div class='form-row' style='padding-bottom:15px'>
 						<div class='col-sm-4'>
-							<label for="editDlg_name"><b>Name of Service Client</b></label>
+							<label for="editDlg_name"><b>Name of Sponsor</b></label>
 						</div>
 						<div class='col-sm-6'>
 							<#if userAdmin>
@@ -21,19 +21,19 @@
 					</div>
 					<div class="form-row">
 						<div class='col-sm-4'>
-							<label for="editDlg_bmName"><b>Board Member</b></label>
+							<label for="editDlg_boardMemberName"><b>Board Member</b></label>
 						</div>
 						<div class="form-group col-sm-6">
 							<#if userAdmin>
-								<select id="editDlg_bmName" class='form-control'>
-									<#list users as bm>
-										<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+								<select id="editDlg_boardMemberName" class='form-control'>
+									<#list users as boardMember>
+										<option value="${boardMember.uid}">${boardMember.contactInfo.firstName!"UNKNOWN"} ${boardMember.contactInfo.lastName!"UNKNOWN"}</option>
 									</#list>
 								</select>
 							<#else>
-								<select id="editDlg_bmName" class='form-control' disabled>
-									<#list users as bm>
-										<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+								<select id="editDlg_boardMemberName" class='form-control' disabled>
+									<#list users as boardMember>
+										<option value="${boardMember.uid}">${boardMember.contactInfo.firstName!"UNKNOWN"} ${boardMember.contactInfo.lastName!"UNKNOWN"}</option>
 									</#list>
 								</select>
 							 </#if>
@@ -67,10 +67,10 @@
 					</div>
 					<div class='form-row'>
 						<div class='col-sm-3'>
-							<label for="editDlg_mcID"><b>Select Contact ID</b></label>
+							<label for="editDlg_mainContactID"><b>Select Contact ID</b></label>
 						</div>
 						<div class='col-sm-2'>
-							<select id="editDlg_mcID" class='form-control mcRow'>
+							<select id="editDlg_mainContactID" class='form-control mainContactRow'>
 								<#list contacts as con>
 									<option>${con.contactId?c}</option>
 								</#list>
@@ -79,40 +79,40 @@
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="editDlg_mcName"><b>Name</b></label> 
-							<input class="form-control" id="editDlg_mcName" readonly="readonly"/>
+							<label for="editDlg_mainContactName"><b>Name</b></label> 
+							<input class="form-control" id="editDlg_mainContactName" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="editDlg_mcEmail"><b>Email</b></label> 
-							<input class="form-control" id="editDlg_mcEmail" readonly="readonly"/>
+							<label for="editDlg_mainContactEmail"><b>Email</b></label> 
+							<input class="form-control" id="editDlg_mainContactEmail" readonly="readonly"/>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="editDlg_mcWorkPhone"><b>Phone Number (Work)</b></label> 
-							<input class="form-control" id="editDlg_mcWorkPhone" readonly="readonly"/>
+							<label for="editDlg_mainContactWorkPhone"><b>Phone Number (Work)</b></label> 
+							<input class="form-control" id="editDlg_mainContactWorkPhone" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="editDlg_mcMobilePhone"><b>Phone Number (Mobile)</b></label> 
-							<input class="form-control" id="editDlg_mcMobilePhone" readonly="readonly"/>
+							<label for="editDlg_mainContactMobilePhone"><b>Phone Number (Mobile)</b></label> 
+							<input class="form-control" id="editDlg_mainContactMobilePhone" readonly="readonly"/>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="editDlg_mcStreet"><b>Address</b></label> 
-						<input class="form-control" id="editDlg_mcStreet" readonly="readonly"/>
+						<label for="editDlg_mainContactStreet"><b>Address</b></label> 
+						<input class="form-control" id="editDlg_mainContactStreet" readonly="readonly"/>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="editDlg_mcCity"><b>City</b></label> 
-							<input class="form-control" id="editDlg_mcCity" readonly="readonly"/>
+							<label for="editDlg_mainContactCity"><b>City</b></label> 
+							<input class="form-control" id="editDlg_mainContactCity" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-4">
-							<label for="editDlg_mcState"><b>State</b></label> 
-							<input id="editDlg_mcState" class="form-control" readonly="readonly"/>
+							<label for="editDlg_mainContactState"><b>State</b></label> 
+							<input id="editDlg_mainContactState" class="form-control" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-2">
-							<label for="editDlg_mcZip"><b>Zip</b></label> 
-							<input class="form-control" id="editDlg_mcZip" readonly="readonly"/>
+							<label for="editDlg_mainContactZip"><b>Zip</b></label> 
+							<input class="form-control" id="editDlg_mainContactZip" readonly="readonly"/>
 						</div>
 					</div>
 					<div class='row'>
@@ -123,10 +123,10 @@
 					</div>
 					<div class='form-row'>
 						<div class='col-sm-3'>
-							<label for="editDlg_ocID"><b>Select Contact ID</b></label>
+							<label for="editDlg_otherContactID"><b>Select Contact ID</b></label>
 						</div>
 						<div class='col-sm-2'>
-							<select id="editDlg_ocID" class='form-control ocRow'>
+							<select id="editDlg_otherContactID" class='form-control otherContactRow'>
 								<#list contacts as con>
 									<option>${con.contactId?c}</option>
 								</#list>
@@ -135,40 +135,40 @@
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="editDlg_ocName"><b>Name</b></label> 
-							<input class="form-control" id="editDlg_ocName" readonly="readonly"/>
+							<label for="editDlg_otherContactName"><b>Name</b></label> 
+							<input class="form-control" id="editDlg_otherContactName" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="editDlg_ocEmail"><b>Email</b></label> 
-							<input class="form-control" id="editDlg_ocEmail" readonly="readonly"/>
+							<label for="editDlg_otherContactEmail"><b>Email</b></label> 
+							<input class="form-control" id="editDlg_otherContactEmail" readonly="readonly"/>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="editDlg_ocWorkPhone"><b>Phone Number (Work)</b></label> 
-							<input class="form-control" id="editDlg_ocWorkPhone" readonly="readonly"/>
+							<label for="editDlg_otherContactWorkPhone"><b>Phone Number (Work)</b></label> 
+							<input class="form-control" id="editDlg_otherContactWorkPhone" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="editDlg_ocMobilePhone"><b>Phone Number (Mobile)</b></label> 
-							<input class="form-control" id="editDlg_ocMobilePhone" readonly="readonly"/>
+							<label for="editDlg_otherContactMobilePhone"><b>Phone Number (Mobile)</b></label> 
+							<input class="form-control" id="editDlg_otherContactMobilePhone" readonly="readonly"/>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="editDlg_ocStreet"><b>Address</b></label> 
-						<input class="form-control" id="editDlg_ocStreet" readonly="readonly"/>
+						<label for="editDlg_otherContactStreet"><b>Address</b></label> 
+						<input class="form-control" id="editDlg_otherContactStreet" readonly="readonly"/>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for="editDlg_ocCity"><b>City</b></label> 
-							<input class="form-control" id="editDlg_ocCity" readonly="readonly"/>
+							<label for="editDlg_otherContactCity"><b>City</b></label> 
+							<input class="form-control" id="editDlg_otherContactCity" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-4">
-							<label for="editDlg_ocState"><b>State</b></label> 
-							<input id="editDlg_ocState" class="form-control" readonly="readonly"/>
+							<label for="editDlg_otherContactState"><b>State</b></label> 
+							<input id="editDlg_otherContactState" class="form-control" readonly="readonly"/>
 						</div>
 						<div class="form-group col-md-2">
-							<label for="editDlg_ocZip"><b>Zip</b></label> 
-							<input class="form-control" id="editDlg_ocZip" readonly="readonly"/>
+							<label for="editDlg_otherContactZip"><b>Zip</b></label> 
+							<input class="form-control" id="editDlg_otherContactZip" readonly="readonly"/>
 						</div>
 					</div>
 				</div>
