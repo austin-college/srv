@@ -75,7 +75,12 @@ public class HomeController {
 			 * Order of evaluation is important since an ADMIN has all three roles
 			 * and the boardMember has two roles.        
 			 */
-			if (userUtil.userIsServant()) destUrl = "/srv/home/servant";
+			if(userUtil.userIsNewToSystem()) {
+				
+				destUrl = "/srv/home/servant/servantProfileUpdate";
+				userUtil.currentUser();
+				
+			} else if (userUtil.userIsServant()) destUrl = "/srv/home/servant";
 
 			if (userUtil.userIsBoardMember()) destUrl = "/srv/home/boardMember";
 
@@ -155,31 +160,31 @@ public class HomeController {
 			 *we create a profile for this new user and send them to the edit profile page 
 			 */
 			if(srvUserDao.fetchServantUserById(userUtil.currentUser().getUid()) == null) {
-				
+
 				srvUserDao.create(userUtil.currentUser().getUsername(), userUtil.currentUser().getUid(), 2020, false, 0);
 				mav.clear();
 				mav = new ModelAndView("home/servantProfileUpdate");
-				
-				
+
+
 			} else {
-			
-			List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
-			User currentUser = userUtil.currentUser();
-			
-			ServantUser currentSrvUser = srvUserDao.fetchServantUserById(currentUser.getUid());
-			
-			List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
-			double semesterTotalHrs = hrSvc.totalSemesterHours(userHours);
-						
-			mav.addObject("name", currentSrvUser.getContactInfo().fullName());
-			mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
-			mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
-			mav.addObject("gradYear", currentSrvUser.getExpectedGradYear());
-			mav.addObject("affiliation", currentSrvUser.getAffiliation());
-			mav.addObject("hasCar", currentSrvUser.getHasCar());
-			mav.addObject("capacity", currentSrvUser.getCarCapacity());
-			mav.addObject("events", upcomingEvents);
-			mav.addObject("semTot", semesterTotalHrs);
+
+				List<Event> upcomingEvents = evSvc.filteredEvents(null, "now+1M", null, null, null);
+				User currentUser = userUtil.currentUser();
+
+				ServantUser currentSrvUser = srvUserDao.fetchServantUserById(currentUser.getUid());
+
+				List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
+				double semesterTotalHrs = hrSvc.totalSemesterHours(userHours);
+
+				mav.addObject("name", currentSrvUser.getContactInfo().fullName());
+				mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
+				mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
+				mav.addObject("gradYear", currentSrvUser.getExpectedGradYear());
+				mav.addObject("affiliation", currentSrvUser.getAffiliation());
+				mav.addObject("hasCar", currentSrvUser.getHasCar());
+				mav.addObject("capacity", currentSrvUser.getCarCapacity());
+				mav.addObject("events", upcomingEvents);
+				mav.addObject("semTot", semesterTotalHrs);
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -188,7 +193,7 @@ public class HomeController {
 
 		return mav;
 	}
-	
+
 	/**
 	 * displays the servant update profile page
 	 * @param request

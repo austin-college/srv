@@ -97,6 +97,7 @@ public class HoursControllerTest {
 
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		Date date = sdf.parse(sDate);
+<<<<<<< HEAD
 
 		EventType et1 = new EventType().setEtid(1).setName("gds").setDescription("great day of service for test")
 				.setDefHours(0.0).setDefClient(null).setPinHours(false);
@@ -125,6 +126,88 @@ public class HoursControllerTest {
 		sh3 = new ServiceHours().setShid(3).setStatus("Pending").setEvent(e2).setServant(new User().setUid(2))
 				.setServedPet(sc2).setDate(date);
 
+=======
+				
+		EventType et1 = new EventType()
+				.setEtid(1)
+				.setName("gds")
+				.setDescription("great day of service for test")
+				.setDefHours(0.0)
+				.setDefClient(null)
+				.setPinHours(false);
+				
+		EventType et2 = new EventType()
+				.setEtid(2)
+				.setName("fws")
+				.setDescription("first we serve for test")
+				.setDefHours(0.0)
+				.setDefClient(null)
+				.setPinHours(false);
+		
+		ServiceClient sc1 = new ServiceClient()
+				.setClientId(1)
+				.setName("Habitat for Humanity")
+				.setCategory("Community");
+		
+		ServiceClient sc2 = new ServiceClient()
+				.setClientId(2)
+				.setName("Meals on Wheels")
+				.setCategory("Seniors");		
+		
+		Event e1 = new Event()
+				.setEid(1)
+				.setTitle("gds 2020")
+				.setDate(new java.util.Date())
+				.setAddress("900 N. Grand Ave")
+				.setType(et1)
+				.setServiceClient(sc1)
+				.setContact(new Contact()
+						.setFirstName("Rusty")
+						.setLastName("Buckle")
+						.setContactId(1)
+						.setEmail("rbuckle@helpful.org")
+						.setPhoneNumMobile("903-813-5555")
+						.setCity("Sherman")
+						);
+		
+		 Event e2 = new Event()
+				.setEid(2)
+				.setTitle("fws 2020")
+				.setDate(new java.util.Date())
+				.setAddress("900 N. Grand Ave")
+				.setType(et1)
+				.setServiceClient(sc2)
+				.setContact(null);
+			
+		 sh1 = new ServiceHours()
+				 .setShid(1)
+				 .setStatus("Rejected")
+				 .setEvent(e1)
+				 .setServant(new User().setUid(1))
+				 .setServedPet(sc1)
+				 .setDate(date)
+				 ;
+		 
+		 sh2 = new ServiceHours()
+				 .setShid(2)
+				 .setStatus("Approved")
+				 .setEvent(e2)
+				 .setServant(new User().setUid(2))
+				 .setServedPet(sc2)
+				 .setDate(date)
+				 .setFeedback("Good job")
+				 ;
+		 
+		 sh3 = new ServiceHours()
+				 .setShid(3)
+				 .setStatus("Pending")
+				 .setEvent(e2)
+				 .setServant(new User().setUid(2))
+				 .setServedPet(sc2)
+				 .setDate(date)
+				 ;
+		 
+>>>>>>> 259658aeed3c53ce9dc03fc86c913d03c83947da
 		testEvents.add(e1);
 		testEvents.add(e2);
 		testTypes.add(et1);
@@ -210,6 +293,7 @@ public class HoursControllerTest {
 						xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]"))
 								.exists())
 
+<<<<<<< HEAD
 				// and deleting
 				.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]"))
 						.exists())
@@ -217,6 +301,16 @@ public class HoursControllerTest {
 				// and there's a row in our table that has a hrs_eventName td inside whose text
 				// better be 'fws 2020'
 				.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
+=======
+		// and there's a row in our table that has a hrs_eventName td inside whose text better be 'gds 2020' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_eventName' and text()='gds 2020']")).exists())
+		
+		// and that same row should not have a td with a button inside for editing (since hour is approved)
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).exists())
+
+		// and deleting
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).exists())
+>>>>>>> 259658aeed3c53ce9dc03fc86c913d03c83947da
 
 				// and that same row better have a td with a button inside for editing (since
 				// hour is pending)
@@ -224,6 +318,7 @@ public class HoursControllerTest {
 						xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]"))
 								.doesNotExist())
 
+<<<<<<< HEAD
 				// and deleting
 				.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]"))
 						.doesNotExist())
@@ -364,5 +459,64 @@ public class HoursControllerTest {
 
 		Mockito.verify(hrSvc).removeServiceHour(1);
 
+=======
+		// and that same row better have a td with a button inside for editing (since hour is pending)
+		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).doesNotExist())
+
+		// and deleting
+		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).doesNotExist())
+		
+		
+		// and there's a row in our table that has a hrs_eventName td inside whose text better be 'fws 2020' 
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
+
+		// and that same row better have a td with a button inside for editing (since hour is rejected)
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).exists())
+
+		// and deleting
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).exists())
+
+		;
+	}
+	
+	/**
+	 * Note: must use jsonpath as opposed to xpath since returning an json and
+	 * not html
+	 * 
+	 * Testing the ajax method for changing an hour's status.
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void test_ajaxChangeHourStatus() throws Exception {
+
+		// mocking dependencies
+		Mockito.when(hrSvc.changeStatus(Mockito.anyInt(), Mockito.anyString(), Mockito.anyString())).thenReturn(sh2);
+
+		// ready to test
+		mvc.perform(get("/hours/ajax/updateStatus/hour/2")
+				.param("status", "Approved")
+				.param("feedback", "Good job")
+
+				.contentType(MediaType.APPLICATION_JSON))
+
+		.andExpect(status().isOk())
+
+		// expecting a json object whose event id better be 1
+		.andExpect(jsonPath("$.shid", is(2)))
+
+		// and whose status now better be "Approved"
+		.andExpect(jsonPath("$.status", is("Approved")))
+
+		// and with the feedback message of 'Good job'
+		.andExpect(jsonPath("$.feedback", is("Good job")))
+
+
+		;
+
+
+
+		// verify that the service got involved
+		Mockito.verify(hrSvc).changeStatus(2, "Approved", "Good job");
+>>>>>>> 259658aeed3c53ce9dc03fc86c913d03c83947da
 	}
 }

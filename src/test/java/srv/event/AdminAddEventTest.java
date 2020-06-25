@@ -13,10 +13,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.SeleniumTest;
+import srv.domain.user.JdbcTemplateServantUserDao;
 
 /**
  * This end-to-end functional tests implements the use case "admin adds a new
@@ -28,6 +30,9 @@ import srv.SeleniumTest;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AdminAddEventTest extends SeleniumTest {
+	
+	@Autowired
+	JdbcTemplateServantUserDao servantDao;
 
 
 	@Test

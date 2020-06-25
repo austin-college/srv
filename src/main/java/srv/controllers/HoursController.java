@@ -87,6 +87,7 @@ public class HoursController {
 			mav.addObject("sClients", sponsors);
 			mav.addObject("events", events);
 			mav.addObject("userAdmin", userUtil.userIsAdmin());
+			mav.addObject("userBm", userUtil.userIsBoardMember());
 
 			
 			Integer scP = null;
@@ -318,6 +319,32 @@ public class HoursController {
 			ServiceHours sh = hrSvc.serviceHourById(id);
 			
 			return new ResponseEntity<>(sh, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	/**
+	 * Ajax call to update and return the selected service hour's status in the database.
+	 */
+	@ResponseBody
+	@GetMapping(value="/hours/ajax/updateStatus/hour/{id}", produces="application/json")
+	public ResponseEntity<ServiceHours> ajaxChangeServiceHourStatus(@PathVariable Integer id, HttpServletRequest request) {
+		
+		try {
+			System.err.println("fetch service hour " + id);
+			log.debug("fetch service hour {}", id);
+			
+			
+			// fetch the data sent from the JavaScript function
+			String status = request.getParameter("status");
+			String feedback = request.getParameter("feedback");
+
+			ServiceHours updatedHour = hrSvc.changeStatus(id, status, feedback);
+
+			return new ResponseEntity<>(updatedHour, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

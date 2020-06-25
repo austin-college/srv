@@ -117,6 +117,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .password("$2b$10$21ITM86vZOBISgzdP9KgjuKuuURsa4OlqH7GbrMVjJ07r867Fn91m")  // "admin"
         .roles(AppConstants.ROLE_SERVANT, AppConstants.ROLE_BOARDMEMBER, AppConstants.ROLE_ADMIN);
 
+        auth.inMemoryAuthentication().withUser("firstuser")
+        .password("$2b$10$3bUT7trb2pygULV16ArpbObCdMBONzDKojq1lROSOq/VA6lQFNXcq")  // "user"
+        .roles(AppConstants.ROLE_SERVANT);
 
     }
 
