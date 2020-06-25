@@ -145,7 +145,21 @@ public class AdminAddEventTest extends SeleniumTest {
 
 		//tests if the correct text is displayed
 		assertEquals("testedEvent", addName.getAttribute("value") );
-
+		
+		/*
+		 * inputs location into event address
+		 */
+		WebElement eventAddress = driver.findElement(By.id("evAddress"));
+		eventAddress.click();
+		eventAddress.clear();
+		eventAddress.sendKeys("testedLocation");
+		
+		// asserts that correct txt displayed
+		assertEquals("testedLocation", eventAddress.getAttribute("value"));
+		
+		/*
+		 * 
+		 */
 		/*
 		 * finds the submit button and submits the information
 		 */
