@@ -275,6 +275,21 @@
 	<#include "/hours/editHours.html"/>
 </div>
 
+<!-- dialog for providing feedback when approving/rejecting hours -->
+<div id="feedbackDlg" title="Provide Feedback" style="display:none">
+	<div class="row">
+		<div class="col">
+			<p> Provide feedback as to why the hour was 
+			<span id="hrStatusForFeedback"></span>. Otherwise, press 'Submit'.</p>
+		</div>
+	</div>
+	<div class="row" style="padding-left:15px">
+		<textarea id="feedbackTxtArea" style="width: 95%; height:100px" placeholder="No feedback"></textarea>
+	</div>
+</div>
+
+
+<!-- dialog for selecting an event when adding new hour -->
 <div id="dlgEvSel" title="Select Event..." style="display:none">
 
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">

@@ -753,6 +753,17 @@ function onChangeStatusClick() {
 	else
 		newStatus = "Rejected";
 	
+	// open the feedback dialog, specifying the new hour status
+	var data = $("#feedbackDlg").data();
+	data.newStatus = newStatus;
+	data.shid = shid;
+	$("#feedbackDlg").dialog("open");
+}
+
+/**
+ * TODO better comments... >:c
+ */
+function onFeedbackSubmit(newStatus, feedbackMsg, shid) {
 
 	// then update the service hour in our db
 	$.ajax({
@@ -760,7 +771,7 @@ function onChangeStatusClick() {
 		url: "/srv/hours/ajax/updateStatus/hour/"+ shid,
 		cache: false,
 		dataType: "json",
-		data: {status: newStatus}
+		data: {status: newStatus, feedback: feedbackMsg}
 	})
 	
 	/*
@@ -790,8 +801,8 @@ function onChangeStatusClick() {
 	.fail(function(jqXHR, textStatus) {
 		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
 	});
-		
-}
+}		
+
 
 
 /* When the DOM is completed loaded and ready, hide the dialogs and
@@ -1051,7 +1062,67 @@ $(document).ready(function() {
 			}]
 	});
 
+	// dialog for providing feedback when approving/rejecting hours
+	$("#feedbackDlg").dialog({
+		autoOpen: false,
+		width: $(window).width() * 0.45,
+		height: $(window).height() * 0.4,
+		modal: true,
+		position: {
+			my: "center top",
+			at: "center top",
+			of: window
+		},
+		open: function(event, ui) {			
+			console.log("open feedback dialog");	
+			
+			var newStatus = $(this).data("newStatus");
+			
+			// reset previous feedback messages upon open
+			$("#feedbackTxtArea").val("");
+			
+			// specify whether the hour was approved or rejected and 
+			// add color to make it 'pop' to the user
+			$("#hrStatusForFeedback").html(newStatus);
+			
+			if (newStatus == 'Approved') 
+				$("#hrStatusForFeedback").css({"color": "#638b19", "font-weight": "bold"}); // green
+			else 
+				$("#hrStatusForFeedback").css({"color": "#a41e34", "font-weight": "bold"}); // red
+			
+		},
+		buttons: [
+			{
+				text: "Submit", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
 
+					console.log("submit on feedback dialog");
+					
+					// get the variables needed to pass to the function to change the hr status
+					var newStatus = $(this).data("newStatus");
+					var feedback = $("#feedbackTxtArea").val();
+					var shid =  $(this).data("shid");
+					
+					console.log("new status: "+ newStatus + " feedback msg: " + feedback + " hr id: " + shid);
+
+					onFeedbackSubmit(newStatus, feedback, shid);
+
+					$(this).dialog("close");
+
+				}
+			},
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					console.log("cancel on feedback dialog");
+					$(this).dialog("close");
+
+				}
+			}]
+	});
 
 	/* 
 	 * Opens delete service hour dialog and passes in the selected delete button's service hour's id

@@ -338,10 +338,11 @@ public class HoursController {
 			log.debug("fetch service hour {}", id);
 			
 			
-			// fetch the data sent from the JavaScript function and verify the fields 
+			// fetch the data sent from the JavaScript function
 			String status = request.getParameter("status");
+			String feedback = request.getParameter("feedback");
 
-			ServiceHours updatedHour = hrSvc.changeStatus(id, status, "");
+			ServiceHours updatedHour = hrSvc.changeStatus(id, status, feedback);
 
 			return new ResponseEntity<>(updatedHour, HttpStatus.OK);
 			
