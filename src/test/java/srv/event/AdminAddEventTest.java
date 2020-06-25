@@ -158,8 +158,10 @@ public class AdminAddEventTest extends SeleniumTest {
 		assertEquals("testedLocation", eventAddress.getAttribute("value"));
 		
 		/*
-		 * 
+		 * inputs date  
 		 */
+		WebElement date = driver.findElement(By.id("evDate"));
+		date.click();
 		/*
 		 * finds the submit button and submits the information
 		 */
