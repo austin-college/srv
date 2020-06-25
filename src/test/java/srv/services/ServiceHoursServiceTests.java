@@ -213,11 +213,9 @@ public class ServiceHoursServiceTests {
 			.setHours(3.5)
 			.setStatus("Pending")
 			.setReflection("test 2 reflection")
-			.setDescription("test 2 description");
+			.setDescription("test 2 description")
+			.setFeedback("");
 		
-		
-
-
 		
 		sh3 = new ServiceHours()
 			.setShid(3)
@@ -961,5 +959,36 @@ public class ServiceHoursServiceTests {
 		Mockito.verify(dao).listByFilter(1, 2, "May", "Approved", "2020");
 	}
 	
-	
+	/** 
+	 * Test to make sure that service returns an updated service hour with 
+	 * status change and feedback.
+	 */
+	@Test
+	public void test_changeStatus() throws Exception {
+		
+		// updated values
+		String newStatus = "Approved";
+		String feedbackMsg = "Good job";
+		int shid = 2;
+		
+		// before the change
+		assertEquals("Pending", sh2.getStatus());
+		assertEquals("", sh2.getFeedback());
+		
+		// change it for our mock
+		sh2.setStatus(newStatus)
+			.setFeedback(feedbackMsg);
+		
+		// Mock dependencies
+		Mockito.doNothing().when(dao).changeHourStatusWithFeedback(shid, newStatus, feedbackMsg);
+		Mockito.when(dao.fetchHoursById(shid)).thenReturn(sh2);
+		ServiceHours updatedHr = shs.changeStatus(shid, newStatus, feedbackMsg);
+
+		assertEquals(newStatus, updatedHr.getStatus());
+		assertEquals(feedbackMsg, updatedHr.getFeedback());
+		assertEquals(2, updatedHr.getShid());
+		
+		// verify that the dao got involved
+		Mockito.verify(dao).changeHourStatusWithFeedback(shid, newStatus, feedbackMsg);
+	}
 }

@@ -1,9 +1,11 @@
 package srv.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
@@ -157,6 +159,7 @@ public class HoursControllerTest {
 				 .setServant(new User().setUid(2))
 				 .setServedPet(sc2)
 				 .setDate(date)
+				 .setFeedback("Good job")
 				 ;
 		 
 		 sh3 = new ServiceHours()
@@ -244,31 +247,71 @@ public class HoursControllerTest {
 		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_eventName' and text()='gds 2020']")).exists())
 		
 		// and that same row should not have a td with a button inside for editing (since hour is approved)
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).exists())
 
 		// and deleting
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).exists())
 
 	
 		// and there's a row in our table that has a hrs_eventName td inside whose text better be 'fws 2020' 
 		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
 
 		// and that same row better have a td with a button inside for editing (since hour is pending)
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]")).doesNotExist())
+		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).doesNotExist())
 
 		// and deleting
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]")).doesNotExist())
+		.andExpect(xpath(dquote("//tr[@id='row2']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).doesNotExist())
 		
 		
 		// and there's a row in our table that has a hrs_eventName td inside whose text better be 'fws 2020' 
 		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
 
 		// and that same row better have a td with a button inside for editing (since hour is rejected)
-		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/button[contains(@class, 'btnHrEdit')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]")).exists())
 
 		// and deleting
-		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/button[contains(@class, 'btnHrDel')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]")).exists())
 
 		;
+	}
+	
+	/**
+	 * Note: must use jsonpath as opposed to xpath since returning an json and
+	 * not html
+	 * 
+	 * Testing the ajax method for changing an hour's status.
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void test_ajaxChangeHourStatus() throws Exception {
+
+		// mocking dependencies
+		Mockito.when(hrSvc.changeStatus(Mockito.anyInt(), Mockito.anyString(), Mockito.anyString())).thenReturn(sh2);
+
+		// ready to test
+		mvc.perform(get("/hours/ajax/updateStatus/hour/2")
+				.param("status", "Approved")
+				.param("feedback", "Good job")
+
+				.contentType(MediaType.APPLICATION_JSON))
+
+		.andExpect(status().isOk())
+
+		// expecting a json object whose event id better be 1
+		.andExpect(jsonPath("$.shid", is(2)))
+
+		// and whose status now better be "Approved"
+		.andExpect(jsonPath("$.status", is("Approved")))
+
+		// and with the feedback message of 'Good job'
+		.andExpect(jsonPath("$.feedback", is("Good job")))
+
+
+		;
+
+
+
+		// verify that the service got involved
+		Mockito.verify(hrSvc).changeStatus(2, "Approved", "Good job");
 	}
 }

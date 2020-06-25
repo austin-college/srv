@@ -151,11 +151,13 @@
 			<table id="hrs_tbl"	class="table table-striped table-bordered table-sm" style="width: 100%">
 				<thead>
 					<tr>
+						<!-- hiding id column for now
 						<th class="th-sm">ID</th>
+						<-->
 						
 						<!-- Display the hour's servant's username only for admins -->
 						<#if userAdmin>
-							<th class="th-sm">Servant's Username</th>
+							<th class="th-sm">Volunteer's Username</th>
 						</#if>
 						
 						<th class="th-sm">Service Event</th>
@@ -163,14 +165,19 @@
 						<th class="th-sm">Date</th>
 						<th class="th-sm">Hours Served</th>
 						<th class="th-sm">Status</th>
+
 						<th class="th-sm">Action</th>
+					
 					</tr>
 				</thead>
 				<tbody id="hrs_tbl_body">
 					<#if hours??>
 					<#list hours as hrs>
 						<tr id="row${hrs.shid?c}">
+						
+							<!-- hiding id column for now
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
+							-->
 							
 							<!-- Display the hour's servant's username only for admins -->
 							<#if userAdmin>
@@ -184,14 +191,44 @@
 							
 							<!-- action buttons: edit/delete -->
 							<td class="hrActions">
-								<#if hrs.status != "Approved">
-									<button type="button" class="btnHrEdit edit btn" onEditClick="${hrs.shid?c}">
-										<i class="fas fa-pencil-alt"></i> 
-									</button>
-				   					<button type="button" class=" btnHrDel del btn" onDelClick="${hrs.shid?c}">
-										<i class="fas fa-trash-alt"></i>  
-									</button>
-								</#if>
+								
+			 					
+			 					<!-- Trigger menu -->
+			 					<div class="dropdown">
+			 					<button id="dropdownMenu" data-toggle="dropdown" data-display="static" data-flip="true" class="btn" 
+			 						aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></button> 
+   					
+   									<!-- Menu options -->
+   									<div class="dropdown-menu" id="ddMenuActions" style="border: 1px solid">
+   									
+   										<!-- Show the Approve/reject for admin/board member users -->
+   										<#if userAdmin || userBm>
+   										
+   											<!-- Hide the 'Approve' buttons for hours that are already approved -->
+   											<#if hrs.status == "Approved">
+   												<a class="dropdown-item btnReject" shid="${hrs.shid?c}"><i class="fas fa-times-circle" style='color:#a41e34'></i>&#xA0;&#xA0;Reject</a>
+   											
+   											<!-- Hide the 'Reject' button for hours that are already rejected -->
+   											<#elseif hrs.status == "Rejected">
+   												<a class="dropdown-item btnApprove" shid="${hrs.shid?c}"><i class="fas fa-check-circle" style='color:#638b19'></i>&#xA0;&#xA0;Approve</a>
+   											
+   											<!-- Show both the 'Approve' and 'Reject' buttons for hours that are pending -->
+   											<#else>
+   												<a class="dropdown-item btnApprove" shid="${hrs.shid?c}"><i class="fas fa-check-circle" style='color:#638b19'></i>&#xA0;&#xA0;Approve</a>
+    											<a class="dropdown-item btnReject" shid="${hrs.shid?c}"><i class="fas fa-times-circle" style='color:#a41e34'></i>&#xA0;&#xA0;Reject</a>
+    										</#if>
+    									</#if>
+    									
+    									<!-- Only show edit, delete buttons for hours that are not approved -->
+    									<#if hrs.status != "Approved">
+    										<a class="dropdown-item btnHrEdit" onEditClick="${hrs.shid?c}"><i class="fas fa-pencil-alt" style='color:#db9401'></i>&#xA0;&#xA0;Edit</a>
+    										<a class="dropdown-item btnHrView" onRowClick="${hrs.shid?c}"><i class="fas fa-search" style='color:#427dc6'></i>&#xA0;&#xA0;View</a>
+    										<a class="dropdown-item btnHrDel" onDelClick="${hrs.shid?c}"><i class="fas fa-trash-alt" style='color:#a41e34'></i>&#xA0;&#xA0;Delete</a>
+    									<#else>
+    									    <a class="dropdown-item btnHrView" onRowClick="${hrs.shid?c}"><i class="fas fa-search" style='color:#427dc6'></i>&#xA0;&#xA0;View</a>
+    									</#if>
+  									</div>
+  									</div>								
 							</td>
 						</tr>
 					</#list>
@@ -238,6 +275,21 @@
 	<#include "/hours/editHours.html"/>
 </div>
 
+<!-- dialog for providing feedback when approving/rejecting hours -->
+<div id="feedbackDlg" title="Provide Feedback" style="display:none">
+	<div class="row">
+		<div class="col">
+			<p> Provide feedback as to why the hour was 
+			<span id="hrStatusForFeedback"></span>. Otherwise, press 'Submit'.</p>
+		</div>
+	</div>
+	<div class="row" style="padding-left:15px">
+		<textarea id="feedbackTxtArea" style="width: 95%; height:100px" placeholder="No feedback"></textarea>
+	</div>
+</div>
+
+
+<!-- dialog for selecting an event when adding new hour -->
 <div id="dlgEvSel" title="Select Event..." style="display:none">
 
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
