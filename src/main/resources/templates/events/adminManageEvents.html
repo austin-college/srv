@@ -142,7 +142,7 @@
 			<select style="width:235px;" onclick='alert("Feature is not functional yet");'>
 				<option value='0'>List All</option>
 				<#list users as bm>
-				<option value='${bm.uid}'>${bm.contactInfo.firstName} ${bm.contactInfo.lastName}</option>
+				<option value='${bm.uid}'>${bm.contactInfo.fullName()}</option>
 				</#list>
 
 			</select>
