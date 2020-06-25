@@ -98,7 +98,7 @@ public class ServiceHoursService {
 	 * @param id
 	 * @throws Exception
 	 */
-	public ServiceHours  changeStatus(int shid, String status, String feedback) throws Exception {
+	public ServiceHours changeStatus(int shid, String status, String feedback) throws Exception {
 		
 		sHoursDao.changeHourStatusWithFeedback(shid, status, feedback);
 		
