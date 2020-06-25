@@ -38,14 +38,13 @@ thead th {
 	text-align: center;
 }
 /* Style settings for the delete buttons.*/
-.del{
+.btnScDel{
 	background-color: #a41e34;
 	color: white;
 	text-align: center;
 }
 /* Style settings for the delete organization dialog */
-#delDlg{
-	text-align: center;
+#deleteDlg{
 	font-weight: bold;
 }
 

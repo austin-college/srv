@@ -5,11 +5,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,15 +41,17 @@ import srv.utils.UserUtil;
 @EnableWebSecurity
 @Secured({ "ROLE_BOARDMEMBER", "ROLE_ADMIN"})
 public class ServiceClientController {
+	
+	private static Logger log = LoggerFactory.getLogger(EventController.class);
 
 	@Autowired
-	ServiceClientDao dao;
+	ServiceClientDao srvClientDao;
 	
 	@Autowired
-	ContactDao cDao;
+	ContactDao contactDao;
 	
 	@Autowired
-	UserDao uDao;
+	UserDao userDao;
 	
 	@Autowired
 	UserUtil userUtil;
@@ -52,23 +59,23 @@ public class ServiceClientController {
 	/*
 	 * Presents the current list of service clients in a table
 	 */
-	@GetMapping("/sc/list")
+	@GetMapping("/sc")
 	public ModelAndView listAction(HttpServletRequest request, HttpServletResponse response) { 
 		
-		ModelAndView mav = new ModelAndView("serviceclients/listClients"); 
+		ModelAndView mav = new ModelAndView("serviceclients/manageServiceClients"); 
 
 		try {
 			
 			// Lists the current service clients in the service client database in a table
-			List<ServiceClient> myClients = dao.listAll();
+			List<ServiceClient> myClients = srvClientDao.listAll();
 			mav.addObject("clients", myClients);
 			
 			// Lists the current users in the user database in a drop down menu in the add and edit service client dialogs for selecting a current board member
-			List<User> users = uDao.listAll();
+			List<User> users = userDao.listAll();
 			mav.addObject("users", users);
 			
 			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
-			List<Contact> contacts = cDao.listAll();			
+			List<Contact> contacts = contactDao.listAll();			
 			mav.addObject("contacts", contacts);
 			
 			// Checks to see if the current user is an admin, if so displays the add, edit, and delete buttons of the service client list
@@ -77,10 +84,6 @@ public class ServiceClientController {
 
 		} catch (Exception e) {
 
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -88,45 +91,28 @@ public class ServiceClientController {
 	}
 	
 	/**
-	 *  Ajax action that renders a new page removing the selected service client from the table.
+	 *  When the user needs to delete a service client, this controller action will
+	 *  handle the request. 
+	 *  
+	 *  Note: we are using the DELETE HTTP method and embedding the item id as 
+	 *  part of the URL (not a query parameter).
 	 * 
-	 * TODO this should return a string where if successful (found the id) returns "okay" and
-	 * if unsuccessful returns "error" with error message explaining why. The corresponding jquery callback
-	 * method in listClients.js in the delClient function should handle when an exception is thrown. It is not returning
-	 * a string as of now because upon trying to delete I get a 404 not found error.
-	 * 
-	 * @param request
-	 * @param response
-	 * @return MAV of the deleted service client row of the table
+	 * @param id
+	 * @return 
 	 */
-	@PostMapping("/ajax/delSc")
-	public ModelAndView ajaxServiceClientDelete(HttpServletRequest request, HttpServletResponse response) {
-
-		response.setContentType("text/html");
-		//response.setContentType("text/text"); will tell the js that we are expecting text back
-
-		int id = Integer.parseInt(request.getParameter("ID")); 
-
-		/*
-		 * Prepare and render the response of the template's model for the HTTP response
-		 */
-		ModelAndView mav = new ModelAndView("/serviceclients/ajax_delServiceClient");
+	@PostMapping(value="/sc/ajax/del/{id}")
+	public ResponseEntity<Integer> ajaxDeleteServiceClient(@PathVariable Integer id) {
 
 		try {
 
-			dao.delete(id);   
-			mav.addObject("scid", id);
+			log.debug("deleting service client {}", id);
 
-			//  return "Okay";	
+			srvClientDao.delete(id);   
+		    return new ResponseEntity<>(id, HttpStatus.OK);		
 
 		} catch (Exception e) {
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			//	   return "Error" + e.getMessage();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
-		return mav;
 
 	}
 
@@ -171,7 +157,7 @@ public class ServiceClientController {
 			
 			// Creates a new service client in the service client database. Then we hold onto a
 			// handle of the newly created service client to aid with preparing the MAV response.
-			ServiceClient newClient = dao.create(clientName, cid1, cid2, bmId, category); 
+			ServiceClient newClient = srvClientDao.create(clientName, cid1, cid2, bmId, category); 
 			
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
@@ -222,10 +208,10 @@ public class ServiceClientController {
 		try {
 			
 			// Updates the service client in the service client database.
-			dao.update(id, clientName, cid1, cid2, bmId, category);
+			srvClientDao.update(id, clientName, cid1, cid2, bmId, category);
 			
 			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
-			ServiceClient updatedClient = dao.fetchClientById(id);
+			ServiceClient updatedClient = srvClientDao.fetchClientById(id);
 
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", updatedClient.getScid());
@@ -275,7 +261,7 @@ public class ServiceClientController {
 		try {
 
 			// Fetches the selected service client from the database
-			ServiceClient selectedClient = dao.fetchClientById(id);
+			ServiceClient selectedClient = srvClientDao.fetchClientById(id);
 
 			// Adds the selected service client's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the fields in the dialog box in listClients.html
@@ -345,7 +331,7 @@ public class ServiceClientController {
 		try {
 			
 			// Fetches the selected contact from the contact database
-			Contact selectedCon = cDao.fetchContactById(id);
+			Contact selectedCon = contactDao.fetchContactById(id);
 			
 			// Adds the selected contact's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the main contact fields in the add dialog box in listClients.html
@@ -400,7 +386,7 @@ public class ServiceClientController {
 		try {
 			
 			// Fetches the selected contact from the contact database
-			Contact selectedCon = cDao.fetchContactById(id);
+			Contact selectedCon = contactDao.fetchContactById(id);
 			
 			// Adds the selected contact's information to an html snippet so that we can access it
 			// in listClients.js in order to populate the other/secondary contact fields in the add dialog box in listClients.html
@@ -439,7 +425,7 @@ public class ServiceClientController {
    
 		   try {
 			   
-			List<ServiceClient> myClients = dao.listAll();
+			List<ServiceClient> myClients = srvClientDao.listAll();
 
 			mav.addObject("clients", myClients);
 			

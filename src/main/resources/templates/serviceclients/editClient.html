@@ -1,0 +1,177 @@
+<!-- The user is free to update the service client's name, board member, and category along with the contact ID. The contact 
+	information for the service client is assuming that the contact is already in the contact database. Thus, the user can select the
+	desired contact ID which then pre-populates the contact information field from that contact but the user does
+	not have the ability to change it (such as contact name, phone, etc) -->
+<div class="container">
+	<div class="row">
+		<div class='form-group'>
+			<div class="container-fluid">
+				<p class="validationTips"></p>
+					<div class='form-row' style='padding-bottom:15px'>
+						<div class='col-sm-4'>
+							<label for="editDlg_name"><b>Name of Service Client</b></label>
+						</div>
+						<div class='col-sm-6'>
+							<#if userAdmin>
+								<input id="editDlg_name" class="form-control" size=50>
+							<#else>
+								<input id="editDlg_name" class="form-control" size=50 readonly="readonly"/>
+							</#if>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class='col-sm-4'>
+							<label for="editDlg_bmName"><b>Board Member</b></label>
+						</div>
+						<div class="form-group col-sm-6">
+							<#if userAdmin>
+								<select id="editDlg_bmName" class='form-control'>
+									<#list users as bm>
+										<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+									</#list>
+								</select>
+							<#else>
+								<select id="editDlg_bmName" class='form-control' disabled>
+									<#list users as bm>
+										<option value="${bm.uid}">${bm.contactInfo.firstName!"UNKNOWN"} ${bm.contactInfo.lastName!"UNKNOWN"}</option>
+									</#list>
+								</select>
+							 </#if>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class='col-sm-4'>
+							<label for="editDlg_cat"><b>Category</b></label>
+						</div>
+						<div class="form-group col-md-6">
+							<#if userAdmin>
+								<select	id="editDlg_cat" class="form-control">
+									<option value="Animals">Animals</option>
+									<option value="Community">Community</option>
+									<option value="Education">Education</option>
+									<option value="Seniors">Seniors</option>
+									<option value="Medical">Medical</option>
+									<option value="Crisis Support">Crisis Support</option>
+									<option value="Variety">Variety</option>
+								</select>
+							<#else>
+								 <input	class="form-control" id="editDlg_cat" readonly="readonly"/>
+							</#if>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<h5><b>Primary Contact Information</b></h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class='form-row'>
+						<div class='col-sm-3'>
+							<label for="editDlg_mcID"><b>Select Contact ID</b></label>
+						</div>
+						<div class='col-sm-2'>
+							<select id="editDlg_mcID" class='form-control mcRow'>
+								<#list contacts as con>
+									<option>${con.contactId?c}</option>
+								</#list>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="editDlg_mcName"><b>Name</b></label> 
+							<input class="form-control" id="editDlg_mcName" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="editDlg_mcEmail"><b>Email</b></label> 
+							<input class="form-control" id="editDlg_mcEmail" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="editDlg_mcWorkPhone"><b>Phone Number (Work)</b></label> 
+							<input class="form-control" id="editDlg_mcWorkPhone" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="editDlg_mcMobilePhone"><b>Phone Number (Mobile)</b></label> 
+							<input class="form-control" id="editDlg_mcMobilePhone" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="editDlg_mcStreet"><b>Address</b></label> 
+						<input class="form-control" id="editDlg_mcStreet" readonly="readonly"/>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="editDlg_mcCity"><b>City</b></label> 
+							<input class="form-control" id="editDlg_mcCity" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="editDlg_mcState"><b>State</b></label> 
+							<input id="editDlg_mcState" class="form-control" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="editDlg_mcZip"><b>Zip</b></label> 
+							<input class="form-control" id="editDlg_mcZip" readonly="readonly"/>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<h5><b>Secondary Contact Information</b></h5>
+							<hr class=".col-md-11-auto">
+						</div>
+					</div>
+					<div class='form-row'>
+						<div class='col-sm-3'>
+							<label for="editDlg_ocID"><b>Select Contact ID</b></label>
+						</div>
+						<div class='col-sm-2'>
+							<select id="editDlg_ocID" class='form-control ocRow'>
+								<#list contacts as con>
+									<option>${con.contactId?c}</option>
+								</#list>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="editDlg_ocName"><b>Name</b></label> 
+							<input class="form-control" id="editDlg_ocName" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="editDlg_ocEmail"><b>Email</b></label> 
+							<input class="form-control" id="editDlg_ocEmail" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="editDlg_ocWorkPhone"><b>Phone Number (Work)</b></label> 
+							<input class="form-control" id="editDlg_ocWorkPhone" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="editDlg_ocMobilePhone"><b>Phone Number (Mobile)</b></label> 
+							<input class="form-control" id="editDlg_ocMobilePhone" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="editDlg_ocStreet"><b>Address</b></label> 
+						<input class="form-control" id="editDlg_ocStreet" readonly="readonly"/>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="editDlg_ocCity"><b>City</b></label> 
+							<input class="form-control" id="editDlg_ocCity" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="editDlg_ocState"><b>State</b></label> 
+							<input id="editDlg_ocState" class="form-control" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="editDlg_ocZip"><b>Zip</b></label> 
+							<input class="form-control" id="editDlg_ocZip" readonly="readonly"/>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>

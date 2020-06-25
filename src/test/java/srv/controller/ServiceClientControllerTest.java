@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -42,23 +43,142 @@ public class ServiceClientControllerTest {
 	private MockMvc mvc;
 
 	@MockBean
-	private ServiceClientDao dao;
+	private ServiceClientDao mockSrvClientDao;
 
 	@MockBean
-	private ContactDao cDao;
-	
+	private ContactDao mockConDao;
+
 	@MockBean
-	private UserDao uDao;
-	
+	private UserDao mockUserDao;
+
 	@MockBean
-	private UserUtil userUtil;
+	private UserUtil mockUserUtil;
+
+	// handy objects for these tests
+	private List<ServiceClient> testClients = new ArrayList<ServiceClient>();
+
+	private ServiceClient sc1;
+	private ServiceClient sc2;
+
+	/**
+	 * Called before each an every test in order to have sufficient
+	 * data for this series of tests.   We make a couple of typical
+	 * service clients, a couple of typical contacts.  
+	 * 
+	 */
+	@Before
+	public void setupTestFixture() {
+
+		Contact con1 = new Contact()
+				.setFirstName("Joe")
+				.setLastName("Smith")
+				.setContactId(1)
+				.setPhoneNumMobile("111-222-3333")
+				.setPhoneNumWork("444-555-6666")
+				.setStreet("119 Main St")
+				.setCity("Sherman")
+				.setState("TX")
+				.setEmail("jsmith19@austincollege.edu")
+				.setZipcode("75090")
+				;
+
+		Contact con2 = new Contact()
+				.setFirstName("Tina")
+				.setLastName("Franklin")
+				.setContactId(2)
+				.setPhoneNumMobile("900-900-9003")
+				.setPhoneNumWork("800-800-8003")
+				.setStreet("120 First St")
+				.setCity("Sherman")
+				.setState("TX")
+				.setEmail("tfrankline19@austincollege.edu")
+				.setZipcode("75090")
+				;
+
+		sc1 = new ServiceClient()
+				.setClientId(1)
+				.setName("Habitat for Humanity")
+				.setCategory("Community")
+				.setMainContact(con1)
+				.setOtherContact(con2)
+				;
+
+		sc2 = new ServiceClient()
+				.setClientId(2)
+				.setName("Meals on Wheels")
+				.setCategory("Seniors")
+				.setMainContact(con2)
+				.setOtherContact(con1)
+				;		
+
+		testClients.add(sc1);
+		testClients.add(sc2);
+
+	}
+
+	/**
+	 * Test how our controller responds when deleting a
+	 * service client
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxDeleteServiceClientTest_whenClientExists() throws Exception {
+
+		// for this test, our dao will pretend to delete
+		Mockito.doNothing().when(mockSrvClientDao).delete(1);
+
+		mvc.perform(post("/sc/ajax/del/1")
+
+				.contentType(MediaType.TEXT_HTML))
+
+		.andExpect(status().isOk())
+
+		// it should have the client's id
+		.andExpect(content().string(containsString("1")))
+		
+		;
+
+        // did the mock object get tickled appropriately
+		Mockito.verify(mockSrvClientDao).delete(1);
+
+	}
 	
+	/**
+	 * Test how our controller responds when an exception is thrown
+	 * when deleting a service client.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+    @WithMockUser(username = "admin", password = "admin")
+    public void ajaxDeleteServiceClientTest_whenClientMissing() throws Exception {
+        
+		// for this test, our service will throw an exception like we might
+		// see if the database could not delete
+		Mockito.doThrow(Exception.class) .when(mockSrvClientDao).delete(1);
+				
+		 
+		// let's test....
+         mvc.perform(post("/sc/ajax/del/1")
+        		 
+                  .contentType(MediaType.TEXT_HTML))
+        
+                  .andExpect(status().is4xxClientError())
+                  ;
+
+                  
+         // did the mock object get tickled appropriately
+         Mockito.verify(mockSrvClientDao).delete(1);
+       
+    }
 
 	@Test
 	@WithMockUser(username = "admin", password = "admin")
 	public void basicHtmlPageTest() throws Exception {
 
-		when(userUtil.userIsAdmin()).thenReturn(true);
+		when(mockUserUtil.userIsAdmin()).thenReturn(true);
 		
 		// Create dependencies
 		
@@ -110,7 +230,7 @@ public class ServiceClientControllerTest {
 		dummyList.add(sc1);
 		dummyList.add(sc2);
 
-		Mockito.when(dao.listAll()).thenReturn(dummyList);
+		Mockito.when(mockSrvClientDao.listAll()).thenReturn(dummyList);
 
 		// now perform the test 
 
@@ -128,7 +248,7 @@ public class ServiceClientControllerTest {
     @WithMockUser(username = "admin", password = "admin")
     public void ajaxAddServiceClientTest() throws Exception {
 
-         when(userUtil.userIsAdmin()).thenReturn(true);
+         when(mockUserUtil.userIsAdmin()).thenReturn(true);
                  
          /*
          * prepare dummy client obj
@@ -145,7 +265,7 @@ public class ServiceClientControllerTest {
                  
          // when the controller asks the dao to create a client in the database, we 
          // fake it and use our dummy client above (sc1)
-         Mockito.when(dao.create(clientName, cid1, -1, cid1, category)).thenReturn(sc1);
+         Mockito.when(mockSrvClientDao.create(clientName, cid1, -1, cid1, category)).thenReturn(sc1);
  
          // now perform the test...pretend that jquery sends in the parameters for a new
          // client...  Our mock dao is trained to return a dummy service client (above)
@@ -170,44 +290,6 @@ public class ServiceClientControllerTest {
                   // other expectations here...
                  .andExpect(content().string(containsString(category)));
     }
-	
-	@Test
-    @WithMockUser(username = "admin", password = "admin")
-    public void ajaxDeleteServiceClientTest() throws Exception {
-        
-         when(userUtil.userIsAdmin()).thenReturn(true);
-        
-         /*
-         * prepare dummy client obj
-         */
-         String clientName = "Habitat for Humanity";
-         int cid1 = 1; 
-         String category = "Community";
-        
-         ServiceClient sc1 = new ServiceClient()
-                  .setClientId(cid1)
-                  .setName(clientName)
-                  .setCategory(category);
-
-        
-         // when the controller asks the dao to create a client in the database, we 
-         // fake it and use our dummy client above (sc1)
-         Mockito.when(dao.create(clientName, cid1, -1, cid1, category) ).thenReturn(sc1);
-         
-
-         //For now we are going to delete the Service Client we just added
-         //In the future for more robust testing we need to delete
-         //an already there Service Client        
-         mvc.perform(post("/ajax/delSc")
-                  .param("ID", String.valueOf(cid1))
-                 
-                  .contentType(MediaType.TEXT_HTML))
-        
-                  .andExpect(status().isOk())
-
-  				  .andExpect(content().string(containsString("1 was deleted")));
-    }
-	
 	
 	
 
