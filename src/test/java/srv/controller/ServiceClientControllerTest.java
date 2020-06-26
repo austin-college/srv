@@ -83,8 +83,11 @@ public class ServiceClientControllerTest {
 		
 		bm1 = new User()
 				.setUid(1)
+				.setContactInfo(new Contact()
+						.setFirstName("Randy")
+						.setLastName("Jackson"))
 				;
-		
+
 		bm2 = new User()
 				.setUid(2)
 				.setContactInfo(new Contact()
@@ -316,6 +319,64 @@ public class ServiceClientControllerTest {
        
     }
 
+	/**
+	 * Make sure the controller is creating a new service client when asked.
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxCreateServiceClientTest() throws Exception {
+
+		// prepare dummy service client obj
+		String name = "Meals on Wheels";
+		int scid3 = 3;
+		String category = "Seniors";
+		int cid1 = 1;
+		int cid2 = 2;
+		int bmId = 1;
+
+		ServiceClient sc3 = new ServiceClient()
+				.setName(name)
+				.setClientId(scid3)
+				.setCategory(category)
+				.setMainContact(con1)
+				.setOtherContact(con2)
+				.setCurrentBoardMember(bm1);
+
+		// when the controller asks the dao to create a service client in the database, we fake it and use our
+		// dummy service client above (sc3)
+		Mockito.when(mockSrvClientDao.create(name, cid1, cid2, bmId, category)).thenReturn(sc3);
+
+		// now perform the test and pretend that jquery sends in the parameters to create 
+		// the service client
+		mvc.perform(post("/sc/ajax/addSc")
+				.param("name", name)
+				.param("cat", category)
+				.param("cid1", String.valueOf(cid1))
+				.param("cid2", String.valueOf(cid2))
+				.param("bmId", String.valueOf(bmId))
+
+				.contentType(MediaType.TEXT_HTML))
+
+		.andExpect(status().isOk())
+
+		// there's a row in our table that has a name/title td inside whose text better be 'Meals on Wheels' 
+		.andExpect(xpath(dquote("//tr[@id='scid-3']/td[@name='sc_title' and text()='Meals on Wheels']")).exists())
+
+		// and there's a row in our table that has a main contact name td inside whose text better be 'Joe Smith' 
+		.andExpect(xpath(dquote("//tr[@id='scid-3']/td[@name='sc_contact_name' and text()='Joe Smith']")).exists())
+
+		// and there's a row in our table that has a board member name td inside whose text better be 'Randy Jackson' 
+		.andExpect(xpath(dquote("//tr[@id='scid-3']/td[@name='sc_bm_name' and text()='Randy Jackson']")).exists())
+
+		// and there's a row in our table that has a category td inside whose text better be 'Seniors'
+		.andExpect(xpath(dquote("//tr[@id='scid-3']/td[@name='sc_category' and text()='Seniors']")).exists())
+		;
+		
+		// verify that the dao got involved
+		Mockito.verify(mockSrvClientDao).create(name, cid1, cid2, bmId, category);
+	}
+	
 	@Test
 	@WithMockUser(username = "admin", password = "admin")
 	public void basicHtmlPageTest() throws Exception {
@@ -383,56 +444,5 @@ public class ServiceClientControllerTest {
 						.string(containsString("<li id=\"row_2\"> 2, Crisis Center, Lois Lane, Joe Smith, eDriscoll, Crisis Support</li>")));
 
 	}
-	
-	
-	//credit to Professor Higgs here for this test
-	@Test
-    @WithMockUser(username = "admin", password = "admin")
-    public void ajaxAddServiceClientTest() throws Exception {
-
-         when(mockUserUtil.userIsAdmin()).thenReturn(true);
-                 
-         /*
-         * prepare dummy client obj
-         */
-         String clientName = "Habitat for Humanity";
-         int cid1 = 1; 
-         String category = "Community";
-        
-         ServiceClient sc1 = new ServiceClient()
-                  .setClientId(cid1)
-                  .setName(clientName)
-                  .setCategory(category);
-        
-                 
-         // when the controller asks the dao to create a client in the database, we 
-         // fake it and use our dummy client above (sc1)
-         Mockito.when(mockSrvClientDao.create(clientName, cid1, -1, cid1, category)).thenReturn(sc1);
- 
-         // now perform the test...pretend that jquery sends in the parameters for a new
-         // client...  Our mock dao is trained to return a dummy service client (above)
-         // we should see an HTML table row return.
-         mvc.perform(post("/ajax/addSc")
-                  .param("clientName", clientName)
-                  .param("mcID", String.valueOf(cid1))
-                  .param("ocID", String.valueOf("-1"))
-                  .param("bmID", String.valueOf(cid1))
-                  .param("cat", category)
-                 
-                  .contentType(MediaType.TEXT_HTML))
-        
-                  .andExpect(status().isOk())
-                 
-                  // it should be a table row tagged with right id.
-                  .andExpect(content().string(containsString("<tr id=\"scid-1\">")))
-                 
-                  // it should have the client's name
-                  .andExpect(content().string(containsString(clientName)))
-                 
-                  // other expectations here...
-                 .andExpect(content().string(containsString(category)));
-    }
-	
-	
 
 }

@@ -185,7 +185,6 @@ public class EventTypeControllerTest {
 	@WithMockUser(username = "admin", password = "admin")
 	public void testAjaxNewEvent() throws Exception {
 
-
 		/*
 		 * prepare dummy event type obj
 		 */
@@ -206,7 +205,7 @@ public class EventTypeControllerTest {
 						.setClientId(3)
 						.setName("A Sponsor Name"));
 
-		// when the controller asks the dao to create an event ytpe in the database, we fake it and use our
+		// when the controller asks the dao to create an event type in the database, we fake it and use our
 		// dummy event type above (et3)
 		Mockito.when(mockEtDao.create(etName, descr, defHrs, pinHrs, scid)).thenReturn(et3);
 

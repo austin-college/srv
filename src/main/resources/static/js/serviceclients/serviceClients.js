@@ -1,38 +1,51 @@
 /**
-// * The following function verifies that none of the add service client or edit service
-// * clients dialogs have empty fields.
-// * 
-// * @param client_name
-// * @returns
-// */
-//function checkForEmptyFields(client_name) {
-//
-//	var valid = true;
-//	var msg = "Please complete the selected fields."; // Error message
-//	var counter = 0; // For the invalid message/effect not to occur several times.
-//
-//	/*
-//	 * Removes previous error messages on the fields for the add service client dialog.
-//	 */
-//	$("#addDlg_name").removeClass("is-invalid");
-//
-//	/*
-//	 * Removes previous error messages on the fields for the edit service client dialog.
-//	 */
-//	$("#editDlg_name").removeClass("is-invalid");
-//
-//	// Checks to see if the service client's name field is empty.
-//	if (!$(client_name).val()) {
-//		$(client_name).addClass("is-invalid");
-//		if(counter == 0) {
-//			counter++;
-//			updateTips(msg);
-//		}
-//		valid = false;
-//	}
-//
-//	return valid;
-//}
+ * The following function verifies that none of the add service client or edit service
+ * clients dialogs have empty fields.
+ * 
+ * @param client_name
+ * @returns
+ */
+function checkForEmptyFields(client_name) {
+
+	var valid = true;
+	var msg = "Please complete the selected fields."; // Error message
+	var counter = 0; // For the invalid message/effect not to occur several times.
+
+	/*
+	 * Removes previous error messages on the fields for the add service client dialog.
+	 */
+	$("#addDlg_name").removeClass("is-invalid");
+
+	/*
+	 * Removes previous error messages on the fields for the edit service client dialog.
+	 */
+	$("#editDlg_name").removeClass("is-invalid");
+
+	// Checks to see if the service client's name field is empty.
+	if (!$(client_name).val()) {
+		$(client_name).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+
+	return valid;
+}
+
+/**
+ * The following function replaces a HTML paragraph's text with error
+ * messages to the user on the invalid fields in the add service client and
+ * edit service client dialogs.
+ * 
+ * @param msg
+ * @returns
+ */
+function updateTips(msg) {
+	$(".ui-dialog").effect("shake");
+	$(".validationTips").text(msg).addClass("alert alert-danger");
+}
 
 /**
  * Launch the action for deleting given the service client id. Present a dialog
@@ -257,63 +270,69 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, other
 	 */
 	.fail(function(jqXHR, textStatus) {
 		alert("Error");
-//		updateTips(jqXHR.responseText);
+		updateTips(jqXHR.responseText);
 	});
 }
 
 /**
- * Updates an existing service client in the table with the new values. The parameters follow the update method
- * in the ServiceClientDao except that the main contact's name is also passed in, in order to update the table 
- * immediately (upon a successful response). 
- * 
- * @param client_id
- * @param client_name
- * @param mc_ID
- * @param oc_ID
- * @param mc_name
- * @param bm_ID
- * @param bm_Name
- * @param client_cat
+ * opens the dialog to create a new service client
  * @returns
  */
-//function editClient(client_id, client_name, mc_ID, oc_ID, bm_ID, client_cat, mc_name, bm_name) {
-//
-//	// Harvests the information (id, service client's name, and category) from the edit dialog form
-//	var idStr = client_id;
-//	var nameStr  = $(client_name).val();
-//	var catStr = $(client_cat).val();
-//
-//	$.ajax({
-//		method: "POST",
-//		url: "/srv/ajax/editSc",
-//		cache: false,
-//		data: {ID: idStr, clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmID: bm_ID, cat: catStr},
-//		/*
-//		 * If successful then update the selected service client 
-//		 * with the new values.
-//		 */
-//		success: function(data) {
-//			console.log("updated client");
-//			
-//			console.log($(mc_name).val()); // Verifies the new service client's main contact's name
-//			console.log(bm_name);
-//
-//			// Updates the edited service client's row with the new values
-//			$("#scid-" + client_id + " td[name ='sc_title']").html($(client_name).val());
-//			$("#scid-" + client_id + " td[name ='sc_contact_name']").html($(mc_name).val());
-//			$("#scid-" + client_id + " td[name ='sc_bm_name']").html(bm_name);
-//			$("#scid-" + client_id + " td[name ='sc_category']").html($(client_cat).val());
-//			
-//		},
-//		/*
-//		 * If unsuccessful, display error message and reasoning.
-//		 */
-//		error: function(jqXHR, textStatus) {
-//			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-//		}
-//	});
-//}
-//
+function onNewClick() {
+	$("#addDlg").dialog("open");
+}
+
+/**
+ * Makes the request back to our server to create the new service client
+ * whose new params/values we extractd from the add dialog
+ */
+function ajaxCreateClientNow(srvClientNameField, mainContactId, otherContactId, boardMemberId, categoryField) {
+	
+	// get the forms values as strings
+	var srvClientNameStr = $(srvClientNameField).val();
+	var categoryStr = $(categoryField).val();
+
+	// peek at values to verify
+	console.log("main contact id: " + mainContactId + " other contact id: " + otherContactId + 
+			" board mem id: " + boardMemberId + " name: " + srvClientNameStr + " category: " + categoryStr);
+	$.ajax({
+		method: "POST",
+		url: "/srv/sc/ajax/addSc",
+		cache: false,
+		data: {name: srvClientNameStr, cid1: mainContactId, cid2: otherContactId, bmId: boardMemberId, cat: categoryStr},
+	})
+	/*
+	 * If successful then add the service client to the list with the new values.
+	 */
+	.done(function(sc) {
+		console.log("added service client");
+		console.log(sc);
+
+		var id = $(sc)[2]; // Obtains the new service client's ID from the AJAX response
+
+		console.log(id); // Verifies the  ID
+
+		$('#sc_tbl_body').append(id); // Appends the new service client row to the table
+
+		// Appends the buttons and their functionality to the new service client
+		$(".btnScDel").click(onDeleteClick);
+
+		$(".btnScView, .scRow").click(onViewClick);
+
+		$(".btnScEdit").click(onEditClick);
+		
+		$("#addDlg").dialog("close");
+
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+
+}
 ///**
 // * Add a new service client to the service client table. The parameters correspond with the
 // * create method of the ServiceClientDao.
@@ -372,124 +391,7 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, other
 //		}
 //	});	
 //}
-//
-///**
-// * When a row is selected on in the service client's table, the scInfoDlg takes us to this
-// * function in order to make an AJAX call to the ServiceClientController. That way, from the
-// * ServiceClientController we can access the ServiceClientDao to access the ServiceClient database
-// * in order to obtain the information about the selected service client's contact information as this
-// * is not displayed in the table. We obtain the information from the AJAX call by the ajax_scInfo.html which
-// * contains the selected service client's information. Note this also does the same thing for the editDlg
-// * 
-// * @param client_id
-// * @returns
-// */
-//function scInfo(client_id) {
-//
-//	var idStr = client_id; // Selected client's ID
-//
-//	$.ajax({
-//		method: "GET",
-//		url: "/srv/ajax/infoSc",
-//		cache: false,
-//		data: {ID: idStr},
-//		/*
-//		 * If successful then populate the scInfoDlg with the selected service client's values 
-//		 */
-//		success: function(data) {
-//
-//			console.log("client info");
-//			console.log(data);
-//			/*
-//			 * In order to obtain the information passed back from the AJAX call, we have to 
-//			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
-//			 * the text in ajax_scInfo.html. There is probably a better way to do this, hopefully by selecting
-//			 * a div's unique ID and so the ajax_scInfo.html has divs for this future change.
-//			 */
-//			var setClientName = $(data)[0].innerText;
-//			var setBmID =  $(data)[2].innerText.trim(); 
-//			var setCat = $(data)[4].innerText.trim();
-//			var setMcName = $(data)[6].innerText;
-//			var setMcEmail = $(data)[8].innerText;
-//			var setMcWorkPhone = $(data)[10].innerText;
-//			var setMcMobilePhone = $(data)[12].innerText;
-//			var setMcStreet = $(data)[14].innerText;
-//			var setMcCity = $(data)[16].innerText;
-//			var setMcState = $(data)[18].innerText;
-//			var setMcZip = $(data)[20].innerText;
-//			var setOcName = $(data)[22].innerText;
-//			var setOcEmail = $(data)[24].innerText;
-//			var setOcWorkPhone = $(data)[26].innerText;
-//			var setOcMobilePhone = $(data)[28].innerText;
-//			var setOcStreet = $(data)[30].innerText;
-//			var setOcCity = $(data)[32].innerText;
-//			var setOcState = $(data)[34].innerText;
-//			var setOcZip = $(data)[36].innerText;
-//			var setMcID = $(data)[38].innerText.trim();
-//			var setOcID = $(data)[40].innerText.trim();
-//			var setBmName = $(data)[42].innerText.trim();
-//	
-//			/*
-//			 * From the values above, we can set the input fields within the scInfoDlg (in listClients.html)
-//			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
-//			 */
-//			$("#scInfoDlg_name").val(setClientName);
-//			$("#scInfoDlg_bmName").val(setBmName);
-//			$("#scInfoDlg_cat").val(setCat);
-//			$("#scInfoDlg_mcName").val(setMcName);
-//			$("#scInfoDlg_mcEmail").val(setMcEmail);
-//			$("#scInfoDlg_mcWorkPhone").val(setMcWorkPhone);
-//			$("#scInfoDlg_mcMobilePhone").val(setMcMobilePhone);
-//			$("#scInfoDlg_mcStreet").val(setMcStreet);
-//			$("#scInfoDlg_mcCity").val(setMcCity);
-//			$("#scInfoDlg_mcState").val(setMcState);
-//			$("#scInfoDlg_mcZip").val(setMcZip);
-//			$("#scInfoDlg_ocName").val(setOcName);
-//			$("#scInfoDlg_ocEmail").val(setOcEmail);
-//			$("#scInfoDlg_ocWorkPhone").val(setOcWorkPhone);
-//			$("#scInfoDlg_ocMobilePhone").val(setOcMobilePhone);
-//			$("#scInfoDlg_ocStreet").val(setOcStreet);
-//			$("#scInfoDlg_ocCity").val(setOcCity);
-//			$("#scInfoDlg_ocState").val(setOcState);
-//			$("#scInfoDlg_ocZip").val(setOcZip);
-//			$("#scInfoDlg_mcID").val(setMcID);
-//			$("#scInfoDlg_ocID").val(setOcID);
-//			
-//			/*
-//			 * From the values above, we can set the input fields within the editDlg (in listClients.html)
-//			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
-//			 */
-//			$("#editDlg_name").val(setClientName);
-//			$("#editDlg_bmName").val(setBmID);
-//			$("#editDlg_cat").val(setCat);
-//			$("#editDlg_mcName").val(setMcName);
-//			$("#editDlg_mcEmail").val(setMcEmail);
-//			$("#editDlg_mcWorkPhone").val(setMcWorkPhone);
-//			$("#editDlg_mcMobilePhone").val(setMcMobilePhone);
-//			$("#editDlg_mcStreet").val(setMcStreet);
-//			$("#editDlg_mcCity").val(setMcCity);
-//			$("#editDlg_mcState").val(setMcState);
-//			$("#editDlg_mcZip").val(setMcZip);
-//			$("#editDlg_ocName").val(setOcName);
-//			$("#editDlg_ocEmail").val(setOcEmail);
-//			$("#editDlg_ocWorkPhone").val(setOcWorkPhone);
-//			$("#editDlg_ocMobilePhone").val(setOcMobilePhone);
-//			$("#editDlg_ocStreet").val(setOcStreet);
-//			$("#editDlg_ocCity").val(setOcCity);
-//			$("#editDlg_ocState").val(setOcState);
-//			$("#editDlg_mcID").val(setMcID);
-//			$("#editDlg_ocID").val(setOcID);
-//
-//		},
-//		/*
-//		 * If unsuccessful, display error message and reasoning.
-//		 */
-//		error: function(jqXHR, textStatus) {
-//			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-//		}
-//	});
-//}
-//
+
 ///**
 // * When a contact ID is selected on (or upon opening of the add dialog) in the add dialog, the addDlg takes us to this
 // * function in order to make an AJAX call to the ServiceClientController. That way, from the ServiceClientController we 
@@ -649,19 +551,7 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, other
 //		}
 //	});	
 //}
-//
-///**
-// * The following function replaces a HTML paragraph's text with error
-// * messages to the user on the invalid fields in the add service client and
-// * edit service client dialogs.
-// * 
-// * @param msg
-// * @returns
-// */
-//function updateTips(msg) {
-//	$(".ui-dialog").effect("shake");
-//	$(".validationTips").text(msg).addClass("alert alert-danger");
-//}
+
 
 /** 
  * Final preparations once the page is loaded. Here we hide stuff such
@@ -669,9 +559,9 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, other
  */
 function onPageLoad() {
 
-	/**
-	 * Button connections defined below
-	 */
+	/************************************
+	 * Button connections defined below *
+	 ************************************/
 
 	// connect the delete action to all delete buttons tagged with btnScDel class
 	$(".btnScDel").click(onDeleteClick);
@@ -682,9 +572,14 @@ function onPageLoad() {
 	// connect the edit action to all edit buttons
 	$(".btnScEdit").click(onEditClick);
 
-	/**
-	 * Dialog functions defined below
-	 */
+	// connection action to create button
+	$(".addBtn").click(onNewClick);
+	
+	
+	
+	/**********************************
+	 * Dialog functions defined below *
+	 **********************************/
 
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#deleteDlg").dialog({
@@ -740,7 +635,7 @@ function onPageLoad() {
 		},
 		buttons : [ {
 			text : "CANCEL",
-			"class" : 'cancBtnClass',
+			"class" : 'btn btn-secondary',
 			click : function() {
 				$(this).dialog("close");
 			}
@@ -760,13 +655,13 @@ function onPageLoad() {
 		modal: true,
 		dialogClass: "editDlgClass",
 		open: function(event, ui) {
-			
+
 			/*
 			 * Removes previous error messages from the fields.
 			 */
-//			$("#editDlg_name").removeClass("is-invalid");
-	//		$(".validationTips" ).removeClass("alert alert-danger").text("");
-			
+			$("#editDlg_name").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
+
 		},							
 		buttons: [
 			{
@@ -774,24 +669,24 @@ function onPageLoad() {
 				"id": "addBtnDlg",
 				"class": 'btn',
 				click: function() {		
-					
+
 					var selected_shid = $(this).data('selectedSrvClient'); // The selected service client's ID
 					var selected_mainContactID = $("#editDlg_mainContactID").children("option:selected").val(); // ID for main contact
 					var selected_otherContactID = $("#editDlg_otherContactID").children("option:selected").val(); // ID for other/secondary contact
 					var selected_boardMemberID = $("#editDlg_boardMemberName").val(); // ID for board member
-							
+
 					/*
 					 * Validates that the fields of the edit service client dialog are not empty.
 					 * If all the fields are valid, updates the service client to the table and closes the dialog.
 					 */
-			//		if(checkForEmptyFields("#editDlg_name")){
-						
-					ajaxEditClientNow(selected_shid, "#editDlg_name", selected_mainContactID,
-							selected_otherContactID, selected_boardMemberID, "#editDlg_category");
-						
-					//			}					
+					if(checkForEmptyFields("#editDlg_name")){
+
+						ajaxEditClientNow(selected_shid, "#editDlg_name", selected_mainContactID,
+								selected_otherContactID, selected_boardMemberID, "#editDlg_category");
+
+					}					
 				}
-				
+
 			},
 			{	
 				text: "Cancel",
@@ -801,34 +696,26 @@ function onPageLoad() {
 				}
 			}]
 	});
-
-
-}
-
-/**
- * When the DOM is completed loaded and ready, hide the dialogs and
- * create the functionality of the buttons.
- */
-$(document).ready(onPageLoad);	
-
 	
-//
-//	/*
-//	 * Register and hide the add dialog div until an add button is clicked on.
-//	 */
-//	$("#addDlg").dialog({
-//		autoOpen: false,
-//		height: 500,
-//		width: 700,
-//		modal: true,
-//		dialogClass: "addDlgClass",	
-//		open: function(event, ui) {	
-//
-//			/*
-//			 * Resets all the fields of the add dialog to empty.
-//			 */
+	// Register and hide the add dialog div until the add button is clicked on.	
+	$("#addDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 700,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		modal: true,
+		dialogClass: "addDlgClass",	
+		open: function(event, ui) {	
+
+			/*
+			 * Resets all the fields of the add dialog to empty.
+			 */
 //			$("#addDlg_name").val("");
-//			$("#addDlg_cat").val("Animals");
+//			$("#addDlg_category").val("Animals");
 //			$('select').prop('selectedIndex', 0);
 //			
 //			/*
@@ -860,95 +747,57 @@ $(document).ready(onPageLoad);
 //			 */
 //			$("#addDlg_name").removeClass("is-invalid");
 //			$(".validationTips" ).removeClass("alert alert-danger").text("");
-//		},							
-//		buttons: [
-//			{
-//				text: "Add Service Client", 
-//				"id": "addBtnDlg",
-//				"class": 'btn',
-//				click: function() {		
-//
-//					var selected_bm = $("#addDlg_bmName").val(); // ID for board member
-//					console.log(selected_bm); 
-//					
-//					var selected_mcID = $("#addDlg_mcID").children("option:selected").val(); // ID for main contact
-//					var selected_ocID = $("#addDlg_ocID").children("option:selected").val(); // ID for other/secondary contact
-//					
-//					/*
-//					 * Validates that the fields of the add service client dialog are not empty.
-//					 * If all the fields are valid, adds the new service client to the table and closes the dialog.
-//					 */
-//					if(checkForEmptyFields("#addDlg_name")){
-//						
-//						addClient("#addDlg_name", selected_mcID, selected_ocID, selected_bm, "#addDlg_cat");
-//						
-//						$("#addDlg").dialog("close");
-//					}
-//				}
-//			},
-//			{	
-//				text: "Cancel",
-//				"class": 'btn btn-secondary',
-//				click: function() {
-//					$("#addDlg").dialog("close");
-//
-//				}
-//			}],
-//	});
-//
-//	
-//	/*
-//	 * Register and hide the service hour information dialog div until a row is clicked on.
-//	 * The selected service client's ID is passed into this function when the row is clicked on, which is
-//	 * then harvested in order to pass the ID into the JavaScript function to be used further for
-//	 * selecting the correct service client information from the database in order to populate the dialog's fields.
-//	 */ 
-//	$("#scInfoDlg").dialog({
-//		autoOpen: false,
-//		height: 500,
-//		width: 700,
-//		modal: true,
-//		open: function(event, ui) {			
-//			var selected_scid = $("#scInfoDlg").data('selectedClientID'); // Harvests the selected service client's id from the table to pass to js function
-//			scInfo(selected_scid);		
-//		}
-//	});
-//
+		},							
+		buttons: [
+			{
+				text: "Create", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
 
-//	/* 
-//	 * Opens add service client dialog
-//	 */
-//	$(".addBtn").on("click", function() {
-//		$("#addDlg").dialog("open");
-//	});
-//
-//	/* 
-//	 * Opens a edit service client dialog and passes in the selected row's service client's id when a user
-//	 * clicks on an edit button.
-//	 */
-//	$(".edit ").on("click", function() {
-//		var selected_scid = $(this).attr('onEditClick');
-//		$("#editDlg").data("selectedClientID", selected_scid).dialog("open");
-//	});
-//
-//	/*
-//	 * Opens a service client dialog and passes in the selected row's service client's id when a user
-//	 * clicks on a row in the service client table in order to view the information about the selected
-//	 * service client such as their main and other contact information (phone numbers, address, etc)
-//	 */
-//	$(".scRow").on("click", function() {
-//		var selected_scid = $(this).attr('onRowClick');
-//		$("#scInfoDlg").data("selectedClientID", selected_scid).dialog("open");
-//	});
-//
-//	/*
-//	 *  Allows for the table columns to be sorted disables the extra features such as 'searching'
-//	 */
-//	$('#client_tbl').DataTable({	
-//		"paging": false,
-//		"searching": false,
-//		"info": false
-//	});
-//	$('.dataTables_length').addClass('bs-select');
-//
-//});
+					var selected_boardMemberID = $("#addDlg_boardMemberName").val(); // ID for board member
+					console.log(selected_boardMemberID); 
+					
+					var selected_mainContactID = $("#addDlg_mainContactID").children("option:selected").val(); // ID for main contact
+					var selected_otherContactID = $("#addDlg_otherContactID").children("option:selected").val(); // ID for other/secondary contact
+					
+					/*
+					 * Validates that the fields of the add service client dialog are not empty.
+					 * If all the fields are valid, adds the new service client to the table and closes the dialog.
+					 */
+		//			if(checkForEmptyFields("#addDlg_name")){
+						
+						ajaxCreateClientNow("#addDlg_name", selected_mainContactID, selected_otherContactID, 
+								selected_boardMemberID, "#addDlg_category");
+						
+				//		$("#addDlg").dialog("close");
+		//			}
+				}
+			},
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					$("#addDlg").dialog("close");
+
+				}
+			}],
+	});
+
+	//  Allows for the table columns to be sorted disables the extra features such as 'searching'
+	$('#client_tbl').DataTable({	
+		"paging": false,
+		"searching": false,
+		"info": false
+	});
+	$('.dataTables_length').addClass('bs-select');
+
+
+
+}
+
+/**
+ * When the DOM is completed loaded and ready, hide the dialogs and
+ * create the functionality of the buttons.
+ */
+$(document).ready(onPageLoad);	
