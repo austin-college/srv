@@ -36,7 +36,7 @@
 			<div class="container ui-widget table-responsive">
 				<table id="client_tbl"
 					class="table ui-widget ui-widget-content table-striped table-bordered table-hover" cellspacing="0"
-					width=100%>
+					width="100%">
 				
 					<thead>
 						<tr class="ui-widget-header">
@@ -53,9 +53,7 @@
 						<tr id="scid-${sc.scid?c}">
 							<td name='sc_id' class='scRow' scid="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
 							<td name='sc_title' class='scRow' scid="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
-							<td name='sc_contact_name' class='scRow'
-								scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}
-								</td>
+							<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}</td>
 							<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.fullName()!"UNKNOWN"}</td>
 							<td name='sc_category' class='scRow' scid="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
 							
@@ -99,7 +97,7 @@
 	</#if>
 
 	<!-- The div below defines the delete dialog for deleting an service client -->
-	<div id="deleteDlg" title="DELETE SELECTED SPONSOR"	class="ui-widget delWid" style="display: none">
+	<div id="deleteDlg" title="DELETE SPONSOR"	class="ui-widget delWid" style="display: none">
 		<p id="del_confirm">
 			Are you sure you want to delete this sponsor? <br />
 		</p>
@@ -114,7 +112,7 @@
 	</div>
 
 	<!-- The div below defines the edit dialog for updating an existing service client-->
-	<div id="editDlg" title="Edit Sponsor" class="ui-widget"	style='overflow: auto'>
+	<div id="editDlg" title="Update Sponsor" class="ui-widget"	style='overflow: auto'>
 		<#include "/serviceclients/editClient.html"/>
 	</div>
 

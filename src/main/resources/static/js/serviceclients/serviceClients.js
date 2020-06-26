@@ -333,64 +333,7 @@ function ajaxCreateClientNow(srvClientNameField, mainContactId, otherContactId, 
 	});
 
 }
-///**
-// * Add a new service client to the service client table. The parameters correspond with the
-// * create method of the ServiceClientDao.
-// * 
-// * @param client_name
-// * @param mc_ID
-// * @param oc_ID
-// * @param bm_ID
-// * @param client_cat
-// * @returns
-// */
-//function addClient(client_name, mc_ID, oc_ID, bm_ID, client_cat) {
-//
-//	// Harvests the information (service client's name and category) from the add dialog form
-//	var nameStr =$(client_name).val();
-//	var catStr = $(client_cat).val();
-//
-//	$.ajax({
-//		method: "POST",
-//		url: "/srv/ajax/addSc",
-//		cache: false,
-//		data: {clientName: nameStr, mcID: mc_ID, ocID: oc_ID, bmID: bm_ID, cat: catStr},
-//		/*
-//		 * If successful then add the service client to the list with the new values.
-//		 */
-//		success: function(data) {
-//			console.log("added client");
-//
-//			var id = $(data)[2]; // Obtains the new service client's ID from the AJAX response
-//
-//			console.log(id); // Verifies the new service client's ID
-//
-//			$('#sc_tbl_body').append(id); // Appends the new service client row to the table
-//
-//			// Appends the buttons and their functionality to the new service client
-//			$(".edit ").on("click", function() {
-//				var selected_scid = $(this).attr('onEditClick');
-//				$("#editDlg").data("selectedClientID", selected_scid).dialog("open");
-//			});
-//
-//			$(".del").on("click", function() {
-//				var selected_scid = $(this).attr('onDelClick');
-//				$("#delDlg").data("selectedClientID", selected_scid).dialog("open");
-//			});
-//
-//			$(".scRow").on("click", function() {
-//				var selected_scid = $(this).attr('onRowClick');
-//				$("#viewDlg").data("selectedClientID", selected_scid).dialog("open");
-//			});
-//		},
-//		/*
-//		 * If unsuccessful, display error message and reasoning.
-//		 */
-//		error: function(jqXHR, textStatus) {
-//			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-//		}
-//	});	
-//}
+
 
 ///**
 // * When a contact ID is selected on (or upon opening of the add dialog) in the add dialog, the addDlg takes us to this

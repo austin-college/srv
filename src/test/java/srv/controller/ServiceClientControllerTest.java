@@ -60,6 +60,8 @@ public class ServiceClientControllerTest {
 
 	// handy objects for these tests
 	private List<ServiceClient> testClients = new ArrayList<ServiceClient>();
+	private List<User> testUsers = new ArrayList<User>();
+	private List<Contact> testContacts = new ArrayList<Contact>();
 
 	private ServiceClient sc1;
 	private ServiceClient sc2;
@@ -136,10 +138,15 @@ public class ServiceClientControllerTest {
 				.setCategory("Seniors")
 				.setMainContact(con2)
 				.setOtherContact(con1)
+				.setCurrentBoardMember(bm2)
 				;		
 
 		testClients.add(sc1);
 		testClients.add(sc2);
+		testUsers.add(bm1);
+		testUsers.add(bm2);
+		testContacts.add(con1);
+		testContacts.add(con2);
 
 	}
 	
@@ -377,9 +384,168 @@ public class ServiceClientControllerTest {
 		Mockito.verify(mockSrvClientDao).create(name, cid1, cid2, bmId, category);
 	}
 	
+	/**
+	 * Make sure the controller is handling the case where the service client
+	 * is invalid (the dao throws an exception).
+	 */
 	@Test
 	@WithMockUser(username = "admin", password = "admin")
-	public void basicHtmlPageTest() throws Exception {
+	public void ajaxCreateServiceClientTest_whenExceptionThrown() throws Exception {
+		
+		// for this test, our dao will throw an exception like we might see
+		// if the database could not add
+		Mockito.doThrow(Exception.class).when(mockSrvClientDao).create(
+				Mockito.anyString(),
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyString());
+		
+		// ready to test....
+		mvc.perform(post("/sc/ajax/addSc")
+				.param("name", "")
+				.param("cat", "")
+				.param("cid1", String.valueOf(-1))
+				.param("cid2", String.valueOf(1))
+				.param("bmId", String.valueOf(1))
+
+				.contentType(MediaType.TEXT_HTML))
+
+		.andExpect(status().is4xxClientError());
+		;
+
+		// verify that the dao got tickled appropriately
+		Mockito.verify(mockSrvClientDao).create(
+				Mockito.anyString(),
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyString());
+	}
+	
+	/**
+	 * Make sure the controller is handling the case where the service client
+	 * is invalid (the dao throws an exception).
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxUpdateServiceClientTest_whenExceptionThrown() throws Exception {
+		
+		// for this test, our dao will throw an exception like we might see
+		// if the database could not add
+		Mockito.doThrow(Exception.class).when(mockSrvClientDao).update(
+				Mockito.anyInt(),
+				Mockito.anyString(),
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyString());
+		
+		// ready to test....
+		mvc.perform(post("/sc/ajax/editSc")
+				.param("name", "")
+				.param("cat", "")
+				.param("cid1", String.valueOf(-1))
+				.param("cid2", String.valueOf(1))
+				.param("bmId", String.valueOf(1))
+				.param("scid", String.valueOf(1))
+
+				.contentType(MediaType.TEXT_HTML))
+
+		.andExpect(status().is4xxClientError());
+		;
+		
+
+		// verify that the dao got tickled appropriately
+		Mockito.verify(mockSrvClientDao).update(
+				Mockito.anyInt(),
+				Mockito.anyString(),
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyInt(), 
+				Mockito.anyString());
+	}
+	
+	/** 
+	 * Make sure the base page shows a table of 2 service clients with buttons to allow
+	 * the user to create a new service client while also editing, viewing, and deleting
+	 * a service client
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basePageTest() throws Exception {
+
+		// Mock dependencies
+		Mockito.when(mockSrvClientDao.listAll()).thenReturn(testClients);
+		Mockito.when(mockUserDao.listAll()).thenReturn(testUsers);
+		Mockito.when(mockConDao.listAll()).thenReturn(testContacts);
+		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
+
+		mvc.perform(get("/sc")
+				.contentType(MediaType.TEXT_HTML))
+		.andExpect(status().isOk())
+
+		// our page displays a table somewhere inside for showing service clients
+		.andExpect(xpath(dquote("//table[@id='client_tbl']")).exists())
+
+		// and there's a row in our table that has a service client name/title td inside whose text better be 'Habitat for Humanity' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_title' and text()='Habitat for Humanity']")).exists())
+
+		// and there's a row in our table that has a main contact name td inside whose text better be 'Joe Smith' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_contact_name' and text()='Joe Smith']")).exists())
+
+		// and there's a row in our table that has a board member name td inside whose text better be 'Randy Jackson' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_bm_name' and text()='Randy Jackson']")).exists())
+
+		// and there's a row in our table that has a category td inside whose text better be 'Community' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_category' and text()='Community']")).exists())
+		
+		
+		
+		// and that same row as a td with a button inside for editing
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@class='text-center scActions']/button[contains(@class, 'btnScEdit')]")).exists())
+
+		// and viewing
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@class='text-center scActions']/button[contains(@class, 'btnScView')]")).exists())
+
+		// and deleting
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@class='text-center scActions']/button[contains(@class, 'btnScDel')]")).exists())
+
+		
+
+		// and there's a row in our table that has a service client name/title td inside whose text better be 'Meals on Wheels' 
+		.andExpect(xpath(dquote("//tr[@id='scid-2']/td[@name='sc_title' and text()='Meals on Wheels']")).exists())
+
+		// and there's a row in our table that has a main contact name td inside whose text better be 'Tina Franklin' 
+		.andExpect(xpath(dquote("//tr[@id='scid-2']/td[@name='sc_contact_name' and text()='Tina Franklin']")).exists())
+
+		// and there's a row in our table that has a board member name td inside whose text better be 'Roo Jack' 
+		.andExpect(xpath(dquote("//tr[@id='scid-2']/td[@name='sc_bm_name' and text()='Roo Jack']")).exists())
+		
+		// and there's a row in our table that has a category td inside whose text better be 'Community' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_category' and text()='Community']")).exists())
+
+		
+
+		// and our page better have a create a new service client dialog defined/hidden
+		.andExpect(xpath(dquote("//div[@id='addDlg' and @title='New Sponsor']")).exists())
+		
+		// and our page better have a delete service client dialog defined/hidden
+		.andExpect(xpath(dquote("//div[@id='deleteDlg' and @title='DELETE SPONSOR']")).exists())
+		
+		// and our page better have a view service client dialog defined/hidden
+		.andExpect(xpath(dquote("//div[@id='viewDlg' and @title='Sponsor Details']")).exists())
+		
+		// and our page better have an edit service client dialog defined/hidden
+		.andExpect(xpath(dquote("//div[@id='editDlg' and @title='Update Sponsor']")).exists())
+		;
+	}
+	
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void basicTest() throws Exception {
 
 		when(mockUserUtil.userIsAdmin()).thenReturn(true);
 		

@@ -358,7 +358,6 @@ public class EventTypeControllerTest {
 	@WithMockUser(username = "admin", password = "admin")
 	public void testAjaxNewEventType_whenExceptionThrown() throws Exception {
 
-
 		// for this test, our dao will throw an exception like we might
 		// see if the database could not add
 		Mockito.doThrow(Exception.class) .when(mockEtDao).create(
@@ -382,6 +381,7 @@ public class EventTypeControllerTest {
 
 		;
 
+		// verify that the dao got tickled appropriately
 		Mockito.verify(mockEtDao).create(Mockito.anyString(),
 				Mockito.anyString(),
 				Mockito.anyDouble(),

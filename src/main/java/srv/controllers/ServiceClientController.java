@@ -359,7 +359,7 @@ public class ServiceClientController {
 	 * @return
 	 */
 	@GetMapping("/test/sc")
-	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView basicTest(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("test/serviceClientTestView");
 
