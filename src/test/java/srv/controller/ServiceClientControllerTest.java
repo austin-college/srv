@@ -234,7 +234,6 @@ public class ServiceClientControllerTest {
 
 	}
 	
-	
 	/**
 	 * Make sure the controller is updating an existing service client when asked.
 	 * Note all the parameters are valid.
@@ -467,6 +466,61 @@ public class ServiceClientControllerTest {
 	}
 	
 	/** 
+	 * Note: must use jsonpath as opposed to xpath since returning an json and
+	 * not html
+	 * 
+	 * Test that the controller returns JSON to present the selected contact details
+	 */
+	@Test
+	@WithMockUser(username= "admin", password="admin")
+	public void ajaxFetchContactTest() throws Exception {
+
+		Mockito.when(mockConDao.fetchContactById(Mockito.anyInt())).thenReturn(con1);
+
+		// ready to test
+		mvc.perform(get("/sc/ajax/contact/1")
+
+				.contentType(MediaType.APPLICATION_JSON))
+
+		.andExpect(status().isOk())
+
+		// expecting a json object whose contact id better be 1
+		.andExpect(jsonPath("$.contactId", is(1)))
+
+		// and first name better be 'Joe'
+		.andExpect(jsonPath("$.firstName", is("Joe")))
+
+		// and last name better be 'Smith'
+		.andExpect(jsonPath("$.lastName", is("Smith")))
+
+		// and with a mobile phone number better be '111-222-3333'
+		.andExpect(jsonPath("$.phoneNumMobile", is("111-222-3333")))
+
+		// and with a work phone number better be '444-555-6666'
+		.andExpect(jsonPath("$.phoneNumWork", is("444-555-6666")))
+
+		// and with a street name of '119 Main St'
+		.andExpect(jsonPath("$.street", is("119 Main St")))
+		
+		// and with city of 'Sherman'
+		.andExpect(jsonPath("$.city", is("Sherman")))
+		
+		// and with state of "TX"
+		.andExpect(jsonPath("$.state", is("TX")))
+		
+		// and with zipcode '75090'
+		.andExpect(jsonPath("$.zipcode", is("75090")))
+		
+		// and with an email 'jsmith19@austincollege.edu'
+		.andExpect(jsonPath("$.email", is("jsmith19@austincollege.edu")))
+		;
+
+		// verify the dao got involved
+		Mockito.verify(mockConDao).fetchContactById(1);
+
+	}
+	
+	/** 
 	 * Make sure the base page shows a table of 2 service clients with buttons to allow
 	 * the user to create a new service client while also editing, viewing, and deleting
 	 * a service client
@@ -542,7 +596,7 @@ public class ServiceClientControllerTest {
 		.andExpect(xpath(dquote("//div[@id='editDlg' and @title='Update Sponsor']")).exists())
 		;
 	}
-	
+
 	@Test
 	@WithMockUser(username = "admin", password = "admin")
 	public void basicTest() throws Exception {

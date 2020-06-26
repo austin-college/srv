@@ -104,13 +104,13 @@ function ajaxDeleteClientNow() {
  * to present its details in the view dialog.
  */
 function onViewClick() {
-	
+
 	$("#viewDlg").dialog("open"); // opens the view dialog
-	
+
 	var selSc = $(this).attr("scid"); // The ID of the selected service client to be viewed	
-	
+
 	console.log("Selected view service client: " + selSc);
-	
+
 	// retrieve service client details
 	$.ajax({
 		method : "GET",
@@ -122,13 +122,13 @@ function onViewClick() {
 	 * If success, then prepopulate the selected service client's fields in the view dialog
 	 */
 	.done(function(sc) {
-		
+
 		console.log(sc);
-		
+
 		var boardMemberFullName = sc.currentBoardMember.contactInfo.firstName + " " + sc.currentBoardMember.contactInfo.lastName;
 		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;
 		var otherContactFullName = sc.otherContact.firstName + " " + sc.otherContact.lastName;
-		
+
 		$("#viewDlg_name").val(sc.name);
 		$("#viewDlg_boardMemberName").val(boardMemberFullName);
 		$("#viewDlg_category").val(sc.category);
@@ -150,7 +150,7 @@ function onViewClick() {
 		$("#viewDlg_otherContactState").val(sc.otherContact.state);
 		$("#viewDlg_otherContactZip").val(sc.otherContact.zipcode);
 		$("#viewDlg_otherContactID").val(sc.otherContact.contactId);
-					
+
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.
@@ -168,13 +168,13 @@ function onViewClick() {
  * @returns
  */
 function onEditClick() {
-	
+
 	var selSc = $(this).attr("scid"); // The ID of the selected service client to be updated	
-	
+
 	console.log("Selected updated/edit service client: " + selSc);
-	
+
 	$("#editDlg").data("selectedSrvClient", selSc).dialog("open"); // opens the edit dialog
-	
+
 	// retrieve event type details
 	$.ajax({
 		method : "GET",
@@ -186,12 +186,12 @@ function onEditClick() {
 	 * If success, then prepopulate the selected service clients fields in the edit dialog
 	 */
 	.done(function(sc) {
-		
+
 		console.log(sc);
 
 		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;
 		var otherContactFullName = sc.otherContact.firstName + " " + sc.otherContact.lastName;
-		
+
 		$("#editDlg_name").val(sc.name);
 		$("#editDlg_boardMemberName").val(sc.currentBoardMember.uid);
 		$("#editDlg_category").val(sc.category);
@@ -213,7 +213,7 @@ function onEditClick() {
 		$("#editDlg_otherContactState").val(sc.otherContact.state);
 		$("#editDlg_otherContactZip").val(sc.otherContact.zipcode);
 		$("#editDlg_otherContactID").val(sc.otherContact.contactId);
-			
+
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.
@@ -234,7 +234,7 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, other
 	// get the forms values as strings
 	var srvClientNameStr = $(srvClientNameField).val();
 	var categoryStr = $(categoryField).val();
-	
+
 	// peek at values to verify
 	console.log("srv client id: " + srvClientId + " main contact id: " + mainContactId + " other contact id: " + otherContactId + 
 			" board mem id: " + boardMemberId + " name: " + srvClientNameStr + " category: " + categoryStr);
@@ -250,11 +250,11 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, other
 	.done(function(sc) {
 		console.log("updated service client");
 		console.log(sc);
-		
+
 		// get the selected combo box text
 		var boardMemberName = $("#editDlg_boardMemberName option:selected" ).text();
 		var mainContactName = $("#editDlg_mainContactName").val();
-		
+
 		console.log(mainContactName);
 		// Updates the edited event type's row with the new values
 		$("#scid-" + srvClientId + " td[name = 'sc_title']").html($(srvClientNameField).val());
@@ -287,7 +287,7 @@ function onNewClick() {
  * whose new params/values we extractd from the add dialog
  */
 function ajaxCreateClientNow(srvClientNameField, mainContactId, otherContactId, boardMemberId, categoryField) {
-	
+
 	// get the forms values as strings
 	var srvClientNameStr = $(srvClientNameField).val();
 	var categoryStr = $(categoryField).val();
@@ -320,7 +320,7 @@ function ajaxCreateClientNow(srvClientNameField, mainContactId, otherContactId, 
 		$(".btnScView, .scRow").click(onViewClick);
 
 		$(".btnScEdit").click(onEditClick);
-		
+
 		$("#addDlg").dialog("close");
 
 	})
@@ -334,167 +334,105 @@ function ajaxCreateClientNow(srvClientNameField, mainContactId, otherContactId, 
 
 }
 
+/** 
+ * Makes the request back to our server to fetch the selected contact and 
+ * populate the contact fields in the add and edit dialogs.
+ * 
+ * Passing in the id of the selected contact as well as a boolean flag
+ * on whether the contact is main contact or other/secondary contact. Thus, we 
+ * can make the appropriate function call after the request to populate the correct
+ * contact fields.
+ */
+function ajaxFetchContact(contactId, isMainContact) {
+	
+	console.log(contactId); // verify the id passed
+	
+	// retrieve contact details
+	$.ajax({
+		method : "GET",
+		url : "/srv/sc/ajax/contact/" + contactId,
+		cache : false,
+		dataType: "json"
+	})
+	/*
+	 * If success, then redirect to the appropriate function based on main or other contact
+	 */
+	.done(function(contactDetails) {
+		
+		if (isMainContact)
+			populateMainContactFields(contactDetails);
+		else
+			populateOtherContactFields(contactDetails);
 
-///**
-// * When a contact ID is selected on (or upon opening of the add dialog) in the add dialog, the addDlg takes us to this
-// * function in order to make an AJAX call to the ServiceClientController. That way, from the ServiceClientController we 
-// * can access the ContactDao to access the Contact database in order to obtain the information about the selected main 
-// * contact information. We obtain the information from the AJAX call by the ajax_contactFields.html which contains the 
-// * selected main contact's information. Note this also does the same thing for the edit dialog.
-// * 
-// * @param contact_id
-// * @returns
-// */
-//function populateMCFields(contact_id) {
-//
-//	var idStr = contact_id; // Selected main contact's ID
-//
-//	console.log(idStr); // Verifying id in console
-//
-//	$.ajax({
-//		method: "GET",
-//		url: "/srv/ajax/fillMCFields",
-//		cache: false,
-//		data: {ID: idStr},
-//		/*
-//		 * If successful, populate the main contact information fields with the data received
-//		 * from AJAX, which should contain the contact's information retrieved from the contact database.
-//		 */
-//		success: function(data) {
-//
-//			console.log("add main contact info");
-//		
-//			/*
-//			 * In order to obtain the information passed back from the AJAX call, we have to 
-//			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
-//			 * the text in ajax_contactFields.html. There is probably a better way to do this, hopefully by selecting
-//			 * a div's unique ID and so the  ajax_contactFields.html has divs for this future change.
-//			 */
-//			var setMcName = $(data)[0].innerText;
-//			var setMcEmail = $(data)[2].innerText;
-//			var setMcWorkPhone = $(data)[4].innerText;
-//			var setMcMobilePhone = $(data)[6].innerText;
-//			var setMcStreet = $(data)[8].innerText;
-//			var setMcCity = $(data)[10].innerText;
-//			var setMcState = $(data)[12].innerText;
-//			var setMcZip = $(data)[14].innerText;
-//
-//			/*
-//			 * From the values above, we can set the main contact input fields within the addDlg (in listClients.html)
-//			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
-//			 */
-//			$("#addDlg_mcName").val(setMcName);
-//			$("#addDlg_mcEmail").val(setMcEmail);
-//			$("#addDlg_mcWorkPhone").val(setMcWorkPhone);
-//			$("#addDlg_mcMobilePhone").val(setMcMobilePhone);
-//			$("#addDlg_mcStreet").val(setMcStreet);
-//			$("#addDlg_mcCity").val(setMcCity);
-//			$("#addDlg_mcState").val(setMcState);
-//			$("#addDlg_mcZip").val(setMcZip);
-//			
-//			/*
-//			 * From the values above, we can set the main contact input fields within the editDlg (in listClients.html)
-//			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
-//			 */
-//			$("#editDlg_mcName").val(setMcName);
-//			$("#editDlg_mcEmail").val(setMcEmail);
-//			$("#editDlg_mcWorkPhone").val(setMcWorkPhone);
-//			$("#editDlg_mcMobilePhone").val(setMcMobilePhone);
-//			$("#editDlg_mcStreet").val(setMcStreet);
-//			$("#editDlg_mcCity").val(setMcCity);
-//			$("#editDlg_mcState").val(setMcState);
-//			$("#editDlg_mcZip").val(setMcZip);
-//		},
-//		/*
-//		 * If unsuccessful, display error message and reasoning.
-//		 */
-//		error: function(jqXHR, textStatus) {
-//			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-//		}
-//	});	
-//}
-//
-///**
-// * When a contact ID is selected on (or upon opening of the add dialog) in the add dialog, the addDlg takes us to this
-// * function in order to make an AJAX call to the ServiceClientController. That way, from the ServiceClientController we 
-// * can access the ContactDao to access the Contact database in order to obtain the information about the selected other/secondary 
-// * contact information. We obtain the information from the AJAX call by the ajax_contactFields.html which contains the 
-// * selected other/secondary contact's information. Note this also is the same for the edit dialog.
-// * 
-// * @param contact_id
-// * @returns
-// */
-//function populateOCFields(contact_id) {
-//
-//	var idStr = contact_id; // Selected other contact's ID
-//
-//	console.log(idStr); // Verifying id in console
-//
-//	$.ajax({
-//		method: "GET",
-//		url: "/srv/ajax/fillOCFields",
-//		cache: false,
-//		data: {ID: idStr},
-//		/*
-//		 * If successful, populate the other/secondary contact information fields with the data received
-//		 * from AJAX, which should contain the contact's information retrieved from the contact database.
-//		 */
-//		success: function(data) {
-//
-//			console.log("add other/secondary contact info");
-//
-//			/*
-//			 * In order to obtain the information passed back from the AJAX call, we have to 
-//			 * index the data sent back (from AJAX) by every 2 and specify 'innerText' to harvest
-//			 * the text in ajax_contactFields.html. There is probably a better way to do this, hopefully by selecting
-//			 * a div's unique ID and so the  ajax_contactFields.html has divs for this future change. Note we are
-//			 * only interested in other/secondary contact information which is why we do not begin indexing at 0
-//			 */
-//			var setOcName = $(data)[16].innerText;
-//			var setOcEmail = $(data)[18].innerText;
-//			var setOcWorkPhone = $(data)[20].innerText;
-//			var setOcMobilePhone = $(data)[22].innerText;
-//			var setOcStreet = $(data)[24].innerText;
-//			var setOcCity = $(data)[26].innerText;
-//			var setOcState = $(data)[28].innerText;
-//			var setOcZip = $(data)[30].innerText;
-//
-//			/*
-//			 * From the values above, we can set the other/secondary contact input fields within the addDlg (in listClients.html)
-//			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
-//			 */
-//			$("#addDlg_ocName").val(setOcName);
-//			$("#addDlg_ocEmail").val(setOcEmail);
-//			$("#addDlg_ocWorkPhone").val(setOcWorkPhone);
-//			$("#addDlg_ocMobilePhone").val(setOcMobilePhone);
-//			$("#addDlg_ocStreet").val(setOcStreet);
-//			$("#addDlg_ocCity").val(setOcCity);
-//			$("#addDlg_ocState").val(setOcState);
-//			$("#addDlg_ocZip").val(setOcZip);
-//			
-//
-//			/*
-//			 * From the values above, we can set the other/secondary contact input fields within the editDlg (in listClients.html)
-//			 * with the data that the ServiceClientController gave us as a result of a successful AJAX call.
-//			 */
-//			$("#editDlg_ocName").val(setOcName);
-//			$("#editDlg_ocEmail").val(setOcEmail);
-//			$("#editDlg_ocWorkPhone").val(setOcWorkPhone);
-//			$("#editDlg_ocMobilePhone").val(setOcMobilePhone);
-//			$("#editDlg_ocStreet").val(setOcStreet);
-//			$("#editDlg_ocCity").val(setOcCity);
-//			$("#editDlg_ocState").val(setOcState);
-//			$("#editDlg_ocZip").val(setOcZip);
-//		},
-//		/*
-//		 * If unsuccessful, display error message and reasoning.
-//		 */
-//		error: function(jqXHR, textStatus) {
-//			alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-//		}
-//	});	
-//}
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+}
 
+/**
+ * Populates the fields for main contacts for both add/create and edit dialogs.
+ */
+function populateMainContactFields(contactDetails) {
+	
+	console.log("populate main contact fields");
+	
+	var mainContactFullName = contactDetails.firstName + " " + contactDetails.lastName;
+
+	$("#addDlg_mainContactName").val(mainContactFullName);
+	$("#addDlg_mainContactEmail").val(contactDetails.email);
+	$("#addDlg_mainContactWorkPhone").val(contactDetails.phoneNumWork);
+	$("#addDlg_mainContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#addDlg_mainContactStreet").val(contactDetails.street);
+	$("#addDlg_mainContactCity").val(contactDetails.city);
+	$("#addDlg_mainContactState").val(contactDetails.state);
+	$("#addDlg_mainContactZip").val(contactDetails.zipcode);
+	$("#addDlg_mainContactID").val(contactDetails.contactId);
+	
+	$("#editDlg_mainContactName").val(mainContactFullName);
+	$("#editDlg_mainContactEmail").val(contactDetails.email);
+	$("#editDlg_mainContactWorkPhone").val(contactDetails.phoneNumWork);
+	$("#editDlg_mainContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#editDlg_mainContactStreet").val(contactDetails.street);
+	$("#editDlg_mainContactCity").val(contactDetails.city);
+	$("#editDlg_mainContactState").val(contactDetails.state);
+	$("#editDlg_mainContactZip").val(contactDetails.zipcode);
+	$("#editDlg_mainContactID").val(contactDetails.contactId);
+}
+
+/**
+ * Populates the fields for other contacts for both add/create and edit dialogs.
+ */
+function populateOtherContactFields(contactDetails) {
+	
+	console.log("populate other contact fields");
+
+	var otherContactFullName = contactDetails.firstName + " " + contactDetails.lastName;
+
+	$("#addDlg_otherContactName").val(otherContactFullName);
+	$("#addDlg_otherContactEmail").val(contactDetails.email);
+	$("#addDlg_otherContactWorkPhone").val(contactDetails.phoneNumWork);
+	$("#addDlg_otherContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#addDlg_otherContactStreet").val(contactDetails.street);
+	$("#addDlg_otherContactCity").val(contactDetails.city);
+	$("#addDlg_otherContactState").val(contactDetails.state);
+	$("#addDlg_otherContactZip").val(contactDetails.zipcode);
+	$("#addDlg_otherContactID").val(contactDetails.contactId);
+	
+	$("#editDlg_otherContactName").val(otherContactFullName);
+	$("#editDlg_otherContactEmail").val(contactDetails.email);
+	$("#editDlg_otherContactWorkPhone").val(contactDetails.phoneNumWork);
+	$("#editDlg_otherContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#editDlg_otherContactStreet").val(contactDetails.street);
+	$("#editDlg_otherContactCity").val(contactDetails.city);
+	$("#editDlg_otherContactState").val(contactDetails.state);
+	$("#editDlg_otherContactZip").val(contactDetails.zipcode);
+	$("#editDlg_otherContactID").val(contactDetails.contactId);
+}
 
 /** 
  * Final preparations once the page is loaded. Here we hide stuff such
@@ -517,9 +455,9 @@ function onPageLoad() {
 
 	// connection action to create button
 	$(".addBtn").click(onNewClick);
-	
-	
-	
+
+
+
 	/**********************************
 	 * Dialog functions defined below *
 	 **********************************/
@@ -584,7 +522,7 @@ function onPageLoad() {
 			}
 		} ]
 	});
-	
+
 	// Register and hide the edit dialog div until an edit button is clicked on.
 	$("#editDlg").dialog({
 		autoOpen: false,
@@ -598,6 +536,21 @@ function onPageLoad() {
 		modal: true,
 		dialogClass: "editDlgClass",
 		open: function(event, ui) {
+
+			/*
+			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
+			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
+			 */
+			$("#editDlg_mainContactID").change("click", function() {
+				var selected_mainContactID = $(this).children("option:selected").val();
+				ajaxFetchContact(selected_mainContactID, true);				   
+			}); 
+
+			$("#editDlg_otherContactID").change("click", function() {
+				var selected_otherContactID = $(this).children("option:selected").val();
+				ajaxFetchContact(selected_otherContactID, false);				   
+			}); 
+
 
 			/*
 			 * Removes previous error messages from the fields.
@@ -639,7 +592,7 @@ function onPageLoad() {
 				}
 			}]
 	});
-	
+
 	// Register and hide the add dialog div until the add button is clicked on.	
 	$("#addDlg").dialog({
 		autoOpen: false,
@@ -657,39 +610,39 @@ function onPageLoad() {
 			/*
 			 * Resets all the fields of the add dialog to empty.
 			 */
-//			$("#addDlg_name").val("");
-//			$("#addDlg_category").val("Animals");
-//			$('select').prop('selectedIndex', 0);
-//			
-//			/*
-//			 *  Upon open, we populate the main and other contact information fields (name, phone numbers, etc)
-//			 *  with the first contact in the list/database.
-//			 */
-//			var selected_mcID = $("#addDlg_mcID").children("option:selected").val();
-//			populateMCFields(selected_mcID);
-//
-//			var selected_ocID = $("#addDlg_ocID").children("option:selected").val();
-//			populateOCFields(selected_ocID);
-//
-//			/*
-//			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
-//			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
-//			 */
-//			$("#addDlg_mcID").change("click", function() {
-//				var selected_mcID = $(this).children("option:selected").val();
-//				populateMCFields(selected_mcID);				   
-//			}); 
-//
-//			$("#addDlg_ocID").change("click", function() {
-//				var selected_ocID = $(this).children("option:selected").val();
-//				populateOCFields(selected_ocID);				   
-//			}); 
-//
-//			/*
-//			 * Removes previous error messages from the fields.
-//			 */
-//			$("#addDlg_name").removeClass("is-invalid");
-//			$(".validationTips" ).removeClass("alert alert-danger").text("");
+			$("#addDlg_name").val("");
+			$("#addDlg_category").val("Animals");
+			$('select').prop('selectedIndex', 0);
+
+			/*
+			 *  Upon open, we populate the main and other contact information fields (name, phone numbers, etc)
+			 *  with the first contact in the list/database.
+			 */
+			var selected_mainContactID = $("#addDlg_mainContactID").children("option:selected").val();
+			ajaxFetchContact(selected_mainContactID, true);
+
+			var selected_otherContactID = $("#addDlg_otherContactID").children("option:selected").val();
+			ajaxFetchContact(selected_otherContactID, false);
+
+			/*
+			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
+			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
+			 */
+			$("#addDlg_mainContactID").change("click", function() {
+				var selected_mainContactID = $(this).children("option:selected").val();
+				ajaxFetchContact(selected_mainContactID, true);				   
+			}); 
+
+			$("#addDlg_otherContactID").change("click", function() {
+				var selected_otherContactID = $(this).children("option:selected").val();
+				ajaxFetchContact(selected_otherContactID, false);				   
+			}); 
+
+			/*
+			 * Removes previous error messages from the fields.
+			 */
+			$("#addDlg_name").removeClass("is-invalid");
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
 		},							
 		buttons: [
 			{
@@ -700,21 +653,21 @@ function onPageLoad() {
 
 					var selected_boardMemberID = $("#addDlg_boardMemberName").val(); // ID for board member
 					console.log(selected_boardMemberID); 
-					
+
 					var selected_mainContactID = $("#addDlg_mainContactID").children("option:selected").val(); // ID for main contact
 					var selected_otherContactID = $("#addDlg_otherContactID").children("option:selected").val(); // ID for other/secondary contact
-					
+
 					/*
 					 * Validates that the fields of the add service client dialog are not empty.
 					 * If all the fields are valid, adds the new service client to the table and closes the dialog.
 					 */
-		//			if(checkForEmptyFields("#addDlg_name")){
-						
+					if(checkForEmptyFields("#addDlg_name")){
+
 						ajaxCreateClientNow("#addDlg_name", selected_mainContactID, selected_otherContactID, 
 								selected_boardMemberID, "#addDlg_category");
-						
-				//		$("#addDlg").dialog("close");
-		//			}
+
+						$("#addDlg").dialog("close");
+					}
 				}
 			},
 			{	
@@ -734,9 +687,6 @@ function onPageLoad() {
 		"info": false
 	});
 	$('.dataTables_length').addClass('bs-select');
-
-
-
 }
 
 /**

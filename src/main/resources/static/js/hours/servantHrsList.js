@@ -856,6 +856,10 @@ $(document).ready(function() {
 			effect : "blind",
 			duration : 500
 		},
+		create: function(event, ui) { 
+			$(".delBtnClass").addClass("btn btn-danger");
+			$(".cancBtnClass").addClass("btn btn-secondary");
+		},	
 		open: function(event, ui) {
 			console.log("open delete hour dialog");
 
@@ -885,7 +889,7 @@ $(document).ready(function() {
 
 		{
 			text : "CANCEL",
-			"class" : 'cancBtnClass',
+			"class" : 'cancBtnClass btn btn-secondary',
 			click : function() {
 				$(this).dialog("close");
 			}

@@ -241,117 +241,25 @@ public class ServiceClientController {
 
 	}
 
-
 	/**
-	 * When a user selects on an contact ID (or open opening) in the add service client dialog, we display that selected
-	 * contact's information (such as name, address, email, etc.) in the main contact fields where the user is not allowed to make changes to. 
-	 * 
-	 * ajaxPopulateMCFields is called by the populateMCFields function in listClients.js in order to obtain the selected 
-	 * main contact's information from the contact database and to return it back to the listClients.js so that the
-	 * js file has access to the information in order to populate the main contact fields in the add service client dialog box. 
-	 * 
-	 * Note this is also used for the editDlg when editing/updating a service client.
-	 * Note there is most likely a better way to do this.
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * 
-	 * @author lahouse
+	 * Ajax call to retrieve and return selected contact from the database.
 	 */
-	@GetMapping("/ajax/fillMCFields")
-	public ModelAndView ajaxPopulateMCFields(HttpServletRequest request, HttpServletResponse response) { 
-
-		response.setContentType("text/html");
-
-		ModelAndView mav = new ModelAndView("/serviceclients/ajax_contactFields"); 
-
-		int id = Integer.parseInt(request.getParameter("ID")); // Harvests the selected contact's ID
+	@ResponseBody
+	@GetMapping(value="/sc/ajax/contact/{id}", produces="application/json")
+	public ResponseEntity<Contact> ajaxFetchContact(@PathVariable Integer id) {
 
 		try {
+			log.debug("fetch contact " + id);
 
-			// Fetches the selected contact from the contact database
-			Contact selectedCon = contactDao.fetchContactById(id);
+			Contact con = contactDao.fetchContactById(id);
 
-			// Adds the selected contact's information to an html snippet so that we can access it
-			// in listClients.js in order to populate the main contact fields in the add dialog box in listClients.html
-			mav.addObject("mcFirstName", selectedCon.getFirstName());
-			mav.addObject("mcLastName", selectedCon.getLastName());
-			mav.addObject("mcEmail", selectedCon.getEmail());
-			mav.addObject("mcWorkPhone", selectedCon.getPhoneNumWork());
-			mav.addObject("mcMobilePhone", selectedCon.getPhoneNumMobile());
-			mav.addObject("mcStreet", selectedCon.getStreet());
-			mav.addObject("mcCity", selectedCon.getCity());
-			mav.addObject("mcState", selectedCon.getState());
-			mav.addObject("mcZip", selectedCon.getZipcode());
+			return new ResponseEntity<>(con, HttpStatus.OK);
 
 		} catch (Exception e) {
-
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
-		return mav;
 	}
-
-	/**
-	 * When a user selects on an contact ID (or open opening) in the add service client dialog, we display that selected
-	 * contact's information (such as name, address, email, etc.) in the other/secondary contact fields where the user is not allowed to make changes to. 
-	 * 
-	 * ajaxPopulateOCFields is called by the populateOCFields function in listClients.js in order to obtain the selected 
-	 * other/secondary contact's information from the contact database and to return it back to the listClients.js so that the
-	 * js file has access to the information in order to populate the other/secondary contact fields in the add service client dialog box. 
-	 * 
-	 * Note this is also used for the editDlg when editing/updating a service client.
-	 * Note there is most likely a better way to do this.
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * 
-	 * @author lahouse
-	 */
-	@GetMapping("/ajax/fillOCFields")
-	public ModelAndView ajaxPopulateOCFields(HttpServletRequest request, HttpServletResponse response) { 
-
-		response.setContentType("text/html");
-
-		ModelAndView mav = new ModelAndView("/serviceclients/ajax_contactFields"); 
-
-		int id = Integer.parseInt(request.getParameter("ID")); // Harvests the selected contact's ID
-
-		try {
-
-			// Fetches the selected contact from the contact database
-			Contact selectedCon = contactDao.fetchContactById(id);
-
-			// Adds the selected contact's information to an html snippet so that we can access it
-			// in listClients.js in order to populate the other/secondary contact fields in the add dialog box in listClients.html
-			mav.addObject("ocFirstName", selectedCon.getFirstName());
-			mav.addObject("ocLastName", selectedCon.getLastName());
-			mav.addObject("ocEmail", selectedCon.getEmail());
-			mav.addObject("ocWorkPhone", selectedCon.getPhoneNumWork());
-			mav.addObject("ocMobilePhone", selectedCon.getPhoneNumMobile());
-			mav.addObject("ocStreet", selectedCon.getStreet());
-			mav.addObject("ocCity", selectedCon.getCity());
-			mav.addObject("ocState", selectedCon.getState());
-			mav.addObject("ocZip", selectedCon.getZipcode());
-
-		} catch (Exception e) {
-
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return mav;
-	}
-
+	
 	/**
 	 * Testing the ServiceClient dao
 	 * @param request
