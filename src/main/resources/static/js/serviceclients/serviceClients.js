@@ -146,8 +146,121 @@ function onViewClick() {
 		alert("Error");
 		updateTips(jqXHR.responseText);
 	});
-
 }
+
+/**
+ * opens and populates the fields of service client to be
+ * updated.
+ * 
+ * @returns
+ */
+function onEditClick() {
+	
+	var selSc = $(this).attr("scid"); // The ID of the selected service client to be updated	
+	
+	console.log("Selected updated/edit service client: " + selSc);
+	
+	$("#editDlg").data("selectedSrvClient", selSc).dialog("open"); // opens the edit dialog
+	
+	// retrieve event type details
+	$.ajax({
+		method : "GET",
+		url : "/srv/sc/ajax/sc/" + selSc,
+		cache : false,
+		dataType: "json"
+	})
+	/*
+	 * If success, then prepopulate the selected service clients fields in the edit dialog
+	 */
+	.done(function(sc) {
+		
+		console.log(sc);
+
+		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;
+		var otherContactFullName = sc.otherContact.firstName + " " + sc.otherContact.lastName;
+		
+		$("#editDlg_name").val(sc.name);
+		$("#editDlg_boardMemberName").val(sc.currentBoardMember.uid);
+		$("#editDlg_category").val(sc.category);
+		$("#editDlg_mainContactName").val(mainContactFullName);
+		$("#editDlg_mainContactEmail").val(sc.mainContact.email);
+		$("#editDlg_mainContactWorkPhone").val(sc.mainContact.phoneNumWork);
+		$("#editDlg_mainContactMobilePhone").val(sc.mainContact.phoneNumMobile);
+		$("#editDlg_mainContactStreet").val(sc.mainContact.street);
+		$("#editDlg_mainContactCity").val(sc.mainContact.city);
+		$("#editDlg_mainContactState").val(sc.mainContact.state);
+		$("#editDlg_mainContactZip").val(sc.mainContact.zipcode);
+		$("#editDlg_mainContactID").val(sc.mainContact.contactId);
+		$("#editDlg_otherContactName").val(otherContactFullName);
+		$("#editDlg_otherContactEmail").val(sc.otherContact.email);
+		$("#editDlg_otherContactWorkPhone").val(sc.otherContact.phoneNumWork);
+		$("#editDlg_otherContactMobilePhone").val(sc.otherContact.phoneNumMobile);
+		$("#editDlg_otherContactStreet").val(sc.otherContact.street);
+		$("#editDlg_otherContactCity").val(sc.otherContact.city);
+		$("#editDlg_otherContactState").val(sc.otherContact.state);
+		$("#editDlg_otherContactZip").val(sc.otherContact.zipcode);
+		$("#editDlg_otherContactID").val(sc.otherContact.contactId);
+			
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+}
+
+/**
+ * Makes the request back to our server to update the service client
+ * whose new params/values we extract from the edit dialog.
+ * @returns
+ */
+function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, otherContactId, boardMemberId, categoryField) {
+
+	// get the forms values as strings
+	var srvClientNameStr = $(srvClientNameField).val();
+	var categoryStr = $(categoryField).val();
+	
+	// peek at values to verify
+	console.log("srv client id: " + srvClientId + " main contact id: " + mainContactId + " other contact id: " + otherContactId + 
+			" board mem id: " + boardMemberId + " name: " + srvClientNameStr + " category: " + categoryStr);
+	$.ajax({
+		method: "POST",
+		url: "/srv/sc/ajax/editSc",
+		cache: false,
+		data: {scid: srvClientId, name: srvClientNameStr, cid1: mainContactId, cid2: otherContactId, bmId: boardMemberId, cat: categoryStr},
+	})
+	/*
+	 * If successful then update the service client to the list with the new values.
+	 */
+	.done(function(sc) {
+		console.log("updated service client");
+		console.log(sc);
+		
+		// get the selected combo box text
+		var boardMemberName = $("#editDlg_boardMemberName option:selected" ).text();
+		var mainContactName = $("#editDlg_mainContactName").val();
+		
+		console.log(mainContactName);
+		// Updates the edited event type's row with the new values
+		$("#scid-" + srvClientId + " td[name = 'sc_title']").html($(srvClientNameField).val());
+		$("#scid-" + srvClientId + " td[name ='sc_contact_name']").html(mainContactName);
+		$("#scid-" + srvClientId + " td[name ='sc_bm_name']").html(boardMemberName);
+		$("#scid-" + srvClientId + " td[name ='sc_category']").html($(categoryField).val());
+
+		$("#editDlg").dialog("close");
+
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+//		updateTips(jqXHR.responseText);
+	});
+}
+
 /**
  * Updates an existing service client in the table with the new values. The parameters follow the update method
  * in the ServiceClientDao except that the main contact's name is also passed in, in order to update the table 
@@ -556,17 +669,20 @@ function onViewClick() {
  */
 function onPageLoad() {
 
-	/*
+	/**
 	 * Button connections defined below
 	 */
 
 	// connect the delete action to all delete buttons tagged with btnScDel class
 	$(".btnScDel").click(onDeleteClick);
-	
+
 	// connect the view action to all view buttons
 	$(".btnScView, .scRow").click(onViewClick);
-	
-	/*
+
+	// connect the edit action to all edit buttons
+	$(".btnScEdit").click(onEditClick);
+
+	/**
 	 * Dialog functions defined below
 	 */
 
@@ -606,7 +722,7 @@ function onPageLoad() {
 				}
 			}]
 	});
-	
+
 	// Register and hide the view dialog div until a row or view button is clicked on.
 	// displays the service client's info
 	$("#viewDlg").dialog({
@@ -630,6 +746,62 @@ function onPageLoad() {
 			}
 		} ]
 	});
+	
+	// Register and hide the edit dialog div until an edit button is clicked on.
+	$("#editDlg").dialog({
+		autoOpen: false,
+		height: 500,
+		width: 700,	
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		modal: true,
+		dialogClass: "editDlgClass",
+		open: function(event, ui) {
+			
+			/*
+			 * Removes previous error messages from the fields.
+			 */
+//			$("#editDlg_name").removeClass("is-invalid");
+	//		$(".validationTips" ).removeClass("alert alert-danger").text("");
+			
+		},							
+		buttons: [
+			{
+				text: "Update", 
+				"id": "addBtnDlg",
+				"class": 'btn',
+				click: function() {		
+					
+					var selected_shid = $(this).data('selectedSrvClient'); // The selected service client's ID
+					var selected_mainContactID = $("#editDlg_mainContactID").children("option:selected").val(); // ID for main contact
+					var selected_otherContactID = $("#editDlg_otherContactID").children("option:selected").val(); // ID for other/secondary contact
+					var selected_boardMemberID = $("#editDlg_boardMemberName").val(); // ID for board member
+							
+					/*
+					 * Validates that the fields of the edit service client dialog are not empty.
+					 * If all the fields are valid, updates the service client to the table and closes the dialog.
+					 */
+			//		if(checkForEmptyFields("#editDlg_name")){
+						
+					ajaxEditClientNow(selected_shid, "#editDlg_name", selected_mainContactID,
+							selected_otherContactID, selected_boardMemberID, "#editDlg_category");
+						
+					//			}					
+				}
+				
+			},
+			{	
+				text: "Cancel",
+				"class": 'btn btn-secondary',
+				click: function() {
+					$(this).dialog("close");
+				}
+			}]
+	});
+
 
 }
 
@@ -724,78 +896,7 @@ $(document).ready(onPageLoad);
 //			}],
 //	});
 //
-//	// Register and hide the add dialog div until an edit button is clicked on.
-//	$("#editDlg").dialog({
-//		autoOpen: false,
-//		height: 500,
-//		width: 700,
-//		modal: true,
-//		dialogClass: "editDlgClass",
-//		open: function(event, ui) {
-//			
-//			var selected_scid = $("#editDlg").data('selectedClientID'); // Harvests the selected service client's id from the table to pass to js function
-//			
-//			// Populates the selected service client's contact information for the edit service client dialog box.
-//			scInfo(selected_scid); 
-//			
-//			/*
-//			 * When a user changes the main or other contact ID from the drop down menu that is inside the editDlg,
-//			 * we update the contact information fields (name, phone numbers, etc.) with the newly selected contact
-//			 */
-//			$("#editDlg_mcID").change("click", function() {
-//				var selected_mcID = $(this).children("option:selected").val();
-//				populateMCFields(selected_mcID);				   
-//			}); 
-//
-//			$("#editDlg_ocID").change("click", function() {
-//				var selected_ocID = $(this).children("option:selected").val();
-//				populateOCFields(selected_ocID);				   
-//			}); 
-//
-//			/*
-//			 * Removes previous error messages from the fields.
-//			 */
-//			$("#editDlg_name").removeClass("is-invalid");
-//			$(".validationTips" ).removeClass("alert alert-danger").text("");
-//			
-//		},							
-//		buttons: [
-//			{
-//				text: "Update Service Client", 
-//				"id": "addBtnDlg",
-//				"class": 'btn',
-//				click: function() {		
-//					
-//					var selected_shid = $("#editDlg").data('selectedClientID'); // The selected service client's ID
-//					var selected_mcID = $("#editDlg_mcID").children("option:selected").val(); // ID for main contact
-//					var selected_ocID = $("#editDlg_ocID").children("option:selected").val(); // ID for other/secondary contact
-//					var selected_bm = $("#editDlg_bmName").val(); // ID for board member
-//					var selected_bmName = $("[id='editDlg_bmName'] option:selected").text();
-//					
-//					
-//					/*
-//					 * Validates that the fields of the edit service client dialog are not empty.
-//					 * If all the fields are valid, updates the service client to the table and closes the dialog.
-//					 */
-//					if(checkForEmptyFields("#editDlg_name")){
-//						
-//						editClient(selected_shid, "#editDlg_name", selected_mcID, selected_ocID, selected_bm, "#editDlg_cat", "#editDlg_mcName", selected_bmName);
-//						
-//						$("#editDlg").dialog("close");
-//					}					
-//				}
-//				
-//			},
-//			{	
-//				text: "Cancel",
-//				"class": 'btn btn-secondary',
-//				click: function() {
-//					$("#editDlg").dialog("close");
-//
-//				}
-//			}]
-//	});
-//
+//	
 //	/*
 //	 * Register and hide the service hour information dialog div until a row is clicked on.
 //	 * The selected service client's ID is passed into this function when the row is clicked on, which is

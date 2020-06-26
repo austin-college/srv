@@ -26,6 +26,7 @@ import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
+import srv.utils.ParamUtil;
 import srv.utils.UserUtil;
 
 /**
@@ -200,52 +201,55 @@ public class ServiceClientController {
 	}
 
 	/**
-	 * Updating an existing service client in the service client list.The parameters follow
-	 * the parameters of the update method in the ServiceClientDao.
+	 * Ajax call to update the specified service client in the database.
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	@PostMapping("/ajax/editSc")
-	public ModelAndView ajaxScUpdate(HttpServletRequest request, HttpServletResponse response) {
+	@PostMapping("/sc/ajax/editSc")
+	public ModelAndView ajaxUpdateServiceClient(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/html");
-
-		// Obtains the information from the JavaScript function
-		int id = Integer.parseInt(request.getParameter("ID")); 
-		String clientName = request.getParameter("clientName");
-		int cid1 = Integer.parseInt(request.getParameter("mcID")); // main contact ID 
-		int cid2 = Integer.parseInt(request.getParameter("ocID"));  // other/secondary ID
-		int bmId = Integer.parseInt(request.getParameter("bmID"));
-		
-		String category = request.getParameter("cat");
-
-		/*
-		 * Prepare and render the response of the template's model for the HTTP response
-		 */
+	
+		// Prepare and render the response of the template's model for the HTTP response
 		ModelAndView mav = new ModelAndView("/serviceclients/ajax_singleScRow");
 
 		try {
 			
+			// fetch the data sent from the JavaScript function and verify the fields
+			String name = request.getParameter("name");
+			String cat = request.getParameter("cat");
+			
+			Integer scid = ParamUtil.requiredIntegerParam(request.getParameter("scid"), "Service client id is required.");
+			Integer cid1 = ParamUtil.requiredIntegerParam(request.getParameter("cid1"), "Main contact id is required.");
+			Integer cid2 = ParamUtil.requiredIntegerParam(request.getParameter("cid2"), "Other/secondary contact id is required.");
+			Integer bmId = ParamUtil.requiredIntegerParam(request.getParameter("bmId"), "board member id is required.");
+			
 			// Updates the service client in the service client database.
-			srvClientDao.update(id, clientName, cid1, cid2, bmId, category);
+			srvClientDao.update(scid, name, cid1, cid2, bmId, cat);
 			
 			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
-			ServiceClient updatedClient = srvClientDao.fetchClientById(id);
+			ServiceClient updatedClient = srvClientDao.fetchClientById(scid);
 
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", updatedClient.getScid());
 			mav.addObject("name", updatedClient.getName());
-			mav.addObject("firstName", updatedClient.getMainContact().getFirstName());
-			mav.addObject("lastName", updatedClient.getMainContact().getLastName());
-			mav.addObject("bmFirstName", updatedClient.getCurrentBoardMember().getContactInfo().getFirstName());
-			mav.addObject("bmLastName", updatedClient.getCurrentBoardMember().getContactInfo().getLastName());
+			mav.addObject("mainContactName", updatedClient.getMainContact().fullName());
+			mav.addObject("boardMemberName", updatedClient.getCurrentBoardMember().getContactInfo().fullName());
 			mav.addObject("category", updatedClient.getCategory());  
 
 		} catch (Exception e) {
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
+			log.error("\n\n ERROR ");
+			log.error(e.getMessage());
+			
+			e.printStackTrace();
+			
+			response.setStatus(410);
+			
+			mav = new ModelAndView("/error");
+			
+			mav.addObject("errMsg", e.getMessage());
 		}
 
 		return mav;

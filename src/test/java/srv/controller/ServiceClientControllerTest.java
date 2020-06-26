@@ -2,12 +2,14 @@ package srv.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +63,10 @@ public class ServiceClientControllerTest {
 
 	private ServiceClient sc1;
 	private ServiceClient sc2;
+	private Contact con1;
+	private Contact con2;
+	private User bm1;
+	private User bm2;
 
 	/**
 	 * 
@@ -75,11 +81,18 @@ public class ServiceClientControllerTest {
 	@Before
 	public void setupTestFixture() {
 		
-		User bm1 = new User()
+		bm1 = new User()
 				.setUid(1)
 				;
 		
-		Contact con1 = new Contact()
+		bm2 = new User()
+				.setUid(2)
+				.setContactInfo(new Contact()
+						.setFirstName("Roo")
+						.setLastName("Jack"))
+				;
+		
+		con1 = new Contact()
 				.setFirstName("Joe")
 				.setLastName("Smith")
 				.setContactId(1)
@@ -92,7 +105,7 @@ public class ServiceClientControllerTest {
 				.setZipcode("75090")
 				;
 
-		Contact con2 = new Contact()
+		con2 = new Contact()
 				.setFirstName("Tina")
 				.setLastName("Franklin")
 				.setContactId(2)
@@ -125,6 +138,18 @@ public class ServiceClientControllerTest {
 		testClients.add(sc1);
 		testClients.add(sc2);
 
+	}
+	
+	private String dquote(String anyStr) {
+		if (anyStr == null) return null;
+		return anyStr.replaceAll("[']", "\"");
+	}
+
+	@Test
+	public void test_replace_single_quotes_function() {
+		String str = "tr/td[@id='xyz']";
+		System.err.println(dquote(str));
+		assertEquals("tr/td[@id=\"xyz\"]",dquote(str));
 	}
 
 	/**
@@ -198,7 +223,69 @@ public class ServiceClientControllerTest {
 		Mockito.verify(mockSrvClientDao).fetchClientById(1);
 
 	}
+	
+	
+	/**
+	 * Make sure the controller is updating an existing service client when asked.
+	 * Note all the parameters are valid.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxUpdateServiceClient_whenParamValid() throws Exception {
 
+		int scid = 1;
+		String name = "Crisis Center";
+		String category = "Variety";
+		int cid1 = 2;
+		int cid2 = 1;
+		int bmId = 2;
+
+		// change the values of our current event type
+		sc1.setName(name)
+		.setCategory(category)
+		.setMainContact(con2)
+		.setOtherContact(con1)
+		.setCurrentBoardMember(bm2)
+		;
+
+		// mock dependencies
+		Mockito.doNothing().when(mockSrvClientDao).update(1, name, cid1, cid2, bmId, category);
+		Mockito.when(mockSrvClientDao.fetchClientById(1)).thenReturn(sc1);
+
+		// now perform the test and pretend that jquery sends in the parameters to update
+		// the service client
+		mvc.perform(post("/sc/ajax/editSc")
+				.param("name", name)
+				.param("cat", category)
+				.param("scid", String.valueOf(scid))
+				.param("cid1", String.valueOf(cid1))
+				.param("cid2", String.valueOf(cid2))
+				.param("bmId", String.valueOf(bmId))
+
+				.contentType(MediaType.TEXT_HTML))
+
+		.andExpect(status().isOk())
+
+		// there's a row in our table that has a name/title td inside whose text better be 'Crisis Center' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_title' and text()='Crisis Center']")).exists())
+
+		// and there's a row in our table that has a main contact name td inside whose text better be 'Tina Franklin' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_contact_name' and text()='Tina Franklin']")).exists())
+
+		// and there's a row in our table that has a board member name td inside whose text better be 'Roo Jack' 
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_bm_name' and text()='Roo Jack']")).exists())
+
+		// and there's a row in our table that has a category td inside whose text better be 'Variety'
+		.andExpect(xpath(dquote("//tr[@id='scid-1']/td[@name='sc_category' and text()='Variety']")).exists())
+
+		;
+
+		// verify the dao got involved
+		Mockito.verify(mockSrvClientDao).update(1, name, cid1, cid2, bmId, category);
+		Mockito.verify(mockSrvClientDao).fetchClientById(1);
+	}
 	
 	/**
 	 * Test how our controller responds when an exception is thrown

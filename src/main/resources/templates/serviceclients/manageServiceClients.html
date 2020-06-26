@@ -54,14 +54,14 @@
 							<td name='sc_id' class='scRow' scid="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
 							<td name='sc_title' class='scRow' scid="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
 							<td name='sc_contact_name' class='scRow'
-								scid="${sc.scid?c}">${sc.mainContact.firstName!"UNKNOWN"}
-								${sc.mainContact.lastName!"UNKNOWN"}</td>
-							<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.firstName!"UNKNOWN"} ${sc.currentBoardMember.contactInfo.lastName!"UNKNOWN"}</td>
+								scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}
+								</td>
+							<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.fullName()!"UNKNOWN"}</td>
 							<td name='sc_category' class='scRow' scid="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
 							
 							<!-- action buttons -->
 							<td class="text-center scActions">
-								<button type="button" class="edit btn" scid="${sc.scid?c}">
+								<button type="button" class="edit btn btnScEdit" scid="${sc.scid?c}">
 									<span class="fas fa-pencil-alt"></span> 
 								</button>
 								<button class="btn btnView btnScView" scid="${sc.scid?c}">
