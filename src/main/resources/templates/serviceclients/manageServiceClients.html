@@ -1,0 +1,129 @@
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage "Sponsor Manager" "listStyle.css" "serviceclients/serviceClients.js">
+
+<!-- Holds the main elements of the page which include the service client table and its title as well as the add buttons and dialogs. -->
+<div id="mainContainer" class="container">
+	
+	<!-- The row below contains the table's title. -->
+	<div class="row">
+		<div class="col">
+			<p>Please select the action you would like to take.</p>
+		</div>
+	</div>
+	
+	<!-- table title. -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+			<h2>Sponsors</h2>
+		</div>
+	</div>
+	
+	<!-- The row below contains the button to add another service client to the table. Only for admin users.	-->
+	<#if userAdmin>
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col widget rounded">
+			<button id="btnEvNew" class="btn btn-md addBtn ui-button ui-widget">
+				<span class="fas fa-plus-circle"></span> Create New
+			</button>
+		</div>
+	</div>
+	</#if>
+
+	<!-- The row below contains the table of service clients. -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+			<div class="container ui-widget table-responsive">
+				<table id="client_tbl"
+					class="table ui-widget ui-widget-content table-striped table-bordered table-hover" cellspacing="0"
+					width="100%">
+				
+					<thead>
+						<tr class="ui-widget-header">
+							<th>ID</th>
+							<th>Name</th>
+							<th>Primary Contact Name</th>
+							<th>Board Member</th>
+							<th>Category</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody id="sc_tbl_body">
+						<#list clients as sc>
+						<tr id="scid-${sc.scid?c}">
+							<td name='sc_id' class='scRow' scid="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
+							<td name='sc_title' class='scRow' scid="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
+							<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}</td>
+							<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.fullName()!"UNKNOWN"}</td>
+							<td name='sc_category' class='scRow' scid="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
+							
+							<!-- action buttons -->
+							<td class="text-center scActions">
+								<button type="button" class="edit btn btnScEdit" scid="${sc.scid?c}">
+									<span class="fas fa-pencil-alt"></span> 
+								</button>
+								<button class="btn btnView btnScView" scid="${sc.scid?c}">
+									<i class="fas fa-search"></i>
+								</button>
+								<#if userAdmin>
+								<button type="button" class="btnScDel btn" scid="${sc.scid?c}">
+									<span class="fas fa-trash-alt"></span> 
+								</button>
+								</#if>
+							</td>
+						</tr>
+						</#list>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- back button for admin-->
+	<#if userAdmin>	
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<a class="btn backBtn" href="/srv/home/admin"> <i
+				class="	fas fa-arrow-left"></i> Back
+			</a>
+		</div>
+
+	<!-- back button for board member-->
+	<#else>
+		<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+			<a class="btn backBtn" href="/srv/home/boardMember"> <i
+				class="	fas fa-arrow-left"></i> Back
+			</a>
+		</div>
+	</#if>
+
+	<!-- The div below defines the delete dialog for deleting an service client -->
+	<div id="deleteDlg" title="DELETE SPONSOR"	class="ui-widget delWid" style="display: none">
+		<p id="del_confirm">
+			Are you sure you want to delete this sponsor? <br />
+		</p>
+		
+		<div id="delScId">id</div>
+		<div id="delScName">name</div>		
+	</div>
+
+	<!-- The div below defines the add dialog for adding an service client -->	
+	<div id="addDlg" title="New Sponsor" class="ui-widget" style='overflow: auto'>
+		<#include "/serviceclients/addClient.html"/>
+	</div>
+
+	<!-- The div below defines the edit dialog for updating an existing service client-->
+	<div id="editDlg" title="Update Sponsor" class="ui-widget"	style='overflow: auto'>
+		<#include "/serviceclients/editClient.html"/>
+	</div>
+
+	<!--  The div below shows a modal view of the service client information (contacts, names, etc) when the row was selected 
+	      Does not allow for the user to edit any of the fields or provide any buttons to do so. -->
+	<div id="viewDlg" title="Sponsor Details"	class="ui-widget">
+		<#include "/serviceclients/clientDetails.html"/>
+	</div>
+
+<!-- JavaScript file that will allow us to sort the table columns -->
+<script src="/srv/js/datatables.min.js"></script>
+<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
+
+</@layout.stdpage>

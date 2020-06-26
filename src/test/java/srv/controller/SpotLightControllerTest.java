@@ -53,7 +53,7 @@ public class SpotLightControllerTest {
 	private WebApplicationContext webApplicationContext;    // context is faked for test
 
 
-	private static final int DEFAULT_IMAGE_SIZE = 1741373; 
+	private static final int DEFAULT_IMAGE_SIZE = 353310; 
 
 	
 	/**

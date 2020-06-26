@@ -345,7 +345,12 @@ function onDeleteClick() {
 	alert("Feature is not functional yet");
 }
 
-//alert the user that this feature is dead
+/**
+ * displays the selected event type's details 
+ * in the dialog 
+ * 
+ * @returns
+ */
 function onViewClick() {
 	
 	$("#viewDlg").dialog("open"); // opens the view dialog for admin users

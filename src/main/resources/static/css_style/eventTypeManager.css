@@ -12,12 +12,14 @@ thead th {
 	color: white;
 	text-align: center;
 }
+
 /* Style settings for the add buttons.*/
 #addBtnContainer{
 	background-color: #db9401;
 	color: white;
 	text-align: center;
 }
+
 /* Style settings for the view buttons in a table */
 .btnView {
 	background-color: #427dc6;
