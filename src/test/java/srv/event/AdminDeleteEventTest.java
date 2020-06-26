@@ -22,11 +22,13 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.SeleniumTest;
+import srv.domain.user.JdbcTemplateServantUserDao;
 
 
 /**
@@ -39,6 +41,9 @@ import srv.SeleniumTest;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AdminDeleteEventTest extends SeleniumTest {
+	
+	@Autowired
+	JdbcTemplateServantUserDao servantDao;
 
 
 	@Test

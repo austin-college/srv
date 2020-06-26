@@ -1,0 +1,161 @@
+<!-- The user is free to add the service client's name, board member, and category. The contact information for the
+	service client is assuming that the contact is already in the contact database. Thus, the user can select the
+	desired contact ID which then pre-populates the contact information field from that contact but the user does
+	not have the ability to change it (such as contact name, phone, etc) -->	
+<div class="container">
+	<div class="row">
+		<div class='form-group'>
+			<div class="container-fluid">
+				<p class="validationTips"></p>
+					<div class='form-row' style='padding-bottom:15px'>
+						<div class='col-sm-4'>
+							<label for="addDlg_name"><b>Name of Sponsor</b></label>
+						</div>
+						<div class='col-sm-6'>
+							<input id="addDlg_name" class="form-control" size="50"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class='col-sm-4'>
+							<label for="addDlg_boardMemberName"><b>Board Member</b></label>
+						</div>
+						<div class="form-group col-sm-6">
+							<select id="addDlg_boardMemberName" class='form-control'>
+								<#list users as boardMember>
+									<option value="${boardMember.uid}">${boardMember.contactInfo.fullName()!"UNKNOWN"}</option>
+								</#list>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class='col-sm-4'>
+							<label for="addDlg_category"><b>Category</b></label>
+						</div>
+						<div class="form-group col-sm-6">
+							 <select id="addDlg_category" class="form-control">
+								<option value="Animals">Animals</option>
+								<option value="Community">Community</option>
+								<option value="Education">Education</option>
+								<option value="Seniors">Seniors</option>
+								<option value="Medical">Medical</option>
+								<option value="Crisis Support">Crisis Support</option>
+								<option value="Variety">Variety</option>
+							</select>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<h5><b>Primary Contact Information</b></h5>
+							<hr class=".col-md-11-auto"/>
+						</div>
+					</div>
+					<div class='form-row'>
+						<div class='col-sm-3'>
+							<label for="addDlg_mainContactID"><b>Select Contact ID</b></label>
+						</div>
+						<div class='col-sm-2'>
+							<select id="addDlg_mainContactID" class='form-control mainContactRow'>
+								<#list contacts as con>
+									<option>${con.contactId?c}</option>
+								</#list>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="addDlg_mainContactName"><b>Name</b></label>
+							<input class="form-control" id="addDlg_mainContactName" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="addDlg_mainContactEmail"><b>Email</b></label>
+							<input class="form-control" id="addDlg_mainContactEmail" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="addDlg_mainContactWorkPhone"><b>Phone Number	(Work)</b></label> 
+							<input class="form-control" id="addDlg_mainContactWorkPhone"	readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="addDlg_mainContactMobilePhone"><b>Phone Number (Mobile)</b></label> 
+							<input class="form-control" id="addDlg_mainContactMobilePhone" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="addDlg_mainContactStreet"><b>Address</b></label> 
+						<input class="form-control" id="addDlg_mainContactStreet" readonly="readonly"/>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="addDlg_mainContactCity"><b>City</b></label> 
+							<input class="form-control" id="addDlg_mainContactCity" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="addDlg_mainContactState"><b>State</b></label> 
+							<input id="addDlg_mainContactState" class="form-control" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="addDlg_mainContactZip"><b>Zip</b></label> 
+							<input class="form-control" id="addDlg_mainContactZip" readonly="readonly"/>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col'>
+							<h5><b>Secondary Contact Information</b></h5>
+							<hr class=".col-md-11-auto"/>
+						</div>
+					</div>
+					<div class='form-row'>
+						<div class='col-sm-3'>
+							<label for="addDlg_otherContactID"><b>Select Contact ID</b></label>
+						</div>
+						<div class='col-sm-2'>
+							<select id="addDlg_otherContactID" class='form-control otherContactRow'>
+								<#list contacts as con>
+									<option>${con.contactId?c}</option>
+								</#list>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="addDlg_otherContactName"><b>Name</b></label> 
+							<input class="form-control" id="addDlg_otherContactName" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="addDlg_otherContactEmail"><b>Email</b></label> 
+							<input class="form-control" id="addDlg_otherContactEmail" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="addDlg_otherContactWorkPhone"><b>Phone Number	(Work)</b></label> 
+							<input class="form-control" id="addDlg_otherContactWorkPhone"	readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="addDlg_otherContactMobilePhone"><b>Phone Number (Mobile)</b></label> 
+							<input class="form-control" id="addDlg_otherContactMobilePhone" readonly="readonly"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="addDlg_otherContactStreet"><b>Address</b></label> 
+						<input class="form-control" id="addDlg_otherContactStreet" readonly="readonly"/>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="addDlg_otherContactCity"><b>City</b></label> 
+							<input class="form-control" id="addDlg_otherContactCity" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="addDlg_otherContactState"><b>State</b></label> 
+							<input id="addDlg_otherContactState" class="form-control" readonly="readonly"/>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="addDlg_otherContactZip"><b>Zip</b></label> 
+							<input class="form-control" id="addDlg_otherContactZip" readonly="readonly"/>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -210,9 +210,9 @@ public class HomeControllerTest {
 		mvc.perform(get("/home/admin").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(content().string(containsString("Welcome, Admin")))
 				// testing for the Manage Service Client Button - Via the text it has
-				.andExpect(content().string(containsString("<b> Manage Service Clients</b>")))
+			.andExpect(content().string(containsString("Manage Sponsors")))
 				// testing a broad statement to make sure we actually have buttons on the page
-				.andExpect(content().string(containsString("href=\"/srv/sc/list\" class=\"btn btn-light\"")));
+			.andExpect(content().string(containsString("href=\"/srv/sc\" class=\"btn btn-light\"")));
 
 	}
 

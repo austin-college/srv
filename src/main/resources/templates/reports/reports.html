@@ -1,0 +1,28 @@
+<#import "/main_layout.html" as layout />
+<@layout.stdpage "Home" "home.css">
+
+<div id="mainContainer" class="container">
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col-md">
+			<h1>Generate Reports</h1>
+			<p>Please select which report you would like to generate</p>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<!-- Written by Nadia Hannon -->
+		<div class="row justify-content-between">
+
+			<a href="/srv/reports/summary" class="btn btn-light"
+				id= summaryReport
+				style="width: 48%; border-color: black;"> <i
+				class='fas fa-dog'
+				style="padding-right: 15px; font-size: 36px; color:#047cf1"></i> <b> Summary Report</b>
+				<p>Summary of the years service achievements</p>
+		</a>
+		</div>
+	</div>
+
+
+</div>
+</@layout.stdpage>

@@ -7,21 +7,22 @@
 	<div id="welcomeElements" class="container-fluid">
 		<div class="row">
 		<!-- A column for the heading and text which stacks on screens less than 576px -->
-			<div class="col-sm" id="welcome-text">
+			<div class="col-sm-6" id="welcome-col">
 			<!-- Service Station heading -->
 			  <h1> Service Station </h1>
 			  <!-- Row for text -->
-		      <div class="row">
-	  			<div id="spotlightCol" class="col-sm text-center">
-	  				<img id="spotlightImg" alt="Service Spotlight" src="/srv/splash/img/1" class="rounded">
+		      <div class="row" >
+	  			<div id="spotlightCol" class="text-center">
+	  				<img id="spotlightImg" alt="Service Spotlight" src="/srv/splash/img/1" class="rounded ">
 	  				<div id="spotlightDesc" class="text-left">
 	  				${spotTxt}
 	  				</div>	  				
 	  			</div>
+	  			
 	  		  </div>  
 			</div>
 			<!-- Column for announcement elements; will stack on screens less than 576px -->
-			<div class="col-sm" id="announcements-col">
+			<div class="rounded border col-sm-6" id="announcements-col" >
 				<!-- A container that contains the announcement elements -->
 				<div id="announcementElements" class="container-fluid">	
 				<!-- The row below contains the announcement title, aligned at start-->
@@ -44,7 +45,7 @@
 						</a> 
 					</#list>
 	  	  		</div>
-	  		<div id="seeAllCol" class="col-sm" style="padding-top:5px; padding-bottom: 20px">
+	  		<div id="seeAllCol" style="padding-top:5px; padding-bottom: 20px">
 	  			<a id="seeAllLink" href="/srv/events">See All</a>
 	  		</div>
 	  		</div>
