@@ -7,15 +7,18 @@ body {
 	background-color: white;
 }
 
+
+#announcements-col {
+	background: #f9edd6;
+}
+
 /* Style for the announcement title */
 #announceTitle {
-	padding-left:50px; 
 	padding-top:20p
 }
 
 /* Style for the column containing the list of announcements and find opportunity*/
 #annListCol, #findOpTitle {
-	padding-left:50px
 }
 
 /* Style for the See All link */
@@ -27,13 +30,7 @@ body {
 #spotlightCol, #rowIcons {
 	padding-top:25px
 }
-/* Style for section titles */
-h1 {
-	font-family: Roboto, sans-serif;
-	font-weight: 700;
-	line-height: 1.2;
-	
-}
+
 
 /* Style for the horizontal rules below section titles */
 hr {
@@ -44,15 +41,15 @@ hr {
 
 /* Style for the containers */
 #announcementElements.container-fluid, #findOpElements.container-fluid{
-	background-color: white;
+
    	width: 100%;
    	padding-bottom: 50px;
 }
 
 /* Style for the announcement list */
 #announceList {
-	font-size: 20px;
-	margin-top: 25px;
+	font-size: 12pt;
+	margin-top: 2em;
 }
 
 /* Change the color of links on hover */
@@ -65,18 +62,23 @@ hr {
 #spotlightDesc {
 	font-family: Roboto, sans-serif;
 	font-size: 18px;
-	padding-top: 50px;
-	padding-left: 40px;
-	padding-right: 40px;
+	padding-top: 1em;
+	padding-left: 5%;
+	padding-right: 5%;
 	text-align: left;
 }
 
 /* Style for the spotlight image */
 #spotlightImg {
-	width: 600px;
-	height: 450px;
+	width: 90%;	
 	opacity: 0.95;
 }
+
+
+#welcome-col {
+	margin-bottom: 2em;
+}
+
 
 /* Style for opportunity icon circles */
 .dot {
@@ -128,6 +130,10 @@ i {
 
 /* Make the headings/titles AC red with a black border around it */
 h1 {
+	font-family: Roboto, sans-serif;
+	font-size: 4vmin;
+	font-weight: 700;
+	line-height: 1.2;
 	color: #a41e34;
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	text-shadow: -1px 1px 3px black;
 }
