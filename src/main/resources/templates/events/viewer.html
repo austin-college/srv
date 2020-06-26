@@ -1,6 +1,12 @@
 <#import "/main_layout.html" as layout />
 
 <@layout.stdpage "View Event" "eventDetails.css" "events.js">
+<#if err??>
+<div class="alert alert-danger row" id="page-error">
+${err}
+</div>
+</#if>
+	
 <div id="evDetails" class="container">
 <#include "/events/eventDetails.html"/>
 </div>
