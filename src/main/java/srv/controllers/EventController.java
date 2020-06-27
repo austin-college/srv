@@ -1,8 +1,10 @@
 package srv.controllers;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.view.RedirectView;
 
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
@@ -28,6 +33,7 @@ import srv.domain.event.eventype.EventType;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.User;
 import srv.services.EventService;
+import static srv.utils.ParamUtil.*;
 import srv.utils.UserUtil;
 
 /**
@@ -45,6 +51,9 @@ import srv.utils.UserUtil;
 @Controller
 @EnableWebSecurity
 public class EventController {
+
+	private static final String REGEX_VALID_DATE = "^now([+-][1-9]+)M$";
+	private static final int GROUP_MONTH_OFFSET = 1;
 
 	private static Logger log = LoggerFactory.getLogger(EventController.class);
 	
@@ -68,7 +77,7 @@ public class EventController {
 	 */
 	@Secured("ROLE_ADMIN")
 	@GetMapping("events")
-	public ModelAndView basePageAction(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String before,  @RequestParam(required = false) String after,
+	public ModelAndView basePageAction(RedirectAttributes attrs, @RequestParam(required = false) String before,  @RequestParam(required = false) String after,
 			@RequestParam(required = false) String eType, @RequestParam(required = false) String sc, @RequestParam(required = false) String bm) {
 
 		ModelAndView mav = new ModelAndView("events/adminManageEvents");
@@ -106,49 +115,66 @@ public class EventController {
 			if (before != null) {
 				
 				beforeP = before;
-				mav.addObject("beforeSelected", 1);
-				
-				// Filtering by last month's events
-				if (before.equals("now-1M"))
-					mav.addObject("monthSelected", 1);
+				if (before.equals("now")) {
+					mav.addObject("beforeSelected", 1);   // turn toggle switch on
+				}
+				else {
+					String monStr = matchingString(before, REGEX_VALID_DATE, GROUP_MONTH_OFFSET, "invalid before date expression");
+					int mon = Integer.parseInt(monStr);
+					log.debug("months: {}",mon);
+					mav.addObject("beforeSelected", 1);
+					mav.addObject("monthSelected", mon);
+					
+				}
 			}
 			
 			// Filtering by future events
 			if (after != null) {
 				
 				afterP = after;
-				mav.addObject("afterSelected", 1);
-				
-				// Filtering by next month's events
-				if (after.equals("now+1M"))
-					mav.addObject("monthSelected", 1);
+				if (after.equals("now")) {
+					mav.addObject("afterSelected", 1);
+				} else {
+					String monStr = matchingString(after, REGEX_VALID_DATE, GROUP_MONTH_OFFSET, "invalid after date expression");
+					int mon = Integer.parseInt(monStr);
+					log.debug("months: {}",mon);
+					mav.addObject("afterSelected", 1);					
+					mav.addObject("monthSelected", mon);
+				}
 			}
 			
 			// Filtering by event type
 			if (eType != null) {
-				eTypeP = Integer.valueOf(eType);
-				mav.addObject("selectedEtid", Integer.valueOf(eType));
+				eTypeP = optionalIntegerParam(eType, "Invalid Event Type ID; must be a positive integer.");
+				mav.addObject("selectedEtid", eTypeP);
 			}
 			
 			// Filtering by service client
 			if (sc != null) {
-				scP = Integer.valueOf(sc);
-				mav.addObject("selectedScid", Integer.valueOf(sc));
+				scP = optionalIntegerParam(sc, "Invalid Service client ID; must be a positive integer.");
+				mav.addObject("selectedScid", scP);
 			}
 			
 			// TODO needs board member dao support before this to work
 			if (bm != null) {
-				bmP = Integer.valueOf(bm);
-				mav.addObject("selectedBmid", Integer.valueOf(bm));
+				bmP = optionalIntegerParam(bm, "Invalid BoardMember ID; must be a positive integer.");
+				mav.addObject("selectedBmid", bmP);				
 			}
 			
 			myEvents = eventService.filteredEvents(beforeP, afterP, eTypeP, scP, bmP);			
 
 			mav.addObject("events", myEvents);
 
-		} catch (Exception e) {
+			
+		} catch (NumberFormatException e) {
+			mav.addObject("err", String.format("Unable to convert to number: %s", e.getMessage()));
+		}
+		catch (Exception e) {
 
-			e.printStackTrace();
+			// report any errors to an element on the page; assumes there is an element in our template.
+			log.error(e.getMessage());
+			mav.addObject("err", e.getMessage());
+			
 		}
 
 		return mav;
@@ -191,10 +217,12 @@ public class EventController {
 			mav.addObject("mainPhoneNum", theEvent.getContact().getPhoneNumMobile());
 			mav.addObject("otherPhoneNum", theEvent.getContact().getPhoneNumWork());
 			mav.addObject("email", theEvent.getContact().getEmail());
-//			
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			log.error(e.getMessage());
+			mav.addObject("err", e.getMessage());
+			
 		}
 		
 		return mav;
@@ -213,8 +241,17 @@ public class EventController {
 	@GetMapping("events/edit/{id}")
 	public ModelAndView editPageAction(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 
-		
 		ModelAndView mav = new ModelAndView("events/editor");
+
+	    Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+	    if (inputFlashMap != null) {
+	        String errorMsg = (String) inputFlashMap.get("err");
+	        if (errorMsg != null) {
+	        	mav.addObject("err", errorMsg);
+	        }
+	    }
+
+
 
 		try {
 
@@ -238,11 +275,9 @@ public class EventController {
 
 		} catch (Exception e) {
 
-			System.err.println("\n\n ERROR ");
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
+			mav.addObject("err", e.getMessage());
 
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		return mav;
@@ -259,7 +294,7 @@ public class EventController {
 	 */
 	
 	@PostMapping(value = "/events/update/{id}")
-	public ModelAndView updateEventAction(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public RedirectView updateEventAction(HttpServletRequest request, RedirectAttributes redirectAttrs, @PathVariable Integer id) {
 
 		try {
 			/*
@@ -268,101 +303,29 @@ public class EventController {
 			Event theEvent = eventService.eventById(id.intValue());
 			
 			// Harvesting the data
-			String titleStr = request.getParameter("evTitle");
+			String titleStr = requiredNonEmptyString(request.getParameter("evTitle"),"Event Title is required.");
+			theEvent.setTitle(titleStr);
 			
-			// Verifying the data
-			log.debug(titleStr);
-			if (titleStr != null) {
-				titleStr = titleStr.trim();
-				// case when the title is not empty
-				if (titleStr.length()>0) {
-					log.debug("updating event title from {} to [{}]",theEvent.getTitle(), titleStr);
-					theEvent.setTitle(titleStr);
-				}  // case when the title is empty
-				else {
-					throw new Exception("Event Title is required");
-				}
-			} 
-			
-			/*
-			 * Following the same steps above for rest of the fields:
-			 * Harvest each variables, verify each variables, set with new value
-			 */
-			String addressStr = request.getParameter("evAddress");
-			
-			log.debug(addressStr);
-			if(addressStr != null) {
-				addressStr = addressStr.trim();
-				if(addressStr.length()>0) {
-					log.debug("updating event address from {} to [{}]",theEvent.getAddress(), addressStr);
-					theEvent.setAddress(addressStr);
-				} else {
-					throw new Exception("Event Address is required");
-				}
-			} else {
-				throw new Exception("Event Address is required");
-			}
-			
-			String dateStr = request.getParameter("evDate");
-			
-			log.debug(dateStr);
-			if(dateStr != null) {
-				dateStr = dateStr.trim();
-				if(dateStr.length()>0) {
-					Date tempDate = new SimpleDateFormat("yyyy/MM/dd hh:mm").parse(dateStr);
-					log.debug("updating event date from {} to [{}]",theEvent.getDate(), tempDate);
-					theEvent.setDate(tempDate);
-				} else {
-					throw new Exception("Event Date is required");
-				}
-			} else {
-				throw new Exception("Event Date is required");
-			}
+
+			String addressStr = requiredNonEmptyString(request.getParameter("evAddress"),"Event Location is required.");
+			theEvent.setAddress(addressStr);
 
 			
-			String numVNStr = request.getParameter("evVN");
-			
-			if(numVNStr != null) {
-				int numVN = Integer.parseInt(numVNStr);
-				if(numVN > 0) {
-					log.debug("updating event VN from {} to [{}]",theEvent.getVolunteersNeeded(), numVN);
-						theEvent.setVolunteersNeeded(numVN);
-				}	else {
-					throw new Exception("Number of Volunteers Needed field should not be 0.");
-				}
-			} else {
-				throw new Exception("Number of Volunteers Needed field is empty");
-			}
+			Date tempDate = requiredDateLike(request.getParameter("evDate"), "yyyy/MM/dd hh:mm", "Event Date required." );
+			theEvent.setDate(tempDate);
 			
 			
-			String volHrStr = request.getParameter("evNVH");
-			
-			if(volHrStr != null) {
-				double volHr = Double.parseDouble(volHrStr);
-				if(volHr > 0) {
-					log.debug("updating event NVH from {} to [{}]",theEvent.getNeededVolunteerHours(), volHr);
-						theEvent.setNeededVolunteerHours(volHr);
-				}	else {
-					throw new Exception("Needed Volunteer Hours field is 0.");
-				}
-			} else {
-				throw new Exception("Number of Volunteer Hours field is empty");
-			}
+			int numVn = requiredIntegerParam(request.getParameter("evVN"), "Number of Volunteers is a required positive integer.");
+			theEvent.setVolunteersNeeded(numVn);
 			
 			
-			String rsvpStr = request.getParameter("evRsvp");
+			double volHr = requiredDoubleParam(request.getParameter("evNVH"),"Needed Volunteer Hours is required positive integer.");
+			theEvent.setNeededVolunteerHours(volHr);
 			
-			if (rsvpStr != null	) {
-				double rsvp = Double.parseDouble(rsvpStr);
-				if(rsvp > 0) {
-					log.debug("updating event rsvp from {} to [{}]",theEvent.getRsvpVolunteerHours(), rsvp);
-						theEvent.setRsvpVolunteerHours(rsvp);
-				}	else {
-					throw new Exception("Registerd Hours field is 0.");
-				}	
-			} else {
-				throw new Exception("Registered Hours field is empty");
-			}
+			
+			double rsvp = requiredDoubleParam(request.getParameter("evRsvp"), "Requested Hours must be a valid real number.");
+			theEvent.setRsvpVolunteerHours(rsvp);
+			
 			
 			
 			String noteStr = request.getParameter("evNote");
@@ -379,6 +342,8 @@ public class EventController {
 				theEvent.setNote("");
 			}
 			
+			
+			
 			String contStr = request.getParameter("evContinuous");
 			
 			log.debug("evContinuous " + contStr);
@@ -394,65 +359,34 @@ public class EventController {
 			} else {
 				theEvent.setContinous(false);
 			}
-//			
-//			// To apply each variable changes, we will call harvest each variables in contact object
-//			String contactFNStr = request.getParameter("evContact_firstName");
-//
-//			log.debug(contactFNStr);
-//			if(contactFNStr != null) {
-//				contactFNStr = contactFNStr.trim();
-//				if(contactFNStr.length()>0) {
-//					log.debug("updating event {} contact first name from [{}] to [{}]",
-//							theEvent.getContact().getFirstName(), contactFNStr);
-//					theEvent.getContact().setFirstName(contactFNStr);
-//				} else {
-//					throw new Exception("Contact's first name is required");
-//				}
-//			}
-//			
-//			String contactLNStr = request.getParameter("evContact_lastName");
-//			
-//			if(contactLNStr != null) {
-//				contactLNStr = contactLNStr.trim();
-//				if(contactLNStr.length()>0) {
-//					log.debug("updating event {} contact first name from [{}] to [{}]",
-//							theEvent.getContact().getLastName(), contactLNStr);
-//					theEvent.getContact().setLastName(contactLNStr);
-//				} else {
-//					throw new Exception("Contact's Last name is required");
-//				}
-//			}
-//			
-//			String contactEmailStr = request.getParameter("evContact_email");
-//			
-//			if(contactEmailStr != null) {
-//				contactEmailStr = contactEmailStr.trim();
-//				if(contactEmailStr.length()>0) {
-//					log.debug("updating event {} contact first name from [{}] to [{}]",
-//							theEvent.getContact().getEmail(), contactEmailStr);
-//					theEvent.getContact().setEmail(contactEmailStr);
-//				} else {
-//					throw new Exception("Contact's email is required");
-//				}
-//			}
 			
+			
+
 
 			// update the finalized event
 			theEvent = eventService.updateEvent(theEvent);
 			
+			
 			// everything is fine.... back to the event management base page
-			return new ModelAndView("redirect:/events");
+			return new RedirectView("/events",true);
 
 		} catch (Exception e) {	
 
 			log.error(e.getMessage());
-			e.printStackTrace();
 			
-			return new ModelAndView("redirect:/events/edit/"+id);
-
+		    Map<String, Object> outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+		    if (outputFlashMap != null) {
+		       
+		    	outputFlashMap.put("err", e.getMessage());
+		    } else {
+		    	log.debug("null output flash map");
+		    }
+			return new RedirectView("/events/edit/"+id, true);
 		}
 
 	}
+
+
 
 	
 	/**

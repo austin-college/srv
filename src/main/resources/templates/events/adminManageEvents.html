@@ -8,6 +8,11 @@
 			<p>Please select the action you would like to take.</p>
 		</div>
 	</div>
+	<#if err??>
+	<div class="alert alert-danger row" id="page-error">
+	${err}
+	</div>
+	</#if>
 
 	<!-- table title. -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">

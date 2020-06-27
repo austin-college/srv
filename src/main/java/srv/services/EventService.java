@@ -1,5 +1,6 @@
 package srv.services;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -235,59 +236,71 @@ public class EventService {
 	public List<Event> filteredEvents(String startDate, String endDate, Integer eTypeId, Integer scId, Integer bmId) throws Exception {
 		
 		
-		if (startDate != null) {
-			
-			// Sets the startDate to the current date
-			if (startDate.equals("now")) 
-				startDate = currentDate().toString();
-
-			/*
-			 * For events in the previous months, sets the startDate to be the current date 
-			 * and sets the endDate to be the current date minus the offset for the month.
-			 */
-			else if (startDate.contains("M")) {
-
-				int offset = Integer.valueOf(startDate.substring(3, startDate.length() - 1));
+		List<Event> results;
+		try {
+			if (startDate != null) {
 				
-				Timestamp lastMonth = effectiveDate(currentDate(), "month", offset);
+				// Sets the startDate to the current date
+				if (startDate.equals("now")) 
+					startDate = currentDate().toString();
 
-				startDate = currentDate().toString();
-				endDate = lastMonth.toString();
+				/*
+				 * For events in the previous months, sets the startDate to be the current date 
+				 * and sets the endDate to be the current date minus the offset for the month.
+				 */
+				else if (startDate.contains("M")) {
+
+					int offset = Integer.valueOf(startDate.substring(3, startDate.length() - 1));
+					
+					Timestamp lastMonth = effectiveDate(currentDate(), "month", offset);
+
+					startDate = currentDate().toString();
+					endDate = lastMonth.toString();
+				}
+			}	
+			
+			if (endDate != null) {
+				
+				// Sets the endDate to the current date
+				if (endDate.equals("now")) 
+					endDate = currentDate().toString();
+				
+				/*
+				 * For events in the upcoming months, sets the startDate to be the current date plus the
+				 * offset for the month and sets the endDate to be the current date.
+				 */
+				else if (endDate.contains("M")) {
+							
+			        int offset = Integer.valueOf(endDate.substring(3, endDate.length() - 1));
+			
+					Timestamp nextMonth = effectiveDate(currentDate(), "month", offset);//new Timestamp(myCal.getTime().getTime());
+				
+					endDate = currentDate().toString();
+					startDate = nextMonth.toString();			
+				}
 			}
-		}	
-		
-		if (endDate != null) {
 			
-			// Sets the endDate to the current date
-			if (endDate.equals("now")) 
-				endDate = currentDate().toString();
-			
-			/*
-			 * For events in the upcoming months, sets the startDate to be the current date plus the
-			 * offset for the month and sets the endDate to be the current date.
-			 */
-			else if (endDate.contains("M")) {
-						
-		        int offset = Integer.valueOf(endDate.substring(3, endDate.length() - 1));
-		
-				Timestamp nextMonth = effectiveDate(currentDate(), "month", offset);//new Timestamp(myCal.getTime().getTime());
-			
-				endDate = currentDate().toString();
-				startDate = nextMonth.toString();			
+			if ((eTypeId != null) && (eTypeId <= 0)) {
+				throw new Exception(String.format("Invalid event type id [%d]", eTypeId));
 			}
+			
+			if ((scId != null) && (scId <= 0)) {
+				throw new Exception(String.format("Invalid service client id [%d]", scId));
+			}
+			
+			results = eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId); 
+			
+			log.debug("Size of filtered list is: " + results.size());
+			
+		} catch (NumberFormatException e) {
+			throw new Exception("Unable to convert parameter to number.");
 		}
-		
-		if ((eTypeId != null) && (eTypeId <= 0)) {
-			throw new Exception(String.format("Invalid event type id [%d]", eTypeId));
+		catch (SQLException e) {
+			throw new Exception("Unable to filter events. "+e.getMessage());
+			
+		} catch (Exception e) {
+			throw new Exception("Uh,oh.  That's embarrassing. Unable to filter events.");
 		}
-		
-		if ((scId != null) && (scId <= 0)) {
-			throw new Exception(String.format("Invalid service client id [%d]", scId));
-		}
-		
-		List<Event> results = eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId); 
-		
-		log.debug("Size of filtered list is: " + results.size());
 		
 		return results;
 	}
