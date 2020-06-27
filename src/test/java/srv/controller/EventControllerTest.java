@@ -103,6 +103,8 @@ public class EventControllerTest {
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
 				.setServiceClient(sc1)
+				.setRsvpVolunteerHours(5.0)
+				.setNeededVolunteerHours(15.0)
 				.setContact(new Contact()
 						.setFirstName("Rusty")
 						.setLastName("Buckle")
@@ -119,6 +121,8 @@ public class EventControllerTest {
 				.setAddress("900 N. Grand Ave")
 				.setType(et1)
 				.setServiceClient(sc2)
+				.setRsvpVolunteerHours(1.0)
+				.setNeededVolunteerHours(5.0)
 				.setContact(null);
 		
 		
