@@ -348,8 +348,8 @@ function onContactClick() {
 	 * reasoning.
 	 */
 	.fail(function(jqXHR, textStatus) {
-		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-
+		//alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		$("#dlgViewContact").html("Unable to retrieve contact "+idStr);
 	});
 
 }

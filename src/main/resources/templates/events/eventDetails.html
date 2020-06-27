@@ -1,3 +1,8 @@
+<#if errMsg??>
+  	<div class="alert alert-danger row" id="page-error">
+	${errMsg}
+	</div>
+<#else>
 <!-- Contains the contents of an event -->
 <form id="evDetails">
 	<p hidden="hidden" id="evId" eid="${eid!'UNKNOWN ID'}"></p>
@@ -111,5 +116,6 @@
 	</div>
 	</#if>
 </form>
+</#if>
 
 	

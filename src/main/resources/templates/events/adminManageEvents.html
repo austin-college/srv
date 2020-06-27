@@ -8,9 +8,10 @@
 			<p>Please select the action you would like to take.</p>
 		</div>
 	</div>
-	<#if err??>
+	
+	<#if errMsg??>
 	<div class="alert alert-danger row" id="page-error">
-	${err}
+	${errMsg}
 	</div>
 	</#if>
 
