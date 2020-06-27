@@ -220,29 +220,33 @@
 					
 					<!-- pie chart need progress -->
 					<td>
-												
-						<!-- if less than 25%, shows empty pie chart  -->
-						<#if ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 24>
-							<pie class="zero"></pie>
+						<!-- Thou shalt not divide by 0, as one of the commandments state -->
+						<#if ev.neededVolunteerHours != 0>
+									
+							<!-- if less than 25%, shows empty pie chart  -->
+							<#if ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 24>
+								<pie class="zero"></pie>
 																						
-						<!-- if greater than 25% but less than 50%, shows 1/4 pie chart -->	
-						<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &gt; 24 && ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 49 >
-							<pie class="twentyfive"></pie>
+							<!-- if greater than 25% but less than 50%, shows 1/4 pie chart -->	
+							<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &gt; 24 && ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 49 >
+								<pie class="twentyfive"></pie>
 										
-						<!-- if greater than 50% but less than 75%, shows 1/2 pie chart -->		
-						<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &gt; 49 && ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 75 >
-							<pie class="fifty"></pie>
+							<!-- if greater than 50% but less than 75%, shows 1/2 pie chart -->		
+							<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &gt; 49 && ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 75 >
+								<pie class="fifty"></pie>
 													
-						<!-- if 100%, shows completed pie chart-->	
-						<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100)  == 100>
-							<pie class="onehundred"></pie>
+							<!-- if 100%, shows completed pie chart-->	
+							<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100)  == 100>
+								<pie class="onehundred"></pie>
 																						
-						<!-- if greater than 75% but less than 100%, shows 3/4 pie chart -->
-						<#else>
-							<pie class="seventyfive"></pie>
+							<!-- if greater than 75% but less than 100%, shows 3/4 pie chart -->
+							<#else>
+								<pie class="seventyfive"></pie>
 															
-						</#if>			
-      				
+							</#if>
+							<#else>
+								<pie class="zero"></pie>			
+    					</#if>  				
 					</td>
 						
 					</#if>
