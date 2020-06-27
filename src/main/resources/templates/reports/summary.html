@@ -1,5 +1,39 @@
 <#import "/main_layout.html" as layout />
 <@layout.stdpage "Summary" "summary.css">
+<!-- By Nadia Hannon -->
 
+<div id = "mainContainer" class="container">
+
+<h1> End of year summary report</h1>
+
+<p><b>To whom it may concern,</b></p>
+<p> This past school year, ${schoolYear} our students
+have greatly impacted our community with their service. We
+had a total of ${numStudentsVol} students volunteer. Of that ${numStudentsVol}
+ students, ${numGreek} students volunteered with their greek organization,
+ with ${topGreek} being the greek organization which contributed the most
+ volunteers this year.
+</p> 
+<p>Out of ${numStudentsVol} students, ${numClub} volunteered with a club. 
+${topClub} contributed the most volunteers this year. ${numLoners} students were
+not associated with a greek organization or club.
+</p>
+
+<p>
+This year service station added ${numNewPets} new 'pets' to our
+database and removed ${numRemovedPets}. The most popular place for students to volunteer this year
+was ${popPet}, with a total of ${totalPopPet} hours being logged there. 
+
+</p>
+<p>Great Day of Service was attended by ${numGDS} students. Janserve was attended 
+by ${numJan} students.</p>
+
+<p><b>I hope that you have found this data to be useful, and I hope
+that we can use this information to continue improving on and 
+expanding our service opportunities available to students. </b> </p>
+
+<p><b>Sincerely,</b></p>
+<p><b>${signature}</b></p>
+</div>
 </@layout.stdpage>
 
