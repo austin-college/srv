@@ -667,7 +667,11 @@ function onPageLoad() {
 	$('#tblEvents').DataTable({	
 		"paging": false,
 		"searching": false,
-		"info": false
+		"info": false,
+		"order":  [ 4, 'asc' ] 
+		
+		
+		
 	});
 	$('.dataTables_length').addClass('bs-select');
 

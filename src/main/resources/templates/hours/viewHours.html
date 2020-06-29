@@ -185,7 +185,7 @@
 							</#if>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_eventName'>${hrs.event.title!"UNKNOWN"}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_sponsor'>${hrs.servedPet.name!"UNKNOWN"}</td>
-							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_date'>${hrs.event.date?string["MMM d, yyyy h:mm a"]}</td>
+							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_date'  data-sort="${hrs.event.date?string['YYYY-MM-DD']}">${hrs.event.date?string["MMM d, yyyy h:mm a"]}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
 							<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_status'>${hrs.status!"UNKNOWN"}</td>
 							
