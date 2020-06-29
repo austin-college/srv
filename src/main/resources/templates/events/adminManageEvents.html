@@ -204,17 +204,17 @@
 					None
 					</#if>
 					</td>
-					<td class="ev_date btnEvView evView" eid="${ev.eid?c}" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
+					<td class="ev_date evView" eid="${ev.eid?c}" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
 					<#if userAdmin || userBoardMember>
 					<!--action buttons-->
 					<td class="evActions">
 						<button class="btn edit btnEvEdit" eid="${ev.eid?c}">
 							<i class="fas fa-pencil-alt"></i>
 						</button>
-						<button class="btn edit btnEvView" eid="${ev.eid?c}">
+						<button class="btn btnEvView" eid="${ev.eid?c}">
 							<i class="fas fa-search"></i>
 						</button>
-						<button class="btn edit btnEvDel" eid="${ev.eid?c}">
+						<button class="btn btnEvDel" eid="${ev.eid?c}">
 							<i class="far fa-trash-alt"></i>
 						</button>
 					</td>
