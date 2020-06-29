@@ -311,7 +311,7 @@
 					<#list events as ev>
 					
 					<!-- don't list future events -->
-					<#if ev.date &lt; .now>
+					<#if ev.date?datetime &lt; .now>
 						<tr id="eid-${ev.eid?c}">
 							<td class="ev_sel"><input class="boxSel" type="checkbox" eid="${ev.eid}" /></td>
 							<td class="ev_id">${ev.eid!"UNKNOWN"}</td>
