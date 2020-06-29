@@ -812,13 +812,17 @@ function onFeedbackSubmit(newStatus, feedbackMsg, shid) {
 		
 		// Remove the approve button if status is approved
 		if (sh.status == 'Approved') {
-			$('.btnApprove[shid="' + sh.shid + '"]').remove();
+			$('.btnApprove[shid="' + sh.shid + '"]').hide();
+			$('.btnReject[shid="' + sh.shid + '"]').show();
+
 			console.log('approve');
 		}
 		// Remove the reject button if status is rejected
 		else if (sh.status == 'Rejected'){
 			console.log('reject');
-			$('.btnReject[shid="' + sh.shid + '"]').remove();
+			$('.btnReject[shid="' + sh.shid + '"]').hide();
+			$('.btnApprove[shid="' + sh.shid + '"]').show();
+
 		}
 
 	})

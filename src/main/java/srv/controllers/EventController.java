@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +35,8 @@ import srv.domain.serviceclient.ServiceClient;
 import srv.domain.user.User;
 import srv.services.EventService;
 import static srv.utils.ParamUtil.*;
+
+import srv.utils.FlashUtil;
 import srv.utils.UserUtil;
 
 /**
@@ -52,6 +55,7 @@ import srv.utils.UserUtil;
 @EnableWebSecurity
 public class EventController {
 
+	private static final String FM_KEY_ERROR = "errMsg";
 	private static final String REGEX_VALID_DATE = "^now([+-][1-9]+)M$";
 	private static final int GROUP_MONTH_OFFSET = 1;
 
@@ -167,13 +171,13 @@ public class EventController {
 
 			
 		} catch (NumberFormatException e) {
-			mav.addObject("err", String.format("Unable to convert to number: %s", e.getMessage()));
+			mav.addObject(FM_KEY_ERROR, String.format("Unable to convert to number: %s", e.getMessage()));
 		}
 		catch (Exception e) {
 
 			// report any errors to an element on the page; assumes there is an element in our template.
 			log.error(e.getMessage());
-			mav.addObject("err", e.getMessage());
+			mav.addObject(FM_KEY_ERROR, e.getMessage());
 			
 		}
 
@@ -221,7 +225,7 @@ public class EventController {
 		} catch (Exception e) {
 
 			log.error(e.getMessage());
-			mav.addObject("err", e.getMessage());
+			mav.addObject(FM_KEY_ERROR, e.getMessage());
 			
 		}
 		
@@ -243,15 +247,8 @@ public class EventController {
 
 		ModelAndView mav = new ModelAndView("events/editor");
 
-	    Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
-	    if (inputFlashMap != null) {
-	        String errorMsg = (String) inputFlashMap.get("err");
-	        if (errorMsg != null) {
-	        	mav.addObject("err", errorMsg);
-	        }
-	    }
-
-
+		// if flash err, add to model
+		mav.addObject(FM_KEY_ERROR, FlashUtil.getFlashAttr(request, FM_KEY_ERROR));
 
 		try {
 
@@ -276,7 +273,7 @@ public class EventController {
 		} catch (Exception e) {
 
 			log.error(e.getMessage());
-			mav.addObject("err", e.getMessage());
+			mav.addObject(FM_KEY_ERROR, e.getMessage());
 
 		}
 
@@ -373,18 +370,16 @@ public class EventController {
 		} catch (Exception e) {	
 
 			log.error(e.getMessage());
+			e.printStackTrace();
 			
-		    Map<String, Object> outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
-		    if (outputFlashMap != null) {
-		       
-		    	outputFlashMap.put("err", e.getMessage());
-		    } else {
-		    	log.debug("null output flash map");
-		    }
+		    FlashUtil.addFlashAttr(request, FM_KEY_ERROR, e.getMessage());
+		    
 			return new RedirectView("/events/edit/"+id, true);
 		}
 
 	}
+
+
 
 
 
@@ -398,29 +393,29 @@ public class EventController {
 	 * @return
 	 */
 	@GetMapping(value = "/events/ajax/event/{id}/contact")
-	public ModelAndView ajaxFetchEventContact(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public ModelAndView ajaxFetchEventContact_HTML(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("events/contact");
+		response.setContentType(MediaType.TEXT_HTML_VALUE);
 		
 		try {
+			
+			
 			/*
 			 * fetch the event
 			 */
 			log.debug("fetching event {}",id);
 			Event theEvent = eventService.eventById(id.intValue());
-			
-			ModelAndView mav = new ModelAndView("events/contact");
-			
+					
 			mav.addObject("event",theEvent);
 			mav.addObject("contact", theEvent.getContact());
-			
+		
 			// everything is fine.... back to the event management base page
 			return mav;
 
 		} catch (Exception e) {
-
-			// TODO:  flash error on page to user.
-			
-			return new ModelAndView("redirect:/events/");
-
+				
+			mav.addObject(FM_KEY_ERROR,e.getMessage());
+			return mav;
 		}
 
 	}
@@ -435,7 +430,7 @@ public class EventController {
 	 * @return
 	 */
 	@PostMapping(value = "/events/ajax/del/{id}")
-	public ResponseEntity<Integer> ajaxDeleteEvent(@PathVariable Integer id) {
+	public ResponseEntity<?> ajaxDeleteEvent(@PathVariable Integer id) {
 
     	try {
     		
@@ -443,10 +438,10 @@ public class EventController {
     		log.debug("deleting event {}", id);
     		
 			eventService.deleteEvent(id);
-		    return new ResponseEntity<>(id, HttpStatus.OK);
+		    return new ResponseEntity<Integer>(id, HttpStatus.OK);
 		    
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("invalid id",HttpStatus.NOT_FOUND);
 		}
 
 
@@ -463,7 +458,7 @@ public class EventController {
 	 * @return
 	 */
 	@PostMapping(value = "/events/ajax/new/{etid}")
-	public ResponseEntity<Integer> ajaxNewEvent(@PathVariable Integer etid) {
+	public ResponseEntity<?> ajaxNewEvent(@PathVariable Integer etid) {
 
     	try {
     		
@@ -472,10 +467,10 @@ public class EventController {
 			Event newev = eventService.createEventOfType(etid);
 			
 			// return the event id of the newly created object
-		    return new ResponseEntity<>(newev.getEid(), HttpStatus.OK);
+		    return new ResponseEntity<Integer>(newev.getEid(), HttpStatus.OK);
 		    
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("invalid event type id",HttpStatus.NOT_FOUND);
 		}
 
 	}
@@ -483,7 +478,7 @@ public class EventController {
 	
 	@ResponseBody
 	@GetMapping(value = "/events/ajax/event/{id}", produces="application/json")
-	public ResponseEntity<Event> ajaxFetchEvent(@PathVariable Integer id) {
+	public ResponseEntity<?> ajaxFetchEvent(@PathVariable Integer id) {
 		
     	try {
     		
@@ -492,10 +487,10 @@ public class EventController {
     		
 			Event ev = eventService.eventById(id);
 			
-		    return new ResponseEntity<>(ev, HttpStatus.OK);
+		    return new ResponseEntity<Event>(ev, HttpStatus.OK);
 		    
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("invalid event id",HttpStatus.NOT_FOUND);
 		}
 
 
@@ -511,7 +506,7 @@ public class EventController {
 	 * @return
 	 */
 	@GetMapping("events/ajax/event/{id}/html")
-	public ModelAndView ajaxViewEventHtml(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+	public ModelAndView ajaxViewEvent_HTML(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
 		
 		ModelAndView mav = new ModelAndView("events/eventDetails");
 

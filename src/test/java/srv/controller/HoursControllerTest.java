@@ -79,6 +79,12 @@ public class HoursControllerTest {
 	private ServiceHours sh1;
 	private ServiceHours sh2;
 	private ServiceHours sh3;
+	
+	private Event e1;
+	private Event e2;
+	
+	private ServiceClient sc1;
+	private ServiceClient sc2;
 
 	/**
 	 * Called before each an every test in order to have sufficient data for this
@@ -104,16 +110,16 @@ public class HoursControllerTest {
 		EventType et2 = new EventType().setEtid(2).setName("fws").setDescription("first we serve for test")
 				.setDefHours(0.0).setDefClient(null).setPinHours(false);
 
-		ServiceClient sc1 = new ServiceClient().setClientId(1).setName("Habitat for Humanity").setCategory("Community");
+		sc1 = new ServiceClient().setClientId(1).setName("Habitat for Humanity").setCategory("Community");
 
-		ServiceClient sc2 = new ServiceClient().setClientId(2).setName("Meals on Wheels").setCategory("Seniors");
+		sc2 = new ServiceClient().setClientId(2).setName("Meals on Wheels").setCategory("Seniors");
 
-		Event e1 = new Event().setEid(1).setTitle("gds 2020").setDate(new java.util.Date())
+		e1 = new Event().setEid(1).setTitle("gds 2020").setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave").setType(et1).setServiceClient(sc1)
 				.setContact(new Contact().setFirstName("Rusty").setLastName("Buckle").setContactId(1)
 						.setEmail("rbuckle@helpful.org").setPhoneNumMobile("903-813-5555").setCity("Sherman"));
 
-		Event e2 = new Event().setEid(2).setTitle("fws 2020").setDate(new java.util.Date())
+		e2 = new Event().setEid(2).setTitle("fws 2020").setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave").setType(et1).setServiceClient(sc2).setContact(null);
 
 		sh1 = new ServiceHours().setShid(1).setStatus("Rejected").setEvent(e1).setServant(new User().setUid(1))
@@ -241,17 +247,89 @@ public class HoursControllerTest {
 								.exists());
 
 	}
-
+	
+/**
+ * Make sure the controller is updating an existing hour when asked. 
+ * Note all the parameters are valid
+ * 
+ * @throws Exception
+ */
 	@Test
 	@WithMockUser(username = "user", password = "user")
 	public void ajaxServiceHourUpdate() throws Exception {
+	
+		int shid = 1;
+		int scid = 2;
+		int eid = 2;
+		double hrs = 6.5;
+		String reflection = "Had a fun time";
+		String descr = "Worked with seniors";
+	
+		// change the values of our current service hour
+		sh1.setEvent(e2)
+			.setDescription(descr)
+			.setHours(hrs)
+			.setReflection(reflection)
+			.setServedPet(sc2)
+			;
+		
+		// mock dependencies
+		Mockito.doNothing().when(hrSvc).updateHour(shid, scid, eid, hrs, reflection, descr);
+		Mockito.when(hrSvc.serviceHourById(shid)).thenReturn(sh1);
+		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(false);
+		Mockito.when(mockUserUtil.userIsBoardMember()).thenReturn(false);
+		
+		// now perform the test and pretend that jquery sends in the parameters
+		// to update the service hour
+		mvc.perform(post("/hours/ajax/editHr")	
+				.param("shid", String.valueOf(shid))
+				.param("scid", String.valueOf(scid))
+				.param("eid", String.valueOf(eid))
+				.param("hrSrved", String.valueOf(hrs))
+				.param("reflect", reflection)
+				.param("descr", descr)
+				
+				.contentType(MediaType.TEXT_HTML))
+		
+		.andExpect(status().isOk())
+		
+		// there's a row in our table that has an event name/title td inside whose text better be 'fws 2020' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_eventName' and text()='fws 2020']")).exists())
 
+		// and there's a row in our table that has a service client name td inside whose text better be 'Meals on Wheels' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_sponsor' and text()='Meals on Wheels']")).exists())
+
+		// and there's a row in our table that has a hours served td inside whose text better be '6.5' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_hrsServed' and text()='6.5']")).exists())
+
+		;
+	
+		Mockito.verify(hrSvc).updateHour(shid, scid, eid, hrs, reflection, descr);
+		Mockito.verify(hrSvc).serviceHourById(shid);
+		
 	}
 
 	@Test
 	@WithMockUser(username = "user", password = "user")
 	public void handleReasonRequest() throws Exception {
+		ServiceHours h1 = new ServiceHours().setShid(1)
+				.setEvent(new Event().setTitle("GDS 2020")).setHours((double) 3.5 )
+				.setStatus("Approved");
+		ServiceHours h2 = new ServiceHours().setShid(2).setEvent(new Event().setTitle("Greenserve 2020"))
+				.setHours((double) 8).setStatus("Pending");
 
+		List<ServiceHours> dummyList = new ArrayList<ServiceHours>();
+		dummyList.add(h1);
+		dummyList.add(h2);
+
+		Mockito.when(hrSvc.listHours()).thenReturn(dummyList);
+
+		// now perform the test
+		mvc.perform(get("/test/hours").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
+				.andExpect(content().string(containsString(
+						"<li  id=\"row_1\"> Num: 1, 3.5 hours, Event Title: GDS 2020</li>")))
+				.andExpect(content().string(
+						containsString("<li  id=\"row_2\"> Num: 2, 8 hours, Event Title: Greenserve 2020</li>")));
 	}
 
 	/**
@@ -278,38 +356,78 @@ public class HoursControllerTest {
 	}
 
 	/**
-	 * Tests the create function - come back and fix
+	 * Tests the create function - come back and fix - not complete 
+	 *
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	@WithMockUser(username = "user", password = "user")
 	public void ajaxAddServiceHour() throws Exception {
+
 		int scid = 1;
-		int eid = 2;
+		int eid = 1;
 		double hrs = 3.5;
 		String reflect = "great day for service";
 		String descrip = "love the community";
-
-		sh1.setReflection(reflect).setDescription(descrip).setHours(hrs).setShid(1);
-		Mockito.when(hrSvc.createServiceHour(scid, eid, hrs, reflect, descrip)).thenReturn(sh1);
+		
+		// create dummy new service hour
+		ServiceHours shr = new ServiceHours();
+		
+		shr.setReflection(reflect)
+			.setDescription(descrip)
+			.setHours(hrs)
+			.setShid(1)
+			.setEvent(e1)
+			.setServedPet(sc1)
+			.setStatus("Pending");
+		
+		// mock dependencies
+		Mockito.when(hrSvc.createServiceHour(scid, eid, hrs, reflect, descrip)).thenReturn(shr);
+		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(false);
+		Mockito.when(mockUserUtil.userIsBoardMember()).thenReturn(false);
 
 		// ready to test....
-//		mvc.perform(post("/hours/ajax/addHr")
-//
-//				.contentType(MediaType.TEXT_HTML))
-//
-//				.andExpect(status().isOk())
-//
-//				// it should have the client's name
-//				.andExpect(content().string(containsString("great day for service")))
-//		.andExpect(content().string(containsString("1")));
-//		
-//				.andExpect(content().string(containsString("great day of service for test")));
+		mvc.perform(post("/hours/ajax/addHr")
+				.param("hrServed", String.valueOf(hrs))
+				.param("reflect", reflect)
+				.param("descr", descrip)
+				.param("eid", String.valueOf(eid))
+				.param("scid", String.valueOf(scid))
 
-		// other expectations here...
+				.contentType(MediaType.TEXT_HTML))
 
-//		Mockito.verify(hrSvc).createServiceHour(scid, eid, hrs, reflect, descrip);
+		.andExpect(status().isOk())
+
+		// there's a row in our table that has an event name/title td inside whose text better be 'gds 2020' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_eventName' and text()='gds 2020']")).exists())
+
+		// and there's a row in our table that has a service client name td inside whose text better be 'Habitat for Humanity' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_sponsor' and text()='Habitat for Humanity']")).exists())
+
+		// and there's a row in our table that has a hours served td inside whose text better be '3.5' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_hrsServed' and text()='3.5']")).exists())
+
+		// and there's a row in our table that has a hours status td inside whose text better be 'Pending' 
+		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='hrs_status' and text()='Pending']")).exists())
+	
+		// and that same row should not have a td with a button inside for editing
+		// (since hour is pending)
+		.andExpect(xpath(dquote(
+				"//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrEdit')]"))
+				.exists())
+
+		// and deleting
+		.andExpect(xpath(dquote(
+				"//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrDel')]"))
+				.exists())
+
+		// and viewing
+		.andExpect(xpath(dquote(
+				"//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrView')]"))
+				.exists());
+
+		Mockito.verify(hrSvc).createServiceHour(scid, eid, hrs, reflect, descrip);
 
 	}
 

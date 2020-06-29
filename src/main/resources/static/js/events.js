@@ -348,8 +348,8 @@ function onContactClick() {
 	 * reasoning.
 	 */
 	.fail(function(jqXHR, textStatus) {
-		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-
+		//alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		$("#dlgViewContact").html("Unable to retrieve contact "+idStr);
 	});
 
 }
@@ -667,7 +667,8 @@ function onPageLoad() {
 	$('#tblEvents').DataTable({	
 		"paging": false,
 		"searching": false,
-		"info": false
+		"info": false,
+		"order":  [ 4, 'asc' ] // allows us to sort by date not id		
 	});
 	$('.dataTables_length').addClass('bs-select');
 

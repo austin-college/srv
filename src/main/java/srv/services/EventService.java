@@ -205,7 +205,7 @@ public class EventService {
 					ev.getTitle(),
 					ev.getAddress(),
 					
-					ev.getClass()==null?null:ev.getContact().getContactId(),
+					ev.getContact()==null?null:ev.getContact().getContactId(),
 					ev.getDate(),
 					
 					ev.getType().getEtid(),
