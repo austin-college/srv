@@ -1,20 +1,57 @@
 <tr id="row${shid?c}">
-	<td class='hrRow' onRowClick="${shid?c}" name='hrs_id'>${shid!"UNKOWN"}</td>
+<!-- <td class='hrRow' onRowClick="${shid?c}" name='hrs_id'>${shid!"UNKOWN"}</td> --> 
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_eventName'>${title!"UNKNOWN"}</td>
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_sponsor'>${name!"UNKNOWN"}</td>
-	<td class='hrRow' onRowClick="${shid?c}" name='hrs_date'>${date?string["MMM d, yyyy h:mm a"]}</td>
+	<td class='hrRow' onRowClick="${shid?c}" name='hrs_date'>${date?string["MMM
+		d, yyyy h:mm a"]}</td>
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_hrsServed'>${hours!"UNKNOWN"}</td>
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_status'>${status!"UNKNOWN"}</td>
-	
+
 	<!-- action buttons: edit/delete -->
 	<td class="hrActions">
-		<#if status != "Approved">
-			<button type="button" class="btnHrEdit edit btn" onEditClick="${shid?c}">
-				<i class="fas fa-pencil-alt"></i> 
+		<!-- Trigger menu -->
+		<div class="dropdown">
+			<button id="dropdownMenu" data-toggle="dropdown"
+				data-display="static" data-flip="true" class="btn"
+				aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-ellipsis-h"></i>
 			</button>
-			<button type="button" class=" btnHrDel del btn" onDelClick="${shid?c}">
-				<i class="fas fa-trash-alt"></i>  
-			</button>
-		</#if>
+
+			<!-- Menu options -->
+			<div class="dropdown-menu" id="ddMenuActions"
+				style="border: 1px solid">
+
+				<!-- Show the Approve/reject for admin/board member users -->
+				<#if userAdmin || userBm> <!-- Hide the 'Approve' buttons for hours that are already approved -->
+				<#if status=="Approved"> <a
+					class="dropdown-item btnReject" shid="${shid?c}"><i
+					class="fas fa-times-circle" style='color: #a41e34'></i>&#xA0;&#xA0;Reject</a>
+
+				<!-- Hide the 'Reject' button for hours that are already rejected -->
+				<#elseif status=="Rejected"> <a
+					class="dropdown-item btnApprove" shid="${shid?c}"><i
+					class="fas fa-check-circle" style='color: #638b19'></i>&#xA0;&#xA0;Approve</a>
+
+				<!-- Show both the 'Approve' and 'Reject' buttons for hours that are pending -->
+				<#else> <a class="dropdown-item btnApprove"
+					shid="${shid?c}"><i class="fas fa-check-circle"
+					style='color: #638b19'></i>&#xA0;&#xA0;Approve</a> <a
+					class="dropdown-item btnReject" shid="${shid?c}"><i
+					class="fas fa-times-circle" style='color: #a41e34'></i>&#xA0;&#xA0;Reject</a></#if>
+				</#if>
+
+				<!-- Only show edit, delete buttons for hours that are not approved -->
+				<#if status !="Approved"> <a
+					class="dropdown-item btnHrEdit" onEditClick="${shid?c}"><i
+					class="fas fa-pencil-alt" style='color: #db9401'></i>&#xA0;&#xA0;Edit</a>
+				<a class="dropdown-item btnHrView" onRowClick="${shid?c}"><i
+					class="fas fa-search" style='color: #427dc6'></i>&#xA0;&#xA0;View</a> <a
+					class="dropdown-item btnHrDel" onDelClick="${shid?c}"><i
+					class="fas fa-trash-alt" style='color: #a41e34'></i>&#xA0;&#xA0;Delete</a>
+				<#else> <a class="dropdown-item btnHrView"
+					onRowClick="${shid?c}"><i class="fas fa-search"
+					style='color: #427dc6'></i>&#xA0;&#xA0;View</a></#if>
+			</div>
+		</div>
 	</td>
 </tr>
