@@ -668,10 +668,7 @@ function onPageLoad() {
 		"paging": false,
 		"searching": false,
 		"info": false,
-		"order":  [ 4, 'asc' ] 
-		
-		
-		
+		"order":  [ 4, 'asc' ] // allows us to sort by date not id		
 	});
 	$('.dataTables_length').addClass('bs-select');
 

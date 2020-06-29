@@ -2,7 +2,7 @@
 <!-- <td class='hrRow' onRowClick="${shid?c}" name='hrs_id'>${shid!"UNKOWN"}</td> --> 
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_eventName'>${title!"UNKNOWN"}</td>
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_sponsor'>${name!"UNKNOWN"}</td>
-	<td class='hrRow' onRowClick="${shid?c}" name='hrs_date'>${date?string["MMM
+	<td class='hrRow' onRowClick="${shid?c}" name='hrs_date' data-sort="${date?string['YYYY-MM-DD']}">${date?string["MMM
 		d, yyyy h:mm a"]}</td>
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_hrsServed'>${hours!"UNKNOWN"}</td>
 	<td class='hrRow' onRowClick="${shid?c}" name='hrs_status'>${status!"UNKNOWN"}</td>
