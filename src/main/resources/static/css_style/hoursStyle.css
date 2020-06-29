@@ -165,3 +165,10 @@ td a:hover {
 .dropdown>.dropdown-toggle:active {
     pointer-events: none;
 }
+
+/* Style settings for event selection dialog */
+#tblEvents {
+	font-size: 14x;
+
+}
+

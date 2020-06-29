@@ -289,7 +289,7 @@
 
 <!-- dialog for selecting an event when adding new hour -->
 <div id="dlgEvSel" title="Select Event..." style="display:none">
-
+<p class="validationTips"></p>
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		
 		<div class="col">
@@ -302,8 +302,9 @@
 				feel free to change these -->
 					<tr>
 						<th class="th-sm">&#xA0;</th>
-						<th class="th-sm">Id</th>
-						<th class="th-sm">Title</th>
+						<!-- hiding id column <th class="th-sm">Id</th> -->
+						<th class="th-sm">Service Event</th>
+						<th class="th-sm">Sponsor</th>
 						<th class="th-sm">Date</th>
 					</tr>
 				</thead>
@@ -314,9 +315,10 @@
 					<#if ev.date?datetime &lt; .now>
 						<tr id="eid-${ev.eid?c}">
 							<td class="ev_sel"><input class="boxSel" type="checkbox" eid="${ev.eid}" /></td>
-							<td class="ev_id">${ev.eid!"UNKNOWN"}</td>
+							<!-- hiding id column <td class="ev_id">${ev.eid!"UNKNOWN"}</td> -->
 							<td class="ev_title">${ev.title!"UNKNOWN"}</td>
-							<td class="ev_date" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?datetime}</td>
+							<td class="ev_sc">${ev.serviceClient.name!"UNKNOWN"}</td>
+							<td class="ev_date" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?string["MMM d, h:mm a"]}</td>
 						</tr>
 					</#if>
 					</#list>

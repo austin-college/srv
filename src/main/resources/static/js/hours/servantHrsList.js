@@ -1070,6 +1070,12 @@ $(document).ready(function() {
 		},
 		open: function(event, ui) {			
 			console.log("open select dialog");	
+			
+			// clear all checkboxes upon open
+			$(".boxSel").prop("checked", false);
+			
+			// remove previous error messages
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
 		},
 		buttons: [
 			{
@@ -1079,10 +1085,19 @@ $(document).ready(function() {
 				click: function() {		
 					console.log("submit on select dialog");
 
+					// verify a checkbox was selected, cannot submit until one is, 
+					// throw error to user stating so
+					if($(".boxSel").prop("checked") == true){
+						console.log("a checkbox is checked.");
+					
+						$("#addDlg").dialog("open");
 
-					$("#addDlg").dialog("open");
-
-					$(this).dialog("close");
+						$(this).dialog("close");
+					}
+					else if($(".boxSel").prop("checked") == false){
+						console.log("all checkboxes are unchecked.");
+						updateTips("An event must be selected.");
+					}
 
 				}
 			},
