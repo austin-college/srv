@@ -30,6 +30,17 @@
 
 					</ul>
 				</div>
+				<div class="row" style="padding-top:20px; padding-left:35px">
+					<div class="col">
+						<h6>Approved&#xA0;&#xA0;<span class="badge badge-success">${approvedHrs!0}</span></h6>
+					</div>
+					<div class="col">
+						<h6>Pending&#xA0;&#xA0;<span class="badge badge-info">${pendingHrs!0}</span></h6>
+					</div>
+					<div class="col">
+						<h6>Rejected&#xA0;&#xA0;<span class="badge badge-danger">${rejectedHrs!0}</span></h6>
+					</div>
+				</div>
 				
 			</div>
 		
@@ -42,6 +53,7 @@
 				<h4 style="padding-top:10px">Upcoming Events</h4>
 				<div id="annListCol" class="col-sm">
 					<div id="announceList" class="list-group" style="padding-top:10px">
+						<#if events??>
 						<#list events as upcoming> 
 						<!--  only show events with volunteers still needed -->
 						<#if upcoming.rsvpVolunteerHours &lt; upcoming.neededVolunteerHours>
@@ -54,10 +66,12 @@
 						</#if> 
 						</a> 
 						</#list>
+						</#if>
 					</div>
 					<div id="seeAllCol" class="col-sm" style="padding-top:5px; padding-bottom: 20px">
 						<a id="seeAllLink" href="/srv/events">See All</a>
 					</div>
+					
 				</div>
 			</div>
 			<div class="col-md-7">

@@ -175,7 +175,24 @@ public class HomeController {
 
 				List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
 				double semesterTotalHrs = hrSvc.totalSemesterHours(userHours);
-
+				
+				
+				int approvedHrsNum = 0;
+				int rejectedHrsNum = 0;
+				int pendingHrsNum = 0;
+				
+				for (ServiceHours hr : userHours) {
+					
+					if (hr.getStatus().equals("Approved"))
+						approvedHrsNum++;
+					
+					else if (hr.getStatus().equals("Rejected"))
+						rejectedHrsNum++;
+					
+					else
+						pendingHrsNum++;
+				}
+		
 				mav.addObject("name", currentSrvUser.getContactInfo().fullName());
 				mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
 				mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
@@ -185,6 +202,9 @@ public class HomeController {
 				mav.addObject("capacity", currentSrvUser.getCarCapacity());
 				mav.addObject("events", upcomingEvents);
 				mav.addObject("semTot", semesterTotalHrs);
+				mav.addObject("approvedHrs", approvedHrsNum);
+				mav.addObject("pendingHrs", pendingHrsNum);
+				mav.addObject("rejectedHrs", rejectedHrsNum);
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
