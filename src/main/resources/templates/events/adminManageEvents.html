@@ -204,7 +204,7 @@
 					None
 					</#if>
 					</td>
-					<td class="ev_date btnEvView evView" eid="${ev.eid?c}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
+					<td class="ev_date btnEvView evView" eid="${ev.eid?c}" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
 					<#if userAdmin || userBoardMember>
 					<!--action buttons-->
 					<td class="evActions">
