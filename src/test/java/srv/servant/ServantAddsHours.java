@@ -57,9 +57,12 @@ public class ServantAddsHours extends SeleniumTest {
 		//this running confirms that the dialog box was clicked and is visible
 		WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/div[@class='ui-dialog-content ui-widget-content']");
 
-		//clicks on the checkmark for the first item
+		//clicks on the check mark for the first item
 		link = driver.findElement(By.xpath("//td[@class='ev_sel sorting_1']/input[@class='boxSel']"));
 		link.click();
+		
+		//makes sure that the box was selected
+		assertEquals(true, link.isSelected());
 
 //		//clicks on the submit button which opens a new Dialog
 //		link = driver.findElement(By.xpath("//div/button[@id='addBtnDlg']"));
