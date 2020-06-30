@@ -10,15 +10,20 @@
 				<img id="profilePic" src="/srv/images/defaultProfilePicture.png" style="width:245px; height: 175px"/>
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-7">
 				<div class="profile-head">
 					<div class="row">
 						<div class="col">
 							<h5>${name!"UNKOWN NAME"}</h5>
 						</div>	
 						<div class="col">
-							<button id="editProfileBtn" class="btn btn-md edit float-right"  onclick="onEditProfileClick()">
+							<button id="editProfileBtn" class="btn btn-md edit"  onclick="onEditProfileClick()">
 							<span class="fas fa-pencil-alt"></span> Edit Profile
+							</button>
+						</div>
+						<div class="col">
+							<button id="logHrsBtn" class="btn btn-md edit" onclick="location.href='/srv/hours'">
+							<span class="far fa-clock"></span> Log Service Hours
 							</button>
 						</div>
 					</div>
