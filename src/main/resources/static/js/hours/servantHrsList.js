@@ -1104,7 +1104,7 @@ $(document).ready(function() {
 		buttons: [
 			{
 				text: "Submit", 
-				"id": "addBtnDlg",
+				"id": "btnEvSelDlgSubmit",
 				"class": 'btn',
 				click: function() {		
 					console.log("submit on select dialog");
