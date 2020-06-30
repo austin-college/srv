@@ -1,6 +1,6 @@
 <#import "/main_layout.html" as layout />
 
-<@layout.stdpage "Manage Board Members" "adminManageBoardMember.css">
+<@layout.stdpage "Manage Board Members" "adminManageBoardMember.css" "adminManageBoardMember.js">
 
 <div id="mainContainer" class="container">
 	
@@ -35,9 +35,10 @@
 			<thead>
 				<tr>
 					<th class="th-sm">Co-Chair</th>
+					<th class="th-sm">Username</th>
 					<th class="th-sm">Name</th>
 					<th class="th-sm">E-Mail</th>
-					<th class="th-sm">Mobile Phone Number</th>
+					<th class="th-sm">Phone Number</th>
 					<th class="th-sm">Expected Grad Year</th>
 					<th class="th-sm">Action</th>
 				</tr>
@@ -47,16 +48,17 @@
 					<tr id="row${bm.uid}">
 						
 						<#if bm.isCoChair>
-							<td class="coChair_sel"><input class="boxSel" type="checkbox" uid="${bm.uid}" checked="checked"/></td>
+							<td class="coChair_sel"><input class="boxSel" type="checkbox" uid="${bm.uid}" checked="checked" /></td>
 						<#else>
 							<td class="coChair_sel"><input class="boxSel" type="checkbox" uid="${bm.uid}"/></td>
 						</#if>
 						
+						<td name="bm_username" uid="${bm.uid?c}">${bm.username}</td>
 						<td name="bm_fullName" uid="${bm.uid?c}">${bm.contactInfo.fullName()!"UNKNOWN"}</td>
 						<td name="bm_email" uid="${bm.uid?c}">${bm.contactInfo.email!"UNKNOWN"}</td>
-						<td name="bm_phoneNum" uid="${bm.uid?c}">${bm.contactInfo.phoneNumMobile!"UNKNOWN"}</td>				
+						<td name="bm_phoneNum" uid="${bm.uid?c}">${bm.contactInfo.primaryPhone!"UNKNOWN"}</td>				
 						<td name="bm_gradYr" uid="${bm.uid?c}">${bm.expectedGradYear?c!"UNKNOWN"}</td>
-						
+												
 						<!--action buttons-->
 						<td class="bmActions">
 							<button class="btn edit btnBmEdit" uid="${bm.uid?c}">

@@ -112,21 +112,6 @@ public class HomeController {
 	}
 
 	/**
-	 * displays the admin edit board member/co chair page
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@Secured("ROLE_ADMIN")
-	@GetMapping("/home/admin/editBM")
-	public ModelAndView adminEditBMAction(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView mav = new ModelAndView("home/editBM");
-
-		return mav;
-	}
-
-	/**
 	 * displays the admin home page
 	 * @param request
 	 * @param response
