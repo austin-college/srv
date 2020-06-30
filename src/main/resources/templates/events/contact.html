@@ -1,18 +1,22 @@
-
-<div id="evContactDiv">
-<#if contact??>
-${contact.fullName()!"unknown"}
-<br/>
-${contact.email!"unknown email"}
-<br/>
-${contact.address!"unknown address"}
-<br/>
-work: ${contact.phoneNumWork!"unknown work phone number"}
-<br/>
-mobile: ${contact.phoneNumMobile!"unknown mobile phone number"}
+<#if errMsg??>
+  	<div class="alert alert-danger row" id="page-error">
+	${errMsg}
+	</div>
 <#else>
-Missing Contact
+	<div id="evContactDiv">
+	<#if contact??>
+	${contact.fullName()!"unknown"}
+	<br/>
+	${contact.email!"unknown email"}
+	<br/>
+	${contact.address!"unknown address"}
+	<br/>
+	Primary phone number: ${contact.primaryPhone!"unknown primary phone number"}
+	<br/>
+	Secondary phone number: ${contact.secondaryPhone!"unknown secondary phone number"}
+	<#else>
+	Missing Contact
+	</#if>
+	</div>
 </#if>
-</div>
-
 

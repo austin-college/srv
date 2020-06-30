@@ -34,7 +34,7 @@ public class ContactDaoTests {
 	 * contact info in the list.
 	 */
 	@Test
-	public void testFetchById_whenUsingJdbcTemplate() throws Exception {
+	public void testFetchById() throws Exception {
 		
 		log.warn("\n\n\n");
 		
@@ -46,8 +46,8 @@ public class ContactDaoTests {
 		assertEquals("Tom", c1.getFirstName());
 		assertEquals("Hanks", c1.getLastName());
 		assertEquals("thanks@gmail.com", c1.getEmail());
-		assertEquals("903-420-1212", c1.getPhoneNumWork());
-		assertEquals("400-232-1211", c1.getPhoneNumMobile());
+		assertEquals("903-420-1212", c1.getPrimaryPhone());
+		assertEquals("400-232-1211", c1.getSecondaryPhone());
 		assertEquals("626 E Main Street", c1.getStreet());
 		assertEquals("Sherman", c1.getCity());
 		assertEquals("TX", c1.getState());
@@ -60,7 +60,7 @@ public class ContactDaoTests {
 	 * data.sql database.
 	 */
 	@Test
-	public void testListAll_whenUsingJdbcTemplate() throws Exception { 
+	public void testListAll() throws Exception { 
 		
 		
 		List<Contact> contacts = dao.listAll();
@@ -81,8 +81,8 @@ public class ContactDaoTests {
 		assertEquals("Tom", c1.getFirstName());
 		assertEquals("Hanks", c1.getLastName());
 		assertEquals("thanks@gmail.com", c1.getEmail());
-		assertEquals("903-420-1212", c1.getPhoneNumWork());
-		assertEquals("400-232-1211", c1.getPhoneNumMobile());
+		assertEquals("903-420-1212", c1.getPrimaryPhone());
+		assertEquals("400-232-1211", c1.getSecondaryPhone());
 		assertEquals("626 E Main Street", c1.getStreet());
 		assertEquals("Sherman", c1.getCity());
 		assertEquals("TX", c1.getState());
@@ -92,8 +92,8 @@ public class ContactDaoTests {
 		assertEquals("Lois", c2.getFirstName());
 		assertEquals("Lane", c2.getLastName());
 		assertEquals("llane86@gmail.com", c2.getEmail());
-		assertEquals("803-423-1257", c2.getPhoneNumWork());
-		assertEquals("800-232-1211", c2.getPhoneNumMobile());
+		assertEquals("803-423-1257", c2.getPrimaryPhone());
+		assertEquals("800-232-1211", c2.getSecondaryPhone());
 		assertEquals("118 NW Crawford Street", c2.getStreet());
 		assertEquals("Sherman", c2.getCity());
 		assertEquals("TX", c2.getState());
@@ -104,8 +104,8 @@ public class ContactDaoTests {
 		assertEquals("Joe", c3.getFirstName());
 		assertEquals("Smith", c3.getLastName());
 		assertEquals("jsmith12@gmail.com", c3.getEmail());
-		assertEquals("903-444-4440", c3.getPhoneNumWork());
-		assertEquals("401-322-1201", c3.getPhoneNumMobile());
+		assertEquals("903-444-4440", c3.getPrimaryPhone());
+		assertEquals("401-322-1201", c3.getSecondaryPhone());
 		assertEquals("25 Frieda Drive", c3.getStreet());
 		assertEquals("Gunter", c3.getCity());
 		assertEquals("TX", c3.getState());
@@ -116,8 +116,8 @@ public class ContactDaoTests {
 		assertEquals("Susan", c4.getFirstName());
 		assertEquals("Atkins", c4.getLastName());
 		assertEquals("satkins67@gmail.com", c4.getEmail());
-		assertEquals("803-426-1527", c4.getPhoneNumWork());
-		assertEquals("800-191-9412", c4.getPhoneNumMobile());
+		assertEquals("803-426-1527", c4.getPrimaryPhone());
+		assertEquals("800-191-9412", c4.getSecondaryPhone());
 		assertEquals("23 First Street", c4.getStreet());
 		assertEquals("Denison", c4.getCity());
 		assertEquals("TX", c4.getState());
@@ -128,7 +128,7 @@ public class ContactDaoTests {
 	 * data.sql database.
 	 */
 	@Test
-	public void testCreate_whenUsingJdbcTemplate() throws Exception {
+	public void testCreate() throws Exception {
 		
 		log.warn("\n\n\n");
 		
@@ -141,8 +141,8 @@ public class ContactDaoTests {
 		assertEquals("Morgan", c8.getFirstName());
 		assertEquals("Freeman", c8.getLastName());
 		assertEquals("mfreeman@msn.com", c8.getEmail());
-		assertEquals("902-412-6121", c8.getPhoneNumWork());
-		assertEquals("392-121-5252", c8.getPhoneNumMobile());
+		assertEquals("902-412-6121", c8.getPrimaryPhone());
+		assertEquals("392-121-5252", c8.getSecondaryPhone());
 		assertEquals("626 Hayes Rd", c8.getStreet());
 		assertEquals("Sherman", c8.getCity());
 		assertEquals("TX", c8.getState());
@@ -153,8 +153,8 @@ public class ContactDaoTests {
 		assertEquals("Morgan", c.getFirstName());
 		assertEquals("Freeman", c.getLastName());
 		assertEquals("mfreeman@msn.com", c.getEmail());
-		assertEquals("902-412-6121", c.getPhoneNumWork());
-		assertEquals("392-121-5252", c.getPhoneNumMobile());
+		assertEquals("902-412-6121", c.getPrimaryPhone());
+		assertEquals("392-121-5252", c.getSecondaryPhone());
 		assertEquals("626 Hayes Rd", c.getStreet());
 		assertEquals("Sherman", c.getCity());
 		assertEquals("TX", c.getState());
@@ -166,7 +166,7 @@ public class ContactDaoTests {
 	 *  still be one query left in the database.
 	 */
 	@Test
-	public void testDelete_whenUsingJdbcTemplate() throws Exception {
+	public void testDelete() throws Exception {
 		
 		log.warn("\n\n\n");
 			
@@ -188,8 +188,8 @@ public class ContactDaoTests {
 		assertEquals("Lois", c1.getFirstName());
 		assertEquals("Lane", c1.getLastName());
 		assertEquals("llane86@gmail.com", c1.getEmail());
-		assertEquals("803-423-1257", c1.getPhoneNumWork());
-		assertEquals("800-232-1211", c1.getPhoneNumMobile());
+		assertEquals("803-423-1257", c1.getPrimaryPhone());
+		assertEquals("800-232-1211", c1.getSecondaryPhone());
 		assertEquals("118 NW Crawford Street", c1.getStreet());
 		assertEquals("Sherman", c1.getCity());
 		assertEquals("TX", c1.getState());
@@ -200,8 +200,8 @@ public class ContactDaoTests {
 		assertEquals("Joe", c2.getFirstName());
 		assertEquals("Smith", c2.getLastName());
 		assertEquals("jsmith12@gmail.com", c2.getEmail());
-		assertEquals("903-444-4440", c2.getPhoneNumWork());
-		assertEquals("401-322-1201", c2.getPhoneNumMobile());
+		assertEquals("903-444-4440", c2.getPrimaryPhone());
+		assertEquals("401-322-1201", c2.getSecondaryPhone());
 		assertEquals("25 Frieda Drive", c2.getStreet());
 		assertEquals("Gunter", c2.getCity());
 		assertEquals("TX", c2.getState());
@@ -212,8 +212,8 @@ public class ContactDaoTests {
 		assertEquals("Susan", c3.getFirstName());
 		assertEquals("Atkins", c3.getLastName());
 		assertEquals("satkins67@gmail.com", c3.getEmail());
-		assertEquals("803-426-1527", c3.getPhoneNumWork());
-		assertEquals("800-191-9412", c3.getPhoneNumMobile());
+		assertEquals("803-426-1527", c3.getPrimaryPhone());
+		assertEquals("800-191-9412", c3.getSecondaryPhone());
 		assertEquals("23 First Street", c3.getStreet());
 		assertEquals("Denison", c3.getCity());
 		assertEquals("TX", c3.getState());
@@ -224,7 +224,7 @@ public class ContactDaoTests {
 	 * Testing the update(), should update the query with the specified ID.
 	 */
 	@Test
-	public void testUpdate_whenUsingJdbcTemplate() throws Exception {
+	public void testUpdate() throws Exception {
 		
 		log.warn("\n\n\n");
 		
@@ -236,8 +236,8 @@ public class ContactDaoTests {
 		assertEquals("Tom", c1.getFirstName());
 		assertEquals("Cruise", c1.getLastName());
 		assertEquals("tcruise@msn.com", c1.getEmail());
-		assertEquals("901-121-1211", c1.getPhoneNumWork());
-		assertEquals("800-522-5291", c1.getPhoneNumMobile());
+		assertEquals("901-121-1211", c1.getPrimaryPhone());
+		assertEquals("800-522-5291", c1.getSecondaryPhone());
 		assertEquals("626 E Main Street", c1.getStreet());
 		assertEquals("Sherman", c1.getCity());
 		assertEquals("TX", c1.getState());

@@ -49,4 +49,56 @@ a:hover {
 	padding-right: 0px;
 	padding-left: 0px;
 }
-/* end credit to Lydia for list style*/
+
+
+/* Style settings for pie chart */
+pie {
+    width: 32px;
+    height: 32px;
+    display: block;
+    border-radius: 50%;
+    margin: auto;
+    background-color: #427dc6;
+}
+
+.zero {
+   background-color: #a41e34;
+}
+
+.twentyfive {
+    background-image:
+        linear-gradient(180deg, transparent 50%, #a41e34 50%),
+        linear-gradient(90deg, #a41e34 50%, transparent 50%);
+}
+
+.fifty {
+    background-image:
+        linear-gradient(90deg, #a41e34 50%, transparent 50%);
+}
+
+/* Slices greater than 50% require first gradient
+   to be transparent -> blue */
+
+.seventyfive {
+    background-image:
+        linear-gradient(180deg, transparent 50%, #427dc6 50%),
+        linear-gradient(90deg, #a41e34 50%, transparent 50%);
+}
+
+.onehundred {
+    background-image: none;
+}
+
+/* Style settings for the view buttons in a table */
+.btnEvView {
+	background-color: #427dc6;
+	color: white;
+	text-align: center;
+}
+
+/* Style settings for the delete buttons.*/
+.btnEvDel{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}

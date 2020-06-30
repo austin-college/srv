@@ -323,12 +323,20 @@ function prepopulateEditDialog(selShid) {
 	.done(function(sh) {
 
 		console.log(sh);
-
+		
+		var weekDayDate = new Date(sh.event.date).toDateString(); // makes the date with the format Wed Jan 01 2020
+		var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
+		var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
+	
+		// makes the date with format 2020 Jan 01
+		var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
+		console.log(dateWithFormat_yyyyMMMdd);
+		
 		$("#editDlgTxtEvTitle").val(sh.event.title);
 		$("#editDlgcontact-email").val(sh.event.contact.email);
-		$("#editDlgContact-phone").val(sh.event.contact.phoneNumWork);
+		$("#editDlgContact-phone").val(sh.event.contact.primaryPhone);
 		$("#editDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
-		$("#editDlgEvDate").val(sh.event.date);;
+		$("#editDlgEvDate").val(dateWithFormat_yyyyMMMdd);
 		$("#editDlgHrsSrvd").val(sh.hours);
 		$("#editDlgAddress").val(sh.event.contact.street);
 		$("#editDlgZip-code").val(sh.event.contact.zipcode);
@@ -392,12 +400,20 @@ function prepopulateViewDialog(selShid) {
 	.done(function(sh) {
 
 		console.log(sh);
-
+		
+		var weekDayDate = new Date(sh.event.date).toDateString(); // makes the date with the format Wed Jan 01 2020
+		var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
+		var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
+	
+		// makes the date with format 2020 Jan 01
+		var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
+		console.log(dateWithFormat_yyyyMMMdd);
+		
 		$("#viewDlgTxtEvTitle").val(sh.event.title);
 		$("#viewDlgcontact-email").val(sh.event.contact.email);
-		$("#viewDlgContact-phone").val(sh.event.contact.phoneNumWork);
+		$("#viewDlgContact-phone").val(sh.event.contact.primaryPhone);
 		$("#viewDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
-		$("#viewDlgEvDate").val(sh.event.date);;
+		$("#viewDlgEvDate").val(dateWithFormat_yyyyMMMdd);
 		$("#viewDlgHrsSrvd").val(sh.hours);
 		$("#viewDlgAddress").val(sh.event.contact.street);
 		$("#viewDlgZip-code").val(sh.event.contact.zipcode);
@@ -461,12 +477,20 @@ function prepopulateAddDialogue(){
 	.done(function(ev) {
 
 		console.log(ev);
-
+		
+		var weekDayDate = new Date(ev.date).toDateString(); // makes the date with the format Wed Jan 01 2020
+		var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
+		var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
+	
+		// makes the date with format 2020 Jan 01
+		var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
+		console.log(dateWithFormat_yyyyMMMdd);
+		
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-email").val(ev.contact.email);
-		$("#contact-phone").val(ev.contact.phoneNumWork);
+		$("#contact-phone").val(ev.contact.primaryPhone);
 		$("#contact-name").val(ev.contact.firstName + " " + ev.contact.lastName);
-		$("#evDate").val(ev.date);;
+		$("#evDate").val(dateWithFormat_yyyyMMMdd);
 		$("#hrsSrvd").val(ev.type.defHours);
 		$("#address").val(ev.contact.street);
 		$("#zip-code").val(ev.contact.zipcode);
@@ -812,13 +836,17 @@ function onFeedbackSubmit(newStatus, feedbackMsg, shid) {
 		
 		// Remove the approve button if status is approved
 		if (sh.status == 'Approved') {
-			$('.btnApprove[shid="' + sh.shid + '"]').remove();
+			$('.btnApprove[shid="' + sh.shid + '"]').hide();
+			$('.btnReject[shid="' + sh.shid + '"]').show();
+
 			console.log('approve');
 		}
 		// Remove the reject button if status is rejected
 		else if (sh.status == 'Rejected'){
 			console.log('reject');
-			$('.btnReject[shid="' + sh.shid + '"]').remove();
+			$('.btnReject[shid="' + sh.shid + '"]').hide();
+			$('.btnApprove[shid="' + sh.shid + '"]').show();
+
 		}
 
 	})
@@ -1066,6 +1094,12 @@ $(document).ready(function() {
 		},
 		open: function(event, ui) {			
 			console.log("open select dialog");	
+			
+			// clear all checkboxes upon open
+			$(".boxSel").prop("checked", false);
+			
+			// remove previous error messages
+			$(".validationTips" ).removeClass("alert alert-danger").text("");
 		},
 		buttons: [
 			{
@@ -1074,11 +1108,23 @@ $(document).ready(function() {
 				"class": 'btn',
 				click: function() {		
 					console.log("submit on select dialog");
+					
+					// count the number of checked boxes
+					var eventChecked = $('input[class=boxSel]:checked').length;
+					
+					// verify a checkbox was selected, cannot submit until one is, 
+					// throw error to user stating so
+					if (eventChecked == 1){
+						console.log("a checkbox is checked.");
+					
+						$("#addDlg").dialog("open");
 
-
-					$("#addDlg").dialog("open");
-
-					$(this).dialog("close");
+						$(this).dialog("close");
+					}
+					else if(eventChecked == 0){
+						console.log("all checkboxes are unchecked.");
+						updateTips("An event must be selected.");
+					}
 
 				}
 			},

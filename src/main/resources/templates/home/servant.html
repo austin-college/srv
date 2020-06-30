@@ -10,15 +10,20 @@
 				<img id="profilePic" src="/srv/images/defaultProfilePicture.png" style="width:245px; height: 175px"/>
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-7">
 				<div class="profile-head">
 					<div class="row">
 						<div class="col">
 							<h5>${name!"UNKOWN NAME"}</h5>
 						</div>	
 						<div class="col">
-							<button id="editProfileBtn" class="btn btn-md edit float-right"  onclick="onEditProfileClick()">
+							<button id="editProfileBtn" class="btn btn-md edit"  onclick="onEditProfileClick()">
 							<span class="fas fa-pencil-alt"></span> Edit Profile
+							</button>
+						</div>
+						<div class="col">
+							<button id="logHrsBtn" class="btn btn-md edit" onclick="location.href='/srv/hours'">
+							<span class="far fa-clock"></span> Log Service Hours
 							</button>
 						</div>
 					</div>
@@ -29,6 +34,17 @@
 							aria-selected="true">My Info</a></li>
 
 					</ul>
+				</div>
+				<div class="row" style="padding-top:20px; padding-left:35px">
+					<div class="col">
+						<h6>Approved&#xA0;&#xA0;<span class="badge badge-success">${approvedHrs!0}</span></h6>
+					</div>
+					<div class="col">
+						<h6>Pending&#xA0;&#xA0;<span class="badge badge-info">${pendingHrs!0}</span></h6>
+					</div>
+					<div class="col">
+						<h6>Rejected&#xA0;&#xA0;<span class="badge badge-danger">${rejectedHrs!0}</span></h6>
+					</div>
 				</div>
 				
 			</div>
@@ -42,6 +58,7 @@
 				<h4 style="padding-top:10px">Upcoming Events</h4>
 				<div id="annListCol" class="col-sm">
 					<div id="announceList" class="list-group" style="padding-top:10px">
+						<#if events??>
 						<#list events as upcoming> 
 						<!--  only show events with volunteers still needed -->
 						<#if upcoming.rsvpVolunteerHours &lt; upcoming.neededVolunteerHours>
@@ -54,10 +71,12 @@
 						</#if> 
 						</a> 
 						</#list>
+						</#if>
 					</div>
 					<div id="seeAllCol" class="col-sm" style="padding-top:5px; padding-bottom: 20px">
 						<a id="seeAllLink" href="/srv/events">See All</a>
 					</div>
+					
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -107,10 +126,10 @@
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<label><b>Mobile Phone Number:</b></label>
+								<label><b>Primary Phone Number:</b></label>
 							</div>
 							<div class="col-md-6">
-								<p>${mobilePhone!"UNKNOWN MOBILE PHONE NUMBER"}</p>
+								<p>${primaryPhone!"UNKNOWN PRIMARY PHONE NUMBER"}</p>
 							</div>
 						</div>
 						<div class="row">

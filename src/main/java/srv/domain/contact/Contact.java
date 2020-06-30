@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * An instance of this class is a data holder for contact information. The information
- * included is the contact's first and last name, their mobile and work phone numbers, an
+ * included is the contact's first and last name, their phone numbers, an
  * email address, and their address broken down into street, city, state and zipcode, and
  * a unique integer id.
  * 
@@ -16,8 +16,8 @@ public class Contact implements Serializable {
 	private String firstName; 
 	private String lastName;
 	private String email; 
-	private String phoneNumWork; 
-	private String phoneNumMobile; 
+	private String primaryPhone; 
+	private String secondaryPhone; 
 	private String street;
 	private String city;
 	private String state;
@@ -28,7 +28,7 @@ public class Contact implements Serializable {
 		super();
 	}
 	
-	public Contact(int new_id, String firstName, String lastName, String email, String phoneNumWork, String phoneNumMobile,
+	public Contact(int new_id, String firstName, String lastName, String email, String primaryPhone, String secondaryPhone,
 			String street, String city, String state, String zipcode) {
 		
 		super();
@@ -36,8 +36,8 @@ public class Contact implements Serializable {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.phoneNumWork = phoneNumWork;
-		this.phoneNumMobile = phoneNumMobile;
+		this.primaryPhone = primaryPhone;
+		this.secondaryPhone = secondaryPhone;
 		this.address = street + ", " + city + ", " + state + " " + zipcode;
 		this.street = street;
 		this.city = city;
@@ -94,21 +94,21 @@ public class Contact implements Serializable {
 		return this;
 	}
 
-	public String getPhoneNumWork() {
-		return phoneNumWork;
+	public String getPrimaryPhone() {
+		return primaryPhone;
 	}
 
-	public Contact setPhoneNumWork(String phoneNumWork) {
-		this.phoneNumWork = phoneNumWork;
+	public Contact setPrimaryPhone(String primaryPhone) {
+		this.primaryPhone = primaryPhone;
 		return this;
 	}
 
-	public String getPhoneNumMobile() {
-		return phoneNumMobile;
+	public String getSecondaryPhone() {
+		return secondaryPhone;
 	}
 
-	public Contact setPhoneNumMobile(String phoneNumMobile) {
-		this.phoneNumMobile = phoneNumMobile;
+	public Contact setSecondaryPhone(String secondaryPhone) {
+		this.secondaryPhone = secondaryPhone;
 		return this;
 	}
 	
@@ -170,8 +170,8 @@ public class Contact implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Contact [firstName=" + firstName + " lastName=" + lastName + ", email=" + email + ", Work phone number="
-				+ phoneNumWork + ", Mobile phone number=" + phoneNumMobile + ", address=" + address + "]";
+		return "Contact [firstName=" + firstName + " lastName=" + lastName + ", email=" + email + ", Primary phone number="
+				+ primaryPhone + ", Secondary phone number=" + secondaryPhone + ", address=" + address + "]";
 	}
 	
 	@Override

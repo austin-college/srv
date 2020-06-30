@@ -233,6 +233,8 @@ public class HoursController {
 			mav.addObject("hours", updatedSrvHr.getHours());
 			mav.addObject("status", updatedSrvHr.getStatus());
 			
+			mav.addObject("userAdmin", userUtil.userIsAdmin());
+			mav.addObject("userBm", userUtil.userIsBoardMember());
 			
 			
 		} catch (Exception e) {
@@ -285,7 +287,9 @@ public class HoursController {
 			mav.addObject("hours", newSrvHr.getHours());
 			mav.addObject("status", newSrvHr.getStatus());
 			
-			
+			mav.addObject("userAdmin", userUtil.userIsAdmin());
+			mav.addObject("userBm", userUtil.userIsBoardMember());
+
 			
 		} catch (Exception e) {
 			log.error("\n\n ERROR ");

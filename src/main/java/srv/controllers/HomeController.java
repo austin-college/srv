@@ -112,21 +112,6 @@ public class HomeController {
 	}
 
 	/**
-	 * displays the admin edit board member/co chair page
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@Secured("ROLE_ADMIN")
-	@GetMapping("/home/admin/editBM")
-	public ModelAndView adminEditBMAction(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView mav = new ModelAndView("home/editBM");
-
-		return mav;
-	}
-
-	/**
 	 * displays the admin home page
 	 * @param request
 	 * @param response
@@ -175,16 +160,36 @@ public class HomeController {
 
 				List<ServiceHours> userHours = hrSvc.userHours(currentUser.getUid());
 				double semesterTotalHrs = hrSvc.totalSemesterHours(userHours);
-
+				
+				
+				int approvedHrsNum = 0;
+				int rejectedHrsNum = 0;
+				int pendingHrsNum = 0;
+				
+				for (ServiceHours hr : userHours) {
+					
+					if (hr.getStatus().equals("Approved"))
+						approvedHrsNum++;
+					
+					else if (hr.getStatus().equals("Rejected"))
+						rejectedHrsNum++;
+					
+					else
+						pendingHrsNum++;
+				}
+		
 				mav.addObject("name", currentSrvUser.getContactInfo().fullName());
 				mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
-				mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
+				mav.addObject("primaryPhone", currentSrvUser.getContactInfo().getPrimaryPhone());
 				mav.addObject("gradYear", currentSrvUser.getExpectedGradYear());
 				mav.addObject("affiliation", currentSrvUser.getAffiliation());
 				mav.addObject("hasCar", currentSrvUser.getHasCar());
 				mav.addObject("capacity", currentSrvUser.getCarCapacity());
 				mav.addObject("events", upcomingEvents);
 				mav.addObject("semTot", semesterTotalHrs);
+				mav.addObject("approvedHrs", approvedHrsNum);
+				mav.addObject("pendingHrs", pendingHrsNum);
+				mav.addObject("rejectedHrs", rejectedHrsNum);
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

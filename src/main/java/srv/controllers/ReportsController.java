@@ -27,7 +27,25 @@ public class ReportsController {
 	public ModelAndView summaryAction(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("reports/summary");
-	return mav;
+	//freemarker variables
+		mav.addObject("schoolYear", "2019/2020");
+	mav.addObject("numStudentsVol", "1234");
+	mav.addObject("numGreek", "15");
+	mav.addObject("topGreek", "Lambda Omega Lambda");
+	mav.addObject("numClub", "30");
+	mav.addObject("topClub", "Rotaract");
+	mav.addObject("numLoners", "58");
+	mav.addObject("numNewPets", "12");
+	mav.addObject("numRemovedPets", "2");
+	mav.addObject("popPet", "Mike's Turtle Rescue");
+	mav.addObject("totalPopPet", "137");
+	mav.addObject("numGDS", "74");
+	mav.addObject("numJan", "82");
+	mav.addObject("signature", "Katy Roo");
+		
+		
+		
+		return mav;
 	}
 	
 	

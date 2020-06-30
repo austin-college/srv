@@ -276,8 +276,6 @@ public abstract class SeleniumTest {
 	protected void loginAs(String userid, String password, String homeURL) {
 		
 		driver.get(base + "/splash");
-		
-		int waitTime = 2;
 	
 		String url = driver.getCurrentUrl();
 		

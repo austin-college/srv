@@ -128,8 +128,8 @@ class ServantUserDaoTests {
 		assertEquals("rbuckle19", newUser.getContactInfo().getFirstName());
 		assertNull(newUser.getContactInfo().getLastName());
 		assertEquals("rbuckle19@austincollege.edu", newUser.getContactInfo().getEmail());
-		assertNull(newUser.getContactInfo().getPhoneNumWork());
-		assertNull(newUser.getContactInfo().getPhoneNumMobile());
+		assertNull(newUser.getContactInfo().getPrimaryPhone());
+		assertNull(newUser.getContactInfo().getSecondaryPhone());
 		assertNull(newUser.getContactInfo().getCity());
 		assertNull(newUser.getContactInfo().getState());
 		assertNull(newUser.getContactInfo().getZipcode());
@@ -167,8 +167,8 @@ class ServantUserDaoTests {
 		assertEquals("bruckle21", newUser.getContactInfo().getFirstName());
 		assertNull(newUser.getContactInfo().getLastName());
 		assertEquals("bruckle21@austincollege.edu", newUser.getContactInfo().getEmail());
-		assertNull(newUser.getContactInfo().getPhoneNumWork());
-		assertNull(newUser.getContactInfo().getPhoneNumMobile());
+		assertNull(newUser.getContactInfo().getPrimaryPhone());
+		assertNull(newUser.getContactInfo().getSecondaryPhone());
 		assertNull(newUser.getContactInfo().getCity());
 		assertNull(newUser.getContactInfo().getState());
 		assertNull(newUser.getContactInfo().getZipcode());

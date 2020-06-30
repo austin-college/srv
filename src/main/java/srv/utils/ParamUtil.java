@@ -1,5 +1,11 @@
 package srv.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * This utility class is the home for several convenient server side 
  * error checking/handling methods for parameters passed to our controllers. 
@@ -9,6 +15,64 @@ package srv.utils;
  */
 public class ParamUtil {
 	
+	public static String matchingString(String anyStr, String pattern, int grp, String errMsg) throws Exception {
+		
+			Pattern p = Pattern.compile(pattern);
+			
+			Matcher m = p.matcher(anyStr);
+			
+			if (!m.matches()) throw new Exception(String.format("[%s] does not match required pattern [%s].", anyStr, pattern));
+			
+			return m.group(grp);
+			
+	}
+	
+
+	public static String requiredNonEmptyString(String paramStr, String errMsg) throws Exception {
+		
+			// First check to see if null, if so return error message
+			if (paramStr != null) {
+				
+				paramStr = paramStr.trim();
+
+				// cannot be an empty string
+				if (paramStr.length() == 0)
+					throw new Exception(errMsg);
+				
+				return paramStr;
+			}
+			else {
+				throw new Exception(errMsg);
+			}
+
+	}
+	
+	public static String optionalString(String paramStr, String errMsg) throws Exception {
+		
+		if (paramStr == null) return null;
+		
+		paramStr = paramStr.trim();
+		
+		if (paramStr.isEmpty()) throw new Exception(errMsg);
+		
+		return paramStr;
+		
+	}
+	
+	
+	public static Date requiredDateLike(String dateStr, String pattern, String error) throws ParseException, Exception {
+		if(dateStr != null) {
+			dateStr = dateStr.trim();
+			if(dateStr.length()>0) {
+				Date tempDate = new SimpleDateFormat(pattern).parse(dateStr);
+				return tempDate;
+			} else {
+				throw new Exception("Invalid Date Format.  Should be "+pattern);
+			}
+		} else {
+			throw new Exception(error);
+		}
+	}
 	
 	/**
 	 * Method for when a parameter is of type Double and can be optional (in other words it's okay

@@ -8,6 +8,12 @@
 			<p>Please select the action you would like to take.</p>
 		</div>
 	</div>
+	
+	<#if errMsg??>
+	<div class="alert alert-danger row" id="page-error">
+	${errMsg}
+	</div>
+	</#if>
 
 	<!-- table title. -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
@@ -169,21 +175,20 @@
 					<!-- these columns are not final. If anyone thinks different information would be better
 				feel free to change these -->
 					<tr>
-						<th class="th-sm">ID</th>
+						<!-- <th class="th-sm">ID</th> -->
 						<th class="th-sm">Title</th>
 						<th class="th-sm">Sponsor</th>
 						<th class="th-sm">Contact</th>
-						<th class="th-sm">Date</th>
-						<#if userAdmin || userBoardMember>
+						<th class="th-sm">Date</th>		
 						<th class="th-sm">Action</th>
-						</#if>
+						<th class="th-sm">Need Satisfy</th>
 					</tr>
 				</thead>
 				<tbody>
 					<#if events??>
 					<#list events as ev>
 					<tr id="eid-${ev.eid?c}">
-						<td class="ev_id evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>
+					<!-- <td class="ev_id evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>-->
 						<td class="ev_title evView" eid="${ev.eid?c}">${ev.title!"UNKNOWN"}</td>
 						<#if ev.serviceClient??>
 						<td class="ev_sc evView" eid="${ev.eid?c}">${ev.serviceClient.name!"UNKNOWN"}</td>
@@ -197,21 +202,63 @@
 					None
 					</#if>
 					</td>
-					<td class="ev_date btnEvView evView" eid="${ev.eid?c}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
-					<#if userAdmin || userBoardMember>
+					<td class="ev_date evView" eid="${ev.eid?c}" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
+					
 					<!--action buttons-->
 					<td class="evActions">
+					
+					<!-- CRUD actions for board members and admins -->
+					<#if userAdmin || userBoardMember>
 						<button class="btn edit btnEvEdit" eid="${ev.eid?c}">
 							<i class="fas fa-pencil-alt"></i>
 						</button>
-						<button class="btn edit btnEvView" eid="${ev.eid?c}">
+						<button class="btn btnEvView" eid="${ev.eid?c}">
 							<i class="fas fa-search"></i>
 						</button>
-						<button class="btn edit btnEvDel" eid="${ev.eid?c}">
+						<button class="btn btnEvDel" eid="${ev.eid?c}">
 							<i class="far fa-trash-alt"></i>
 						</button>
-					</td>
+					
+					<!-- RSVP for servants -->
+					<#else>
+						<button id="rsvpBtn" class="btn btn-md edit" type="button" onclick="onSignUpClick()" data-toggle="tooltip"  data-placement="right" title="RSVP Event">
+							<span class="far fa-calendar-check "></span>
+						</button>
 					</#if>
+					</td>
+				
+					<!-- pie chart need progress -->
+					<td>
+						<!-- Thou shalt not divide by 0, as one of the commandments state -->
+						<#if ev.neededVolunteerHours != 0>
+									
+							<!-- if less than 25%, shows empty pie chart  -->
+							<#if ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 24>
+								<pie class="zero"></pie>
+																						
+							<!-- if greater than 25% but less than 50%, shows 1/4 pie chart -->	
+							<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &gt; 24 && ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 49 >
+								<pie class="twentyfive"></pie>
+										
+							<!-- if greater than 50% but less than 75%, shows 1/2 pie chart -->		
+							<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &gt; 49 && ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100) &lt; 75 >
+								<pie class="fifty"></pie>
+													
+							<!-- if 100%, shows completed pie chart-->	
+							<#elseif ((ev.rsvpVolunteerHours / ev.neededVolunteerHours) * 100)  == 100>
+								<pie class="onehundred"></pie>
+																						
+							<!-- if greater than 75% but less than 100%, shows 3/4 pie chart -->
+							<#else>
+								<pie class="seventyfive"></pie>
+															
+							</#if>
+							<#else>
+								<pie class="zero"></pie>			
+    					</#if>  				
+					</td>
+						
+				
 					</tr>
 					</#list>
 					</#if>

@@ -7,7 +7,13 @@
 <div class="container-fluid">
   
 <h1>Edit Event</h1>
-page instructions here
+
+	<#if errMsg??>
+	<div class="alert alert-danger row" id="page-error">
+	${errMsg}
+	</div>
+	</#if>
+
 <hr/>
 <br/>
 <div id="evFormDiv">
@@ -16,7 +22,7 @@ page instructions here
   
   <div class="form-group">
     <label for="evType">Event Type</label>
-	<select id="evType" name="evtype">
+	<select id="evType" name="evtype" class="form-control">
     <#list evtypes as et>
      <#if et.etid == event.type.etid >
       <option value="${et.etid} " selected>(${et.name}) ${et.description}</option>
@@ -34,36 +40,38 @@ page instructions here
   </div>
   
   <div class="form-group">
-    <label for="evAddress">Event Address</label>
+    <label for="evAddress">Event Location</label>
     <input type="text" class="form-control" id="evAddress" name="evAddress" aria-describedby="addressHelp" placeholder="event address" value="${event.address}">
-    <small id="addressHelp" class="form-text text-muted">Location of event for display.</small>
+    <small id="addressHelp" class="form-text text-muted">Location of event.</small>
   </div>
   
   <p>
   Date: <input type="text" id="evDate" name="evDate" aria-describedby="dateHelp" placeholder="event date" value="${event.date?string['yyyy/MM/dd HH:mm']}">
   </p>
   
-   <div class="form-group">
-    <label for="evVN">Number of Volunteers Neeeded</label>
-    <input type="text" class="form-control" id="evVN" name="evVN" aria-describedby="volunteersNeededHelp" placeholder="event volunteers needed" value="${event.volunteersNeeded}">
-    <small id="volunteersNeededHelp" class="form-text text-muted">Number of Volunteers for event for display.</small>
+   <div class="row form-group">
+	   <div class="col-sm-3">
+	    <label for="evVN">Number of Volunteers Needed</label>
+	    <input type="text" class="form-control" id="evVN" name="evVN" aria-describedby="volunteersNeededHelp" placeholder="event volunteers needed" value="${event.volunteersNeeded}">
+	    <small id="volunteersNeededHelp" class="form-text text-muted">Number of Volunteers for event for display.</small>
+	  </div>
+	  
+	  <div class="col-sm-3">
+	    <label for="evNVH">Total Volunteer Hours Needed</label>
+	    <input type="text" class="form-control" id="evNVH" name="evNVH" aria-describedby="neededVolunteerHoursHelp" placeholder="event needed volunteer hours" value="${event.neededVolunteerHours}">
+	    <small id="volunteersNeededHelp" class="form-text text-muted">Hours needed for event for display.</small>
+	  </div>
+	
+	  <div class="col-sm-3">
+	    <label for="evRsvp">Total Number of Hours Pledged</label>
+	    <input type="text" class="form-control" id="evRsvp" name="evRsvp" aria-describedby="rsvpHelp" placeholder="event rsvp volunteer hours" value="${event.rsvpVolunteerHours}">
+	    <small id="rsvpHelp" class="form-text text-muted">Total number of pledged via RSVP.</small>
+	  </div>  
   </div>
-  
-  <div class="form-group">
-    <label for="evNVH">Neeeded Volunteer Hours</label>
-    <input type="text" class="form-control" id="evNVH" name="evNVH" aria-describedby="neededVolunteerHoursHelp" placeholder="event needed volunteer hours" value="${event.neededVolunteerHours}">
-    <small id="volunteersNeededHelp" class="form-text text-muted">Hours needed for event for display.</small>
-  </div>
-
-  <div class="form-group">
-    <label for="evRsvp">Registered Hours</label>
-    <input type="text" class="form-control" id="evRsvp" name="evRsvp" aria-describedby="rsvpHelp" placeholder="event rsvp volunteer hours" value="${event.rsvpVolunteerHours}">
-    <small id="rsvpHelp" class="form-text text-muted">Total Registered Hours of event for display.</small>
-  </div>  
   
   <div class="form-group">
     <label for="evNote">Note</label>
-    <input type="text" class="form-control" id="evNote" name="evNote" aria-describedby="noteHelp" placeholder="event note" value="${event.note}">
+    <textarea name="message" class="form-control" rows="3" name="evNote" id="evNote aria-describedby="noteHelp" placeholder="event note" value="${event.note}"></textarea> 
     <small id="noteHelp" class="form-text text-muted">Note of event for display.</small>
   </div>  
   
@@ -76,50 +84,71 @@ page instructions here
     <label class="form-check-label" for="evContinuous">Ongoing/Continuous event.</label>
   </div>
   
- <#if event.contact??>
- <div class="form-group">
-    <label for="ev-contact" class="ev-contact">Contact</label>
-    <br/>
-    <label for="evContact_firstName">First Name</label>
-    <input type="text" class="form-control" id="evContact_firstName" name="evContact_firstName" aria-describedby="contactHelp" placeholder="contact first name" value="${event.contact.firstName}" readonly>
-    
-    <br/>
-    <label for="evContact_lastName">Last Name</label>
-    <input type="text" class="form-control" id="evContact_lastName" name="evContact_lastName" aria-describedby="contactHelp" placeholder="contact last name" value="${event.contact.lastName}" readonly>
-    
-    <br/>
-    <label for="evContact_email">Email</label>
-    <input type="text" class="form-control" id="evContact_email" name="evContact_email" aria-describedby="contactHelp" placeholder="contact email" value="${event.contact.email}" readonly>
-    
-    <br/>
-    <label for="evContact_phoneNumWork">Phone Number (Work)</label>
-    <input type="text" class="form-control" id="evContact_phoneNumWork" name="evContact_phoneNumWork" aria-describedby="contactHelp" placeholder="contact work phone number" value="${event.contact.phoneNumWork}" readonly>
-    
-	<br/>
-    <label for="evContact_phoneNumMobile">Phone Number (Mobile)</label>
-    <input type="text" class="form-control" id="evContact_phoneNumMobile" name="evContact_phoneNumMobile" aria-describedby="contactHelp" placeholder="contact mobile phone number" value="${event.contact.phoneNumMobile}" readonly>
-    
-    <label for="evContact" class="ev-contact-address">Contact Address</label>
-    
-	<br/>
-    <label for="evContact_street">Street</label>
-    <input type="text" class="form-control" id="evContact_street" name="evContact_street" aria-describedby="contactHelp" placeholder="contact address street" value="${event.contact.street}" readonly>
-    
-    <br/>
-    <label for="evContact_city">City</label>
-    <input type="text" class="form-control" id="evContact_city" name="evContact_city" aria-describedby="contactHelp" placeholder="contact address city" value="${event.contact.city}" readonly>
-    
-	<br/>
-    <label for="evContact_state">State</label>
-    <input type="text" class="form-control" id="evContact_state" name="evContact_state" aria-describedby="contactHelp" placeholder="contact address state" value="${event.contact.state}" readonly>
-    
-    <br/>
-    <label for="evContact_zipcode">Zip Code</label>
-    <input type="text" class="form-control" id="evContact_zipcode" name="evContact_zipcode" aria-describedby="contactHelp" placeholder="contact address zip code" value="${event.contact.zipcode}" readonly>
+  <div class="border bg-light" style="padding: 10px; font-size: x-small; margin-top:2em;">
+  	 
+  	 <div>
+  	 <h2>Contact <button id="btnContact" class="btn btn-md btn-light border">...</button></h2>
+  	 </div>
+	 <#if event.contact??>
+		
+	 	  <div class="form-group">
+	 	  	<div class="row">
+			 <div class="col-sm-5">
+			    <label for="evContact_firstName">First Name</label>
+			    <input type="text" class="form-control" id="evContact_firstName" name="evContact_firstName" aria-describedby="contactHelp" placeholder="contact first name" value="${event.contact.firstName}" readonly>
+			</div>
+			<div class="col-sm-5">				    
+			    <label for="evContact_lastName">Last Name</label>
+			    <input type="text" class="form-control" id="evContact_lastName" name="evContact_lastName" aria-describedby="contactHelp" placeholder="contact last name" value="${event.contact.lastName}" readonly>
+			</div>
+			</div>			
+		</div>
+		
+		 <div class="form-group">
+			 <div class="row">
+				<div class="col-sm-5">		 
+				    <label for="evContact_primaryPhone">Primary Phone Number</label>
+				    <input type="text" class="form-control" id="evContact_primaryPhone" name="evContact_primaryPhone" aria-describedby="contactHelp" placeholder="contact primary phone number" value="${event.contact.primaryPhone}" readonly>
+				</div>
+				<div class="col-sm-5">    
+				    <label for="evContact_secondaryPhone">Secondary Phone Number</label>
+				    <input type="text" class="form-control" id="evContact_secondaryPhone" name="evContact_secondaryPhone" aria-describedby="contactHelp" placeholder="contact secondary phone number" value="${event.contact.secondaryPhone}" readonly>
+				 </div>
+			 </div>
+		 </div>
+
+		<div class="form-group col-sm-6">
+		<div class="row">
+		    <label for="evContact_email">Contact Email</label>
+		    <input type="text" class="form-control" id="evContact_email" name="evContact_email" aria-describedby="contactHelp" placeholder="contact email" value="${event.contact.email}" readonly>
+		 </div>
+		 </div>    
+
+		 <div class="form-group">
+		  <div class="row">
+			 <div class="col-sm-6">
+			    <label for="evContact_street">Street</label>
+			    <input type="text" class="form-control" id="evContact_street" name="evContact_street" aria-describedby="contactHelp" placeholder="contact address street" value="${event.contact.street}" readonly>
+			 </div>
+			 
+			<div class="col-sm-2">		    
+			    <label for="evContact_city">City</label>
+			    <input type="text" class="form-control" id="evContact_city" name="evContact_city" aria-describedby="contactHelp" placeholder="contact address city" value="${event.contact.city}" readonly>
+			</div>		    
+			<div class="col-sm-1">		    		    
+			    <label for="evContact_state">State</label>
+			    <input type="text" class="form-control" id="evContact_state" name="evContact_state" aria-describedby="contactHelp" placeholder="contact address state" value="${event.contact.state}" readonly>
+			</div>		    
+			<div class="col-sm-2">		    		    
+			    <label for="evContact_zipcode">Zip</label>
+			    <input type="text" class="form-control" id="evContact_zipcode" name="evContact_zipcode" aria-describedby="contactHelp" placeholder="contact address zip code" value="${event.contact.zipcode}" readonly>
+			</div>
+		  </div>
+		</div>
+	<#else>
+	NO CONTACT
+	</#if>
   </div>
-<#else>
-NO CONTACT
-</#if>
   
   <br/>
   <br/>

@@ -70,7 +70,7 @@ public class AdminDeleteEventTest extends SeleniumTest {
 		 * clicks on the button to delete the first event in the list
 		 */
 
-		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn edit btnEvDel']")); 
+		link = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td/button[@class='btn btnEvDel']")); 
 		link.sendKeys(Keys.ENTER);
 
 		WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/span[@id='ui-id-1']");

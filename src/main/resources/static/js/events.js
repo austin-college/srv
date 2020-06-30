@@ -348,8 +348,8 @@ function onContactClick() {
 	 * reasoning.
 	 */
 	.fail(function(jqXHR, textStatus) {
-		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
-
+		//alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		$("#dlgViewContact").html("Unable to retrieve contact "+idStr);
 	});
 
 }
@@ -538,6 +538,9 @@ function onPageLoad() {
 
 	// connect the view action to all view buttons
 	$("td.ev_contact").click(onContactClick);
+	
+	// tooltip for RSVP button for servant users
+	$('[data-toggle="tooltip"]').tooltip();   
 
 	// Register and hide the delete dialog div until a delete button is clicked
 	// on.
@@ -667,7 +670,8 @@ function onPageLoad() {
 	$('#tblEvents').DataTable({	
 		"paging": false,
 		"searching": false,
-		"info": false
+		"info": false,
+		"order":  [ 4, 'asc' ] // allows us to sort by date not id		
 	});
 	$('.dataTables_length').addClass('bs-select');
 

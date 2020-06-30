@@ -13,11 +13,11 @@ public interface ContactDao {
 	
 	public List<Contact> listAll() throws Exception;
 	
-	public Contact create(String fn, String ln, String email, String work, String mobile, String str, String city, String st, String zip) throws Exception; 
+	public Contact create(String fn, String ln, String email, String primaryPhoneNum, String secondaryPhoneNum, String str, String city, String st, String zip) throws Exception; 
 
 	public void delete(int cid) throws Exception;
 	
-	public void update(int cid, String newFn, String newLn, String newEmail, String newWork, String newMobile, String newStr, String newCity, String newSt, String newZip) throws Exception;
+	public void update(int cid, String newFn, String newLn, String newEmail, String newPrimaryPhone, String newSecondaryPhone, String newStr, String newCity, String newSt, String newZip) throws Exception;
 
 	public Contact fetchContactById(int cid) throws Exception;
 

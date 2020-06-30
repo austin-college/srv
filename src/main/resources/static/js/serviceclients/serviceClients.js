@@ -134,8 +134,8 @@ function onViewClick() {
 		$("#viewDlg_category").val(sc.category);
 		$("#viewDlg_mainContactName").val(mainContactFullName);
 		$("#viewDlg_mainContactEmail").val(sc.mainContact.email);
-		$("#viewDlg_mainContactWorkPhone").val(sc.mainContact.phoneNumWork);
-		$("#viewDlg_mainContactMobilePhone").val(sc.mainContact.phoneNumMobile);
+		$("#viewDlg_mainContactPrimaryPhone").val(sc.mainContact.primaryPhone);
+		$("#viewDlg_mainContactSecondaryPhone").val(sc.mainContact.secondaryPhone);
 		$("#viewDlg_mainContactStreet").val(sc.mainContact.street);
 		$("#viewDlg_mainContactCity").val(sc.mainContact.city);
 		$("#viewDlg_mainContactState").val(sc.mainContact.state);
@@ -143,8 +143,8 @@ function onViewClick() {
 		$("#viewDlg_mainContactID").val(sc.mainContact.contactId);
 		$("#viewDlg_otherContactName").val(otherContactFullName);
 		$("#viewDlg_otherContactEmail").val(sc.otherContact.email);
-		$("#viewDlg_otherContactWorkPhone").val(sc.otherContact.phoneNumWork);
-		$("#viewDlg_otherContactMobilePhone").val(sc.otherContact.phoneNumMobile);
+		$("#viewDlg_otherContactPrimaryPhone").val(sc.otherContact.primaryPhone);
+		$("#viewDlg_otherContactSecondaryPhone").val(sc.otherContact.secondaryPhone);
 		$("#viewDlg_otherContactStreet").val(sc.otherContact.street);
 		$("#viewDlg_otherContactCity").val(sc.otherContact.city);
 		$("#viewDlg_otherContactState").val(sc.otherContact.state);
@@ -197,8 +197,8 @@ function onEditClick() {
 		$("#editDlg_category").val(sc.category);
 		$("#editDlg_mainContactName").val(mainContactFullName);
 		$("#editDlg_mainContactEmail").val(sc.mainContact.email);
-		$("#editDlg_mainContactWorkPhone").val(sc.mainContact.phoneNumWork);
-		$("#editDlg_mainContactMobilePhone").val(sc.mainContact.phoneNumMobile);
+		$("#editDlg_mainContactPrimaryPhone").val(sc.mainContact.primaryPhone);
+		$("#editDlg_mainContactSecondaryPhone").val(sc.mainContact.secondaryPhone);
 		$("#editDlg_mainContactStreet").val(sc.mainContact.street);
 		$("#editDlg_mainContactCity").val(sc.mainContact.city);
 		$("#editDlg_mainContactState").val(sc.mainContact.state);
@@ -206,8 +206,8 @@ function onEditClick() {
 		$("#editDlg_mainContactID").val(sc.mainContact.contactId);
 		$("#editDlg_otherContactName").val(otherContactFullName);
 		$("#editDlg_otherContactEmail").val(sc.otherContact.email);
-		$("#editDlg_otherContactWorkPhone").val(sc.otherContact.phoneNumWork);
-		$("#editDlg_otherContactMobilePhone").val(sc.otherContact.phoneNumMobile);
+		$("#editDlg_otherContactPrimaryPhone").val(sc.otherContact.primaryPhone);
+		$("#editDlg_otherContactSecondaryPhone").val(sc.otherContact.secondaryPhone);
 		$("#editDlg_otherContactStreet").val(sc.otherContact.street);
 		$("#editDlg_otherContactCity").val(sc.otherContact.city);
 		$("#editDlg_otherContactState").val(sc.otherContact.state);
@@ -385,8 +385,8 @@ function populateMainContactFields(contactDetails) {
 
 	$("#addDlg_mainContactName").val(mainContactFullName);
 	$("#addDlg_mainContactEmail").val(contactDetails.email);
-	$("#addDlg_mainContactWorkPhone").val(contactDetails.phoneNumWork);
-	$("#addDlg_mainContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#addDlg_mainContactPrimaryPhone").val(contactDetails.primaryPhone);
+	$("#addDlg_mainContactSecondaryPhone").val(contactDetails.secondaryPhone);
 	$("#addDlg_mainContactStreet").val(contactDetails.street);
 	$("#addDlg_mainContactCity").val(contactDetails.city);
 	$("#addDlg_mainContactState").val(contactDetails.state);
@@ -395,8 +395,8 @@ function populateMainContactFields(contactDetails) {
 	
 	$("#editDlg_mainContactName").val(mainContactFullName);
 	$("#editDlg_mainContactEmail").val(contactDetails.email);
-	$("#editDlg_mainContactWorkPhone").val(contactDetails.phoneNumWork);
-	$("#editDlg_mainContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#editDlg_mainContactPrimaryPhone").val(contactDetails.primaryPhone);
+	$("#editDlg_mainContactSecondaryPhone").val(contactDetails.secondaryPhone);
 	$("#editDlg_mainContactStreet").val(contactDetails.street);
 	$("#editDlg_mainContactCity").val(contactDetails.city);
 	$("#editDlg_mainContactState").val(contactDetails.state);
@@ -415,8 +415,8 @@ function populateOtherContactFields(contactDetails) {
 
 	$("#addDlg_otherContactName").val(otherContactFullName);
 	$("#addDlg_otherContactEmail").val(contactDetails.email);
-	$("#addDlg_otherContactWorkPhone").val(contactDetails.phoneNumWork);
-	$("#addDlg_otherContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#addDlg_otherContactPrimaryPhone").val(contactDetails.primaryPhone);
+	$("#addDlg_otherContactSecondaryPhone").val(contactDetails.secondaryPhone);
 	$("#addDlg_otherContactStreet").val(contactDetails.street);
 	$("#addDlg_otherContactCity").val(contactDetails.city);
 	$("#addDlg_otherContactState").val(contactDetails.state);
@@ -425,8 +425,8 @@ function populateOtherContactFields(contactDetails) {
 	
 	$("#editDlg_otherContactName").val(otherContactFullName);
 	$("#editDlg_otherContactEmail").val(contactDetails.email);
-	$("#editDlg_otherContactWorkPhone").val(contactDetails.phoneNumWork);
-	$("#editDlg_otherContactMobilePhone").val(contactDetails.phoneNumMobile);
+	$("#editDlg_otherContactPrimaryPhone").val(contactDetails.primaryPhone);
+	$("#editDlg_otherContactSecondaryPhone").val(contactDetails.secondaryPhone);
 	$("#editDlg_otherContactStreet").val(contactDetails.street);
 	$("#editDlg_otherContactCity").val(contactDetails.city);
 	$("#editDlg_otherContactState").val(contactDetails.state);

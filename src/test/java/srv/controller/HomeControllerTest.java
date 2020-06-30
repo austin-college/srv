@@ -27,6 +27,7 @@ import srv.config.WebSecurityConfig;
 import srv.controllers.HomeController;
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
+import srv.domain.hours.ServiceHours;
 import srv.domain.user.ServantUser;
 import srv.domain.user.ServantUserDao;
 import srv.domain.user.User;
@@ -125,19 +126,24 @@ public class HomeControllerTest {
 						.setLastName("Buckle")
 						.setContactId(1)
 						.setEmail("rbuckle@helpful.org")
-						.setPhoneNumMobile("903-813-5555")
+						.setPrimaryPhone("903-813-5555")
 						.setCity("Sherman"));
+		
+		ServiceHours dummyHr = new ServiceHours()
+				.setStatus("Pending");
 		
 		ServantUser srvUser = new ServantUser(1, "user", user.getContactInfo(), 2020, null, true, 2);
 		
 		List<Event> upcomingEventDummy = new ArrayList<Event>();
+		List<ServiceHours> dummyHrList = new ArrayList<ServiceHours>();
 		upcomingEventDummy.add(e1);
+		dummyHrList.add(dummyHr);
 		
 		// Mock dependencies
 		when(evSvc.filteredEvents(null, "now+1M", null, null, null)).thenReturn(upcomingEventDummy);
 		when(userUtil.currentUser()).thenReturn(user);
 		when(mockSrvUserDao.fetchServantUserById(1)).thenReturn(srvUser);
-		when(hrSvc.userHours(1)).thenReturn(null);
+		when(hrSvc.userHours(1)).thenReturn(dummyHrList);
 		when(hrSvc.totalSemesterHours(null)).thenReturn(0.0);
 
 		mvc.perform(get("/home/servant/")
