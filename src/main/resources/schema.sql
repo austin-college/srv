@@ -25,8 +25,8 @@ CREATE TABLE contacts (
 	firstName VARCHAR(255),
 	lastName VARCHAR(255),
 	email VARCHAR(255),
-	workPhone VARCHAR(255),
-	mobilePhone VARCHAR(255),
+	primaryPhone VARCHAR(255),
+	secondaryPhone VARCHAR(255),
 	str VARCHAR(255),
 	city VARCHAR(255),
 	st VARCHAR(255),
@@ -182,25 +182,25 @@ CREATE TABLE adminUsers (
 		ON DELETE CASCADE
 );
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES
 	('Tom', 'Hanks', 'thanks@gmail.com', '903-420-1212', '400-232-1211', '626 E Main Street', 'Sherman', 'TX', '75090');
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES
 	('Lois', 'Lane', 'llane86@gmail.com', '803-423-1257', '800-232-1211', '118 NW Crawford Street', 'Sherman', 'TX', '75090');
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES
 	('Joe', 'Smith', 'jsmith12@gmail.com', '903-444-4440', '401-322-1201', '25 Frieda Drive', 'Gunter', 'TX', '75058');
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES
 	('Susan', 'Atkins', 'satkins67@gmail.com', '803-426-1527', '800-191-9412', '23 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES
 	('AJ', 'Pritchard', 'apritchard18@austincollege.edu', '253-886-2125', '253-886-2125', '23 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES
 	('Hunter', 'Couturier', 'hCouturier@gmail.com', '803-426-1527', '800-191-9412', '24 First Street', 'Denison', 'TX', '75021');
 
-INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES
+INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES
 	('Emma', 'Driscoll', 'eDriscoll@gmail.com', '803-426-1527', '800-191-9412', '25 First Street', 'Denison', 'TX', '75021');
 
 insert into users (username, contactId) values ('apritchard', 5);

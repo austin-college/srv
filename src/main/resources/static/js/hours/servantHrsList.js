@@ -326,7 +326,7 @@ function prepopulateEditDialog(selShid) {
 
 		$("#editDlgTxtEvTitle").val(sh.event.title);
 		$("#editDlgcontact-email").val(sh.event.contact.email);
-		$("#editDlgContact-phone").val(sh.event.contact.phoneNumWork);
+		$("#editDlgContact-phone").val(sh.event.contact.primaryPhone);
 		$("#editDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
 		$("#editDlgEvDate").val(sh.event.date);;
 		$("#editDlgHrsSrvd").val(sh.hours);
@@ -395,7 +395,7 @@ function prepopulateViewDialog(selShid) {
 
 		$("#viewDlgTxtEvTitle").val(sh.event.title);
 		$("#viewDlgcontact-email").val(sh.event.contact.email);
-		$("#viewDlgContact-phone").val(sh.event.contact.phoneNumWork);
+		$("#viewDlgContact-phone").val(sh.event.contact.primaryPhone);
 		$("#viewDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
 		$("#viewDlgEvDate").val(sh.event.date);;
 		$("#viewDlgHrsSrvd").val(sh.hours);
@@ -464,7 +464,7 @@ function prepopulateAddDialogue(){
 
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-email").val(ev.contact.email);
-		$("#contact-phone").val(ev.contact.phoneNumWork);
+		$("#contact-phone").val(ev.contact.primaryPhone);
 		$("#contact-name").val(ev.contact.firstName + " " + ev.contact.lastName);
 		$("#evDate").val(ev.date);;
 		$("#hrsSrvd").val(ev.type.defHours);

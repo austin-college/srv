@@ -317,7 +317,12 @@
 							<td class="ev_sel"><input class="boxSel" type="checkbox" eid="${ev.eid}" /></td>
 							<!-- hiding id column <td class="ev_id">${ev.eid!"UNKNOWN"}</td> -->
 							<td class="ev_title">${ev.title!"UNKNOWN"}</td>
-							<td class="ev_sc">${ev.serviceClient.name!"UNKNOWN"}</td>
+							
+							<#if ev.serviceClient??>
+								<td class="ev_sc">${ev.serviceClient.name!"UNKNOWN"}</td>
+							<#else>
+								<td class="ev_sc">None</td>							
+							</#if>
 							<td class="ev_date" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?string["MMM d, h:mm a"]}</td>
 						</tr>
 					</#if>

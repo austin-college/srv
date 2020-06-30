@@ -117,7 +117,7 @@ public class HoursControllerTest {
 		e1 = new Event().setEid(1).setTitle("gds 2020").setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave").setType(et1).setServiceClient(sc1)
 				.setContact(new Contact().setFirstName("Rusty").setLastName("Buckle").setContactId(1)
-						.setEmail("rbuckle@helpful.org").setPhoneNumMobile("903-813-5555").setCity("Sherman"));
+						.setEmail("rbuckle@helpful.org").setPrimaryPhone("903-813-5555").setCity("Sherman"));
 
 		e2 = new Event().setEid(2).setTitle("fws 2020").setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave").setType(et1).setServiceClient(sc2).setContact(null);

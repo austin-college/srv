@@ -110,7 +110,7 @@ public class EventControllerTest {
 						.setLastName("Buckle")
 						.setContactId(1)
 						.setEmail("rbuckle@helpful.org")
-						.setPhoneNumMobile("903-813-5555")
+						.setPrimaryPhone("903-813-5555")
 						.setCity("Sherman")
 						);
 		
@@ -297,8 +297,8 @@ public class EventControllerTest {
                   )
                   
                   .andExpect(content().string(containsString("Rusty Buckle")))
-                  .andExpect(content().string(containsString("work: unknown")))
-                  .andExpect(content().string(containsString("mobile: 903-813-5555")))
+                  .andExpect(content().string(containsString("Primary phone number: 903-813-5555")))
+                  .andExpect(content().string(containsString("Secondary phone number: unknown")))
          		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
          
                   // other expectations here...

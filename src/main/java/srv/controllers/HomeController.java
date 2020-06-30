@@ -195,7 +195,7 @@ public class HomeController {
 		
 				mav.addObject("name", currentSrvUser.getContactInfo().fullName());
 				mav.addObject("email", currentSrvUser.getContactInfo().getEmail());
-				mav.addObject("mobilePhone", currentSrvUser.getContactInfo().getPhoneNumMobile());
+				mav.addObject("primaryPhone", currentSrvUser.getContactInfo().getPrimaryPhone());
 				mav.addObject("gradYear", currentSrvUser.getExpectedGradYear());
 				mav.addObject("affiliation", currentSrvUser.getAffiliation());
 				mav.addObject("hasCar", currentSrvUser.getHasCar());

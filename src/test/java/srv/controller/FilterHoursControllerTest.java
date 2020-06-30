@@ -124,7 +124,7 @@ public class FilterHoursControllerTest {
 						.setLastName("Buckle")
 						.setContactId(1)
 						.setEmail("rbuckle@helpful.org")
-						.setPhoneNumMobile("903-813-5555")
+						.setPrimaryPhone("903-813-5555")
 						.setCity("Sherman")
 						);
 		

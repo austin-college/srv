@@ -101,8 +101,8 @@ public class ServiceClientControllerTest {
 				.setFirstName("Joe")
 				.setLastName("Smith")
 				.setContactId(1)
-				.setPhoneNumMobile("111-222-3333")
-				.setPhoneNumWork("444-555-6666")
+				.setPrimaryPhone("111-222-3333")
+				.setSecondaryPhone("444-555-6666")
 				.setStreet("119 Main St")
 				.setCity("Sherman")
 				.setState("TX")
@@ -114,8 +114,8 @@ public class ServiceClientControllerTest {
 				.setFirstName("Tina")
 				.setLastName("Franklin")
 				.setContactId(2)
-				.setPhoneNumMobile("900-900-9003")
-				.setPhoneNumWork("800-800-8003")
+				.setPrimaryPhone("900-900-9003")
+				.setSecondaryPhone("800-800-8003")
 				.setStreet("120 First St")
 				.setCity("Sherman")
 				.setState("TX")
@@ -494,10 +494,10 @@ public class ServiceClientControllerTest {
 		.andExpect(jsonPath("$.lastName", is("Smith")))
 
 		// and with a mobile phone number better be '111-222-3333'
-		.andExpect(jsonPath("$.phoneNumMobile", is("111-222-3333")))
+		.andExpect(jsonPath("$.primaryPhone", is("111-222-3333")))
 
 		// and with a work phone number better be '444-555-6666'
-		.andExpect(jsonPath("$.phoneNumWork", is("444-555-6666")))
+		.andExpect(jsonPath("$.secondaryPhone", is("444-555-6666")))
 
 		// and with a street name of '119 Main St'
 		.andExpect(jsonPath("$.street", is("119 Main St")))
@@ -607,17 +607,17 @@ public class ServiceClientControllerTest {
 		
 		// Main/primary contact for service client 1
 		Contact main1 = new Contact().setContactId(2).setFirstName("Lois").setLastName("Lane").setEmail("llane86@gmail.com")
-				.setPhoneNumWork("803-423-1257").setPhoneNumMobile("800-232-1211").setStreet("118 NW Crawford Street")
+				.setPrimaryPhone("803-423-1257").setSecondaryPhone("800-232-1211").setStreet("118 NW Crawford Street")
 				.setCity("Sherman").setState("TX").setZipcode("75090");
 		
 		// Other/secondary contact for service client 1
 		Contact other1 = new Contact().setContactId(3).setFirstName("Joe").setLastName("Smith").setEmail("jsmith12@gmail.com")
-				.setPhoneNumWork("903-444-4440").setPhoneNumMobile("401-322-1201").setStreet("25 Frieda Drive")
+				.setPrimaryPhone("903-444-4440").setSecondaryPhone("401-322-1201").setStreet("25 Frieda Drive")
 				.setCity("Gunter").setState("TX").setZipcode("75058");
 		
 		// Contact information for current board member for service client 1
 		Contact bmContact1 = new Contact().setContactId(5).setFirstName("Hunter").setLastName("Couturier").setEmail("hCouturier@gmail.com")
-				.setPhoneNumWork("803-426-1527").setPhoneNumMobile("800-191-9412").setStreet("24 First Street")
+				.setPrimaryPhone("803-426-1527").setSecondaryPhone("800-191-9412").setStreet("24 First Street")
 				.setCity("Dension").setState("TX").setZipcode("75021");
 				
 		// Current board member for service client 1
@@ -625,17 +625,17 @@ public class ServiceClientControllerTest {
 
 		// Main/primary contact for service client 2
 		Contact main2 = new Contact().setContactId(2).setFirstName("Lois").setLastName("Lane").setEmail("llane86@gmail.com")
-				.setPhoneNumWork("803-423-1257").setPhoneNumMobile("800-232-1211").setStreet("118 NW Crawford Street")
+				.setPrimaryPhone("803-423-1257").setSecondaryPhone("800-232-1211").setStreet("118 NW Crawford Street")
 				.setCity("Sherman").setState("TX").setZipcode("75090");
 
 		// Other/secondary contact for service client 2
 		Contact other2 = new Contact().setContactId(3).setFirstName("Joe").setLastName("Smith").setEmail("jsmith12@gmail.com")
-				.setPhoneNumWork("903-444-4440").setPhoneNumMobile("401-322-1201").setStreet("25 Frieda Drive")
+				.setPrimaryPhone("903-444-4440").setSecondaryPhone("401-322-1201").setStreet("25 Frieda Drive")
 				.setCity("Gunter").setState("TX").setZipcode("75058");
 
 		// Contact information for current board member for service client 2
 		Contact bmContact2 = new Contact().setContactId(5).setFirstName("Emma").setLastName("Driscoll").setEmail("eDriscoll@gmail.com")
-				.setPhoneNumWork("803-426-1527").setPhoneNumMobile("800-191-9412").setStreet("25 First Street")
+				.setPrimaryPhone("803-426-1527").setSecondaryPhone("800-191-9412").setStreet("25 First Street")
 				.setCity("Dension").setState("TX").setZipcode("75021");
 
 		// Current board member for service client 2

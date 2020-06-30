@@ -92,8 +92,8 @@ class AdminUserDaoTests {
 		assertEquals("rbuckle19", newAdminUser.getContactInfo().getFirstName());
 		assertNull(newAdminUser.getContactInfo().getLastName());
 		assertEquals("rbuckle19@austincollege.edu", newAdminUser.getContactInfo().getEmail());
-		assertNull(newAdminUser.getContactInfo().getPhoneNumWork());
-		assertNull(newAdminUser.getContactInfo().getPhoneNumMobile());
+		assertNull(newAdminUser.getContactInfo().getPrimaryPhone());
+		assertNull(newAdminUser.getContactInfo().getSecondaryPhone());
 		assertNull(newAdminUser.getContactInfo().getCity());
 		assertNull(newAdminUser.getContactInfo().getState());
 		assertNull(newAdminUser.getContactInfo().getZipcode());

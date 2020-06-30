@@ -218,8 +218,8 @@ public class EventController {
 			mav.addObject("sponsorDescr", theEvent.getType().getDescription());
 			mav.addObject("srvClient", theEvent.getServiceClient().getName());
 			mav.addObject("name", theEvent.getContact().fullName());
-			mav.addObject("mainPhoneNum", theEvent.getContact().getPhoneNumMobile());
-			mav.addObject("otherPhoneNum", theEvent.getContact().getPhoneNumWork());
+			mav.addObject("mainPhoneNum", theEvent.getContact().getPrimaryPhone());
+			mav.addObject("otherPhoneNum", theEvent.getContact().getSecondaryPhone());
 			mav.addObject("email", theEvent.getContact().getEmail());
 
 		} catch (Exception e) {
@@ -528,8 +528,8 @@ public class EventController {
 			mav.addObject("sponsorDescr", theEvent.getType().getDescription());
 			mav.addObject("srvClient", theEvent.getServiceClient().getName());
 			mav.addObject("name", theEvent.getContact().fullName());
-			mav.addObject("mainPhoneNum", theEvent.getContact().getPhoneNumMobile());
-			mav.addObject("otherPhoneNum", theEvent.getContact().getPhoneNumWork());
+			mav.addObject("mainPhoneNum", theEvent.getContact().getPrimaryPhone());
+			mav.addObject("otherPhoneNum", theEvent.getContact().getSecondaryPhone());
 			mav.addObject("email", theEvent.getContact().getEmail());
 			
 		} catch (Exception e) {

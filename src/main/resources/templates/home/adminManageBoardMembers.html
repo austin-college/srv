@@ -1,0 +1,89 @@
+<#import "/main_layout.html" as layout />
+
+<@layout.stdpage "Manage Board Members" "adminManageBoardMember.css">
+
+<div id="mainContainer" class="container">
+	
+	<!-- Page instructions -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col-md" id="instructions">
+			<p>Please select the action you would like to take.</p>
+		</div>
+	</div>
+	
+	<!-- table title. -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+			<h2>Board Members</h2>
+		</div>
+	</div>
+	
+	<!-- Add/Create new event type button -->
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+			<button id="btnBmNew" class="btn btn-md addBtn">
+				<span class="fas fa-plus-circle"></span> Create New
+			</button>
+		</div>
+	</div>
+	
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+		<div class="col">
+	
+		<!-- board member table -->
+		<table id="bmTbl" class="table table-striped table-bordered table-sm" cellspacing="0"	width="100%">
+			<thead>
+				<tr>
+					<th class="th-sm">Co-Chair</th>
+					<th class="th-sm">Name</th>
+					<th class="th-sm">E-Mail</th>
+					<th class="th-sm">Mobile Phone Number</th>
+					<th class="th-sm">Expected Grad Year</th>
+					<th class="th-sm">Action</th>
+				</tr>
+			</thead>
+			<tbody id="bmTblBody">
+				<#list boardMembers as bm>
+					<tr id="row${bm.uid}">
+						
+						<#if bm.isCoChair>
+							<td class="coChair_sel"><input class="boxSel" type="checkbox" uid="${bm.uid}" checked="checked"/></td>
+						<#else>
+							<td class="coChair_sel"><input class="boxSel" type="checkbox" uid="${bm.uid}"/></td>
+						</#if>
+						
+						<td name="bm_fullName" uid="${bm.uid?c}">${bm.contactInfo.fullName()!"UNKNOWN"}</td>
+						<td name="bm_email" uid="${bm.uid?c}">${bm.contactInfo.email!"UNKNOWN"}</td>
+						<td name="bm_phoneNum" uid="${bm.uid?c}">${bm.contactInfo.phoneNumMobile!"UNKNOWN"}</td>				
+						<td name="bm_gradYr" uid="${bm.uid?c}">${bm.expectedGradYear?c!"UNKNOWN"}</td>
+						
+						<!--action buttons-->
+						<td class="bmActions">
+							<button class="btn edit btnBmEdit" uid="${bm.uid?c}">
+								<i class="fas fa-pencil-alt"></i>
+							</button>
+							<button class="btn btnView btnBmView" uid="${bm.uid?c}">
+								<i class="fas fa-search"></i>
+							</button>
+							<button class="btn del btnBmDel" uid="${bm.uid?c}">
+								<i class="far fa-trash-alt"></i>
+							</button>
+						</td>
+					</tr>
+				</#list>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+	
+	<!-- back button -->
+	<div class="row" style="padding-left:20px; padding-bottom:20px">
+		<a class="btn edit" href="/srv/home/admin"> 
+		<span class="fas fa-arrow-left"></span>
+			Back
+		</a>
+	</div>
+	
+</div>
+</@layout.stdpage>

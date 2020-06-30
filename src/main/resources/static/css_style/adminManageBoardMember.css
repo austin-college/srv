@@ -1,0 +1,56 @@
+@charset "ISO-8859-1";
+
+/* Style settings for the table. */
+.table{
+	text-align: center;
+}
+.table > thead > tr > th {
+	vertical-align: middle;
+}
+thead th {
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}
+
+/* Style settings for the add buttons.*/
+#addBtnContainer{
+	background-color: #db9401;
+	color: white;
+	text-align: center;
+}
+
+/* Style settings for the view buttons in a table */
+.btnView {
+	background-color: #427dc6;
+	color: white;
+	text-align: center;
+}
+
+/* Style settings for the delete buttons.*/
+.del{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}
+/* Style settings for the edit and add buttons.*/
+.edit, .addBtn{
+	background-color: #db9401;
+	border-color: #db9401;
+	color: white;
+	text-align: center;
+	
+}
+
+/* Style settings for submit button in create new board member dialog */
+#addBtnDlg  {
+	background-color: #db9401;
+	color: white;
+}
+
+/* Style setting for dialog headers. */
+.ui-dialog-titlebar{
+	background-color: #a41e34;
+	color: white;
+	text-align: center;
+}

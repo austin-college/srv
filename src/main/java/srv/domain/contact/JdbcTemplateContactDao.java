@@ -37,8 +37,7 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	@Override
 	public List<Contact> listAll() throws Exception {
 		
-		List<Contact> results = getJdbcTemplate().query("SELECT contactId, firstName, lastName, email, workPhone, mobilePhone, "
-				+ "str, city, st, zip FROM contacts", new ContactRowMapper());
+		List<Contact> results = getJdbcTemplate().query("SELECT * FROM contacts", new ContactRowMapper());
 		 
 		return results;
 	}
@@ -48,9 +47,9 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	 * if the new contact is a duplicate. 
 	 */
 	@Override
-	public Contact create(String fn, String ln, String email, String work, String mobile, String str, String city, String st, String zip) throws Exception {
+	public Contact create(String fn, String ln, String email, String primaryPhone, String secondaryPhone, String str, String city, String st, String zip) throws Exception {
 		
-		  final String sql = "INSERT INTO contacts (firstName, lastName, email, workPhone, mobilePhone, str, city, st, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		  final String sql = "INSERT INTO contacts (firstName, lastName, email, primaryPhone, secondaryPhone, str, city, st, zip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		  final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -72,8 +71,8 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	                  ps.setString(1, fn);
 	                  ps.setString(2, ln);
 	                  ps.setString(3, email);
-	                  ps.setString(4, work);
-	                  ps.setString(5, mobile);
+	                  ps.setString(4, primaryPhone);
+	                  ps.setString(5, secondaryPhone);
 	                  ps.setString(6, str);
 	                  ps.setString(7, city);
 	                  ps.setString(8, st);
@@ -120,11 +119,11 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	 * specified content. An exception is thrown if the contact is unable to be updated (does not exist).
 	 */
 	@Override
-	public void update(int cid,  String newFn, String newLn, String newEmail, String newWork, String newMobile, String newStr, String newCity, String newSt, String newZip) throws Exception {
+	public void update(int cid,  String newFn, String newLn, String newEmail, String newPrimaryPhone, String newSecondaryPhone, String newStr, String newCity, String newSt, String newZip) throws Exception {
 		
-		int rc = getJdbcTemplate().update("UPDATE contacts SET firstName = ?, lastName = ?, email = ?, workPhone = ?,"
-				+ "mobilePhone = ?, str = ?, city = ?, st = ?, zip = ? WHERE contactId = ?", 
-				new Object[] {newFn, newLn, newEmail, newWork, newMobile, newStr, newCity, newSt, newZip, cid});
+		int rc = getJdbcTemplate().update("UPDATE contacts SET firstName = ?, lastName = ?, email = ?, primaryPhone = ?,"
+				+ "secondaryPhone = ?, str = ?, city = ?, st = ?, zip = ? WHERE contactId = ?", 
+				new Object[] {newFn, newLn, newEmail, newPrimaryPhone, newSecondaryPhone, newStr, newCity, newSt, newZip, cid});
 
 		if (rc < 1) {
 			log.error("Unable to update contact [{}]",cid);
@@ -141,8 +140,7 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 		
 		if (cid == 0) return null;
 		
-		String sqlStr = String.format("SELECT contactId, firstName, lastName, email, workPhone, mobilePhone, "
-				+ "str, city, st, zip FROM contacts WHERE contactId = %d", cid);
+		String sqlStr = String.format("SELECT * FROM contacts WHERE contactId = %d", cid);
 		log.debug(sqlStr);
 		
 		List<Contact> results = getJdbcTemplate().query(sqlStr, new ContactRowMapper());
@@ -167,8 +165,8 @@ public class JdbcTemplateContactDao extends JdbcTemplateAbstractDao implements C
 	        		.setFirstName(rs.getString("firstName"))
 	        		.setLastName(rs.getString("lastName"))
 	        		.setEmail(rs.getString("email"))
-	        		.setPhoneNumWork(rs.getString("workPhone"))
-	        		.setPhoneNumMobile(rs.getString("mobilePhone"))
+	        		.setPrimaryPhone(rs.getString("primaryPhone"))
+	        		.setSecondaryPhone(rs.getString("secondaryPhone"))
 	        		.setStreet(rs.getString("str"))
 	        		.setCity(rs.getString("city"))
 	        		.setState(rs.getString("st"))
