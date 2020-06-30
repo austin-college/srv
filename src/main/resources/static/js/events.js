@@ -538,6 +538,9 @@ function onPageLoad() {
 
 	// connect the view action to all view buttons
 	$("td.ev_contact").click(onContactClick);
+	
+	// tooltip for RSVP button for servant users
+	$('[data-toggle="tooltip"]').tooltip();   
 
 	// Register and hide the delete dialog div until a delete button is clicked
 	// on.

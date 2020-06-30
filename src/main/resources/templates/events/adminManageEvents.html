@@ -175,14 +175,12 @@
 					<!-- these columns are not final. If anyone thinks different information would be better
 				feel free to change these -->
 					<tr>
-						<th class="th-sm">ID</th>
+						<!-- <th class="th-sm">ID</th> -->
 						<th class="th-sm">Title</th>
 						<th class="th-sm">Sponsor</th>
 						<th class="th-sm">Contact</th>
-						<th class="th-sm">Date</th>
-						<#if userAdmin || userBoardMember>
+						<th class="th-sm">Date</th>		
 						<th class="th-sm">Action</th>
-						</#if>
 						<th class="th-sm">Need Satisfy</th>
 					</tr>
 				</thead>
@@ -190,7 +188,7 @@
 					<#if events??>
 					<#list events as ev>
 					<tr id="eid-${ev.eid?c}">
-						<td class="ev_id evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>
+					<!-- <td class="ev_id evView" eid="${ev.eid?c}">${ev.eid!"UNKNOWN"}</td>-->
 						<td class="ev_title evView" eid="${ev.eid?c}">${ev.title!"UNKNOWN"}</td>
 						<#if ev.serviceClient??>
 						<td class="ev_sc evView" eid="${ev.eid?c}">${ev.serviceClient.name!"UNKNOWN"}</td>
@@ -205,9 +203,12 @@
 					</#if>
 					</td>
 					<td class="ev_date evView" eid="${ev.eid?c}" data-sort="${ev.date?string['YYYY-MM-DD']}">${ev.date?string["MMM d, yyyy h:mm a"]}</td>
-					<#if userAdmin || userBoardMember>
+					
 					<!--action buttons-->
 					<td class="evActions">
+					
+					<!-- CRUD actions for board members and admins -->
+					<#if userAdmin || userBoardMember>
 						<button class="btn edit btnEvEdit" eid="${ev.eid?c}">
 							<i class="fas fa-pencil-alt"></i>
 						</button>
@@ -217,8 +218,15 @@
 						<button class="btn btnEvDel" eid="${ev.eid?c}">
 							<i class="far fa-trash-alt"></i>
 						</button>
-					</td>
+					
+					<!-- RSVP for servants -->
+					<#else>
+						<button id="rsvpBtn" class="btn btn-md edit" type="button" onclick="onSignUpClick()" data-toggle="tooltip"  data-placement="right" title="RSVP Event">
+							<span class="far fa-calendar-check "></span>
+						</button>
 					</#if>
+					</td>
+				
 					<!-- pie chart need progress -->
 					<td>
 						<!-- Thou shalt not divide by 0, as one of the commandments state -->
