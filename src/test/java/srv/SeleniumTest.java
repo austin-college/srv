@@ -62,7 +62,7 @@ public abstract class SeleniumTest {
 		options.addArguments("--no-sandbox"); // Bypass OS security model, MUST BE THE VERY FIRST OPTION
 		
 		if (HEADLESS)
-			//options.addArguments("--headless");
+			options.addArguments("--headless");
 		
 		options.setExperimentalOption("useAutomationExtension", false);
 		options.addArguments("start-maximized"); // open Browser in maximized mode
