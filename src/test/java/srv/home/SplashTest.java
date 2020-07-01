@@ -44,53 +44,8 @@ public class SplashTest extends SeleniumTest {
     @Test
     public void testAdminLogin() throws Exception {
     	
-        driver.get(base + "/splash");
+        this.loginAsAdmin();
 
-        String oldPageURL = driver.getCurrentUrl();
-        WebElement link = driver.findElement(By.linkText("Log In"));
-        link.click();
-        
-        waitForPage(driver, oldPageURL, 4);
-         
-        
-        /*
-         * should be at the login page now
-         */
-        assertEquals(base+"/login", driver.getCurrentUrl());
-        
-        /*
-         * find and populate user text element
-         */
-        WebElement txtUser = driver.findElement(By.id("username"));
-        txtUser.click();
-        txtUser.clear();
-        txtUser.sendKeys("admin");
-        
-        
-        /*
-         * find and populate password text element
-         */
-        WebElement txtPw = driver.findElement(By.id("password"));
-        assertNotNull(txtPw);
-        
-        txtPw.click();
-        txtPw.clear();
-        txtPw.sendKeys("admin");
-
-        /*
-         * submit the form
-         */
-        WebElement form = driver.findElement(By.className("form-signin"));
-        assertNotNull(form);
-        form.submit();
-
-        
-        /*
-         * should lead us to the admin's home page.
-         */
-        assertEquals(base+"/home/admin?userid=admin", driver.getCurrentUrl());
-        
-        
         
     }
     
