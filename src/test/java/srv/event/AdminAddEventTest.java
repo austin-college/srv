@@ -115,11 +115,13 @@ public class AdminAddEventTest extends SeleniumTest {
 		/*
 		 * inputs date  in date field
 		 */
-		WebElement date = driver.findElement(By.id("evDate"));
-		date.click();
-		date.clear();
-		date.sendKeys("2020/06/26 00:00");
+		//WebElement date = driver.findElement(By.id("evDate"));
+		//date.click();
+		//date.clear();
+		//Thread.sleep(2000);
+		//date.sendKeys("2020/06/26 00:00");
 		
+		// finish out test w current date 
 		assertEquals("2020/06/26 00:00", date.getAttribute("value"));
 		/*
 		 * finds the submit button and submits the information
