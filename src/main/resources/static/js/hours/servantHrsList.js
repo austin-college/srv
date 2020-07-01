@@ -1050,7 +1050,7 @@ $(document).ready(function() {
 		buttons: [
 			{
 				text: "Submit", 
-				"id": "addBtnDlg",
+				"id": "btnSubmitFeedBackDlg",
 				"class": 'btn',
 				click: function() {		
 

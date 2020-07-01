@@ -69,41 +69,41 @@ public class ServantAddsHours extends SeleniumTest {
 		assertEquals(true,link.isEnabled());
 		link.click();
 
-//		//this running confirms that the dialog box was clicked and is visible
-//		WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/span[@id='ui-id-4']");
-//
-//		//enters hours served
-//		link = driver.findElement(By.xpath("//div/input[@id='hrsSrvd']"));
-//		link.clear();
-//		link.sendKeys("4");
-//
-//		//enters a description
-//		link = driver.findElement(By.xpath("//div/textarea[@id='description']"));
-//		link.clear();
-//		link.sendKeys("A generic description");
-//
-//		//enters a reflection
-//		link = driver.findElement(By.xpath("//div/textarea[@id='reflection']"));
-//		link.clear();
-//		link.sendKeys("A generic reflection");
-//
-//		//clicks on the submit button
-//		link = driver.findElement(By.xpath("//div/button[@id='addBtnDlg']"));
-//		link.sendKeys(Keys.ENTER);
-//
-//		//confirms all the information has been entered
-//		link = driver.findElement(By.xpath("//tbody[@id='hrs_tbl_body']/tr/td[@name='hrs_eventName']"));
-//
-//		assertEquals("GDS2020", link.getText());
-//
-//		//confirms all the information has been entered
-//		link = driver.findElement(By.xpath("//tbody[@id='hrs_tbl_body']/tr/td[@name='hrs_hrsServed']"));
-//
-//		assertEquals("4", link.getText());
-//		
-//		//TODO test other fields entered
-//		
-//		logout();
+		//this running confirms that the dialog box was clicked and is visible
+		WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/span[@id='ui-id-4']");
+
+		//enters hours served
+		link = driver.findElement(By.xpath("//div/input[@id='hrsSrvd']"));
+		link.clear();
+		link.sendKeys("4");
+
+		//enters a description
+		link = driver.findElement(By.xpath("//div/textarea[@id='description']"));
+		link.clear();
+		link.sendKeys("A generic description");
+
+		//enters a reflection
+		link = driver.findElement(By.xpath("//div/textarea[@id='reflection']"));
+		link.clear();
+		link.sendKeys("A generic reflection");
+
+		//clicks on the submit button
+		link = driver.findElement(By.xpath("//div/button[@id='btnSubmitFeedBackDlg']"));
+		link.sendKeys(Keys.ENTER);
+
+		//confirms all the information has been entered
+		link = driver.findElement(By.xpath("//tbody[@id='hrs_tbl_body']/tr/td[@name='hrs_eventName']"));
+
+		assertEquals("GDS2020", link.getText());
+
+		//confirms all the information has been entered
+		link = driver.findElement(By.xpath("//tbody[@id='hrs_tbl_body']/tr/td[@name='hrs_hrsServed']"));
+
+		assertEquals("4", link.getText());
+		
+		//TODO test other fields entered
+		
+		logout();
 
 
 
