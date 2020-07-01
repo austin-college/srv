@@ -75,7 +75,7 @@ public class ServantAddsHours extends SeleniumTest {
 		//enters hours served
 		link = driver.findElement(By.xpath("//div/input[@id='hrsSrvd']"));
 		link.clear();
-		link.sendKeys("4");
+		link.sendKeys("24");
 
 		//enters a description
 		link = driver.findElement(By.xpath("//div/textarea[@id='description']"));
@@ -92,16 +92,14 @@ public class ServantAddsHours extends SeleniumTest {
 		link.sendKeys(Keys.ENTER);
 
 		//confirms all the information has been entered
-		link = driver.findElement(By.xpath("//tbody[@id='hrs_tbl_body']/tr/td[@name='hrs_eventName']"));
+		link = driver.findElement(By.xpath("//tr[@id='row8']/td[@name='hrs_eventName']"));
 
 		assertEquals("GDS2020", link.getText());
 
 		//confirms all the information has been entered
-		link = driver.findElement(By.xpath("//tbody[@id='hrs_tbl_body']/tr/td[@name='hrs_hrsServed']"));
+		link = driver.findElement(By.xpath("//tr[@id='row8']/td[@name='hrs_hrsServed']"));
 
-		assertEquals("4", link.getText());
-		
-		//TODO test other fields entered
+		assertEquals("24", link.getText());
 		
 		logout();
 
