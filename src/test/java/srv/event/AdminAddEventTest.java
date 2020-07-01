@@ -163,10 +163,14 @@ public class AdminAddEventTest extends SeleniumTest {
 		assertEquals("testedLocation", eventAddress.getAttribute("value"));
 		
 		/*
-		 * inputs date  
+		 * inputs date  in date field
 		 */
 		WebElement date = driver.findElement(By.id("evDate"));
 		date.click();
+		date.clear();
+		date.sendKeys("2020/06/26 00:00");
+		
+		assertEquals("2020/06/26 00:00", date.getAttribute("value"));
 		/*
 		 * finds the submit button and submits the information
 		 */
