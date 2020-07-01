@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,20 +18,31 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import srv.controllers.EventController;
+import srv.utils.StringUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SeleniumTest {
 
+	private static final boolean HEADLESS = true;
+	
 	protected static final int MAX_PAGE_WAIT_SECONDS = 4;
 	protected static final int MAX_DIALOG_WAIT_SECONDS = 4;
 	
 	public static final String WINDRIVERPATH = "src/main/resources/chromedriver.exe";
 	public static final String MACDRIVERPATH = "src/main/resources/chromedriver";
+	
+	
+	private static Logger log = LoggerFactory.getLogger(SeleniumTest.class);
 
 	@LocalServerPort
 	protected int port;
@@ -42,13 +54,16 @@ public abstract class SeleniumTest {
 
 	protected WebDriver driver;
 
-
+	ChromeOptions options;
 	@Before
 	public void setUp() throws Exception {
 
-		ChromeOptions options = new ChromeOptions();
+		options = new ChromeOptions();
 		options.addArguments("--no-sandbox"); // Bypass OS security model, MUST BE THE VERY FIRST OPTION
-		options.addArguments("--headless");
+		
+		if (HEADLESS)
+			options.addArguments("--headless");
+		
 		options.setExperimentalOption("useAutomationExtension", false);
 		options.addArguments("start-maximized"); // open Browser in maximized mode
 		options.addArguments("disable-infobars"); // disabling infobars
@@ -59,8 +74,12 @@ public abstract class SeleniumTest {
 
 		driver = new ChromeDriver(service,options);
 
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS); 
+		
 		this.base = "http://localhost:" + port+"/srv";
 		System.err.println(base);
+		
+		
 	}
 
 
@@ -231,12 +250,20 @@ public abstract class SeleniumTest {
 
 		WebDriverWait wait = new WebDriverWait(driver, waitTimeOutSecs);
 
+		
+		
 		wait.until(new ExpectedCondition<Boolean>() {
 
 			@Override
 			public Boolean apply(WebDriver driver) {
 
+				WebElement body = driver.findElement(By.xpath("//body"));
+				
+				if (body != null)
+					log.debug("body found");
+				
 				boolean same = driver.getCurrentUrl().equals(oldPageUrl);
+				
 				return !same;
 
 			}
@@ -246,25 +273,30 @@ public abstract class SeleniumTest {
 
 	/**
 	 * Convenient wrapper function for logging in as admin user.
+	 * @throws InterruptedException 
 	 */
-	protected void loginAsAdmin() {
+	protected void loginAsAdmin() throws InterruptedException {
 		loginAs("admin","admin","/home/admin?userid=admin");
 	}
 
 	/**
 	 * Convenient wrapper function for logging in as boardmember.
+	 * @throws InterruptedException 
 	 */
-	protected void loginAsBoardmember() {
+	protected void loginAsBoardmember() throws InterruptedException {
 		loginAs("boardmember","boardmember","/home/boardmember?userid=boardmember");
 	}
 
 	/**
 	 * Convenient wrapper function for logging in as servant user.
+	 * @throws InterruptedException 
 	 */
-	protected void loginAsUser() {
+	protected void loginAsUser() throws InterruptedException {
 		loginAs("user","user","/home/user");
 	}
 	
+	
+ 
 
 	/**
 	 * Performs authentication on our site starting at the site splash
@@ -272,8 +304,9 @@ public abstract class SeleniumTest {
 	 * @param userid
 	 * @param password
 	 * @param home
+	 * @throws InterruptedException 
 	 */
-	protected void loginAs(String userid, String password, String homeURL) {
+	protected void loginAs(String userid, String password, String homeURL) throws InterruptedException {
 		
 		driver.get(base + "/splash");
 	
@@ -283,21 +316,28 @@ public abstract class SeleniumTest {
 		link.click();
 	
 		waitForPage(driver, url, MAX_PAGE_WAIT_SECONDS);
-	
+		WebElement form = driver.findElement(By.className("form-signin"));
+		
 		/*
 		 * should be at the login page now
 		 */
 		assertEquals(base+"/login", driver.getCurrentUrl());
 	
+		
+		WaitForDialogById(driver,MAX_PAGE_WAIT_SECONDS,"username");
+		
 		/*
 		 * find and populate user text element
 		 */
 		WebElement txtUser = driver.findElement(By.id("username"));
-		txtUser.click();
-		txtUser.clear();
 		
+		txtUser = driver.findElement(By.xpath(StringUtil.dquote("//input[@name='username']")));
+			
+		if (!options.is("--headless"))
+			Thread.sleep(1000);
+			
 		txtUser.sendKeys(userid);
-	
+
 	
 		/*
 		 * find and populate password text element
@@ -305,22 +345,22 @@ public abstract class SeleniumTest {
 		WebElement txtPw = driver.findElement(By.id("password"));
 		assertNotNull(txtPw);
 	
-		txtPw.click();
-		txtPw.clear();
+		log.debug("click in user password");
 		txtPw.sendKeys(password);
 	
 	
 		/*
 		 * submit the form
 		 */
-		WebElement form = driver.findElement(By.className("form-signin"));
+		
 		assertNotNull(form);
 		form.submit();
-	
+		log.debug("login form submitted");
 	
 		/*
 		 * should lead us to the admin's home page.
 		 */
+		WebElement homepage = driver.findElement(By.id("srv-page"));
 		assertEquals(base+homeURL, driver.getCurrentUrl());
 	
 	}
