@@ -38,63 +38,13 @@ public class AdminAddEventTest extends SeleniumTest {
 	@Test
 	public void testAdminAddEvent() throws Exception {
 
-		driver.get(base + "/splash");
-		
-		String oldPageUrl = driver.getCurrentUrl();
-		
-		WebElement link = driver.findElement(By.linkText("Log In"));
-		link.click();
-
-		waitForPage(driver, oldPageUrl, this.MAX_PAGE_WAIT_SECONDS);
-
-		/*
-		 * should be at the login page now
-		 */
-		assertEquals(base+"/login", driver.getCurrentUrl());
-
-		/*
-		 * find and populate user text element
-		 */
-		WebElement txtUser = driver.findElement(By.id("username"));
-		txtUser.click();
-		txtUser.clear();
-		txtUser.sendKeys("admin");
-
-
-		/*
-		 * find and populate password text element
-		 */
-		WebElement txtPw = driver.findElement(By.id("password"));
-		assertNotNull(txtPw);
-
-		txtPw.click();
-		txtPw.clear();
-		txtPw.sendKeys("admin");
-
-
-		/*
-		 * submit the form
-		 */
-		WebElement form = driver.findElement(By.className("form-signin"));
-		assertNotNull(form);
-		form.submit();
-
-
-		/*
-		 * should lead us to the admin's home page.
-		 */
-		assertEquals(base+"/home/admin?userid=admin", driver.getCurrentUrl());
-
-		/*
-		 * from this point on we should be logged in as an admin
-		 * -credit to Professor Higgs for the code above
-		 */
+		loginAsAdmin();
 
 
 		/*
 		 * should lead us to the manage events page
 		 */
-		link = driver.findElement(By.id("manageEvents")); 
+		WebElement link = driver.findElement(By.id("manageEvents")); 
 		link.click();
 
 		assertEquals(base+"/events", driver.getCurrentUrl());
@@ -124,7 +74,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		//checks to see if the correct option is displayed
 		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
 
-		oldPageUrl = driver.getCurrentUrl();
+		String oldPageUrl = driver.getCurrentUrl();
 		
 		/*
 		 * finds the add new button and clicks it
