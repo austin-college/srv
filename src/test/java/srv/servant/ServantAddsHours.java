@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -57,10 +58,10 @@ public class ServantAddsHours extends SeleniumTest {
 		//this running confirms that the dialog box was clicked and is visible
 		WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/div[@class='ui-dialog-content ui-widget-content']");
 
-		//clicks on the check mark for the first item
-		link = driver.findElement(By.xpath("//td[@class='ev_sel sorting_1']/input[@class='boxSel']"));
+		//clicks on the check mark for the second item
+		link = driver.findElement(By.xpath("//tr[@id='eid-3']/td[@class='ev_sel sorting_1']/input[@class='boxSel']"));
 		link.click();
-		
+
 		//makes sure that the box was selected
 		assertEquals(true, link.isSelected());
 
@@ -71,11 +72,6 @@ public class ServantAddsHours extends SeleniumTest {
 
 		//this running confirms that the dialog box was clicked and is visible
 		WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/span[@id='ui-id-4']");
-
-		//enters hours served
-		link = driver.findElement(By.xpath("//div/input[@id='hrsSrvd']"));
-		link.clear();
-		link.sendKeys("24");
 
 		//enters a description
 		link = driver.findElement(By.xpath("//div/textarea[@id='description']"));
@@ -92,15 +88,40 @@ public class ServantAddsHours extends SeleniumTest {
 		link.sendKeys(Keys.ENTER);
 
 		//confirms all the information has been entered
+
+		//correct event
 		link = driver.findElement(By.xpath("//tr[@id='row8']/td[@name='hrs_eventName']"));
 
-		assertEquals("GDS2020", link.getText());
+		assertEquals("Dummy Event 3", link.getText());
 
-		//confirms all the information has been entered
+		//correct hours
 		link = driver.findElement(By.xpath("//tr[@id='row8']/td[@name='hrs_hrsServed']"));
 
-		assertEquals("24", link.getText());
+		assertEquals("3", link.getText());
+
+		//to continue we must click on the logged hours to inspect further
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("window.scrollBy(0,250)", "");
+		link = driver.findElement(By.xpath("//tr[@id='row8']/td[@class='hrActions']/div/button[@id='dropdownMenu']"));
+		link.click();
+		link = driver.findElement(By.xpath("//tr[@id='row8']/td[@class='hrActions']/div/div/a[@class='dropdown-item btnHrView']"));
+		link.click();
+		WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div[@id='viewDlg']/div[@class='container-fluid']");
+
+		//correct description
+		link = driver.findElement(By.id("viewDlgDescription"));
+
+		//assertEquals("A generic description", link.getText());
+
+		//correct description
+		link = driver.findElement(By.id("viewDlgReflection"));
+
+		//assertEquals("A generic reflection", link.getText());
 		
+		//closes the dialog
+		link = driver.findElement(By.xpath("//div/button[@class='btn btn-secondary']"));
+		link.click();
+
 		logout();
 
 
