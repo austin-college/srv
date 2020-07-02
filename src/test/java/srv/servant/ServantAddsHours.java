@@ -111,12 +111,12 @@ public class ServantAddsHours extends SeleniumTest {
 		//correct description
 		link = driver.findElement(By.id("viewDlgDescription"));
 
-		//assertEquals("A generic description", link.getText());
+		assertEquals("A generic description", link.getAttribute("value"));
 
 		//correct description
 		link = driver.findElement(By.id("viewDlgReflection"));
 
-		//assertEquals("A generic reflection", link.getText());
+		assertEquals("A generic reflection", link.getAttribute("value"));
 		
 		//closes the dialog
 		link = driver.findElement(By.xpath("//div/button[@class='btn btn-secondary']"));
