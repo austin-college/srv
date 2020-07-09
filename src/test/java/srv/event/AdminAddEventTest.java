@@ -122,11 +122,45 @@ public class AdminAddEventTest extends SeleniumTest {
 		//date.sendKeys("2020/06/26 00:00");
 		
 		// finish out test w current date 
-		assertEquals("2020/06/26 00:00", date.getAttribute("value"));
+		//assertEquals("2020/06/26 00:00", date.getAttribute("value"));
 		/*
 		 * finds the submit button and submits the information
 		 */
+		
+		/*
+		 *  inputs the number of volunteers 
+		 */
+		WebElement eventVN = driver.findElement(By.id("evVN"));
+		//eventVN.click();
+		eventVN.clear();
+		//Thread.sleep(1000);
+		eventVN.sendKeys("5");
+		
+		
+		assertEquals("5",eventVN.getAttribute("value"));
 
+		/*
+		 * inputs total volunteer hours needed
+		 */
+		WebElement evNVH = driver.findElement(By.id("evNVH"));
+		evNVH.clear();
+		evNVH.sendKeys("8");
+		
+		assertEquals("8", evNVH.getAttribute("value"));
+		
+		/*
+		 * inputs total pledged hours
+		 */
+		WebElement evRsvp = driver.findElement(By.id("evRsvp"));
+		evRsvp.clear();
+		evRsvp.sendKeys("4");
+		
+		assertEquals("4", evRsvp.getAttribute("value"));
+		
+		/*
+		 * inputs event note
+		 */
+		
 		link = driver.findElement(By.className("btn-primary"));
 		link.sendKeys(Keys.ENTER);
 
