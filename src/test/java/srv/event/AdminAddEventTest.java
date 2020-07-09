@@ -2,6 +2,7 @@ package srv.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.Test;
@@ -160,6 +161,20 @@ public class AdminAddEventTest extends SeleniumTest {
 		/*
 		 * inputs event note
 		 */
+		WebElement evNote = driver.findElement(By.id("evNote aria-describedby="));
+		evNote.clear();
+		evNote.sendKeys("test note field");
+		
+		assertEquals("test note field", evNote.getAttribute("value"));
+		
+		/*
+		 * clicks on "Ongoing/Continuous Event" checkbox
+		 */
+		WebElement evContinuous = driver.findElement(By.id("evContinuous"));
+		evContinuous.click();
+		
+		assertTrue(evContinuous.isSelected());
+		
 		
 		link = driver.findElement(By.className("btn-primary"));
 		link.sendKeys(Keys.ENTER);
