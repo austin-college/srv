@@ -5,39 +5,40 @@
 	<p id="viewDlgHrStatus"></p>
 		
 	<div class="row">
-		<div class="col-lg-4">
+	
 			
 				
 			<input type="hidden" id="viewDlgEvId" value="" />
 			<input type="hidden" id="viewDlgScId" value=""/>
 				
-			<div class="form-group">
+		
 				<label for="name"><b>Name of Event: </b></label><br/> 
-				<input id="viewDlgTxtEvTitle" type="text" class="form-control-plaintext" value="change me"  readonly="readonly" /></div><br/>
+				<input id="viewDlgTxtEvTitle" type="text" class="form-control-plaintext" value="change me"  readonly="readonly" /><br/>
 				<label for="date"><b>Date of Event: </b></label><br/>
 				<input id="viewDlgEvDate" type="text" class="form-control-plaintext" readonly="readonly" /><br/>
-				<label for="organization"><b>Sponsor: </b></label><br/>
-				<input id= "viewDlgEvSrvClient" class="form-control-plaintext" disabled="disabled"/><br/> 
 				<label for="hours"><b>Hours Served: </b></label><br/> 
-				<input id="viewDlgHrsSrvd" type="text" class="form-control-plaintext" /><br/>
-		</div>
-		<div class="col-lg-4">
-			<div class="form-group">
+				<input id="viewDlgHrsSrvd" type="text" class="form-control-plaintext"/><br/>
+		
+		
+		
 				<label for="location"><b>Address: </b></label><br/>
 				<input id="viewDlgAddress" type="text"	class="form-control-plaintext" value="1235 Left Ln"  readonly="readonly"/><br/> 
-				<label for="zip"><b>Zip Code: </b></label><br/> 
-				<input id="viewDlgZip-code" type="text" class="form-control-plaintext" value="23456"  readonly="readonly"/><br/>
 				<label for="viewDlgCity"><b>City: </b></label><br/> 
 				<input id= "viewDlgCity" type="text" class="form-control-plaintext" value="Sherman"  readonly="readonly"/><br/> 
-				<label for="viewDlgState"><b>State: </b></label><br/> 
+					<label for="viewDlgState"><b>State: </b></label><br/> 
 				<input id="viewDlgState" type="text" class="form-control-plaintext" value="TX"  readonly="readonly"/><br/>
-				<label id="viewDlgFeedbackLabel" for="viewDlgFeedback" style="padding-top:10px"><b>Feedback:</b></label><br/>
+				
+				<label for="zip"><b>Zip Code: </b></label><br/> 
+				<input id="viewDlgZip-code" type="text" class="form-control-plaintext" value="23456"  readonly="readonly"/><br/>
+			<label id="viewDlgFeedbackLabel" for="viewDlgFeedback" style="padding-top:10px"><b>Feedback:</b></label><br/>
 				<textarea class="form-control-plaintext" rows="4" id="viewDlgFeedback"></textarea>
 				
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="form-group">
+		
+			<label for="organization"><b>Sponsor: </b></label><br/>
+				<input id= "viewDlgEvSrvClient" class="form-control-plaintext" disabled="disabled"/><br/> 
+				
+		
+		
 				<label for="viewDlgContact-name"><b>Contact Name: </b></label><br/> 
 				<input id="viewDlgContact-name" type="text" class="form-control-plaintext" value="Johanna Smith"  readonly="readonly"/><br/>
 				<label for="viewDlgContact-phone"><b>Contact Phone Number: </b></label><br/> 
@@ -48,8 +49,8 @@
 				<textarea class="form-control-plaintext" rows="3" id="viewDlgDescription"></textarea>
 				<label for="viewDlgReflection" style="padding-top:10px"><b>Reflection:</b></label><br/>
 				<textarea class="form-control-plaintext" rows="4" id="viewDlgReflection"></textarea>
-			</div>
-		</div>
+			
+	
 	</div>
 	</form>
 </div>
