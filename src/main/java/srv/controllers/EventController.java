@@ -268,6 +268,7 @@ public class EventController {
 			 */
 			mav.addObject("event", theEvent);
 			mav.addObject("evtypes", types);
+			
 
 
 		} catch (Exception e) {
@@ -459,12 +460,13 @@ public class EventController {
 	 */
 	@PostMapping(value = "/events/ajax/new/{etid}")
 	public ResponseEntity<?> ajaxNewEvent(@PathVariable Integer etid) {
-
+		ModelAndView mav = new ModelAndView("events/eventDetails");
     	try {
     		
     		log.debug("creating new event type={}", etid);
     		
 			Event newev = eventService.createEventOfType(etid);
+			mav.addObject("service client", newev.getType().getDefClient());
 			
 			// return the event id of the newly created object
 		    return new ResponseEntity<Integer>(newev.getEid(), HttpStatus.OK);
