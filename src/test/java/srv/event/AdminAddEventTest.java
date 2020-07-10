@@ -2,6 +2,7 @@ package srv.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.Test;
@@ -100,11 +101,81 @@ public class AdminAddEventTest extends SeleniumTest {
 
 		//tests if the correct text is displayed
 		assertEquals("testedEvent", addName.getAttribute("value") );
-
+		
+		/*
+		 * inputs location into event address
+		 */
+		WebElement eventAddress = driver.findElement(By.id("evAddress"));
+		eventAddress.click();
+		eventAddress.clear();
+		eventAddress.sendKeys("testedLocation");
+		
+		// asserts that correct txt displayed
+		assertEquals("testedLocation", eventAddress.getAttribute("value"));
+		
+		/*
+		 * inputs date  in date field
+		 */
+		//WebElement date = driver.findElement(By.id("evDate"));
+		//date.click();
+		//date.clear();
+		//Thread.sleep(2000);
+		//date.sendKeys("2020/06/26 00:00");
+		
+		// finish out test w current date 
+		//assertEquals("2020/06/26 00:00", date.getAttribute("value"));
 		/*
 		 * finds the submit button and submits the information
 		 */
+		
+		/*
+		 *  inputs the number of volunteers 
+		 */
+		WebElement eventVN = driver.findElement(By.id("evVN"));
+		//eventVN.click();
+		eventVN.clear();
+		//Thread.sleep(1000);
+		eventVN.sendKeys("5");
+		
+		
+		assertEquals("5",eventVN.getAttribute("value"));
 
+		/*
+		 * inputs total volunteer hours needed
+		 */
+		WebElement evNVH = driver.findElement(By.id("evNVH"));
+		evNVH.clear();
+		evNVH.sendKeys("8");
+		
+		assertEquals("8", evNVH.getAttribute("value"));
+		
+		/*
+		 * inputs total pledged hours
+		 */
+		WebElement evRsvp = driver.findElement(By.id("evRsvp"));
+		evRsvp.clear();
+		evRsvp.sendKeys("4");
+		
+		assertEquals("4", evRsvp.getAttribute("value"));
+		
+		/*
+		 * inputs event note
+		 */
+		WebElement evNote = driver.findElement(By.id("evNote aria-describedby="));
+		evNote.clear();
+		evNote.sendKeys("test note field");
+		
+		assertEquals("test note field", evNote.getAttribute("value"));
+		
+		/*
+		 * clicks on "Ongoing/Continuous Event" checkbox
+		 */
+		WebElement evContinuous = driver.findElement(By.id("evContinuous"));
+		evContinuous.click();
+		
+		assertTrue(evContinuous.isSelected());
+		
+		
 		link = driver.findElement(By.className("btn-primary"));
 		link.sendKeys(Keys.ENTER);
 
