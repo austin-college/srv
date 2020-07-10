@@ -55,16 +55,17 @@ public class AdminManagesSpotlight extends SeleniumTest {
 		//makes sure we are on the Manage Spotlight page
 		assertEquals(base+"/spotlight", driver.getCurrentUrl());
 		
-		//selects browse button for adding a new image and submits an image
-		link = driver.findElement(By.xpath("//div/input"));
-		//TODO make this work for everyone, right now its just me
-		link.sendKeys("C:\\Users\\hunte\\OneDrive\\Desktop\\CS 380 Workspace\\srv\\src\\main\\resources\\static\\images\\defaultProfilePicture.png");
+//		//selects browse button for adding a new image and submits an image
+//		link = driver.findElement(By.xpath("//div/input"));
+//		//TODO make this work for everyone, right now its just me
+//		link.sendKeys("C:\\Users\\hunte\\OneDrive\\Desktop\\CS 380 Workspace\\srv\\src\\main\\resources\\static\\images\\defaultProfilePicture.png");
+//		
 		
-		jse.executeScript("window.scrollBy(0,250)", "");
-		
-		//submits the image
-		link = driver.findElement(By.xpath("//form[@action='/srv/spotlight/img/uploadFile']/button"));
-		link.click();
+		jse.executeScript("window.scrollBy(0,400)", "");
+		Thread.sleep(1000);
+//		//submits the image
+//		link = driver.findElement(By.xpath("//form[@action='/srv/spotlight/img/uploadFile']/button"));
+//		link.click();
 		
 		//clicks on the edit text, text area and writes text
 		link = driver.findElement(By.xpath("//div[@id='editor']/div"));
