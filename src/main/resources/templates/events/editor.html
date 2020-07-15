@@ -85,14 +85,18 @@
   </div>
   <br></br>
   <!-- figure out how to do the combo box -->
- <label for="cars">Choose a Service Client:</label>
+ <label for="serviceClient">Choose a service client:</label>
 
-<select name="svcClient" id="svcClient">
-  <option id = "habitat" value="Habitat for Humanity">Habitat for Humanity</option>
-  <option id= "crisisC" value="Crisis Center">Crisis Center</option>
-  <option id= "acss" value="Austin College Service Station">Austin College Service Station</option>
-  <option id = "other"value="Other">Other</option>
+<select id="serviceClient" >
+<#list eventType as et>
+				<option value="${et.defClient}">(${et.defClient}) </option>
+				</#list>
+  <!-- <option value="1" selected>Habitat for Humanity</option>
+  <option value="3">Crisis Center</option>
+  <option value="4" >Other</option> 
+   <option value="2" selected>Austin College Service Station</option> -->
 </select>
+
   <div class="border bg-light" style="padding: 10px; font-size: x-small; margin-top:2em;">
   	 
   	 <div>
@@ -167,7 +171,8 @@
 </div>
 
 </div>
-
+<script src="/srv/js/datatables.min.js"></script>
+<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
 <link rel="stylesheet" href="/srv/css_style/jquery.datetimepicker.css" />
 <script src="/srv/js/jquery.datetimepicker.full.js"></script>
 

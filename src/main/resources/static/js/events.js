@@ -444,54 +444,7 @@ function ajaxCreateEventNow(etid) {
 	});
 
 }
-/**
- * prepopulates the add dialog given the selected event
- * @returns
- */
-function prepopulateAddDialogue(){
 
-	//step1 which event did they select
-	var eid= $("#evForm").val();
-
-	// step2 retrieve event info
-	$.ajax({
-		method: "GET",
-		url: "/srv/events/ajax/event/edit/"+ eid,
-		cache: false,
-		dataType: "json"
-
-	})
-	/*
-	 * If successful, then prepopulate the selected event's fields in the add dialog.
-	 */
-	.done(function(ev) {
-
-		console.log(ev);
-		
-	
-		
-		$("#svcClient").val(ev.serviceClient);
-
-
-
-		// if true, the user must use the default service hours, otherwise they can edit
-		if (ev.type.defClient) {
-			console.log("true");
-			document.getElementById("acss").setAttribute("readonly", true);
-		}
-		else {
-			console.log("false");
-			document.getElementById("acss").removeAttribute("readonly");
-		}
-
-	})
-	/*
-	 * If unsuccessful (invalid data values), display error message and reasoning.
-	 */
-	.fail(function(jqXHR, textStatus) {
-		alert( "Request failed: " + textStatus + " : " + jqXHR.responseText);	
-	});
-}
 /*
  * cause the client to request the edit page with the specified event id.
  * Assumes that the button to which this handler is attached has a eid
