@@ -1,22 +1,10 @@
+<#import "/contacts/contact_views.html" as ct />
+
 <#if errMsg??>
   	<div class="alert alert-danger row" id="page-error">
 	${errMsg}
 	</div>
 <#else>
-	<div id="evContactDiv">
-	<#if contact??>
-	${contact.fullName()!"unknown"}
-	<br/>
-	${contact.email!"unknown email"}
-	<br/>
-	${contact.address!"unknown address"}
-	<br/>
-	Primary phone number: ${contact.primaryPhone!"unknown primary phone number"}
-	<br/>
-	Secondary phone number: ${contact.secondaryPhone!"unknown secondary phone number"}
-	<#else>
-	Missing Contact
-	</#if>
-	</div>
+	<@ct.view_sm contact!"null" />
 </#if>
 

@@ -12,6 +12,9 @@ import java.io.Serializable;
  */
 public class Contact implements Serializable {
 	
+	private static final long serialVersionUID = -6804336704154302018L;
+
+	
 	private int cid; // Unique id for contact, given by database
 	private String firstName; 
 	private String lastName;
@@ -22,7 +25,7 @@ public class Contact implements Serializable {
 	private String city;
 	private String state;
 	private String zipcode;
-	private String address; // street, city, state and zipcode combined for full address
+
 
 	public Contact() {
 		super();
@@ -38,7 +41,6 @@ public class Contact implements Serializable {
 		this.email = email;
 		this.primaryPhone = primaryPhone;
 		this.secondaryPhone = secondaryPhone;
-		this.address = street + ", " + city + ", " + state + " " + zipcode;
 		this.street = street;
 		this.city = city;
 		this.state = state;
@@ -116,13 +118,9 @@ public class Contact implements Serializable {
 	 * Returns full address (street, city, state, and zipcode)
 	 */
 	public String getAddress() {
-		return address;
+		return street + ", " + city + ", " + state + " " + zipcode;
 	}
 
-	public Contact setAddress() {
-		this.address = street + ", " + city + ", " + state + " " + zipcode;
-		return this;
-	}
 
 	public String getStreet() {
 		return street;
@@ -130,7 +128,6 @@ public class Contact implements Serializable {
 
 	public Contact setStreet(String street) {
 		this.street = street;
-		this.setAddress(); 
 		return this;
 	}
 
@@ -140,7 +137,6 @@ public class Contact implements Serializable {
 
 	public Contact setCity(String city) {
 		this.city = city;
-		this.setAddress();
 		return this;
 	}
 
@@ -151,7 +147,6 @@ public class Contact implements Serializable {
 
 	public Contact setState(String state) {
 		this.state = state;
-		this.setAddress();
 		return this;
 	}
 
@@ -161,7 +156,6 @@ public class Contact implements Serializable {
 
 	public Contact setZipcode(String zipcode) {
 		this.zipcode = zipcode;
-		this.setAddress();
 		return this;
 	}
 
@@ -171,7 +165,7 @@ public class Contact implements Serializable {
 	@Override
 	public String toString() {
 		return "Contact [firstName=" + firstName + " lastName=" + lastName + ", email=" + email + ", Primary phone number="
-				+ primaryPhone + ", Secondary phone number=" + secondaryPhone + ", address=" + address + "]";
+				+ primaryPhone + ", Secondary phone number=" + secondaryPhone + ", address=" + this.getAddress() + "]";
 	}
 	
 	@Override
