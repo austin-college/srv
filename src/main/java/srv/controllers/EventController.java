@@ -30,8 +30,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import srv.domain.contact.Contact;
 import srv.domain.event.Event;
+import srv.domain.event.EventDao;
 import srv.domain.event.eventype.EventType;
+import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.serviceclient.ServiceClientDao;
 import srv.domain.user.User;
 import srv.services.EventService;
 import static srv.utils.ParamUtil.*;
@@ -258,6 +261,7 @@ public class EventController {
 			 */
 			List<EventType> types = eventService.allEventTypes();
 			
+			List<ServiceClient> svcClient = eventService.allServiceClients();
 			/*
 			 * fetch the event
 			 */
@@ -268,7 +272,7 @@ public class EventController {
 			 */
 			mav.addObject("event", theEvent);
 			mav.addObject("evtypes", types);
-			
+			mav.addObject("svcClients", svcClient);
 
 
 		} catch (Exception e) {
@@ -464,10 +468,8 @@ public class EventController {
     	try {
     		
     		log.debug("creating new event type={}", etid);
-    		
 			Event newev = eventService.createEventOfType(etid);
-			mav.addObject("service client", newev.getServiceClient());
-			
+
 			// return the event id of the newly created object
 		    return new ResponseEntity<Integer>(newev.getEid(), HttpStatus.OK);
 		    
@@ -530,6 +532,8 @@ public class EventController {
 			mav.addObject("sponsorDescr", theEvent.getType().getDescription());
 			mav.addObject("srvClient", theEvent.getServiceClient().getName());
 			mav.addObject("name", theEvent.getContact().fullName());
+//    		mav.addObject(eventService.allServiceClients());
+
 			mav.addObject("mainPhoneNum", theEvent.getContact().getPrimaryPhone());
 			mav.addObject("otherPhoneNum", theEvent.getContact().getSecondaryPhone());
 			mav.addObject("email", theEvent.getContact().getEmail());

@@ -88,9 +88,14 @@
  <label for="serviceClient">Choose a service client:</label>
 
 <select id="serviceClient" >
-<#list eventType as et>
-				<option value="${et.defClient}">(${et.defClient}) </option>
-				</#list>
+<#list svcClients as sc>
+<#if event.type.defClient.scid == sc.scid >
+				<option value="${sc.scid}" selected ="selected">${sc.name} </option>
+			
+			     <#else>
+	  <option value="${sc.scid}" >${sc.name}</option>
+	 </#if>
+	</#list>
   <!-- <option value="1" selected>Habitat for Humanity</option>
   <option value="3">Crisis Center</option>
   <option value="4" >Other</option> 

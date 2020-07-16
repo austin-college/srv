@@ -73,7 +73,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		selector.selectByIndex(1);
 
 		//checks to see if the correct option is displayed
-		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
+		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText().trim());
 
 		String oldPageUrl = driver.getCurrentUrl();
 		
