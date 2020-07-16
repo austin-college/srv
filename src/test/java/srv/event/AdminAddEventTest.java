@@ -175,6 +175,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		
 		assertTrue(evContinuous.isSelected());
 		
+		// leaving the contact untested until implemented
 		
 		link = driver.findElement(By.className("btn-primary"));
 		link.sendKeys(Keys.ENTER);
@@ -183,18 +184,19 @@ public class AdminAddEventTest extends SeleniumTest {
 
 		// This block of code checks to see if the fields updated
 		//Once the submit button works, uncomment this code 
-		/*
-		 * should lead us back to the manage events page
-		 */
-		//		assertEquals(base+"/events?userid=admin", driver.getCurrentUrl());
-		//		
-		//		/*
-		//		 * now we check to see if the data updated appropriately
-		//		 */
-		//		
-		//		//checks the title
-		//		String currentTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-1']/td[@class='ev_title']")).getText();	
-		//		assertEquals(currentTitle, "testedEvent");
+		
+		 // should lead us back to the manage events page
+		 
+			
+			assertEquals(base+"/events?userid=admin", driver.getCurrentUrl());
+				
+			/*
+			 * now we check to see if the data updated appropriately
+			 */
+				
+				//checks the title
+			String currentTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-6']/td[@class='ev_title evView']")).getText();		
+			assertEquals(currentTitle, "testedEvent");
 		//		
 
 	}

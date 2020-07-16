@@ -1,0 +1,88 @@
+<#macro view_sm contact="null" >
+<div id="evContactDiv">
+	<#if contact != "null">
+		<#if contact.firstName?? & contact.lastName?? >${contact.firstName} ${contact.lastName}
+		<#else>
+			<#if contact.firstName??>${contact.firstName}</#if>
+			<#if contact.lastName??>${contact.lastName}</#if>
+		</#if> 
+		<br/>
+		${contact.email!"unknown email"}
+		<br/>
+		${contact.address!"unknown address"}
+		<br/>
+		Primary phone: ${contact.primaryPhone!"unknown"}
+		<br/>
+		Secondary phone: ${contact.secondaryPhone!"unknown"}
+	<#else>
+		Missing Contact
+	</#if>
+</div>
+</#macro>
+
+
+<#macro view contact>
+
+<div class="contact-view">
+ <#if contact??>
+	
+ 	  <div class="form-group">
+ 	  	<div class="row">
+		 <div class="col-sm-5">
+		    <label for="evContact_firstName">First Name</label>
+		    <input type="text" class="form-control" id="evContact_firstName" name="evContact_firstName" aria-describedby="contactHelp" placeholder="contact first name" value="${contact.firstName}" readonly>
+		</div>
+		<div class="col-sm-5">				    
+		    <label for="evContact_lastName">Last Name</label>
+		    <input type="text" class="form-control" id="evContact_lastName" name="evContact_lastName" aria-describedby="contactHelp" placeholder="contact last name" value="${contact.lastName}" readonly>
+		</div>
+		</div>			
+	</div>
+	
+	 <div class="form-group">
+		 <div class="row">
+			<div class="col-sm-5">		 
+			    <label for="evContact_primaryPhone">Primary Phone Number</label>
+			    <input type="text" class="form-control" id="evContact_primaryPhone" name="evContact_primaryPhone" aria-describedby="contactHelp" placeholder="contact primary phone number" value="${contact.primaryPhone}" readonly>
+			</div>
+			<div class="col-sm-5">    
+			    <label for="evContact_secondaryPhone">Secondary Phone Number</label>
+			    <input type="text" class="form-control" id="evContact_secondaryPhone" name="evContact_secondaryPhone" aria-describedby="contactHelp" placeholder="contact secondary phone number" value="${contact.secondaryPhone}" readonly>
+			 </div>
+		 </div>
+	 </div>
+
+	<div class="form-group col-sm-6">
+	<div class="row">
+	    <label for="evContact_email">Contact Email</label>
+	    <input type="text" class="form-control" id="evContact_email" name="evContact_email" aria-describedby="contactHelp" placeholder="contact email" value="${contact.email}" readonly>
+	 </div>
+	 </div>    
+
+	 <div class="form-group">
+	  <div class="row">
+		 <div class="col-sm-6">
+		    <label for="evContact_street">Street</label>
+		    <input type="text" class="form-control" id="evContact_street" name="evContact_street" aria-describedby="contactHelp" placeholder="contact address street" value="${contact.street}" readonly>
+		 </div>
+		 
+		<div class="col-sm-2">		    
+		    <label for="evContact_city">City</label>
+		    <input type="text" class="form-control" id="evContact_city" name="evContact_city" aria-describedby="contactHelp" placeholder="contact address city" value="${contact.city}" readonly>
+		</div>		    
+		<div class="col-sm-1">		    		    
+		    <label for="evContact_state">State</label>
+		    <input type="text" class="form-control" id="evContact_state" name="evContact_state" aria-describedby="contactHelp" placeholder="contact address state" value="${contact.state}" readonly>
+		</div>		    
+		<div class="col-sm-2">		    		    
+		    <label for="evContact_zipcode">Zip</label>
+		    <input type="text" class="form-control" id="evContact_zipcode" name="evContact_zipcode" aria-describedby="contactHelp" placeholder="contact address zip code" value="${contact.zipcode}" readonly>
+		</div>
+	  </div>
+	</div>
+<#else>
+NO CONTACT
+</#if>
+</div>
+
+</#macro>

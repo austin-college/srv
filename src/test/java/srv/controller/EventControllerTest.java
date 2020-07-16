@@ -297,8 +297,8 @@ public class EventControllerTest {
                   )
                   
                   .andExpect(content().string(containsString("Rusty Buckle")))
-                  .andExpect(content().string(containsString("Primary phone number: 903-813-5555")))
-                  .andExpect(content().string(containsString("Secondary phone number: unknown")))
+                  .andExpect(content().string(containsString("Primary phone: 903-813-5555")))
+                  .andExpect(content().string(containsString("Secondary phone: unknown")))
          		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
          
                   // other expectations here...
@@ -869,7 +869,7 @@ public class EventControllerTest {
                   .andExpect(content().string(containsString("Habitat for Humanity")))
                   
                   // whose contact info is none
-                  .andExpect(content().string(containsString("None")))
+                  .andExpect(content().string(containsString("Missing Contact")))
          		  ;
 
                   
@@ -952,7 +952,7 @@ public class EventControllerTest {
                   .andExpect(content().string(containsString("Habitat for Humanity")))
                   
                   // whose contact info is none
-                  .andExpect(content().string(containsString("None")))
+                  .andExpect(content().string(containsString("Missing Contact")))
                   
                   // and there's a button inside for going back to the previous page
                   .andExpect(xpath(dquote("//button[contains(@id, 'backBtn')]")).exists())
