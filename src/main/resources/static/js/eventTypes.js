@@ -110,6 +110,7 @@ function prepopulateAddDialogue() {
 		
 		$("#etSc").val(sc.name);
 		$("#scId").val(sc.scid);
+	
 	})
 	/*
 	 * If unsuccessful (invalid data values), display error message and reasoning.

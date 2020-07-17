@@ -1,3 +1,5 @@
+<#import "/contacts/contact_views.html" as ct />
+
 <#if errMsg??>
   	<div class="alert alert-danger row" id="page-error">
 	${errMsg}
@@ -77,29 +79,11 @@
 					<input id="srvClient" type="text" class="form-control-plaintext" placeholder='${srvClient!"UNKNOWN SERVICE CLIENT"}' readonly="readonly"/>
 				</div>
 			</div>
-			<div class="form-group row">
-				<h3>
-					<label for="contactName" class="col-form-label">Contact:</label>
-				</h3>
-				<div class="col-sm">
-				<#if contact??>
-					<input id="contactName" type="text" class="form-control-plaintext" placeholder='${name!"None"}' readonly="readonly"/>
-					<div class="row">
-						<div class="col">
-							<label for="mainNumber"><b>Main Number:</b></label>
-							<input id="mainNumber" type="text" class="form-control-plaintext" placeholder='${mainPhoneNum!"None"}' readonly="readonly"/>
-						</div>
-						<div class="col">
-							<label for="otherNumber"><b>Other Number:</b></label>
-							<input id="otherNumber" type="text" class="form-control-plaintext" placeholder='${otherPhoneNum!"None"}' readonly="readonly"/>
-						</div>						
-					</div>
-					<input id="contactEmail" type="text" class="form-control-plaintext" placeholder='${email!"None"}' readonly="readonly"/>
-				<#else>
-					<input id="contactName" type="text" class="form-control-plaintext" placeholder='None' readonly="readonly"/>
-				</#if>
-				</div>
-			</div>
+		    <div class="border bg-light" style="padding: 10px; font-size: x-small; margin-top:2em;">
+			  	 <h3>Contact</h3>
+		  	 
+		  		<@ct.view_sm contact />
+		  	</div>
 		</div>
 	</div>
 	<#if !userAdmin>

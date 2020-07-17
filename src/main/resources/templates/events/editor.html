@@ -1,4 +1,5 @@
 <#import "/main_layout.html" as layout />
+<#import "/contacts/contact_views.html" as ct />
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 <@layout.stdpage "Blank Template" "editor.css" "editor.js">
@@ -83,72 +84,37 @@
     </#if>
     <label class="form-check-label" for="evContinuous">Ongoing/Continuous event.</label>
   </div>
+
+  <br></br>
+  <!-- figure out how to do the combo box -->
+ <label for="serviceClient">Choose a service client:</label>
+
+<select id="serviceClient" >
+<#list svcClients as sc>
+<#if event.type.defClient.scid == sc.scid >
+				<option value="${sc.scid}" selected ="selected">${sc.name} </option>
+			
+			     <#else>
+	  <option value="${sc.scid}" >${sc.name}</option>
+	 </#if>
+	</#list>
   
+</select>
+
   <div class="border bg-light" style="padding: 10px; font-size: x-small; margin-top:2em;">
   	 
   	 <div>
   	 <h2>Contact <button id="btnContact" class="btn btn-md btn-light border">...</button></h2>
   	 </div>
-	 <#if event.contact??>
-		
-	 	  <div class="form-group">
-	 	  	<div class="row">
-			 <div class="col-sm-5">
-			    <label for="evContact_firstName">First Name</label>
-			    <input type="text" class="form-control" id="evContact_firstName" name="evContact_firstName" aria-describedby="contactHelp" placeholder="contact first name" value="${event.contact.firstName}" readonly>
-			</div>
-			<div class="col-sm-5">				    
-			    <label for="evContact_lastName">Last Name</label>
-			    <input type="text" class="form-control" id="evContact_lastName" name="evContact_lastName" aria-describedby="contactHelp" placeholder="contact last name" value="${event.contact.lastName}" readonly>
-			</div>
-			</div>			
-		</div>
-		
-		 <div class="form-group">
-			 <div class="row">
-				<div class="col-sm-5">		 
-				    <label for="evContact_primaryPhone">Primary Phone Number</label>
-				    <input type="text" class="form-control" id="evContact_primaryPhone" name="evContact_primaryPhone" aria-describedby="contactHelp" placeholder="contact primary phone number" value="${event.contact.primaryPhone}" readonly>
-				</div>
-				<div class="col-sm-5">    
-				    <label for="evContact_secondaryPhone">Secondary Phone Number</label>
-				    <input type="text" class="form-control" id="evContact_secondaryPhone" name="evContact_secondaryPhone" aria-describedby="contactHelp" placeholder="contact secondary phone number" value="${event.contact.secondaryPhone}" readonly>
-				 </div>
-			 </div>
-		 </div>
-
-		<div class="form-group col-sm-6">
-		<div class="row">
-		    <label for="evContact_email">Contact Email</label>
-		    <input type="text" class="form-control" id="evContact_email" name="evContact_email" aria-describedby="contactHelp" placeholder="contact email" value="${event.contact.email}" readonly>
-		 </div>
-		 </div>    
-
-		 <div class="form-group">
-		  <div class="row">
-			 <div class="col-sm-6">
-			    <label for="evContact_street">Street</label>
-			    <input type="text" class="form-control" id="evContact_street" name="evContact_street" aria-describedby="contactHelp" placeholder="contact address street" value="${event.contact.street}" readonly>
-			 </div>
-			 
-			<div class="col-sm-2">		    
-			    <label for="evContact_city">City</label>
-			    <input type="text" class="form-control" id="evContact_city" name="evContact_city" aria-describedby="contactHelp" placeholder="contact address city" value="${event.contact.city}" readonly>
-			</div>		    
-			<div class="col-sm-1">		    		    
-			    <label for="evContact_state">State</label>
-			    <input type="text" class="form-control" id="evContact_state" name="evContact_state" aria-describedby="contactHelp" placeholder="contact address state" value="${event.contact.state}" readonly>
-			</div>		    
-			<div class="col-sm-2">		    		    
-			    <label for="evContact_zipcode">Zip</label>
-			    <input type="text" class="form-control" id="evContact_zipcode" name="evContact_zipcode" aria-describedby="contactHelp" placeholder="contact address zip code" value="${event.contact.zipcode}" readonly>
-			</div>
-		  </div>
-		</div>
-	<#else>
-	NO CONTACT
-	</#if>
-  </div>
+  	 
+  	 <#if event.contact??>
+  		<@ct.view event.contact />
+  	  <#else>
+  	  	NO CONTACT
+  	  </#if>
+  	  
+  	</div>
+  	
   
   <br/>
   <br/>
@@ -158,7 +124,8 @@
 </div>
 
 </div>
-
+<script src="/srv/js/datatables.min.js"></script>
+<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
 <link rel="stylesheet" href="/srv/css_style/jquery.datetimepicker.css" />
 <script src="/srv/js/jquery.datetimepicker.full.js"></script>
 
