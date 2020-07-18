@@ -6,9 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.hours.ServiceHoursDao;
@@ -76,5 +80,29 @@ public class BoardMemberController {
 		}
 		return mav;
 	}
+	///srv/boardmembers/ajax/del/" 
 	
+	/**
+	 * When the client needs to delete a board member, this controller action will
+	 * handle the request.
+	 *   
+	 * @param id
+	 * @return
+	 */
+	@PostMapping(value = "/boardmembers/ajax/del/{id}")
+	public ResponseEntity<?> ajaxDeleteBoardMember(@PathVariable Integer id) {
+
+    	try {
+    		
+    		log.debug("deleting event {}", id);
+    		
+			bmDao.delete(id);
+		    return new ResponseEntity<Integer>(id, HttpStatus.OK);
+		    
+		} catch (Exception e) {
+			return new ResponseEntity<String>("invalid id",HttpStatus.NOT_FOUND);
+		}
+
+
+	}
 }

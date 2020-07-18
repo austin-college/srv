@@ -6,8 +6,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.ArrayList;
@@ -167,6 +169,65 @@ public class BoardMemberControllerTest {
 		// and there's a row in our table that has an expected grad year td inside whose text better be '2022' 
 		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='bm_gradYr' and text()='2022']")).exists())
 
+		
+		// and our page better have a delete dialog defined/hidden
+		.andExpect(xpath(dquote("//div[@id='dlgDelete' and @title='DELETE SELECTED BOARD MEMBER']")).exists())
+					
 		;
+	}
+	
+
+	/**
+	 * Test to make sure our controller demotes/deletes the selected board member by
+	 * removing the row from the table.
+	 * 
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxDeleteBoardMemberTest_whenBoardMemberExists() throws Exception {
+
+		// for this test, our dao will pretend to delete
+		Mockito.doNothing().when(mockBmDao).delete(1);
+
+		mvc.perform(post("/boardmembers/ajax/del/1")
+
+				.contentType(MediaType.TEXT_HTML))
+
+		.andExpect(status().isOk())
+
+		// it should have the board member's user id that better be 1
+		.andExpect(content().string(containsString("1")))
+
+		;
+
+		Mockito.verify(mockBmDao).delete(1);
+	}
+
+	/**
+	 * Test how our controller responds when an exception is thrown.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxDeleteBoardMemberTest_whenBoardMemberMissing() throws Exception {
+
+		// for this test, our dao will throw an exception like we might
+		// see if the database could not delete
+		Mockito.doThrow(Exception.class) .when(mockBmDao).delete(1);
+
+
+		// let's test....
+		mvc.perform(post("/boardmembers/ajax/del/1")
+
+				.contentType(MediaType.TEXT_HTML))
+
+		.andExpect(status().is4xxClientError())
+		;
+
+
+		// did the mock object get tickled appropriately
+		Mockito.verify(mockBmDao).delete(1);
+
 	}
 }
