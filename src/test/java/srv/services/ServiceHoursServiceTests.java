@@ -202,7 +202,11 @@ public class ServiceHoursServiceTests {
 			.setStatus("Approved")
 			.setReflection("test reflection")
 			.setDate(e1.getDate())
-			.setDescription(e1.getType().getDescription());
+			.setDescription(e1.getType().getDescription())
+			.setContactName("Billy Joe")
+			.setContactContact("111-222-3333 dummyEmail@gmail.com")
+			;
+		
 
 		sh2 = new ServiceHours()
 			.setShid(2)
@@ -214,7 +218,10 @@ public class ServiceHoursServiceTests {
 			.setStatus("Pending")
 			.setReflection("test 2 reflection")
 			.setDescription("test 2 description")
-			.setFeedback("");
+			.setFeedback("")
+			.setContactName("Rusty Buckle")
+			.setContactContact("222-333-4444")
+			;
 		
 		
 		sh3 = new ServiceHours()
@@ -226,7 +233,10 @@ public class ServiceHoursServiceTests {
 			.setHours(2.0)
 			.setStatus("Approved")
 			.setReflection("test reflection")
-			.setDescription(e1.getType().getDescription());
+			.setDescription(e1.getType().getDescription())
+			.setContactName("Rita Jones")
+			.setContactContact("rJones@yahoo.com")			
+			;
 
 		sh4 = new ServiceHours()
 			.setShid(4)
@@ -237,7 +247,10 @@ public class ServiceHoursServiceTests {
 			.setHours(3.5)
 			.setStatus("Pending")
 			.setReflection("test 2 reflection")
-			.setDescription("test 2 description");
+			.setDescription("test 2 description")
+			.setContactName("Lucy")
+			.setContactContact("444-555-6666")
+			;
 		
 		
 		MockitoAnnotations.initMocks(this);
@@ -291,6 +304,8 @@ public class ServiceHoursServiceTests {
 				Mockito.anyDouble(),
 				Mockito.any(String.class),
 				Mockito.any(String.class),
+				Mockito.any(String.class),
+				Mockito.any(String.class),
 				Mockito.any(String.class)
 				)).thenReturn(sh1);
 		
@@ -299,8 +314,8 @@ public class ServiceHoursServiceTests {
 		 */
 		Mockito.when(userUtil.currentUser()).thenReturn(user);
 		
-		// param are Integer service client id, Integer event id, Double hours, String reflection, String description
-		ServiceHours ns = shs.createServiceHour(1, 1, 4.0, "Was fun.", "a description");
+		// param are Integer service client id, Integer event id, Double hours, String reflection, String description, String contact name and contact's email
+		ServiceHours ns = shs.createServiceHour(1, 1, 4.0, "Was fun.", "a description", "Bruce Lee", "bLee@gmail.com");
 		
 		assertEquals(ns, sh1);
 		
@@ -314,7 +329,9 @@ public class ServiceHoursServiceTests {
 				Mockito.eq(4.0),
 				Mockito.eq("Pending"),
 				Mockito.eq("Was fun."),
-				Mockito.eq("a description"));
+				Mockito.eq("a description"),
+				Mockito.eq("Bruce Lee"),
+				Mockito.eq("bLee@gmail.com"));
 		
 		Mockito.verify(userUtil).currentUser();
 		
@@ -334,11 +351,13 @@ public class ServiceHoursServiceTests {
 		exceptionRule.expect(Exception.class);
 		exceptionRule.expectMessage("Invalid event id");
 		
-		// param are Integer service client id, Integer event id, Double hours, String reflection, String description
+		// param are Integer service client id, Integer event id, Double hours, String reflection, String description, contact name and contact's phone number
 		ServiceHours s = shs.createServiceHour(
 				-1, 
 				-1, 
 				Mockito.anyDouble(),
+				Mockito.any(String.class),
+				Mockito.any(String.class),
 				Mockito.any(String.class),
 				Mockito.any(String.class));
 		
@@ -355,12 +374,12 @@ public class ServiceHoursServiceTests {
 		 * Training mock objects 
 		 */
 		Mockito.when(userUtil.currentUser()).thenReturn(user);
-		Mockito.doNothing().when(dao).update(1, 1, 1, 1, 2.5, "Pending", "a reflection", "a description");
+		Mockito.doNothing().when(dao).update(1, 1, 1, 1, 2.5, "Pending", "a reflection", "a description", "Ron Steward", "800-777-9090");
 
 		// tell service to update the service hour
 		// after setting event to e2
 		// param are Integer service hour id, Integer service client id, Integer event id, Double hours, String reflection, String description
-		shs.updateHour(1, 1, 1, 2.5, "a reflection", "a description");
+		shs.updateHour(1, 1, 1, 2.5, "a reflection", "a description", "Ron Steward", "800-777-9090");
 		
 		// make assertions to make sure fields updated 
 		//TODO
@@ -385,7 +404,10 @@ public class ServiceHoursServiceTests {
 				Mockito.eq(2.5),
 				Mockito.eq("Pending"),
 				Mockito.eq("a reflection"),
-				Mockito.eq("a description"));
+				Mockito.eq("a description"),
+				Mockito.eq("Ron Steward"), 
+				Mockito.eq("800-777-9090")
+				);
 
 		
 	}
