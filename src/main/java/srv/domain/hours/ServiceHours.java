@@ -31,6 +31,8 @@ public class ServiceHours implements Serializable{
 	private String description; // Description of the event
 	private String status; // Tells if the hours are pending, approved or rejected.
 	private String feedback; // provide the user feedback on approved/rejected hours
+	private String contactName; // name of contact to validate service
+	private String contactContact; // may contain phone or email or both
 	
 	/**
 	 * Constructor for ServiceHours
@@ -41,9 +43,11 @@ public class ServiceHours implements Serializable{
 	 * @param hours
 	 * @param reflection
 	 * @param description
+	 * @param contactName
+	 * @param contactContact
 	 */
 	public ServiceHours(Integer id, ServiceClient servedPet, User servant, Event eventName, Double hours, 
-			String stat, String feedback) {
+			String stat, String feedback, String contactName, String contactContact) {
 		super();
 		this.shid = id;
 		this.servedSc = servedPet;
@@ -52,6 +56,8 @@ public class ServiceHours implements Serializable{
 		this.hours = hours;
 		this.status = stat;
 		this.feedback = feedback;
+		this.contactName = contactName;
+		this.contactContact = contactContact;
 	}
 	
 	/**
@@ -66,9 +72,11 @@ public class ServiceHours implements Serializable{
 	 * @param hours
 	 * @param reflection
 	 * @param description
+	 * @param contactName
+	 * @param contactContact
 	 */
 	public ServiceHours(ServiceClient servedPet, User servant, Event eventName, Double hours, String reflection, String description, String stat, 
-			String feedback) {
+			String feedback, String contactName, String contactContact) {
 		super();
 		this.servedSc = servedPet;
 		this.servant = servant;
@@ -79,6 +87,8 @@ public class ServiceHours implements Serializable{
 		this.description = description;
 		this.status = stat;
 		this.feedback = feedback;
+		this.contactName = contactName;
+		this.contactContact = contactContact;
 	}
 
 	public ServiceHours() {
@@ -189,6 +199,24 @@ public class ServiceHours implements Serializable{
 		this.feedback = feedback;
 		return this;
 	}
+	
+	public String getContactName() {
+		return this.contactName;
+	}
+	
+	public ServiceHours setContactName(String newContactName) {
+		this.contactName = newContactName;
+		return this;
+	}
+	
+	public String getContactContact() {
+		return this.contactContact;
+	}
+	
+	public ServiceHours setContactContact(String newContactContact) {
+		this.contactContact = newContactContact;
+		return this;
+	}
 
 	@Override
 	public int hashCode() {
@@ -204,6 +232,8 @@ public class ServiceHours implements Serializable{
 		result = prime * result + ((servedSc == null) ? 0 : servedSc.hashCode());
 		result = prime * result + ((shid == null) ? 0 : shid.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
+		result = prime * result + ((contactContact == null) ? 0 : contactContact.hashCode());
 		return result;
 	}
 
@@ -265,6 +295,16 @@ public class ServiceHours implements Serializable{
 			if (other.status != null)
 				return false;
 		} else if (!status.equals(other.status))
+			return false;
+		if (contactName == null) {
+			if (other.contactName != null)
+				return false;
+		} else if (!contactName.equals(other.contactName))
+			return false;
+		if (contactContact == null) {
+			if (other.contactContact != null)
+				return false;
+		} else if (!contactContact.equals(other.contactContact))
 			return false;
 		return true;
 	}

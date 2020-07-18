@@ -70,9 +70,9 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 */
 	@Override
 	public ServiceHours create(Integer scid, Integer uid, Integer eid, Double hours, String stat, String reflection,
-			String description) throws Exception {
+			String description, String contactName, String contactContact) throws Exception {
 		
-		 final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description) VALUES(?, ?, ?, ?, ?, ?, ?)";
+		 final String sql = "INSERT INTO serviceHours (serviceClientId, userId, eventId, hours, status, reflection, description, contactName, contactContact) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 		  final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -98,6 +98,8 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	                  ps.setString(5, stat);
 	                  ps.setString(6, reflection);
 	                  ps.setString(7,  description);
+	                  ps.setString(8,  contactName);
+	                  ps.setString(9,  contactContact);
 	                  
 	                  return ps;
 	              }, keyHolder);
@@ -123,11 +125,11 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 */
 	@Override
 	public void update(Integer shid, Integer scid, Integer uid, Integer eid, Double hours, String stat,
-			String reflection, String description) throws Exception {
+			String reflection, String description, String contactName, String contactContact) throws Exception {
 	
 		int rc = getJdbcTemplate().update("UPDATE serviceHours SET serviceClientId = ?, userId = ?, eventId = ?, hours = ?,"
-				+ "status = ?, reflection = ?, description = ? WHERE serviceHourId = ?", 
-				new Object[] { scid, uid, eid, hours, stat, reflection, description, shid});
+				+ "status = ?, reflection = ?, description = ?, contactName = ?, contactContact = ? WHERE serviceHourId = ?", 
+				new Object[] { scid, uid, eid, hours, stat, reflection, description, contactName, contactContact, shid});
 
 		if (rc < 1) {
 			log.error("Unable to update service hour [{}]", shid);
@@ -367,6 +369,8 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 				.setReflection(rs.getString("reflection"))
 				.setDescription(rs.getString("description"))
 				.setFeedback(rs.getString("feedback"))
+				.setContactName(rs.getString("contactName"))
+				.setContactContact(rs.getString("contactContact"))
 				;
 				
 				if (sh.getEvent()!=null) {

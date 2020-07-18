@@ -67,6 +67,8 @@ class ServiceHoursDaoTests {
 		assertEquals("Approved", sh1.getStatus());
 		assertEquals("I hated it", sh1.getReflection());
 		assertEquals("House building", sh1.getDescription());
+		assertEquals("Billy Joel", sh1.getContactName());
+		assertEquals("111-222-3333", sh1.getContactContact());
 	}
 
 	/**
@@ -96,7 +98,9 @@ class ServiceHoursDaoTests {
 		assertEquals("Approved", sHour1.getStatus());
 		assertEquals("I hated it", sHour1.getReflection());
 		assertEquals("House building", sHour1.getDescription());
-
+		assertEquals("Billy Joel", sHour1.getContactName());
+		assertEquals("111-222-3333", sHour1.getContactContact());
+		
 		// testing contents of sHour2
 		assertEquals(2, sHour2.getServedPet().getScid());
 		assertEquals(2, sHour2.getServant().getUid());
@@ -105,6 +109,8 @@ class ServiceHoursDaoTests {
 		assertEquals("Pending", sHour2.getStatus());
 		assertEquals("Made food", sHour2.getReflection());
 		assertEquals("Crisis Center", sHour2.getDescription());
+		assertEquals("Bob Joe", sHour2.getContactName());
+		assertEquals("joeyBob@gmail.com", sHour2.getContactContact());
 
 		// testing contents of sHour4
 		assertEquals(1, sHour4.getServedPet().getScid());
@@ -114,6 +120,9 @@ class ServiceHoursDaoTests {
 		assertEquals("Approved", sHour4.getStatus());
 		assertEquals("Met a guy named Randy", sHour4.getReflection());
 		assertEquals("Landscaping", sHour4.getDescription());
+		assertEquals("Rusty Buckle", sHour4.getContactName());
+		assertEquals("rbuckle@yahoo.com", sHour4.getContactContact());
+		
 
 	}
 
@@ -126,7 +135,7 @@ class ServiceHoursDaoTests {
 			System.err.println(sc.getShid());
 		}
 
-		ServiceHours nsh = dao.create(2, 1, 1, 3.0, "Approved", "Painted", "House Painting");
+		ServiceHours nsh = dao.create(2, 1, 1, 3.0, "Approved", "Painted", "House Painting", "Dwayne Johnson", "111-222-3333 dJohnson@gmail.com");
 
 		assertNotNull(nsh);
 
@@ -156,30 +165,8 @@ class ServiceHoursDaoTests {
 		assertEquals("Approved", sh5.getStatus());
 		assertEquals("Painted", sh5.getReflection());
 		assertEquals("House Painting", sh5.getDescription());
-
-		/*
-		 * log.warn("\n\n\n");
-		 * 
-		 * ServiceHours s = dao.create(5, 2, 3, 2, 2.0, "Approved", "fun",
-		 * "Crisis Center");
-		 * 
-		 * ServiceHours sh5 = dao.fetchHoursById(5);
-		 * 
-		 * //Verifying that contact was stored in database assertEquals(5,
-		 * sh5.getShid()); assertEquals(2, sh5.getServedPet().getScid());
-		 * assertEquals(3, sh5.getServant().getUid()); assertEquals(2,
-		 * sh5.getEvent().getEid()); assertEquals(2.0, sh5.getHours());
-		 * assertEquals("Approved", sh5.getStatus()); assertEquals("fun",
-		 * sh5.getReflection()); assertEquals("Crisis Center", sh5.getDescription());
-		 * 
-		 * //Testing ServiceHour returned from create
-		 * 
-		 * assertEquals(5, s.getShid()); assertEquals(2, s.getServedPet().getScid());
-		 * assertEquals(3, s.getServant().getUid()); assertEquals(2,
-		 * s.getEvent().getEid()); assertEquals(2.0, s.getHours());
-		 * assertEquals("Approved", s.getStatus()); assertEquals("fun",
-		 * s.getReflection()); assertEquals("Crisis Center", s.getDescription());
-		 */
+		assertEquals("Dwayne Johnson", sh5.getContactName());
+		assertEquals("111-222-3333 dJohnson@gmail.com", sh5.getContactContact());
 
 	}
 
@@ -216,6 +203,8 @@ class ServiceHoursDaoTests {
 		assertEquals("Pending", sh1.getStatus());
 		assertEquals("Made food", sh1.getReflection());
 		assertEquals("Crisis Center", sh1.getDescription());
+		assertEquals("Bob Joe", sh1.getContactName());
+		assertEquals("joeyBob@gmail.com", sh1.getContactContact());
 
 		// Verifying second service hour info
 
@@ -226,6 +215,8 @@ class ServiceHoursDaoTests {
 		assertEquals("Approved", sh2.getStatus());
 		assertEquals("Made friends", sh2.getReflection());
 		assertEquals("Crisis Center", sh2.getDescription());
+		assertEquals("Ashley", sh2.getContactName());
+		assertEquals("222-333-4444 dummyEmail@gmail.com", sh2.getContactContact());
 
 		// Verifying third service hour info
 
@@ -236,6 +227,8 @@ class ServiceHoursDaoTests {
 		assertEquals("Approved", sh3.getStatus());
 		assertEquals("Met a guy named Randy", sh3.getReflection());
 		assertEquals("Landscaping", sh3.getDescription());
+		assertEquals("Rusty Buckle", sh3.getContactName());
+		assertEquals("rbuckle@yahoo.com", sh3.getContactContact());
 	}
 
 	/**
@@ -246,7 +239,7 @@ class ServiceHoursDaoTests {
 
 		log.warn("\n\n\n");
 
-		dao.update(1, 1, 1, 3, 2.0, "Pending", "Painted a lot", "House Painting");
+		dao.update(1, 1, 1, 3, 2.0, "Pending", "Painted a lot", "House Painting", "Joe Schmo", "111-222-3333");
 
 		ServiceHours sh1 = dao.fetchHoursById(1);
 
@@ -258,6 +251,8 @@ class ServiceHoursDaoTests {
 		assertEquals("Pending", sh1.getStatus());
 		assertEquals("Painted a lot", sh1.getReflection());
 		assertEquals("House Painting", sh1.getDescription());
+		assertEquals("Joe Schmo", sh1.getContactName());
+		assertEquals("111-222-3333", sh1.getContactContact());
 	}
 	
 	/**
