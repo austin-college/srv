@@ -1,7 +1,7 @@
 /**
  * Verifies that none of the add or edit service hour dialogs have empty fields
  */
-function checkForEmptyFields(hrField) {
+function checkForEmptyFields(hrField, contactNameField, contactContactField) {
 
 	var valid = true;
 	var msg = "Please complete the selected fields."; // error message
@@ -10,13 +10,34 @@ function checkForEmptyFields(hrField) {
 	/*
 	 * removes previous error messages on the fields for the add service hour dialog
 	 */
-	$("#hrsSrvd").removeClass("is-invalid");
-	$("#editDlgHrsSrvd").removeClass("is-invalid");
+	$(hrField).removeClass("is-invalid");
+	$(contactNameField).removeClass("is-invalid");
+	$(contactContactField).removeClass("is-invalid");
 
 	// Checks to see if the event type's name field is empty.
 	if (!$(hrField).val()) {
 		$(hrField).addClass("is-invalid");
 		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+	
+	// Checks to see if the contact name's field is empty.
+	if (!$(contactNameField).val()) {
+		$(contactNameField).addClass("is-invalid");
+		if(counter == 0) {
+			counter++;
+			updateTips(msg);
+		}
+		valid = false;
+	}
+	
+	// Checks to see if the contact contact's field is empty.
+	if (!$(contactContactField).val()) {
+		$(contactContactField).addClass("is-invalid");
+		if (counter == 0) {
 			counter++;
 			updateTips(msg);
 		}
@@ -333,9 +354,13 @@ function prepopulateEditDialog(selShid) {
 		console.log(dateWithFormat_yyyyMMMdd);
 		
 		$("#editDlgTxtEvTitle").val(sh.event.title);
-		$("#editDlgcontact-email").val(sh.event.contact.email);
-		$("#editDlgContact-phone").val(sh.event.contact.primaryPhone);
-		$("#editDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
+		
+		// not sure if these lines are needed after adding the contactName and contactContact fields to service hours
+		//$("#editDlgContact-phone").val(sh.event.contact.primaryPhone);
+		//$("#editDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
+		$("#editDlgContact-contact").val(sh.contactContact);
+		$("#editDlgContact-name").val(sh.contactName);
+		
 		$("#editDlgEvDate").val(dateWithFormat_yyyyMMMdd);
 		$("#editDlgHrsSrvd").val(sh.hours);
 		$("#editDlgAddress").val(sh.event.contact.street);
@@ -410,9 +435,12 @@ function prepopulateViewDialog(selShid) {
 		console.log(dateWithFormat_yyyyMMMdd);
 		
 		$("#viewDlgTxtEvTitle").val(sh.event.title);
-		$("#viewDlgcontact-email").val(sh.event.contact.email);
-		$("#viewDlgContact-phone").val(sh.event.contact.primaryPhone);
-		$("#viewDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
+		$("#viewDlgContact-name").val(sh.contactName);	
+		$("#viewDlgContact-contact").val(sh.contactContact);
+		
+		// not sure if needed since added contactName and contactContact fields to service hours domain
+		// $("#viewDlgContact-contact").val(sh.event.contact.primaryPhone + " " + sh.event.contact.email);
+		// $("#viewDlgContact-name").val(sh.event.contact.firstName + " " + sh.event.contact.lastName);
 		$("#viewDlgEvDate").val(dateWithFormat_yyyyMMMdd);
 		$("#viewDlgHrsSrvd").val(sh.hours);
 		$("#viewDlgAddress").val(sh.event.contact.street);
@@ -487,8 +515,7 @@ function prepopulateAddDialogue(){
 		console.log(dateWithFormat_yyyyMMMdd);
 		
 		$("#txtEvTitle").val(ev.title);
-		$("#contact-email").val(ev.contact.email);
-		$("#contact-phone").val(ev.contact.primaryPhone);
+		$("#contact-contact").val(ev.contact.primaryPhone + " " + ev.contact.email);
 		$("#contact-name").val(ev.contact.firstName + " " + ev.contact.lastName);
 		$("#evDate").val(dateWithFormat_yyyyMMMdd);
 		$("#hrsSrvd").val(ev.type.defHours);
@@ -523,9 +550,8 @@ function prepopulateAddDialogue(){
 
 /** Ajax call to add a new service hour
  * 
- */					//	 addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");
-
-function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
+ */					
+function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription, hrContactName, hrContactContact) {
 
 	// get the forms values as strings
 	var hrScidStr = $(hrScid).val();
@@ -533,16 +559,18 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 	var hrServedStr = $(hrServed).val();
 	var hrReflectionStr = $(hrReflection).val();
 	var hrDescriptionStr = $(hrDescription).val();
+	var hrContactNameStr = $(hrContactName).val();
+	var hrContactContactStr = $(hrContactContact).val();
 
 	// peek at values to verify
 	console.log("scid: " + hrScidStr + " eid: " + hrEidStr + " served: " + hrServedStr + " " +
-			"ref: " + hrReflectionStr + " descr: " + hrDescriptionStr);
+			"ref: " + hrReflectionStr + " descr: " + hrDescriptionStr + " contact name: " + hrContactNameStr + " contact contact: " + hrContactContactStr);
 
 	$.ajax({
 		method: "POST",
 		url: "/srv/hours/ajax/addHr",
 		cache: false,
-		data: {scid: hrScidStr, eid: hrEidStr, hrServed: hrServedStr, reflect: hrReflectionStr, descr: hrDescriptionStr},
+		data: {scid: hrScidStr, eid: hrEidStr, hrServed: hrServedStr, reflect: hrReflectionStr, descr: hrDescriptionStr, contactName: hrContactNameStr, contactContact: hrContactContactStr},
 	})
 	/*
 	 * If successful then add the service hour to the list with the new values
@@ -589,7 +617,7 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription) {
 
 }
 
-/*
+/**
  * makes the request back to our server to delete the service id whose id we extract
  * from the confirmation dialog
  */
@@ -632,7 +660,7 @@ function ajaxDeleteEventNow() {
  * 
  * @returns
  */
-function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, descrField) {
+function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, descrField, contactNameField, contactContactField) {
 
 	// Harvests the data values from the form
 	var shidStr = selShid;
@@ -641,17 +669,19 @@ function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, desc
 	var hrSrvedStr = $(hrSrvedField).val();
 	var reflectStr = $(reflectField).val();
 	var descrStr = $(descrField).val();
+	var contactNameStr = $(contactNameField).val();
+	var contactContactStr = $(contactContactField).val();
 
 	// peek at values to verify
 	console.log("shid: " + selShid +  " scid: " + scidStr + " eid: " + evidStr + " served: " + hrSrvedStr + " " +
-			"ref: " + reflectStr + " descr: " + descrStr);
+			"ref: " + reflectStr + " descr: " + descrStr + " contact name: " + contactNameStr + " contact contact: " + contactContactStr);
 
 
 	$.ajax({
 		method: "POST",
 		url: "/srv/hours/ajax/editHr",
 		cache: false,
-		data: {shid: shidStr, scid: scidStr, eid: evidStr, hrSrved: hrSrvedStr, reflect: reflectStr, descr: descrStr}
+		data: {shid: shidStr, scid: scidStr, eid: evidStr, hrSrved: hrSrvedStr, reflect: reflectStr, descr: descrStr, contactName: contactNameStr, contactContact: contactContactStr}
 	})
 	/*
 	 * If successful (no invalid data values), then update the selected service hour 
@@ -980,6 +1010,8 @@ $(document).ready(function() {
 			 * Removes previous error messages from the fields.
 			 */
 			$("#editDlgHrsSrvd").removeClass("is-invalid");
+			$("#editDlgContact-name").removeClass("is-invalid");
+			$("#editDlgContact-contact").removeClass("is-invalid");
 			$(".validationTips" ).removeClass("alert alert-danger").text("");
 
 		},
@@ -997,11 +1029,11 @@ $(document).ready(function() {
 					 * Validates that the fields of the edit service hour dialog are not empty and valid.
 					 * If all the fields are valid, adds the new service hour to the table and closes the dialog.
 					 */
-					if (checkForEmptyFields("#editDlgHrsSrvd")) {
+					if (checkForEmptyFields("#editDlgHrsSrvd", "#editDlgContact-name", "#editDlgContact-contact")) {
 
 						if (validateFields("#editDlgHrsSrvd")) {
 
-							editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription");								
+							editServiceHr(selShid, "#editDlgScId", "#editDlgEvId", "#editDlgHrsSrvd", "#editDlgReflection", "#editDlgDescription", "#editDlgContact-name", "#editDlgContact-contact");								
 
 						}
 					}
@@ -1044,6 +1076,8 @@ $(document).ready(function() {
 			 * Removes previous error messages from the fields.
 			 */
 			$("#hrsSrvd").removeClass("is-invalid");
+			$("#contact-name").removeClass("is-invalid");
+			$("#contact-contact").removeClass("is-invalid");
 			$(".validationTips" ).removeClass("alert alert-danger").text("");
 
 		},
@@ -1059,11 +1093,11 @@ $(document).ready(function() {
 					 * Validates that the fields of the add service hour dialog are not empty and valid.
 					 * If all the fields are valid, adds the new service hour to the table and closes the dialog.
 					 */
-					if (checkForEmptyFields("#hrsSrvd")) {
+					if (checkForEmptyFields("#hrsSrvd", "#contact-name", "#contact-contact")) {
 
 						if (validateFields("#hrsSrvd")) {
 
-							addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description");								
+							addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description", "#contact-name", "#contact-contact");								
 
 						}
 					}
