@@ -216,7 +216,7 @@ public class AdminAddEventTest extends SeleniumTest {
 			System.err.println(link.getLocation());
 			link.sendKeys(Keys.ENTER);
 			
-			
+			// make sure xpath is specific enough (use /label) IF click intercepted exception comes up 
 			WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/h3/label[@for='volunteersNeeded']");
 			
 			
