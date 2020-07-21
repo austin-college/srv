@@ -1,0 +1,26 @@
+<tr id="row${uid}">
+	<#if isCoChair>
+		<td class="coChair_sel"><i class='fas fa-check'		style='color: green'></i></td>
+	<#else>
+		<td class="coChair_sel"><i class='fas fa-times' style='color: red'></i></td>
+	</#if>
+
+	<td name="bm_username" uid="${uid?c}">${username}</td>
+	<td name="bm_fullName" uid="${uid?c}">${fullName!"UNKNOWN"}</td>
+	<td name="bm_email" uid="${uid?c}">${email!"UNKNOWN"}</td>
+	<td name="bm_phoneNum" uid="${uid?c}">${primaryPhone!"UNKNOWN"}</td>
+	<td name="bm_gradYr" uid="${uid?c}">${expectedGradYear?c!"UNKNOWN"}</td>
+
+	<!--action buttons-->
+	<td class="bmActions">
+		<button class="btn edit btnBmEdit" uid="${uid?c}">
+			<i class="fas fa-pencil-alt"></i>
+		</button>
+		<button class="btn btnView btnBmView" uid="${uid?c}">
+			<i class="fas fa-search"></i>
+		</button>
+		<button class="btn del btnBmDel" uid="${uid?c}">
+			<i class="far fa-trash-alt"></i>
+		</button>
+	</td>
+</tr>

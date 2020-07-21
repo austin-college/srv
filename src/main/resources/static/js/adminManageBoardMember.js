@@ -1,9 +1,68 @@
-//TODO alert user feature not functional yet
-function onNewClick() {
-	alert("Create New feature is not functional yet.");
+/**
+ * The following function replaces a HTML paragraph's text with error
+ * messages to the user on the invalid fields in the add and edit
+ * dialogs.
+ * 
+ * @param msg
+ * @returns
+ */
+function updateTips(msg) {
+	$(".ui-dialog").effect("shake");
+	$(".validationTips").text(msg).addClass("alert alert-danger");
 }
 
-/*
+/**
+ * opens the dialog for selecting a user to promote a servant to 
+ * a board member
+ */
+function onNewClick() {
+	$("#dlgUserSel").dialog("open");
+}
+
+/**
+ * Ajax call to create/promote a servant user to a board member
+ */
+function createBmNow(usernameField) {
+	
+	// get the string value of the username
+	var usernameStr = $(usernameField).val();
+	
+	$.ajax({
+		method: "POST",
+		url: "/srv/boardmembers/ajax/new",
+		cache: false,
+		data: {username: usernameStr},
+	})
+	/*
+	 * If successful then add the board member user to the list
+	 */
+	.done(function(bm) {
+		console.log("added board member");
+		console.log(bm);
+		
+		var id = $(bm)[0]; // obtains the new bm's id from the ajax response
+		
+		console.log(id); // verifies id
+		
+		$("#bmTblBody").append(id);
+		
+		// Append the buttons and their functionality to the new board member
+		$(".btnBmDel").click(onDeleteClick);
+
+		$(".btnBmEdit").click(onEditClick);
+
+		$(".btnBmView").click(onViewClick);
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+	
+}
+/**
  * launch the action for deleting given the board member user id.
  * Present dialog to confirm. Then let the dialog callbacks do all the
  * work.
@@ -38,12 +97,7 @@ function onViewClick() {
 	alert("View feature is not functional yet.");
 }
 
-//TODO alert user feature not functional yet
-function onCheckBoxClick() {
-	alert("Promote board member feature is not functional yet.");
-}
-
-/*
+/**
  * makes the request back to our server to delete the board member whose
  * id we extract from the confirmation dialog
  */
@@ -91,18 +145,7 @@ function onPageLoad() {
 
 	// connect the view action to all view buttons
 	$(".btnBmView").click(onViewClick);
-	
-	// connect the co-chair action to all checkboxes
-	$(".boxSel").click(function() {
 		
-		// revert checkbox to original state
-		var state = $(this).prop("checked");
-		console.log(state);
-		$(this).prop("checked", !state);
-
-		onCheckBoxClick();
-	});
-	
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#dlgDelete").dialog({
 		autoOpen : false, 
@@ -135,6 +178,86 @@ function onPageLoad() {
 			}
 		} ]
 	});
+	
+	// dialog for selecting a servant user when creating/promoting a new board member
+	$("#dlgUserSel").dialog({
+		autoOpen: false,
+		width: $(window).width() * 0.6,
+		height: $(window).height() * 0.6,
+		modal: true,
+		position: {
+			my: "center top",
+			at: "center top",
+			of: window
+		},
+		open: function(event, ui) {
+			console.log("open select dialog");
+			
+			// clear all checkboxes upon open
+			$(".boxSel").prop("checked", false);
+			
+			// remove previous error messages
+			$(".validationTips").removeClass("alert alert-danger").text("");
+		},
+		buttons: [
+			{
+				text: "Submit",
+				"class": 'btn addBtn',
+				click: function() {
+					console.log("submit on select dialog");
+					
+					// count the number of checked boxes
+					var userChecked = $('input[class=boxSel]:checked').length;
+					
+					// verify a checkbox was selected, cannot submit until one is,
+					// throw error to user stating so
+					if (userChecked == 1) {
+						console.log("a checkbox is checked.");
+						
+						// get the selected servant user's username to pass to function
+						console.log($("#newBmUsername").val());
+						
+						createBmNow("#newBmUsername");
+						
+						$(this).dialog("close");
+					}
+					else if(userChecked == 0) {
+						console.log("all checkboxes are unchecked.");
+						updateTips("A user must be selected.");
+					}
+				}
+			},
+			{
+				text: "Cancel",
+				"class": "btn btn-secondary",
+				click: function() {
+					console.log("cancel on select dialog");
+					$(this).dialog("close");
+				}
+			}
+		]
+	});
+	
+	// Allows for searching and sorting when selecting a servant user to promote
+	$('#tblUsers').DataTable({	
+		"paging": false,
+		"searching": true,
+		"info": false
+	});
+	
+	$(".boxSel").click( function() {
+
+		var state = $(this).prop("checked");
+
+		if (state) {
+			var username = $(this).attr("value");
+			$("#newBmUsername").val(username);
+		}
+
+		$(".boxSel").prop("checked",false);  // clear all others		
+		$(this).prop("checked",state);  // reassert current state on current button  
+	});
+	
 }
 
 // when the DOM is completely loaded, do final preparations by calling

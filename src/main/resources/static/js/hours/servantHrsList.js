@@ -76,7 +76,7 @@ function validateFields(hrField) {
 /**
  * The following function replaces a HTML paragraph's text with error
  * messages to the user on the invalid fields in the add and edit
- * edit event type dialogs.
+ * dialogs.
  * 
  * @param msg
  * @returns
@@ -580,7 +580,7 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription, hrCo
 		console.log("added srv hr");
 		console.log(srvHr);
 
-		var id = $(srvHr)[0] // obtains the new srv hr's id from the ajax response
+		var id = $(srvHr)[0]; // obtains the new srv hr's id from the ajax response
 
 		console.log(id); // verifies the id
 
@@ -708,7 +708,7 @@ function editServiceHr(selShid, hrScid, hrEvid, hrSrvedField, reflectField, desc
 	});
 }
 
-/*
+/**
  * makes the request back to our server to delete the service hour whose id we extract
  * from the confirmation dialog
  */
@@ -745,7 +745,7 @@ function ajaxDeleteEventNow() {
 
 }
 
-/* 
+/**
  * Prepares the month combo box
  */
 function setMonthComboBox() {
@@ -768,7 +768,7 @@ function setMonthComboBox() {
 	document.getElementById('monthComboBox').value = selectedMonth;
 }
 
-/*
+/**
  * Prepares the year combo box.
  * 
  * Only showing 5 years ahead of the current year.

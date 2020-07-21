@@ -1,5 +1,7 @@
 package srv.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,8 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import srv.domain.hours.ServiceHoursDao;
+import srv.domain.user.BoardMemberUser;
 import srv.domain.user.BoardMemberUserDao;
-import srv.services.BoardMemberHoursListService;
+import srv.domain.user.ServantUser;
+import srv.domain.user.ServantUserDao;
+import srv.services.BoardMemberService;
+import srv.utils.ParamUtil;
 
 /**
  * This is the algorithm that prepares the response
@@ -34,10 +40,7 @@ public class BoardMemberController {
 	private static Logger log = LoggerFactory.getLogger(EventController.class);
 
 	@Autowired
-	BoardMemberHoursListService bmHrListSrv;
-	
-	@Autowired
-	BoardMemberUserDao bmDao;
+	BoardMemberService bmSrv;
 
 	/**
 	 * Maps boardMember.html template to /boardMember
@@ -51,7 +54,7 @@ public class BoardMemberController {
 
 		ModelAndView mav = new ModelAndView("home/boardMember");
 		
-		mav.addObject("hours", bmHrListSrv.listHoursToBeApproved());
+		mav.addObject("hours", bmSrv.listHoursToBeApproved());
 
 		return mav;
 	}
@@ -69,8 +72,10 @@ public class BoardMemberController {
 		ModelAndView mav = new ModelAndView("home/adminManageBoardMembers");
 
 		try {
-			
-			mav.addObject("boardMembers", bmDao.listAllBoardMemberUsers());
+							
+			mav.addObject("boardMembers", bmSrv.listAllBoardMemberUsers());
+			mav.addObject("srvUsers", bmSrv.nonBmUsers());
+
 			
 		} catch (Exception e) {
 			
@@ -80,8 +85,52 @@ public class BoardMemberController {
 		}
 		return mav;
 	}
-	///srv/boardmembers/ajax/del/" 
-	
+
+	/**
+	 * Ajax call to create/promote and return a new board member user to the database
+	 */
+	@PostMapping("/boardmembers/ajax/new")
+	public ModelAndView ajaxCreateBoardMember(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("/home/ajax_singleBoardMemberRow");
+		
+		response.setContentType("text/html");
+		
+		try {
+			
+			// fetch the data sent from the JavaScript function and verify the fields
+			String username = ParamUtil.requiredNonEmptyString(request.getParameter("username"), "Username is required.");
+			
+			// create/promote a new board member user, setting the default value of co-chair to false - might remove later
+			BoardMemberUser newBmUser = bmSrv.create(username, false);
+			
+			mav.addObject("uid", newBmUser.getUid());
+			mav.addObject("isCoChair", newBmUser.getIsCoChair());
+			mav.addObject("username", newBmUser.getUsername());
+			mav.addObject("fullName", newBmUser.getContactInfo().fullName());
+			mav.addObject("email", newBmUser.getContactInfo().getEmail());
+			mav.addObject("primaryPhone", newBmUser.getContactInfo().getPrimaryPhone());
+			mav.addObject("expectedGradYear", newBmUser.getExpectedGradYear());
+			
+			
+		} catch (Exception e) {
+			
+			log.error("\n\n ERROR ");
+			log.error(e.getMessage());
+			
+			e.printStackTrace();
+			
+			response.setStatus(410);
+			
+			
+			mav = new ModelAndView("/error");
+			
+			mav.addObject("errMsg", e.getMessage());
+		}
+		
+		return mav;
+		
+	}
 	/**
 	 * When the client needs to delete a board member, this controller action will
 	 * handle the request.
@@ -96,7 +145,7 @@ public class BoardMemberController {
     		
     		log.debug("deleting event {}", id);
     		
-			bmDao.delete(id);
+			bmSrv.delete(id);
 		    return new ResponseEntity<Integer>(id, HttpStatus.OK);
 		    
 		} catch (Exception e) {

@@ -37,7 +37,7 @@
 					<th class="th-sm">Co-Chair</th>
 					<th class="th-sm">Username</th>
 					<th class="th-sm">Name</th>
-					<th class="th-sm">E-Mail</th>
+					<th class="th-sm">E-mail</th>
 					<th class="th-sm">Phone Number</th>
 					<th class="th-sm">Expected Grad Year</th>
 					<th class="th-sm">Action</th>
@@ -48,9 +48,11 @@
 					<tr id="row${bm.uid}">
 						
 						<#if bm.isCoChair>
-							<td class="coChair_sel"><input class="boxSel" type="checkbox" uid="${bm.uid}" checked="checked" /></td>
+							<td class="coChair_sel"><i class='fas fa-check' style='color:green'></i>
+							</td>
 						<#else>
-							<td class="coChair_sel"><input class="boxSel" type="checkbox" uid="${bm.uid}"/></td>
+							<td class="coChair_sel"><i class='fas fa-times' style='color:red'></i>
+							</td>
 						</#if>
 						
 						<td name="bm_username" uid="${bm.uid?c}">${bm.username}</td>
@@ -101,4 +103,51 @@
 	</div>
 	
 </div>
+
+<!-- dialog for selecting a servant user when promoting them to a board member -->
+<div id="dlgUserSel" title="Select User..." style="display:none">
+<p class="validationTips"></p>
+<input type="hidden" id="newBmUsername" value="" />
+
+	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+	
+		<div class="col">
+			<!-- Servant users table -->
+			<table id="tblUsers" class="table table-striped table-bordered table-sm">
+				<thead>
+					<tr>
+						<th class="th-sm">&#xA0;</th>
+						<!-- hiding id column <th class="th-sm">Id</th> -->
+						<th class="th-sm">Username</th>
+						<th class="th-sm">Name</th>
+						<th class="th-sm">E-mail</th>
+						<th class="th-sm">Expected Grad Year</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#list srvUsers as users>
+						<tr id="uid-${users.uid?c}">
+							<td class="user_sel">
+								<input class="boxSel" type="checkbox" uid="${users.uid}" value="${users.username}"/>
+							</td>
+							<!-- hiding id column <td class="user_id">${users.uid}</td> -->
+							<td class="user_username">${users.username!"UNKNOWN"}</td>
+							<td class="user_name">${users.contactInfo.fullName()!"UNKNOWN"}</td>
+							<td class="user_email">${users.contactInfo.email!"UNKNOWN"}</td>
+							<#if users.expectedGradYear??>
+								<td class="user_gradYr">${users.expectedGradYear?c}</td>
+							<#else>
+								<td class="user_gradYr">UNKNOWN</td>
+							</#if>
+						</tr>
+					</#list>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>		
+
+<script src="/srv/js/datatables.min.js"></script>
+<link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
+
 </@layout.stdpage>

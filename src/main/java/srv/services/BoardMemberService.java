@@ -11,20 +11,60 @@ import srv.domain.event.Event;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.user.BoardMemberUser;
+import srv.domain.user.BoardMemberUserDao;
+import srv.domain.user.ServantUser;
+import srv.domain.user.ServantUserDao;
 /*TODO Need to check above imports and make sure they are all useful or removed. (Previously HardCoded examples used some)*/
 /**
  * BoardMemberHoursListService populates a list of all 
  * service events to be approved for the BoardMemberController
  */
 @Service
-public class BoardMemberHoursListService {
+public class BoardMemberService {
 
 	@Autowired 
 	ServiceHoursDao serviceDao;
 	
-	public BoardMemberHoursListService() {
+	@Autowired
+	BoardMemberUserDao bmDao;
+	
+	@Autowired
+	ServantUserDao srvUserDao;
+	
+	/**
+	 * Gets the current list of board member users from the database
+	 */
+	public List<BoardMemberUser> listAllBoardMemberUsers() throws Exception{
+		return bmDao.listAllBoardMemberUsers();
+	}
+	
+	/**
+	 * Gets the current list of servant users that are not board members
+	 */
+	public List<ServantUser> nonBmUsers() throws Exception {
+				
+		return srvUserDao.nonBmUsers();
+	}
+	
+	/**
+	 * Deletes/demotes the specified board member user.
+	 */
+	public void delete(int id) throws Exception {
+		bmDao.delete(id);
+	}
+	
+	/** 
+	 * Creates/promotes a servant user to a new board member user.
+	 */
+	public BoardMemberUser create(String username, boolean coChair) throws Exception{
+		return bmDao.create(username, coChair);
+	}
+	
+	public BoardMemberService() {
 
 	}
+	
 	
 	/**@return ServiceHours list directly from the Dao
 	 *TODO Only return services with "Pending as status"*/

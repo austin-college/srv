@@ -21,5 +21,7 @@ public interface ServantUserDao {
 	public void update(int userId, Integer sgid, Integer expectedGradYr, Boolean hasCar, Integer carCap, Integer contactId) throws Exception;
 	
 	public void delete(int userId) throws Exception;
+	
+	public List<ServantUser> nonBmUsers();
 
 }

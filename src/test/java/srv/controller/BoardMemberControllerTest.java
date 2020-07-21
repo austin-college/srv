@@ -33,7 +33,7 @@ import srv.controllers.BoardMemberController;
 import srv.domain.contact.Contact;
 import srv.domain.user.BoardMemberUser;
 import srv.domain.user.BoardMemberUserDao;
-import srv.services.BoardMemberHoursListService;
+import srv.services.BoardMemberService;
 
 
 @RunWith(SpringRunner.class)
@@ -45,7 +45,7 @@ public class BoardMemberControllerTest {
 	private MockMvc mvc;
 	
 	@MockBean
-	private BoardMemberHoursListService mockBmHrListSrv;
+	private BoardMemberService mockBmHrListSrv;
 	
 	@MockBean
 	private BoardMemberUserDao mockBmDao;
