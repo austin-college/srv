@@ -530,13 +530,27 @@ public class EventController {
 			mav.addObject("date", theEvent.getDate());
 			mav.addObject("sponsorName", theEvent.getType().getName());
 			mav.addObject("sponsorDescr", theEvent.getType().getDescription());
-			mav.addObject("srvClient", theEvent.getServiceClient().getName());
-			mav.addObject("name", theEvent.getContact().fullName());
+			//handle the case that there is no service client with an if statement
+			String tName = null; 
+			if(theEvent.getServiceClient() != null) {
+				tName = theEvent.getServiceClient().getName();
+			}
+			mav.addObject("srvClient", tName);
+			// do the same here 
+			String cName = null,  phone1 = null, phone2 = null, email = null; 
+			if(theEvent.getContact() != null) {
+				cName = theEvent.getContact().fullName();
+				phone1 = theEvent.getContact().getPrimaryPhone();
+				phone2 = theEvent.getContact().getSecondaryPhone();
+				email = theEvent.getContact().getEmail();
+			}
+			
+			mav.addObject("name", cName);
 //    		mav.addObject(eventService.allServiceClients());
-
-			mav.addObject("mainPhoneNum", theEvent.getContact().getPrimaryPhone());
-			mav.addObject("otherPhoneNum", theEvent.getContact().getSecondaryPhone());
-			mav.addObject("email", theEvent.getContact().getEmail());
+			
+			mav.addObject("mainPhoneNum", phone1);
+			mav.addObject("otherPhoneNum", phone2);
+			mav.addObject("email", email);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

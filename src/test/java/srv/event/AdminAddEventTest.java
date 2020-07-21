@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -196,8 +197,39 @@ public class AdminAddEventTest extends SeleniumTest {
 				
 				//checks the title
 			String currentTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-6']/td[@class='ev_title evView']")).getText();		
-			assertEquals(currentTitle, "testedEvent");
-		//		
+			assertEquals("testedEvent", currentTitle);
+			
+			/*
+			 * click on currentTitle in table so event details dialogue pops up
+			 */
+			
+			JavascriptExecutor jse = (JavascriptExecutor)driver;
+			
+			
+			Thread.sleep(5000);
+			
+			link = driver.findElement(By.xpath("//td/button[@class='btn btnEvView'][@eid='6']"));
+			
+			jse.executeScript("window.scrollBy" + link.getLocation(), "");
+			System.err.println(link.isDisplayed());
+		
+			System.err.println(link.getLocation());
+			link.sendKeys(Keys.ENTER);
+			
+			// make sure xpath is specific enough (use /label) IF click intercepted exception comes up 
+			WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/h3/label[@for='volunteersNeeded']");
+			
+			
+			
+			/*
+			 * checking data from event details  once it pops up
+			 */
+			
+		//	String location = driver.findElement(By.xpath("/html/body/div[7]/div[2]/form/div[2]/div[2]/div[1]/div/input[@id='location']")).getText();
+		//	assertEquals("testedLocation", location);
+			
+			
+			
 
 	}
 
