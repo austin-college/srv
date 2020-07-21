@@ -204,15 +204,22 @@ public class AdminAddEventTest extends SeleniumTest {
 			 */
 			
 			JavascriptExecutor jse = (JavascriptExecutor)driver;
-			jse.executeScript("window.scrollBy(0,600)", "");
+			
+			
+			Thread.sleep(5000);
 			
 			link = driver.findElement(By.xpath("//td/button[@class='btn btnEvView'][@eid='6']"));
-			link.click();
+			
+			jse.executeScript("window.scrollBy" + link.getLocation(), "");
+			System.err.println(link.isDisplayed());
+		
+			System.err.println(link.getLocation());
+			link.sendKeys(Keys.ENTER);
 			
 			
 			WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/h3/label[@for='volunteersNeeded']");
 			
-			Thread.sleep(5000);
+			
 			
 			/*
 			 * checking data from event details  once it pops up
