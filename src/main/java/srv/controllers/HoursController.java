@@ -220,9 +220,11 @@ public class HoursController {
 			Double hrs = ParamUtil.requiredDoubleParam(request.getParameter("hrSrved"), "Hours Served must be filled and be numeric.");
 			String reflection = request.getParameter("reflect");
 			String descr = request.getParameter("descr");
+			String contactName = ParamUtil.requiredNonEmptyString(request.getParameter("contactName"), "Contact Name is required.");
+			String contactContact = ParamUtil.requiredNonEmptyString(request.getParameter("contactContact"),"Contact Phone Number/Email is required.");
 			
 			// update the service hr in the database then return it back to the callback function
-			hrSvc.updateHour(shid, scid,  eid, hrs,  reflection, descr);
+			hrSvc.updateHour(shid, scid,  eid, hrs,  reflection, descr, contactName, contactContact);
 			
 			ServiceHours updatedSrvHr = hrSvc.serviceHourById(shid);
 			
@@ -276,9 +278,12 @@ public class HoursController {
 			Double hrs = ParamUtil.requiredDoubleParam(request.getParameter("hrServed"), "Hours Served must be filled and be numeric.");
 			String reflection = request.getParameter("reflect");
 			String descr = request.getParameter("descr");
-			
+			String contactName = ParamUtil.requiredNonEmptyString(request.getParameter("contactName"), "Contact Name is required.");
+			String contactContact = ParamUtil.requiredNonEmptyString(request.getParameter("contactContact"),"Contact Phone Number/Email is required.");
+					
+					
 			// create a new service hr in the database then return it back to the callback function
-			ServiceHours newSrvHr = hrSvc.createServiceHour(scid,  eid, hrs,  reflection, descr);
+			ServiceHours newSrvHr = hrSvc.createServiceHour(scid,  eid, hrs,  reflection, descr, contactName, contactContact);
 			
 			mav.addObject("shid", newSrvHr.getShid());
 			mav.addObject("title", newSrvHr.getEvent().getTitle());
