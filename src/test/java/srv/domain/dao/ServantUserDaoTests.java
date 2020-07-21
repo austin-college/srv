@@ -360,4 +360,20 @@ class ServantUserDaoTests {
 		// with the following ids
 		assertEquals(4, bmUsers.get(0).getUid());
 	}
+	
+	/*
+	 * Testing nonBmUsers(), should return a list that contains one servant user
+	 * who is not also a board member user.
+	 */
+	@Test
+	void test_nonBmUsers() {
+		
+		List<ServantUser> nonBmUserList = srvUserDao.nonBmUsers();
+		
+		// should only contain one user
+		assertEquals(1, nonBmUserList.size());
+		
+		// ...whose username is 
+		assertEquals("apritchard", nonBmUserList.get(0).getUsername());
+	}
 }

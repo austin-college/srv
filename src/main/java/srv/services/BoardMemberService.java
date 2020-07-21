@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,16 @@ import srv.domain.user.BoardMemberUser;
 import srv.domain.user.BoardMemberUserDao;
 import srv.domain.user.ServantUser;
 import srv.domain.user.ServantUserDao;
-/*TODO Need to check above imports and make sure they are all useful or removed. (Previously HardCoded examples used some)*/
+
 /**
  * BoardMemberHoursListService populates a list of all 
  * service events to be approved for the BoardMemberController
  */
 @Service
 public class BoardMemberService {
+	
+	private static Logger log = LoggerFactory.getLogger(EventService.class);
+
 
 	@Autowired 
 	ServiceHoursDao serviceDao;
@@ -31,6 +36,11 @@ public class BoardMemberService {
 	
 	@Autowired
 	ServantUserDao srvUserDao;
+	
+	public BoardMemberService() {
+
+	}
+	
 	
 	/**
 	 * Gets the current list of board member users from the database
@@ -51,6 +61,12 @@ public class BoardMemberService {
 	 * Deletes/demotes the specified board member user.
 	 */
 	public void delete(int id) throws Exception {
+		
+		log.debug("deleting item {}", id);
+		
+		if (id <= 0) {
+			throw new Exception(String.format("Invalid user id [%d]",id));
+		}
 		bmDao.delete(id);
 	}
 	
@@ -61,9 +77,6 @@ public class BoardMemberService {
 		return bmDao.create(username, coChair);
 	}
 	
-	public BoardMemberService() {
-
-	}
 	
 	
 	/**@return ServiceHours list directly from the Dao

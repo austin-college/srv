@@ -33,6 +33,8 @@ import srv.controllers.BoardMemberController;
 import srv.domain.contact.Contact;
 import srv.domain.user.BoardMemberUser;
 import srv.domain.user.BoardMemberUserDao;
+import srv.domain.user.ServantUser;
+import srv.domain.user.User;
 import srv.services.BoardMemberService;
 
 
@@ -45,16 +47,16 @@ public class BoardMemberControllerTest {
 	private MockMvc mvc;
 	
 	@MockBean
-	private BoardMemberService mockBmHrListSrv;
-	
-	@MockBean
-	private BoardMemberUserDao mockBmDao;
-	
+	private BoardMemberService mockBmSrv;
+		
 	// handy objects for these tests
 	private List<BoardMemberUser> testBoardMembers = new ArrayList<BoardMemberUser>();
 	
 	private BoardMemberUser bm1;
 	private BoardMemberUser bm2;
+	
+	private Contact contact1;
+	private Contact contact2;
 	
 	
 	/**
@@ -66,7 +68,7 @@ public class BoardMemberControllerTest {
 	@Before
 	public void setupTestFixture() {
 		
-		Contact contact1 = new Contact()
+		contact1 = new Contact()
 				.setContactId(1)
 				.setFirstName("Rusty")
 				.setLastName("Buckle")
@@ -75,7 +77,7 @@ public class BoardMemberControllerTest {
 				.setEmail("rBuckle19@austincollege.edu")
 				;
 		
-		Contact contact2 = new Contact()
+		contact2 = new Contact()
 				.setContactId(2)
 				.setFirstName("Lizzy")
 				.setLastName("Roo")
@@ -84,7 +86,6 @@ public class BoardMemberControllerTest {
 				.setEmail("lRoo18@austincollege.edu")
 				;
 				
-		// uid, username, contactInfo, expectedGradYear, aff, hasCar, carCapacity
 		bm1 = new BoardMemberUser(1, "rbuckle19", contact1, 2023, null, false, 0).setIsCoChair(false);
 		bm2 = new BoardMemberUser(2, "lRoo18", contact2, 2022, null, false, 0).setIsCoChair(true);
 		
@@ -117,7 +118,7 @@ public class BoardMemberControllerTest {
 	public void basicBasePageTest() throws Exception {
 
 		// Mock dependencies
-		Mockito.when(mockBmDao.listAllBoardMemberUsers()).thenReturn(testBoardMembers);
+		Mockito.when(mockBmSrv.listAllBoardMemberUsers()).thenReturn(testBoardMembers);
 
 		mvc.perform(get("/boardmembers")
 				.contentType(MediaType.TEXT_HTML))
@@ -187,7 +188,7 @@ public class BoardMemberControllerTest {
 	public void ajaxDeleteBoardMemberTest_whenBoardMemberExists() throws Exception {
 
 		// for this test, our dao will pretend to delete
-		Mockito.doNothing().when(mockBmDao).delete(1);
+		Mockito.doNothing().when(mockBmSrv).delete(1);
 
 		mvc.perform(post("/boardmembers/ajax/del/1")
 
@@ -200,7 +201,7 @@ public class BoardMemberControllerTest {
 
 		;
 
-		Mockito.verify(mockBmDao).delete(1);
+		Mockito.verify(mockBmSrv).delete(1);
 	}
 
 	/**
@@ -214,7 +215,7 @@ public class BoardMemberControllerTest {
 
 		// for this test, our dao will throw an exception like we might
 		// see if the database could not delete
-		Mockito.doThrow(Exception.class) .when(mockBmDao).delete(1);
+		Mockito.doThrow(Exception.class) .when(mockBmSrv).delete(1);
 
 
 		// let's test....
@@ -227,7 +228,110 @@ public class BoardMemberControllerTest {
 
 
 		// did the mock object get tickled appropriately
-		Mockito.verify(mockBmDao).delete(1);
+		Mockito.verify(mockBmSrv).delete(1);
 
+	}
+	
+	/**
+	 * Make sure the controller is creating/promoting a servant user to a board member user
+	 * when asked.
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxNewBmTest() throws Exception {
+		
+		/*
+		 * prepare a dummy servant user/ user
+		 */
+		String username = "jChan19";
+		int uid = 3;
+		int contactId = 3;
+		String firstName = "Jackie";
+		String lastName = "Chan";
+		String email = "jChan19@austincollege.edu";
+		int expectedGradYr = 2023;
+		
+		User dummyUser = new User()
+				.setUid(uid)
+				.setUsername(username)
+				.setContactInfo(new Contact()
+						.setContactId(contactId)
+						.setEmail(email)
+						.setFirstName(firstName)
+						.setLastName(lastName));
+
+		contact1.setContactId(3).setEmail(email).setFirstName(firstName).setLastName(lastName);
+		
+		ServantUser srvUser = new ServantUser(uid, username, contact1, expectedGradYr, null, null, null);
+		
+		
+		BoardMemberUser bmUser = new BoardMemberUser(uid, username, contact1, expectedGradYr, null, null, null);
+		bmUser.setIsCoChair(false);
+						
+		// when the controller asks the service to create/promote a servant user in the database,
+		// we fake it and use our dummy servant user from above (srvUser)
+		Mockito.when(mockBmSrv.create(username, false)).thenReturn(bmUser);
+		
+		// ready to test...
+		mvc.perform(post("/boardmembers/ajax/new")
+				.param("username", username)
+
+				.contentType(MediaType.TEXT_HTML))
+		.andExpect(status().isOk())
+
+		// there should be a table row tagged with right id.
+
+		// that better have a username td cell whose text is 'jChan19'
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='bm_username' and text()='jChan19']")).exists())
+
+		// and there's a row in our table that has a full name td inside whose text better be 'Jackie Chan' 
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='bm_fullName' and text()='Jackie Chan']")).exists())
+
+		// and there's a row in our table that has an email td inside whose text better be 'jChan19@austincollege.edu' 
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='bm_email' and text()='jChan19@austincollege.edu']")).exists())
+
+		// and there's a row in our table that has a primary phone td inside whose text better be '903-338-3302' 
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='bm_phoneNum' and text()='903-338-3302']")).exists())
+
+		// and there's a row in our table that has an expectedGradYear td inside whose text better be '2023' 
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@name='bm_gradYr' and text()='2023']")).exists())
+
+		// and that same row as a td with a button inside for editing
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='bmActions']/button[contains(@class, 'btnBmEdit')]")).exists())
+
+		// and viewing
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='bmActions']/button[contains(@class, 'btnBmView')]")).exists())
+
+		// and deleting
+		.andExpect(xpath(dquote("//tr[@id='row3']/td[@class='bmActions']/button[contains(@class, 'btnBmDel')]")).exists())
+		;
+
+		Mockito.verify(mockBmSrv).create(username, false);
+
+	}
+	
+	/**
+	 * Make sure the controller is handling the case where the username is invalid
+	 * (the service throws an exception).
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	@WithMockUser(username = "admin", password = "admin")
+	public void ajaxNewBmTest_whenExceptionThrown() throws Exception {
+		
+		// for this test, our service will throw an exception like we might
+		// see if the database could not create
+		Mockito.doThrow(Exception.class).when(mockBmSrv).create(Mockito.anyString(), Mockito.anyBoolean());
+		
+		// ready to test...
+		mvc.perform(post("/boardmembers/ajax/new")
+				.param("username", "xx"))
+
+		.andExpect(status().is4xxClientError());
+		
+		
+		// verify that the service got tickled appropriately
+		Mockito.verify(mockBmSrv).create(Mockito.anyString(), Mockito.anyBoolean());
 	}
 }
