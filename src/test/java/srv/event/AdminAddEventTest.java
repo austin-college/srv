@@ -205,20 +205,35 @@ public class AdminAddEventTest extends SeleniumTest {
 			
 			JavascriptExecutor jse = (JavascriptExecutor)driver;
 			
-			
 			Thread.sleep(5000);
 			
+			/*
+			 * find search button on edge of manage events table 
+			 */
 			link = driver.findElement(By.xpath("//td/button[@class='btn btnEvView'][@eid='6']"));
 			
+			// scroll to the button 
 			jse.executeScript("window.scrollBy" + link.getLocation(), "");
 			System.err.println(link.isDisplayed());
 		
 			System.err.println(link.getLocation());
+			
+			/*
+			 * click the button and wait for eventDetails dialog
+			 */
 			link.sendKeys(Keys.ENTER);
 			
+			// assures us that the eventDetails dialogue has popped up
 			// make sure xpath is specific enough (use /label) IF click intercepted exception comes up 
 			WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/h3/label[@for='volunteersNeeded']");
 			
+			/*
+			 * checking location field displays correct data
+			 */
+			WebElement location = driver.findElement(By.xpath("//div/h3/div/input[@id='location']"));
+			System.err.println(location.getText());
+			System.err.println(location.getAttribute("value"));
+			assertEquals("testedLocation", location.getAttribute("value"));
 			
 			
 			/*
