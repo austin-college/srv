@@ -1,0 +1,86 @@
+<#macro view_sm contact="none" >
+<div id="evContactDiv" class="small">
+	<#if contact == "none">
+		Missing Contact
+	<#else>
+		<span id="ct-fname">${contact.firstName!""}</span> <span id="ctLastName">${contact.lastName!""}</span>
+		<br/><span id="ct-email">${contact.email!"[unknown email]"}</span>
+		<br/><span id="ct-addr">${contact.address!"[unknown address]"}</span>
+		<br/><span id="ct-phone1">${contact.primaryPhone!"[phone?]"}</span>
+		<br/><span id="ct-phone2">${contact.secondaryPhone!"[alt phone?]"}</span>
+	</#if>
+</div>
+</#macro>
+
+
+<#macro view contact="none" forEdit="false">
+
+<#assign ro = "readonly" />
+<#if forEdit=="true"> 
+<#assign ro = "" />
+</#if>
+
+<div class="contact-view" style="font-size: small">
+ <#if contact=="none">
+ 	NO CONTACT	
+ <#else>
+	 <input type="hidden" class="form-control" id="evContact_id" name="evContact_id" value="${contact.contactId}" ${ro}>
+ 	  <div class="form-group">
+ 	  	<div class="row">
+		 <div class="col-sm-6">
+		    <label for="evContact_firstName">First Name</label>
+		    <input type="text" class="form-control" id="evContact_firstName" name="evContact_firstName"  placeholder="contact first name" value="${contact.firstName!''}" ${ro}>
+		</div>
+		<div class="col-sm-6">				    
+		    <label for="evContact_lastName">Last Name</label>
+		    <input type="text" class="form-control" id="evContact_lastName" name="evContact_lastName"  placeholder="contact last name" value="${contact.lastName!''}" ${ro}>
+		</div>
+		</div>			
+	</div>
+	
+	 <div class="form-group">
+		 <div class="row">
+			<div class="col-sm-6">		 
+			    <label for="evContact_primaryPhone">Primary Phone Number</label>
+			    <input type="text" class="form-control" id="evContact_primaryPhone" name="evContact_primaryPhone"  placeholder="contact primary phone number" value="${contact.primaryPhone!''}" ${ro}>
+			</div>
+			<div class="col-sm-6">    
+			    <label for="evContact_secondaryPhone">Secondary Phone Number</label>
+			    <input type="text" class="form-control" id="evContact_secondaryPhone" name="evContact_secondaryPhone"  placeholder="contact secondary phone number" value="${contact.secondaryPhone!''}" ${ro}>
+			 </div>
+		 </div>
+	 </div>
+
+	<div class="form-group col-sm">
+	<div class="row">
+	    <label for="evContact_email">Contact Email</label>
+	    <input type="text" class="form-control" id="evContact_email" name="evContact_email"  placeholder="contact email" value="${contact.email!''}" ${ro}>
+	 </div>
+	 </div>    
+
+	 <div class="form-group">
+	  <div class="row">
+		 <div class="col-sm-5">
+		    <label for="evContact_street">Street</label>
+		    <input type="text" class="form-control" id="evContact_street" name="evContact_street"  placeholder="contact address street" value="${contact.street!''}" ${ro}>
+		 </div>
+		 
+		<div class="col-sm-3">		    
+		    <label for="evContact_city">City</label>
+		    <input type="text" class="form-control" id="evContact_city" name="evContact_city"  placeholder="contact address city" value="${contact.city!''}" ${ro}>
+		</div>		    
+		<div class="col-sm-2">		    		    
+		    <label for="evContact_state">State</label>
+		    <input type="text" class="form-control" id="evContact_state" name="evContact_state"  placeholder="contact address state" value="${contact.state!''}" ${ro}>
+		</div>		    
+		<div class="col-sm-2">		    		    
+		    <label for="evContact_zipcode">Zip</label>
+		    <input type="text" class="form-control" id="evContact_zipcode" name="evContact_zipcode"  placeholder="contact address zip code" value="${contact.zipcode!''}" ${ro}>
+		</div>
+	  </div>
+	</div>
+</#if>
+</div>
+
+</#macro>
+

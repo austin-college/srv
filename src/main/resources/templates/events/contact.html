@@ -1,10 +1,10 @@
-<#import "/contacts/contact_views.html" as ct />
+<#import "/contacts/contact_macros.html" as ct />
 
 <#if errMsg??>
   	<div class="alert alert-danger row" id="page-error">
 	${errMsg}
 	</div>
 <#else>
-	<@ct.view_sm contact!"null" />
+	<@ct.view_sm contact!"none" />
 </#if>
 

@@ -363,10 +363,11 @@ public class EventController {
 			}
 			
 			
+			Integer ctId = requiredIntegerParam(request.getParameter("evContactId"), "Contact is missing.");
 
 
 			// update the finalized event
-			theEvent = eventService.updateEvent(theEvent);
+			theEvent = eventService.updateEvent(theEvent, ctId);
 			
 			
 			// everything is fine.... back to the event management base page
@@ -389,6 +390,11 @@ public class EventController {
 
 
 	
+	private void setEventContactById(Event theEvent, int ctId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * Find the event
 	 * 

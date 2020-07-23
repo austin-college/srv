@@ -1,0 +1,43 @@
+ <#import "/contacts/contact_macros.html" as ct />
+
+<div class="alert alert-danger row" id="dlgContact-error" style="display:none">
+</div>
+<br/>
+
+<div class="row" style="padding-left: 20px; padding-bottom: 20px">
+	
+	<div class="col">
+		<!-- Events table -->
+		<table id="tblSelContacts"
+			class="table table-striped table-bordered table-sm" cellspacing="0"
+			width="100%">
+			<thead>
+				<!-- these columns are not final. If anyone thinks different information would be better
+			feel free to change these -->
+				<tr>
+					<th class="th-sm">&#xA0;</th>
+					<!-- hiding id column <th class="th-sm">Id</th> -->
+					<th class="th-sm">Name</th>
+					<th class="th-sm">Email</th>
+					<th class="th-sm">Phone</th>
+				</tr>
+			</thead>
+			<tbody>
+				<#list contacts as c>
+				
+					<tr id="cid-${c.contactId?c}" cid="${c.contactId}" class="ct_row">
+						
+						<td class="ct_sel"><input class="boxSel" type="checkbox" cid="${c.contactId}" /></td>
+						
+						<td class="ct_name">${c.fullName()!"UNKNOWN"}</td>
+						
+						<td class="ct_email">${c.email}</td>
+
+						<td class="ct_phone">${c.primaryPhone}</td>
+					</tr>
+
+				</#list>
+			</tbody>
+		</table>
+	</div>
+</div>

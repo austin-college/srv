@@ -194,9 +194,20 @@ public class EventService {
 	 * @return
 	 */
 	public Event updateEvent(Event ev) throws Exception {
+		return this.updateEvent(ev, ev.getContact()==null?null:ev.getContact().getContactId());
+	}
+	
+	/**
+	 * Alternate form of update in which we can supply the contact for the event via explicit
+	 * integer (the contact id).   This is for programmers convenience an efficiency.  Note: this
+	 * form can be used as long as the contact exists in our db.  Here we are not going to check
+	 * for existence.
+	 */
+	public Event updateEvent(Event ev, Integer ctId) throws Exception {
 		
 		if (ev == null) return null; // do nothing / return nothing
 		
+		if (ctId <=0 ) ctId = null;
 		
 		log.debug("updating event {}", ev.getEid());
 		
@@ -205,7 +216,8 @@ public class EventService {
 					ev.getTitle(),
 					ev.getAddress(),
 					
-					ev.getContact()==null?null:ev.getContact().getContactId(),
+					ctId,
+					
 					ev.getDate(),
 					
 					ev.getType().getEtid(),
@@ -217,7 +229,7 @@ public class EventService {
 					ev.getNote()
 					);
 		
-		return ev;   
+		return ev;
 	}
 
 	/**
@@ -340,5 +352,10 @@ public class EventService {
 			
 		return new Timestamp(myCal.getTime().getTime());
 	}
+
+
+
+
+
 	
 }
