@@ -296,9 +296,10 @@ public class EventControllerTest {
                   
                   )
                   
-                  .andExpect(content().string(containsString("Rusty Buckle")))
-                  .andExpect(content().string(containsString("Primary phone: 903-813-5555")))
-                  .andExpect(content().string(containsString("Secondary phone: unknown")))
+                  .andExpect(content().string(containsString("Rusty")))
+                  .andExpect(content().string(containsString("Buckle")))
+                  .andExpect(content().string(containsString("903-813-5555")))
+                  .andExpect(content().string(containsString("alt phone?")))
          		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
          
                   // other expectations here...
@@ -831,7 +832,8 @@ public class EventControllerTest {
                   .andExpect(content().string(containsString("900 N. Grand Ave")))
                   .andExpect(content().string(containsString("gds")))
                   .andExpect(content().string(containsString("Habitat for Humanity")))
-                  .andExpect(content().string(containsString("Rusty Buckle")))
+                  .andExpect(content().string(containsString("Rusty")))
+                  .andExpect(content().string(containsString("Buckle")))
                   .andExpect(content().string(containsString("903-813-5555")))
          		  .andExpect(content().string(containsString("rbuckle@helpful.org")));
         
@@ -904,7 +906,8 @@ public class EventControllerTest {
                   .andExpect(content().string(containsString("900 N. Grand Ave")))
                   .andExpect(content().string(containsString("gds")))
                   .andExpect(content().string(containsString("Habitat for Humanity")))
-                  .andExpect(content().string(containsString("Rusty Buckle")))
+                  .andExpect(content().string(containsString("Rusty")))
+                  .andExpect(content().string(containsString("Buckle")))
                   .andExpect(content().string(containsString("903-813-5555")))
          		  .andExpect(content().string(containsString("rbuckle@helpful.org")))
          		  

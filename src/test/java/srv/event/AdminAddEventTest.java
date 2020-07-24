@@ -43,6 +43,8 @@ public class AdminAddEventTest extends SeleniumTest {
 		loginAsAdmin();
 
 
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		
 		/*
 		 * should lead us to the manage events page
 		 */
@@ -196,7 +198,10 @@ public class AdminAddEventTest extends SeleniumTest {
 		 * evSponsor.getAllSelectedOptions().get(0).getText().trim());
 		 * 
 		 */
-		 link = driver.findElement(By.className("btn-primary"));
+		 link = driver.findElement(By.id("btnEvEdit"));
+		 System.err.println(link.toString());
+		 System.err.println(link.getLocation());
+		 jse.executeScript("window.scrollBy" + link.getLocation(), "");
 		 link.sendKeys(Keys.ENTER);
 		 
 
@@ -222,7 +227,7 @@ public class AdminAddEventTest extends SeleniumTest {
 			 * click on currentTitle in table so event details dialogue pops up
 			 */
 			
-			JavascriptExecutor jse = (JavascriptExecutor)driver;
+			
 			
 			/*
 			 * find search button on edge of manage events table 

@@ -139,7 +139,7 @@ public class EventServiceTests {
 		Mockito.when(eventDao.create(
 				Mockito.any(String.class),
 				Mockito.any(String.class),
-				Mockito.refEq(null),  // no contact id yet
+				Mockito.anyInt(),
 				Mockito.any(java.util.Date.class),
 				Mockito.anyInt(), 
 				Mockito.anyBoolean(), 
@@ -160,7 +160,7 @@ public class EventServiceTests {
 		Mockito.verify(eventDao).create(
 				Mockito.eq("new event"), 
 				Mockito.eq("location"), 
-				Mockito.refEq(null),  // no contact id yet
+				Mockito.anyInt(),  // no contact id yet
 				Mockito.any(java.util.Date.class),
 				Mockito.eq(1), 
 				Mockito.eq(false), 

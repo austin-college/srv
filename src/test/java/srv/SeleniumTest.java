@@ -33,7 +33,7 @@ import srv.utils.StringUtil;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class SeleniumTest {
 
-	private static final boolean HEADLESS = true;
+	private static final boolean HEADLESS = false;
 	
 	protected static final int MAX_PAGE_WAIT_SECONDS = 4;
 	protected static final int MAX_DIALOG_WAIT_SECONDS = 4;
