@@ -658,6 +658,7 @@ function onPageLoad() {
 		},
 		buttons : [ {
 			text : "CANCEL",
+			"id" : 'cancel',
 			"class" : 'cancBtnClass',
 			click : function() {
 				$(this).dialog("close");
