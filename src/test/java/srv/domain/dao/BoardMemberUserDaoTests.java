@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import srv.domain.user.BoardMemberUser;
 import srv.domain.user.BoardMemberUserDao;
+import srv.domain.user.UserDao;
 
 //needed this annotation to roll back test
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -24,6 +25,9 @@ class BoardMemberUserDaoTests {
 	
 	@Autowired
 	BoardMemberUserDao bmUserDao;
+	
+	@Autowired
+	UserDao uDao;
 	
 	/*
 	 * Testing listAll(), should return 2 current board member users
@@ -280,11 +284,14 @@ class BoardMemberUserDaoTests {
 	}
 	
 	/*
-	 * Tseting delete when the userId is valid (exists in the data table).
+	 * Testing delete when the userId is valid (exists in the data table).
 	 * Should delete the BoardMemberUser.
 	 */
 	@Test
 	void test_delete_whenIdValid() throws Exception {
+		
+		// before the delete verify the user's role is a board member
+		assertEquals("BOARDMEMBER", bmUserDao.fetchBoardMemberUserById(2).getRoll());
 		
 		bmUserDao.delete(2);
 		
@@ -298,6 +305,10 @@ class BoardMemberUserDaoTests {
 		
 		// who has a userId of 4
 		assertEquals(4, allBmUsers.get(0).getUid());
+		
+		// after delete verify the board member that was deleted now has a role of 'user'
+		// need to use the user dao...
+		assertEquals("USER", uDao.fetchUserById(2).getRoll());
 	}
 	
 	/*

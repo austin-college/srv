@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -177,8 +178,27 @@ public class AdminAddEventTest extends SeleniumTest {
 		
 		// leaving the contact untested until implemented
 		
-		link = driver.findElement(By.className("btn-primary"));
-		link.sendKeys(Keys.ENTER);
+		/*
+		 * find and click on event sponsor combo box
+		 */
+		//link = driver.findElement(By.id("serviceClient"));
+		//link.sendKeys(Keys.ENTER);
+		
+		// DEBUG THIS BC SRVCLIENT is not showing up once selected
+		/*
+		 * selects 'For Testing Only' from selector for Event Sponsor
+		 */
+		/*
+		 * Select evSponsor = new Select(driver.findElement(By.id("serviceClient")));
+		 * evSponsor.selectByIndex(3);
+		 * 
+		 * assertEquals("For Testing Only",
+		 * evSponsor.getAllSelectedOptions().get(0).getText().trim());
+		 * 
+		 */
+		 link = driver.findElement(By.className("btn-primary"));
+		 link.sendKeys(Keys.ENTER);
+		 
 
 
 
@@ -196,8 +216,75 @@ public class AdminAddEventTest extends SeleniumTest {
 				
 				//checks the title
 			String currentTitle = driver.findElement(By.xpath("//table/tbody/tr[@id='eid-6']/td[@class='ev_title evView']")).getText();		
-			assertEquals(currentTitle, "testedEvent");
-		//		
+			assertEquals("testedEvent", currentTitle);
+			
+			/*
+			 * click on currentTitle in table so event details dialogue pops up
+			 */
+			
+			JavascriptExecutor jse = (JavascriptExecutor)driver;
+			
+			/*
+			 * find search button on edge of manage events table 
+			 */
+			link = driver.findElement(By.xpath("//td/button[@class='btn btnEvView'][@eid='6']"));
+			
+			// scroll to the button 
+			jse.executeScript("window.scrollBy" + link.getLocation(), "");
+			System.err.println(link.isDisplayed());
+		
+			System.err.println(link.getLocation());
+			
+			/*
+			 * click the button and wait for eventDetails dialog
+			 */
+			link.sendKeys(Keys.ENTER);
+			
+			// assures us that the eventDetails dialogue has popped up
+			// make sure xpath is specific enough (use /label) IF click intercepted exception comes up 
+			WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/h3/label[@for='volunteersNeeded']");
+			
+			/*
+			 * checking location field displays correct data
+			 */
+			
+			WebElement location = driver.findElement(By.xpath("//div/div/input[@id='location']"));
+			System.err.println(location.getText());
+			System.err.println(location.getAttribute("placeholder"));
+			assertEquals("testedLocation", location.getAttribute("placeholder"));
+			
+			location = driver.findElement(By.xpath("//div/div/input[@id='sponsor']"));
+			assertEquals("(fws) First We Serve", location.getAttribute("placeholder"));
+			
+			location = driver.findElement(By.xpath("//div/div/input[@id='volunteersNeeded']"));
+			assertEquals("5", location.getAttribute("placeholder"));
+			
+			location = driver.findElement(By.xpath("//div/div/input[@id='hrsNeeded']"));
+			assertEquals("8", location.getAttribute("placeholder"));
+			
+			location = driver.findElement(By.xpath("//div/div/input[@id='rsvpHrs']"));
+			assertEquals("4", location.getAttribute("placeholder"));
+			
+			//location = driver.findElement(By.xpath("//div/div/input[@id='srvClient']"));
+			//assertEquals("For Testing Only", location.getAttribute("placeholder"));
+			
+			/*
+			 * click on close out button 
+			 */
+			
+			link = driver.findElement(By.xpath("//div/div/div/button[@class='cancBtnClass'][@id='cancel']"));
+			//jse.executeScript("window.scrollBy" + link.getLocation(),"");
+			link.click();
+			System.err.println(link.getLocation());
+			
+			
+			
+	//		WaitForDialogToCloseByXpath(driver, MAX_DIALOG_WAIT_SECONDS,"//div/div/button[@class='ui-widget-overlay ui-front']");
+			
+			logout();
+			
+			
+			
 
 	}
 

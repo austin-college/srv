@@ -187,7 +187,7 @@ public class ServiceHoursService {
 	 * 
 	 * @throws Exception
 	 */
-	public ServiceHours createServiceHour(Integer scid, Integer eid, Double hours, String reflection, String description) throws Exception {
+	public ServiceHours createServiceHour(Integer scid, Integer eid, Double hours, String reflection, String description, String contactName, String contactContact) throws Exception {
 		
 		if(eid <= 0) {
 			
@@ -210,7 +210,7 @@ public class ServiceHoursService {
 		/*
 		 * Create a service hour.
 		 */
-		ServiceHours sh = sHoursDao.create(scid, servant.getUid(), eid, hours, "Pending", reflection, description);	
+		ServiceHours sh = sHoursDao.create(scid, servant.getUid(), eid, hours, "Pending", reflection, description, contactName, contactContact);	
 		
 		log.debug("back with new service hour {}", sh.getShid());
 		
@@ -228,7 +228,7 @@ public class ServiceHoursService {
 	 * @return
 	 * @throws Exception
 	 */
-	public void updateHour(Integer shid, Integer scid, Integer eid, Double hrsSrved, String reflection, String descr)  throws Exception {
+	public void updateHour(Integer shid, Integer scid, Integer eid, Double hrsSrved, String reflection, String descr, String contactName, String contactContact)  throws Exception {
 		
 		if(shid == null) {
 			
@@ -245,7 +245,9 @@ public class ServiceHoursService {
 				hrsSrved,
 				ServiceHours.STATUS_PENDING,
 				reflection,
-				descr);
+				descr,
+				contactName,
+				contactContact);
 				
 		
 	}

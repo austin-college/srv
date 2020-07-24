@@ -166,6 +166,17 @@ public class JdbcTemplateServantUserDao extends JdbcTemplateAbstractDao implemen
 		
 	}
 	
+	/*
+	 * Returns a a list of servant users that are not board members either
+	 */
+	@Override
+	public List<ServantUser> nonBmUsers() {
+		
+		List<ServantUser> currentSrvUsers = getJdbcTemplate().query("SELECT * FROM servantUsers WHERE userId NOT IN (SELECT userId FROM boardMemberUsers)", new ServantUserRowMapper());
+
+		return currentSrvUsers;
+		
+	}
 	/**
 	 * Helper method used to set or nullify the blanks in a prepared statement. You must refer to the
 	 * SQL schema to ensure we are using the right types when nullifying.

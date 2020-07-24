@@ -18,7 +18,7 @@ import srv.domain.spotlight.JdbcTemplateSpotLightDao;
 
 import srv.domain.user.JdbcTemplateServantUserDao;
 import srv.domain.user.JdbcTemplateUserDao;
-import srv.services.BoardMemberHoursListService;
+import srv.services.BoardMemberService;
 import srv.services.ServiceHoursService;
 import srv.utils.SemesterUtil;
 

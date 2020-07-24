@@ -379,7 +379,7 @@ public class EventTypeControllerTest {
 
 		.andExpect(status().is4xxClientError());
 
-		;
+		
 
 		// verify that the dao got tickled appropriately
 		Mockito.verify(mockEtDao).create(Mockito.anyString(),

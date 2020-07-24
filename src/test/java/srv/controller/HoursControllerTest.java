@@ -264,6 +264,8 @@ public class HoursControllerTest {
 		double hrs = 6.5;
 		String reflection = "Had a fun time";
 		String descr = "Worked with seniors";
+		String contactName = "Bruce Lee";
+		String contactContact = "bruceLee@gmail.com";
 	
 		// change the values of our current service hour
 		sh1.setEvent(e2)
@@ -271,10 +273,12 @@ public class HoursControllerTest {
 			.setHours(hrs)
 			.setReflection(reflection)
 			.setServedPet(sc2)
+			.setContactContact(contactContact)
+			.setContactName(contactName)
 			;
 		
 		// mock dependencies
-		Mockito.doNothing().when(hrSvc).updateHour(shid, scid, eid, hrs, reflection, descr);
+		Mockito.doNothing().when(hrSvc).updateHour(shid, scid, eid, hrs, reflection, descr, contactName, contactContact);
 		Mockito.when(hrSvc.serviceHourById(shid)).thenReturn(sh1);
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(false);
 		Mockito.when(mockUserUtil.userIsBoardMember()).thenReturn(false);
@@ -287,6 +291,8 @@ public class HoursControllerTest {
 				.param("eid", String.valueOf(eid))
 				.param("hrSrved", String.valueOf(hrs))
 				.param("reflect", reflection)
+				.param("contactName", contactName)
+				.param("contactContact", contactContact)
 				.param("descr", descr)
 				
 				.contentType(MediaType.TEXT_HTML))
@@ -304,7 +310,7 @@ public class HoursControllerTest {
 
 		;
 	
-		Mockito.verify(hrSvc).updateHour(shid, scid, eid, hrs, reflection, descr);
+		Mockito.verify(hrSvc).updateHour(shid, scid, eid, hrs, reflection, descr, contactName, contactContact);
 		Mockito.verify(hrSvc).serviceHourById(shid);
 		
 	}
@@ -370,6 +376,8 @@ public class HoursControllerTest {
 		double hrs = 3.5;
 		String reflect = "great day for service";
 		String descrip = "love the community";
+		String contactName = "Jackie Chan";
+		String contactContact = "111-222-3333";
 		
 		// create dummy new service hour
 		ServiceHours shr = new ServiceHours();
@@ -380,10 +388,13 @@ public class HoursControllerTest {
 			.setShid(1)
 			.setEvent(e1)
 			.setServedPet(sc1)
-			.setStatus("Pending");
+			.setStatus("Pending")
+			.setContactName(contactName)
+			.setContactContact(contactContact)
+			;
 		
 		// mock dependencies
-		Mockito.when(hrSvc.createServiceHour(scid, eid, hrs, reflect, descrip)).thenReturn(shr);
+		Mockito.when(hrSvc.createServiceHour(scid, eid, hrs, reflect, descrip, contactName, contactContact)).thenReturn(shr);
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(false);
 		Mockito.when(mockUserUtil.userIsBoardMember()).thenReturn(false);
 
@@ -394,7 +405,9 @@ public class HoursControllerTest {
 				.param("descr", descrip)
 				.param("eid", String.valueOf(eid))
 				.param("scid", String.valueOf(scid))
-
+				.param("contactName", contactName)
+				.param("contactContact", contactContact)
+				
 				.contentType(MediaType.TEXT_HTML))
 
 		.andExpect(status().isOk())
@@ -427,7 +440,7 @@ public class HoursControllerTest {
 				"//tr[@id='row1']/td[@class='hrActions']/div[@class='dropdown']//a[contains(@class, 'btnHrView')]"))
 				.exists());
 
-		Mockito.verify(hrSvc).createServiceHour(scid, eid, hrs, reflect, descrip);
+		Mockito.verify(hrSvc).createServiceHour(scid, eid, hrs, reflect, descrip, contactName, contactContact);
 
 	}
 
