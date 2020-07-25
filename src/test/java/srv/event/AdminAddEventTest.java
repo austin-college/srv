@@ -247,7 +247,7 @@ public class AdminAddEventTest extends SeleniumTest {
 			
 			// assures us that the eventDetails dialogue has popped up
 			// make sure xpath is specific enough (use /label) IF click intercepted exception comes up 
-			WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//div/h3/label[@for='volunteersNeeded']");
+			WaitForDialogByXpath(driver, MAX_DIALOG_WAIT_SECONDS, "//form[@id='evDetails']");
 			
 			/*
 			 * checking location field displays correct data
@@ -255,20 +255,20 @@ public class AdminAddEventTest extends SeleniumTest {
 			
 			WebElement location = driver.findElement(By.xpath("//div/div/input[@id='location']"));
 			System.err.println(location.getText());
-			System.err.println(location.getAttribute("placeholder"));
-			assertEquals("testedLocation", location.getAttribute("placeholder"));
+			System.err.println(location.getAttribute("value"));
+			assertEquals("testedLocation", location.getAttribute("value"));
 			
 			location = driver.findElement(By.xpath("//div/div/input[@id='sponsor']"));
-			assertEquals("(fws) First We Serve", location.getAttribute("placeholder"));
+			assertEquals("(fws) First We Serve", location.getAttribute("value"));
 			
 			location = driver.findElement(By.xpath("//div/div/input[@id='volunteersNeeded']"));
-			assertEquals("5", location.getAttribute("placeholder"));
+			assertEquals("5", location.getAttribute("value"));
 			
 			location = driver.findElement(By.xpath("//div/div/input[@id='hrsNeeded']"));
-			assertEquals("8", location.getAttribute("placeholder"));
+			assertEquals("8", location.getAttribute("value"));
 			
 			location = driver.findElement(By.xpath("//div/div/input[@id='rsvpHrs']"));
-			assertEquals("4", location.getAttribute("placeholder"));
+			assertEquals("4", location.getAttribute("value"));
 			
 			//location = driver.findElement(By.xpath("//div/div/input[@id='srvClient']"));
 			//assertEquals("For Testing Only", location.getAttribute("placeholder"));

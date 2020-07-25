@@ -6,88 +6,101 @@
 	</div>
 <#else>
 <!-- Contains the contents of an event -->
-<form id="evDetails">
-	<p hidden="hidden" id="evId" eid="${eid!'UNKNOWN ID'}"></p>
-	<div class="form-group">
-		<h1>
-			<label for="evName">${evName!"UNKNOWN EVENT NAME"}</label>
-		</h1>
-	</div>
+
+<form id="evDetails" class="form">
+	<p id="evId" eid="${eid?c!'UNKNOWN ID'}" style="display:none"></p>
+	
 	<div class="row">
-		<div class="col-sm">
-			<div class="form-group">
-				<h3>
-					<label for="evDescription">Description:</label>
-				</h3>
-				<textarea id="evDescription" rows="3" class="form-control-plaintext" placeholder='${evDescr!"UNKNOWN EVENT DESCRIPTION"}' readonly="readonly"></textarea>
+		<div class="col-9 mb-2">
+		
+			<div class="input-group mt-2 mb-2">
+			   <div class="input-group-prepend">
+      			<span class="input-group-text">Name:</span>
+			    </div>
+				<input id="evName" type="text" class="form-control" value='${event.title!"UNKNOWN EVENT NAME"}' readonly="readonly"/>
 			</div>
-			<div class="form-group row">
-				<h3>
-					<label for="volunteersNeeded" class="col-form-label">Volunteers Needed:</label>
-				</h3>
-				<div class="col-sm">
-					<input id="volunteersNeeded" type="text" class="form-control-plaintext" placeholder='${volunteersNeeded!"0"}' readonly="readonly"/>
-				</div>
+		
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+      			<span class="input-group-text">At:</span>
+			    </div>
+				<input id="location" type="text" class="form-control" value='${location!"UNKNOWN ADDRESS"}' readonly="readonly"/>
 			</div>
-			<div class="form-group row">
-				<h3>
-					<label for="hrsNeeded" class="col-form-label">Hours Needed:</label>
-				</h3>
-				<div class="col-sm">
-					<input id="hrsNeeded" type="text" class="form-control-plaintext" placeholder='${hrsNeeded!"0"}' readonly="readonly"/>
-				</div>
+			
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+      			<span class="input-group-text">When:</span>
+			    </div>
+				<input id="date" type="text" class="form-control" value='${date?string["MMM d, yyyy h:mm a"]}' readonly="readonly"/>
 			</div>
-			<div class="form-group row">
-				<h3>
-					<label for="rsvpHrs" class="col-form-label">RSVPed Hours:</label>
-				</h3>
-				<div class="col-sm">
-					<input id="rsvpHrs" type="text" class="form-control-plaintext" placeholder='${rsvpHrs!"0"}' readonly="readonly"/>
+			
+			<div class="input-group mb-2">
+				<textarea id="evDescription" rows="3" class="form-control" placeholder='${evDescr!"UNKNOWN EVENT DESCRIPTION"}' readonly="readonly"></textarea>
+			</div>
+			
+			</div>
+			
+			<div class="col-3 border rounded mb-2">
+			
+				<div class="form-row border rounded mt-2" style="padding: 5px;">
+				<h6 class="mb-2">Need:</h6>
+				<div class="input-group mb-2">
+					<input id="volunteersNeeded" type="text" class="form-control col-3" value='${volunteersNeeded!"0"}' readonly="readonly"/>
+				    <div class="input-group-append">
+				      <span class="input-group-text">volunteers</span>
+				    </div>					
 				</div>
+				
+				<div class="input-group mb-2">
+					<input id="hrsNeeded" type="text" class="form-control col-3" value='${hrsNeeded!"0"}' readonly="readonly"/>
+				    <div class="input-group-append">
+				      <span class="input-group-text">hours</span>
+				    </div>
+				</div>
+				</div>
+				
+				<div class="form-row border rounded mt-2"  style="padding: 5px;">
+				<h6 class="mb-2">Commitment:</h6>
+				<div class="input-group mb-2">
+					<input id="rsvpHrs" type="text" class="form-control col-3" value='${rsvpHrs!"0"}' readonly="readonly"/>
+				    <div class="input-group-append">
+				      <span class="input-group-text">hours</span>
+				    </div>
+				</div>
+				</div>
+
 			</div>
 		</div>
-		<div class="col-sm">
-			<div class="form-group row">
-				<h3>
-					<label for="location" class="col-form-label">Location:</label>
-				</h3>
-				<div class="col-sm">
-					<input id="location" type="text" class="form-control-plaintext" placeholder='${location!"UNKNOWN ADDRESS"}' readonly="readonly"/>
-				</div>
+			
+	   <div class="form-row mb-2">
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+    						<span class="input-group-text">Event Type:</span>
+	    		</div>
+				<input id="sponsor" type="text" class="form-control" value='(${sponsorName!"UNKNOWN"}) ${sponsorDescr!"EVENT TYPE"}' readonly="readonly"/>
 			</div>
-			<div class="form-group row">
-				<h3>
-					<label for="date" class="col-form-label">Date:</label>
-				</h3>
-				<div class="col-sm">
-					<input id="date" type="text" class="form-control-plaintext" placeholder='${date?string["MMM d, yyyy h:mm a"]}' readonly="readonly"/>
-				</div>
-			</div>
-			<div class="form-group row">
-				<h3>
-					<label for="sponsor" class="col-form-label">Event Sponsor:</label>
-				</h3>
-				<div class="col-sm">
-					<input id="sponsor" type="text" class="form-control-plaintext" placeholder='(${sponsorName!"UNKNOWN"}) ${sponsorDescr!"EVENT SPONSOR"}' readonly="readonly"/>
-				</div>
-			</div>
-			<div class="form-group row">
-				<h3>
-					<label for="srvClient" class="col-form-label">Service Client:</label>
-				</h3>
-				<div class="col-sm">
-					<input id="srvClient" type="text" class="form-control-plaintext" placeholder='${srvClient!"UNKNOWN SERVICE CLIENT"}' readonly="readonly"/>
-				</div>
-			</div>
-		    <div class="border bg-light" style="padding: 10px; font-size: x-small; margin-top:2em;">
-			  	 <h3>Contact</h3>
-		  	 
-		  		<@ct.view_sm contact />
-		  	</div>
 		</div>
-	</div>
+					
+		<div class="form-row mb-2">	
+			<div class="input-group">
+				<div class="input-group-prepend">
+    						<span class="input-group-text">Sponsor:</span>
+	    		</div>
+				<input id="srvClient" type="text" class="form-control" value='${srvClient!"UNKNOWN SERVICE CLIENT"}' readonly="readonly"/>
+			</div>
+		</div>
+			
+		<div class="form-row mb-2">
+			<label for="srvClient" class="control-label lm-2" style="width: 8em; padding-left: 1em;">Contact:</label>
+			<div class="border bg-light col-8 bm-2 " style="padding: 10px; font-size: small;">
+	  		<@ct.view_sm contact />
+	  		</div>
+		</div>
+
+
+
 	<#if !userAdmin>
-	<div class="row" style="padding-bottom:50px;">
+	<div class="form-row" style="padding-bottom:50px;">
 		<div class="col-sm-2" style="padding-top:10px">
 			<button id="backBtn" type="button" class="btn edit" onclick="goBack()"><span class="fas fa-arrow-left"></span>Back</button>
 		</div>

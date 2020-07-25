@@ -207,6 +207,10 @@ public class EventController {
 			// fetch the event
 			Event theEvent = eventService.eventById(id.intValue());
 			
+			log.debug(theEvent.toString());
+			
+			mav.addObject("event", theEvent);
+			
 			mav.addObject("contact", theEvent.getContact());
 			mav.addObject("eid", theEvent.getEid());
 			mav.addObject("userAdmin", userUtil.userIsAdmin());
@@ -217,8 +221,8 @@ public class EventController {
 			mav.addObject("rsvpHrs", theEvent.getRsvpVolunteerHours());
 			mav.addObject("location", theEvent.getAddress());
 			mav.addObject("date", theEvent.getDate());
-			mav.addObject("sponsorName", theEvent.getType().getName());
-			mav.addObject("sponsorDescr", theEvent.getType().getDescription());
+			mav.addObject("evType", theEvent.getType().getName());
+			mav.addObject("evTypeName", theEvent.getType().getDescription());
 			mav.addObject("srvClient", theEvent.getServiceClient().getName());
 			mav.addObject("name", theEvent.getContact().fullName());
 			mav.addObject("mainPhoneNum", theEvent.getContact().getPrimaryPhone());
@@ -523,6 +527,8 @@ public class EventController {
 		try {
 			// fetch the event
 			Event theEvent = eventService.eventById(id.intValue());
+			
+			mav.addObject("event", theEvent);
 			
 			mav.addObject("contact", theEvent.getContact());
 			mav.addObject("eid", theEvent.getEid());
