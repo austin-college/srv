@@ -194,7 +194,10 @@ public class EventService {
 	 * @return
 	 */
 	public Event updateEvent(Event ev) throws Exception {
-		return this.updateEvent(ev, ev.getContact()==null?null:ev.getContact().getContactId());
+		return this.updateEvent(ev, 
+				ev.getContact()==null?null:ev.getContact().getContactId(),
+						ev.getServiceClient()==null?null:ev.getServiceClient().getScid()
+						);
 	}
 	
 	/**
@@ -203,7 +206,7 @@ public class EventService {
 	 * form can be used as long as the contact exists in our db.  Here we are not going to check
 	 * for existence.
 	 */
-	public Event updateEvent(Event ev, Integer ctId) throws Exception {
+	public Event updateEvent(Event ev, Integer ctId, Integer scId) throws Exception {
 		
 		if (ev == null) return null; // do nothing / return nothing
 		
@@ -223,7 +226,9 @@ public class EventService {
 					ev.getType().getEtid(),
 					ev.isContinuous(),
 					ev.getVolunteersNeeded(), 
-					null,
+					
+					scId,
+					
 					ev.getNeededVolunteerHours(), 
 					ev.getRsvpVolunteerHours(),
 					ev.getNote()

@@ -102,7 +102,7 @@
 
   <div class="form-group">
  	<label for="serviceClient">Event Sponsor:</label><br/>
-	<select id="serviceClient" class="form-control" >
+	<select id="evServiceClient" name="evServiceClient" class="form-control" >
 		<#list svcClients as sc>
 			<#if event.type.defClient.scid == sc.scid >
 				<option value="${sc.scid}" selected ="selected">${sc.name} </option>

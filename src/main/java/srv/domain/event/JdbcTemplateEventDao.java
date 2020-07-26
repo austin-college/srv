@@ -68,15 +68,22 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * if the new event is a duplicate. 
 	 */
 	@Override
-	public Event create(String title, String addr, Integer cid, Date date, Integer eventTypeId, 
-			Boolean continuous, Integer volunteersNeeded, 
-			Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours,
+	public Event create(String title, 
+			String addr, 
+			Integer cid,
+			Date date, 
+			Integer eventTypeId, 
+			Boolean continuous, 
+			Integer volunteersNeeded, 
+			Integer scid, 
+			Double neededVolunteerHours, 
+			Double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
 
 		assert(eventTypeId != null);
 		
 		// SQL statement that is to be executed
-		final String sql = "insert into events (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String sql = "insert into events (title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -84,8 +91,19 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "eventId" });
 			
-			fillInTheBlanks(title, addr, cid, date, eventTypeId, continuous, volunteersNeeded, organizationId,
-					neededVolunteerHours, rsvpVolunteerHours, freeTextField, ps);
+			
+			fillInTheBlanks(title, 
+					addr, 
+					cid, 
+					date, 
+					eventTypeId, 
+					continuous, 
+					volunteersNeeded, 
+					scid,
+					neededVolunteerHours, 
+					rsvpVolunteerHours, 
+					freeTextField, 
+					ps);
 			
 			return ps;
 		}, keyHolder);
@@ -110,7 +128,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 * the SQL CREATE statement.   
 	 */
 	private void fillInTheBlanks(String title, String addr, Integer cid, Date date, Integer eventTypeId,
-			Boolean continuous, Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours,
+			Boolean continuous, Integer volunteersNeeded, Integer scid, Double neededVolunteerHours,
 			Double rsvpVolunteerHours, String freeTextField, PreparedStatement ps) throws SQLException {
 		
 		if (title == null) 
@@ -128,8 +146,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		else
 			ps.setInt(3, cid.intValue());
 		
+		
+		
 		if (date == null)
-			ps.setNull(4, java.sql.Types.TIMESTAMP);
+			ps.setNull(5, java.sql.Types.TIMESTAMP);
 		else {
 			Timestamp ts=new Timestamp(date.getTime());  // convert java.util.Date to a timestamp
 			ps.setTimestamp(4,  ts);
@@ -150,10 +170,10 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		else
 			ps.setInt(7, volunteersNeeded);
 		
-		if (organizationId == null)
+		if (scid == null)
 			ps.setNull(8, java.sql.Types.INTEGER);
 		else
-			ps.setInt(8, organizationId);
+			ps.setInt(8, scid);
 		
 		if (neededVolunteerHours == null)
 			ps.setNull(9, java.sql.Types.INTEGER);
@@ -195,12 +215,20 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 	 */
 	@Override
 	public void update(int eid, String title, 
-			String addr, Integer cid, Date date, Integer eventTypeId, Boolean continuous,
-			Integer volunteersNeeded, Integer organizationId, Double neededVolunteerHours, Double rsvpVolunteerHours,
+			String addr, 
+			Integer cid,
+
+			Date date, Integer eventTypeId, Boolean continuous,
+			Integer volunteersNeeded, 
+			Integer scid,
+			
+			Double neededVolunteerHours, 
+			Double rsvpVolunteerHours,
 			String freeTextField) throws Exception {
 		
 		// SQL statement that is to be executed
-		final String sql = "update events set title = ?, address = ?, contactId = ?, dateOf = ?, eventTypeId = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ?, neededVolunteerHours = ?, rsvpVolunteerHours = ?, note = ? where eventId = ?";
+		final String sql = "update events "
+				+ "set title = ?, address = ?, contactId = ?, dateOf = ?, eventTypeId = ?, continuous = ?, volunteersNeeded = ?, serviceClientId = ?, neededVolunteerHours = ?, rsvpVolunteerHours = ?, note = ? where eventId = ?";
 
 
 		final KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -209,7 +237,7 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		getJdbcTemplate().update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(sql, new String[] { "eventId" });
 			
-			this.fillInTheBlanks(title, addr, cid, date, eventTypeId, continuous, volunteersNeeded, organizationId, neededVolunteerHours, rsvpVolunteerHours, freeTextField, ps);
+			this.fillInTheBlanks(title, addr, cid, date, eventTypeId, continuous, volunteersNeeded, scid, neededVolunteerHours, rsvpVolunteerHours, freeTextField, ps);
 			
 			ps.setInt(12, eid);
 			return ps;

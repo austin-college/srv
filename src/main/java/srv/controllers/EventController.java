@@ -368,10 +368,12 @@ public class EventController {
 			
 			
 			Integer ctId = requiredIntegerParam(request.getParameter("evContactId"), "Contact is missing.");
-
+			
+			Integer scId = requiredIntegerParam(request.getParameter("evServiceClient"), "Sponsor is missing.");
+			log.debug("service client:"+scId);
 
 			// update the finalized event
-			theEvent = eventService.updateEvent(theEvent, ctId);
+			theEvent = eventService.updateEvent(theEvent, ctId, scId);
 			
 			
 			// everything is fine.... back to the event management base page
