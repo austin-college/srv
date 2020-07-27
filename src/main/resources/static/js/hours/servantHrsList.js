@@ -1019,7 +1019,7 @@ $(document).ready(function() {
 			{
 				text: "Update", 
 				"id": "updateBtnDlg",
-				"class": 'updateBtn',
+				"class": 'btn updateBtn',
 				click: function() {		
 
 					console.log("submit edit dialog");
@@ -1085,7 +1085,7 @@ $(document).ready(function() {
 			{
 				text: "Submit", 
 				"id": "btnSubmitFeedBackDlg",
-				"class": 'submitBtn',
+				"class": 'btn submitBtn',
 				click: function() {		
 
 					console.log("submit add dialog");
@@ -1139,7 +1139,7 @@ $(document).ready(function() {
 			{
 				text: "Submit", 
 				"id": "btnEvSelDlgSubmit",
-				"class": 'submitBtn', //TODO WHY DOES IT MAKE IT SMALL UGH
+				"class": 'btn submitBtn',
 				click: function() {		
 					console.log("submit on select dialog");
 					
