@@ -87,6 +87,25 @@ th {
 	color: white;
 	text-align: center;
 }
+
+/* Style settings for the submit buttons
+
+This code currently makes the buttons using it smaller, and I
+can't figure out why, - Will ask in a scrum to fix it.
+If someone sees this that means its still broken, you can see the
+issue on the add dialog for this page
+*/
+.submitBtn{
+	background-color: #db9401;
+	color: white;
+}
+/* Style settings for the updateBtn*/
+.updateBtn{
+background-color: #db9401;
+	color: white;	
+}
+
+
 /* Style settings for the delete buttons.*/
 .del{
 	background-color: #a41e34;
