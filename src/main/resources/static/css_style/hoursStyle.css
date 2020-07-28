@@ -87,6 +87,22 @@ th {
 	color: white;
 	text-align: center;
 }
+
+/* Style settings for the submit buttons */
+
+.submitBtn{
+	background-color: #db9401;
+	color: white;
+}
+
+/* Style settings for the updateBtn*/
+
+.updateBtn{
+background-color: #db9401;
+	color: white;	
+}
+
+
 /* Style settings for the delete buttons.*/
 .del{
 	background-color: #a41e34;
