@@ -128,7 +128,6 @@ public class ServiceClientControllerTest {
 				.setName("Habitat for Humanity")
 				.setCategory("Community")
 				.setMainContact(con1)
-				.setOtherContact(con2)
 				.setCurrentBoardMember(bm1)
 				;
 
@@ -137,7 +136,6 @@ public class ServiceClientControllerTest {
 				.setName("Meals on Wheels")
 				.setCategory("Seniors")
 				.setMainContact(con2)
-				.setOtherContact(con1)
 				.setCurrentBoardMember(bm2)
 				;		
 
@@ -225,8 +223,6 @@ public class ServiceClientControllerTest {
 		// and with a main contact with id 1
 		.andExpect(jsonPath("$.mainContact.contactId", is(1)))
 
-		// and with an other contact with id 2
-		.andExpect(jsonPath("$.otherContact.contactId", is(2)))
 		;
 
 		// verify the dao got involved
@@ -255,12 +251,11 @@ public class ServiceClientControllerTest {
 		sc1.setName(name)
 		.setCategory(category)
 		.setMainContact(con2)
-		.setOtherContact(con1)
 		.setCurrentBoardMember(bm2)
 		;
 
 		// mock dependencies
-		Mockito.doNothing().when(mockSrvClientDao).update(1, name, cid1, cid2, bmId, category);
+		Mockito.doNothing().when(mockSrvClientDao).update(1, name, cid1, bmId, category);
 		Mockito.when(mockSrvClientDao.fetchClientById(1)).thenReturn(sc1);
 
 		// now perform the test and pretend that jquery sends in the parameters to update
@@ -292,7 +287,7 @@ public class ServiceClientControllerTest {
 		;
 
 		// verify the dao got involved
-		Mockito.verify(mockSrvClientDao).update(1, name, cid1, cid2, bmId, category);
+		Mockito.verify(mockSrvClientDao).update(1, name, cid1, bmId, category);
 		Mockito.verify(mockSrvClientDao).fetchClientById(1);
 	}
 	
@@ -346,12 +341,11 @@ public class ServiceClientControllerTest {
 				.setClientId(scid3)
 				.setCategory(category)
 				.setMainContact(con1)
-				.setOtherContact(con2)
 				.setCurrentBoardMember(bm1);
 
 		// when the controller asks the dao to create a service client in the database, we fake it and use our
 		// dummy service client above (sc3)
-		Mockito.when(mockSrvClientDao.create(name, cid1, cid2, bmId, category)).thenReturn(sc3);
+		Mockito.when(mockSrvClientDao.create(name, cid1, bmId, category)).thenReturn(sc3);
 
 		// now perform the test and pretend that jquery sends in the parameters to create 
 		// the service client
@@ -380,7 +374,7 @@ public class ServiceClientControllerTest {
 		;
 		
 		// verify that the dao got involved
-		Mockito.verify(mockSrvClientDao).create(name, cid1, cid2, bmId, category);
+		Mockito.verify(mockSrvClientDao).create(name, cid1, bmId, category);
 	}
 	
 	/**
@@ -397,7 +391,6 @@ public class ServiceClientControllerTest {
 				Mockito.anyString(),
 				Mockito.anyInt(), 
 				Mockito.anyInt(), 
-				Mockito.anyInt(), 
 				Mockito.anyString());
 		
 		// ready to test....
@@ -405,7 +398,6 @@ public class ServiceClientControllerTest {
 				.param("name", "")
 				.param("cat", "")
 				.param("cid1", String.valueOf(-1))
-				.param("cid2", String.valueOf(1))
 				.param("bmId", String.valueOf(1))
 
 				.contentType(MediaType.TEXT_HTML))
@@ -416,7 +408,6 @@ public class ServiceClientControllerTest {
 		// verify that the dao got tickled appropriately
 		Mockito.verify(mockSrvClientDao).create(
 				Mockito.anyString(),
-				Mockito.anyInt(), 
 				Mockito.anyInt(), 
 				Mockito.anyInt(), 
 				Mockito.anyString());
@@ -437,7 +428,6 @@ public class ServiceClientControllerTest {
 				Mockito.anyString(),
 				Mockito.anyInt(), 
 				Mockito.anyInt(), 
-				Mockito.anyInt(), 
 				Mockito.anyString());
 		
 		// ready to test....
@@ -445,7 +435,6 @@ public class ServiceClientControllerTest {
 				.param("name", "")
 				.param("cat", "")
 				.param("cid1", String.valueOf(-1))
-				.param("cid2", String.valueOf(1))
 				.param("bmId", String.valueOf(1))
 				.param("scid", String.valueOf(1))
 
@@ -459,7 +448,6 @@ public class ServiceClientControllerTest {
 		Mockito.verify(mockSrvClientDao).update(
 				Mockito.anyInt(),
 				Mockito.anyString(),
-				Mockito.anyInt(), 
 				Mockito.anyInt(), 
 				Mockito.anyInt(), 
 				Mockito.anyString());
@@ -610,10 +598,6 @@ public class ServiceClientControllerTest {
 				.setPrimaryPhone("803-423-1257").setSecondaryPhone("800-232-1211").setStreet("118 NW Crawford Street")
 				.setCity("Sherman").setState("TX").setZipcode("75090");
 		
-		// Other/secondary contact for service client 1
-		Contact other1 = new Contact().setContactId(3).setFirstName("Joe").setLastName("Smith").setEmail("jsmith12@gmail.com")
-				.setPrimaryPhone("903-444-4440").setSecondaryPhone("401-322-1201").setStreet("25 Frieda Drive")
-				.setCity("Gunter").setState("TX").setZipcode("75058");
 		
 		// Contact information for current board member for service client 1
 		Contact bmContact1 = new Contact().setContactId(5).setFirstName("Hunter").setLastName("Couturier").setEmail("hCouturier@gmail.com")
@@ -628,10 +612,6 @@ public class ServiceClientControllerTest {
 				.setPrimaryPhone("803-423-1257").setSecondaryPhone("800-232-1211").setStreet("118 NW Crawford Street")
 				.setCity("Sherman").setState("TX").setZipcode("75090");
 
-		// Other/secondary contact for service client 2
-		Contact other2 = new Contact().setContactId(3).setFirstName("Joe").setLastName("Smith").setEmail("jsmith12@gmail.com")
-				.setPrimaryPhone("903-444-4440").setSecondaryPhone("401-322-1201").setStreet("25 Frieda Drive")
-				.setCity("Gunter").setState("TX").setZipcode("75058");
 
 		// Contact information for current board member for service client 2
 		Contact bmContact2 = new Contact().setContactId(5).setFirstName("Emma").setLastName("Driscoll").setEmail("eDriscoll@gmail.com")
@@ -644,10 +624,10 @@ public class ServiceClientControllerTest {
 				
 		// train the dao to ask for these when asked to listAll reasons.
 		ServiceClient sc1 = new ServiceClient().setClientId(1).setName("Habitat for Humanity")
-				.setMainContact(main1).setOtherContact(other1).setCurrentBoardMember(bm1).setCategory("Community");
+				.setMainContact(main1).setCurrentBoardMember(bm1).setCategory("Community");
 	
 		ServiceClient sc2 = new ServiceClient().setClientId(2).setName("Crisis Center")
-				.setMainContact(main2).setOtherContact(other2).setCurrentBoardMember(bm2).setCategory("Crisis Support");
+				.setMainContact(main2).setCurrentBoardMember(bm2).setCategory("Crisis Support");
 
 		List<ServiceClient> dummyList = new ArrayList<ServiceClient>();
 		dummyList.add(sc1);
@@ -659,9 +639,9 @@ public class ServiceClientControllerTest {
 
 		mvc.perform(get("/test/sc").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(content()
-						.string(containsString("<li id=\"row_1\"> 1, Habitat for Humanity, Lois Lane, Joe Smith, hCouturier, Community</li>")))
+						.string(containsString("<li id=\"row_1\"> 1, Habitat for Humanity, Lois Lane, hCouturier, Community</li>")))
 				.andExpect(content()
-						.string(containsString("<li id=\"row_2\"> 2, Crisis Center, Lois Lane, Joe Smith, eDriscoll, Crisis Support</li>")));
+						.string(containsString("<li id=\"row_2\"> 2, Crisis Center, Lois Lane, eDriscoll, Crisis Support</li>")));
 
 	}
 

@@ -49,14 +49,10 @@ CREATE TABLE serviceClients (
 	serviceClientId INTEGER AUTO_INCREMENT,
 	title VARCHAR(255),
 	primaryContactId INT,
-	secondContactId INT,
 	boardMemId INT,
 	category VARCHAR(255),
 	PRIMARY KEY (serviceClientId),
 	FOREIGN KEY (primaryContactId)
-		REFERENCES contacts(contactId)
-		ON DELETE SET NULL,
-	FOREIGN KEY (secondContactId)
 		REFERENCES contacts(contactId)
 		ON DELETE SET NULL,
 	FOREIGN KEY (boardMemId)
@@ -210,10 +206,10 @@ insert into users (username, contactId) values ('hCouturier', 6);
 insert into users (username, contactId) values ('eDriscoll', 7);
 insert into users (username, contactId) values ('user', 1);
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Austin College Service Station', 1, 4, 1, 'Variety');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Habitat for Humanity', 2, 3, 2, 'Community');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 3, 4, 3, 'Crisis Support');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 4, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('Austin College Service Station', 1, 1, 'Variety');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('Habitat for Humanity', 2, 2, 'Community');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('Crisis Center', 3, 3, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('For Testing Only', 2, 4, 'Crisis Support');
 
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);

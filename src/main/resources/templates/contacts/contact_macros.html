@@ -13,15 +13,16 @@
 </#macro>
 
 
-<#macro view_sm_empty >
+<#macro view_sm_empty  pre="">
 <div id="evContactDiv" class="small">
-	<span id="ct-fname"></span> <span id="ct-lname"></span>
-	<br/><span id="ct-email"></span>
-	<br/><span id="ct-addr"></span>
-	<br/><span id="ct-phone1"></span>
-	<br/><span id="ct-phone2"></span>
+	<span id="ct${pre}-fname"></span> <span id="ct${pre}-lname"></span>
+	<br/><span id="ct${pre}-email"></span>
+	<br/><span id="ct${pre}-addr"></span>
+	<br/><span id="ct${pre}-phone1"></span>
+	<br/><span id="ct${pre}-phone2"></span>
 </div>
 </#macro>
+
 
 <#macro view contact="none" forEdit="false">
 

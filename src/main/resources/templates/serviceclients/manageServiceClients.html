@@ -1,3 +1,4 @@
+<#import "/contacts/contact_macros.html" as ct />
 <#import "/main_layout.html" as layout />
 
 <@layout.stdpage "Sponsor Manager" "listStyle.css" "serviceclients/serviceClients.js">
@@ -122,8 +123,12 @@
 		<#include "/serviceclients/clientDetails.html"/>
 	</div>
 
+</div>
+
 <!-- JavaScript file that will allow us to sort the table columns -->
 <script src="/srv/js/datatables.min.js"></script>
+<script src="/srv/js/contact-mgr.js"></script>
+
 <link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
 
 </@layout.stdpage>

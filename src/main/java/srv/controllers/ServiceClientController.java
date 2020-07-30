@@ -159,7 +159,7 @@ public class ServiceClientController {
 			Integer bmId = ParamUtil.requiredIntegerParam(request.getParameter("bmId"), "board member id is required.");
 
 			// Creates a new service client in the service client database.
-			ServiceClient newClient = srvClientDao.create(name, cid1, cid2, bmId, cat);
+			ServiceClient newClient = srvClientDao.create(name, cid1, bmId, cat);
 
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
@@ -208,11 +208,10 @@ public class ServiceClientController {
 
 			Integer scid = ParamUtil.requiredIntegerParam(request.getParameter("scid"), "Service client id is required.");
 			Integer cid1 = ParamUtil.requiredIntegerParam(request.getParameter("cid1"), "Main contact id is required.");
-			Integer cid2 = ParamUtil.requiredIntegerParam(request.getParameter("cid2"), "Other/secondary contact id is required.");
 			Integer bmId = ParamUtil.requiredIntegerParam(request.getParameter("bmId"), "board member id is required.");
 
 			// Updates the service client in the service client database.
-			srvClientDao.update(scid, name, cid1, cid2, bmId, cat);
+			srvClientDao.update(scid, name, cid1, bmId, cat);
 
 			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
 			ServiceClient updatedClient = srvClientDao.fetchClientById(scid);

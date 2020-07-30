@@ -54,17 +54,6 @@ class ServiceClientDaoTests {
 		assertEquals("TX", sc1.getMainContact().getState());
 		assertEquals("75090", sc1.getMainContact().getZipcode());
 
-		// Testing secondary Contact info
-		assertEquals(4, sc1.getOtherContact().getContactId());
-		assertEquals("Susan", sc1.getOtherContact().getFirstName());
-		assertEquals("Atkins", sc1.getOtherContact().getLastName());
-		assertEquals("satkins67@gmail.com", sc1.getOtherContact().getEmail());
-		assertEquals("803-426-1527", sc1.getOtherContact().getPrimaryPhone());
-		assertEquals("800-191-9412", sc1.getOtherContact().getSecondaryPhone());
-		assertEquals("23 First Street", sc1.getOtherContact().getStreet());
-		assertEquals("Denison", sc1.getOtherContact().getCity());
-		assertEquals("TX", sc1.getOtherContact().getState());
-		assertEquals("75021", sc1.getOtherContact().getZipcode());
 	}
 
 	/*
@@ -105,17 +94,6 @@ class ServiceClientDaoTests {
 		assertEquals("TX", sc1.getMainContact().getState());
 		assertEquals("75090", sc1.getMainContact().getZipcode());
 
-		// Testing secondary Contact info for service client 1
-		assertEquals(4, sc1.getOtherContact().getContactId());
-		assertEquals("Susan", sc1.getOtherContact().getFirstName());
-		assertEquals("Atkins", sc1.getOtherContact().getLastName());
-		assertEquals("satkins67@gmail.com", sc1.getOtherContact().getEmail());
-		assertEquals("803-426-1527", sc1.getOtherContact().getPrimaryPhone());
-		assertEquals("800-191-9412", sc1.getOtherContact().getSecondaryPhone());
-		assertEquals("23 First Street", sc1.getOtherContact().getStreet());
-		assertEquals("Denison", sc1.getOtherContact().getCity());
-		assertEquals("TX", sc1.getOtherContact().getState());
-		assertEquals("75021", sc1.getOtherContact().getZipcode());
 
 		// Service Client info for client id 3
 		assertEquals("Crisis Center", sc3.getName());
@@ -138,17 +116,6 @@ class ServiceClientDaoTests {
 		assertEquals("TX", sc3.getMainContact().getState());
 		assertEquals("75058", sc3.getMainContact().getZipcode());
 		
-		// Testing secondary Contact info for service client id 3
-		assertEquals(4, sc3.getOtherContact().getContactId());
-		assertEquals("Susan", sc3.getOtherContact().getFirstName());
-		assertEquals("Atkins", sc3.getOtherContact().getLastName());
-		assertEquals("satkins67@gmail.com", sc3.getOtherContact().getEmail());
-		assertEquals("803-426-1527", sc3.getOtherContact().getPrimaryPhone());
-		assertEquals("800-191-9412", sc3.getOtherContact().getSecondaryPhone());
-		assertEquals("23 First Street", sc3.getOtherContact().getStreet());
-		assertEquals("Denison", sc3.getOtherContact().getCity());
-		assertEquals("TX", sc3.getOtherContact().getState());
-		assertEquals("75021", sc3.getOtherContact().getZipcode());
 	}
 
 
@@ -169,7 +136,7 @@ class ServiceClientDaoTests {
 		}
 		
 		
-		ServiceClient nsc = dao.create("Meals on Wheels", 2, 1, 1, "Seniors");
+		ServiceClient nsc = dao.create("Meals on Wheels", 2, 1, "Seniors");
 		
 		assertNotNull(nsc);
 		
@@ -216,17 +183,6 @@ class ServiceClientDaoTests {
 		assertEquals("TX", sc5.getMainContact().getState());
 		assertEquals("75090", sc5.getMainContact().getZipcode());
 
-		// Testing secondary Contact info for service client returned from create
-		assertEquals(1, sc5.getOtherContact().getContactId()); 
-		assertEquals("Tom", sc5.getOtherContact().getFirstName()); 
-		assertEquals("Hanks", sc5.getOtherContact().getLastName()); 
-		assertEquals("thanks@gmail.com", sc5.getOtherContact().getEmail()); 
-		assertEquals("903-420-1212", sc5.getOtherContact().getPrimaryPhone()); 
-		assertEquals("400-232-1211", sc5.getOtherContact().getSecondaryPhone()); 
-		assertEquals("626 E Main Street", sc5.getOtherContact().getStreet()); 
-		assertEquals("Sherman", sc5.getOtherContact().getCity()); 
-		assertEquals("TX", sc5.getOtherContact().getState()); 
-		assertEquals("75090", sc5.getOtherContact().getZipcode());
 
 	}
 
@@ -254,7 +210,7 @@ class ServiceClientDaoTests {
 	@Test
 	void testUpdate() throws Exception {
 
-		dao.update(2, "Meals on Wheels", 1, 2, 4, "Seniors");
+		dao.update(2, "Meals on Wheels", 1, 4, "Seniors");
 
 		ServiceClient sc2 = dao.fetchClientById(2);
 
@@ -279,17 +235,6 @@ class ServiceClientDaoTests {
 		assertEquals("TX", sc2.getMainContact().getState());
 		assertEquals("75090", sc2.getMainContact().getZipcode());
 
-		// Testing secondary Contact info for service client id 2
-		assertEquals(2, sc2.getOtherContact().getContactId());
-		assertEquals("Lois", sc2.getOtherContact().getFirstName());
-		assertEquals("Lane", sc2.getOtherContact().getLastName());
-		assertEquals("llane86@gmail.com", sc2.getOtherContact().getEmail());
-		assertEquals("803-423-1257", sc2.getOtherContact().getPrimaryPhone());
-		assertEquals("800-232-1211", sc2.getOtherContact().getSecondaryPhone());
-		assertEquals("118 NW Crawford Street", sc2.getOtherContact().getStreet());
-		assertEquals("Sherman", sc2.getOtherContact().getCity());
-		assertEquals("TX", sc2.getOtherContact().getState());
-		assertEquals("75090", sc2.getOtherContact().getZipcode());
 	}
 
 }
