@@ -108,6 +108,23 @@ public class HomeController {
 
 		ModelAndView mav = new ModelAndView("home/boardMember");
 
+		try {
+			
+			/*
+			 * This block of code retrieves the BM user id if one is existing
+			 * so that it can be used as a freemarker variable in html
+			 */
+			
+			if(srvUserDao.fetchServantUserById(userUtil.currentUser().getUid()) != null) {
+				
+				mav.addObject("uid", srvUserDao.fetchServantUserById(userUtil.currentUser().getUid()));
+			}
+		}	catch (Exception e1) {
+			
+			e1.printStackTrace();
+			
+		}
+		
 		return mav;
 	}
 
