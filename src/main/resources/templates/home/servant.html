@@ -8,49 +8,7 @@
 		<div class="row" style="padding-bottom: 20px">
 			<div class="col-md-5">
 				<img id="profilePic" src="/srv/images/defaultProfilePicture.png" style="width:245px; height: 175px"/>
-			</div>
-
-			<div class="col-md-7">
-				<div class="profile-head">
-					<div class="row">
-						<div class="col">
-							<h5>${name!"UNKOWN NAME"}</h5>
-						</div>	
-						<div class="col">
-							<button id="editProfileBtn" class="btn btn-md edit"  onclick="onEditProfileClick()">
-							<span class="fas fa-pencil-alt"></span> Edit Profile
-							</button>
-						</div>
-						<div class="col">
-							<button id="logHrsBtn" class="btn btn-md edit" onclick="location.href='/srv/hours'">
-							<span class="far fa-clock"></span> Log Service Hours
-							</button>
-						</div>
-					</div>
-				
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item"><a class="nav-link active" id="home-tab"
-							data-toggle="tab" href="#home" role="tab" aria-controls="home"
-							aria-selected="true">My Info</a></li>
-
-					</ul>
-				</div>
-				<div class="row" style="padding-top:20px; padding-left:35px">
-					<div class="col">
-						<h6>Approved&#xA0;&#xA0;<span class="badge badge-success">${approvedHrs!0}</span></h6>
-					</div>
-					<div class="col">
-						<h6>Pending&#xA0;&#xA0;<span class="badge badge-info">${pendingHrs!0}</span></h6>
-					</div>
-					<div class="col">
-						<h6>Rejected&#xA0;&#xA0;<span class="badge badge-danger">${rejectedHrs!0}</span></h6>
-					</div>
-				</div>
-				
-			</div>
-		
-		</div>
-		<div class="row">
+			<div class="row">
 			<div class="col-md-5">
 
 
@@ -79,11 +37,52 @@
 					
 				</div>
 			</div>
+			
+		
+			</div>
+			
+			
+			</div>
+
 			<div class="col-md-7">
-				<div class="tab-content profile-tab" id="myTabContent">
-					<div class="tab-pane fade show active" id="home" role="tabpanel"
-						aria-labelledby="home-tab">
-						<div class="container-tableBackground">
+				<div class="profile-head">
+					<div class="row">
+						<div class="col">
+							<h5>${name!"UNKOWN NAME"}</h5>
+						</div>	
+						<div class="col">
+							<button id="editProfileBtn" class="btn btn-md edit"  onclick="onEditProfileClick()">
+							<span class="fas fa-pencil-alt"></span> Edit Profile
+							</button>
+						</div>
+						<div class="col">
+							<button id="logHrsBtn" class="btn btn-md edit" onclick="location.href='/srv/hours'">
+							<span class="far fa-clock"></span> Log Service Hours
+							</button>
+						</div>
+					</div>
+					
+					
+					
+					
+					
+					
+				<div class="row">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item active"><a class="nav-link active" id="info-tab"
+							data-toggle="tab" href="#info" role="tab" >My Info</a></li>
+							
+							<li class="nav-item"><a class="nav-link" id="reports-tab"
+							data-toggle="tab" href="#menu1" role="tab">Reports</a></li>
+				
+					</ul>
+					
+					 <div class="tab-content">
+    <div id="info" class="tab-pane fade in active">
+      <h3>HOME</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    
+    <div class="container-tableBackground">
 							<!-- container thats creating a table that will hold our data-->
 							<div class="container">
 								<div class="row">
@@ -99,7 +98,20 @@
 								</div>
 							</div>
 						</div>
-						<div></div>
+					
+								<div class="row" style="padding-top:20px; padding-left:35px">
+					<div class="col">
+						<h6>Approved&#xA0;&#xA0;<span class="badge badge-success">${approvedHrs!0}</span></h6>
+					</div>
+					<div class="col">
+						<h6>Pending&#xA0;&#xA0;<span class="badge badge-info">${pendingHrs!0}</span></h6>
+					</div>
+					<div class="col">
+						<h6>Rejected&#xA0;&#xA0;<span class="badge badge-danger">${rejectedHrs!0}</span></h6>
+					</div>
+				</div>
+				
+				
 						<div class="row">
 							<div class="col-md-6">
 								<label><b>UserID:</b></label>
@@ -108,6 +120,7 @@
 								<p>${userid}</p>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="col-md-6">
 								<label><b>Name:</b></label>
@@ -116,6 +129,7 @@
 								<p>${name!"UNKOWN NAME"}</p>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="col-md-6">
 								<label><b>Email:</b></label>
@@ -124,6 +138,7 @@
 								<p>${email!"UNKNOWN EMAIL"}</p>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="col-md-6">
 								<label><b>Primary Phone Number:</b></label>
@@ -132,6 +147,7 @@
 								<p>${primaryPhone!"UNKNOWN PRIMARY PHONE NUMBER"}</p>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="col-md-6">
 								<label><b>Expected Graduation Year:</b></label>
@@ -140,6 +156,7 @@
 								<p>${gradYear?c!"UNKNOWN GRAD YEAR"}</p>
 							</div>
 						</div>
+						
 						<#if affiliation??>
 						<div class="row">
 							<div class="col-md-6">
@@ -150,6 +167,7 @@
 							</div>
 						</div>
 						</#if>
+						
 						<div class="row">
 							<div class="col-md-6">
 								<label><b>Do you have a car?</b></label>
@@ -158,6 +176,7 @@
 								<p>${hasCar?string('Yes', 'No')}</p>
 							</div>
 						</div>
+						
 						<#if hasCar>
 						<div class="row">
 							<div class="col-md-6">
@@ -168,9 +187,36 @@
 							</div>
 						</div>
 						</#if>
+						
 					</div>
+    
+
+    
+    
+    <div id="menu1" class="tab-pane fade">
+      <h3>Menu 1</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  
+   
+  </div>
+					
+					
+					
+					
+					</div>
+
 				</div>
+	
+				
 			</div>
+		
+		</div>
+		
+		
+			
+		
+			
 		</div>
 
 </div>
