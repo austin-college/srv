@@ -486,7 +486,7 @@ function prepopulateViewDialog(selShid) {
  * prepopulates the add dialog given the selected event
  * @returns
  */
-function prepopulateAddDialogue(){
+function prepopulateAddDialogue(otherBtnSelected){
 
 	//step1 which event did they select
 	var eid= $("#newEvId").val();
@@ -506,13 +506,27 @@ function prepopulateAddDialogue(){
 
 		console.log(ev);
 		
-		var weekDayDate = new Date(ev.date).toDateString(); // makes the date with the format Wed Jan 01 2020
-		var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
-		var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
+		// if the 'Other' button was clicked then we don't prepopulate the add dialog and makes the fields not readonly
+		if (otherBtnSelected) {
+			
+			$("#txtEvTitle").prop('readonly', false);
+			$("#evDate").prop('readonly', false);
+			$("#address").prop('readonly', false);
+			$("#zip-code").prop('readonly', false);
+			$("#city").prop('readonly', false);
+			$("#state").prop('readonly', false);
+
+		}	
+		// date format where user can't edit is yyyy-MMM-dd
+		else {
+			var weekDayDate = new Date(ev.date).toDateString(); // makes the date with the format Wed Jan 01 2020
+			var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
+			var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
 	
-		// makes the date with format 2020 Jan 01
-		var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
-		console.log(dateWithFormat_yyyyMMMdd);
+			// makes the date with format 2020 Jan 01
+			var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
+			console.log(dateWithFormat_yyyyMMMdd);
+		}
 		
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-contact").val(ev.contact.primaryPhone + " " + ev.contact.email);
@@ -523,7 +537,7 @@ function prepopulateAddDialogue(){
 		$("#zip-code").val(ev.contact.zipcode);
 		$("#city").val(ev.contact.city);
 		$("#state").val(ev.contact.state);
-		$("#evSrvClient").val(ev.serviceClient.name).change();
+		$("#evSrvClient").val(ev.serviceClient.name);//.change();
 		$("#scId").val(ev.serviceClient.scid);
 		$("#newEvId").val(eid);
 
@@ -552,7 +566,7 @@ function prepopulateAddDialogue(){
  * 
  */					
 function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription, hrContactName, hrContactContact) {
-
+	
 	// get the forms values as strings
 	var hrScidStr = $(hrScid).val();
 	var hrEidStr = $(hrEid).val();
@@ -561,7 +575,7 @@ function addServiceHr(hrScid, hrEid, hrServed, hrReflection, hrDescription, hrCo
 	var hrDescriptionStr = $(hrDescription).val();
 	var hrContactNameStr = $(hrContactName).val();
 	var hrContactContactStr = $(hrContactContact).val();
-
+	
 	// peek at values to verify
 	console.log("scid: " + hrScidStr + " eid: " + hrEidStr + " served: " + hrServedStr + " " +
 			"ref: " + hrReflectionStr + " descr: " + hrDescriptionStr + " contact name: " + hrContactNameStr + " contact contact: " + hrContactContactStr);
@@ -889,6 +903,40 @@ function onFeedbackSubmit(newStatus, feedbackMsg, shid) {
 }		
 
 
+/**
+ * When a user clicks on 'Other' button in the add hours dialog, this will
+ * make an ajax call so that we can add a new event that is an other/ad hoc
+ * type so we can use that new event's id
+ */
+function ajaxCreateOtherEvent() {
+	
+	$.ajax({
+		method: "POST",
+		url: "/srv/events/ajax/new/1",
+		cache: false
+	})
+	/*
+	 * if successful set the hidden newEvId field with the newly created event id
+	 * then opens the add dialog
+	 */
+	.done(function(eid) {
+		console.log("created new event that is type other with id - " + eid);
+		
+		$("#newEvId").val(eid);
+		
+		$("#addDlg").data("otherBtnSelected", true).dialog("open");
+
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+	
+	
+}
 
 /* When the DOM is completed loaded and ready, hide the dialogs and
  * create the functionality of the buttons.
@@ -1063,11 +1111,20 @@ $(document).ready(function() {
 		},
 		open: function(event, ui) {			
 			console.log("populating dialogue");	//replace with a javascript function that will put data into the add dialogue
-			prepopulateAddDialogue();
-
+				
+			prepopulateAddDialogue($("#addDlg").data("otherBtnSelected"));
+						
 			/*
 			 * Resets all the fields of the add dialog to empty.
 			 */
+			$("#txtEvTitle").val("");
+			$("#evDate").val("");
+			$("#address").val("");
+			$("#zip-code").val("");
+			$("#city").val("");
+			$("#state").val("");
+			$("#contact-name").val("");
+			$("#contact-contact").val("");			
 			$("#hrsSrvd").val("");
 			$("#reflection").val("");				
 			$("#description").val("");
@@ -1075,6 +1132,12 @@ $(document).ready(function() {
 			/*
 			 * Removes previous error messages from the fields.
 			 */
+			$("#txtEvTitle").removeClass("is-invalid");
+			$("#evDate").removeClass("is-invalid");
+			$("#address").removeClass("is-invalid");
+			$("#zip-code").removeClass("is-invalid");
+			$("#city").removeClass("is-invalid");
+			$("#state").removeClass("is-invalid");
 			$("#hrsSrvd").removeClass("is-invalid");
 			$("#contact-name").removeClass("is-invalid");
 			$("#contact-contact").removeClass("is-invalid");
@@ -1096,7 +1159,6 @@ $(document).ready(function() {
 					if (checkForEmptyFields("#hrsSrvd", "#contact-name", "#contact-contact")) {
 
 						if (validateFields("#hrsSrvd")) {
-
 							addServiceHr("#scId", "#newEvId", "#hrsSrvd", "#reflection", "#description", "#contact-name", "#contact-contact");								
 
 						}
@@ -1126,7 +1188,8 @@ $(document).ready(function() {
 			at: "center top",
 			of: window
 		},
-		open: function(event, ui) {			
+		open: function(event, ui) {		
+
 			console.log("open select dialog");	
 			
 			// clear all checkboxes upon open
@@ -1151,7 +1214,7 @@ $(document).ready(function() {
 					if (eventChecked == 1){
 						console.log("a checkbox is checked.");
 					
-						$("#addDlg").dialog("open");
+						$("#addDlg").data("otherBtnSelected", false).dialog("open");
 
 						$(this).dialog("close");
 					}
@@ -1159,6 +1222,21 @@ $(document).ready(function() {
 						console.log("all checkboxes are unchecked.");
 						updateTips("An event must be selected.");
 					}
+
+				}
+			},
+			{
+				text: "Other",
+				"id": "btnEvSelDlgOther",
+				"class": "btn addBtn float-left",
+				"data-toggle": "tooltip",
+				"title": "For events not listed above",
+				click: function() {
+					console.log("other button selected on select dialog");
+
+					ajaxCreateOtherEvent();
+					
+					$("#dlgEvSel").dialog("close");
 
 				}
 			},
@@ -1266,7 +1344,7 @@ $(document).ready(function() {
 	// connect the approve/reject actions to all approve/rejects buttons tagged with btnApprove and btnReject
 	$(".btnApprove, .btnReject").click(onChangeStatusClick);
 	
-	$(".addBtn").on("click", function() {
+	$("#btnAddHrs").on("click", function() {
 
 		$("#dlgEvSel").dialog("open");
 	});
@@ -1321,4 +1399,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+	
+	// tooltip for 'Other' btn in event selector dialog
+	$('[data-toggle="tooltip"]').tooltip();   
 });

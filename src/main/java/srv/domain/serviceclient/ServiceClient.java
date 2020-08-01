@@ -42,7 +42,7 @@ public class ServiceClient implements Serializable {
 		return scid;
 	}
 
-	public ServiceClient setClientId(Integer new_id) { 
+	public ServiceClient setScid(Integer new_id) { 
 		this.scid = new_id;
 		return this;
 	}

@@ -482,6 +482,8 @@ public class EventController {
     		log.debug("creating new event type={}", etid);
 			Event newev = eventService.createEventOfType(etid);
 
+			log.debug("service client name " + newev.getServiceClient().getName());
+			
 			// return the event id of the newly created object
 		    return new ResponseEntity<Integer>(newev.getEid(), HttpStatus.OK);
 		    

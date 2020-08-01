@@ -92,13 +92,13 @@ public class EventService {
 				eventTypeId, 
 				false, 
 				null, 
-				null, 
+				Integer.valueOf(1), 
 				null, 
 				null, 
 				"");
-
-		log.debug("back with new event {}", ne.getEid());
 		
+		log.debug("back with new event {}", ne.getEid());
+
 		return ne;  
 	}
 

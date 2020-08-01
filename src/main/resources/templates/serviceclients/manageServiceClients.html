@@ -53,8 +53,20 @@
 						<tr id="scid-${sc.scid?c}">
 							<td name='sc_id' class='scRow' scid="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
 							<td name='sc_title' class='scRow' scid="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
-							<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}</td>
-							<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.fullName()!"UNKNOWN"}</td>
+							
+							<!-- verify that the service client has a contact -->
+							<#if sc.mainContact??>
+								<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}</td>
+							<#else>
+								<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">None</td>
+							</#if>
+							
+							<!-- verify that the service client has a board member -->
+							<#if sc.currentBoardMember??>
+								<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.fullName()!"UNKNOWN"}</td>
+							<#else>
+								<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">None</td>
+							</#if>
 							<td name='sc_category' class='scRow' scid="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
 							
 							<!-- action buttons -->

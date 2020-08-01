@@ -172,3 +172,7 @@ td a:hover {
 
 }
 
+/* Makes 'Other' button in event selected dialog float left*/
+/*#btnEvSelDlgOther {
+	margin-right: 640px;
+}*/
