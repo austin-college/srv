@@ -1,0 +1,83 @@
+<#macro stdpage title="Service Station Hours"  cssname="" jsname="">
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>		
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1" />
+			
+		<!-- The above 3 meta tags *must* come first in the head; any other head 
+			content must come *after* these tags -->
+		<meta name="description" content="Service Hours Tracking" />
+		<meta name="author" content="CS380 at Austin College" />
+
+		<title>${title}</title>
+
+		<!-- Adds lil AC logo in the tab -->
+		<link rel="icon" href="/srv/images/ac.ico"/>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+		
+		<!-- jQuery library -->
+		<script src="/srv/js/jquery-3.5.1.min.js"></script>  
+		<script src="/srv/js/jquery-ui.min.js"></script>  
+		
+		<!-- Popper JS --> 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+				
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+		<link rel="stylesheet" href="/srv/css_style/jquery-ui.min.css" />
+
+		<!-- Main layout css style for the header and footer -->
+		<link href="/srv/css_style/mainStyle.css" rel="stylesheet" />
+		<#if cssname?exists && cssname!="">
+		<link href="/srv/css_style/${cssname}" rel="stylesheet" />
+		</#if>
+
+		
+		<#if jsname?exists && jsname!="">
+		<script src="/srv/js/${jsname}"></script>
+		</#if>
+		
+	</head>
+
+	<body>
+	
+	<!-- Header at the top of page that includes the AC logo and navigation links -->
+	<div id="topHeader" class="jumbotron jumbotron-fluid">
+		<div class="container-fluid">
+  	    	<div class="row">
+  		  		<div class="col-sm-3">
+  		   			 <img alt="Austin College Logo" src="/srv/images/ac-logo-black.jpg" />
+  		  		</div>
+  		
+  		  	<p style="font-size:50px; color:white"> Official Austin College Service Report</p>
+  		  	
+  		  	
+  		  	
+			
+			</div>
+		</div>	
+	</div>		
+
+		<div id="srv-page" class="wb-page container fill">
+			<#nested/>
+			<br />
+			<br />
+		</div>
+		
+        <!-- Footer -->
+        
+
+
+		<div id="flash-box"></div>
+	</body>	
+</html>
+
+</#macro>
