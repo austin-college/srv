@@ -17,6 +17,8 @@ import srv.domain.event.eventype.EventType;
 import srv.domain.event.eventype.EventTypeDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.BoardMemberUser;
+import srv.domain.user.BoardMemberUserDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 
@@ -45,7 +47,7 @@ public class EventService {
 	private ServiceClientDao serviceClientDao;
 	
 	@Autowired
-	private UserDao userDao;
+	private BoardMemberUserDao bmDao;
 
 	/**
 	 * Delegates to the dao in order to find the specified event from our
@@ -174,9 +176,9 @@ public class EventService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<User> allBoardMembers() throws Exception {
+	public List<BoardMemberUser> allBoardMembers() throws Exception {
 		
-		return userDao.listAll();
+		return bmDao.listAllBoardMemberUsers();
 	}
 	/**
 	 * Given the current event object, we save back to our data store with 
@@ -305,17 +307,22 @@ public class EventService {
 				throw new Exception(String.format("Invalid service client id [%d]", scId));
 			}
 			
+			// double check validity of bmId like in 304, if valid, no exception thrown
+			
 			results = eventDao.listByFilter(startDate, endDate, eTypeId, scId, bmId); 
 			
 			log.debug("Size of filtered list is: " + results.size());
 			
 		} catch (NumberFormatException e) {
+			log.debug("Unable to convert parameter to number.");
 			throw new Exception("Unable to convert parameter to number.");
 		}
 		catch (SQLException e) {
+			log.debug("Unable to filter events. " + e.getMessage());
 			throw new Exception("Unable to filter events. "+e.getMessage());
 			
 		} catch (Exception e) {
+			log.debug("Uh, oh. That's embarrassing. Unable to filter events.");
 			throw new Exception("Uh,oh.  That's embarrassing. Unable to filter events.");
 		}
 		

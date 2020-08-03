@@ -35,6 +35,7 @@ import srv.domain.event.eventype.EventType;
 import srv.domain.serviceclient.JdbcTemplateServiceClientDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.BoardMemberUser;
 import srv.domain.user.User;
 import srv.services.EventService;
 import static srv.utils.ParamUtil.*;
@@ -94,7 +95,7 @@ public class EventController {
 			List<Event> myEvents;
 			List<EventType> types = eventService.allEventTypes();
 			List<ServiceClient> clients = eventService.allServiceClients();
-			List<User> boardMembers = eventService.allBoardMembers();
+			List<BoardMemberUser> boardMembers = eventService.allBoardMembers();
 			
 			// Checks to see if the current user is an admin or a board member, if so displays the CRUD are gone
 			// otherwise the buttons are gone.
@@ -117,7 +118,7 @@ public class EventController {
 			mav.addObject("monthSelected", 0); // turns the toggle button for last month off
 			mav.addObject("selectedEtid", 0); // sets the combo box for event types to 'List All' 
 			mav.addObject("selectedScid", 0); // sets the combo box for service clients to 'List All'
-		
+			mav.addObject("selectedBmid", 0); // sets combo box for bm to 'list all'
 			// Filtering by past events
 			if (before != null) {
 				

@@ -199,14 +199,27 @@ public class HomeControllerTest {
 	@Test
 	@WithMockUser(username = "boardmember", password = "boardmember")
 	public void boardMemberHomeTest() throws Exception {
-
+		
+		User user = new User()
+				.setUid(5)
+				.setContactInfo(new Contact()
+						.setFirstName("Rusty")
+						.setLastName("Buckle")
+						.setContactId(1)
+						.setEmail("rbuckle@helpful.org")
+						.setPrimaryPhone("903-813-5555")
+						.setCity("Sherman"));
+		
+		// train the mock object to return mocked user id, then expect link to have bm=5
+		when(userUtil.currentUser()).thenReturn(user);
 		mvc.perform(get("/home/boardMember").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(content().string(containsString("Welcome, Board Member")))
 				// testing for the Approve Hours Button - Via the text it has
 				.andExpect(content().string(containsString("<p>View current pets</p>")))
 				// testing a broad statement to make sure we actually have buttons on the page
-				.andExpect(content().string(containsString("type=\"button\" class=\"btn btn-White\"")));
-
+				.andExpect(content().string(containsString("type=\"button\" class=\"btn btn-White\"")))
+				.andExpect(content().string(containsString("<a href=\"/srv/hours?bm=5\">")));
+		
 	}
 
 	@Test

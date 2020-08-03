@@ -115,10 +115,10 @@ public class HomeController {
 			 * so that it can be used as a freemarker variable in html
 			 */
 			
-			if(srvUserDao.fetchServantUserById(userUtil.currentUser().getUid()) != null) {
+			Integer bmUserId = userUtil.currentUser().getUid();
 				
-				mav.addObject("uid", srvUserDao.fetchServantUserById(userUtil.currentUser().getUid()));
-			}
+				mav.addObject("uid", bmUserId);
+			
 		}	catch (Exception e1) {
 			
 			e1.printStackTrace();
