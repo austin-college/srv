@@ -358,7 +358,7 @@ class ServantUserDaoTests {
 		assertEquals(1, bmUsers.size());
 		
 		// with the following ids
-		assertEquals(4, bmUsers.get(0).getUid());
+		assertEquals(1, bmUsers.get(0).getUid());
 	}
 	
 	/*
@@ -374,6 +374,6 @@ class ServantUserDaoTests {
 		assertEquals(1, nonBmUserList.size());
 		
 		// ...whose username is 
-		assertEquals("apritchard", nonBmUserList.get(0).getUsername());
+		assertEquals("user", nonBmUserList.get(0).getUsername());
 	}
 }
