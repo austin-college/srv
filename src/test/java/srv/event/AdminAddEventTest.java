@@ -279,7 +279,7 @@ public class AdminAddEventTest extends SeleniumTest {
 			
 			link = driver.findElement(By.xpath("//div/div/div/button[@class='cancBtnClass'][@id='cancel']"));
 			//jse.executeScript("window.scrollBy" + link.getLocation(),"");
-			link.click();
+			link.sendKeys(Keys.ENTER);
 			System.err.println(link.getLocation());
 			
 			

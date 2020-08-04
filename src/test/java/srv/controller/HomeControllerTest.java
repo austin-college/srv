@@ -203,7 +203,7 @@ public class HomeControllerTest {
 		mvc.perform(get("/home/boardMember").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(content().string(containsString("Welcome, Board Member")))
 				// testing for the Approve Hours Button - Via the text it has
-				.andExpect(content().string(containsString("<p>Approve hours with the proper signatures</p>")))
+				.andExpect(content().string(containsString("<p>View current pets</p>")))
 				// testing a broad statement to make sure we actually have buttons on the page
 				.andExpect(content().string(containsString("type=\"button\" class=\"btn btn-White\"")));
 

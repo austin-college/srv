@@ -1,54 +1,82 @@
 <div class="container-fluid">
 <p class="validationTips"></p>
-<form>
+<form class="form smaller" >
 		
 	<p id="viewDlgHrStatus"></p>
 		
-	<div class="row">
-	
-			
-				
+	<div class="row border rounded mb-2 bg-light p-2">
+			<div class="form-row col-12">
+			<span class="small font-weight-light font-italic">Event</span>
 			<input type="hidden" id="viewDlgEvId" value="" />
 			<input type="hidden" id="viewDlgScId" value=""/>
+			</div>
+			
 				
+			<div class="form-group border col-4 m-1">
+				<label for="viewDlgTxtEvTitle"><b>Name of Event: </b></label><br/>
+				<input id="viewDlgTxtEvTitle" type="text" class="form-control" value="change me"  readonly="readonly" />
+			</div>
+			
+			<div class="form-group  border col-3 m-1">
+				<label for="viewDlgEvDate"><b>Date of Event: </b></label><br/>
+				<input id="viewDlgEvDate" type="text" class="form-control" readonly="readonly" /><br/>
+			</div>
 		
-				<label for="name"><b>Name of Event: </b></label><br/> 
-				<input id="viewDlgTxtEvTitle" type="text" class="form-control-plaintext" value="change me"  readonly="readonly" /><br/>
-				<label for="date"><b>Date of Event: </b></label><br/>
-				<input id="viewDlgEvDate" type="text" class="form-control-plaintext" readonly="readonly" /><br/>
-				<label for="hours"><b>Hours Served: </b></label><br/> 
-				<input id="viewDlgHrsSrvd" type="text" class="form-control-plaintext"/><br/>
-		
-		
-		
-				<label for="location"><b>Address: </b></label><br/>
-				<input id="viewDlgAddress" type="text"	class="form-control-plaintext" value="1235 Left Ln"  readonly="readonly"/><br/> 
-				<label for="viewDlgCity"><b>City: </b></label><br/> 
-				<input id= "viewDlgCity" type="text" class="form-control-plaintext" value="Sherman"  readonly="readonly"/><br/> 
-					<label for="viewDlgState"><b>State: </b></label><br/> 
-				<input id="viewDlgState" type="text" class="form-control-plaintext" value="TX"  readonly="readonly"/><br/>
+			<div class="form-group border col-4 m-1">
+				<label for="organization"><b>Sponsor: </b></label><br/>
+				<input id= "viewDlgEvSrvClient" class="form-control" disabled="disabled"/><br/> 
+			</div>
+			
+			<div class="form-group  border col-12 m-1">
+				<div class="form-row">
+				<label for="viewDlgAddress"><b>Event Location: </b></label><br/>
+				<input id="viewDlgAddress" type="text"	class="form-control col-12" value="1235 Left Ln"  readonly="readonly"/><br/>
+				<input id= "viewDlgCity" type="text" class="form-control col-8" value="Sherman"  readonly="readonly"/> 
+				<input id="viewDlgState" type="text" class="form-control col-2" value="TX"  readonly="readonly"/>
+				<input id="viewDlgZip-code" type="text" class="form-control col-2" value="23456"  readonly="readonly"/>
+				</div>
 				
-				<label for="zip"><b>Zip Code: </b></label><br/> 
-				<input id="viewDlgZip-code" type="text" class="form-control-plaintext" value="23456"  readonly="readonly"/><br/>
-			<label id="viewDlgFeedbackLabel" for="viewDlgFeedback" style="padding-top:10px"><b>Feedback:</b></label><br/>
+			</div>
+		</div>
+
+		<div class="row">			
+			<div class="form-group">
+				<label id="viewDlgFeedbackLabel" for="viewDlgFeedback" style="padding-top:10px"><b>Feedback:</b></label><br/>
 				<textarea class="form-control-plaintext" rows="4" id="viewDlgFeedback"></textarea>
-				
+			</div>
+		</div>
 		
-			<label for="organization"><b>Sponsor: </b></label><br/>
-				<input id= "viewDlgEvSrvClient" class="form-control-plaintext" disabled="disabled"/><br/> 
-				
-		
-		
-				<label for="viewDlgContact-name"><b>Contact Name: </b></label><br/> 
-				<input id="viewDlgContact-name" type="text" class="form-control-plaintext" value="Johanna Smith"  readonly="readonly"/><br/>
-				<label for="viewDlgContact-contact"><b>Contact Phone Number/Email: </b></label><br/> 
-				<input type="text" class="form-control-plaintext" id="viewDlgContact-contact" value="phone number or email"  readonly="readonly"/><br/>
-				
-				<label for="viewDlgDescription"><b>Description of Event: </b></label><br/>
-				<textarea class="form-control-plaintext" rows="3" id="viewDlgDescription"></textarea>
+		<div class="row border rounded m-2 p-2">
+			<div class="form-row col-12 mb-2">
+				<span class="x-small">Service</span>
+			</div>
+			
+			<div class="form-row col-12 mb-2">
+				<div class="form-group col-4 border rounded">
+					<label for="viewDlgHrsSrvd"><b>Hours Served: </b></label><br/> 
+					<input id="viewDlgHrsSrvd" type="text" class="form-control-plaintext"/><br/>
+				</div>
+				<div class="form-group col-8 mb-2 border rounded">	
+					<label for="viewDlgDescription"><b>Description of Service: </b></label><br/>
+					<textarea class="form-control-plaintext" rows="3" id="viewDlgDescription"></textarea>
+				</div>
+			</div>
+
+			<div class="form-group form-row mb-2 col-12 border rounded">
 				<label for="viewDlgReflection" style="padding-top:10px"><b>Reflection:</b></label><br/>
 				<textarea class="form-control-plaintext" rows="4" id="viewDlgReflection"></textarea>
+			</div>
 			
+			
+			<div class="form-group form-row mb-2 col-6 border rounded ">
+				<label for="viewDlgContact-name"><b>Contact Name: </b></label><br/> 
+				<input id="viewDlgContact-name" type="text" class="form-control-plaintext" value="Johanna Smith"  readonly="readonly"/><br/>
+			</div>
+		
+			<div class="form-group form-row mb-2 col-6 border rounded">
+				<label for="viewDlgContact-contact"><b>Contact Phone Number/Email: </b></label><br/> 
+				<input type="text" class="form-control-plaintext" id="viewDlgContact-contact" value="phone number or email"  readonly="readonly"/><br/>
+			</div>
 	
 	</div>
 	</form>

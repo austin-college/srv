@@ -367,6 +367,7 @@ function prepopulateEditDialog(selShid) {
 		$("#editDlgZip-code").val(sh.event.contact.zipcode);
 		$("#editDlgCity").val(sh.event.contact.city);
 		$("#editDlgState").val(sh.event.contact.state);
+		
 		$("#editDlgEvSrvClient").val(sh.event.serviceClient.name).change();
 		$("#editDlgScId").val(sh.event.serviceClient.scid);
 		$("#editDlgEvId").val(sh.event.eid);
@@ -505,7 +506,7 @@ function prepopulateAddDialogue(otherBtnSelected){
 	.done(function(ev) {
 
 		console.log(ev);
-		
+	
 		// if the 'Other' button was clicked then we don't prepopulate the add dialog and makes the fields not readonly
 		if (otherBtnSelected) {
 			
@@ -522,7 +523,7 @@ function prepopulateAddDialogue(otherBtnSelected){
 			var weekDayDate = new Date(ev.date).toDateString(); // makes the date with the format Wed Jan 01 2020
 			var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
 			var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
-	
+
 			// makes the date with format 2020 Jan 01
 			var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
 			console.log(dateWithFormat_yyyyMMMdd);
@@ -532,12 +533,22 @@ function prepopulateAddDialogue(otherBtnSelected){
 		$("#contact-contact").val(ev.contact.primaryPhone + " " + ev.contact.email);
 		$("#contact-name").val(ev.contact.firstName + " " + ev.contact.lastName);
 		$("#evDate").val(dateWithFormat_yyyyMMMdd);
+		
 		$("#hrsSrvd").val(ev.type.defHours);
-		$("#address").val(ev.contact.street);
-		$("#zip-code").val(ev.contact.zipcode);
-		$("#city").val(ev.contact.city);
-		$("#state").val(ev.contact.state);
-		$("#evSrvClient").val(ev.serviceClient.name);//.change();
+
+		$("#ct-fname").html(ev.contact.firstName);
+		$("#ct-lname").html(ev.contact.lastName);
+
+		$("#ct-email").html(ev.contact.email);
+		$("#ct-phone1").html(ev.contact.primaryPhone);
+		$("#ct-phone2").html(ev.contact.secondaryPhone);
+		
+		$("#ct-street").html(ev.contact.street);
+		$("#ct-city").html(ev.contact.city);
+		$("#ct-state").html(ev.contact.state);
+		$("#ct-zip").html(ev.contact.zipcode);
+		
+		$("#evSrvClient").val(ev.serviceClient.name).change();
 		$("#scId").val(ev.serviceClient.scid);
 		$("#newEvId").val(eid);
 
@@ -1066,8 +1077,8 @@ $(document).ready(function() {
 		buttons: [
 			{
 				text: "Update", 
-				"id": "addBtnDlg",
-				"class": 'btn',
+				"id": "updateBtnDlg",
+				"class": 'btn updateBtn',
 				click: function() {		
 
 					console.log("submit edit dialog");
@@ -1148,7 +1159,7 @@ $(document).ready(function() {
 			{
 				text: "Submit", 
 				"id": "btnSubmitFeedBackDlg",
-				"class": 'btn',
+				"class": 'btn submitBtn',
 				click: function() {		
 
 					console.log("submit add dialog");
@@ -1202,7 +1213,7 @@ $(document).ready(function() {
 			{
 				text: "Submit", 
 				"id": "btnEvSelDlgSubmit",
-				"class": 'btn',
+				"class": 'btn submitBtn',
 				click: function() {		
 					console.log("submit on select dialog");
 					

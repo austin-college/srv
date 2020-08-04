@@ -476,8 +476,8 @@ public class EventController {
 	 */
 	@PostMapping(value = "/events/ajax/new/{etid}")
 	public ResponseEntity<?> ajaxNewEvent(@PathVariable Integer etid) {
-		ModelAndView mav = new ModelAndView("events/eventDetails");
-    	try {
+
+		try {
     		
     		log.debug("creating new event type={}", etid);
 			Event newev = eventService.createEventOfType(etid);

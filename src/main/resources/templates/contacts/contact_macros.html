@@ -3,7 +3,7 @@
 	<#if contact == "none">
 		Missing Contact
 	<#else>
-		<span id="ct-fname">${contact.firstName!""}</span> <span id="ctLastName">${contact.lastName!""}</span>
+		<span id="ct-fname">${contact.firstName!""}</span> <span id="ct-lname">${contact.lastName!""}</span>
 		<br/><span id="ct-email">${contact.email!"[unknown email]"}</span>
 		<br/><span id="ct-addr">${contact.address!"[unknown address]"}</span>
 		<br/><span id="ct-phone1">${contact.primaryPhone!"[phone?]"}</span>
@@ -12,6 +12,16 @@
 </div>
 </#macro>
 
+
+<#macro view_sm_empty >
+<div id="evContactDiv" class="small">
+	<span id="ct-fname"></span> <span id="ct-lname"></span>
+	<br/><span id="ct-email"></span>
+	<br/><span id="ct-addr"></span>
+	<br/><span id="ct-phone1"></span>
+	<br/><span id="ct-phone2"></span>
+</div>
+</#macro>
 
 <#macro view contact="none" forEdit="false">
 

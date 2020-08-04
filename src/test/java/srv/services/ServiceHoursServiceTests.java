@@ -86,7 +86,7 @@ public class ServiceHoursServiceTests {
 		
 		
 		sc1 = new ServiceClient()
-				.setClientId(1)
+				.setScid(1)
 				.setName("Habitat for Humanity")
 				.setMainContact(new Contact()
 						.setContactId(1)
@@ -100,7 +100,7 @@ public class ServiceHoursServiceTests {
 				.setCategory("HELP");
 		
 		sc2 = new ServiceClient()
-				.setClientId(2)
+				.setScid(2)
 				.setName("Sherman Animal Shelter")
 				.setMainContact(new Contact()
 						.setContactId(3)
@@ -114,7 +114,7 @@ public class ServiceHoursServiceTests {
 				.setCategory("NOHELP");
 						
 		sc3 = new ServiceClient()
-				.setClientId(3)
+				.setScid(3)
 				.setName("yaml")
 				.setMainContact(new Contact()
 						.setContactId(3)
