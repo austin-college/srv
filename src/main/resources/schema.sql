@@ -213,8 +213,8 @@ insert into users (username, contactId) values ('user', 1);
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Other', NULL, NULL, NULL, 'None');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Austin College Service Station', 1, 4, 1, 'Variety');
 INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Habitat for Humanity', 2, 3, 2, 'Community');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 3, 4, 3, 'Crisis Support');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 4, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 3, 4, 1, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 2, 'Crisis Support');
 
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
@@ -250,7 +250,8 @@ INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) V
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (2, 3, 2023, true, 1);
 INSERT INTO servantUsers (userId, sgid, expectedGradYear, hasCar, carCapacity) VALUES (4, 2, 2024, true, 3);
 
+INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (1, true);
 INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (2, true);
-INSERT INTO boardMemberUsers (userId, isCoChair) VALUES (4, false);
+
 
 INSERT INTO adminUsers (userId) VALUES (3); 

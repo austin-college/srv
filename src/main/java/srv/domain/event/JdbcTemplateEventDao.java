@@ -348,10 +348,20 @@ public class JdbcTemplateEventDao extends JdbcTemplateAbstractDao implements Eve
 		// TODO wait until there is dao support for board member users
 		// Filters by board member
 		if (bmId != null) {
+			if (first) {
+				first = false;
+				queryBuff.append("where ");
+			}
+			else
+				queryBuff.append("and ");
 			
+			queryBuff.append("serviceClientId in ");
+			queryBuff.append("(");
+			queryBuff.append("select serviceClientId from serviceClients where boardMemId = " + bmId);
+			queryBuff.append(")");
 		}
 		
-		log.debug(queryBuff.toString());
+		log.info(queryBuff.toString());
 		
 		List<Event> results = getJdbcTemplate().query(queryBuff.toString(),	new EventRowMapper());
 

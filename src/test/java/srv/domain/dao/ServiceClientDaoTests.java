@@ -122,9 +122,9 @@ class ServiceClientDaoTests {
 		assertEquals("Crisis Support", sc4.getCategory());
 		
 		// Testing board member info for service client id 3
-		assertEquals(3, sc4.getCurrentBoardMember().getUid());
-		assertEquals("eDriscoll", sc4.getCurrentBoardMember().getUsername());
-		assertEquals(7, sc4.getCurrentBoardMember().getContactInfo().getContactId());
+		assertEquals(1, sc4.getCurrentBoardMember().getUid());
+		assertEquals("apritchard", sc4.getCurrentBoardMember().getUsername());
+		assertEquals(5, sc4.getCurrentBoardMember().getContactInfo().getContactId());
 				
 		// Testing primary Contact info for service client id 3
 		assertEquals(3, sc4.getMainContact().getContactId());
