@@ -102,7 +102,7 @@ function ajaxDeleteClientNow() {
 function fillContactFields(ct, pre) {
 	//$("#viewDlg_mainContactID").val(.contactId);
 	var fullAddr = ct.street + ", " + ct.city + ", " + ct.state + " " + ct.zipcode;
-	
+	$("#ct"+pre+"-cid").html(ct.contactId);
 	$("#ct"+pre+"-fname").html(ct.firstName);
 	$("#ct"+pre+"-lname").html(ct.lastName);
 	
@@ -232,21 +232,22 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, board
 	/*
 	 * If successful then update the service client to the list with the new values.
 	 */
-	.done(function(sc) {
+	.done(function(htmltxt) {
 		console.log("updated service client");
-		console.log(sc);
+		console.log(htmltxt);
 
 		// get the selected combo box text
 		var boardMemberName = $("#editDlg_boardMemberName option:selected" ).text();
 		var mainContactName = $("#editDlg_mainContactName").val();
 
 		console.log(mainContactName);
-		// Updates the edited event type's row with the new values
-		$("#scid-" + srvClientId + " td[name = 'sc_title']").html($(srvClientNameField).val());
-		$("#scid-" + srvClientId + " td[name ='sc_contact_name']").html(mainContactName);
-		$("#scid-" + srvClientId + " td[name ='sc_bm_name']").html(boardMemberName);
-		$("#scid-" + srvClientId + " td[name ='sc_category']").html($(categoryField).val());
+		
+		$("#scid-"+srvClientId).replaceWith(htmltxt);
 
+		$(".btnScDel").click(onDeleteClick);
+		$(".btnScView, .scRow").click(onViewClick);
+		$(".btnScEdit").click(onEditClick);
+		
 		$("#editDlg").dialog("close");
 
 	})
@@ -264,7 +265,32 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, board
  * @returns
  */
 function onNewClick() {
-	$("#addDlg").dialog("open");
+	
+	
+	
+	$.ajax({
+		method: "POST",
+		url: "/srv/sc/ajax/new",
+		cache: false
+	})
+	/*
+	 * If successful then add the service client to the list with the new values.
+	 */
+	.done(function(sc) {
+		console.log("added new service client");
+		console.log(sc);
+
+		// $("#addDlg").dialog("open");
+		
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+
 }
 
 /**
@@ -515,7 +541,9 @@ function onPageLoad() {
 				click: function() {		
 
 					var selected_shid = $(this).data('selectedSrvClient'); // The selected service client's ID
-					var selected_mainContactID = $("#editDlg_mainContactID").children("option:selected").val(); // ID for main contact
+					
+					var selected_mainContactID = $("#ct3-cid").html();
+					
 					var selected_boardMemberID = $("#editDlg_boardMemberName").val(); // ID for board member
 
 					/*
@@ -639,7 +667,7 @@ function onPageLoad() {
 		task: "edit",
 		success: function(ct) {
 			console.log(ct);
-			alert(1);
+			fillContactFields(ct,"3");
 		}
 		});
 

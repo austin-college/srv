@@ -77,8 +77,16 @@ public class JdbcTemplateServiceClientDao  extends JdbcTemplateAbstractDao imple
 	                  PreparedStatement ps = connection.prepareStatement(sql, new String[]{"serviceClientId"});
 	                  ps.setString(1, title);
 	                  ps.setInt(2, cid1);
-	                  ps.setInt(3, bmId);
-	                  ps.setString(4, cat);
+	                  if (bmId == null)
+	                	  ps.setNull(3, java.sql.Types.INTEGER);
+	                  else
+	                	  ps.setInt(3, bmId);
+
+	                  if (cat == null)
+	                	  ps.setNull(4, java.sql.Types.VARCHAR);
+	                  else
+	                	  ps.setString(4, cat);
+	                  
 	                  return ps;
 	              }, keyHolder);
 		

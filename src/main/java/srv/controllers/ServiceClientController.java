@@ -136,6 +136,31 @@ public class ServiceClientController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	/**
+	 * Ajax call to retrieve and return selected service client from the database.
+	 */
+	@ResponseBody
+	@PostMapping(value="/sc/ajax/new", produces="application/json")
+	public ResponseEntity<ServiceClient> ajaxCreateNewClient() {
+
+		try {
+			log.debug("new service client " );
+			
+			// mah: create dummy
+
+			Contact c = contactDao.create("sponsor first name", "sponsor last name", "sponsor email", "sponsor phone", null, "street addr", "city", "TX", "75090");
+			
+			ServiceClient srvClient = srvClientDao.create("sponsor name", c.getContactId(), null, null);
+
+			return new ResponseEntity<>(srvClient, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 
 	/**
 	 * Ajax call to create and return the new service client to the database.
@@ -155,7 +180,6 @@ public class ServiceClientController {
 			String cat = request.getParameter("cat");
 
 			Integer cid1 = ParamUtil.requiredIntegerParam(request.getParameter("cid1"), "Main contact id is required.");
-			Integer cid2 = ParamUtil.requiredIntegerParam(request.getParameter("cid2"), "Other/secondary contact id is required.");
 			Integer bmId = ParamUtil.requiredIntegerParam(request.getParameter("bmId"), "board member id is required.");
 
 			// Creates a new service client in the service client database.
