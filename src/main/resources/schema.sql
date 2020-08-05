@@ -54,7 +54,7 @@ CREATE TABLE serviceClients (
 	PRIMARY KEY (serviceClientId),
 	FOREIGN KEY (primaryContactId)
 		REFERENCES contacts(contactId)
-		ON DELETE SET NULL,
+		ON DELETE CASCADE,
 	FOREIGN KEY (boardMemId)
 		REFERENCES users(userId)
 		ON DELETE SET NULL

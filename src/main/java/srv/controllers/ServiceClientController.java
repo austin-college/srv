@@ -23,6 +23,8 @@ import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.BoardMemberUser;
+import srv.domain.user.BoardMemberUserDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 import srv.utils.ParamUtil;
@@ -53,7 +55,7 @@ public class ServiceClientController {
 	ContactDao contactDao;
 
 	@Autowired
-	UserDao userDao;
+	BoardMemberUserDao bmDao;
 
 	@Autowired
 	UserUtil userUtil;
@@ -73,7 +75,7 @@ public class ServiceClientController {
 			mav.addObject("clients", myClients);
 
 			// Lists the current users in the user database in a drop down menu in the add and edit service client dialogs for selecting a current board member
-			List<User> users = userDao.listAll();
+			List<BoardMemberUser> users = bmDao.listAllBoardMemberUsers();
 			mav.addObject("users", users);
 
 			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
@@ -150,6 +152,8 @@ public class ServiceClientController {
 			// mah: create dummy
 
 			Contact c = contactDao.create("sponsor first name", "sponsor last name", "sponsor email", "sponsor phone", null, "street addr", "city", "TX", "75090");
+			
+			log.debug("new client contact: "+c);
 			
 			ServiceClient srvClient = srvClientDao.create("sponsor name", c.getContactId(), null, null);
 

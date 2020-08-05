@@ -31,9 +31,11 @@
 						
 						<td class="ct_name">${c.fullName()!"UNKNOWN"}</td>
 						
-						<td class="ct_email">${c.email}</td>
+						<td class="ct_email">${c.email!"UNKNOWN"}</td>
 
-						<td class="ct_phone">${c.primaryPhone}</td>
+						<td class="ct_phone">
+						   ${c.primaryPhone!"UNKNOWN"}
+						   </td>
 					</tr>
 
 				</#list>
