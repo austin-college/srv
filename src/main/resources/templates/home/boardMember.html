@@ -1,6 +1,6 @@
 <#import "/main_layout.html" as layout />
-<@layout.stdpage "Home" "home.css"
-"BoardMember/boardmemberhome.js">
+<@layout.stdpage "Home" "home.css" "BoardMember/boardmemberhome.js">
+
 
 
 <div id="mainContainer" class="container">
@@ -13,195 +13,79 @@
 	<div>
 		<!-- Navigation buttons //TODO Add all use cases with respective pages -->
 		<div class="col-md" style="padding-left: 20px; padding-bottom: 20px">
-		<div Class= "row justify-content-between">
+		<div Class="row justify-content-between">
 			<button type="button" class="btn btn-white"
 				style="width: 48%; border-color: black;">
+				<a href="/srv/hours?bm=${uid}"><i class="fa fa-clipboard-list fa-3x"
+					style="padding-right: 15px; font-size: 36px; color:black"></i> <p style="color:black"><b>Approve Hours</b></p>
+					 </a>
+					<p>Approve hours with the proper signatures</p>
+				
+			</button>
+			<button type="button" class="btn btn-white"
+					style="width: 48%; border-color: black;">
 				<a href="/srv/sc"><i class="fa fa-cat"
-					style="padding-right: 15px; font-size: 36px; color:#047cf1"></i> <b>Manage Pets</b>
+						style="padding-right: 15px; font-size: 36px; color:#047cf1"></i> <b>Manage Pets</b>
 					 </a>
 				<p>View current pets</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 48%; border-color: black;">
+					style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-file-alt"
-					style="padding-right: 15px; font-size: 36px; color:black"></i><p style="color:black"><b>Summarize Event</b> </p>
+						style="padding-right: 15px; font-size: 36px; color:black"></i>
+					<p style="color:black">
+							<b>Summarize Event</b> </p>
 					 </a>
 				<p>Short description of how the event went for your assigned pets</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 48%; border-color: black;">
-				<a href="boardMember"><i class="fa fa-address-card"
-					style="padding-right: 15px; font-size: 36px; color:black"></i> <p style="color:black"><b>Manage My Pets</b> </p>
-					</a>
-				<p>Manage my pet's activities</p>
-			</button>
-
-			<button type="button" class="btn btn-White"
-				style="width: 48%; border-color: black;">
+					style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="far fa-file-alt"
-					style="padding-right: 15px; font-size: 36px; color:black"></i><p style="color:black"><b>Manage an Event Summary</b> </p>
+						style="padding-right: 15px; font-size: 36px; color:black"></i>
+					<p style="color:black">
+							<b>Manage an Event Summary</b> </p>
 					 </a>
 				<p>Edit your event summaries</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 48%; border-color: black;">
+					style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="far fa-calendar-alt"
-					style="padding-right: 15px; font-size: 36px; color:black"></i> <p style="color:black"><b>Manage Service Announcements</b> </p>
+						style="padding-right: 15px; font-size: 36px; color:black"></i> <p
+							style="color:black">
+							<b>Manage Service Announcements</b> </p>
 					</a>
 				<p>Add, edit, and delete service announcements such as cancellations or address changes</p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 48%; border-color: black;">
+					style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-envelope-open-text"
-					style="padding-right: 15px; font-size: 36px; color:black"></i><p style="color:black"><b>View/Print Report</b></p>
+						style="padding-right: 15px; font-size: 36px; color:black"></i>
+					<p style="color:black">
+							<b>View/Print Report</b>
+						</p>
 					 </a>
 				<p>View and print reports </p>
 			</button>
 
 			<button type="button" class="btn btn-White"
-				style="width: 48%; border-color: black;">
+					style="width: 48%; border-color: black;">
 				<a href="boardMember"><i class="fa fa-file-import"
-					style="padding-right: 15px; font-size: 36px; color:black"></i><p style="color:black"><b>Import Hours</b></p>
+						style="padding-right: 15px; font-size: 36px; color:black"></i>
+					<p style="color:black">
+							<b>Import Hours</b>
+						</p>
 					 </a>
 				<p>Import hours from somewhere else</p>
 			</button>
+		</div>
+		</div>
+		</div>
 </div>
-		</div>
 
-	</div>
-	<!-- Layout of BM actions must be decided -->
-	<!-- table title. -->
-	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
-		<div class="col">
-			<h2>
-				My Pets <i class="fa fa-cat"
-					style="padding-right: 15px; font-size: 36px"></i>
-			</h2>
-		</div>
-	</div>
-
-
-	<!-- A  (TODO/MAKE LIVE) list (data-table) of all to-be-approved serviceEvents, includes buttons to view full info, approve, and reject servant event forms -->
-	<table id="dtDynamicVerticalScroll"
-		class="table table-striped table-bordered table-sm" cellspacing="0"
-		width="100%">
-		<thead>
-			<tr>
-				<th class="th-sm">Organization Name</th>
-				<th class="th-sm">Contact Name</th>
-				<th class="th-sm">Contact Phone #</th>
-				<th class="th-sm">Contact E-Mail</th>
-				<th class = "th-sm"> Upcoming Event</th>
-				<th class="th-sm"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Habitat for Humanity</td>
-				<td>Sandra Bullock</td>
-				<td>(123)456-7890</td>
-				<td>sbullock@gmail.com</td>
-				<td>Yes</td>
-				<!--edit button-->
-
-				<td><a class="btn edit" href="#"> <i
-						class="icon-check-sign icon-large"></i>Edit
-
-				</a></td>
-			</tr>
-			<tr>
-				<td>Meals on Wheels</td>
-				<td>Oprah Winfrey</td>
-				<td>(836)928-1678</td>
-				<td>owinfrey@gmail.com</td>
-				<td>Yes</td>
-				<!--edit button-->
-
-				<td><a class="btn edit" href="#"> <i
-						class="icon-check-sign icon-large"></i>Edit
-
-				</a></td>
-			</tr>
-			<tr>
-
-			</tr>
-			<tr>
-				<td>Food Bank</td>
-				<td>Channing Tatum</td>
-				<td>(389)378-2939</td>
-				<td>ctatum@gmail.com</td>
-				<td>No</td>
-				<!--edit button-->
-
-				<td><a class="btn edit" href="#"> <i
-						class="icon-check-sign icon-large"></i>Edit
-
-				</a></td>
-
-			</tr>
-		</tbody>
-		<tfoot>
-		</tfoot>
-	</table>
-	<!-- Layout of BM actions must be decided -->
-	<!-- table title. -->
-	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
-		<div class="col">
-			<h2>Approve Hours</h2>
-		</div>
-	</div>
-
-
-	<!-- A  (TODO/MAKE LIVE) list (data-table) of all to-be-approved serviceEvents, includes buttons to view full info, approve, and reject servant event forms -->
-	<table id="dtDynamicVerticalScroll"
-		class="table table-striped table-bordered table-sm" cellspacing="0"
-		width="100%">
-		<thead>
-			<tr>
-				<th class="th-sm">ID</th>
-				<th class="th-sm">Name</th>
-				<th class="th-sm">Organization</th>
-				<th class="th-sm">Hours Served</th>
-				<th class="th-sm">Contact</th>
-				<th class="th-sm">Contact E-Mail</th>
-				<th class="th-sm" colspan='3'>Actions</th>
-			</tr>
-		</thead>
-		<tbody id="hrs_tbl_body">
-			<#if hours??>
-				<#list hours as hrs>
-						<tr id="row${hrs.shid?c}">
-						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_id'>${hrs.shid!"UNKOWN"}</td>
-						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_event'>${hrs.event.title!"UNKNOWN"}</td>
-						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_event'>${hrs.servedPet.name!"UNKNOWN"}</td>
-						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_hrsServed'>${hrs.hours!"UNKNOWN"}</td>
-						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_contact_name'>${hrs.servedPet.mainContact.firstName!"UNKNOWN"} ${hrs.servedPet.mainContact.lastName!"UNKNOWN"}</td>
-						<td class='hrRow' onRowClick="${hrs.shid?c}" name='hrs_contact_email'>${hrs.servedPet.mainContact.email!"UNKNOWN"}</td>
-						
-						<td>
-							<!-- Buttons to open edit/delete hours dialog  -->
-							<button type="button" class="edit btn" onEditClick="${hrs.shid?c}">
-							<span class="fas fa-pencil-alt"></span> 
-						  					Edit</button></td>
-						<td>
-				   		<button type="button" class="del btn" onDelClick="${hrs.shid?c}">
-						<span class="fas fa-trash-alt"></span>  
-						  		Reject 
-						</button>
-						</td>
-						</tr>
-				</#list>
-			</#if>
-		<tfoot>
-		</tfoot>
-	</table>
-
-
-</div>
 <script src="/srv/js/datatables.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </@layout.stdpage>

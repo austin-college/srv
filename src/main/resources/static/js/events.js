@@ -141,7 +141,12 @@ function findQuery(urlArray, flag) {
 		else if (flag == 4) {
 			if (urlArray[index].includes("after="))
 				query = urlArray[index];		
-		}	
+		}
+		
+		else if (flag == 5) {
+			if(urlArray[index].includes("bm="))
+				query = urlArray[index];
+		}
 	}
 	
 	return query;
@@ -186,6 +191,13 @@ function urlContains(filter, url, comboBoxSelectedId) {
 		
 		oldQuery = findQuery(location.href.split(/[\&,?]+/), 2);
 		url = url.replace(oldQuery, 'sc=' + comboBoxSelectedId);
+		contains = true;
+	}
+	
+	else if ((filter == 'bmComboBox') && (url.includes("bm="))) {
+		
+		oldQuery = findQuery(location.href.split(/[\&,?]+/), 5);
+		url = url.replace(oldQuery, 'bm=' + comboBoxSelectedId);
 		contains = true;
 	}
 	
@@ -312,6 +324,9 @@ function queryUrl(filter, comboBoxSelectedId) {
 		// If the specified query is for service clients
 		else if (filter == 'scComboBox')
 			currentUrl += 'sc=' + comboBoxSelectedId;
+		// If the specified query is for board members
+		else if (filter == 'bmComboBox')
+			currentUrl += 'bm=' + comboBoxSelectedId;  
 	}
 
 	console.log(currentUrl);

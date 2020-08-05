@@ -42,19 +42,19 @@ class BoardMemberUserDaoTests {
 		BoardMemberUser bm1 = testBmUsers.get(0);
 		BoardMemberUser bm2 = testBmUsers.get(1);
 		
-		assertEquals(2, bm1.getUid());
-		assertEquals(4, bm2.getUid());
+		assertEquals(1, bm1.getUid());
+		assertEquals(2, bm2.getUid());
 		
 		// Verifying the contents of one BoardMemberUser
 		assertEquals(true, bm1.getIsCoChair());
 		
 		// Verifying inherited ServantUser fields
-		assertEquals(2023, bm1.getExpectedGradYear());
-		assertEquals(3, bm1.getAffiliation().getSgid());
-		assertEquals(true, bm1.getHasCar());
-		assertEquals(1, bm1.getCarCapacity());
-		assertEquals("hCouturier", bm1.getUsername());
-		assertEquals(6, bm1.getContactInfo().getContactId());
+		assertEquals(2021, bm1.getExpectedGradYear());
+		assertEquals(1, bm1.getAffiliation().getSgid());
+		assertEquals(false, bm1.getHasCar());
+		assertEquals(0, bm1.getCarCapacity());
+		assertEquals("apritchard", bm1.getUsername());
+		assertEquals(5, bm1.getContactInfo().getContactId());
 	}
 	
 	/*
@@ -64,19 +64,19 @@ class BoardMemberUserDaoTests {
 	@Test
 	void test_fetchById_whenIdValid() throws Exception {
 		
-		BoardMemberUser testBmUser = bmUserDao.fetchBoardMemberUserById(4);
+		BoardMemberUser testBmUser = bmUserDao.fetchBoardMemberUserById(1);
 		
 		// Verifying BoardMemberUser contents
-		assertEquals(false, testBmUser.getIsCoChair());
-		assertEquals(4, testBmUser.getUid());
+		assertEquals(true, testBmUser.getIsCoChair());
+		assertEquals(1, testBmUser.getUid());
 		
 		// Verifying inherited ServantUser fields
-		assertEquals(2024, testBmUser.getExpectedGradYear());
-		assertEquals(2, testBmUser.getAffiliation().getSgid());
-		assertEquals(true, testBmUser.getHasCar());
-		assertEquals(3, testBmUser.getCarCapacity());
-		assertEquals("user", testBmUser.getUsername());
-		assertEquals(1, testBmUser.getContactInfo().getContactId());
+		assertEquals(2021, testBmUser.getExpectedGradYear());
+		assertEquals(1, testBmUser.getAffiliation().getSgid());
+		assertEquals(false, testBmUser.getHasCar());
+		assertEquals(0, testBmUser.getCarCapacity());
+		assertEquals("apritchard", testBmUser.getUsername());
+		assertEquals(5, testBmUser.getContactInfo().getContactId());
 	}
 	
 	/*
@@ -86,7 +86,7 @@ class BoardMemberUserDaoTests {
 	@Test
 	void test_fetchById_whenIdInvalid() throws Exception {
 		
-		BoardMemberUser testNullUser = bmUserDao.fetchBoardMemberUserById(-1);
+		BoardMemberUser testNullUser = bmUserDao.fetchBoardMemberUserById(0);
 		
 		assertNull(testNullUser);
 	}
@@ -149,18 +149,18 @@ class BoardMemberUserDaoTests {
 	@Test
 	void test_create_whenExistingUser() throws Exception {
 		
-		BoardMemberUser newBmUser = bmUserDao.create("apritchard", true);
+		BoardMemberUser newBmUser = bmUserDao.create("user", true);
 		
 		// Verifying the ServantUser's contents
-		assertEquals(1, newBmUser.getUid());
-		assertEquals("apritchard", newBmUser.getUsername());
-		assertEquals(5, newBmUser.getContactInfo().getContactId());
-		assertEquals("AJ", newBmUser.getContactInfo().getFirstName());
-		assertEquals(1, newBmUser.getAffiliation().getSgid());
-		assertEquals("DummyName01", newBmUser.getAffiliation().getShortName());
-		assertEquals(2021, newBmUser.getExpectedGradYear());
-		assertEquals(false, newBmUser.getHasCar());
-		assertEquals(0, newBmUser.getCarCapacity());
+		assertEquals(4, newBmUser.getUid());
+		assertEquals("user", newBmUser.getUsername());
+		assertEquals(1, newBmUser.getContactInfo().getContactId());
+		assertEquals("Tom", newBmUser.getContactInfo().getFirstName());
+		assertEquals(2, newBmUser.getAffiliation().getSgid());
+		assertEquals("DummyName02", newBmUser.getAffiliation().getShortName());
+		assertEquals(2024, newBmUser.getExpectedGradYear());
+		assertEquals(true, newBmUser.getHasCar());
+		assertEquals(3, newBmUser.getCarCapacity());
 		
 		// Verifying the BoardMemberUser's contents
 		assertEquals(true, newBmUser.getIsCoChair());
@@ -174,18 +174,18 @@ class BoardMemberUserDaoTests {
 	@Test
 	void test_create_whenExistingUser_nullValues() throws Exception {
 		
-		BoardMemberUser newBmUser = bmUserDao.create("apritchard", null);
+		BoardMemberUser newBmUser = bmUserDao.create("user", null);
 		
 		// Verifying the ServantUser's contents
-		assertEquals(1, newBmUser.getUid());
-		assertEquals("apritchard", newBmUser.getUsername());
-		assertEquals(5, newBmUser.getContactInfo().getContactId());
-		assertEquals("AJ", newBmUser.getContactInfo().getFirstName());
-		assertEquals(1, newBmUser.getAffiliation().getSgid());
-		assertEquals("DummyName01", newBmUser.getAffiliation().getShortName());
-		assertEquals(2021, newBmUser.getExpectedGradYear());
-		assertEquals(false, newBmUser.getHasCar());
-		assertEquals(0, newBmUser.getCarCapacity());
+		assertEquals(4, newBmUser.getUid());
+		assertEquals("user", newBmUser.getUsername());
+		assertEquals(1, newBmUser.getContactInfo().getContactId());
+		assertEquals("Tom", newBmUser.getContactInfo().getFirstName());
+		assertEquals(2, newBmUser.getAffiliation().getSgid());
+		assertEquals("DummyName02", newBmUser.getAffiliation().getShortName());
+		assertEquals(2024, newBmUser.getExpectedGradYear());
+		assertEquals(true, newBmUser.getHasCar());
+		assertEquals(3, newBmUser.getCarCapacity());
 		
 		// Verifying the BoardMemberUser's contents
 		assertNull(newBmUser.getIsCoChair());
@@ -216,19 +216,19 @@ class BoardMemberUserDaoTests {
 	@Test
 	void test_update_whenIdValid_noNullValues() throws Exception {
 		
-		bmUserDao.update(4, true, 1, 2025, false, 0, 3);
+		bmUserDao.update(1, false, 2, 2025, true, 0, 3);
 		
 		// Assuming the fetchById is okay even though smelly code
-		BoardMemberUser testBmUser = bmUserDao.fetchBoardMemberUserById(4);
+		BoardMemberUser testBmUser = bmUserDao.fetchBoardMemberUserById(1);
 		
 		// Verifying updated values for board member
-		assertEquals(true, testBmUser.getIsCoChair());
+		assertEquals(false, testBmUser.getIsCoChair());
 		
 		// and for ServantUser
-		assertEquals(1, testBmUser.getAffiliation().getSgid());
-		assertEquals("DummyName01", testBmUser.getAffiliation().getShortName());
+		assertEquals(2, testBmUser.getAffiliation().getSgid());
+		assertEquals("DummyName02", testBmUser.getAffiliation().getShortName());
 		assertEquals(2025, testBmUser.getExpectedGradYear());
-		assertEquals(false, testBmUser.getHasCar());
+		assertEquals(true, testBmUser.getHasCar());
 		assertEquals(0, testBmUser.getCarCapacity());
 		
 		// and for User's contact info
@@ -274,11 +274,12 @@ class BoardMemberUserDaoTests {
 	void test_update_whenIdInvalid() throws Exception {
 	
 		Exception exception = assertThrows(Exception.class, () -> {
-			bmUserDao.update(1, false, 2, 2021, false, 0, null);
+			bmUserDao.update(4, false, 2, 2021, false, 0, null);
 		});
 	 
-	    String expectedMessage = "Unable to update board member user 1";
+	    String expectedMessage = "Unable to update board member user 4";
 	    String actualMessage = exception.getMessage();
+	    System.err.println(actualMessage);
 
 	    assertTrue(actualMessage.contains(expectedMessage));		
 	}
@@ -304,7 +305,7 @@ class BoardMemberUserDaoTests {
 		assertEquals(1, allBmUsers.size());
 		
 		// who has a userId of 4
-		assertEquals(4, allBmUsers.get(0).getUid());
+		assertEquals(1, allBmUsers.get(0).getUid());
 		
 		// after delete verify the board member that was deleted now has a role of 'user'
 		// need to use the user dao...
