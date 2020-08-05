@@ -99,16 +99,25 @@ function ajaxDeleteClientNow() {
 	});
 }
 
+
+
 function fillContactFields(ct, pre) {
-	//$("#viewDlg_mainContactID").val(.contactId);
-	var fullAddr = ct.street + ", " + ct.city + ", " + ct.state + " " + ct.zipcode;
-	$("#ct"+pre+"-cid").html(ct.contactId);
-	$("#ct"+pre+"-fname").html(ct.firstName);
-	$("#ct"+pre+"-lname").html(ct.lastName);
 	
-	$("#ct"+pre+"-email").html(ct.email);
-	$("#ct"+pre+"-phone1").html(ct.primaryPhone);
-	$("#ct"+pre+"-phone2").html(ct.secondaryPhone);
+	var fullAddr = ct.street?ct.street:"?" + ", " + 
+			ct.city?ct.city:"?" + ", " + 
+			ct.state?ct.state:"?" + " " + 
+			ct.zipcode?ct.zipcode:"";
+	
+	$("#ct"+pre+"-cid").html(ct.contactId);
+	
+
+	$("#ct"+pre+"-fname").html(ct.firstName?ct.firstName:"");
+
+	$("#ct"+pre+"-lname").html(ct.lastName?ct.lastName:"");
+	
+	$("#ct"+pre+"-email").html(ct.email?ct.email:"");
+	$("#ct"+pre+"-phone1").html(ct.primaryPhone?ct.primaryPhone:"");
+	$("#ct"+pre+"-phone2").html(ct.secondaryPhone?ct.secondaryPhone:"");
 	
 	$("#ct"+pre+"-addr").html(fullAddr);
 }
@@ -161,16 +170,9 @@ function onViewClick() {
 	});
 }
 
-/**
- * opens and populates the fields of service client to be
- * updated.
- * 
- * @returns
- */
-function onEditClick() {
 
-	var selSc = $(this).attr("scid"); // The ID of the selected service client to be updated	
-
+function openEditDialog(selSc) {
+	
 	console.log("Selected updated/edit service client: " + selSc);
 
 	$("#editDlg").data("selectedSrvClient", selSc).dialog("open"); // opens the edit dialog
@@ -192,7 +194,12 @@ function onEditClick() {
 		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;
 
 		$("#editDlg_name").val(sc.name);
-		$("#editDlg_boardMemberName").val(sc.currentBoardMember.uid);
+		
+		if (sc.currentBoardMember)
+			$("#editDlg_boardMemberName").val(sc.currentBoardMember.uid);
+		else
+			$("#editDlg_boardMemberName").val("-1");
+		
 		$("#editDlg_category").val(sc.category);
 		
 		fillContactFields(sc.mainContact,"3");
@@ -207,6 +214,17 @@ function onEditClick() {
 		alert("Error");
 		updateTips(jqXHR.responseText);
 	});
+}
+
+/**
+ * opens and populates the fields of service client to be
+ * updated.
+ * 
+ * @returns
+ */
+function onEditClick() {
+	var selSc = $(this).attr("scid"); // The ID of the selected service client to be updated	
+	openEditDialog(selSc);
 }
 
 /**
@@ -235,19 +253,26 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, board
 	.done(function(htmltxt) {
 		console.log("updated service client");
 		console.log(htmltxt);
-
-		// get the selected combo box text
-		var boardMemberName = $("#editDlg_boardMemberName option:selected" ).text();
-		var mainContactName = $("#editDlg_mainContactName").val();
-
-		console.log(mainContactName);
 		
-		$("#scid-"+srvClientId).replaceWith(htmltxt);
+		/*
+		 * replace row or append row if missing
+		 */
+		if ($("#scid-"+srvClientId).length > 0) {
+			$("#scid-"+srvClientId).replaceWith(htmltxt);
+		}  else {
+			$('#sc_tbl_body tr:last').after(htmltxt);
+		}
 
+		/*
+		 * make sure action buttons are rigged
+		 */
 		$(".btnScDel").click(onDeleteClick);
 		$(".btnScView, .scRow").click(onViewClick);
 		$(".btnScEdit").click(onEditClick);
 		
+		/*
+		 * close the dialog
+		 */
 		$("#editDlg").dialog("close");
 
 	})
@@ -280,7 +305,8 @@ function onNewClick() {
 		console.log("added new service client");
 		console.log(sc);
 
-		// $("#addDlg").dialog("open");
+		// now that we have a new client...let the user edit.
+		openEditDialog(sc.scid);
 		
 	})
 	/*
@@ -494,7 +520,7 @@ function onPageLoad() {
 			console.log("open view dialog");
 		},
 		buttons : [ {
-			text : "CANCEL",
+			text : "CLOSE",
 			"class" : 'btn btn-secondary',
 			click : function() {
 				$(this).dialog("close");

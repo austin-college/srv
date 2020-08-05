@@ -29,6 +29,8 @@ public class JdbcTemplateBoardMemberUserDao extends JdbcTemplateAbstractDao impl
 		super();
 	}
 	
+	
+	
 	/*
 	 * Returns a list of all current board member users
 	 */
@@ -206,5 +208,11 @@ public class JdbcTemplateBoardMemberUserDao extends JdbcTemplateAbstractDao impl
 			
 			return bmUser;
 		}
+	}
+
+
+	@Override
+	public List<BoardMemberUser> listAll() throws Exception {
+		return this.listAllBoardMemberUsers();
 	}
 }

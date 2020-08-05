@@ -36,6 +36,10 @@ public class BoardMemberUser extends ServantUser {
 		return this;
 	}
 	
+	
+	
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

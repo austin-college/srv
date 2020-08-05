@@ -33,6 +33,8 @@ import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.BoardMemberUser;
+import srv.domain.user.BoardMemberUserDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 import srv.utils.UserUtil;
@@ -53,22 +55,22 @@ public class ServiceClientControllerTest {
 	private ContactDao mockConDao;
 
 	@MockBean
-	private UserDao mockUserDao;
+	private BoardMemberUserDao mockBmUserDao;
 
 	@MockBean
 	private UserUtil mockUserUtil;
 
 	// handy objects for these tests
 	private List<ServiceClient> testClients = new ArrayList<ServiceClient>();
-	private List<User> testUsers = new ArrayList<User>();
+	private List<BoardMemberUser> testUsers = new ArrayList<BoardMemberUser>();
 	private List<Contact> testContacts = new ArrayList<Contact>();
 
 	private ServiceClient sc1;
 	private ServiceClient sc2;
 	private Contact con1;
 	private Contact con2;
-	private User bm1;
-	private User bm2;
+	private BoardMemberUser bm1;
+	private BoardMemberUser bm2;
 
 	/**
 	 * 
@@ -83,19 +85,17 @@ public class ServiceClientControllerTest {
 	@Before
 	public void setupTestFixture() {
 		
-		bm1 = new User()
-				.setUid(1)
-				.setContactInfo(new Contact()
+		bm1 = new BoardMemberUser();
+		bm1.setUid(1);
+		bm1.setContactInfo(new Contact()
 						.setFirstName("Randy")
-						.setLastName("Jackson"))
-				;
+						.setLastName("Jackson"));
 
-		bm2 = new User()
-				.setUid(2)
-				.setContactInfo(new Contact()
+		bm2 = new BoardMemberUser();
+		bm2.setUid(2);
+		bm2.setContactInfo(new Contact()
 						.setFirstName("Roo")
-						.setLastName("Jack"))
-				;
+						.setLastName("Jack"));
 		
 		con1 = new Contact()
 				.setFirstName("Joe")
@@ -521,7 +521,7 @@ public class ServiceClientControllerTest {
 
 		// Mock dependencies
 		Mockito.when(mockSrvClientDao.listAll()).thenReturn(testClients);
-		Mockito.when(mockUserDao.listAll()).thenReturn(testUsers);
+		Mockito.when(mockBmUserDao.listAll()).thenReturn(testUsers);
 		Mockito.when(mockConDao.listAll()).thenReturn(testContacts);
 		Mockito.when(mockUserUtil.userIsAdmin()).thenReturn(true);
 
