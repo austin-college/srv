@@ -508,9 +508,20 @@ function prepopulateAddDialogue(otherBtnSelected){
 		console.log(ev);
 	
 		// if the 'Other' button was clicked then we don't prepopulate the add dialog and makes the fields not readonly
+		// and hide some elements like the name of the event
 		if (otherBtnSelected) {
 			
-			$("#txtEvTitle").prop('readonly', false);
+			// hide the event title 
+			$("#txtEvTitleLabel").hide();
+			$("#txtEvTitle").hide();
+			
+			// hide the sponsor 
+			$("#evSrvClientLabel").hide();
+			$("#evSrvClient").hide();
+			
+			
+			// hide the default contact
+			$("#evContactDiv").hide();
 			$("#evDate").prop('readonly', false);
 			$("#address").prop('readonly', false);
 			$("#zip-code").prop('readonly', false);
@@ -518,22 +529,21 @@ function prepopulateAddDialogue(otherBtnSelected){
 			$("#state").prop('readonly', false);
 
 		}	
-		// date format where user can't edit is yyyy-MMM-dd
-		else {
-			var weekDayDate = new Date(ev.date).toDateString(); // makes the date with the format Wed Jan 01 2020
-			var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
-			var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
 
-			// makes the date with format 2020 Jan 01
-			var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
-			console.log(dateWithFormat_yyyyMMMdd);
-		}
-		
+		var weekDayDate = new Date(ev.date).toDateString(); // makes the date with the format Wed Jan 01 2020
+		var noWeekDayDate = weekDayDate.substring(4, weekDayDate.length); // cuts the day of the week off
+		var year = noWeekDayDate.substring(6, weekDayDate.length); // get the year 
+
+		// makes the date with format 2020 Jan 01
+		var dateWithFormat_yyyyMMMdd = year + " " + noWeekDayDate.substring(0, 6); 
+		console.log(dateWithFormat_yyyyMMMdd);
+
+
 		$("#txtEvTitle").val(ev.title);
 		$("#contact-contact").val(ev.contact.primaryPhone + " " + ev.contact.email);
 		$("#contact-name").val(ev.contact.firstName + " " + ev.contact.lastName);
 		$("#evDate").val(dateWithFormat_yyyyMMMdd);
-		
+
 		$("#hrsSrvd").val(ev.type.defHours);
 
 		$("#ct-fname").html(ev.contact.firstName);
