@@ -26,6 +26,7 @@ import srv.domain.event.eventype.EventType;
 import srv.domain.hours.ServiceHours;
 import srv.domain.hours.ServiceHoursDao;
 import srv.domain.serviceclient.ServiceClient;
+import srv.domain.user.BoardMemberUser;
 import srv.domain.user.User;
 import srv.utils.SemesterUtil;
 import srv.utils.UserUtil;
@@ -79,6 +80,7 @@ public class ServiceHoursServiceTests {
 	private User user;
 	private ServiceClient sc3;
 	private EventType et3;
+	
 	
 	
 	@Before 
@@ -1003,10 +1005,35 @@ public class ServiceHoursServiceTests {
 		Mockito.verify(dao).changeHourStatusWithFeedback(shid, newStatus, feedbackMsg);
 	}
 	
+	/**
+	 * Tests to see if the 'getServiceHoursWaitingOnSignedInBoardMember' method
+	 * works on a normal case
+	 * @throws Exception
+	 */
 	@Test
 	public void test_get_ServiceClients_wating_on_BoardMember() throws Exception {
+		
+		sc1.setCurrentBoardMember(user);
+		
 		int i = dao.getServiceHoursWaitingOnSignedInBoardMember(1);
 		System.out.println(i);
+		
+		sc1.setCurrentBoardMember(null);
+		
+	}
+	
+	/**
+	 * Tests to see if the 'getServiceHoursWaitingOnSignedInBoardMember' method
+	 * works on a case with 0
+	 * @throws Exception
+	 */
+	@Test
+	public void test_get_ServiceClients_wating_on_BoardMember_when_none() throws Exception {
+		
+		
+		int i = dao.getServiceHoursWaitingOnSignedInBoardMember(1);
+		System.out.println(i);
+		
 		
 	}
 	
