@@ -1,4 +1,5 @@
 <#import "/main_layout.html" as layout />
+<#import "/bm/bm_macros.html" as bmmac />
 
 <@layout.stdpage "Manage Board Members" "adminManageBoardMember.css" "adminManageBoardMember.js">
 
@@ -7,7 +8,11 @@
 	<!-- Page instructions -->
 	<div class="row" style="padding-left: 20px; padding-bottom: 20px">
 		<div class="col-md" id="instructions">
-			<p>Please select the action you would like to take.</p>
+			<p>Use this page to manage the current staff of the 
+			Service Station.  Potential board members must login
+			and establish themselves as a <b>Servant User</b> (ie, a website user) BEFORE you 
+			can select/promote them to <b>Board Member</b> status.  
+			</p>
 		</div>
 	</div>
 	
@@ -45,35 +50,7 @@
 			</thead>
 			<tbody id="bmTblBody">
 				<#list boardMembers as bm>
-					<tr id="row${bm.uid}">
-						
-						<#if bm.isCoChair>
-							<td class="coChair_sel"><i class='fas fa-check' style='color:green'></i>
-							</td>
-						<#else>
-							<td class="coChair_sel"><i class='fas fa-times' style='color:red'></i>
-							</td>
-						</#if>
-						
-						<td name="bm_username" uid="${bm.uid?c}">${bm.username}</td>
-						<td name="bm_fullName" uid="${bm.uid?c}">${bm.contactInfo.fullName()!"UNKNOWN"}</td>
-						<td name="bm_email" uid="${bm.uid?c}">${bm.contactInfo.email!"UNKNOWN"}</td>
-						<td name="bm_phoneNum" uid="${bm.uid?c}">${bm.contactInfo.primaryPhone!"UNKNOWN"}</td>				
-						<td name="bm_gradYr" uid="${bm.uid?c}">${bm.expectedGradYear?c!"UNKNOWN"}</td>
-												
-						<!--action buttons-->
-						<td class="bmActions">
-							<button class="btn edit btnBmEdit" uid="${bm.uid?c}">
-								<i class="fas fa-pencil-alt"></i>
-							</button>
-							<button class="btn btnView btnBmView" uid="${bm.uid?c}">
-								<i class="fas fa-search"></i>
-							</button>
-							<button class="btn del btnBmDel" uid="${bm.uid?c}">
-								<i class="far fa-trash-alt"></i>
-							</button>
-						</td>
-					</tr>
+					<@bmmac.bm_row bm/>
 				</#list>
 			</tbody>
 		</table>
@@ -147,6 +124,11 @@
 	</div>
 </div>		
 
+<div id="dlgBmEdit" title="Board Member Details...." style="display:none">
+bm details
+</div>
+
+<script src="/srv/js/contact-mgr.js"></script>
 <script src="/srv/js/datatables.min.js"></script>
 <link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
 

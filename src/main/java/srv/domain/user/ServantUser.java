@@ -15,10 +15,10 @@ import srv.domain.servicegroup.ServiceGroup;
  */
 public class ServantUser extends User {
 	
-	private Integer expectedGradYear; 
-	private ServiceGroup affiliation; // a group that they serve with
-	private Boolean hasCar; 
-	private Integer carCapacity;
+	protected Integer expectedGradYear; 
+	protected ServiceGroup affiliation; // a group that they serve with
+	protected Boolean hasCar; 
+	protected Integer carCapacity;
 	
 	//TODO Add favorite categories for events
 

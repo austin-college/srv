@@ -1,0 +1,31 @@
+<#macro bm_row bm >
+	<tr id="row-${bm.uid?c}" class="bmrow" uid="${bm.uid?c}">
+		
+		<#if bm.isCoChair>
+			<td class="coChair_sel"><i class='fas fa-check' style='color:green'></i>
+			</td>
+		<#else>
+			<td class="coChair_sel"><i class='fas fa-times' style='color:red'></i>
+			</td>
+		</#if>
+		
+		<td name="bm_username" uid="${bm.uid?c}">${bm.username}</td>
+		<td name="bm_fullName" uid="${bm.uid?c}">${bm.contactInfo.fullName()!"UNKNOWN"}</td>
+		<td name="bm_email" uid="${bm.uid?c}">${bm.contactInfo.email!"UNKNOWN"}</td>
+		<td name="bm_phoneNum" uid="${bm.uid?c}">${bm.contactInfo.primaryPhone!"UNKNOWN"}</td>				
+		<td name="bm_gradYr" uid="${bm.uid?c}">${bm.expectedGradYear?c!"UNKNOWN"}</td>
+								
+		<!--action buttons-->
+		<td class="bmActions">
+			<button class="btn edit btnBmEdit" uid="${bm.uid?c}">
+				<i class="fas fa-pencil-alt"></i>
+			</button>
+			<button class="btn btnView btnBmView" uid="${bm.uid?c}">
+				<i class="fas fa-search"></i>
+			</button>
+			<button class="btn del btnBmDel" uid="${bm.uid?c}">
+				<i class="far fa-trash-alt"></i>
+			</button>
+		</td>
+	</tr>
+</#macro>

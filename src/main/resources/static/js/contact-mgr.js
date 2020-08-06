@@ -1,3 +1,24 @@
+function fillContactFields(ct, pre) {
+	
+	var fullAddr = ct.street?ct.street:"?" + ", " + 
+			ct.city?ct.city:"?" + ", " + 
+			ct.state?ct.state:"?" + " " + 
+			ct.zipcode?ct.zipcode:"";
+	
+	$("#ct"+pre+"-cid").html(ct.contactId);
+	
+
+	$("#ct"+pre+"-fname").html(ct.firstName?ct.firstName:"");
+
+	$("#ct"+pre+"-lname").html(ct.lastName?ct.lastName:"");
+	
+	$("#ct"+pre+"-email").html(ct.email?ct.email:"");
+	$("#ct"+pre+"-phone1").html(ct.primaryPhone?ct.primaryPhone:"");
+	$("#ct"+pre+"-phone2").html(ct.secondaryPhone?ct.secondaryPhone:"");
+	
+	$("#ct"+pre+"-addr").html(fullAddr);
+}
+
 function ContactManager(options) {
 
 	if (options == null) 

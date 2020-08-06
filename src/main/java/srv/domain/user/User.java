@@ -14,11 +14,11 @@ import srv.domain.contact.Contact;
  */
 public class User implements Serializable {
 
-	private Integer uid; // unique id for each client for database
-	private String username; // the user's identification info to log in example AJ Pritchard, apritchard18
-	private Contact contactInfo; // Contact information for the user
+	protected Integer uid; // unique id for each client for database
+	protected String username; // the user's identification info to log in example AJ Pritchard, apritchard18
+	protected Contact contactInfo; // Contact information for the user
 
-	private String roll = AppConstants.ROLE_SERVANT;
+	protected String roll = AppConstants.ROLE_SERVANT;
 	
 	
 	public String getRoll() {

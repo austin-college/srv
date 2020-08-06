@@ -1,0 +1,116 @@
+<#import "/contacts/contact_macros.html" as ct />
+
+<div class="row">
+	
+	<div class="col">
+		<div class="row">
+			<div class="col-md-6">
+				<label><b>UserID:</b></label>
+			</div>
+			<div class="col-md-6">
+				<p>${bm.uid?c}</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-6">
+				<label><b>Name:</b></label>
+			</div>
+			<div class="col-md-6">
+				<p>${bm.username!"UNKOWN NAME"}</p>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-6">
+				<label><b>BoardMember Role:</b></label>
+			</div>
+			<div class="col-md-6">
+				<div class="custom-control custom-switch">
+					<#if bm.isCoChair>
+  					<input type="checkbox" class="custom-control-input" id="bmChair" name="bmChair" checked="checked" disabled>
+  					<#else>
+  					<input type="checkbox" class="custom-control-input" id="bmChair" name="bmChair" disabled>
+  					</#if>
+  					<label class="custom-control-label" for="bmChair">Co Chair</label>
+				</div>
+				
+			</div>
+
+		</div>
+
+	</div>
+	
+	<div class="col">
+	
+	  			<div id="bmContact" class="border bg-light form-group" style="padding: 10px;">
+
+					<div class='row'>
+						<div class='col'>
+							<h6 class="small"><b>Contact Information</b><button id="btnContact" type="button" class="btn btn-sm btn-light border form-button ml-2" cid="${bm.contactInfo.contactId}" >...</button></h6>						
+							<hr class="col-md-11-auto"/>
+						</div>
+					</div>
+					
+				  	 <div id="evContactView1">
+	 			  		<@ct.view_sm bm.contactInfo />
+				  	  </div>
+  				</div>
+		
+	</div>
+</div>
+
+<hr/>
+
+<div class="row form-group">
+	<div class="col-md-6">
+		<label for="gradYr"><b>Expected Graduation Year:</b></label>
+	</div>
+	<div class="col-md-6">
+		<input type="text" class="form-control" id="gradYr" name="gradYr" value="${bm.expectedGradYear?c!''}" readonly/>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-6">
+		<label><b>Affiliation:</b></label>
+	</div>
+	
+	<div class="col-md-6">
+		<#if bm.affiliation??>
+			<p>${bm.affiliation.shortName!"UNKNOWN AFF NAME"}</p>
+		<#else>
+			<p>NO GROUP AFFILIATION</p>
+		</#if>
+	</div>
+</div>
+
+<div class="row">
+			<div class="col-md-6">
+				<label><b>Transportation:</b></label>
+			</div>
+			<div class="col-md-6">
+				<div class="custom-control custom-switch">
+					<#if bm.hasCar>
+  					<input type="checkbox" class="custom-control-input" id="bmCar" name="bmCar" checked="checked" disabled />
+  					<#else>
+  					<input type="checkbox" class="custom-control-input" id="bmCar" name="bmCar" disabled />
+  					</#if>
+  					<label class="custom-control-label" for="bmCar">Has Car</label>
+				</div>
+				
+			</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+	<label for="bmCarCap"><b>Car Capacity:</b></label>
+	</div>
+	<div class="col-md-6">
+	<input type="text" class="form-control" id="bmCarCap" name="bmCarCap" value="${bm.carCapacity?c!''}" readonly/>
+	</div>
+</div>
+						

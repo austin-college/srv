@@ -152,5 +152,26 @@ public class BoardMemberService {
 		
 		return hrs.get(index);
 	}
+
+
+	public BoardMemberUser fetchById(Integer id) throws Exception {
+		// TODO Auto-generated method stub
+		return bmDao.fetchBoardMemberUserById(id.intValue());
+	}
+
+
+	public BoardMemberUser updateBoardMember(BoardMemberUser bm) throws Exception {
+		
+		bmDao.update(bm.getUid(), 
+				bm.getIsCoChair(),
+				bm.getAffiliation()!=null?bm.getAffiliation().getSgid():null,
+				bm.getExpectedGradYear(), 
+				bm.getHasCar(),
+				bm.getCarCapacity(),
+				bm.getContactInfo()!=null?bm.getContactInfo().getContactId():null);
+		
+
+		return fetchById(bm.getUid());
+	}
 	
 }

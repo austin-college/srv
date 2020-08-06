@@ -128,47 +128,47 @@ public class BoardMemberControllerTest {
 		.andExpect(xpath(dquote("//table[@id='bmTbl']")).exists())
 
 		// and there's a row in our table that has a username td inside whose text better be 'rbuckle19' 
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='bm_username' and text()='rbuckle19']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@name='bm_username' and text()='rbuckle19']")).exists())
 
 		// and there's a row in our table that has a full name td inside whose text better be 'Rusty Buckle' 
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='bm_fullName' and text()='Rusty Buckle']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@name='bm_fullName' and text()='Rusty Buckle']")).exists())
 
 		// and there's a row in our table that has an email td inside whose text better be 'rBuckle19@austincollege.edu' 
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='bm_email' and text()='rBuckle19@austincollege.edu']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@name='bm_email' and text()='rBuckle19@austincollege.edu']")).exists())
 
 		// and there's a row in our table that has a phone num td inside whose text better be '903-338-3302' 
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='bm_phoneNum' and text()='903-338-3302']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@name='bm_phoneNum' and text()='903-338-3302']")).exists())
 
 		// and there's a row in our table that has an expected grad year td inside whose text better be '2023' 
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@name='bm_gradYr' and text()='2023']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@name='bm_gradYr' and text()='2023']")).exists())
 
 		
 		
 		// and that same row as a td with a button inside for editing
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='bmActions']/button[contains(@class, 'btnBmEdit')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@class='bmActions']/button[contains(@class, 'btnBmEdit')]")).exists())
 
 		// and viewing
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='bmActions']/button[contains(@class, 'btnBmView')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@class='bmActions']/button[contains(@class, 'btnBmView')]")).exists())
 
 		// and deleting
-		.andExpect(xpath(dquote("//tr[@id='row1']/td[@class='bmActions']/button[contains(@class, 'btnBmDel')]")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-1']/td[@class='bmActions']/button[contains(@class, 'btnBmDel')]")).exists())
 
 		
 
 		// and there's a row in our table that has a username td inside whose text better be 'lRoo18' 
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='bm_username' and text()='lRoo18']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-2']/td[@name='bm_username' and text()='lRoo18']")).exists())
 
 		// and there's a row in our table that has a full name td inside whose text better be 'Lizzy Roo' 
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='bm_fullName' and text()='Lizzy Roo']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-2']/td[@name='bm_fullName' and text()='Lizzy Roo']")).exists())
 
 		// and there's a row in our table that has an email td inside whose text better be 'lRoo18@austincollege.edu' 
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='bm_email' and text()='lRoo18@austincollege.edu']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-2']/td[@name='bm_email' and text()='lRoo18@austincollege.edu']")).exists())
 
 		// and there's a row in our table that has a phone num td inside whose text better be '123-555-2002' 
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='bm_phoneNum' and text()='123-555-2002']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-2']/td[@name='bm_phoneNum' and text()='123-555-2002']")).exists())
 
 		// and there's a row in our table that has an expected grad year td inside whose text better be '2022' 
-		.andExpect(xpath(dquote("//tr[@id='row2']/td[@name='bm_gradYr' and text()='2022']")).exists())
+		.andExpect(xpath(dquote("//tr[@id='row-2']/td[@name='bm_gradYr' and text()='2022']")).exists())
 
 		
 		// and our page better have a delete dialog defined/hidden

@@ -73,10 +73,10 @@ function onDeleteClick() {
 	var uid = $(this).attr("uid");
 	
 	// ...get the value of name cell in row
-	var row_name = $("#row" + uid + " td[name = 'bm_fullName']").html();
+	var row_name = $("#row-" + uid + " td[name = 'bm_fullName']").html();
 	
 	// ...and get the value of username cell in row
-	var row_username = $("#row" + uid + " td[name = 'bm_username").html();
+	var row_username = $("#row-" + uid + " td[name = 'bm_username").html();
 	
 	// fill in the dialog with data from the current row board member
 	$("#delBmId").html(uid);
@@ -87,15 +87,18 @@ function onDeleteClick() {
 	$("#dlgDelete").dialog("open");
 }
 
-//TODO alert user feature not functional yet
+
 function onEditClick() {
-	alert("Edit feature is not functional yet.");
+	var uid = $(this).attr("uid");
+	$("#dlgBmEdit").data("uid",uid).data("ro",false).dialog("open");	
 }
 
-//TODO alert user feature not functional yet
+
 function onViewClick() {
-	alert("View feature is not functional yet.");
+	var uid = $(this).attr("uid");
+	$("#dlgBmEdit").data("uid",uid).data("ro",true).dialog("open");	
 }
+
 
 /**
  * makes the request back to our server to delete the board member whose
@@ -116,7 +119,7 @@ function ajaxDeleteBoardMemberNow() {
 	 */
 	.done(function(uid) {
 
-		$("#row" + uid).remove(); // remove row from table.
+		$("#row-" + uid).remove(); // remove row from table.
 		$("#dlgDelete").dialog("close");
 	})
 	/*
@@ -129,6 +132,44 @@ function ajaxDeleteBoardMemberNow() {
 	});
 }
 
+function saveBoardMember(uid, coChairFlag, gradYr, carFlag, carCap) {
+
+	$.ajax({
+		method : "POST",
+		url : "/srv/boardmembers/ajax/bm/" + uid,
+		cache : false,
+		data : {
+			"chair": coChairFlag,
+			"grad": gradYr,
+			"car": carFlag,
+			"carcap": carCap
+		}
+	})
+	/*
+	 * If successful, then remove the selected board member row from the table.
+	 */
+	.done(function(htmltext) {
+
+		$("#row-"+uid).replaceWith(htmltext);
+		
+		$(".btnBmDel").click(onDeleteClick);
+		$(".btnBmEdit").click(onEditClick);
+		$(".btnBmView").click(onViewClick);
+		
+		$("#dlgBmEdit").dialog("close");
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and
+	 * reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Request failed: " + textStatus + " : " + jqXHR.responseText);
+		$("#dlgBmEdit").dialog("close");
+	});
+	
+}
+
+
 // Final preparations once the page is loaded. we hide stuff and attach
 // functions to buttons.
 function onPageLoad() {
@@ -139,13 +180,110 @@ function onPageLoad() {
 	// connect the delete action to all delete buttons tagged with btnBmDel
 	// class
 	$(".btnBmDel").click(onDeleteClick);
-
-	// connect the edit action to all edit buttons
 	$(".btnBmEdit").click(onEditClick);
-
-	// connect the view action to all view buttons
 	$(".btnBmView").click(onViewClick);
 		
+	$("#dlgBmEdit").dialog({
+		autoOpen : false, 
+		width: $(document).width() * 0.5,
+		height: $(document).height() * 0.8,
+		position : {
+			my : "center top",
+			at : "center top",
+			of : window
+		},
+		modal : true,
+		open: function(event, ui) {			
+			
+			var uid = $(this).data("uid");  
+			var ro = $(this).data("ro");
+			
+			console.log("open edit dialog "+uid);
+			
+			$.ajax({
+				method : "GET",
+				url : "/srv/boardmembers/ajax/bm/" + uid,
+				cache : false
+			})
+			/*
+			 * If success, then prepopulate the selected service clients fields in the edit dialog
+			 */
+			.done(function(htmltext) {
+
+				$("#dlgBmEdit").html(htmltext);
+				
+				if (ro) {
+					$("#dlgBtnUpdate").hide();
+					$("#btnContact").hide();
+
+					$("input").attr("disabled","disabled");
+					$("input").attr("readonly","readonly");
+
+				} else {
+					$("#dlgBtnUpdate").show();
+					$("#btnContact").show();
+					$("input").removeAttr("disabled");
+					$("input").removeAttr("readonly");
+				}
+				
+				
+				dlgEdit = new ContactManager({
+					btn: "#btnContact", 
+					task: "edit",
+					success: function(ct) {
+						console.log(ct);
+						fillContactFields(ct,"");
+					}
+					});
+				
+			})
+			/*
+			 * If unsuccessful (invalid data values), display error message and reasoning.
+			 */
+			.fail(function(jqXHR, textStatus) {
+				alert("Error");
+				updateTips(jqXHR.responseText);
+			});
+			
+			
+			
+		},
+		dialogClass : "editDlgClass",
+		show : {
+			effect : "blind",
+			duration : 500
+		},
+		buttons : [ {
+			id: "dlgBtnUpdate",
+			text : "UPDATE",
+			"class" : 'btn btn-info',
+			click : function() {
+				
+				var uid = $("#dlgBmEdit").data("uid");  
+				
+				var coChairFlag = $("#bmChair").is(':checked');
+				var gradYr = $("#gradYr").val();
+				var carFlag = $("#bmCar").is(':checked');
+				var carCap = $("#bmCarCap").val();
+
+				saveBoardMember(uid, coChairFlag, gradYr, carFlag, carCap);
+				
+				// $(this).dialog("close");
+			}
+		},
+
+		{
+			text : "CANCEL",
+			id: "dlgBtnCancel",
+			"class" : 'btn btn-secondary',
+			click : function() {
+				$(this).dialog("close");
+			}
+		} ]
+	});
+	
+	
+	
 	// Register and hide the delete dialog div until a delete button is clicked on.
 	$("#dlgDelete").dialog({
 		autoOpen : false, 

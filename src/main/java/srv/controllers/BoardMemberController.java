@@ -52,7 +52,7 @@ public class BoardMemberController {
 	@GetMapping("/boardMember")
 	public ModelAndView splashAction(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView mav = new ModelAndView("home/boardMember");
+		ModelAndView mav = new ModelAndView("bm/boardMember");
 		
 		mav.addObject("hours", bmSrv.listHoursToBeApproved());
 
@@ -69,7 +69,7 @@ public class BoardMemberController {
 	@GetMapping("/boardmembers")
 	public ModelAndView adminManageBoardMemberBasePage(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView mav = new ModelAndView("home/adminManageBoardMembers");
+		ModelAndView mav = new ModelAndView("bm/bm_manage_page");
 
 		try {
 							
@@ -86,13 +86,79 @@ public class BoardMemberController {
 		return mav;
 	}
 
+
+	@GetMapping("/boardmembers/ajax/bm/{id}")
+	public ModelAndView ajaxFetchBoardMemberDialog(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("/bm/bm_edit_dialog");
+		
+		
+		try {
+			BoardMemberUser bmUser = bmSrv.fetchById(id);
+			
+			mav.addObject("bm",bmUser);
+			
+		} catch (Exception e) {
+
+			log.error(e.getMessage());
+			mav.addObject(FM_KEY_ERROR, e.getMessage());
+
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+	
+	
+	@PostMapping("/boardmembers/ajax/bm/{id}")
+	public ModelAndView ajaxSaveBoardMemberInfo(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("/bm/bm_single_row");
+		
+		try {
+			
+			Boolean chairFlag = ParamUtil.requiredBooleanParam(request.getParameter("chair"), "Co Chair boolean required.");
+			Integer gradYr = ParamUtil.requiredIntegerParam(request.getParameter("grad"), "board member grad year is required.");
+			Boolean carFlag = ParamUtil.requiredBooleanParam(request.getParameter("car"), "Car boolean required.");
+			Integer carCapacity = ParamUtil.requiredIntegerParam(request.getParameter("carcap"), "Car capacity is required.");
+			
+			BoardMemberUser bmUser = bmSrv.fetchById(id);
+
+			/*
+			 * now update some portion of it.
+			 */
+			bmUser.setIsCoChair(chairFlag);
+			bmUser.setExpectedGradYear(gradYr);
+			bmUser.setHasCar(carFlag);
+			bmUser.setCarCapacity(carCapacity);
+			
+			/*
+			 * commit back to database
+			 */
+			bmUser = bmSrv.updateBoardMember(bmUser);
+			log.debug("back from update: {}",bmUser);
+			
+			mav.addObject("bm",bmUser);
+			
+		} catch (Exception e) {
+
+			log.error(e.getMessage());
+			mav.addObject(FM_KEY_ERROR, e.getMessage());
+
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+	
+	
+	
+	
 	/**
 	 * Ajax call to create/promote and return a new board member user to the database
 	 */
 	@PostMapping("/boardmembers/ajax/new")
 	public ModelAndView ajaxCreateBoardMember(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView mav = new ModelAndView("/home/ajax_singleBoardMemberRow");
+		ModelAndView mav = new ModelAndView("/bm/ajax_singleBoardMemberRow");
 		
 		response.setContentType("text/html");
 		
