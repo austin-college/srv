@@ -28,5 +28,5 @@ public interface ServiceHoursDao {
 	
 	public void changeHourStatusWithFeedback(Integer shid, String status, String feedback) throws Exception;
 
-	public List<ServiceHours> getServiceHoursWaitingOnSignedInBoardMember();
+	public int getServiceHoursWaitingOnSignedInBoardMember(int boardMemberId);
 }

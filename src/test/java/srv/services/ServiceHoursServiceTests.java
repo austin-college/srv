@@ -1002,4 +1002,12 @@ public class ServiceHoursServiceTests {
 		// verify that the dao got involved
 		Mockito.verify(dao).changeHourStatusWithFeedback(shid, newStatus, feedbackMsg);
 	}
+	
+	@Test
+	public void test_get_ServiceClients_wating_on_BoardMember() throws Exception {
+		int i = dao.getServiceHoursWaitingOnSignedInBoardMember(1);
+		System.out.println(i);
+		
+	}
+	
 }

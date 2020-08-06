@@ -352,8 +352,16 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	 * and return a list of them
 	 */
 	@Override
-	public List<ServiceHours> getServiceHoursWaitingOnSignedInBoardMember() {
-		return null;
+	public int getServiceHoursWaitingOnSignedInBoardMember(int boardMemberId) {
+		
+		String sqlStr = String.format("SELECT count(*) FROM serviceHours join serviceClients sc on scid WHERE sc.boardMemberId = %d", boardMemberId);
+		log.debug(sqlStr);
+		
+		if (sqlStr == null) {
+			System.err.println("Error on JdbcTemplateServiceHoursDao, system tried to find Service Hours waiting on a board member but failed!");
+		}
+		
+		return Integer.parseInt(sqlStr);
 		
 	}
 	

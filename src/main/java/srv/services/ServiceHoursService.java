@@ -424,14 +424,13 @@ public class ServiceHoursService {
 	
 	/**
 	 * On call this method will query the data base to see what service hours objects are waiting
-	 * on this signed in board member to approve them, and will return an array of all the 
-	 * objects
-	 * @return
+	 * on this signed in board member and return a count of them
+	 * @return Object Count
 	 */
-	public ServiceHours[] serviceHoursWaitingOnSignedInBoardMember() {
+	public int serviceHoursWaitingOnSignedInBoardMember() {
 		
 		
-		return null;
+		return -1;
 		
 	}
 	
