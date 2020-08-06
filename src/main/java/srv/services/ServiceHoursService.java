@@ -422,6 +422,18 @@ public class ServiceHoursService {
 		
 	}
 	
+	/**
+	 * On call this method will query the data base to see what service hours objects are waiting
+	 * on this signed in board member and return a count of them
+	 * @return Object Count
+	 */
+	public int serviceHoursWaitingOnSignedInBoardMember() {
+		
+		
+		return -1;
+		
+	}
+	
 	
 	
 }	

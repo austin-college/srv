@@ -124,7 +124,7 @@ public class ServiceClientControllerTest {
 				;
 
 		sc1 = new ServiceClient()
-				.setClientId(1)
+				.setScid(1)
 				.setName("Habitat for Humanity")
 				.setCategory("Community")
 				.setMainContact(con1)
@@ -132,7 +132,7 @@ public class ServiceClientControllerTest {
 				;
 
 		sc2 = new ServiceClient()
-				.setClientId(2)
+				.setScid(2)
 				.setName("Meals on Wheels")
 				.setCategory("Seniors")
 				.setMainContact(con2)
@@ -338,7 +338,7 @@ public class ServiceClientControllerTest {
 
 		ServiceClient sc3 = new ServiceClient()
 				.setName(name)
-				.setClientId(scid3)
+				.setScid(scid3)
 				.setCategory(category)
 				.setMainContact(con1)
 				.setCurrentBoardMember(bm1);
@@ -623,10 +623,10 @@ public class ServiceClientControllerTest {
 				
 				
 		// train the dao to ask for these when asked to listAll reasons.
-		ServiceClient sc1 = new ServiceClient().setClientId(1).setName("Habitat for Humanity")
+		ServiceClient sc1 = new ServiceClient().setScid(1).setName("Habitat for Humanity")
 				.setMainContact(main1).setCurrentBoardMember(bm1).setCategory("Community");
 	
-		ServiceClient sc2 = new ServiceClient().setClientId(2).setName("Crisis Center")
+		ServiceClient sc2 = new ServiceClient().setScid(2).setName("Crisis Center")
 				.setMainContact(main2).setCurrentBoardMember(bm2).setCategory("Crisis Support");
 
 		List<ServiceClient> dummyList = new ArrayList<ServiceClient>();

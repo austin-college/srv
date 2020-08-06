@@ -97,7 +97,7 @@ public class ServantAddsHours extends SeleniumTest {
 		//correct hours
 		link = driver.findElement(By.xpath("//tr[@id='row8']/td[@name='hrs_hrsServed']"));
 
-		assertEquals("3", link.getText());
+		assertEquals("2", link.getText());
 
 		//to continue we must click on the logged hours to inspect further
 		JavascriptExecutor jse = (JavascriptExecutor)driver;

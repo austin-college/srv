@@ -87,12 +87,12 @@ public class EventControllerTest {
 				.setPinHours(false);
 		
 		ServiceClient sc1 = new ServiceClient()
-				.setClientId(1)
+				.setScid(1)
 				.setName("Habitat for Humanity")
 				.setCategory("Community");
 		
 		ServiceClient sc2 = new ServiceClient()
-				.setClientId(2)
+				.setScid(2)
 				.setName("Meals on Wheels")
 				.setCategory("Seniors");		
 		

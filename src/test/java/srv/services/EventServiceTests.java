@@ -144,7 +144,7 @@ public class EventServiceTests {
 				Mockito.anyInt(), 
 				Mockito.anyBoolean(), 
 				Mockito.refEq(null), 
-				Mockito.refEq(null),
+				Mockito.anyInt(),
 				Mockito.refEq(null), 
 				Mockito.refEq(null), 
 				Mockito.any(String.class)
@@ -165,7 +165,7 @@ public class EventServiceTests {
 				Mockito.eq(1), 
 				Mockito.eq(false), 
 				Mockito.refEq(null), 
-				Mockito.refEq(null),
+				Mockito.eq(1),
 				Mockito.refEq(null), 
 				Mockito.refEq(null), 
 				Mockito.eq(""));
