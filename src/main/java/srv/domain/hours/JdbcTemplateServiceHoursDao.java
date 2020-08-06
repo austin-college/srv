@@ -348,6 +348,16 @@ public class JdbcTemplateServiceHoursDao extends JdbcTemplateAbstractDao impleme
 	}
 	
 	/**
+	 * This method will search the data base for all service hours waiting on a specified board member
+	 * and return a list of them
+	 */
+	@Override
+	public List<ServiceHours> getServiceHoursWaitingOnSignedInBoardMember() {
+		return null;
+		
+	}
+	
+	/**
 	 * This class maps a ServiceHour database record to the ServiceHour model object by using
 	 * a RowMapper interface to fetch the records for a ServiceHour from the database.
 	 */

@@ -422,6 +422,19 @@ public class ServiceHoursService {
 		
 	}
 	
+	/**
+	 * On call this method will query the data base to see what service hours objects are waiting
+	 * on this signed in board member to approve them, and will return an array of all the 
+	 * objects
+	 * @return
+	 */
+	public ServiceHours[] serviceHoursWaitingOnSignedInBoardMember() {
+		
+		
+		return null;
+		
+	}
+	
 	
 	
 }	
