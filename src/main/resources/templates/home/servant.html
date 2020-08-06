@@ -68,17 +68,21 @@
 					
 					
 				<div class="row">
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item active"><a class="nav-link active" id="info-tab"
+					<ul class="nav nav-tabs" id="myTab"  role="tablist">
+						<li class="nav-item active"><a class="nav-link active" id="info-tab" 
+					
 							data-toggle="tab" href="#info" role="tab" >My Info</a></li>
-							
+								 <!--  use to be id = "info-tab" -->
 							<li class="nav-item"><a class="nav-link" id="reports-tab"
 							data-toggle="tab" href="#menu1" role="tab">Reports</a></li>
 				
 					</ul>
 					
 					 <div class="tab-content">
-    <div id="info" class="tab-pane fade in active">
+					 <!--  use to be class="tab-pane fade in active" -->
+    <div id = "info" class="tab-pane fade in active">
+
+    
       <h3>KANGA</h3>
       <p>This is your most current information. </p>
     
@@ -188,6 +192,11 @@
 						</div>
 						</#if>
 						
+						
+
+						
+						
+						
 					</div>
     
     <div id="menu1" class="tab-pane fade">
@@ -211,6 +220,14 @@
       
     </div>
   				</div>
+  				
+  						
+  						<script>
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("info").click();
+		</script>
+  				
+  				
 				</div>
 
 				</div>
@@ -219,6 +236,9 @@
 			</div>
 		
 		</div>
+		
+
+
 	
 		</div>
 
