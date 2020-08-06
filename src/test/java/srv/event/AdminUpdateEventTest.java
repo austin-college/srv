@@ -91,7 +91,7 @@ public class AdminUpdateEventTest extends SeleniumTest {
 		selector.selectByIndex(1);
 
 		//checks to see if the correct option is displayed
-		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText());
+		assertEquals("(gds) Great Day of Service", selector.getAllSelectedOptions().get(0).getText());
 
 		/*
 		 * finds the submit button and submits the information
