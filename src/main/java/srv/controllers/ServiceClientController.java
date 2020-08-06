@@ -23,6 +23,8 @@ import srv.domain.contact.Contact;
 import srv.domain.contact.ContactDao;
 import srv.domain.serviceclient.ServiceClient;
 import srv.domain.serviceclient.ServiceClientDao;
+import srv.domain.user.BoardMemberUser;
+import srv.domain.user.BoardMemberUserDao;
 import srv.domain.user.User;
 import srv.domain.user.UserDao;
 import srv.utils.ParamUtil;
@@ -53,7 +55,7 @@ public class ServiceClientController {
 	ContactDao contactDao;
 
 	@Autowired
-	UserDao userDao;
+	BoardMemberUserDao bmDao;
 
 	@Autowired
 	UserUtil userUtil;
@@ -73,7 +75,7 @@ public class ServiceClientController {
 			mav.addObject("clients", myClients);
 
 			// Lists the current users in the user database in a drop down menu in the add and edit service client dialogs for selecting a current board member
-			List<User> users = userDao.listAll();
+			List<BoardMemberUser> users = bmDao.listAllBoardMemberUsers();
 			mav.addObject("users", users);
 
 			// Lists the current contacts in the contact database in a drop down menu in the add and edit service client dialogs
@@ -136,6 +138,33 @@ public class ServiceClientController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	/**
+	 * Ajax call to retrieve and return selected service client from the database.
+	 */
+	@ResponseBody
+	@PostMapping(value="/sc/ajax/new", produces="application/json")
+	public ResponseEntity<ServiceClient> ajaxCreateNewClient() {
+
+		try {
+			log.debug("new service client " );
+			
+			// mah: create dummy
+
+			Contact c = contactDao.create("sponsor first name", "sponsor last name", "sponsor email", "sponsor phone", null, "street addr", "city", "TX", "75090");
+			
+			log.debug("new client contact: "+c);
+			
+			ServiceClient srvClient = srvClientDao.create("sponsor name", c.getContactId(), null, null);
+
+			return new ResponseEntity<>(srvClient, HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 
 	/**
 	 * Ajax call to create and return the new service client to the database.
@@ -155,11 +184,10 @@ public class ServiceClientController {
 			String cat = request.getParameter("cat");
 
 			Integer cid1 = ParamUtil.requiredIntegerParam(request.getParameter("cid1"), "Main contact id is required.");
-			Integer cid2 = ParamUtil.requiredIntegerParam(request.getParameter("cid2"), "Other/secondary contact id is required.");
 			Integer bmId = ParamUtil.requiredIntegerParam(request.getParameter("bmId"), "board member id is required.");
 
 			// Creates a new service client in the service client database.
-			ServiceClient newClient = srvClientDao.create(name, cid1, cid2, bmId, cat);
+			ServiceClient newClient = srvClientDao.create(name, cid1, bmId, cat);
 
 			//  Prepares and renders the response of the template's model for the HTTP response
 			mav.addObject("scid", newClient.getScid());
@@ -208,11 +236,10 @@ public class ServiceClientController {
 
 			Integer scid = ParamUtil.requiredIntegerParam(request.getParameter("scid"), "Service client id is required.");
 			Integer cid1 = ParamUtil.requiredIntegerParam(request.getParameter("cid1"), "Main contact id is required.");
-			Integer cid2 = ParamUtil.requiredIntegerParam(request.getParameter("cid2"), "Other/secondary contact id is required.");
 			Integer bmId = ParamUtil.requiredIntegerParam(request.getParameter("bmId"), "board member id is required.");
 
 			// Updates the service client in the service client database.
-			srvClientDao.update(scid, name, cid1, cid2, bmId, cat);
+			srvClientDao.update(scid, name, cid1, bmId, cat);
 
 			// Hold onto a handle of the updated service client to aid with preparing the MAV response.
 			ServiceClient updatedClient = srvClientDao.fetchClientById(scid);

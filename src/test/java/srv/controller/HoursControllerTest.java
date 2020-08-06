@@ -110,9 +110,9 @@ public class HoursControllerTest {
 		EventType et2 = new EventType().setEtid(2).setName("fws").setDescription("first we serve for test")
 				.setDefHours(0.0).setDefClient(null).setPinHours(false);
 
-		sc1 = new ServiceClient().setClientId(1).setName("Habitat for Humanity").setCategory("Community");
+		sc1 = new ServiceClient().setScid(1).setName("Habitat for Humanity").setCategory("Community");
 
-		sc2 = new ServiceClient().setClientId(2).setName("Meals on Wheels").setCategory("Seniors");
+		sc2 = new ServiceClient().setScid(2).setName("Meals on Wheels").setCategory("Seniors");
 
 		e1 = new Event().setEid(1).setTitle("gds 2020").setDate(new java.util.Date())
 				.setAddress("900 N. Grand Ave").setType(et1).setServiceClient(sc1)

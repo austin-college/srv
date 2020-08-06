@@ -40,121 +40,26 @@
 								<option value="Medical">Medical</option>
 								<option value="Crisis Support">Crisis Support</option>
 								<option value="Variety">Variety</option>
+								<option value="None">None</option>
 							</select>
 						</div>
 					</div>
+					
+					
+				<div id="scContact5" class="border bg-light form-group" style="padding: 10px; margin-top:2em;">
+
 					<div class='row'>
 						<div class='col'>
-							<h5><b>Primary Contact Information</b></h5>
-							<hr class=".col-md-11-auto"/>
+							<h6 class="small"><b>Primary Contact Information</b><button id="btnContact5" type="button" class="btn btn-sm btn-light border form-button ml-2" cid="-1" >...</button></h6>						
+							<hr class="col-md-11-auto"/>
 						</div>
 					</div>
-					<div class='form-row'>
-						<div class='col-sm-3'>
-							<label for="addDlg_mainContactID"><b>Select Contact ID</b></label>
-						</div>
-						<div class='col-sm-2'>
-							<select id="addDlg_mainContactID" class='form-control mainContactRow'>
-								<#list contacts as con>
-									<option>${con.contactId?c}</option>
-								</#list>
-							</select>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="addDlg_mainContactName"><b>Name</b></label>
-							<input class="form-control" id="addDlg_mainContactName" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="addDlg_mainContactEmail"><b>Email</b></label>
-							<input class="form-control" id="addDlg_mainContactEmail" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="addDlg_mainContactPrimaryPhone"><b>Primary Phone Number</b></label> 
-							<input class="form-control" id="addDlg_mainContactPrimaryPhone" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="addDlg_mainContactSecondaryPhone"><b>Secondary Phone Number</b></label> 
-							<input class="form-control" id="addDlg_mainContactSecondaryPhone" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="addDlg_mainContactStreet"><b>Address</b></label> 
-						<input class="form-control" id="addDlg_mainContactStreet" readonly="readonly"/>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="addDlg_mainContactCity"><b>City</b></label> 
-							<input class="form-control" id="addDlg_mainContactCity" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-4">
-							<label for="addDlg_mainContactState"><b>State</b></label> 
-							<input id="addDlg_mainContactState" class="form-control" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-2">
-							<label for="addDlg_mainContactZip"><b>Zip</b></label> 
-							<input class="form-control" id="addDlg_mainContactZip" readonly="readonly"/>
-						</div>
-					</div>
-					<div class='row'>
-						<div class='col'>
-							<h5><b>Secondary Contact Information</b></h5>
-							<hr class=".col-md-11-auto"/>
-						</div>
-					</div>
-					<div class='form-row'>
-						<div class='col-sm-3'>
-							<label for="addDlg_otherContactID"><b>Select Contact ID</b></label>
-						</div>
-						<div class='col-sm-2'>
-							<select id="addDlg_otherContactID" class='form-control otherContactRow'>
-								<#list contacts as con>
-									<option>${con.contactId?c}</option>
-								</#list>
-							</select>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="addDlg_otherContactName"><b>Name</b></label> 
-							<input class="form-control" id="addDlg_otherContactName" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="addDlg_otherContactEmail"><b>Email</b></label> 
-							<input class="form-control" id="addDlg_otherContactEmail" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="addDlg_otherContactPrimaryPhone"><b>Primary Phone Number</b></label> 
-							<input class="form-control" id="addDlg_otherContactPrimaryPhone" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="addDlg_otherContactSecondaryPhone"><b>Secondary Phone Number</b></label> 
-							<input class="form-control" id="addDlg_otherContactSecondaryPhone" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="addDlg_otherContactStreet"><b>Address</b></label> 
-						<input class="form-control" id="addDlg_otherContactStreet" readonly="readonly"/>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="addDlg_otherContactCity"><b>City</b></label> 
-							<input class="form-control" id="addDlg_otherContactCity" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-4">
-							<label for="addDlg_otherContactState"><b>State</b></label> 
-							<input id="addDlg_otherContactState" class="form-control" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-2">
-							<label for="addDlg_otherContactZip"><b>Zip</b></label> 
-							<input class="form-control" id="addDlg_otherContactZip" readonly="readonly"/>
-						</div>
-					</div>
+					
+				  	 <div id="evContactView1">
+	 			  		<@ct.view_sm_empty "5"/>
+				  	  </div>
+  				</div>
+	
 			</div>
 		</div>
 	</div>

@@ -33,32 +33,32 @@ class EventTypeDaoTests {
 	void testFetchEventTypeById() throws Exception {
 		
 		// Check existing event type in sql 1~3
-		EventType et01 = dao.fetchEventTypeById(1);
-
-		assertEquals(1, et01.getEtid());
-		assertEquals("gds", et01.getName());
-		assertEquals("Great Day of Service", et01.getDescription());
-		assertEquals(2, et01.getDefHours());
-		assertEquals(false, et01.isPinHours());
-		assertEquals(1, et01.getDefClient().getScid());
-
 		EventType et02 = dao.fetchEventTypeById(2);
 
 		assertEquals(2, et02.getEtid());
-		assertEquals("fws", et02.getName());
-		assertEquals("First We Serve", et02.getDescription());
+		assertEquals("gds", et02.getName());
+		assertEquals("Great Day of Service", et02.getDescription());
 		assertEquals(2, et02.getDefHours());
-		assertEquals(true, et02.isPinHours());
+		assertEquals(false, et02.isPinHours());
 		assertEquals(1, et02.getDefClient().getScid());
-		
+
 		EventType et03 = dao.fetchEventTypeById(3);
 
 		assertEquals(3, et03.getEtid());
-		assertEquals("rbd", et03.getName());
-		assertEquals("Roo Bound", et03.getDescription());
-		assertEquals(3, et03.getDefHours());
+		assertEquals("fws", et03.getName());
+		assertEquals("First We Serve", et03.getDescription());
+		assertEquals(2, et03.getDefHours());
 		assertEquals(true, et03.isPinHours());
 		assertEquals(1, et03.getDefClient().getScid());
+		
+		EventType et04 = dao.fetchEventTypeById(4);
+
+		assertEquals(4, et04.getEtid());
+		assertEquals("rbd", et04.getName());
+		assertEquals("Roo Bound", et04.getDescription());
+		assertEquals(3, et04.getDefHours());
+		assertEquals(true, et04.isPinHours());
+		assertEquals(1, et04.getDefClient().getScid());
 
 	}
 	
@@ -71,14 +71,14 @@ class EventTypeDaoTests {
 
 		List<EventType> events = dao.listAll();
 
-		assertEquals(1, events.get(0).getEtid());
-		assertEquals("gds", events.get(0).getName());
-
 		assertEquals(2, events.get(1).getEtid());
-		assertEquals("fws", events.get(1).getName());
+		assertEquals("gds", events.get(1).getName());
 
 		assertEquals(3, events.get(2).getEtid());
-		assertEquals("rbd", events.get(2).getName());
+		assertEquals("fws", events.get(2).getName());
+
+		assertEquals(4, events.get(3).getEtid());
+		assertEquals("rbd", events.get(3).getName());
 
 	}
 	

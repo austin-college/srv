@@ -27,4 +27,6 @@ public interface ServiceHoursDao {
 	public List<ServiceHours> listByFilter(Integer userId, Integer scId, String monthName, String status, String year) throws Exception;
 	
 	public void changeHourStatusWithFeedback(Integer shid, String status, String feedback) throws Exception;
+
+	public int getServiceHoursWaitingOnSignedInBoardMember(int boardMemberId);
 }

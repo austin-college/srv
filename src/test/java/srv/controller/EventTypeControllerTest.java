@@ -73,12 +73,12 @@ public class EventTypeControllerTest {
 	public void setupTestFixture() {
 
 		sc1 = new ServiceClient()
-				.setClientId(1)
+				.setScid(1)
 				.setName("Habitat for Humanity")
 				.setCategory("Community");
 
 		sc2 = new ServiceClient()
-				.setClientId(2)
+				.setScid(2)
 				.setName("Meals on Wheels")
 				.setCategory("Seniors");		
 
@@ -202,7 +202,7 @@ public class EventTypeControllerTest {
 				.setDefHours(defHrs)
 				.setPinHours(pinHrs)
 				.setDefClient(new ServiceClient()
-						.setClientId(3)
+						.setScid(3)
 						.setName("A Sponsor Name"));
 
 		// when the controller asks the dao to create an event type in the database, we fake it and use our

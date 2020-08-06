@@ -49,16 +49,12 @@ CREATE TABLE serviceClients (
 	serviceClientId INTEGER AUTO_INCREMENT,
 	title VARCHAR(255),
 	primaryContactId INT,
-	secondContactId INT,
 	boardMemId INT,
 	category VARCHAR(255),
 	PRIMARY KEY (serviceClientId),
 	FOREIGN KEY (primaryContactId)
 		REFERENCES contacts(contactId)
-		ON DELETE SET NULL,
-	FOREIGN KEY (secondContactId)
-		REFERENCES contacts(contactId)
-		ON DELETE SET NULL,
+		ON DELETE CASCADE,
 	FOREIGN KEY (boardMemId)
 		REFERENCES users(userId)
 		ON DELETE SET NULL
@@ -210,19 +206,21 @@ insert into users (username, contactId) values ('hCouturier', 6);
 insert into users (username, contactId) values ('eDriscoll', 7);
 insert into users (username, contactId) values ('user', 1);
 
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Austin College Service Station', 1, 4, 1, 'Variety');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Habitat for Humanity', 2, 3, 2, 'Community');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('Crisis Center', 3, 4, 1, 'Crisis Support');
-INSERT INTO serviceClients (title, primaryContactId, secondContactId, boardMemId, category) VALUES ('For Testing Only', 2, 3, 2, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId, boardMemId, category) VALUES ('Other', NULL, NULL, 'None');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('Austin College Service Station', 1, 1, 'Variety');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('Habitat for Humanity', 2, 2, 'Community');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('Crisis Center', 3, 1, 'Crisis Support');
+INSERT INTO serviceClients (title, primaryContactId,  boardMemId, category) VALUES ('For Testing Only', 2, 2, 'Crisis Support');
 
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName01', 'DummyTitle01', 1);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName02', 'DummyTitle02', 2);
 INSERT INTO serviceGroups (shortName, title, contactID) VALUES('DummyName03', 'DummyTitle03', 3);
 
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('gds', 'Great Day of Service', 2, false, 1);
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('fws', 'First We Serve', 2, true, 1);
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('rbd', 'Roo Bound', 3, true, 1);
-INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES('ext', 'Community Service Client', 3, false, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES ('Other', 'Ad Hoc Event', NULL, false, 1); 
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES ('gds', 'Great Day of Service', 2, false, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES ('fws', 'First We Serve', 2, true, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES ('rbd', 'Roo Bound', 3, true, 1);
+INSERT INTO eventTypes (name, description, defaultHours, pinHours, serviceClientId) VALUES ('ext', 'Community Service Client', 3, false, 1);
 
 insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('GDS2020', 'distributed', 1, '2020-01-01 00:00:00', 1, false, 5, 1, 5.0, 3.0, 'free text field');
 insert into events(title, address, contactId, dateOf, eventTypeId, continuous, volunteersNeeded, serviceClientId, neededVolunteerHours, rsvpVolunteerHours, note) values ('Dummy Event 2', 'Dummy Address 2', 2, '2020-08-08 00:00:00', 2, true, 10, 2, 3.0, 1.5, 'free text field');

@@ -164,9 +164,9 @@ public class Contact implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Contact [firstName=" + firstName + " lastName=" + lastName + ", email=" + email + ", Primary phone number="
-				+ primaryPhone + ", Secondary phone number=" + secondaryPhone + ", address=" + this.getAddress() + "]";
-	}
+		return	String.format("Contact %d [firstName=%s, lastName=%s, email=%s, phone1=%s, phone2=%s, address=%s]", this.cid, this.firstName, this.lastName,
+				this.email, this.primaryPhone, this.secondaryPhone, this.getAddress());
+ 	}
 	
 	@Override
 	public int hashCode() {

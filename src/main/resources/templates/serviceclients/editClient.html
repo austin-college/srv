@@ -53,125 +53,31 @@
 									<option value="Medical">Medical</option>
 									<option value="Crisis Support">Crisis Support</option>
 									<option value="Variety">Variety</option>
+									<option value="None">None</option>
 								</select>
 							<#else>
 								 <input	class="form-control" id="editDlg_cat" readonly="readonly"/>
 							</#if>
 						</div>
 					</div>
+					
+	  			<div id="scContact1" class="border bg-light form-group" style="padding: 10px; margin-top:2em;">
+
 					<div class='row'>
 						<div class='col'>
-							<h5><b>Primary Contact Information</b></h5>
-							<hr class=".col-md-11-auto"/>
+							<h6 class="small"><b>Primary Contact Information</b><button id="btnContact1" type="button" class="btn btn-sm btn-light border form-button ml-2" cid="-1" >...</button></h6>						
+							<hr class="col-md-11-auto"/>
 						</div>
 					</div>
-					<div class='form-row'>
-						<div class='col-sm-3'>
-							<label for="editDlg_mainContactID"><b>Select Contact ID</b></label>
-						</div>
-						<div class='col-sm-2'>
-							<select id="editDlg_mainContactID" class='form-control mainContactRow'>
-								<#list contacts as con>
-									<option>${con.contactId?c}</option>
-								</#list>
-							</select>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="editDlg_mainContactName"><b>Name</b></label> 
-							<input class="form-control" id="editDlg_mainContactName" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="editDlg_mainContactEmail"><b>Email</b></label> 
-							<input class="form-control" id="editDlg_mainContactEmail" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="editDlg_mainContactPrimaryPhone"><b>Primary Phone Number</b></label> 
-							<input class="form-control" id="editDlg_mainContactPrimaryPhone" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="editDlg_mainContactSecondaryPhone"><b>Secondary Phone Number</b></label> 
-							<input class="form-control" id="editDlg_mainContactSecondaryPhone" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="editDlg_mainContactStreet"><b>Address</b></label> 
-						<input class="form-control" id="editDlg_mainContactStreet" readonly="readonly"/>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="editDlg_mainContactCity"><b>City</b></label> 
-							<input class="form-control" id="editDlg_mainContactCity" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-4">
-							<label for="editDlg_mainContactState"><b>State</b></label> 
-							<input id="editDlg_mainContactState" class="form-control" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-2">
-							<label for="editDlg_mainContactZip"><b>Zip</b></label> 
-							<input class="form-control" id="editDlg_mainContactZip" readonly="readonly"/>
-						</div>
-					</div>
-					<div class='row'>
-						<div class='col'>
-							<h5><b>Secondary Contact Information</b></h5>
-							<hr class=".col-md-11-auto"/>
-						</div>
-					</div>
-					<div class='form-row'>
-						<div class='col-sm-3'>
-							<label for="editDlg_otherContactID"><b>Select Contact ID</b></label>
-						</div>
-						<div class='col-sm-2'>
-							<select id="editDlg_otherContactID" class='form-control otherContactRow'>
-								<#list contacts as con>
-									<option>${con.contactId?c}</option>
-								</#list>
-							</select>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="editDlg_otherContactName"><b>Name</b></label> 
-							<input class="form-control" id="editDlg_otherContactName" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="editDlg_otherContactEmail"><b>Email</b></label> 
-							<input class="form-control" id="editDlg_otherContactEmail" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="editDlg_otherContactPrimaryPhone"><b>Primary Phone Number</b></label> 
-							<input class="form-control" id="editDlg_otherContactPrimaryPhone" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-6">
-							<label for="editDlg_otherContactSecondaryPhone"><b>Secondary Phone Number</b></label> 
-							<input class="form-control" id="editDlg_otherContactSecondaryPhone" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="editDlg_otherContactStreet"><b>Address</b></label> 
-						<input class="form-control" id="editDlg_otherContactStreet" readonly="readonly"/>
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="editDlg_otherContactCity"><b>City</b></label> 
-							<input class="form-control" id="editDlg_otherContactCity" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-4">
-							<label for="editDlg_otherContactState"><b>State</b></label> 
-							<input id="editDlg_otherContactState" class="form-control" readonly="readonly"/>
-						</div>
-						<div class="form-group col-md-2">
-							<label for="editDlg_otherContactZip"><b>Zip</b></label> 
-							<input class="form-control" id="editDlg_otherContactZip" readonly="readonly"/>
-						</div>
-					</div>
-				</div>
-		</div>
-	</div>
-</div>
+					
+				  	 <div id="evContactView1">
+	 			  		<@ct.view_sm_empty "3"/>
+				  	  </div>
+  				</div>
+				
+
+
+				</div> <!-- fluid container -->
+		</div> <!-- form -->
+	</div> <!-- row -->
+</div> <!-- container  -->

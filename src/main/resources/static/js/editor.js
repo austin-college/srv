@@ -56,7 +56,7 @@ function onPageLoad() {
 	 */
 	dlgEdit = new ContactManager({
 		btn: "#btnContact", 
-		task: "edit",
+		task: "select",
 		success: refreshContact
 		});
 

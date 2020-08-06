@@ -76,7 +76,7 @@ public class AdminAddEventTest extends SeleniumTest {
 		selector.selectByIndex(1);
 
 		//checks to see if the correct option is displayed
-		assertEquals("(fws) First We Serve", selector.getAllSelectedOptions().get(0).getText().trim());
+		assertEquals("(gds) Great Day of Service", selector.getAllSelectedOptions().get(0).getText().trim());
 
 		String oldPageUrl = driver.getCurrentUrl();
 		
@@ -259,7 +259,7 @@ public class AdminAddEventTest extends SeleniumTest {
 			assertEquals("testedLocation", location.getAttribute("value"));
 			
 			location = driver.findElement(By.xpath("//div/div/input[@id='sponsor']"));
-			assertEquals("(fws) First We Serve", location.getAttribute("value"));
+			assertEquals("(gds) Great Day of Service", location.getAttribute("value"));
 			
 			location = driver.findElement(By.xpath("//div/div/input[@id='volunteersNeeded']"));
 			assertEquals("5", location.getAttribute("value"));
