@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface BoardMemberUserDao {
 	
+	public List<BoardMemberUser> listAll() throws Exception;
+	
 	public List<BoardMemberUser> listAllBoardMemberUsers() throws Exception;
 	
 	public BoardMemberUser fetchBoardMemberUserById(int userId) throws Exception;

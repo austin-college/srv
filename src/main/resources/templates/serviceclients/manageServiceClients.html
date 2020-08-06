@@ -1,3 +1,4 @@
+<#import "/contacts/contact_macros.html" as ct />
 <#import "/main_layout.html" as layout />
 
 <@layout.stdpage "Sponsor Manager" "listStyle.css" "serviceclients/serviceClients.js">
@@ -53,19 +54,12 @@
 						<tr id="scid-${sc.scid?c}">
 							<td name='sc_id' class='scRow' scid="${sc.scid?c}">${sc.scid!"UNKNOWN"}</td>
 							<td name='sc_title' class='scRow' scid="${sc.scid?c}">${sc.name!"UNKNOWN"}</td>
-							
-							<!-- verify that the service client has a contact -->
-							<#if sc.mainContact??>
-								<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}</td>
-							<#else>
-								<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">None</td>
-							</#if>
-							
-							<!-- verify that the service client has a board member -->
+
+							<td name='sc_contact_name' class='scRow' scid="${sc.scid?c}">${sc.mainContact.fullName()!"UNKNOWN"}</td>
 							<#if sc.currentBoardMember??>
-								<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.fullName()!"UNKNOWN"}</td>
+							<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">${sc.currentBoardMember.contactInfo.fullName()!"UNKNOWN"}</td>
 							<#else>
-								<td name='sc_bm_name' class='scRow' scid="${sc.scid?c}">None</td>
+							<td name='sc_bm_name' class='scRow' scid="-1">UNKNOWN</td>
 							</#if>
 							<td name='sc_category' class='scRow' scid="${sc.scid?c}">${sc.category!"UNKNOWN"}</td>
 							
@@ -134,8 +128,12 @@
 		<#include "/serviceclients/clientDetails.html"/>
 	</div>
 
+</div>
+
 <!-- JavaScript file that will allow us to sort the table columns -->
 <script src="/srv/js/datatables.min.js"></script>
+<script src="/srv/js/contact-mgr.js"></script>
+
 <link rel="stylesheet" href="/srv/css_style/datatables.min.css" />
 
 </@layout.stdpage>

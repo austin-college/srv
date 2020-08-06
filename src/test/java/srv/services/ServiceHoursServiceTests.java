@@ -92,10 +92,6 @@ public class ServiceHoursServiceTests {
 						.setContactId(1)
 						.setEmail("1800@nohelp.org")
 						.setCity("Sherman"))
-				.setOtherContact(new Contact()
-						.setContactId(2)
-						.setEmail("rbuckle@helpful.org")
-						.setCity("Sherman"))
 				.setCurrentBoardMember(null)
 				.setCategory("HELP");
 		
@@ -105,10 +101,6 @@ public class ServiceHoursServiceTests {
 				.setMainContact(new Contact()
 						.setContactId(3)
 						.setEmail("shermananimal@helpful.org")
-						.setCity("Sherman"))
-				.setOtherContact(new Contact()
-						.setContactId(4)
-						.setEmail("rbuckle@helpful.org")
 						.setCity("Sherman"))
 				.setCurrentBoardMember(null)
 				.setCategory("NOHELP");
@@ -120,10 +112,7 @@ public class ServiceHoursServiceTests {
 						.setContactId(3)
 						.setEmail("yaml@helpful.org")
 						.setCity("Sherman"))
-				.setOtherContact(new Contact()
-						.setContactId(4)
-						.setEmail("rbuckle@helpful.org")
-						.setCity("Sherman"))
+
 				.setCurrentBoardMember(null)
 				.setCategory("NOHELP");
 		

@@ -6,7 +6,7 @@
  * @returns
  */
 function checkForEmptyFields(client_name) {
-
+	
 	var valid = true;
 	var msg = "Please complete the selected fields."; // Error message
 	var counter = 0; // For the invalid message/effect not to occur several times.
@@ -99,6 +99,31 @@ function ajaxDeleteClientNow() {
 	});
 }
 
+
+
+function fillContactFields(ct, pre) {
+	
+	var fullAddr = ct.street?ct.street:"?" + ", " + 
+			ct.city?ct.city:"?" + ", " + 
+			ct.state?ct.state:"?" + " " + 
+			ct.zipcode?ct.zipcode:"";
+	
+	$("#ct"+pre+"-cid").html(ct.contactId);
+	
+
+	$("#ct"+pre+"-fname").html(ct.firstName?ct.firstName:"");
+
+	$("#ct"+pre+"-lname").html(ct.lastName?ct.lastName:"");
+	
+	$("#ct"+pre+"-email").html(ct.email?ct.email:"");
+	$("#ct"+pre+"-phone1").html(ct.primaryPhone?ct.primaryPhone:"");
+	$("#ct"+pre+"-phone2").html(ct.secondaryPhone?ct.secondaryPhone:"");
+	
+	$("#ct"+pre+"-addr").html(fullAddr);
+}
+
+
+
 /**
  * Makes the request back to our server to fetch the selected service client
  * to present its details in the view dialog.
@@ -126,30 +151,14 @@ function onViewClick() {
 		console.log(sc);
 
 		var boardMemberFullName = sc.currentBoardMember.contactInfo.firstName + " " + sc.currentBoardMember.contactInfo.lastName;
-		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;
-		var otherContactFullName = sc.otherContact.firstName + " " + sc.otherContact.lastName;
 
+		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;		
+		
 		$("#viewDlg_name").val(sc.name);
 		$("#viewDlg_boardMemberName").val(boardMemberFullName);
 		$("#viewDlg_category").val(sc.category);
-		$("#viewDlg_mainContactName").val(mainContactFullName);
-		$("#viewDlg_mainContactEmail").val(sc.mainContact.email);
-		$("#viewDlg_mainContactPrimaryPhone").val(sc.mainContact.primaryPhone);
-		$("#viewDlg_mainContactSecondaryPhone").val(sc.mainContact.secondaryPhone);
-		$("#viewDlg_mainContactStreet").val(sc.mainContact.street);
-		$("#viewDlg_mainContactCity").val(sc.mainContact.city);
-		$("#viewDlg_mainContactState").val(sc.mainContact.state);
-		$("#viewDlg_mainContactZip").val(sc.mainContact.zipcode);
-		$("#viewDlg_mainContactID").val(sc.mainContact.contactId);
-		$("#viewDlg_otherContactName").val(otherContactFullName);
-		$("#viewDlg_otherContactEmail").val(sc.otherContact.email);
-		$("#viewDlg_otherContactPrimaryPhone").val(sc.otherContact.primaryPhone);
-		$("#viewDlg_otherContactSecondaryPhone").val(sc.otherContact.secondaryPhone);
-		$("#viewDlg_otherContactStreet").val(sc.otherContact.street);
-		$("#viewDlg_otherContactCity").val(sc.otherContact.city);
-		$("#viewDlg_otherContactState").val(sc.otherContact.state);
-		$("#viewDlg_otherContactZip").val(sc.otherContact.zipcode);
-		$("#viewDlg_otherContactID").val(sc.otherContact.contactId);
+		
+		fillContactFields(sc.mainContact,"1");
 
 	})
 	/*
@@ -161,16 +170,9 @@ function onViewClick() {
 	});
 }
 
-/**
- * opens and populates the fields of service client to be
- * updated.
- * 
- * @returns
- */
-function onEditClick() {
 
-	var selSc = $(this).attr("scid"); // The ID of the selected service client to be updated	
-
+function openEditDialog(selSc) {
+	
 	console.log("Selected updated/edit service client: " + selSc);
 
 	$("#editDlg").data("selectedSrvClient", selSc).dialog("open"); // opens the edit dialog
@@ -190,29 +192,19 @@ function onEditClick() {
 		console.log(sc);
 
 		var mainContactFullName = sc.mainContact.firstName + " " + sc.mainContact.lastName;
-		var otherContactFullName = sc.otherContact.firstName + " " + sc.otherContact.lastName;
 
 		$("#editDlg_name").val(sc.name);
-		$("#editDlg_boardMemberName").val(sc.currentBoardMember.uid);
+		
+		if (sc.currentBoardMember)
+			$("#editDlg_boardMemberName").val(sc.currentBoardMember.uid);
+		else
+			$("#editDlg_boardMemberName").val("-1");
+		
 		$("#editDlg_category").val(sc.category);
-		$("#editDlg_mainContactName").val(mainContactFullName);
-		$("#editDlg_mainContactEmail").val(sc.mainContact.email);
-		$("#editDlg_mainContactPrimaryPhone").val(sc.mainContact.primaryPhone);
-		$("#editDlg_mainContactSecondaryPhone").val(sc.mainContact.secondaryPhone);
-		$("#editDlg_mainContactStreet").val(sc.mainContact.street);
-		$("#editDlg_mainContactCity").val(sc.mainContact.city);
-		$("#editDlg_mainContactState").val(sc.mainContact.state);
-		$("#editDlg_mainContactZip").val(sc.mainContact.zipcode);
-		$("#editDlg_mainContactID").val(sc.mainContact.contactId);
-		$("#editDlg_otherContactName").val(otherContactFullName);
-		$("#editDlg_otherContactEmail").val(sc.otherContact.email);
-		$("#editDlg_otherContactPrimaryPhone").val(sc.otherContact.primaryPhone);
-		$("#editDlg_otherContactSecondaryPhone").val(sc.otherContact.secondaryPhone);
-		$("#editDlg_otherContactStreet").val(sc.otherContact.street);
-		$("#editDlg_otherContactCity").val(sc.otherContact.city);
-		$("#editDlg_otherContactState").val(sc.otherContact.state);
-		$("#editDlg_otherContactZip").val(sc.otherContact.zipcode);
-		$("#editDlg_otherContactID").val(sc.otherContact.contactId);
+		
+		fillContactFields(sc.mainContact,"3");
+		
+		$("#btnContact1").attr("cid",sc.mainContact.contactId);
 
 	})
 	/*
@@ -225,43 +217,62 @@ function onEditClick() {
 }
 
 /**
+ * opens and populates the fields of service client to be
+ * updated.
+ * 
+ * @returns
+ */
+function onEditClick() {
+	var selSc = $(this).attr("scid"); // The ID of the selected service client to be updated	
+	openEditDialog(selSc);
+}
+
+/**
  * Makes the request back to our server to update the service client
  * whose new params/values we extract from the edit dialog.
  * @returns
  */
-function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, otherContactId, boardMemberId, categoryField) {
+function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, boardMemberId, categoryField) {
 
 	// get the forms values as strings
 	var srvClientNameStr = $(srvClientNameField).val();
 	var categoryStr = $(categoryField).val();
 
 	// peek at values to verify
-	console.log("srv client id: " + srvClientId + " main contact id: " + mainContactId + " other contact id: " + otherContactId + 
+	console.log("srv client id: " + srvClientId + " main contact id: " + mainContactId + 
 			" board mem id: " + boardMemberId + " name: " + srvClientNameStr + " category: " + categoryStr);
 	$.ajax({
 		method: "POST",
 		url: "/srv/sc/ajax/editSc",
 		cache: false,
-		data: {scid: srvClientId, name: srvClientNameStr, cid1: mainContactId, cid2: otherContactId, bmId: boardMemberId, cat: categoryStr},
+		data: {scid: srvClientId, name: srvClientNameStr, cid1: mainContactId, bmId: boardMemberId, cat: categoryStr},
 	})
 	/*
 	 * If successful then update the service client to the list with the new values.
 	 */
-	.done(function(sc) {
+	.done(function(htmltxt) {
 		console.log("updated service client");
-		console.log(sc);
+		console.log(htmltxt);
+		
+		/*
+		 * replace row or append row if missing
+		 */
+		if ($("#scid-"+srvClientId).length > 0) {
+			$("#scid-"+srvClientId).replaceWith(htmltxt);
+		}  else {
+			$('#sc_tbl_body tr:last').after(htmltxt);
+		}
 
-		// get the selected combo box text
-		var boardMemberName = $("#editDlg_boardMemberName option:selected" ).text();
-		var mainContactName = $("#editDlg_mainContactName").val();
-
-		console.log(mainContactName);
-		// Updates the edited event type's row with the new values
-		$("#scid-" + srvClientId + " td[name = 'sc_title']").html($(srvClientNameField).val());
-		$("#scid-" + srvClientId + " td[name ='sc_contact_name']").html(mainContactName);
-		$("#scid-" + srvClientId + " td[name ='sc_bm_name']").html(boardMemberName);
-		$("#scid-" + srvClientId + " td[name ='sc_category']").html($(categoryField).val());
-
+		/*
+		 * make sure action buttons are rigged
+		 */
+		$(".btnScDel").click(onDeleteClick);
+		$(".btnScView, .scRow").click(onViewClick);
+		$(".btnScEdit").click(onEditClick);
+		
+		/*
+		 * close the dialog
+		 */
 		$("#editDlg").dialog("close");
 
 	})
@@ -279,27 +290,53 @@ function ajaxEditClientNow(srvClientId, srvClientNameField, mainContactId, other
  * @returns
  */
 function onNewClick() {
-	$("#addDlg").dialog("open");
+	
+	
+	
+	$.ajax({
+		method: "POST",
+		url: "/srv/sc/ajax/new",
+		cache: false
+	})
+	/*
+	 * If successful then add the service client to the list with the new values.
+	 */
+	.done(function(sc) {
+		console.log("added new service client");
+		console.log(sc);
+
+		// now that we have a new client...let the user edit.
+		openEditDialog(sc.scid);
+		
+	})
+	/*
+	 * If unsuccessful (invalid data values), display error message and reasoning.
+	 */
+	.fail(function(jqXHR, textStatus) {
+		alert("Error");
+		updateTips(jqXHR.responseText);
+	});
+
 }
 
 /**
  * Makes the request back to our server to create the new service client
  * whose new params/values we extractd from the add dialog
  */
-function ajaxCreateClientNow(srvClientNameField, mainContactId, otherContactId, boardMemberId, categoryField) {
+function ajaxCreateClientNow(srvClientNameField, mainContactId, boardMemberId, categoryField) {
 
 	// get the forms values as strings
 	var srvClientNameStr = $(srvClientNameField).val();
 	var categoryStr = $(categoryField).val();
 
 	// peek at values to verify
-	console.log("main contact id: " + mainContactId + " other contact id: " + otherContactId + 
+	console.log("main contact id: " + mainContactId +  
 			" board mem id: " + boardMemberId + " name: " + srvClientNameStr + " category: " + categoryStr);
 	$.ajax({
 		method: "POST",
 		url: "/srv/sc/ajax/addSc",
 		cache: false,
-		data: {name: srvClientNameStr, cid1: mainContactId, cid2: otherContactId, bmId: boardMemberId, cat: categoryStr},
+		data: {name: srvClientNameStr, cid1: mainContactId, bmId: boardMemberId, cat: categoryStr},
 	})
 	/*
 	 * If successful then add the service client to the list with the new values.
@@ -343,7 +380,7 @@ function ajaxCreateClientNow(srvClientNameField, mainContactId, otherContactId, 
  * can make the appropriate function call after the request to populate the correct
  * contact fields.
  */
-function ajaxFetchContact(contactId, isMainContact) {
+function ajaxFetchContact(contactId) {
 	
 	console.log(contactId); // verify the id passed
 	
@@ -359,10 +396,7 @@ function ajaxFetchContact(contactId, isMainContact) {
 	 */
 	.done(function(contactDetails) {
 		
-		if (isMainContact)
-			populateMainContactFields(contactDetails);
-		else
-			populateOtherContactFields(contactDetails);
+		populateMainContactFields(contactDetails);
 
 	})
 	/*
@@ -404,35 +438,6 @@ function populateMainContactFields(contactDetails) {
 	$("#editDlg_mainContactID").val(contactDetails.contactId);
 }
 
-/**
- * Populates the fields for other contacts for both add/create and edit dialogs.
- */
-function populateOtherContactFields(contactDetails) {
-	
-	console.log("populate other contact fields");
-
-	var otherContactFullName = contactDetails.firstName + " " + contactDetails.lastName;
-
-	$("#addDlg_otherContactName").val(otherContactFullName);
-	$("#addDlg_otherContactEmail").val(contactDetails.email);
-	$("#addDlg_otherContactPrimaryPhone").val(contactDetails.primaryPhone);
-	$("#addDlg_otherContactSecondaryPhone").val(contactDetails.secondaryPhone);
-	$("#addDlg_otherContactStreet").val(contactDetails.street);
-	$("#addDlg_otherContactCity").val(contactDetails.city);
-	$("#addDlg_otherContactState").val(contactDetails.state);
-	$("#addDlg_otherContactZip").val(contactDetails.zipcode);
-	$("#addDlg_otherContactID").val(contactDetails.contactId);
-	
-	$("#editDlg_otherContactName").val(otherContactFullName);
-	$("#editDlg_otherContactEmail").val(contactDetails.email);
-	$("#editDlg_otherContactPrimaryPhone").val(contactDetails.primaryPhone);
-	$("#editDlg_otherContactSecondaryPhone").val(contactDetails.secondaryPhone);
-	$("#editDlg_otherContactStreet").val(contactDetails.street);
-	$("#editDlg_otherContactCity").val(contactDetails.city);
-	$("#editDlg_otherContactState").val(contactDetails.state);
-	$("#editDlg_otherContactZip").val(contactDetails.zipcode);
-	$("#editDlg_otherContactID").val(contactDetails.contactId);
-}
 
 /** 
  * Final preparations once the page is loaded. Here we hide stuff such
@@ -503,8 +508,8 @@ function onPageLoad() {
 	// displays the service client's info
 	$("#viewDlg").dialog({
 		autoOpen: false,
-		height: 500,
-		width: 700,
+		width: $(document).width() * 0.5,
+		height: $(document).height() * 0.2,
 		position : {
 			my : "center top",
 			at : "center top",
@@ -515,7 +520,7 @@ function onPageLoad() {
 			console.log("open view dialog");
 		},
 		buttons : [ {
-			text : "CANCEL",
+			text : "CLOSE",
 			"class" : 'btn btn-secondary',
 			click : function() {
 				$(this).dialog("close");
@@ -526,8 +531,8 @@ function onPageLoad() {
 	// Register and hide the edit dialog div until an edit button is clicked on.
 	$("#editDlg").dialog({
 		autoOpen: false,
-		height: 500,
-		width: 700,	
+		width: $(document).width() * 0.7,
+		height: $(document).height() * 0.2,	
 		position : {
 			my : "center top",
 			at : "center top",
@@ -543,12 +548,7 @@ function onPageLoad() {
 			 */
 			$("#editDlg_mainContactID").change("click", function() {
 				var selected_mainContactID = $(this).children("option:selected").val();
-				ajaxFetchContact(selected_mainContactID, true);				   
-			}); 
-
-			$("#editDlg_otherContactID").change("click", function() {
-				var selected_otherContactID = $(this).children("option:selected").val();
-				ajaxFetchContact(selected_otherContactID, false);				   
+				ajaxFetchContact(selected_mainContactID);				   
 			}); 
 
 
@@ -567,8 +567,9 @@ function onPageLoad() {
 				click: function() {		
 
 					var selected_shid = $(this).data('selectedSrvClient'); // The selected service client's ID
-					var selected_mainContactID = $("#editDlg_mainContactID").children("option:selected").val(); // ID for main contact
-					var selected_otherContactID = $("#editDlg_otherContactID").children("option:selected").val(); // ID for other/secondary contact
+					
+					var selected_mainContactID = $("#ct3-cid").html();
+					
 					var selected_boardMemberID = $("#editDlg_boardMemberName").val(); // ID for board member
 
 					/*
@@ -578,7 +579,7 @@ function onPageLoad() {
 					if(checkForEmptyFields("#editDlg_name")){
 
 						ajaxEditClientNow(selected_shid, "#editDlg_name", selected_mainContactID,
-								selected_otherContactID, selected_boardMemberID, "#editDlg_category");
+								 selected_boardMemberID, "#editDlg_category");
 
 					}					
 				}
@@ -619,10 +620,8 @@ function onPageLoad() {
 			 *  with the first contact in the list/database.
 			 */
 			var selected_mainContactID = $("#addDlg_mainContactID").children("option:selected").val();
-			ajaxFetchContact(selected_mainContactID, true);
+			ajaxFetchContact(selected_mainContactID);
 
-			var selected_otherContactID = $("#addDlg_otherContactID").children("option:selected").val();
-			ajaxFetchContact(selected_otherContactID, false);
 
 			/*
 			 * When a user changes the main or other contact ID from the drop down menu that is inside the addDlg,
@@ -633,10 +632,6 @@ function onPageLoad() {
 				ajaxFetchContact(selected_mainContactID, true);				   
 			}); 
 
-			$("#addDlg_otherContactID").change("click", function() {
-				var selected_otherContactID = $(this).children("option:selected").val();
-				ajaxFetchContact(selected_otherContactID, false);				   
-			}); 
 
 			/*
 			 * Removes previous error messages from the fields.
@@ -655,7 +650,6 @@ function onPageLoad() {
 					console.log(selected_boardMemberID); 
 
 					var selected_mainContactID = $("#addDlg_mainContactID").children("option:selected").val(); // ID for main contact
-					var selected_otherContactID = $("#addDlg_otherContactID").children("option:selected").val(); // ID for other/secondary contact
 
 					/*
 					 * Validates that the fields of the add service client dialog are not empty.
@@ -663,7 +657,7 @@ function onPageLoad() {
 					 */
 					if(checkForEmptyFields("#addDlg_name")){
 
-						ajaxCreateClientNow("#addDlg_name", selected_mainContactID, selected_otherContactID, 
+						ajaxCreateClientNow("#addDlg_name", selected_mainContactID, 
 								selected_boardMemberID, "#addDlg_category");
 
 						$("#addDlg").dialog("close");
@@ -687,6 +681,23 @@ function onPageLoad() {
 		"info": false
 	});
 	$('.dataTables_length').addClass('bs-select');
+	
+	
+	/*
+	 * enable page to invoke contact editor dialog
+	 * when user clicks on button with id="btnContact".
+	 * refreshes contact view on successful return
+	 */
+	dlgEdit = new ContactManager({
+		btn: "#btnContact1", 
+		task: "edit",
+		success: function(ct) {
+			console.log(ct);
+			fillContactFields(ct,"3");
+		}
+		});
+
+
 }
 
 /**
